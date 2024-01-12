@@ -1,0 +1,36 @@
+{
+  "name": "hufscheer-client_v2",
+  "packageManager": "yarn@4.0.2",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "spectator": "yarn workspace spectator",
+    "manager": "yarn workspace manager",
+    "components": "yarn workspace @packages/components",
+    "hooks": "yarn workspace @packages/hooks",
+    "utils": "yarn workspace @packages/utils",
+    "lint": "eslint --fix --cache && prettier --config .prettierrc --write",
+    "postinstall": "chmod ug+x .husky/* && husky install"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^18.4.4",
+    "@commitlint/config-conventional": "^18.4.4",
+    "@tanstack/eslint-plugin-query": "^5.17.7",
+    "@types/node": "^20.10.8",
+    "@typescript-eslint/eslint-plugin": "^6.18.1",
+    "@typescript-eslint/parser": "^6.18.1",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.1.1",
+    "typescript": "^5.3.3"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@packages/components",
+  "packageManager": "yarn@4.0.2",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
