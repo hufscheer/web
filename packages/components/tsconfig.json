@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    // composite: https://blog.shik.kr/typescript-project-reference
+    "composite": true,
+    // 외부에서도 이 모듈의 type information 제공하도록 .d.ts 생성해주는 옵션
+    "declaration": true,
+    "declarationMap": true,
+    "types": []
+  },
+  "include": ["**/*"]
+}

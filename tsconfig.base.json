@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "moduleResolution": "Node10",
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true
+  },
+  "files": [],
+  "references": [
+    // base config가 참조해야 할 config 목록
+    {
+      "path": "packages/components"
+    },
+    {
+      "path": "packages/hooks"
+    },
+    {
+      "path": "packages/utils"
+    }
+  ],
+  "exclude": ["packages/**/dist/**"]
+}
