@@ -7,12 +7,15 @@
 1. yarn 설치
 2. git clone https://github.com/hufscheer/client_v2.git
 3. eslint, husky 등의 사용을 위해 <code>yarn</code> 커맨드와 <code>yarn postinstall</code> 1회 실행해줍니다.
-4. <code>yarn dlx @yarnpkg/sdks vscode</code>를 실행해 vscode가 모노레포를 인식하도록 합니다(`npx` === `yarn dlx`).
-5. 아무 타입스크립트 파일이나 열어서 <code>cmd + shift + p</code>로 palette를 열고, `Typescript: Select Typescript Version...`을 누른 뒤 아래 사진처럼 TS 버전을 workspace의 것으로 맞춰줍니다.
+
+PnP 기능을 사용하지 않고 node-modules를 사용하므로 아래 절차는 생략하면 됩니다.
+
+4. ~~<code>yarn dlx @yarnpkg/sdks vscode</code>를 실행해 vscode가 모노레포를 인식하도록 합니다(`npx` === `yarn dlx`).~~
+5. ~~아무 타입스크립트 파일이나 열어서 <code>cmd + shift + p</code>로 palette를 열고, `Typescript: Select Typescript Version...`을 누른 뒤 아래 사진처럼 TS 버전을 workspace의 것으로 맞춰줍니다.~~
    ![](https://github.com/kowoohyuk/monorepo-template/assets/87803596/c9f2d16b-a754-45d6-b992-3b4063b9864c)
 
 <details>
-  <summary>Select Typescript Version이 안보이는 경우:</summary>
+  <summary><del>Select Typescript Version이 안보이는 경우:</del></summary>
 
   <ol>
     <li>
