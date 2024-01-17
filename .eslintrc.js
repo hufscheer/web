@@ -52,7 +52,7 @@ module.exports = {
       },
     ],
   },
-  ignorePatterns: ['.next/*'],
+  ignorePatterns: ['.next/*', '**/.storybook/*'],
   settings: {
     'import/resolver': {
       typescript: {
