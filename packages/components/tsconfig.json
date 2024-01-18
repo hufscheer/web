@@ -1,13 +1,16 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    // composite: https://blog.shik.kr/typescript-project-reference
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
     "composite": true,
-    // 외부에서도 이 모듈의 type information 제공하도록 .d.ts 생성해주는 옵션
     "declaration": true,
-    "declarationMap": true,
-    "types": []
+    "declarationMap": true
   },
   "include": ["**/*"]
 }
