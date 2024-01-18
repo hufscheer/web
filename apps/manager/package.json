@@ -8,7 +8,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@packages/components": "0.0.1",
+    "@packages/components": "^",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18"

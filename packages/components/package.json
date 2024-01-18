@@ -2,8 +2,8 @@
   "name": "@packages/components",
   "packageManager": "yarn@4.0.2",
   "version": "0.0.1",
-  "main": "dist/index.cjs",
-  "module": "dist/index.es",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"

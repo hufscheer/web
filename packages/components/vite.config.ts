@@ -11,7 +11,7 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: '@packages/components',
       formats: ['cjs', 'es'],
-      fileName: format => `index.${format}`,
+      fileName: format => `index.${format}.js`,
     },
   },
 });
