@@ -4,7 +4,7 @@ const { resolve } = require('node:path');
 module.exports = {
   root: true,
   extends: [
-    '@packages/eslint-config/base.js',
+    '@hcc/eslint-config/base.js',
     'plugin:jsx-a11y/recommended',
     'plugin:react/recommended',
   ],

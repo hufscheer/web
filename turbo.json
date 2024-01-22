@@ -8,7 +8,7 @@
     },
     "lint": {},
     "dev": {
-      "dependsOn": ["@packages/ui#build"],
+      "dependsOn": ["@hcc/ui#build"],
       "cache": false,
       "persistent": true
     }

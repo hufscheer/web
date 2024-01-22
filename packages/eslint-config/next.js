@@ -5,7 +5,7 @@ module.exports = {
   root: true,
   extends: [
     'next/core-web-vitals',
-    '@packages/eslint-config/base.js',
+    '@hcc/eslint-config/base.js',
     'plugin:jsx-a11y/recommended',
   ],
   env: {

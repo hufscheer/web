@@ -1,5 +1,5 @@
 {
-  "name": "@packages/typescript-config",
+  "name": "@hcc/typescript-config",
   "version": "0.0.0",
   "private": true,
   "license": "MIT",

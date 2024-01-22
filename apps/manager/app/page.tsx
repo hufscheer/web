@@ -1,4 +1,4 @@
-import { Input, Uploader } from '@packages/ui';
+import { Input, Uploader } from '@hcc/ui';
 
 export default function Page(): JSX.Element {
   return (

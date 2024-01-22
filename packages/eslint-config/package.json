@@ -1,5 +1,5 @@
 {
-  "name": "@packages/eslint-config",
+  "name": "@hcc/eslint-config",
   "version": "0.0.0",
   "private": true,
   "files": [
