@@ -1,3 +1,5 @@
+import { inputStyle } from './styles.css';
+
 export default function Input() {
-  return <div>todo input</div>;
+  return <input className={inputStyle} />;
 }
