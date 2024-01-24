@@ -1,8 +1,10 @@
-import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin';
+const createVanillaExtractPlugin =
+  require('@vanilla-extract/next-plugin').createVanillaExtractPlugin;
 
 const withVanillaExtract = createVanillaExtractPlugin();
 
+const transpilePackages = ['@hcc/ui'];
+
 const nextConfig = {};
 
-export const transpilePackages = ['@hcc/ui'];
-export default withVanillaExtract(nextConfig);
+module.exports = withVanillaExtract(nextConfig);
