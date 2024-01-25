@@ -7,6 +7,7 @@ module.exports = {
     'next/core-web-vitals',
     '@hcc/eslint-config/base.js',
     'plugin:jsx-a11y/recommended',
+    'plugin:@tanstack/eslint-plugin-query/recommended',
   ],
   env: {
     node: true,
