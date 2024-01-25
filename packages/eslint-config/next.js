@@ -17,12 +17,16 @@ module.exports = {
     react: {
       version: 'detect',
     },
+    next: {
+      rootDir: 'apps/*/',
+    },
   },
   rules: {
     // react
     'react/prop-types': 0,
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    '@next/next/no-html-link-for-pages': ['error', 'apps/*/app/'],
   },
   ignorePatterns: [
     // Ignore dotfiles
