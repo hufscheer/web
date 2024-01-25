@@ -5,13 +5,13 @@ import {
   SportsQuarterType,
 } from '@/types/match';
 
-export const getMatchInfoByIdWithAuth = async (matchId: string) => {
+export const getMatchInfoById = async (matchId: string) => {
   const { data } = await instance.get<MatchInfoType>(`/game/info/${matchId}/`);
 
   return data;
 };
 
-export const putMatchInfoWithAuth = async (payload: {
+export const putMatchInfo = async (payload: {
   matchId: string;
   data: PutMatchInfoPayload;
 }) => {
@@ -20,7 +20,7 @@ export const putMatchInfoWithAuth = async (payload: {
   return payload.matchId;
 };
 
-export const getSportsQuarterByIdWithAuth = async (sportId: number) => {
+export const getSportsQuarterById = async (sportId: number) => {
   const { data } = await instance.get<SportsQuarterType[]>(
     `/sport/${sportId}/quarter/`,
   );

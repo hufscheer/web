@@ -5,7 +5,7 @@ import { TeamErrorType, TeamType } from '@/types/team';
 
 /* 리그 내 팀 관리 API */
 
-export const getTeamListByLeagueIdWithAuth = async (leagueId: string) => {
+export const getTeamListByLeagueId = async (leagueId: string) => {
   try {
     const { data } = await instance.get<TeamType[]>(`/team/${leagueId}/`);
 
@@ -19,7 +19,7 @@ export const getTeamListByLeagueIdWithAuth = async (leagueId: string) => {
   }
 };
 
-export const postTeamByLeagueIdWithAuth = async (payload: {
+export const postTeamByLeagueId = async (payload: {
   leagueId: string;
   body: FormData;
 }) => {
@@ -30,7 +30,7 @@ export const postTeamByLeagueIdWithAuth = async (payload: {
   });
 };
 
-export const putTeamByIdWithAuth = async (payload: {
+export const putTeamById = async (payload: {
   teamId: string;
   body: FormData;
 }) => {
