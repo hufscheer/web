@@ -1,0 +1,33 @@
+{
+  "name": "story",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "@hcc/styles": "workspace:*",
+    "@hcc/ui": "workspace:*",
+    "@vanilla-extract/css": "^1.14.0"
+  },
+  "devDependencies": {
+    "@hcc/eslint-config": "workspace:*",
+    "@hcc/typescript-config": "workspace:*",
+    "@storybook/addon-essentials": "^7.6.10",
+    "@storybook/addon-interactions": "^7.6.10",
+    "@storybook/addon-links": "^7.6.10",
+    "@storybook/blocks": "^7.6.10",
+    "@storybook/react": "^7.6.10",
+    "@storybook/react-vite": "^7.6.10",
+    "@storybook/test": "^7.6.10",
+    "@vanilla-extract/vite-plugin": "^3.9.4",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.56.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "storybook": "^7.6.10",
+    "typescript": "latest",
+    "vite": "^5.0.10"
+  },
+  "scripts": {
+    "dev": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  }
+}
