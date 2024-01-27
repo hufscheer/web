@@ -16,9 +16,12 @@ module.exports = {
   ],
   plugins: ['import', 'simple-import-sort', '@typescript-eslint', 'prettier'],
   settings: {
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    },
     'import/resolver': {
       typescript: {
-        project,
+        project: ['apps/*/tsconfig.json', 'packages/*/tsconfig.json'],
       },
     },
     react: {
