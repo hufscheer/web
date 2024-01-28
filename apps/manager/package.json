@@ -9,9 +9,12 @@
     "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {
-    "@hcc/ui": "workspace:*",
     "@hcc/styles": "workspace:*",
+    "@hcc/ui": "workspace:*",
+    "@tanstack/react-query": "^5.17.19",
+    "@tanstack/react-query-devtools": "^5.17.21",
     "@vanilla-extract/css": "^1.14.0",
+    "axios": "^1.6.5",
     "next": "^14.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
