@@ -1,5 +1,7 @@
 import { ChangeEvent, ReactNode, useRef, useState } from 'react';
 
+import * as styles from './styles.css';
+
 interface UploadProps {
   id?: string;
   name?: string;
@@ -41,7 +43,7 @@ const Upload = ({ id, name, onChange, children }: UploadProps) => {
   };
 
   return (
-    <div className="inline-block" onClick={handleFileClick} role="presentation">
+    <div className={styles.root} onClick={handleFileClick} role="presentation">
       <input
         id={id}
         name={name}
