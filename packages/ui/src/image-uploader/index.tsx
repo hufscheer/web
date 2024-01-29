@@ -5,11 +5,18 @@ import * as styles from './styles.css';
 interface UploadProps {
   id?: string;
   name?: string;
+  access?: string;
   onChange?: (file?: File) => void;
   children?: ((src: string, file?: File) => ReactNode) | ReactNode;
 }
 
-const Upload = ({ id, name, onChange, children }: UploadProps) => {
+const Upload = ({
+  id,
+  name,
+  access = 'image/*',
+  onChange,
+  children,
+}: UploadProps) => {
   const [file, setFile] = useState<File>();
   const [src, setSrc] = useState<string>('');
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -48,7 +55,7 @@ const Upload = ({ id, name, onChange, children }: UploadProps) => {
         id={id}
         name={name}
         type="file"
-        accept="image/*"
+        accept={access}
         ref={inputRef}
         onChange={handleFileChange}
         hidden
