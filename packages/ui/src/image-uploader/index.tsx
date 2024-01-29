@@ -1,8 +1,16 @@
-import { ChangeEvent, ReactNode, useRef, useState } from 'react';
+import {
+  ChangeEvent,
+  ComponentPropsWithoutRef,
+  forwardRef,
+  ReactNode,
+  useRef,
+  useState,
+} from 'react';
 
 import * as styles from './styles.css';
 
-interface UploadProps {
+interface UploadProps
+  extends Omit<ComponentPropsWithoutRef<'div'>, 'children' | 'onChange'> {
   id?: string;
   name?: string;
   access?: string;
@@ -10,13 +18,10 @@ interface UploadProps {
   children?: ((src: string, file?: File) => ReactNode) | ReactNode;
 }
 
-const Upload = ({
-  id,
-  name,
-  access = 'image/*',
-  onChange,
-  children,
-}: UploadProps) => {
+const Upload = forwardRef<HTMLDivElement, UploadProps>(function Upload(
+  { id, name, access = 'image/*', onChange, children }: UploadProps,
+  ref,
+) {
   const [file, setFile] = useState<File>();
   const [src, setSrc] = useState<string>('');
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -50,7 +55,12 @@ const Upload = ({
   };
 
   return (
-    <div className={styles.root} onClick={handleFileClick} role="presentation">
+    <div
+      className={styles.root}
+      onClick={handleFileClick}
+      ref={ref}
+      role="presentation"
+    >
       <input
         id={id}
         name={name}
@@ -63,6 +73,6 @@ const Upload = ({
       {typeof children === 'function' ? children(src, file) : children}
     </div>
   );
-};
+});
 
 export default Upload;
