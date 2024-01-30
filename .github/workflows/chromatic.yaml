@@ -44,7 +44,7 @@ jobs:
         working-directory: docs/storybook
 
       - name: TurboRepo server
-        uses: flixmosh/turborepo-gh-artifacts@v2
+        uses: felixmosh/turborepo-gh-artifacts@v2
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
