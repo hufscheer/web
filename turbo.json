@@ -1,8 +1,5 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "remoteCache": {
-    "signature": true
-  },
   "globalDependencies": ["**/.env.*local"],
   "globalEnv": ["NEXT_PUBLIC_*"],
   "pipeline": {
