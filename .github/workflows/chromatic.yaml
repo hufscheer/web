@@ -58,7 +58,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build
-        run: yarn build
+        run: pnpm run build
         env:
           TURBO_API: 'http://127.0.0.1:9080'
           TURBO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
