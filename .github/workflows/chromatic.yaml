@@ -1,0 +1,61 @@
+name: 'Chromatic'
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, reopened]
+  push:
+    branches:
+      - main
+
+jobs:
+  chromatic:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        id: pnpm-install
+        with:
+          version: 8
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Cache pnpm store
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store
+
+      - name: Install dependencies
+        run: pnpm install -no-frozen-lockfile
+        working-directory: docs/storybook
+
+      - name: TurboRepo server
+        uses: flixmosh/turborepo-gh-artifacts@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy Storybook
+        run: pnpm run deploy:storybook --api="http://127.0.0.1:9080" --token="${{ secrets.GITHUB_TOKEN }}" --team="hufscheer_v2"
+
+      # - name: Publish to Chromatic
+      #   uses: chromaui/action@latest
+      #   with:
+      #     projectToken: ${{ secrets.CHROMATIC_TOKEN }}
+      #     workingDir: docs/storybook
+      #     autoAcceptChanges: 'main'
+      #     buildScriptName: 'build'
+      #     onlyChanged: true
