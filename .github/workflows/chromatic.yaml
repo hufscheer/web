@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - main
+      - build/chromatic
 
 jobs:
   chromatic:
@@ -51,3 +52,12 @@ jobs:
 
       - name: Deploy Storybook
         run: pnpm run deploy:storybook
+
+      # - name: Publish to Chromatic
+      #   uses: chromaui/action@latest
+      #   with:
+      #     projectToken: ${{ secrets.CHROMATIC_TOKEN }}
+      #     workingDir: docs/storybook
+      #     autoAcceptChanges: 'main'
+      #     buildScriptName: 'build'
+      #     onlyChanged: true
