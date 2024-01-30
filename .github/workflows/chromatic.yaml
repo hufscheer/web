@@ -48,14 +48,17 @@ jobs:
           cat .env
         working-directory: docs/storybook
 
+      - name: TurboRepo server
+        uses: felixmosh/turborepo-gh-artifacts@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build
+        run: yarn build
+        env:
+          TURBO_API: 'http://127.0.0.1:9080'
+          TURBO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TURBO_TEAM: 'hufscheer_v2'
+
       - name: Deploy Storybook
         run: pnpm run deploy:storybook
-
-      # - name: Publish to Chromatic
-      #   uses: chromaui/action@latest
-      #   with:
-      #     projectToken: ${{ secrets.CHROMATIC_TOKEN }}
-      #     workingDir: docs/storybook
-      #     autoAcceptChanges: 'main'
-      #     buildScriptName: 'build'
-      #     onlyChanged: true
