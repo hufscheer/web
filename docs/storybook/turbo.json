@@ -5,6 +5,8 @@
     "build": {
       "outputs": ["storybook-static/**"]
     },
-    "deploy": {}
+    "deploy": {
+      "dependsOn": ["build"]
+    }
   }
 }
