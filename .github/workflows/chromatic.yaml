@@ -44,7 +44,7 @@ jobs:
         working-directory: docs/storybook
 
       - name: Deploy Storybook
-        run: pnpm run deploy:storybook"
+        run: pnpm run deploy:storybook
 
       # - name: Publish to Chromatic
       #   uses: chromaui/action@latest
