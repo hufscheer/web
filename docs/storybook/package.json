@@ -29,8 +29,8 @@
   },
   "scripts": {
     "dev": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "chromatic": "bash ./scripts/chromatic_publish.sh"
+    "build": "storybook build",
+    "deploy": "bash ./scripts/chromatic_publish.sh"
   },
   "version": ""
 }
