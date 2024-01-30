@@ -2,13 +2,11 @@ name: 'Chromatic'
 
 on:
   pull_request:
+    paths:
+      - 'docs/storybook/**'
     branches:
       - main
     types: [opened, reopened]
-  push:
-    branches:
-      - main
-      - build/chromatic
 
 jobs:
   chromatic:
