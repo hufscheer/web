@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - main
+      - build/chromatic
 
 jobs:
   chromatic:
@@ -43,20 +44,20 @@ jobs:
         run: pnpm install -no-frozen-lockfile
         working-directory: docs/storybook
 
-      - name: Environment Variables
-        run: |
-          echo "CHROMATIC_PROJECT_TOKEN=${{ secrets.CHROMATIC_PROJECT_TOKEN }}" >> .env
-          cat .env
-        working-directory: docs/storybook
+      # - name: Environment Variables
+      #   run: |
+      #     echo "CHROMATIC_PROJECT_TOKEN=${{ secrets.CHROMATIC_PROJECT_TOKEN }}" >> .env
+      #     cat .env
+      #   working-directory: docs/storybook
 
-      - name: Deploy Storybook
-        run: pnpm run deploy:storybook
+      # - name: Deploy Storybook
+      #   run: pnpm run deploy:storybook
 
-      # - name: Publish to Chromatic
-      #   uses: chromaui/action@latest
-      #   with:
-      #     projectToken: ${{ secrets.CHROMATIC_TOKEN }}
-      #     workingDir: docs/storybook
-      #     autoAcceptChanges: 'main'
-      #     buildScriptName: 'build'
-      #     onlyChanged: true
+      - name: Publish to Chromatic
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          workingDir: docs/storybook
+          autoAcceptChanges: 'main'
+          buildScriptName: 'build'
+          onlyChanged: true
