@@ -47,6 +47,7 @@ jobs:
         run: |
           echo "CHROMATIC_PROJECT_TOKEN=${{ secrets.CHROMATIC_PROJECT_TOKEN }}" >> .env
           cat .env
+        working-directory: docs/storybook
 
       - name: Deploy Storybook
         run: pnpm run deploy:storybook
