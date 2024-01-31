@@ -7,6 +7,9 @@
       "dependsOn": ["^build"],
       "outputs": [".next/**", "lib/**", "storybook-static/**"]
     },
+    "deploy": {
+      "dependsOn": ["build", "lint"]
+    },
     "lint": {},
     "dev": {
       "dependsOn": ["@hcc/ui#build"],

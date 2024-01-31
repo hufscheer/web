@@ -19,6 +19,7 @@
     "@storybook/test": "^7.6.10",
     "@vanilla-extract/vite-plugin": "^3.9.4",
     "@vitejs/plugin-react": "^4.2.1",
+    "chromatic": "^10.6.1",
     "eslint": "^8.56.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -28,6 +29,8 @@
   },
   "scripts": {
     "dev": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
-  }
+    "build": "storybook build",
+    "deploy": "bash ./scripts/chromatic_publish.sh"
+  },
+  "version": ""
 }
