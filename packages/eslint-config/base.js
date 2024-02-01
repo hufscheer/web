@@ -14,7 +14,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'prettier',
   ],
-  plugins: ['import', 'simple-import-sort', '@typescript-eslint', 'prettier'],
+  plugins: ['import', '@typescript-eslint', 'prettier'],
   settings: {
     'import/parsers': {
       '@typescript-eslint/parser': ['.ts', '.tsx'],
@@ -30,8 +30,6 @@ module.exports = {
   },
   rules: {
     // import
-    'simple-import-sort/imports': 'error',
-    'simple-import-sort/exports': 'error',
     'import/order': [
       'error',
       {
