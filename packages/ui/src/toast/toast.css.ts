@@ -6,8 +6,8 @@ import { recipe } from '@vanilla-extract/recipes';
 import { TOAST } from './constants';
 
 const fadeIn = keyframes({
-  '0%': { marginTop: '-80px', opacity: 0 },
-  '100%': { marginTop: 0, opacity: 1 },
+  '0%': { transform: 'translateY(-80px)', opacity: 0 },
+  '100%': { transform: 'translateY(0)', opacity: 1 },
 });
 
 const fadeOut = keyframes({
