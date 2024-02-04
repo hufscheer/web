@@ -1,7 +1,7 @@
 'use client';
 
-import { AxiosError } from 'axios';
 import { useEffect } from 'react';
+import { AxiosError } from 'axios';
 import { MatchCommentType } from '@/types/match';
 
 import { FallbackProps } from '@/components/common/ErrorBoundary';

@@ -1,5 +1,5 @@
-import { AxiosError } from 'axios';
 import { ComponentProps } from 'react';
+import { AxiosError } from 'axios';
 
 import { FallbackProps } from '@/components/common/ErrorBoundary';
 import { VIDEO_API_ERROR_MESSAGE } from '@/constants/error';

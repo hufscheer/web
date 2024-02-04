@@ -1,5 +1,5 @@
-import { theme } from '@hcc/styles/dist/theme.css';
 import { styleVariants } from '@vanilla-extract/css';
+import { theme } from '@hcc/styles';
 
 export const matchCard = styleVariants({
   frame: { display: 'flex', flexDirection: 'column' },

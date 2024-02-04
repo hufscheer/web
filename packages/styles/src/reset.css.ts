@@ -37,15 +37,9 @@ globalStyle('table', {
   '@layer': { [layers.reset]: { borderCollapse: 'collapse' } },
 });
 
-/**
- * Safari - solving issue when using user-select:none on the <body> text input
- * doesn't working
- */
 globalStyle('input, textarea', {
   '@layer': {
-    [layers.reset]: {
-      WebkitUserSelect: 'auto',
-    },
+    [layers.reset]: { WebkitUserSelect: 'auto' },
   },
 });
 

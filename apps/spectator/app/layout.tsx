@@ -1,5 +1,4 @@
 import '@hcc/styles/dist/globals.css';
-import '@hcc/styles/dist/theme.css';
 
 import { Analytics } from '@vercel/analytics/react';
 import { Metadata } from 'next';
@@ -32,6 +31,12 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
           as="style"
           crossOrigin="anonymous"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+        />
+        <link
+          rel="stylesheet"
+          as="style"
+          crossOrigin="anonymous"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css"
         />
       </head>
       <GoogleAnalytics />
