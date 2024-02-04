@@ -39,3 +39,9 @@ yarn-error.log*
 
 # Storybook
 storybook-static
+
+# Jetbrains IDE
+.idea
+*.iws
+*.iml
+*.ipr
