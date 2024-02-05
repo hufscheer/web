@@ -1,5 +1,5 @@
-import { style, styleVariants } from '@vanilla-extract/css';
 import { theme } from '@hcc/styles';
+import { style, styleVariants } from '@vanilla-extract/css';
 
 const base = style({
   borderRadius: '0.75rem',

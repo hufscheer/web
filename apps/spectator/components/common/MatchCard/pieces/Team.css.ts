@@ -1,5 +1,5 @@
-import { style } from '@vanilla-extract/css';
 import { theme } from '@hcc/styles';
+import { style } from '@vanilla-extract/css';
 
 export const teamLogoDefault = style({
   width: '4rem',

@@ -1,15 +1,15 @@
 'use client';
 
-import { useEffect } from 'react';
 import { AxiosError } from 'axios';
-import { MatchCommentType } from '@/types/match';
+import { useEffect } from 'react';
 
 import { FallbackProps } from '@/components/common/ErrorBoundary';
 import { COMMENT_API_ERROR_MESSAGE } from '@/constants/error';
 import useInfiniteObserver from '@/hooks/useInfiniteObserver';
+import { MatchCommentType } from '@/types/match';
 
-import CommentItem from '../CommentItem';
 import { errorFallback } from './CommentLIst.css';
+import CommentItem from '../CommentItem';
 
 type CommentListProps = {
   commentList: MatchCommentType[];

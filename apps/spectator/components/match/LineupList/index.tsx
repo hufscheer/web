@@ -1,11 +1,11 @@
 import { AxiosError } from 'axios';
-import { MatchLineupType } from '@/types/match';
 
 import { FallbackProps } from '@/components/common/ErrorBoundary';
 import { LINEUP_API_ERROR_MESSAGE } from '@/constants/error';
+import { MatchLineupType } from '@/types/match';
 
-import LineupItem from '../LineupItem';
 import * as styles from './LineupList.css';
+import LineupItem from '../LineupItem';
 
 export default function Lineup({ teamName, gameTeamPlayers }: MatchLineupType) {
   return (

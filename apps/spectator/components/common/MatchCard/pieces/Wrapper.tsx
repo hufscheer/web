@@ -1,5 +1,6 @@
-import { createContext, ReactNode } from 'react';
 import { clsx } from 'clsx';
+import { createContext, ReactNode } from 'react';
+
 import { MatchType } from '@/types/match';
 
 import * as styles from './Wrapper.css';

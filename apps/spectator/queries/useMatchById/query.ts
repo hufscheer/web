@@ -1,4 +1,5 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
+
 import { getMatchById } from '@/api/match';
 
 export const QUERY_KEY = {

@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+
 import { SportsType } from '@/types/league';
 
 import useSportsListByLeagueId from './query';

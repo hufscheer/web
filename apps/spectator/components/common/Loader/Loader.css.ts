@@ -1,5 +1,5 @@
-import { keyframes, styleVariants } from '@vanilla-extract/css';
 import { theme } from '@hcc/styles';
+import { keyframes, styleVariants } from '@vanilla-extract/css';
 
 const spin = keyframes({
   from: { transform: 'rotate(0deg)' },

@@ -2,8 +2,8 @@ import Image from 'next/image';
 
 import { useMatchCardContext } from '@/hooks/useMatchCardContext';
 
-import { Icon } from '../../Icon';
 import * as styles from './Team.css';
+import { Icon } from '../../Icon';
 
 type TeamProps = {
   teamIndex: number;

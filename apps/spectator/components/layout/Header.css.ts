@@ -1,5 +1,5 @@
-import { styleVariants } from '@vanilla-extract/css';
 import { theme } from '@hcc/styles';
+import { styleVariants } from '@vanilla-extract/css';
 
 export const header = styleVariants({
   wrapper: {

@@ -1,11 +1,11 @@
 import { AxiosError } from 'axios';
-import { MatchTimelineType } from '@/types/match';
 
 import { FallbackProps } from '@/components/common/ErrorBoundary';
 import { TIMELINE_API_ERROR_MESSAGE } from '@/constants/error';
+import { MatchTimelineType } from '@/types/match';
 
-import RecordItem from '../RecordItem';
 import * as styles from './RecordList.css';
+import RecordItem from '../RecordItem';
 
 export default function RecordList({
   gameQuarter,

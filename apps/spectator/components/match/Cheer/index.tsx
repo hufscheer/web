@@ -1,9 +1,8 @@
+import { FallbackProps } from '@/components/common/ErrorBoundary';
 import { MatchCheerType, MatchTeamType } from '@/types/match';
 
-import { FallbackProps } from '@/components/common/ErrorBoundary';
-
-import CheerTeam from '../CheerTeam';
 import * as styles from './Cheer.css';
+import CheerTeam from '../CheerTeam';
 
 type CheerProps = {
   matchId: string;

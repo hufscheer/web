@@ -1,7 +1,6 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { MatchCommentType } from '@/types/match';
 
 import AsyncBoundary from '@/components/common/AsyncBoundary';
 import Loader from '@/components/common/Loader';
@@ -22,6 +21,7 @@ import MatchCommentFetcher from '@/queries/useMatchCommentById/Fetcher';
 import MatchTimelineFetcher from '@/queries/useMatchTimelineById/Fetcher';
 import MatchVideoFetcher from '@/queries/useMatchVideoById/Fetcher';
 import useSaveCommentMutation from '@/queries/useSaveCommentMutation/query';
+import { MatchCommentType } from '@/types/match';
 
 import * as styles from './page.css';
 

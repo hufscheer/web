@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+
 import instance from '@/api';
 import { LeagueType, SportsType } from '@/types/league';
 

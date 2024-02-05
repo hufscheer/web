@@ -1,5 +1,5 @@
-import { styleVariants } from '@vanilla-extract/css';
 import { theme } from '@hcc/styles';
+import { styleVariants } from '@vanilla-extract/css';
 
 import { matchCard } from '@/components/match/MatchList/matchList.css';
 

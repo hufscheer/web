@@ -1,7 +1,6 @@
+import { AxiosError } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { AxiosError } from 'axios';
-import { MatchListType } from '@/types/match';
 
 import { FallbackProps } from '@/components/common/ErrorBoundary';
 import { MatchCard } from '@/components/common/MatchCard';
@@ -10,6 +9,7 @@ import {
   COMMON_ERROR_MESSAGE,
   MATCH_LIST_API_ERROR_MESSAGE,
 } from '@/constants/error';
+import { MatchListType } from '@/types/match';
 
 import * as styles from './matchList.css';
 

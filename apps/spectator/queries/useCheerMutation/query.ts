@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { postCheer } from '@/api/match';
 
 export default function useCheerMutation({

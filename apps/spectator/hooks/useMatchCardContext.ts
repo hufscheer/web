@@ -1,7 +1,7 @@
 import { useContext } from 'react';
-import { MatchType } from '@/types/match';
 
 import { MatchContext } from '@/components/common/MatchCard/pieces/Wrapper';
+import { MatchType } from '@/types/match';
 
 type MatchCardContextType = () => MatchType;
 
