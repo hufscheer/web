@@ -10,7 +10,6 @@ import {
   MatchType,
   MatchVideoType,
 } from '@/types/match';
-
 import { convertObjectToQueryString } from '@/utils/queryString';
 
 export type MatchListParams = {

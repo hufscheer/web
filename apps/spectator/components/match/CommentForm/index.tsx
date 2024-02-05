@@ -1,5 +1,6 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
+import { ChangeEvent, FormEvent, useState } from 'react';
+
 import { MatchCommentPayload, MatchTeamType } from '@/types/match';
 
 import * as styles from './CommentForm.css';

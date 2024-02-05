@@ -47,6 +47,10 @@ module.exports = {
             position: 'after',
           },
         ],
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true,
+        },
       },
     ],
     // prettier

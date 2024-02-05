@@ -1,5 +1,6 @@
-import { ReactNode } from 'react';
 import { InfiniteData } from '@tanstack/react-query';
+import { ReactNode } from 'react';
+
 import { MatchCommentType, MatchTeamType } from '@/types/match';
 
 import useMatchCommentById from './query';

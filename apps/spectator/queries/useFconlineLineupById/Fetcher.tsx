@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
-import { MatchLineupType } from '@/types/match';
 
 import { FconlineInfoType } from '@/api/player';
+import { MatchLineupType } from '@/types/match';
 
 import { useMatchFconlineLineupById } from './query';
 

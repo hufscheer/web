@@ -1,4 +1,5 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
 import { MatchStatus } from '@/types/match';
 
 export default function useQueryParams() {

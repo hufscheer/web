@@ -1,7 +1,5 @@
 'use client';
 
-import { MatchStatus } from '@/types/match';
-
 import AsyncBoundary from '@/components/common/AsyncBoundary';
 import SportsList from '@/components/league/SportsList';
 import MatchList from '@/components/match/MatchList';
@@ -9,6 +7,7 @@ import { QUERY_PARAMS } from '@/constants/queryParams';
 import useQueryParams from '@/hooks/useQueryParams';
 import MatchListFetcher from '@/queries/useMatchList/Fetcher';
 import SportsListFetcher from '@/queries/useSportsListByLeagueId/Fetcher';
+import { MatchStatus } from '@/types/match';
 
 import {
   matchListWrapper,

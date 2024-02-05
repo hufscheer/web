@@ -1,6 +1,6 @@
 import { useSuspenseQueries, useSuspenseQuery } from '@tanstack/react-query';
-import { getMatchLineupById } from '@/api/match';
 
+import { getMatchLineupById } from '@/api/match';
 import { FconlineInfoType, getFconlinePlayerInfo } from '@/api/player';
 
 export const useMatchFconlineLineupById = (matchId: string) => {

@@ -1,5 +1,5 @@
-import { style, styleVariants } from '@vanilla-extract/css';
 import { theme } from '@hcc/styles';
+import { style, styleVariants } from '@vanilla-extract/css';
 
 export const video = style({ aspectRatio: '16 / 9', width: '100%' });
 

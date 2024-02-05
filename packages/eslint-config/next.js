@@ -1,4 +1,4 @@
-const { resolve } = require('node:path');
+const path = require('node:path');
 
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
@@ -27,7 +27,6 @@ module.exports = {
     'react/prop-types': 0,
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
-    '@next/next/no-html-link-for-pages': ['error', 'apps/*/app/'],
   },
   ignorePatterns: [
     // Ignore dotfiles

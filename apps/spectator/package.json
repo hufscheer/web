@@ -8,6 +8,12 @@
     "start": "next start",
     "lint": "eslint . --max-warnings 0"
   },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix --max-warnings 0"
+    ]
+  },
   "dependencies": {
     "@hcc/styles": "workspace:*",
     "@hcc/ui": "workspace:*",
