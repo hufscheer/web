@@ -1,6 +1,5 @@
-import { MatchType } from '@/types/match';
-
 import { MatchCard } from '@/components/common/MatchCard';
+import { MatchType } from '@/types/match';
 
 import * as styles from './MatchItem.css';
 

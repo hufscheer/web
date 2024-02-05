@@ -1,7 +1,6 @@
-import { SportsType } from '@/types/league';
-
 import { Icon } from '@/components/common/Icon';
 import { QUERY_PARAMS } from '@/constants/queryParams';
+import { SportsType } from '@/types/league';
 
 import * as styles from './SportsList.css';
 

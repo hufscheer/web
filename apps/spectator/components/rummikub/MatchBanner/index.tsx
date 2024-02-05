@@ -1,7 +1,6 @@
-import { MatchType } from '@/types/match';
-
 import { FallbackProps } from '@/components/common/ErrorBoundary';
 import { MatchCard } from '@/components/common/MatchCard';
+import { MatchType } from '@/types/match';
 
 import * as styles from './MatchBanner.css';
 
