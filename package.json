@@ -11,16 +11,6 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky install"
   },
-  "lint-staged": {
-    "apps/**/*.{js,jsx,ts,tsx}": [
-      "prettier --write",
-      "eslint --fix"
-    ],
-    "packages/ui/**/*.{js,jsx,ts,tsx}": [
-      "prettier --write",
-      "eslint --fix"
-    ]
-  },
   "devDependencies": {
     "@commitlint/cli": "^18.4.4",
     "@commitlint/config-conventional": "^18.4.4",

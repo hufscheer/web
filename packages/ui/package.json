@@ -10,6 +10,12 @@
     "lint": "eslint . --max-warnings 0",
     "build": "tsc"
   },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  },
   "devDependencies": {
     "@hcc/eslint-config": "workspace:*",
     "@hcc/styles": "workspace:^",
