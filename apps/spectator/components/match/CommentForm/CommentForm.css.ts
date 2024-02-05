@@ -1,5 +1,5 @@
-import { theme } from '@hcc/styles/dist/theme.css';
 import { style, styleVariants } from '@vanilla-extract/css';
+import { theme } from '@hcc/styles';
 
 export const form = style({
   position: 'absolute',

@@ -1,5 +1,5 @@
-import { theme } from '@hcc/styles/dist/theme.css';
 import { style } from '@vanilla-extract/css';
+import { theme } from '@hcc/styles';
 
 export const button = style({
   display: 'flex',

@@ -1,5 +1,5 @@
-import { theme } from '@hcc/styles/dist/theme.css';
 import { style, styleVariants } from '@vanilla-extract/css';
+import { theme } from '@hcc/styles';
 
 const base = style({
   borderRadius: '0.75rem',
@@ -68,5 +68,5 @@ export const time = styleVariants({
 export const button = style({
   margin: '0 0.5rem',
   width: 'max-content',
-  color: theme.colors['indicator-red'][2],
+  color: theme.colors.indicatorRed[2],
 });

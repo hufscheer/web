@@ -18,7 +18,7 @@ export const theme = createGlobalTheme(':root', {
       '5': '#5E6B7C',
       '6': '#3C4653',
     },
-    'indicator-blue': {
+    indicatorBlue: {
       '1': '#EFF6FF',
       '2': '#BEDDFF',
       '3': '#8DC4FF',
@@ -26,7 +26,7 @@ export const theme = createGlobalTheme(':root', {
       '5': '#5E6B7C',
       '6': '#003977',
     },
-    'indicator-red': {
+    indicatorRed: {
       '1': '#FFECEB',
       '2': '#FF9993',
       '3': '#FF453A',
@@ -34,7 +34,7 @@ export const theme = createGlobalTheme(':root', {
       '5': '#99130B',
       '6': '#660600',
     },
-    'indicator-green': {
+    indicatorGreen: {
       '1': '#E9FFF7',
       '2': '#A9FFE1',
       '3': '#68FFCC',
@@ -43,7 +43,7 @@ export const theme = createGlobalTheme(':root', {
       '6': '#005A3B',
     },
     gray: {
-      '1': '#14191F',
+      '1': '#F7F8F9',
       '2': '#E9EBEE',
       '3': '#C5C8CE',
       '4': '#646F7C',
@@ -64,6 +64,11 @@ export const theme = createGlobalTheme(':root', {
     lg: '0px 20px 24px 0px rgba(20, 37, 63, 0.06), 0px 0px 1px 0px rgba(12, 26, 75, 0.10)',
     xl: 'drop-shadow(0px 30px 40px rgba(20, 37, 63, 0.08)) drop-shadow(0px 0px 1px rgba(12, 26, 75, 0.10))',
   },
+
+  fonts: {
+    body: `"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif`,
+  },
+
   textVariants: {
     heading1: {
       fontSize: '40px',
@@ -80,27 +85,27 @@ export const theme = createGlobalTheme(':root', {
       fontWeight: '800',
       lineHeight: 'normal',
     },
-    'extra-large': {
+    lg: {
       fontSize: '20px',
       fontWeight: '800',
       lineHeight: 'normal',
     },
-    large: {
+    default: {
       fontSize: '16px',
       fontWeight: '500',
       lineHeight: 'normal',
     },
-    small: {
+    sm: {
       fontSize: '14px',
       fontWeight: '400',
       lineHeight: 'normal',
     },
-    'extra-small': {
+    xs: {
       fontSize: '12px',
       fontWeight: '400',
       lineHeight: 'normal',
     },
-    'extra-extra-small': {
+    '2xs': {
       fontSize: '10px',
       fontWeight: '400',
       lineHeight: 'normal',

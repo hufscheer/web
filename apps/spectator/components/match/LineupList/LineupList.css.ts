@@ -1,5 +1,5 @@
-import { theme } from '@hcc/styles/dist/theme.css';
 import { styleVariants } from '@vanilla-extract/css';
+import { theme } from '@hcc/styles';
 
 import { errorFallback as videoErrorFallback } from '../Video/Video.css';
 

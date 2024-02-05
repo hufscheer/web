@@ -6,6 +6,7 @@ import { globalStyle } from '@vanilla-extract/css';
 import { theme } from './theme.css';
 
 globalStyle('body', {
-  fontFamily: `"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif`,
+  fontFamily: theme.fonts.body,
   background: theme.colors.background.normal,
+  paddingBottom: 'env(safe-area-inset-bottom)',
 });

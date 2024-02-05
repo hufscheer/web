@@ -1,6 +1,6 @@
-import { AxiosError } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { AxiosError } from 'axios';
 import { MatchListType } from '@/types/match';
 
 import { FallbackProps } from '@/components/common/ErrorBoundary';

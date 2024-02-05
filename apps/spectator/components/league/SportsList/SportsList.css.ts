@@ -1,5 +1,5 @@
-import { theme } from '@hcc/styles/dist/theme.css';
 import { keyframes, style, styleVariants } from '@vanilla-extract/css';
+import { theme } from '@hcc/styles';
 
 const sportsItemBase = style({
   borderRadius: '0.75rem',
