@@ -3,10 +3,12 @@
   "extends": ["//"],
   "pipeline": {
     "dev": {
-      "dependsOn": ["dev"]
+      "dependsOn": ["^dev"]
     },
     "build": {
-      "outputs": ["storybook-static/**"]
+      "dependsOn": ["^build"],
+      "outputs": ["storybook-static/**"],
+      "inputs": ["dist/**"]
     },
     "deploy": {
       "dependsOn": ["build"]
