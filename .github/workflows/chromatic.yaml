@@ -7,10 +7,17 @@ on:
     branches:
       - main
     types: [opened, reopened]
+  push:
+    branches:
+      - perf/remote-cache
 
 jobs:
   chromatic:
     runs-on: ubuntu-latest
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
