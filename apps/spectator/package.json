@@ -15,6 +15,7 @@
     ]
   },
   "dependencies": {
+    "@hcc/icons": "workspace:^",
     "@hcc/styles": "workspace:*",
     "@hcc/ui": "workspace:*",
     "@stomp/stompjs": "^7.0.0",

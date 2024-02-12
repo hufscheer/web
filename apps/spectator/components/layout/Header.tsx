@@ -1,9 +1,9 @@
 'use client';
 
+import { HamburgerIcon, HccIcon } from '@hcc/icons';
+import { Icon } from '@hcc/ui';
 import Link from 'next/link';
 import { useState } from 'react';
-
-import { Icon } from '@/components/common/Icon';
 
 import * as styles from './Header.css';
 
@@ -17,16 +17,15 @@ export default function Header() {
       <div>
         <Link href="/" className={styles.header.logoWrapper}>
           <span className={styles.header.logoContent}>
-            <Icon iconName="hcc" width={75} height="100%" />
+            <Icon source={HccIcon} size={75} />
           </span>
         </Link>
       </div>
       <div>
         <button onClick={toggleSidebar}>
           <Icon
-            iconName="hamburgerMenu"
-            width={30}
-            height="100%"
+            source={HamburgerIcon}
+            size={30}
             className={styles.header.hamburgerMenu}
           />
         </button>

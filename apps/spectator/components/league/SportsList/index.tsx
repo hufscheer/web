@@ -1,4 +1,6 @@
-import { Icon } from '@/components/common/Icon';
+import { CrossIcon } from '@hcc/icons';
+import { Icon } from '@hcc/ui';
+
 import { QUERY_PARAMS } from '@/constants/queryParams';
 import { SportsType } from '@/types/league';
 
@@ -32,7 +34,7 @@ export default function SportsList({
           >
             <span>{sports.name}</span>
             {selectedId.includes(sports.sportId + '') && (
-              <Icon iconName="cross" width="12" height="12" />
+              <Icon source={CrossIcon} size={12} />
             )}
           </button>
         </li>
