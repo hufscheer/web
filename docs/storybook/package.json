@@ -3,6 +3,7 @@
   "type": "module",
   "private": true,
   "dependencies": {
+    "@hcc/icons": "workspace:^",
     "@hcc/styles": "workspace:*",
     "@hcc/ui": "workspace:*",
     "@vanilla-extract/css": "^1.14.0"

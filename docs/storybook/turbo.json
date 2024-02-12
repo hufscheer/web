@@ -3,7 +3,7 @@
   "extends": ["//"],
   "pipeline": {
     "dev": {
-      "dependsOn": ["^dev"]
+      "dependsOn": ["^dev", "^build"]
     },
     "build": {
       "dependsOn": ["^build"],
