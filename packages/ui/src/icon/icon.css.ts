@@ -1,4 +1,4 @@
-import { theme } from '@hcc/styles/dist/theme.css';
+import { theme } from '@hcc/styles';
 import { recipe } from '@vanilla-extract/recipes';
 
 export const icon = recipe({
