@@ -3,17 +3,6 @@
   "version": "0.0.1",
   "module": "dist/index.js",
   "main": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.js",
-      "import": "./dist/index.js"
-    },
-    "./*.svg": "./dist/svg/*.svg"
-  },
-  "files": [
-    "dist"
-  ],
   "sideEffects": [
     "*.svg"
   ],
