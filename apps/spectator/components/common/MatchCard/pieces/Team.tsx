@@ -1,9 +1,10 @@
+import { ProfileIcon } from '@hcc/icons';
+import { Icon } from '@hcc/ui';
 import Image from 'next/image';
 
 import { useMatchCardContext } from '@/hooks/useMatchCardContext';
 
 import * as styles from './Team.css';
-import { Icon } from '../../Icon';
 
 type TeamProps = {
   teamIndex: number;
@@ -16,7 +17,7 @@ export default function Team({ teamIndex, className }: TeamProps) {
   if (gameTeams.length === 0) {
     return (
       <div className={className}>
-        <Icon iconName="profile" className={styles.teamLogoDefault} />
+        <Icon source={ProfileIcon} className={styles.teamLogoDefault} />
       </div>
     );
   }
