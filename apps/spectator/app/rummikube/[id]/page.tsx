@@ -24,7 +24,7 @@ import { GameCommentType } from '@/types/game';
 
 import * as styles from './page.css';
 
-export default function Rummikute({ params }: { params: { id: string } }) {
+export default function Rummikube({ params }: { params: { id: string } }) {
   const [comments, setComments] = useState<GameCommentType[]>([]);
 
   const handleSocketMessage = (comment: GameCommentType) => {
