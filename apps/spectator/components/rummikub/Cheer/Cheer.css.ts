@@ -1,6 +1,6 @@
 import { styleVariants } from '@vanilla-extract/css';
 
-import { cheer, errorFallback } from '@/components/match/Cheer/Cheer.css';
+import { cheer, errorFallback } from '@/components/game/Cheer/Cheer.css';
 
 export const rkCheer = styleVariants({
   wrapper: [cheer.wrapper],

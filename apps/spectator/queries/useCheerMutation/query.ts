@@ -1,22 +1,22 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { postCheer } from '@/api/match';
+import { postCheer } from '@/api/game';
 
 export default function useCheerMutation({
   gameTeamId,
-  matchId,
+  gameId,
 }: {
   gameTeamId: number;
-  matchId: string;
+  gameId: string;
 }) {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ['cheer'],
     mutationFn: (cheerCount: number) =>
-      postCheer({ matchId, gameTeamId, cheerCount }),
+      postCheer({ gameId: gameId, gameTeamId, cheerCount }),
     onMutate: async () => {
-      const previousCount = queryClient.getQueryData(['match-cheer', matchId]);
+      const previousCount = queryClient.getQueryData(['game-cheer', gameId]);
 
       return { previousCount };
     },

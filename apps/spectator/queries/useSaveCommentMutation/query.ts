@@ -1,10 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { postMatchComment } from '@/api/match';
+import { postGameComment } from '@/api/game';
 
 export default function useSaveCommentMutation() {
   return useMutation({
     mutationKey: ['save-comment'],
-    mutationFn: postMatchComment,
+    mutationFn: postGameComment,
   });
 }

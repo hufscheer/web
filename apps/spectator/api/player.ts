@@ -7,7 +7,7 @@ type UserInfoType = {
 };
 
 type UserRankInfoType = {
-  matchType: number;
+  gameType: number;
   division: number;
   achievementDate: string;
 };

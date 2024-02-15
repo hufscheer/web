@@ -4,7 +4,7 @@ import {
   cheerTalkSection,
   timelineSection,
   videoSection,
-} from '@/app/match/[id]/page.css';
+} from '@/app/game/[id]/page.css';
 
 export const lineupSection = style({
   display: 'grid',
