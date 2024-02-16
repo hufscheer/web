@@ -1,12 +1,12 @@
 import { useSuspenseQueries, useSuspenseQuery } from '@tanstack/react-query';
 
-import { getMatchLineupById } from '@/api/match';
+import { getGameLineupById } from '@/api/game';
 import { FconlineInfoType, getFconlinePlayerInfo } from '@/api/player';
 
-export const useMatchFconlineLineupById = (matchId: string) => {
+export const useGameFconlineLineupById = (gameId: string) => {
   const { data, error } = useSuspenseQuery({
-    queryKey: ['match-lineup', matchId],
-    queryFn: () => getMatchLineupById(matchId),
+    queryKey: ['game-lineup', gameId],
+    queryFn: () => getGameLineupById(gameId),
   });
 
   const nicknames = data

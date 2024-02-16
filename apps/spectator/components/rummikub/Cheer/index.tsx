@@ -1,33 +1,33 @@
 import { FallbackProps } from '@/components/common/ErrorBoundary';
-import CheerTeam from '@/components/match/CheerTeam';
-import { MatchCheerType, MatchTeamType } from '@/types/match';
+import CheerTeam from '@/components/game/CheerTeam';
+import { GameCheerType, GameTeamType } from '@/types/game';
 
 import * as styles from './Cheer.css';
 
 type CheerProps = {
-  matchId: string;
-  cheers: MatchCheerType[];
-  matchTeams: MatchTeamType[];
+  gameId: string;
+  cheers: GameCheerType[];
+  gameTeams: GameTeamType[];
 };
 
-export default function Cheer({ matchId, cheers, matchTeams }: CheerProps) {
+export default function Cheer({ gameId, cheers, gameTeams }: CheerProps) {
   const [firstTeamCheer, secondTeamCheer, thirdTeamCheer, fourthTeamCheer] =
     cheers;
-  const [firstTeam, secondTeam, thirdTeam, fourthTeam] = matchTeams;
+  const [firstTeam, secondTeam, thirdTeam, fourthTeam] = gameTeams;
 
   return (
     <div className={styles.rkCheer.wrapper}>
       <div className={styles.rkCheer.teamWrapper}>
         <CheerTeam
           {...firstTeamCheer}
-          matchId={matchId}
+          gameId={gameId}
           className={styles.rkCheer.team1}
         >
           <span>{firstTeam.gameTeamName} 🤜</span>
         </CheerTeam>
         <CheerTeam
           {...secondTeamCheer}
-          matchId={matchId}
+          gameId={gameId}
           className={styles.rkCheer.team2}
         >
           <span>{secondTeam.gameTeamName} 🤜</span>
@@ -37,14 +37,14 @@ export default function Cheer({ matchId, cheers, matchTeams }: CheerProps) {
       <div className={styles.rkCheer.teamWrapper}>
         <CheerTeam
           {...thirdTeamCheer}
-          matchId={matchId}
+          gameId={gameId}
           className={styles.rkCheer.team3}
         >
           <span>🤛 {thirdTeam.gameTeamName}</span>
         </CheerTeam>
         <CheerTeam
           {...fourthTeamCheer}
-          matchId={matchId}
+          gameId={gameId}
           className={styles.rkCheer.team4}
         >
           <span>🤛 {fourthTeam.gameTeamName}</span>

@@ -1,6 +1,6 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import { MatchStatus } from '@/types/match';
+import { GameStatus } from '@/types/game';
 
 export default function useQueryParams() {
   const params = useSearchParams();
@@ -28,7 +28,7 @@ export default function useQueryParams() {
     router.push(`${pathname}?${newParams.toString()}`);
   };
 
-  type StoreWithStatus<T> = T & { status: MatchStatus };
+  type StoreWithStatus<T> = T & { status: GameStatus };
 
   const repeatIterator = <T extends { [key: string]: string | string[] }>(
     store: StoreWithStatus<T>,

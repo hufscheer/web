@@ -1,14 +1,14 @@
 import { ReactNode } from 'react';
 
 import { FconlineInfoType } from '@/api/player';
-import { MatchLineupType } from '@/types/match';
+import { GameLineupType } from '@/types/game';
 
-import { useMatchFconlineLineupById } from './query';
+import { useGameFconlineLineupById } from './query';
 
-export type FconlineLineupType = MatchLineupType & FconlineInfoType;
+export type FconlineLineupType = GameLineupType & FconlineInfoType;
 
 type FconlineLineupFetcherProps = {
-  matchId: string;
+  gameId: string;
   children: ({
     mergedUserInfo,
   }: {
@@ -17,11 +17,11 @@ type FconlineLineupFetcherProps = {
 };
 
 export default function FconlineLineupFetcher({
-  matchId,
+  gameId,
   children,
 }: FconlineLineupFetcherProps) {
   const { fconlineInfo, lineup, fconlineError, error } =
-    useMatchFconlineLineupById(matchId);
+    useGameFconlineLineupById(gameId);
 
   const mergedUserInfo = fconlineInfo.map((info, index) => ({
     ...info,

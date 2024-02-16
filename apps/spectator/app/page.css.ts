@@ -34,7 +34,7 @@ export const statusButton = styleVariants({
   ],
 });
 
-export const matchListWrapper = style({
+export const gameListWrapper = style({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',

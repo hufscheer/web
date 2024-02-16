@@ -1,16 +1,16 @@
 'use client';
 
 import AsyncBoundary from '@/components/common/AsyncBoundary';
+import GameList from '@/components/game/GameList';
 import SportsList from '@/components/league/SportsList';
-import MatchList from '@/components/match/MatchList';
 import { QUERY_PARAMS } from '@/constants/queryParams';
 import useQueryParams from '@/hooks/useQueryParams';
-import MatchListFetcher from '@/queries/useMatchList/Fetcher';
+import GameListFetcher from '@/queries/useGameList/Fetcher';
 import SportsListFetcher from '@/queries/useSportsListByLeagueId/Fetcher';
-import { MatchStatus } from '@/types/match';
+import { GameStatus } from '@/types/game';
 
 import {
-  matchListWrapper,
+  gameListWrapper,
   section,
   statusButton,
   statusCheckbox,
@@ -21,7 +21,7 @@ export default function Home() {
     useQueryParams();
 
   const paramsObj = repeatIterator(
-    {} as { status: MatchStatus },
+    {} as { status: GameStatus },
     params.entries(),
   );
 
@@ -77,16 +77,16 @@ export default function Home() {
       </div>
 
       <AsyncBoundary
-        errorFallback={props => <MatchList.ErrorFallback {...props} />}
-        loadingFallback={<MatchList.Skeleton />}
+        errorFallback={props => <GameList.ErrorFallback {...props} />}
+        loadingFallback={<GameList.Skeleton />}
       >
-        <MatchListFetcher {...paramsObj}>
-          {({ matchList }) => (
-            <div className={matchListWrapper}>
-              <MatchList matchList={matchList} />
+        <GameListFetcher {...paramsObj}>
+          {({ gameList }) => (
+            <div className={gameListWrapper}>
+              <GameList gameList={gameList} />
             </div>
           )}
-        </MatchListFetcher>
+        </GameListFetcher>
       </AsyncBoundary>
     </section>
   );
