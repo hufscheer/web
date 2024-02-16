@@ -2,6 +2,8 @@
 
 import { useRef, useState } from 'react';
 
+import CheerTalkEntryButton from '@/components/cheertalk/CheerTalkEntryButton';
+import CheerTalkModal from '@/components/cheertalk/CheerTalkModal';
 import AsyncBoundary from '@/components/common/AsyncBoundary';
 import Loader from '@/components/common/Loader';
 import FconlineUserLineup from '@/components/fcOnline/UserInfo';
