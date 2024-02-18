@@ -1,4 +1,4 @@
-import useReportCommentMutation from '@/queries/useReportCommentMutation/query';
+import useReportCheerTalkMutation from '@/queries/useReportCheerTalkMutation/query';
 import { parseTimeString } from '@/utils/time';
 
 import * as styles from './CommentItem.css';
@@ -18,7 +18,7 @@ export default function CommentItem({
   isBlocked,
   createdAt,
 }: CommentItemProps) {
-  const { mutate } = useReportCommentMutation();
+  const { mutate } = useReportCheerTalkMutation();
   const handleClickReportButton = (payload: { commentId: number }) => {
     mutate(payload);
   };
