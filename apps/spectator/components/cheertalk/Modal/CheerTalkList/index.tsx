@@ -8,26 +8,26 @@ import { COMMENT_API_ERROR_MESSAGE } from '@/constants/error';
 import useInfiniteObserver from '@/hooks/useInfiniteObserver';
 import { GameCheerTalkType } from '@/types/game';
 
-import { errorFallback } from './CommentLIst.css';
-import CommentItem from '../CommentItem';
+import { errorFallback } from './CheerTalkLIst.css';
+import CheerTalkItem from '../CheerTalkItem';
 
-type CommentListProps = {
-  commentList: GameCheerTalkType[];
+interface CheerTalkListProps {
+  cheerTalkList: GameCheerTalkType[];
   hasNextPage: boolean;
   fetchNextPage: () => void;
   isFetching: boolean;
   scrollToBottom: () => void;
-};
+}
 
-export default function CommentList({
-  commentList,
+const CheerTalkList = ({
+  cheerTalkList,
   fetchNextPage,
   hasNextPage,
   isFetching,
   scrollToBottom,
-}: CommentListProps) {
+}: CheerTalkListProps) => {
   const { ref } = useInfiniteObserver<HTMLDivElement>(
-    async (entry, observer) => {
+    async (entry, observer): Promise<void> => {
       observer.unobserve(entry.target);
       if (hasNextPage && !isFetching) {
         fetchNextPage();
@@ -35,7 +35,7 @@ export default function CommentList({
     },
   );
 
-  useEffect(() => {
+  useEffect((): void => {
     if (!scrollToBottom) return;
 
     scrollToBottom();
@@ -44,41 +44,41 @@ export default function CommentList({
   return (
     <>
       <div ref={ref}></div>
-      {commentList.map(comment => (
-        <CommentItem
-          {...comment}
-          key={comment.cheerTalkId}
-          order={comment.order}
-        />
-      ))}
-    </>
-  );
-}
-
-CommentList.SocketList = function SocketList({
-  commentList,
-}: Pick<CommentListProps, 'commentList'>) {
-  return (
-    <>
-      {commentList.map(comment => (
-        <CommentItem
-          {...comment}
-          key={comment.cheerTalkId}
-          order={comment.order}
+      {cheerTalkList.map(cheerTalk => (
+        <CheerTalkItem
+          {...cheerTalk}
+          key={cheerTalk.cheerTalkId}
+          order={cheerTalk.order}
         />
       ))}
     </>
   );
 };
 
-CommentList.ErrorFallback = function ErrorFallback({
+CheerTalkList.SocketList = function SocketList({
+  cheerTalkList,
+}: Pick<CheerTalkListProps, 'cheerTalkList'>) {
+  return (
+    <>
+      {cheerTalkList.map(cheerTalk => (
+        <CheerTalkItem
+          {...cheerTalk}
+          key={cheerTalk.cheerTalkId}
+          order={cheerTalk.order}
+        />
+      ))}
+    </>
+  );
+};
+
+CheerTalkList.ErrorFallback = function ErrorFallback({
   error,
   resetErrorBoundary,
 }: FallbackProps) {
   let message;
 
   if (error instanceof AxiosError) {
-    const code = error.code;
+    const code: string | undefined = error.code;
 
     message =
       COMMENT_API_ERROR_MESSAGE[code as keyof typeof COMMENT_API_ERROR_MESSAGE];
@@ -89,10 +89,11 @@ CommentList.ErrorFallback = function ErrorFallback({
   return (
     <div className={errorFallback.wrapper}>
       <span className={errorFallback.span}>⚠️ {message}</span>
-
       <button onClick={resetErrorBoundary} className={errorFallback.button}>
         새로고침
       </button>
     </div>
   );
 };
+
+export default CheerTalkList;

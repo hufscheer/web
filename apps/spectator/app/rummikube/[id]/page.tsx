@@ -2,10 +2,11 @@
 
 import { useRef, useState } from 'react';
 
+import CheerTalkForm from 'components/cheertalk/Modal/CheerTalkForm';
+import CheerTalkList from 'components/cheertalk/Modal/CheerTalkList';
+
 import AsyncBoundary from '@/components/common/AsyncBoundary';
 import Loader from '@/components/common/Loader';
-import CommentForm from '@/components/game/CommentForm';
-import CommentList from '@/components/game/CommentList';
 import Lineup from '@/components/game/LineupList';
 import Panel from '@/components/game/Panel';
 import RecordList from '@/components/game/RecordList';
@@ -113,7 +114,7 @@ export default function Rummikube({ params }: { params: { id: string } }) {
             {selected === '응원댓글' && (
               <AsyncBoundary
                 errorFallback={props => (
-                  <CommentList.ErrorFallback {...props} />
+                  <CheerTalkList.ErrorFallback {...props} />
                 )}
                 loadingFallback={<Loader />}
               >
@@ -121,15 +122,15 @@ export default function Rummikube({ params }: { params: { id: string } }) {
                   {({ gameTalkList, gameTeams, ...data }) => (
                     <div className={styles.cheerTalkSection.div}>
                       <ul style={{ paddingBottom: '2rem' }}>
-                        <CommentList
-                          commentList={gameTalkList.pages.flat()}
+                        <CheerTalkList
+                          cheerTalkList={gameTalkList.pages.flat()}
                           scrollToBottom={scrollToBottom}
                           {...data}
                         />
-                        <CommentList.SocketList commentList={comments} />
+                        <CheerTalkList.SocketList commentList={comments} />
                         <li ref={scrollRef}></li>
                       </ul>
-                      <CommentForm
+                      <CheerTalkForm
                         gameTeams={gameTeams}
                         gameId={params.id}
                         mutate={mutate}

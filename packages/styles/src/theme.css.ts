@@ -23,9 +23,9 @@ export const theme = createGlobalTheme(':root', {
     indicatorBlue: {
       '1': '#EFF6FF',
       '2': '#BEDDFF',
-      '3': '#8DC4FF',
+      '3': '#007AFF',
       '4': '#5DAAFF',
-      '5': '#5E6B7C',
+      '5': '#226BBB',
       '6': '#003977',
     },
     indicatorRed: {

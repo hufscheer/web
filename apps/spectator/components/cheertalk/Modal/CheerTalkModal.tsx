@@ -1,10 +1,11 @@
 import { Modal } from '@hcc/ui';
 import { useRef, useState } from 'react';
 
+import CheerTalkForm from 'components/cheertalk/Modal/CheerTalkForm';
+import CheerTalkList from 'components/cheertalk/Modal/CheerTalkList';
+
 import AsyncBoundary from '@/components/common/AsyncBoundary';
 import Loader from '@/components/common/Loader';
-import CommentForm from '@/components/game/CommentForm';
-import CommentList from '@/components/game/CommentList';
 import useSocket from '@/hooks/useSocket';
 import GameByIdFetcher from '@/queries/useGameById/Fetcher';
 import GameCheerTalkFetcher from '@/queries/useGameCheerTalkById/Fetcher';
@@ -47,7 +48,7 @@ const CheerTalkModal = ({ isOpen, onClose, gameId }: CheerTalkModalProps) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className={styles.CheerTalkModalWrapper}>
+      <div className={styles.cheerTalkModalWrapper}>
         <AsyncBoundary
           errorFallback={props => <>{props}</>}
           loadingFallback={<></>}
@@ -56,7 +57,7 @@ const CheerTalkModal = ({ isOpen, onClose, gameId }: CheerTalkModalProps) => {
             {data => {
               const [firstTeam, secondTeam] = data.gameTeams;
               return (
-                <div className={styles.CheerTalkModalHeader}>
+                <div className={styles.cheerTalkModalHeader}>
                   <span>
                     <span>{firstTeam.gameTeamName}</span>
                     <span>{firstTeam.score}</span>
@@ -73,24 +74,24 @@ const CheerTalkModal = ({ isOpen, onClose, gameId }: CheerTalkModalProps) => {
             }}
           </GameByIdFetcher>
         </AsyncBoundary>
-        <div className={styles.CheerTalkModalTimeline}></div>
+        <div className={styles.cheerTalkModalTimeline}></div>
         <AsyncBoundary
-          errorFallback={props => <CommentList.ErrorFallback {...props} />}
+          errorFallback={props => <CheerTalkList.ErrorFallback {...props} />}
           loadingFallback={<Loader />}
         >
           <GameCheerTalkFetcher gameId={gameId}>
             {({ gameTalkList, gameTeams, ...data }) => (
-              <div>
-                <ul>
-                  <CommentList
-                    commentList={gameTalkList.pages.flat()}
+              <div className={styles.cheerTalkListContainer}>
+                <ul className={styles.cheerTalkList}>
+                  <CheerTalkList
+                    cheerTalkList={gameTalkList.pages.flat()}
                     scrollToBottom={scrollToBottom}
                     {...data}
                   />
-                  <CommentList.SocketList commentList={cheerTalks} />
+                  <CheerTalkList.SocketList cheerTalkList={cheerTalks} />
                   <li ref={scrollRef}></li>
                 </ul>
-                <CommentForm
+                <CheerTalkForm
                   gameTeams={gameTeams}
                   gameId={gameId}
                   mutate={mutate}
