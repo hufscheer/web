@@ -19,8 +19,12 @@ export const cheerTalkEntryButton = style({
   alignItems: 'center',
   width: rem(40),
   height: rem(40),
-  backgroundColor: 'red',
-  border: `${rem(1)} solid`,
-  borderColor: theme.colors.gray[2],
+  border: `${rem(1)} solid ${theme.colors.gray[2]}`,
   borderRadius: '50%',
+  backgroundColor: theme.colors.primary[3],
+});
+
+export const cheerTalkEntryButtonIcon = style({
+  width: rem(18),
+  height: rem(18),
 });

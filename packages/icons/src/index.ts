@@ -1,6 +1,7 @@
 export { ReactComponent as BackgroundLogoIcon } from './svg/background-logo.svg';
 export { ReactComponent as CalendarIcon } from './svg/calendar.svg';
 export { ReactComponent as CaretDownIcon } from './svg/caret-down.svg';
+export { ReactComponent as ChatIcon } from './svg/chat.svg';
 export { ReactComponent as CheckIcon } from './svg/check.svg';
 export { ReactComponent as ClipIcon } from './svg/clip.svg';
 export { ReactComponent as CrossIcon } from './svg/cross.svg';

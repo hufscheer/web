@@ -1,5 +1,6 @@
 import '@hcc/styles/dist/globals.css';
 
+import { theme } from '@hcc/styles';
 import { Analytics } from '@vercel/analytics/react';
 import { Metadata } from 'next';
 import { ReactNode } from 'react';
@@ -40,7 +41,7 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
         />
       </head>
       <GoogleAnalytics />
-      <body style={{ margin: 'auto', maxWidth: '28rem' }}>
+      <body style={{ margin: 'auto', maxWidth: theme.sizes.appWidth }}>
         <ReactQueryProvider>
           <Header />
           <main style={{ paddingLeft: '1rem', paddingRight: '1rem' }}>

@@ -1,14 +1,14 @@
 import { UseMutateFunction } from '@tanstack/react-query';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
-import { GameCommentPayload, GameTeamType } from '@/types/game';
+import { GameCheerTalkPayload, GameTeamType } from '@/types/game';
 
 import * as styles from './CommentForm.css';
 
 type CommentFormProps = {
   gameId: string;
   gameTeams: GameTeamType[];
-  mutate: UseMutateFunction<void, Error, GameCommentPayload, unknown>;
+  mutate: UseMutateFunction<void, Error, GameCheerTalkPayload, unknown>;
   scrollToBottom: () => void;
 };
 
@@ -25,7 +25,7 @@ export default function CommentForm({
 
   const handleCommentSubmit = (
     e: FormEvent<HTMLFormElement>,
-    payload: GameCommentPayload,
+    payload: GameCheerTalkPayload,
   ) => {
     e.preventDefault();
 

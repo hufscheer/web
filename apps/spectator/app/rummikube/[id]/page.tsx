@@ -15,19 +15,19 @@ import RummiKubGameBanner from '@/components/rummikub/GameBanner';
 import useSocket from '@/hooks/useSocket';
 import GameByIdFetcher from '@/queries/useGameById/Fetcher';
 import GameCheerByIdFetcher from '@/queries/useGameCheerById/Fetcher';
-import GameCommentFetcher from '@/queries/useGameCommentById/Fetcher';
+import GameCheerTalkFetcher from '@/queries/useGameCheerTalkById/Fetcher';
 import GameLineupFetcher from '@/queries/useGameLineupById/Fetcher';
 import GameTimelineFetcher from '@/queries/useGameTimelineById/Fetcher';
 import GameVideoFetcher from '@/queries/useGameVideoById/Fetcher';
-import useSaveCommentMutation from '@/queries/useSaveCommentMutation/query';
-import { GameCommentType } from '@/types/game';
+import useSaveCheerTalkMutation from '@/queries/useSaveCheerTalkMutation/query';
+import { GameCheerTalkType } from '@/types/game';
 
 import * as styles from './page.css';
 
 export default function Rummikube({ params }: { params: { id: string } }) {
-  const [comments, setComments] = useState<GameCommentType[]>([]);
+  const [comments, setComments] = useState<GameCheerTalkType[]>([]);
 
-  const handleSocketMessage = (comment: GameCommentType) => {
+  const handleSocketMessage = (comment: GameCheerTalkType) => {
     if (comment) {
       setComments(prev => [...prev, comment]);
     }
@@ -41,7 +41,7 @@ export default function Rummikube({ params }: { params: { id: string } }) {
 
   connect();
 
-  const { mutate } = useSaveCommentMutation();
+  const { mutate } = useSaveCheerTalkMutation();
   const options = [
     { label: '라인업' },
     { label: '응원댓글' },
@@ -117,12 +117,12 @@ export default function Rummikube({ params }: { params: { id: string } }) {
                 )}
                 loadingFallback={<Loader />}
               >
-                <GameCommentFetcher gameId={params.id}>
-                  {({ commentList, gameTeams, ...data }) => (
+                <GameCheerTalkFetcher gameId={params.id}>
+                  {({ gameTalkList, gameTeams, ...data }) => (
                     <div className={styles.cheerTalkSection.div}>
                       <ul style={{ paddingBottom: '2rem' }}>
                         <CommentList
-                          commentList={commentList.pages.flat()}
+                          commentList={gameTalkList.pages.flat()}
                           scrollToBottom={scrollToBottom}
                           {...data}
                         />
@@ -137,7 +137,7 @@ export default function Rummikube({ params }: { params: { id: string } }) {
                       />
                     </div>
                   )}
-                </GameCommentFetcher>
+                </GameCheerTalkFetcher>
               </AsyncBoundary>
             )}
             {selected === '경기영상' && (

@@ -6,13 +6,13 @@ import { useEffect } from 'react';
 import { FallbackProps } from '@/components/common/ErrorBoundary';
 import { COMMENT_API_ERROR_MESSAGE } from '@/constants/error';
 import useInfiniteObserver from '@/hooks/useInfiniteObserver';
-import { GameCommentType } from '@/types/game';
+import { GameCheerTalkType } from '@/types/game';
 
 import { errorFallback } from './CommentLIst.css';
 import CommentItem from '../CommentItem';
 
 type CommentListProps = {
-  commentList: GameCommentType[];
+  commentList: GameCheerTalkType[];
   hasNextPage: boolean;
   fetchNextPage: () => void;
   isFetching: boolean;
@@ -47,7 +47,7 @@ export default function CommentList({
       {commentList.map(comment => (
         <CommentItem
           {...comment}
-          key={comment.commentId}
+          key={comment.cheerTalkId}
           order={comment.order}
         />
       ))}
@@ -63,7 +63,7 @@ CommentList.SocketList = function SocketList({
       {commentList.map(comment => (
         <CommentItem
           {...comment}
-          key={comment.commentId}
+          key={comment.cheerTalkId}
           order={comment.order}
         />
       ))}

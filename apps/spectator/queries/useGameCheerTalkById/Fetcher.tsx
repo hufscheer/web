@@ -1,20 +1,20 @@
 import { InfiniteData } from '@tanstack/react-query';
 import { ReactNode } from 'react';
 
-import { GameCommentType, GameTeamType } from '@/types/game';
+import { GameCheerTalkType, GameTeamType } from '@/types/game';
 
-import useGameCommentById from './query';
+import useGameCheerTalkById from './query';
 
-type GameCommentFetcherProps = {
+type GameCheerTalkFetcherProps = {
   gameId: string;
   children: ({
-    commentList,
+    gameTalkList,
     gameTeams,
     fetchNextPage,
     hasNextPage,
     isFetching,
   }: {
-    commentList: InfiniteData<GameCommentType[]>;
+    gameTalkList: InfiniteData<GameCheerTalkType[]>;
     gameTeams: GameTeamType[];
     fetchNextPage: () => void;
     hasNextPage: boolean;
@@ -22,23 +22,23 @@ type GameCommentFetcherProps = {
   }) => ReactNode;
 };
 
-export default function GameCommentFetcher({
+export default function GameCheerTalkFetcher({
   gameId,
   children,
-}: GameCommentFetcherProps) {
+}: GameCheerTalkFetcherProps) {
   const {
-    commentList,
+    cheerTalkList,
     gameTeams,
     error,
     fetchNextPage,
     hasNextPage,
     isFetching,
-  } = useGameCommentById(gameId);
+  } = useGameCheerTalkById(gameId);
 
   if (error) throw error;
 
   return children({
-    commentList,
+    gameTalkList: cheerTalkList,
     gameTeams,
     fetchNextPage,
     hasNextPage,

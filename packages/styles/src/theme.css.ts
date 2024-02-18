@@ -1,5 +1,7 @@
 import { createGlobalTheme } from '@vanilla-extract/css';
 
+import { rem } from './pxto';
+
 export const theme = createGlobalTheme(':root', {
   colors: {
     primary: {
@@ -71,44 +73,48 @@ export const theme = createGlobalTheme(':root', {
 
   textVariants: {
     heading1: {
-      fontSize: '40px',
+      fontSize: rem(40),
       fontWeight: '800',
       lineHeight: 'normal',
     },
     heading2: {
-      fontSize: '32px',
+      fontSize: rem(32),
       fontWeight: '800',
       lineHeight: 'normal',
     },
     heading3: {
-      fontSize: '24px',
+      fontSize: rem(24),
       fontWeight: '800',
       lineHeight: 'normal',
     },
     lg: {
-      fontSize: '20px',
+      fontSize: rem(20),
       fontWeight: '800',
       lineHeight: 'normal',
     },
     default: {
-      fontSize: '16px',
+      fontSize: rem(16),
       fontWeight: '500',
       lineHeight: 'normal',
     },
     sm: {
-      fontSize: '14px',
+      fontSize: rem(14),
       fontWeight: '400',
       lineHeight: 'normal',
     },
     xs: {
-      fontSize: '12px',
+      fontSize: rem(12),
       fontWeight: '400',
       lineHeight: 'normal',
     },
     '2xs': {
-      fontSize: '10px',
+      fontSize: rem(10),
       fontWeight: '400',
       lineHeight: 'normal',
     },
+  },
+
+  sizes: {
+    appWidth: rem(448),
   },
 });
