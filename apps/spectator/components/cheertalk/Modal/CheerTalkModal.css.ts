@@ -5,7 +5,8 @@ export const wrapper = style({
   display: 'flex',
   flexDirection: 'column',
   height: '100vh',
-  width: theme.sizes.appWidth,
+  maxWidth: theme.sizes.appWidth,
+  width: '100%',
   backgroundColor: theme.colors.background.normal,
 });
 

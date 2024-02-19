@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { ReactNode, useEffect } from 'react';
 
-import { backdrop } from './styles.css';
+import * as styles from './styles.css';
 
 interface ModalProps {
   isOpen: boolean;
@@ -49,7 +49,7 @@ const Modal = ({
     <AnimatePresence mode="wait">
       {isOpen && (
         <motion.div
-          className={backdrop}
+          className={styles.backdrop}
           variants={backdropVariants}
           initial="hidden"
           animate="visible"
@@ -58,6 +58,7 @@ const Modal = ({
           style={{ backgroundColor: backdropColor }}
         >
           <motion.div
+            className={styles.modal}
             variants={modalVariants}
             initial="hidden"
             animate="visible"

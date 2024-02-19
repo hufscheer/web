@@ -1,3 +1,4 @@
+import { theme } from '@hcc/styles/dist/theme.css';
 import { style } from '@vanilla-extract/css';
 
 export const backdrop = style({
@@ -10,4 +11,8 @@ export const backdrop = style({
   alignItems: 'center',
   justifyContent: 'center',
   zIndex: 2048,
+});
+
+export const modal = style({
+  width: theme.sizes.appWidth,
 });
