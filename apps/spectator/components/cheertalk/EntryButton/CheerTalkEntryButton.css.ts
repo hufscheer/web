@@ -27,4 +27,5 @@ export const cheerTalkEntryButton = style({
 export const cheerTalkEntryButtonIcon = style({
   width: rem(18),
   height: rem(18),
+  color: 'white',
 });

@@ -1,13 +1,6 @@
 import { rem, theme } from '@hcc/styles';
 import { style, styleVariants } from '@vanilla-extract/css';
 
-export const blocked = style({
-  borderRadius: '0.75rem',
-  borderWidth: 1,
-  background: theme.colors.gray[2],
-  padding: '0.25rem 0.75rem',
-});
-
 const wrapperBase = style({
   display: 'flex',
   alignItems: 'flex-end',
@@ -21,8 +14,6 @@ export const wrapper = styleVariants({
 });
 
 export const teamLogo = style({
-  width: rem(24),
-  height: rem(24),
   userSelect: 'none',
   alignSelf: 'center',
 });
@@ -33,6 +24,8 @@ export const content = style({
   backgroundColor: '#F2F2F7',
   ...theme.textVariants.xs,
 });
+
+export const blockedContent = style([content, { marginBottom: rem(11) }]);
 
 const infoContainerBase = style({
   display: 'flex',

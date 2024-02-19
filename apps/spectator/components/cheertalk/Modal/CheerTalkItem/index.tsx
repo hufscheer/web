@@ -33,13 +33,17 @@ const CheerTalkItem = ({
 
   if (isBlocked)
     return (
-      <div className={styles.blocked}>⚠️ 관리자에 의해 차단된 댓글입니다.</div>
+      <div className={styles.blockedContent}>
+        ⚠️ 관리자에 의해 차단된 댓글입니다.
+      </div>
     );
 
   return (
     <li className={isEven ? styles.wrapper.even : styles.wrapper.odd}>
       <Image
-        src="https://hufs.ac.kr/favicon/ms-icon-144x144.png"
+        src=""
+        width={24}
+        height={24}
         className={styles.teamLogo}
         draggable={false}
         alt={'team'}

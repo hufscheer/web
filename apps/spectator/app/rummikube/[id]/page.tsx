@@ -1,10 +1,9 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
-import CheerTalkForm from 'components/cheertalk/Modal/CheerTalkForm';
-import CheerTalkList from 'components/cheertalk/Modal/CheerTalkList';
-
+import CheerTalkEntryButton from '@/components/cheertalk/EntryButton/CheerTalkEntryButton';
+import CheerTalkModal from '@/components/cheertalk/Modal/CheerTalkModal';
 import AsyncBoundary from '@/components/common/AsyncBoundary';
 import Loader from '@/components/common/Loader';
 import Lineup from '@/components/game/LineupList';
@@ -13,36 +12,17 @@ import RecordList from '@/components/game/RecordList';
 import Video from '@/components/game/Video';
 import Cheer from '@/components/rummikub/Cheer';
 import RummiKubGameBanner from '@/components/rummikub/GameBanner';
-import useSocket from '@/hooks/useSocket';
 import GameByIdFetcher from '@/queries/useGameById/Fetcher';
 import GameCheerByIdFetcher from '@/queries/useGameCheerById/Fetcher';
-import GameCheerTalkFetcher from '@/queries/useGameCheerTalkById/Fetcher';
 import GameLineupFetcher from '@/queries/useGameLineupById/Fetcher';
 import GameTimelineFetcher from '@/queries/useGameTimelineById/Fetcher';
 import GameVideoFetcher from '@/queries/useGameVideoById/Fetcher';
-import useSaveCheerTalkMutation from '@/queries/useSaveCheerTalkMutation/query';
-import { GameCheerTalkType } from '@/types/game';
 
 import * as styles from './page.css';
 
 export default function Rummikube({ params }: { params: { id: string } }) {
-  const [comments, setComments] = useState<GameCheerTalkType[]>([]);
+  const [isCheerTalkModalOpen, setIsCheerTalkModalOpen] = useState(false);
 
-  const handleSocketMessage = (comment: GameCheerTalkType) => {
-    if (comment) {
-      setComments(prev => [...prev, comment]);
-    }
-  };
-
-  const { connect } = useSocket({
-    url: 'wss://api.hufstreaming.site/ws',
-    destination: `/topic/games/${params.id}`,
-    callback: handleSocketMessage,
-  });
-
-  connect();
-
-  const { mutate } = useSaveCheerTalkMutation();
   const options = [
     { label: '라인업' },
     { label: '응원댓글' },
@@ -50,114 +30,90 @@ export default function Rummikube({ params }: { params: { id: string } }) {
     { label: '타임라인' },
   ];
 
-  const scrollRef = useRef(null);
-  const scrollToBottom = () => {
-    if (!scrollRef.current) return;
-
-    (scrollRef.current as HTMLDivElement).scrollIntoView();
-  };
-
   return (
-    <section>
-      <AsyncBoundary
-        errorFallback={props => <RummiKubGameBanner.ErrorFallback {...props} />}
-        loadingFallback={<RummiKubGameBanner.Skeleton />}
-      >
-        <GameByIdFetcher gameId={params.id}>
-          {data => <RummiKubGameBanner {...data} />}
-        </GameByIdFetcher>
-      </AsyncBoundary>
-
-      <AsyncBoundary
-        errorFallback={props => <Cheer.ErrorFallback {...props} />}
-        loadingFallback={<Loader />}
-      >
-        <GameCheerByIdFetcher gameId={params.id}>
-          {({ cheers, gameTeams }) => (
-            <Cheer gameId={params.id} cheers={cheers} gameTeams={gameTeams} />
+    <>
+      <section>
+        <AsyncBoundary
+          errorFallback={props => (
+            <RummiKubGameBanner.ErrorFallback {...props} />
           )}
-        </GameCheerByIdFetcher>
-      </AsyncBoundary>
-      <Panel options={options} defaultValue="라인업">
-        {({ selected }) => (
-          <>
-            {selected === '라인업' && (
-              <AsyncBoundary
-                errorFallback={props => <Lineup.ErrorFallback {...props} />}
-                loadingFallback={<Loader />}
-              >
-                <GameLineupFetcher gameId={params.id}>
-                  {([firstTeam, secondTeam]) => (
-                    <div className={styles.lineupSection}>
-                      <Lineup {...firstTeam} />
-                      <Lineup {...secondTeam} />
-                    </div>
-                  )}
-                </GameLineupFetcher>
-              </AsyncBoundary>
+          loadingFallback={<RummiKubGameBanner.Skeleton />}
+        >
+          <GameByIdFetcher gameId={params.id}>
+            {data => <RummiKubGameBanner {...data} />}
+          </GameByIdFetcher>
+        </AsyncBoundary>
+
+        <AsyncBoundary
+          errorFallback={props => <Cheer.ErrorFallback {...props} />}
+          loadingFallback={<Loader />}
+        >
+          <GameCheerByIdFetcher gameId={params.id}>
+            {({ cheers, gameTeams }) => (
+              <Cheer gameId={params.id} cheers={cheers} gameTeams={gameTeams} />
             )}
-            {selected === '타임라인' && (
-              <AsyncBoundary
-                errorFallback={props => <RecordList.ErrorFallback {...props} />}
-                loadingFallback={<Loader />}
-              >
-                <GameTimelineFetcher gameId={params.id}>
-                  {([firstHalf, secondHalf]) => (
-                    <div className={styles.timelineSection}>
-                      <RecordList {...firstHalf} />
-                      <RecordList {...secondHalf} />
-                    </div>
+          </GameCheerByIdFetcher>
+        </AsyncBoundary>
+        <Panel options={options} defaultValue="라인업">
+          {({ selected }) => (
+            <>
+              {selected === '라인업' && (
+                <AsyncBoundary
+                  errorFallback={props => <Lineup.ErrorFallback {...props} />}
+                  loadingFallback={<Loader />}
+                >
+                  <GameLineupFetcher gameId={params.id}>
+                    {([firstTeam, secondTeam]) => (
+                      <div className={styles.lineupSection}>
+                        <Lineup {...firstTeam} />
+                        <Lineup {...secondTeam} />
+                      </div>
+                    )}
+                  </GameLineupFetcher>
+                </AsyncBoundary>
+              )}
+              {selected === '타임라인' && (
+                <AsyncBoundary
+                  errorFallback={props => (
+                    <RecordList.ErrorFallback {...props} />
                   )}
-                </GameTimelineFetcher>
-              </AsyncBoundary>
-            )}
-            {selected === '응원댓글' && (
-              <AsyncBoundary
-                errorFallback={props => (
-                  <CheerTalkList.ErrorFallback {...props} />
-                )}
-                loadingFallback={<Loader />}
-              >
-                <GameCheerTalkFetcher gameId={params.id}>
-                  {({ gameTalkList, gameTeams, ...data }) => (
-                    <div className={styles.cheerTalkSection.div}>
-                      <ul style={{ paddingBottom: '2rem' }}>
-                        <CheerTalkList
-                          cheerTalkList={gameTalkList.pages.flat()}
-                          scrollToBottom={scrollToBottom}
-                          {...data}
-                        />
-                        <CheerTalkList.SocketList commentList={comments} />
-                        <li ref={scrollRef}></li>
-                      </ul>
-                      <CheerTalkForm
-                        gameTeams={gameTeams}
-                        gameId={params.id}
-                        mutate={mutate}
-                        scrollToBottom={scrollToBottom}
-                      />
-                    </div>
-                  )}
-                </GameCheerTalkFetcher>
-              </AsyncBoundary>
-            )}
-            {selected === '경기영상' && (
-              <AsyncBoundary
-                errorFallback={props => <Video.ErrorFallback {...props} />}
-                loadingFallback={<Loader />}
-              >
-                <GameVideoFetcher gameId={params.id}>
-                  {data => (
-                    <div className={styles.videoSection}>
-                      <Video {...data} />
-                    </div>
-                  )}
-                </GameVideoFetcher>
-              </AsyncBoundary>
-            )}
-          </>
-        )}
-      </Panel>
-    </section>
+                  loadingFallback={<Loader />}
+                >
+                  <GameTimelineFetcher gameId={params.id}>
+                    {([firstHalf, secondHalf]) => (
+                      <div className={styles.timelineSection}>
+                        <RecordList {...firstHalf} />
+                        <RecordList {...secondHalf} />
+                      </div>
+                    )}
+                  </GameTimelineFetcher>
+                </AsyncBoundary>
+              )}
+              {selected === '응원댓글' && <></>}
+              {selected === '경기영상' && (
+                <AsyncBoundary
+                  errorFallback={props => <Video.ErrorFallback {...props} />}
+                  loadingFallback={<Loader />}
+                >
+                  <GameVideoFetcher gameId={params.id}>
+                    {data => (
+                      <div className={styles.videoSection}>
+                        <Video {...data} />
+                      </div>
+                    )}
+                  </GameVideoFetcher>
+                </AsyncBoundary>
+              )}
+            </>
+          )}
+        </Panel>
+        <CheerTalkEntryButton onClick={() => setIsCheerTalkModalOpen(true)} />
+      </section>
+      <CheerTalkModal
+        isOpen={isCheerTalkModalOpen}
+        onClose={() => setIsCheerTalkModalOpen(false)}
+        gameId={params.id}
+      />
+    </>
   );
 }

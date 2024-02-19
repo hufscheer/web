@@ -1,6 +1,7 @@
 import { Modal } from '@hcc/ui';
 import { useRef, useState } from 'react';
 
+import Banner from 'components/cheertalk/Modal/Banner';
 import CheerTalkForm from 'components/cheertalk/Modal/CheerTalkForm';
 import CheerTalkList from 'components/cheertalk/Modal/CheerTalkList';
 
@@ -48,33 +49,21 @@ const CheerTalkModal = ({ isOpen, onClose, gameId }: CheerTalkModalProps) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className={styles.cheerTalkModalWrapper}>
+      <div className={styles.wrapper}>
+        {/* Game Banner */}
         <AsyncBoundary
           errorFallback={props => <>{props}</>}
           loadingFallback={<></>}
         >
           <GameByIdFetcher gameId={gameId}>
-            {data => {
-              const [firstTeam, secondTeam] = data.gameTeams;
-              return (
-                <div className={styles.cheerTalkModalHeader}>
-                  <span>
-                    <span>{firstTeam.gameTeamName}</span>
-                    <span>{firstTeam.score}</span>
-                    <span>
-                      <span>{data.gameQuarter}</span>
-                      <span>{data.startTime}</span>
-                    </span>
-                    <span>{secondTeam.gameTeamName}</span>
-                    <span>{secondTeam.score}</span>
-                    {/* close */}
-                  </span>
-                </div>
-              );
-            }}
+            {data => <Banner game={data} onClose={onClose} />}
           </GameByIdFetcher>
         </AsyncBoundary>
-        <div className={styles.cheerTalkModalTimeline}></div>
+
+        {/* Game Timeline */}
+        <div className={styles.timeline}></div>
+
+        {/* CheerTalk List */}
         <AsyncBoundary
           errorFallback={props => <CheerTalkList.ErrorFallback {...props} />}
           loadingFallback={<Loader />}

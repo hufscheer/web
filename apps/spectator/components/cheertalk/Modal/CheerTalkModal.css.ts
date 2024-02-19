@@ -1,7 +1,7 @@
 import { rem, theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 
-export const cheerTalkModalWrapper = style({
+export const wrapper = style({
   display: 'flex',
   flexDirection: 'column',
   height: '100vh',
@@ -9,16 +9,7 @@ export const cheerTalkModalWrapper = style({
   backgroundColor: theme.colors.background.normal,
 });
 
-export const cheerTalkModalHeader = style({
-  position: 'relative',
-  display: 'flex',
-  flexShrink: 0,
-  justifyContent: 'center',
-  alignItems: 'center',
-  backgroundColor: theme.colors.primary[1],
-});
-
-export const cheerTalkModalTimeline = style({
+export const timeline = style({
   display: 'flex',
   flexShrink: 0,
   height: rem(42),
@@ -37,7 +28,7 @@ export const cheerTalkListContainer = style({
 export const cheerTalkList = style([
   cheerTalkListContainer,
   {
-    padding: `0 ${rem(16)}`,
+    padding: `${rem(16)} ${rem(16)} 0 ${rem(16)}`,
     overflowY: 'auto',
   },
 ]);
