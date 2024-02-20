@@ -15,11 +15,11 @@ import { GameCheerTalkType } from '@/types/game';
 
 import * as styles from './CheerTalkModal.css';
 
-type CheerTalkModalProps = {
+interface CheerTalkModalProps {
   isOpen: boolean;
   onClose: () => void;
   gameId: string;
-};
+}
 
 const CheerTalkModal = ({ isOpen, onClose, gameId }: CheerTalkModalProps) => {
   const [cheerTalks, setCheerTalks] = useState<GameCheerTalkType[]>([]);

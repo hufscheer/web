@@ -48,7 +48,7 @@ const CheerTalkForm = ({
   return (
     <>
       <form
-        className={styles.cheerTalkForm}
+        className={styles.form}
         onSubmit={e =>
           handleCheerTalkSubmit(e, {
             gameTeamId: Number(gameId),
@@ -56,15 +56,15 @@ const CheerTalkForm = ({
           })
         }
       >
-        <fieldset className={styles.cheerTalkRadioBox}>
+        <fieldset className={styles.radioBox}>
           {gameTeams.map(team => (
-            <label key={team.gameTeamId} className={styles.cheerTalkRadioField}>
+            <label key={team.gameTeamId} className={styles.radioField}>
               <input
                 type="radio"
                 checked={selectedTeamId === team.gameTeamId}
                 value={team.gameTeamId}
                 onChange={handleRadioClick}
-                className={styles.cheerTalkRadioInput}
+                className={styles.radioInput}
               />
               {team.gameTeamName}
             </label>

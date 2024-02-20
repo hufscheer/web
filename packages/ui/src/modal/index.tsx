@@ -53,7 +53,6 @@ const Modal = ({
           variants={backdropVariants}
           initial="hidden"
           animate="visible"
-          exit="hidden"
           onClick={handleBackdropClick}
           style={{ backgroundColor: backdropColor }}
         >
@@ -62,7 +61,6 @@ const Modal = ({
             variants={modalVariants}
             initial="hidden"
             animate="visible"
-            exit="hidden"
             onClick={e => e.stopPropagation()}
           >
             {children}

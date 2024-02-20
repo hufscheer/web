@@ -1,8 +1,10 @@
 import { MenuIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import Image from 'next/image';
+import { useState } from 'react';
 
-import useReportCheerTalkMutation from '@/queries/useReportCheerTalkMutation/query';
+import CheerTalkMenuModal from 'components/cheertalk/Modal/CheerTalkMenuModal';
+
 import { parseTimeString } from '@/utils/time';
 
 import * as styles from './CheerTalkItem.css';
@@ -22,11 +24,7 @@ const CheerTalkItem = ({
   isBlocked,
   createdAt,
 }: CheerTalkItemProps) => {
-  const { mutate } = useReportCheerTalkMutation();
-
-  const handleClickReportButton = (payload: { cheerTalkId: number }): void => {
-    mutate(payload);
-  };
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   const isEven: boolean = order % 2 === 0;
   const { period, hours, minutes } = parseTimeString(createdAt);
@@ -39,32 +37,40 @@ const CheerTalkItem = ({
     );
 
   return (
-    <li className={isEven ? styles.wrapper.even : styles.wrapper.odd}>
-      <Image
-        src=""
-        width={24}
-        height={24}
-        className={styles.teamLogo}
-        draggable={false}
-        alt={'team'}
-      />
-      <div className={styles.content}>{content}</div>
-      <div
-        className={
-          isEven ? styles.infoContainer.even : styles.infoContainer.odd
-        }
-      >
-        <time className={styles.time}>
-          {`${period} ${hours}:${minutes.toString().padStart(2, '0')}`}
-        </time>
-        <button
-          className={styles.menuButton}
-          onClick={() => handleClickReportButton({ cheerTalkId })}
+    <>
+      <li className={isEven ? styles.wrapper.even : styles.wrapper.odd}>
+        <Image
+          src="https://github.com/hufs-sports-live/server/assets/77621712/db8f425a-43ee-4426-9317-8d2623aab4e3"
+          width={24}
+          height={24}
+          className={styles.teamLogo}
+          draggable={false}
+          alt={'team'}
+        />
+        <div className={styles.content}>{content}</div>
+        <div
+          className={
+            isEven ? styles.infoContainer.even : styles.infoContainer.odd
+          }
         >
-          <Icon source={MenuIcon} className={styles.menuButtonIcon} />
-        </button>
-      </div>
-    </li>
+          <time className={styles.time}>
+            {`${period} ${hours}:${minutes.toString().padStart(2, '0')}`}
+          </time>
+          <button
+            className={styles.menuButton}
+            onClick={() => setIsMenuOpen(true)}
+          >
+            <Icon source={MenuIcon} className={styles.menuButtonIcon} />
+          </button>
+        </div>
+      </li>
+      <CheerTalkMenuModal
+        cheerTalkId={cheerTalkId}
+        content={content}
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
+      />
+    </>
   );
 };
 

@@ -8,7 +8,7 @@ export const banner = style({
   justifyContent: 'center',
   alignItems: 'center',
   padding: `${rem(4)} 0`,
-  backgroundColor: theme.colors.primary[1],
+  backgroundColor: theme.colors.gray[2],
   gap: rem(16),
 });
 

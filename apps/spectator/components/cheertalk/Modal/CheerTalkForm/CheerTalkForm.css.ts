@@ -1,7 +1,7 @@
 import { rem, theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 
-export const cheerTalkForm = style({
+export const form = style({
   position: 'relative',
   display: 'flex',
   flexDirection: 'column',
@@ -9,12 +9,12 @@ export const cheerTalkForm = style({
   gap: rem(4),
 });
 
-export const cheerTalkRadioBox = style({
+export const radioBox = style({
   display: 'flex',
   gap: rem(4),
 });
 
-export const cheerTalkRadioField = style({
+export const radioField = style({
   display: 'flex',
   alignItems: 'center',
   gap: rem(4),
@@ -22,7 +22,7 @@ export const cheerTalkRadioField = style({
   ...theme.textVariants.xs,
 });
 
-export const cheerTalkRadioInput = style({
+export const radioInput = style({
   width: rem(12),
   height: rem(12),
   border: 'none',
