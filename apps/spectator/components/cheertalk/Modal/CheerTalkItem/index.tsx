@@ -3,8 +3,7 @@ import { Icon } from '@hcc/ui';
 import Image from 'next/image';
 import { useState } from 'react';
 
-import CheerTalkMenuModal from 'components/cheertalk/Modal/CheerTalkMenuModal';
-
+import CheerTalkMenuModal from '@/components/cheertalk/Modal/CheerTalkMenuModal';
 import { parseTimeString } from '@/utils/time';
 
 import * as styles from './CheerTalkItem.css';
