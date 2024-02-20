@@ -1,13 +1,10 @@
 import { ChatIcon } from '@hcc/icons';
 import { Icon, Tooltip } from '@hcc/ui';
-import { ButtonHTMLAttributes, useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState, MouseEvent, ComponentProps } from 'react';
 
 import * as styles from './CheerTalkEntryButton.css';
 
-const CheerTalkEntryButton = ({
-  onClick: parentOnClick,
-  ...buttonProps
-}: ButtonHTMLAttributes<HTMLButtonElement>) => {
+const CheerTalkEntryButton = ({ ...props }: ComponentProps<'button'>) => {
   const [isCheerTalkTooltipVisible, setIsCheerTalkTooltipVisible] =
     useState(true);
 
@@ -21,7 +18,7 @@ const CheerTalkEntryButton = ({
   const handleButtonClick = (event: MouseEvent<HTMLButtonElement>) => {
     setIsCheerTalkTooltipVisible(false);
     window.localStorage.setItem('cheertalk', JSON.stringify(false));
-    if (parentOnClick) parentOnClick(event);
+    if (props.onClick) props.onClick(event);
   };
 
   return (
@@ -35,7 +32,7 @@ const CheerTalkEntryButton = ({
         <div className={styles.cheerTalkEntryButtonContent}>
           <button
             className={styles.cheerTalkEntryButton}
-            {...buttonProps}
+            {...props}
             onClick={handleButtonClick}
           >
             <Icon

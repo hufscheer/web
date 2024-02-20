@@ -46,49 +46,44 @@ const CheerTalkForm = ({
   );
 
   return (
-    <>
-      <form
-        className={styles.form}
-        onSubmit={e =>
-          handleCheerTalkSubmit(e, {
-            gameTeamId: Number(gameId),
-            content: inputValue,
-          })
-        }
-      >
-        <fieldset className={styles.radioBox}>
-          {gameTeams.map(team => (
-            <label key={team.gameTeamId} className={styles.radioField}>
-              <input
-                type="radio"
-                checked={selectedTeamId === team.gameTeamId}
-                value={team.gameTeamId}
-                onChange={handleRadioClick}
-                className={styles.radioInput}
-              />
-              {team.gameTeamName}
-            </label>
-          ))}
-        </fieldset>
-        <div className={styles.cheerTalkInputContainer}>
-          <input
-            className={styles.cheerTalkInput}
-            value={inputValue}
-            onChange={e => setInputValue(e.target.value)}
-            placeholder="응원톡을 남겨보세요!"
-          />
-          <button className={styles.cheerTalkSendButton}>
-            <Icon source={SendIcon} className={styles.cheerTalkSendIcon} />
-          </button>
-        </div>
-        <button
-          className={styles.scrollToBottomButton}
-          onClick={scrollToBottom}
-        >
-          <Icon source={ArrowDownIcon} className={styles.scrollToBottomIcon} />
+    <form
+      className={styles.form}
+      onSubmit={e =>
+        handleCheerTalkSubmit(e, {
+          gameTeamId: Number(gameId),
+          content: inputValue,
+        })
+      }
+    >
+      <fieldset className={styles.radioBox}>
+        {gameTeams.map(team => (
+          <label key={team.gameTeamId} className={styles.radioField}>
+            <input
+              type="radio"
+              checked={selectedTeamId === team.gameTeamId}
+              value={team.gameTeamId}
+              onChange={handleRadioClick}
+              className={styles.radioInput}
+            />
+            {team.gameTeamName}
+          </label>
+        ))}
+      </fieldset>
+      <div className={styles.cheerTalkInputContainer}>
+        <input
+          className={styles.cheerTalkInput}
+          value={inputValue}
+          onChange={e => setInputValue(e.target.value)}
+          placeholder="응원톡을 남겨보세요!"
+        />
+        <button className={styles.cheerTalkSendButton}>
+          <Icon source={SendIcon} className={styles.cheerTalkSendIcon} />
         </button>
-      </form>
-    </>
+      </div>
+      <button className={styles.scrollToBottomButton} onClick={scrollToBottom}>
+        <Icon source={ArrowDownIcon} className={styles.scrollToBottomIcon} />
+      </button>
+    </form>
   );
 };
 
