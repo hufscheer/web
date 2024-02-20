@@ -34,6 +34,7 @@
     "uuid": "^9.0.1"
   },
   "dependencies": {
-    "@vanilla-extract/css": "^1.14.0"
+    "@vanilla-extract/css": "^1.14.0",
+    "framer-motion": "^11.0.5"
   }
 }

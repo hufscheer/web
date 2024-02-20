@@ -48,8 +48,8 @@ export type GamePlayerType = {
   description: string;
 };
 
-export type GameCommentType = {
-  commentId: number;
+export type GameCheerTalkType = {
+  cheerTalkId: number;
   content: string;
   gameTeamId: number;
   createdAt: string;
@@ -57,8 +57,8 @@ export type GameCommentType = {
   order: number;
 };
 
-export type GameCommentPayload = Pick<
-  GameCommentType,
+export type GameCheerTalkPayload = Pick<
+  GameCheerTalkType,
   'gameTeamId' | 'content'
 >;
 

@@ -3,15 +3,15 @@ import {
   useSuspenseQuery,
 } from '@tanstack/react-query';
 
-import { getGameById, getGameCommentById } from '@/api/game';
+import { getGameById, getGameCheerTalkById } from '@/api/game';
 
-export default function useGameCommentById(gameId: string) {
+export default function useGameCheerTalkById(gameId: string) {
   const { data, error, fetchNextPage, hasNextPage, isFetching } =
     useSuspenseInfiniteQuery({
-      queryKey: ['game-comment', gameId],
+      queryKey: ['game-cheertalk', gameId],
       initialPageParam: 0,
-      queryFn: ({ pageParam }) => getGameCommentById(gameId, pageParam || ''),
-      getNextPageParam: lastPage => lastPage[0]?.commentId || null,
+      queryFn: ({ pageParam }) => getGameCheerTalkById(gameId, pageParam || ''),
+      getNextPageParam: lastPage => lastPage[0]?.cheerTalkId || null,
       select: data => ({
         pages: [...data.pages].reverse(),
         pageParams: [...data.pageParams].reverse(),
@@ -19,13 +19,13 @@ export default function useGameCommentById(gameId: string) {
     });
 
   const { data: gameTeams, error: gameError } = useSuspenseQuery({
-    queryKey: ['game-detail', 'for-comment', gameId],
+    queryKey: ['game-detail', 'for-cheertalk', gameId],
     queryFn: () => getGameById(gameId),
     select: data => data.gameTeams,
   });
 
   return {
-    commentList: data,
+    cheerTalkList: data,
     gameTeams,
     fetchNextPage,
     hasNextPage,

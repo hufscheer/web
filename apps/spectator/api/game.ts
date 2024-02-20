@@ -1,8 +1,8 @@
 import instance from '@/api';
 import {
   GameCheerType,
-  GameCommentPayload,
-  GameCommentType,
+  GameCheerTalkPayload,
+  GameCheerTalkType,
   GameLineupType,
   GameListType,
   GameStatus,
@@ -52,14 +52,6 @@ export const postCheer = async ({
   return await instance.post(`/games/${gameId}/cheer`, payload);
 };
 
-export const getGameComments = async (gameId: string, cursor = 1) => {
-  const response = await instance.get<GameCommentType[]>(
-    `/games/${gameId}/comments?cursor=${cursor}`,
-  );
-
-  return response.data;
-};
-
 export const getGameTimelineById = async (gameId: string) => {
   const { data } = await instance.get<GameTimelineType[]>(
     `/games/${gameId}/timeline`,
@@ -82,22 +74,22 @@ export const getGameVideoById = async (gameId: string) => {
   return data;
 };
 
-export const getGameCommentById = async (
+export const getGameCheerTalkById = async (
   gameId: string,
   cursor: number | string,
   size = 20,
 ) => {
-  const { data } = await instance.get<GameCommentType[]>(
-    `/games/${gameId}/comments?cursor=${cursor}&size=${size}`,
+  const { data } = await instance.get<GameCheerTalkType[]>(
+    `/games/${gameId}/cheer-talks?cursor=${cursor}&size=${size}`,
   );
 
   return data;
 };
 
-export const postGameComment = async (payload: GameCommentPayload) => {
-  await instance.post(`/comments`, payload);
+export const postGameCheerTalk = async (payload: GameCheerTalkPayload) => {
+  await instance.post(`/cheer-talks`, payload);
 };
 
-export const postReportComment = async (payload: { commentId: number }) => {
+export const postReportCheerTalk = async (payload: { cheerTalkId: number }) => {
   await instance.post(`/reports`, payload);
 };

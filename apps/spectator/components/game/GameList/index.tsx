@@ -108,7 +108,10 @@ GameList.Skeleton = function Skeleton() {
   return (
     <>
       {[...Array(iterCount)].map(idx => (
-        <div key={idx} className={styles.skeleton.wrapper}>
+        <div
+          key={idx + crypto.randomUUID()}
+          className={styles.skeleton.wrapper}
+        >
           <div className={styles.skeleton.label} />
           <div className={styles.skeleton.content} />
         </div>
