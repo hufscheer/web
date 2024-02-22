@@ -12,8 +12,9 @@ export default function useGameById(gameId: string) {
     queryFn: () => getGameById(gameId),
   });
 
+  if (error) throw error;
+
   return {
     gameDetail: data,
-    error,
   };
 }
