@@ -11,6 +11,8 @@ import Header from '@/components/layout/Header';
 import GoogleAnalytics from './GoogleAnalytics';
 import ReactQueryProvider from './ReactQueryProvider';
 
+import 'dayjs/locale/ko';
+
 interface RootLayoutProps {
   children: ReactNode;
 }
@@ -30,7 +32,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body style={{ margin: 'auto', maxWidth: theme.sizes.appWidth }}>
         <ReactQueryProvider>
           <Header />
-          <main style={{ paddingLeft: '1rem', paddingRight: '1rem' }}>
+          <main>
             {children}
             <Analytics />
           </main>
