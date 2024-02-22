@@ -1,8 +1,8 @@
 import { CrossIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
+import dayjs from 'dayjs';
 
 import { GameType } from '@/types/game';
-import { parseTimeString } from '@/utils/time';
 
 import * as styles from './Banner.css';
 
@@ -13,7 +13,6 @@ interface HeaderProps {
 
 const Banner = ({ game, onClose }: HeaderProps) => {
   const [firstTeam, secondTeam] = game.gameTeams;
-  const { hours, minutes } = parseTimeString(game.startTime);
 
   return (
     <div className={styles.banner}>
@@ -22,8 +21,7 @@ const Banner = ({ game, onClose }: HeaderProps) => {
       <span className={styles.gameQuarterContainer}>
         <span className={styles.gameQuarter}>{game.gameQuarter}</span>
         <span className={styles.gameStartTime}>
-          {hours.toString().padStart(2, '0')}:
-          {minutes.toString().padStart(2, '0')}
+          {dayjs(game.startTime).format('hh:mm')}
         </span>
       </span>
       <span className={styles.teamScore}>{secondTeam.score}</span>
