@@ -53,7 +53,7 @@ export const theme = createGlobalTheme(':root', {
       '6': '#28323C',
     },
     background: {
-      normal: 'white',
+      normal: '#FFFFFF',
       secondary: '#F7F8F9',
       light: '#D5D5DC',
     },
@@ -69,6 +69,15 @@ export const theme = createGlobalTheme(':root', {
 
   fonts: {
     body: `"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif`,
+  },
+
+  spaces: {
+    xxs: rem(4),
+    xs: rem(8),
+    sm: rem(12),
+    default: rem(16),
+    lg: rem(24),
+    xl: rem(32),
   },
 
   textVariants: {
@@ -107,7 +116,7 @@ export const theme = createGlobalTheme(':root', {
       fontWeight: '400',
       lineHeight: 'normal',
     },
-    '2xs': {
+    xxs: {
       fontSize: rem(10),
       fontWeight: '400',
       lineHeight: 'normal',
