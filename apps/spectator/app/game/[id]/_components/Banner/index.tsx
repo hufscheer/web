@@ -1,6 +1,5 @@
-import dayjs from 'dayjs';
-
 import useGameById from '@/queries/useGameById';
+import { formatTime } from '@/utils/time';
 
 import * as styles from './Banner.css';
 import BannerTeam from './Team';
@@ -22,7 +21,7 @@ export default function Banner({ gameId }: BannerProps) {
           <span className={styles.badge}>{gameDetail.gameQuarter}</span>
           <span className={styles.round}>{gameDetail.gameName}</span>
           <time className={styles.time}>
-            {dayjs(gameDetail.startTime).format('MM.DD. hh:mm')}
+            {formatTime(gameDetail.startTime, 'MM.DD. hh:mm')}
           </time>
         </div>
         <span className={styles.score}>{secondTeam.score}</span>

@@ -1,8 +1,8 @@
 import { CrossIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
-import dayjs from 'dayjs';
 
 import { GameType } from '@/types/game';
+import { formatTime } from '@/utils/time';
 
 import * as styles from './Banner.css';
 
@@ -21,7 +21,7 @@ const Banner = ({ game, onClose }: HeaderProps) => {
       <span className={styles.gameQuarterContainer}>
         <span className={styles.gameQuarter}>{game.gameQuarter}</span>
         <span className={styles.gameStartTime}>
-          {dayjs(game.startTime).format('hh:mm')}
+          {formatTime(game.startTime, 'hh:mm')}
         </span>
       </span>
       <span className={styles.teamScore}>{secondTeam.score}</span>
