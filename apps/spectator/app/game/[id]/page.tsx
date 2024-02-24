@@ -6,20 +6,17 @@ import CheerTalkEntryButton from '@/components/cheertalk/EntryButton/CheerTalkEn
 import CheerTalkModal from '@/components/cheertalk/Modal/CheerTalkModal';
 import AsyncBoundary from '@/components/common/AsyncBoundary';
 import Loader from '@/components/common/Loader';
-import FconlineUserLineup from '@/components/fcOnline/UserInfo';
-import GameBanner from '@/components/game/Banner';
 import Cheer from '@/components/game/Cheer';
 import Lineup from '@/components/game/LineupList';
 import Panel from '@/components/game/Panel';
 import RecordList from '@/components/game/RecordList';
 import Video from '@/components/game/Video';
-import FconlineLineupFetcher from '@/queries/useFconlineLineupById/Fetcher';
-import GameByIdFetcher from '@/queries/useGameById/Fetcher';
 import GameCheerByIdFetcher from '@/queries/useGameCheerById/Fetcher';
-import GameTimelineFetcher from '@/queries/useGameTimelineById/Fetcher';
-import GameVideoFetcher from '@/queries/useGameVideoById/Fetcher';
 
-import * as styles from './page.css';
+import Banner from './_components/Banner';
+import BannerFallback from './_components/Banner/Error';
+import BannerSkeleton from './_components/Banner/Skeleton';
+// import * as styles from './page.css';
 
 export default function Game({ params }: { params: { id: string } }) {
   const [isCheerTalkModalOpen, setIsCheerTalkModalOpen] = useState(false);
@@ -35,12 +32,10 @@ export default function Game({ params }: { params: { id: string } }) {
     <>
       <section>
         <AsyncBoundary
-          errorFallback={props => <GameBanner.ErrorFallback {...props} />}
-          loadingFallback={<GameBanner.Skeleton />}
+          errorFallback={() => <BannerFallback />}
+          loadingFallback={<BannerSkeleton />}
         >
-          <GameByIdFetcher gameId={params.id}>
-            {data => <GameBanner {...data} />}
-          </GameByIdFetcher>
+          <Banner gameId={params.id} />
         </AsyncBoundary>
         <AsyncBoundary
           errorFallback={props => <Cheer.ErrorFallback {...props} />}
@@ -60,7 +55,8 @@ export default function Game({ params }: { params: { id: string } }) {
                   errorFallback={props => <Lineup.ErrorFallback {...props} />}
                   loadingFallback={<Loader />}
                 >
-                  <FconlineLineupFetcher gameId={params.id}>
+                  <div></div>
+                  {/* <FconlineLineupFetcher gameId={params.id}>
                     {({ mergedUserInfo }) => (
                       <FconlineUserLineup userInfos={mergedUserInfo} />
                       // <div className="grid grid-cols-2 py-5 [&>*:first-child>ul]:before:absolute [&>*:first-child>ul]:before:right-0 [&>*:first-child>ul]:before:h-full [&>*:first-child>ul]:before:border-l-2 [&>*:first-child>ul]:before:bg-gray-2">
@@ -68,7 +64,7 @@ export default function Game({ params }: { params: { id: string } }) {
                       //   <Lineup {...secondTeam} />
                       // </div>
                     )}
-                  </FconlineLineupFetcher>
+                  </FconlineLineupFetcher> */}
                 </AsyncBoundary>
               )}
               {selected === '타임라인' && (
@@ -78,14 +74,15 @@ export default function Game({ params }: { params: { id: string } }) {
                   )}
                   loadingFallback={<Loader />}
                 >
-                  <GameTimelineFetcher gameId={params.id}>
+                  <div></div>
+                  {/* <GameTimelineFetcher gameId={params.id}>
                     {([firstHalf, secondHalf]) => (
                       <div className={styles.timelineSection}>
                         <RecordList {...firstHalf} />
                         <RecordList {...secondHalf} />
                       </div>
                     )}
-                  </GameTimelineFetcher>
+                  </GameTimelineFetcher> */}
                 </AsyncBoundary>
               )}
               {selected === '응원댓글' && <></>}
@@ -94,13 +91,14 @@ export default function Game({ params }: { params: { id: string } }) {
                   errorFallback={props => <Video.ErrorFallback {...props} />}
                   loadingFallback={<Loader />}
                 >
-                  <GameVideoFetcher gameId={params.id}>
+                  <div></div>
+                  {/* <GameVideoFetcher gameId={params.id}>
                     {data => (
                       <div className={styles.videoSection}>
                         <Video {...data} />
                       </div>
                     )}
-                  </GameVideoFetcher>
+                  </GameVideoFetcher> */}
                 </AsyncBoundary>
               )}
             </>

@@ -1,29 +1,28 @@
 import { CrossIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 
-import { GameType } from '@/types/game';
-import { parseTimeString } from '@/utils/time';
+import useGameById from '@/queries/useGameById';
+import { formatTime } from '@/utils/time';
 
 import * as styles from './Banner.css';
 
 interface HeaderProps {
-  game: GameType;
+  gameId: string;
   onClose: () => void;
 }
 
-const Banner = ({ game, onClose }: HeaderProps) => {
-  const [firstTeam, secondTeam] = game.gameTeams;
-  const { hours, minutes } = parseTimeString(game.startTime);
+const Banner = ({ gameId, onClose }: HeaderProps) => {
+  const { gameDetail } = useGameById(gameId);
+  const [firstTeam, secondTeam] = gameDetail.gameTeams;
 
   return (
     <div className={styles.banner}>
       <span className={styles.teamName}>{firstTeam.gameTeamName}</span>
       <span className={styles.teamScore}>{firstTeam.score}</span>
       <span className={styles.gameQuarterContainer}>
-        <span className={styles.gameQuarter}>{game.gameQuarter}</span>
+        <span className={styles.gameQuarter}>{gameDetail.gameQuarter}</span>
         <span className={styles.gameStartTime}>
-          {hours.toString().padStart(2, '0')}:
-          {minutes.toString().padStart(2, '0')}
+          {formatTime(gameDetail.startTime, 'hh:mm')}
         </span>
       </span>
       <span className={styles.teamScore}>{secondTeam.score}</span>

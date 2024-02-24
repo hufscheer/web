@@ -1,9 +1,11 @@
 import { theme } from '@hcc/styles';
 import { styleVariants } from '@vanilla-extract/css';
 
+import {
+  base,
+  rkGameBanner,
+} from '@/app/rummikube/[id]/_components/Banner/Banner.css';
 import { gameCard } from '@/components/game/GameList/gameList.css';
-
-import { base, rkGameBanner } from '../GameBanner/GameBanner.css';
 
 export const rkGameItem = styleVariants({
   frame: [gameCard.frame],

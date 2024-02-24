@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 const weekdays = ['일', '월', '화', '수', '목', '금', '토'] as const;
 
 export const parseTimeString = (timeString: string) => {
@@ -13,4 +15,8 @@ export const parseTimeString = (timeString: string) => {
     minutes: date.getMinutes(),
     seconds: date.getSeconds(),
   };
+};
+
+export const formatTime = (time: string | Date, format: string) => {
+  return dayjs(time).format(format);
 };

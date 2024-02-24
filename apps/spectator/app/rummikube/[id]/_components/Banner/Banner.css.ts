@@ -5,7 +5,7 @@ import {
   errorFallback as ogErrorFallback,
   gameBanner as ogGameBanner,
   skeleton as ogSkeleton,
-} from '../../game/Banner/Banner.css';
+} from '@/components/game/Banner/Banner.css';
 
 export const base = style({
   display: 'flex',

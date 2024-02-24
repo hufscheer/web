@@ -8,7 +8,6 @@ import CheerTalkList from 'components/cheertalk/Modal/CheerTalkList';
 import AsyncBoundary from '@/components/common/AsyncBoundary';
 import Loader from '@/components/common/Loader';
 import useSocket from '@/hooks/useSocket';
-import GameByIdFetcher from '@/queries/useGameById/Fetcher';
 import GameCheerTalkFetcher from '@/queries/useGameCheerTalkById/Fetcher';
 import useSaveCheerTalkMutation from '@/queries/useSaveCheerTalkMutation/query';
 import { GameCheerTalkType } from '@/types/game';
@@ -55,9 +54,7 @@ const CheerTalkModal = ({ isOpen, onClose, gameId }: CheerTalkModalProps) => {
           errorFallback={props => <>{props}</>}
           loadingFallback={<></>}
         >
-          <GameByIdFetcher gameId={gameId}>
-            {data => <Banner game={data} onClose={onClose} />}
-          </GameByIdFetcher>
+          <Banner gameId={gameId} onClose={onClose} />
         </AsyncBoundary>
 
         {/* Game Timeline */}

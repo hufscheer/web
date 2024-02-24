@@ -2,7 +2,7 @@ import { FallbackProps } from '@/components/common/ErrorBoundary';
 import { GameCard } from '@/components/common/GameCard';
 import { GameType } from '@/types/game';
 
-import * as styles from './GameBanner.css';
+import * as styles from './Banner.css';
 
 export default function RummiKubGameBanner(game: GameType) {
   return (
