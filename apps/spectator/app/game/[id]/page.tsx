@@ -6,7 +6,6 @@ import CheerTalkEntryButton from '@/components/cheertalk/EntryButton/CheerTalkEn
 import CheerTalkModal from '@/components/cheertalk/Modal/CheerTalkModal';
 import AsyncBoundary from '@/components/common/AsyncBoundary';
 import Loader from '@/components/common/Loader';
-import GameBanner from '@/components/game/Banner';
 import Cheer from '@/components/game/Cheer';
 import Lineup from '@/components/game/LineupList';
 import Panel from '@/components/game/Panel';
@@ -15,6 +14,8 @@ import Video from '@/components/game/Video';
 import GameCheerByIdFetcher from '@/queries/useGameCheerById/Fetcher';
 
 import Banner from './_components/Banner';
+import BannerFallback from './_components/Banner/Error';
+import BannerSkeleton from './_components/Banner/Skeleton';
 // import * as styles from './page.css';
 
 export default function Game({ params }: { params: { id: string } }) {
@@ -31,8 +32,8 @@ export default function Game({ params }: { params: { id: string } }) {
     <>
       <section>
         <AsyncBoundary
-          errorFallback={props => <GameBanner.ErrorFallback {...props} />}
-          loadingFallback={<GameBanner.Skeleton />}
+          errorFallback={() => <BannerFallback />}
+          loadingFallback={<BannerSkeleton />}
         >
           <Banner gameId={params.id} />
         </AsyncBoundary>
