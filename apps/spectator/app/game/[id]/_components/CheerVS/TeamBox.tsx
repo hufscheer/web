@@ -55,7 +55,7 @@ export default function CheerTeamBox({
     <button
       className={styles.cheerTeam[direction]}
       style={assignInlineVars({
-        [styles.cheerWidth]: `${(cheerCount / fullCheerCount) * 100}%`,
+        [styles.cheerWidth]: `${(cheerCount / fullCheerCount) * 100 || 50}%`,
       })}
       onClick={handleCheerClick}
     >
