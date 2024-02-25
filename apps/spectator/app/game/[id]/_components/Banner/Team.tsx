@@ -16,7 +16,7 @@ export default function BannerTeam({ team }: BannerTeamProps) {
         alt={`${team.gameTeamName} logo image`}
         width={50}
         height={50}
-        layout="fixed"
+        priority={true}
         className={styles.logo}
       />
       <strong className={styles.teamName}>{team.gameTeamName}</strong>
