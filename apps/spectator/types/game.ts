@@ -46,6 +46,8 @@ export type GameLineupType = {
 export type GamePlayerType = {
   playerName: string;
   description: string;
+  number: number;
+  isCaptain: boolean;
 };
 
 export type GameCheerTalkType = {
