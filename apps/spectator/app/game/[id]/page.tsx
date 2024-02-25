@@ -17,9 +17,8 @@ import * as styles from './page.css';
 export default function Page({ params }: { params: { id: string } }) {
   const options = [
     { label: '라인업' },
-    { label: '응원댓글' },
-    { label: '경기영상' },
     { label: '타임라인' },
+    { label: '경기영상' },
   ];
 
   return (
@@ -61,16 +60,7 @@ export default function Page({ params }: { params: { id: string } }) {
                   errorFallback={() => <div>에러</div>}
                   loadingFallback={<Loader />}
                 >
-                  <div></div>
-                  {/* <FconlineLineupFetcher gameId={params.id}>
-                    {({ mergedUserInfo }) => (
-                      <FconlineUserLineup userInfos={mergedUserInfo} />
-                      // <div className="grid grid-cols-2 py-5 [&>*:first-child>ul]:before:absolute [&>*:first-child>ul]:before:right-0 [&>*:first-child>ul]:before:h-full [&>*:first-child>ul]:before:border-l-2 [&>*:first-child>ul]:before:bg-gray-2">
-                      //   <Lineup {...firstTeam} />
-                      //   <Lineup {...secondTeam} />
-                      // </div>
-                    )}
-                  </FconlineLineupFetcher> */}
+                  <Lineup gameId={params.id} />
                 </AsyncBoundary>
               )}
               {selected === '타임라인' && (
@@ -89,7 +79,6 @@ export default function Page({ params }: { params: { id: string } }) {
                   </GameTimelineFetcher> */}
                 </AsyncBoundary>
               )}
-              {selected === '응원댓글' && <></>}
               {selected === '경기영상' && (
                 <AsyncBoundary
                   errorFallback={() => <div>에러</div>}
