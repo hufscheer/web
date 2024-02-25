@@ -1,9 +1,10 @@
-import { theme } from '@hcc/styles';
+import { rem, theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 
 export const root = style({
   display: 'flex',
   justifyContent: 'space-between',
+  alignItems: 'baseline',
   gap: '20px',
 
   width: '100%',
@@ -26,6 +27,7 @@ export const logo = style({
 });
 
 export const teamName = style({
+  ...theme.textVariants.xs,
   fontWeight: 'bold',
 });
 
@@ -39,6 +41,7 @@ export const scoreBoard = style({
 
 export const score = style({
   ...theme.textVariants.heading1,
+  fontSize: rem(56),
   fontWeight: 'bold',
 });
 
