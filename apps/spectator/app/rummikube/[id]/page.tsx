@@ -12,7 +12,6 @@ import Panel from '@/components/game/Panel';
 import RecordList from '@/components/game/RecordList';
 import Video from '@/components/game/Video';
 import Cheer from '@/components/rummikub/Cheer';
-import useGameById from '@/queries/useGameById';
 import GameCheerByIdFetcher from '@/queries/useGameCheerById/Fetcher';
 import GameLineupFetcher from '@/queries/useGameLineupById/Fetcher';
 import GameTimelineFetcher from '@/queries/useGameTimelineById/Fetcher';
@@ -22,7 +21,6 @@ import * as styles from './page.css';
 
 export default function Rummikube({ params }: { params: { id: string } }) {
   const [isCheerTalkModalOpen, setIsCheerTalkModalOpen] = useState(false);
-  const { gameDetail } = useGameById(params.id);
 
   const options = [
     { label: '라인업' },
@@ -40,7 +38,7 @@ export default function Rummikube({ params }: { params: { id: string } }) {
           )}
           loadingFallback={<RummiKubGameBanner.Skeleton />}
         >
-          <RummiKubGameBanner {...gameDetail} />
+          <RummiKubGameBanner gameId={params.id} />
         </AsyncBoundary>
 
         <AsyncBoundary

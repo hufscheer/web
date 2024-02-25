@@ -1,12 +1,14 @@
 import { FallbackProps } from '@/components/common/ErrorBoundary';
 import { GameCard } from '@/components/common/GameCard';
-import { GameType } from '@/types/game';
+import useGameById from '@/queries/useGameById';
 
 import * as styles from './Banner.css';
 
-export default function RummiKubGameBanner(game: GameType) {
+export default function RummiKubGameBanner({ gameId }: { gameId: string }) {
+  const { gameDetail } = useGameById(gameId);
+
   return (
-    <GameCard {...game} className={styles.rkGameBanner.frame}>
+    <GameCard {...gameDetail} className={styles.rkGameBanner.frame}>
       <GameCard.Label className={styles.rkGameBanner.label} />
       <div className={styles.rkGameBanner.cardWrapper}>
         <GameCard.Background
