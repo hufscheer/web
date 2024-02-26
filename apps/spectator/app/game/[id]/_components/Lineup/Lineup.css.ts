@@ -13,7 +13,7 @@ export const lineup = styleVariants({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spaces.sm,
-    padding: `0 ${rem(20)}`,
+    paddingInline: rem(20),
     selectors: {
       '&:first-of-type': {
         borderRight: `2px solid ${theme.colors.gray[3]}`,
