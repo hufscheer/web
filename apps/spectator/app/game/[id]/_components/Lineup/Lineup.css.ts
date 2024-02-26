@@ -50,7 +50,7 @@ const itemBase = styleVariants({
     height: rem(32),
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 9999,
+    borderRadius: '100%,'
   },
   player: { ...theme.textVariants.xs, color: theme.colors.gray[6] },
 });
