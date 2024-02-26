@@ -7,7 +7,7 @@ export const lineup = styleVariants({
     gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: `${theme.spaces.default} 0`,
+    paddingBlock: theme.spaces.default,
   },
   wrapper: {
     display: 'flex',
