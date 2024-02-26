@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import Live from '@/app/_components/Live';
 import CheerTalkEntryButton from '@/components/cheertalk/EntryButton/CheerTalkEntryButton';
 import CheerTalkModal from '@/components/cheertalk/Modal/CheerTalkModal';
 import AsyncBoundary from '@/components/common/AsyncBoundary';
@@ -16,7 +17,8 @@ import GameCheerByIdFetcher from '@/queries/useGameCheerById/Fetcher';
 import Banner from './_components/Banner';
 import BannerFallback from './_components/Banner/Error';
 import BannerSkeleton from './_components/Banner/Skeleton';
-// import * as styles from './page.css';
+import CheerTalkInReal from './_components/CheerTalk/OnAir';
+import * as styles from './page.css';
 
 export default function Game({ params }: { params: { id: string } }) {
   const [isCheerTalkModalOpen, setIsCheerTalkModalOpen] = useState(false);
@@ -47,6 +49,21 @@ export default function Game({ params }: { params: { id: string } }) {
             )}
           </GameCheerByIdFetcher>
         </AsyncBoundary>
+
+        <section className={styles.cheerTalk.section}>
+          <div className={styles.cheerTalk.header}>
+            <h2 className={styles.cheerTalk.title}>실시간 응원톡</h2>
+            <Live />
+          </div>
+
+          <AsyncBoundary
+            errorFallback={() => <div>에러</div>}
+            loadingFallback={<div>로딩</div>}
+          >
+            <CheerTalkInReal gameId={params.id} />
+          </AsyncBoundary>
+        </section>
+
         <Panel options={options} defaultValue="라인업">
           {({ selected }) => (
             <>
