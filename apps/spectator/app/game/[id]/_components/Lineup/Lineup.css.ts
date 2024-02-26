@@ -7,13 +7,13 @@ export const lineup = styleVariants({
     gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: `${theme.spaces.default} 0`,
+    paddingBlock: theme.spaces.default,
   },
   wrapper: {
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spaces.sm,
-    padding: `0 ${rem(20)}`,
+    paddingInline: rem(20),
     selectors: {
       '&:first-of-type': {
         borderRight: `2px solid ${theme.colors.gray[3]}`,
@@ -50,7 +50,7 @@ const itemBase = styleVariants({
     height: rem(32),
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 9999,
+    borderRadius: '100%,'
   },
   player: { ...theme.textVariants.xs, color: theme.colors.gray[6] },
 });

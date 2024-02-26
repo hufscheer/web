@@ -4,7 +4,7 @@ import { style, styleVariants } from '@vanilla-extract/css';
 const panelItemBase = style({
   ...theme.textVariants.default,
   textAlign: 'center',
-  padding: `${rem(16)} 0`,
+  paddingBlock: rem(16),
   color: theme.colors.gray[4],
   borderTop: `solid ${theme.colors.gray[2]}`,
   borderBottom: `solid ${theme.colors.gray[2]}`,
