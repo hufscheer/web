@@ -1,6 +1,3 @@
-import { CrossIcon } from '@hcc/icons';
-import { Icon } from '@hcc/ui';
-
 import useGameById from '@/queries/useGameById';
 import { formatTime } from '@/utils/time';
 
@@ -8,10 +5,9 @@ import * as styles from './Banner.css';
 
 interface HeaderProps {
   gameId: string;
-  onClose: () => void;
 }
 
-const Banner = ({ gameId, onClose }: HeaderProps) => {
+const Banner = ({ gameId }: HeaderProps) => {
   const { gameDetail } = useGameById(gameId);
   const [firstTeam, secondTeam] = gameDetail.gameTeams;
 
@@ -27,11 +23,6 @@ const Banner = ({ gameId, onClose }: HeaderProps) => {
       </span>
       <span className={styles.teamScore}>{secondTeam.score}</span>
       <span className={styles.teamName}>{secondTeam.gameTeamName}</span>
-
-      {/* close */}
-      <button className={styles.headerCloseButton} onClick={onClose}>
-        <Icon source={CrossIcon} className={styles.headerCloseIcon} />
-      </button>
     </div>
   );
 };

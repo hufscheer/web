@@ -1,8 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-
-import CheerTalkEntryButton from '@/components/cheertalk/EntryButton/CheerTalkEntryButton';
 import CheerTalkModal from '@/components/cheertalk/Modal/CheerTalkModal';
 import AsyncBoundary from '@/components/common/AsyncBoundary';
 import Loader from '@/components/common/Loader';
@@ -19,8 +16,6 @@ import CheerVSFallback from './_components/CheerVS/Error';
 // import * as styles from './page.css';
 
 export default function Game({ params }: { params: { id: string } }) {
-  const [isCheerTalkModalOpen, setIsCheerTalkModalOpen] = useState(false);
-
   const options = [
     { label: '라인업' },
     { label: '응원댓글' },
@@ -101,13 +96,8 @@ export default function Game({ params }: { params: { id: string } }) {
             </>
           )}
         </Panel>
-        <CheerTalkEntryButton onClick={() => setIsCheerTalkModalOpen(true)} />
+        <CheerTalkModal gameId={params.id} />
       </section>
-      <CheerTalkModal
-        isOpen={isCheerTalkModalOpen}
-        onClose={() => setIsCheerTalkModalOpen(false)}
-        gameId={params.id}
-      />
     </>
   );
 }
