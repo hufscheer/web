@@ -7,16 +7,16 @@ import CheerTalkEntryButton from '@/components/cheertalk/EntryButton/CheerTalkEn
 import CheerTalkModal from '@/components/cheertalk/Modal/CheerTalkModal';
 import AsyncBoundary from '@/components/common/AsyncBoundary';
 import Loader from '@/components/common/Loader';
-import Cheer from '@/components/game/Cheer';
 import Lineup from '@/components/game/LineupList';
 import Panel from '@/components/game/Panel';
 import RecordList from '@/components/game/RecordList';
 import Video from '@/components/game/Video';
-import GameCheerByIdFetcher from '@/queries/useGameCheerById/Fetcher';
 
 import Banner from './_components/Banner';
 import BannerFallback from './_components/Banner/Error';
 import BannerSkeleton from './_components/Banner/Skeleton';
+import CheerVS from './_components/CheerVS';
+import CheerVSFallback from './_components/CheerVS/Error';
 import CheerTalkInReal from './_components/CheerTalk/OnAir';
 import * as styles from './page.css';
 
@@ -39,15 +39,12 @@ export default function Game({ params }: { params: { id: string } }) {
         >
           <Banner gameId={params.id} />
         </AsyncBoundary>
+
         <AsyncBoundary
-          errorFallback={props => <Cheer.ErrorFallback {...props} />}
+          errorFallback={() => <CheerVSFallback />}
           loadingFallback={<Loader />}
         >
-          <GameCheerByIdFetcher gameId={params.id}>
-            {({ cheers, gameTeams }) => (
-              <Cheer gameId={params.id} cheers={cheers} gameTeams={gameTeams} />
-            )}
-          </GameCheerByIdFetcher>
+          <CheerVS gameId={params.id} />
         </AsyncBoundary>
 
         <section className={styles.cheerTalk.section}>
