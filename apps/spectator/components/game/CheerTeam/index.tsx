@@ -5,7 +5,7 @@ import { clsx } from 'clsx';
 import { ComponentProps, useEffect, useState } from 'react';
 
 import useQueryDebounce from '@/hooks/useQueryDebounce';
-import useCheerMutation from '@/queries/useCheerMutation/query';
+import useCheerMutation from '@/queries/useRummiCheerMutation/query';
 
 import { button } from './CheerTeam.css';
 interface CheerTeamType extends ComponentProps<'button'> {

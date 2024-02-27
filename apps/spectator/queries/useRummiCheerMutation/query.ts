@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { postCheer } from '@/api/game';
 
-export default function useCheerMutation({
+export default function useRummiCheerMutation({
   gameTeamId,
   gameId,
 }: {
