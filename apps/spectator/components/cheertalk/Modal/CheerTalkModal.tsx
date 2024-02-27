@@ -1,4 +1,4 @@
-import { Modal } from '@hcc/ui';
+import { Dialog } from '@hcc/ui';
 import { useRef, useState } from 'react';
 
 import Banner from 'components/cheertalk/Modal/Banner';
@@ -13,14 +13,13 @@ import useSaveCheerTalkMutation from '@/queries/useSaveCheerTalkMutation/query';
 import { GameCheerTalkType } from '@/types/game';
 
 import * as styles from './CheerTalkModal.css';
+import CheerTalkEntryButton from '../EntryButton/CheerTalkEntryButton';
 
 interface CheerTalkModalProps {
-  isOpen: boolean;
-  onClose: () => void;
   gameId: string;
 }
 
-const CheerTalkModal = ({ isOpen, onClose, gameId }: CheerTalkModalProps) => {
+const CheerTalkModal = ({ gameId }: CheerTalkModalProps) => {
   const [cheerTalks, setCheerTalks] = useState<GameCheerTalkType[]>([]);
 
   const handleSocketMessage = (cheerTalk: GameCheerTalkType) => {
@@ -47,14 +46,17 @@ const CheerTalkModal = ({ isOpen, onClose, gameId }: CheerTalkModalProps) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <div className={styles.wrapper}>
+    <Dialog>
+      <Dialog.Trigger>
+        <CheerTalkEntryButton />
+      </Dialog.Trigger>
+      <Dialog.Content className={styles.wrapper}>
         {/* Game Banner */}
         <AsyncBoundary
           errorFallback={props => <>{props}</>}
           loadingFallback={<></>}
         >
-          <Banner gameId={gameId} onClose={onClose} />
+          <Banner gameId={gameId} />
         </AsyncBoundary>
 
         {/* Game Timeline */}
@@ -87,8 +89,9 @@ const CheerTalkModal = ({ isOpen, onClose, gameId }: CheerTalkModalProps) => {
             )}
           </GameCheerTalkFetcher>
         </AsyncBoundary>
-      </div>
-    </Modal>
+        <Dialog.Close />
+      </Dialog.Content>
+    </Dialog>
   );
 };
 

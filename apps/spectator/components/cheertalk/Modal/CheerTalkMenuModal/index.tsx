@@ -1,5 +1,6 @@
 import { ExclamationCircleFillIcon } from '@hcc/icons';
-import { Icon, Modal } from '@hcc/ui';
+import { Icon, Dialog } from '@hcc/ui';
+import { ReactNode } from 'react';
 
 import useReportCheerTalkMutation from '@/queries/useReportCheerTalkMutation/query';
 
@@ -8,33 +9,34 @@ import * as styles from './CheerTalkMenuModal.css';
 interface CheerTalkMenuModalProps {
   cheerTalkId: number;
   content: string;
-  isOpen: boolean;
-  onClose: () => void;
+  className: string;
+  children: ReactNode;
 }
 
 const CheerTalkMenuModal = ({
   cheerTalkId,
   content,
-  isOpen,
-  onClose,
+  className,
+  children,
 }: CheerTalkMenuModalProps) => {
   const { mutate, isSuccess } = useReportCheerTalkMutation();
 
   const handleReportButton = (payload: { cheerTalkId: number }): void => {
     if (isSuccess) {
       alert('이미 신고했습니다!');
+
       return;
     }
 
     mutate(payload);
-    onClose();
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <div className={styles.container}>
+    <Dialog>
+      <Dialog.Trigger className={className}>{children}</Dialog.Trigger>
+      <Dialog.Content className={styles.container}>
         <p className={styles.content}>{content}</p>
-        <button
+        <Dialog.Close
           className={styles.menuBlock}
           onClick={() => handleReportButton({ cheerTalkId })}
         >
@@ -43,9 +45,9 @@ const CheerTalkMenuModal = ({
             source={ExclamationCircleFillIcon}
             className={styles.menuIcon}
           />
-        </button>
-      </div>
-    </Modal>
+        </Dialog.Close>
+      </Dialog.Content>
+    </Dialog>
   );
 };
 
