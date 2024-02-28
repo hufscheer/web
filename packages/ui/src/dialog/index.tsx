@@ -1,40 +1,40 @@
 import { AnimatePresence } from 'framer-motion';
 import { createContext, useCallback, useState } from 'react';
 
-import ModalClose from './Close';
-import ModalContent from './Content';
-import ModalTrigger from './Trigger';
+import DialogClose from './Close';
+import DialogContent from './Content';
+import DialogTrigger from './Trigger';
 
-type ModalContext = {
+type DialogContext = {
   open: boolean;
   onOpenChange(open: boolean): void;
   onOpenToggle(): void;
 };
 
-export const ModalContext = createContext<ModalContext>({
+export const DialogContext = createContext<DialogContext>({
   open: false,
   onOpenChange: () => {},
   onOpenToggle: () => {},
 });
 
-type ModalRootProps = {
+type DialogProps = {
   children: React.ReactNode;
 };
 
-const Modal = ({ children }: ModalRootProps) => {
+const Dialog = ({ children }: DialogProps) => {
   const [open, setOpen] = useState(false);
   const onOpenChange = useCallback((open: boolean) => setOpen(open), []);
   const onOpenToggle = useCallback(() => setOpen(prev => !prev), []);
 
   return (
-    <ModalContext.Provider value={{ open, onOpenChange, onOpenToggle }}>
+    <DialogContext.Provider value={{ open, onOpenChange, onOpenToggle }}>
       <AnimatePresence mode="wait">{children}</AnimatePresence>
-    </ModalContext.Provider>
+    </DialogContext.Provider>
   );
 };
 
-Modal.Close = ModalClose;
-Modal.Content = ModalContent;
-Modal.Trigger = ModalTrigger;
+Dialog.Close = DialogClose;
+Dialog.Content = DialogContent;
+Dialog.Trigger = DialogTrigger;
 
-export default Modal;
+export default Dialog;

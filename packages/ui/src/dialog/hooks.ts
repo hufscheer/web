@@ -1,12 +1,12 @@
 import { useContext } from 'react';
 
-import { ModalContext } from '.';
+import { DialogContext } from '.';
 
-export const useModal = () => {
-  const context = useContext(ModalContext);
+export const useDialog = () => {
+  const context = useContext(DialogContext);
 
   if (!context) {
-    throw new Error('useModal must be used within a ModalRoot');
+    throw new Error('useDialog must be used within a DialogRoot');
   }
 
   return context;

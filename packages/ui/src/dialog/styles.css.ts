@@ -13,7 +13,7 @@ export const backdrop = style({
   zIndex: 2048,
 });
 
-export const modal = style({
+export const content = style({
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spaces.default,
