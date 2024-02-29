@@ -11,14 +11,13 @@ import { GameCheerTalkType } from '@/types/game';
 
 import * as styles from './CheerTalkModal.css';
 import ModalSection from './Section';
+import CheerTalkEntryButton from '../EntryButton/CheerTalkEntryButton';
 
 interface CheerTalkModalProps {
-  isOpen: boolean;
-  onClose: () => void;
   gameId: string;
 }
 
-const CheerTalkModal = ({ isOpen, onClose, gameId }: CheerTalkModalProps) => {
+const CheerTalkModal = ({ gameId }: CheerTalkModalProps) => {
   const [cheerTalks, setCheerTalks] = useState<GameCheerTalkType[]>([]);
 
   const handleSocketMessage = (cheerTalk: GameCheerTalkType) => {
@@ -36,14 +35,17 @@ const CheerTalkModal = ({ isOpen, onClose, gameId }: CheerTalkModalProps) => {
   connect();
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <div className={styles.wrapper}>
+    <Modal>
+      <Modal.Trigger>
+        <CheerTalkEntryButton />
+      </Modal.Trigger>
+      <Modal.Content className={styles.wrapper}>
         {/* Game Banner */}
         <AsyncBoundary
           errorFallback={props => <>{props}</>}
           loadingFallback={<></>}
         >
-          <Banner gameId={gameId} onClose={onClose} />
+          <Banner gameId={gameId} />
         </AsyncBoundary>
 
         {/* Game Timeline */}
@@ -56,7 +58,8 @@ const CheerTalkModal = ({ isOpen, onClose, gameId }: CheerTalkModalProps) => {
         >
           <ModalSection gameId={gameId} cheerTalks={cheerTalks} />
         </AsyncBoundary>
-      </div>
+        <Modal.Close />
+      </Modal.Content>
     </Modal>
   );
 };

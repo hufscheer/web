@@ -1,10 +1,9 @@
 import { Modal } from '@hcc/ui';
 import { Meta, StoryObj } from '@storybook/react';
-import React, { useState } from 'react';
+import React from 'react';
 
 const meta: Meta = {
-  title: '@hcc/Modal',
-  component: Modal,
+  title: '@hcc/Dialog',
   parameters: {
     layout: 'centered',
   },
@@ -17,56 +16,22 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: () => {
-    const [isOpen, setIsOpen] = useState(false);
-
     return (
-      <>
-        <button onClick={() => setIsOpen(true)}>Open Modal</button>
-        <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-          <p>모달 내용이 여기에 표시됩니다.</p>
-          <button onClick={() => setIsOpen(false)}>Close</button>
-        </Modal>
-      </>
-    );
-  },
-};
+      <Modal>
+        <Modal.Trigger>버튼</Modal.Trigger>
 
-export const WithDisabledBackdrop: Story = {
-  render: () => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    return (
-      <>
-        <button onClick={() => setIsOpen(true)}>Open Modal</button>
-        <Modal
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-          disableBackdropClick
-        >
-          <p>배경 클릭으로 모달 닫히지 않게 변경</p>
-          <button onClick={() => setIsOpen(false)}>Close</button>
-        </Modal>
-      </>
-    );
-  },
-};
-
-export const WithDisableEscapeKeyDown: Story = {
-  render: () => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    return (
-      <>
-        <button onClick={() => setIsOpen(true)}>Open Modal</button>
-        <Modal
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-          disableEscapeKeyDown
-        >
-          <p>Escape 키로 모달 닫히지 않게 변경</p>
-          <button onClick={() => setIsOpen(false)}>Close</button>
-        </Modal>
-      </>
+        <Modal.Content>
+          <Modal.Close />
+          <div>
+            <h2 style={{ marginTop: 0 }}>모달 제목</h2>
+            <p>
+              모달 내용이 여기에 표시됩니다.모달 내용이 여기에 표시됩니다.모달
+              내용이 여기에 표시됩니다.모달 내용이 여기에 표시됩니다.
+            </p>
+            <Modal.Close as="button">Close</Modal.Close>
+          </div>
+        </Modal.Content>
+      </Modal>
     );
   },
 };

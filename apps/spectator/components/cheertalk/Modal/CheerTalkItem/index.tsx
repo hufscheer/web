@@ -1,7 +1,6 @@
 import { MenuIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import Image from 'next/image';
-import { useState } from 'react';
 
 import CheerTalkMenuModal from '@/components/cheertalk/Modal/CheerTalkMenuModal';
 import { parseTimeString } from '@/utils/time';
@@ -23,8 +22,6 @@ const CheerTalkItem = ({
   isBlocked,
   createdAt,
 }: CheerTalkItemProps) => {
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-
   const type: 'even' | 'odd' = order % 2 === 0 ? 'even' : 'odd';
   const { period, hours, minutes } = parseTimeString(createdAt);
 
@@ -51,20 +48,15 @@ const CheerTalkItem = ({
           <time className={styles.time}>
             {`${period} ${hours}:${minutes.toString().padStart(2, '0')}`}
           </time>
-          <button
+          <CheerTalkMenuModal
+            cheerTalkId={cheerTalkId}
+            content={content}
             className={styles.menuButton}
-            onClick={() => setIsMenuOpen(true)}
           >
             <Icon source={MenuIcon} className={styles.menuButtonIcon} />
-          </button>
+          </CheerTalkMenuModal>
         </div>
       </li>
-      <CheerTalkMenuModal
-        cheerTalkId={cheerTalkId}
-        content={content}
-        isOpen={isMenuOpen}
-        onClose={() => setIsMenuOpen(false)}
-      />
     </>
   );
 };

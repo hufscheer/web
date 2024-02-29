@@ -8,6 +8,8 @@ export const wrapper = style({
   maxWidth: theme.sizes.appWidth,
   width: '100%',
   backgroundColor: theme.colors.background.normal,
+  padding: 0,
+  borderRadius: 0,
 });
 
 export const timeline = style({
