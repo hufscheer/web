@@ -1,6 +1,6 @@
 import { MouseEvent, ReactNode, useState } from 'react';
 
-import { Dropdown } from '@/components/common/Dropdown';
+import { Dropdown } from '@/components/Dropdown';
 
 import { panel } from './Panel.css';
 
