@@ -1,4 +1,4 @@
-import { theme } from '@hcc/styles';
+import { rem, theme } from '@hcc/styles';
 import { keyframes, style } from '@vanilla-extract/css';
 
 export const root = style({
@@ -14,7 +14,7 @@ const ping = keyframes({
   },
   '70%': {
     transform: 'scale(1)',
-    boxShadow: `0 0 5px 2px ${theme.colors.indicatorRed[1]}`,
+    boxShadow: `0 0 ${rem(5)} ${rem(2)} ${theme.colors.indicatorRed[1]}`,
   },
   '100%': {
     transform: 'scale(0.9)',
@@ -22,8 +22,8 @@ const ping = keyframes({
 });
 
 export const redLight = style({
-  width: 8,
-  height: 8,
+  width: rem(8),
+  height: rem(8),
   aspectRatio: 1,
   backgroundColor: theme.colors.indicatorRed[3],
   borderRadius: '50%',
