@@ -1,6 +1,6 @@
 import { ElementType, forwardRef } from 'react';
 
-import { useDialog } from './hooks';
+import { useModal } from './hooks';
 import {
   PolymorphicComponentProps,
   PolymorphicComponentPropsWithRef,
@@ -12,11 +12,11 @@ type TriggerType = <C extends ElementType = 'button'>(
   props: PolymorphicComponentPropsWithRef<C, Props<C>>,
 ) => React.ReactNode;
 
-const DialogTrigger: TriggerType = forwardRef(function DialogTrigger<
+const ModalTrigger: TriggerType = forwardRef(function ModalTrigger<
   C extends ElementType = 'button',
 >({ as, children }: Props<C>, ref: PolymorphicRef<C>) {
   const Component = as || 'button';
-  const { onOpenToggle } = useDialog();
+  const { onOpenToggle } = useModal();
 
   return (
     <Component ref={ref} onClick={onOpenToggle}>
@@ -25,4 +25,4 @@ const DialogTrigger: TriggerType = forwardRef(function DialogTrigger<
   );
 });
 
-export default DialogTrigger;
+export default ModalTrigger;

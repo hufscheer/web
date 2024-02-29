@@ -1,7 +1,7 @@
 import { CrossIcon } from '@hcc/icons';
 import { ElementType, forwardRef } from 'react';
 
-import { useDialog } from './hooks';
+import { useModal } from './hooks';
 import * as styles from './styles.css';
 import {
   PolymorphicComponentProps,
@@ -15,11 +15,11 @@ type CloseType = <C extends ElementType = 'button'>(
   props: PolymorphicComponentPropsWithRef<C, Props<C>>,
 ) => React.ReactNode;
 
-const DialogClose: CloseType = forwardRef(function DialogClose<
+const ModalClose: CloseType = forwardRef(function ModalClose<
   C extends ElementType = 'button',
 >({ as, children, ...props }: Props<C>, ref: PolymorphicRef<C>) {
   const Component = as || 'button';
-  const { onOpenChange } = useDialog();
+  const { onOpenChange } = useModal();
 
   if (children) {
     return (
@@ -41,4 +41,4 @@ const DialogClose: CloseType = forwardRef(function DialogClose<
   );
 });
 
-export default DialogClose;
+export default ModalClose;

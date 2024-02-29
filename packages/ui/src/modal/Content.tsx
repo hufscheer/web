@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ElementType, forwardRef, useEffect } from 'react';
 
-import { useDialog } from './hooks';
+import { useModal } from './hooks';
 import * as styles from './styles.css';
 import {
   PolymorphicComponentProps,
@@ -15,12 +15,12 @@ const backdropVariants = {
   hidden: { opacity: 0 },
 };
 
-const dialogVariants = {
+const modalVariants = {
   hidden: { y: 8, opacity: 0 },
   visible: { y: 0, opacity: 1 },
 };
 
-type DialogContentProps = {
+type ModalContentProps = {
   disableBackdropClick?: boolean;
   disableEscapeKeyDown?: boolean;
   backdropColor?: string;
@@ -29,13 +29,13 @@ type DialogContentProps = {
 
 type Props<C extends ElementType> = PolymorphicComponentProps<
   C,
-  DialogContentProps
+  ModalContentProps
 >;
 type ContentType = <C extends ElementType = 'div'>(
   props: PolymorphicComponentPropsWithRef<C, Props<C>>,
 ) => React.ReactNode;
 
-const DialogContent: ContentType = forwardRef(function DialogContent<
+const ModalContent: ContentType = forwardRef(function ModalContent<
   C extends ElementType = 'div',
 >(
   {
@@ -47,7 +47,7 @@ const DialogContent: ContentType = forwardRef(function DialogContent<
   }: Props<C>,
   ref: PolymorphicRef<C>,
 ) {
-  const { open, onOpenChange } = useDialog();
+  const { open, onOpenChange } = useModal();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -78,7 +78,7 @@ const DialogContent: ContentType = forwardRef(function DialogContent<
           <motion.div
             ref={ref}
             className={clsx(styles.content, className)}
-            variants={dialogVariants}
+            variants={modalVariants}
             initial="hidden"
             animate="visible"
             exit="hidden"
@@ -92,4 +92,4 @@ const DialogContent: ContentType = forwardRef(function DialogContent<
   );
 });
 
-export default DialogContent;
+export default ModalContent;
