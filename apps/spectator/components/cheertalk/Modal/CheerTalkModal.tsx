@@ -1,4 +1,4 @@
-import { Dialog } from '@hcc/ui';
+import { Modal } from '@hcc/ui';
 import { useRef, useState } from 'react';
 
 import Banner from 'components/cheertalk/Modal/Banner';
@@ -46,11 +46,11 @@ const CheerTalkModal = ({ gameId }: CheerTalkModalProps) => {
   };
 
   return (
-    <Dialog>
-      <Dialog.Trigger>
+    <Modal>
+      <Modal.Trigger>
         <CheerTalkEntryButton />
-      </Dialog.Trigger>
-      <Dialog.Content className={styles.wrapper}>
+      </Modal.Trigger>
+      <Modal.Content className={styles.wrapper}>
         {/* Game Banner */}
         <AsyncBoundary
           errorFallback={props => <>{props}</>}
@@ -89,9 +89,9 @@ const CheerTalkModal = ({ gameId }: CheerTalkModalProps) => {
             )}
           </GameCheerTalkFetcher>
         </AsyncBoundary>
-        <Dialog.Close />
-      </Dialog.Content>
-    </Dialog>
+        <Modal.Close />
+      </Modal.Content>
+    </Modal>
   );
 };
 
