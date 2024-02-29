@@ -12,7 +12,7 @@ import CheerVS from './_components/CheerVS';
 import CheerVSFallback from './_components/CheerVS/Error';
 // import * as styles from './page.css';
 
-export default function Game({ params }: { params: { id: string } }) {
+export default function Page({ params }: { params: { id: string } }) {
   const options = [
     { label: '라인업' },
     { label: '응원댓글' },

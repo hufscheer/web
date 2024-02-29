@@ -17,7 +17,7 @@ import {
   statusCheckbox,
 } from './page.css';
 
-export default function Home() {
+export default function Page() {
   const { params, repeatIterator, appendToParams, setInParams } =
     useQueryParams();
 
