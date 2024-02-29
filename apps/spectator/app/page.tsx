@@ -1,11 +1,12 @@
 'use client';
 
-import AsyncBoundary from '@/components/common/AsyncBoundary';
-import GameList from '@/components/game/GameList';
+import Link from 'next/link';
+
+import AsyncBoundary from '@/components/AsyncBoundary';
 import SportsList from '@/components/league/SportsList';
+import Loader from '@/components/Loader';
 import { QUERY_PARAMS } from '@/constants/queryParams';
 import useQueryParams from '@/hooks/useQueryParams';
-import GameListFetcher from '@/queries/useGameList/Fetcher';
 import SportsListFetcher from '@/queries/useSportsListByLeagueId/Fetcher';
 import { GameStatus } from '@/types/game';
 
@@ -77,16 +78,12 @@ export default function Home() {
       </div>
 
       <AsyncBoundary
-        errorFallback={props => <GameList.ErrorFallback {...props} />}
-        loadingFallback={<GameList.Skeleton />}
+        errorFallback={() => <div>에러</div>}
+        loadingFallback={<Loader />}
       >
-        <GameListFetcher {...paramsObj}>
-          {({ gameList }) => (
-            <div className={gameListWrapper}>
-              <GameList gameList={gameList} />
-            </div>
-          )}
-        </GameListFetcher>
+        <Link href={`/game/52`}>
+          <div className={gameListWrapper}>임시 게임 아이템 {'->'} 클릭</div>
+        </Link>
       </AsyncBoundary>
     </section>
   );
