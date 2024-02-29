@@ -1,76 +1,40 @@
-import { AnimatePresence, motion } from 'framer-motion';
-import React, { ReactNode, useEffect } from 'react';
+import { AnimatePresence } from 'framer-motion';
+import { createContext, useCallback, useState } from 'react';
 
-import * as styles from './styles.css';
+import ModalClose from './Close';
+import ModalContent from './Content';
+import ModalTrigger from './Trigger';
 
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  children: ReactNode;
-  disableBackdropClick?: boolean;
-  disableEscapeKeyDown?: boolean;
-  backdropColor?: string;
-}
-
-const backdropVariants = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 },
+type ModalContext = {
+  open: boolean;
+  onOpenChange(open: boolean): void;
+  onOpenToggle(): void;
 };
 
-const modalVariants = {
-  hidden: { y: 8, opacity: 0 },
-  visible: { y: 0, opacity: 1 },
+export const ModalContext = createContext<ModalContext>({
+  open: false,
+  onOpenChange: () => {},
+  onOpenToggle: () => {},
+});
+
+type ModalProps = {
+  children: React.ReactNode;
 };
 
-const Modal = ({
-  isOpen,
-  onClose,
-  children,
-  disableBackdropClick = false,
-  disableEscapeKeyDown = false,
-  backdropColor = 'rgba(0, 0, 0, 0.5)',
-}: ModalProps) => {
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && !disableEscapeKeyDown) onClose();
-    };
-
-    if (isOpen) document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isOpen, onClose, disableEscapeKeyDown]);
-
-  const handleBackdropClick = () => {
-    if (!disableBackdropClick) onClose();
-  };
+const Modal = ({ children }: ModalProps) => {
+  const [open, setOpen] = useState(false);
+  const onOpenChange = useCallback((open: boolean) => setOpen(open), []);
+  const onOpenToggle = useCallback(() => setOpen(prev => !prev), []);
 
   return (
-    <AnimatePresence mode="wait">
-      {isOpen && (
-        <motion.div
-          className={styles.backdrop}
-          variants={backdropVariants}
-          initial="hidden"
-          animate="visible"
-          exit="hidden"
-          onClick={handleBackdropClick}
-          style={{ backgroundColor: backdropColor }}
-        >
-          <motion.div
-            className={styles.modal}
-            variants={modalVariants}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            onClick={e => e.stopPropagation()}
-          >
-            {children}
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <ModalContext.Provider value={{ open, onOpenChange, onOpenToggle }}>
+      <AnimatePresence mode="wait">{children}</AnimatePresence>
+    </ModalContext.Provider>
   );
 };
+
+Modal.Close = ModalClose;
+Modal.Content = ModalContent;
+Modal.Trigger = ModalTrigger;
 
 export default Modal;

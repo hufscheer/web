@@ -34,7 +34,9 @@
     "uuid": "^9.0.1"
   },
   "dependencies": {
+    "@hcc/icons": "workspace:^",
     "@vanilla-extract/css": "^1.14.0",
+    "clsx": "^2.1.0",
     "framer-motion": "^11.0.5"
   }
 }
