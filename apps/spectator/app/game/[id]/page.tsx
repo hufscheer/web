@@ -1,5 +1,6 @@
 'use client';
 
+import Live from '@/app/_components/Live';
 import CheerTalkModal from '@/components/cheertalk/Modal/CheerTalkModal';
 import AsyncBoundary from '@/components/common/AsyncBoundary';
 import Loader from '@/components/common/Loader';
@@ -13,7 +14,8 @@ import BannerFallback from './_components/Banner/Error';
 import BannerSkeleton from './_components/Banner/Skeleton';
 import CheerVS from './_components/CheerVS';
 import CheerVSFallback from './_components/CheerVS/Error';
-// import * as styles from './page.css';
+import CheerTalkInReal from './_components/CheerTalk/OnAir';
+import * as styles from './page.css';
 
 export default function Game({ params }: { params: { id: string } }) {
   const options = [
@@ -39,6 +41,21 @@ export default function Game({ params }: { params: { id: string } }) {
         >
           <CheerVS gameId={params.id} />
         </AsyncBoundary>
+
+        <section className={styles.cheerTalk.section}>
+          <div className={styles.cheerTalk.header}>
+            <h2 className={styles.cheerTalk.title}>실시간 응원톡</h2>
+            <Live />
+          </div>
+
+          <AsyncBoundary
+            errorFallback={() => <div>에러</div>}
+            loadingFallback={<div>로딩</div>}
+          >
+            <CheerTalkInReal gameId={params.id} />
+          </AsyncBoundary>
+        </section>
+
         <Panel options={options} defaultValue="라인업">
           {({ selected }) => (
             <>
