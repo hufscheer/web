@@ -6,10 +6,14 @@ export const useGameLineupById = (gameId: string) => {
   const { data, error } = useSuspenseQuery({
     queryKey: ['game-lineup', gameId],
     queryFn: () => getGameLineupById(gameId),
+    select: data =>
+      data.map(({ gameTeamPlayers, order }) => {
+        return { lineup: gameTeamPlayers, order };
+      }),
   });
 
   return {
-    lineup: data,
+    data,
     error,
   };
 };

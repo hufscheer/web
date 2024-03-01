@@ -1,5 +1,5 @@
 import { rem, theme } from '@hcc/styles';
-import { styleVariants } from '@vanilla-extract/css';
+import { style, styleVariants } from '@vanilla-extract/css';
 
 export const lineup = styleVariants({
   root: {
@@ -9,7 +9,7 @@ export const lineup = styleVariants({
     alignItems: 'center',
     paddingBlock: theme.spaces.default,
   },
-  wrapper: {
+  split: {
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spaces.sm,
@@ -20,8 +20,7 @@ export const lineup = styleVariants({
       },
     },
   },
-
-  ul: {
+  itemsWrapper: {
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spaces.xs,
@@ -41,58 +40,72 @@ export const team = styleVariants({
   },
 });
 
-const itemBase = styleVariants({
-  number: {
-    ...theme.textVariants.xs,
-    color: 'white',
-    display: 'flex',
-    width: rem(32),
-    height: rem(32),
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: '100%,'
-  },
-  player: { ...theme.textVariants.xs, color: theme.colors.gray[6] },
-});
-
 const color = {
-  first: theme.colors.indicatorBlue[3],
-  second: theme.colors.indicatorRed[3],
+  blue: theme.colors.indicatorBlue[3],
+  red: theme.colors.indicatorRed[3],
 };
 
+const playerBase = style({
+  ...theme.textVariants.xs,
+  color: theme.colors.gray[6],
+});
+
 export const item = styleVariants({
-  li: {
+  root: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     gap: rem(12),
   },
-  numberBlue: [itemBase.number, { background: color.first }],
-  numberRed: [itemBase.number, { background: color.second }],
   playerWrapper: { display: 'flex' },
-  player: [itemBase.player],
+  playerCaption: [playerBase],
   playerName: [
-    itemBase.player,
+    playerBase,
     {
       fontWeight: 600,
       marginRight: theme.spaces.xxs,
     },
   ],
-  captainBlue: {
-    fontSize: rem(6),
-    fontWeigth: 700,
-    color: 'white',
-    background: color.first,
-  },
-  captainRed: {
-    fontSize: rem(6),
-    fontWeigth: 700,
-    color: 'white',
-    background: color.second,
-  },
   empty: {
     width: theme.spaces.default,
   },
+});
+
+const backNumberBase = style({
+  ...theme.textVariants.xs,
+  color: 'white',
+  display: 'flex',
+  width: rem(32),
+  height: rem(32),
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: '100%',
+});
+
+export const backNumber = styleVariants({
+  blue: [
+    backNumberBase,
+    {
+      backgroundColor: color.blue,
+    },
+  ],
+  red: [
+    backNumberBase,
+    {
+      backgroundColor: color.red,
+    },
+  ],
+});
+
+const captainBase = style({
+  fontSize: rem(6),
+  fontWeight: 700,
+  color: 'white',
+});
+
+export const captain = styleVariants({
+  blue: [captainBase, { backgroundColor: color.blue }],
+  red: [captainBase, { backgroundColor: color.red }],
 });
 
 export const errorFallback = styleVariants({

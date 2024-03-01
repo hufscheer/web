@@ -6,9 +6,7 @@ const panelItemBase = style({
   textAlign: 'center',
   paddingBlock: rem(16),
   color: theme.colors.gray[4],
-  borderTop: `solid ${theme.colors.gray[2]}`,
-  borderBottom: `solid ${theme.colors.gray[2]}`,
-  borderWidth: 1,
+  borderBlock: `1px solid ${theme.colors.gray[2]}`,
 });
 
 export const panel = styleVariants({
@@ -27,8 +25,7 @@ export const panel = styleVariants({
       background: theme.colors.secondary[2],
       color: theme.colors.primary[3],
       borderTop: 0,
-      borderBottom: `solid ${theme.colors.primary[3]}`,
-      borderWidth: 0.5,
+      borderBottom: `0.5px solid ${theme.colors.primary[3]}`,
     },
   ],
 });

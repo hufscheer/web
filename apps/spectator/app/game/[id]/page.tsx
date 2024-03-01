@@ -1,7 +1,7 @@
 'use client';
 
-import AsyncBoundary from '@/components/AsyncBoundary';
 import Live from '@/app/_components/Live';
+import AsyncBoundary from '@/components/AsyncBoundary';
 import CheerTalkModal from '@/components/cheertalk/Modal/CheerTalkModal';
 import Loader from '@/components/Loader';
 import Panel from '@/components/Panel';
@@ -9,9 +9,10 @@ import Panel from '@/components/Panel';
 import Banner from './_components/Banner';
 import BannerFallback from './_components/Banner/Error';
 import BannerSkeleton from './_components/Banner/Skeleton';
+import CheerTalkInReal from './_components/CheerTalk/OnAir';
 import CheerVS from './_components/CheerVS';
 import CheerVSFallback from './_components/CheerVS/Error';
-import CheerTalkInReal from './_components/CheerTalk/OnAir';
+import Lineup from './_components/Lineup';
 import * as styles from './page.css';
 
 export default function Page({ params }: { params: { id: string } }) {

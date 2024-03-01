@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 import { GameTeamType } from '@/types/game';
 
-import * as styles from './Lineup.css';
+import * as styles from '../Lineup.css';
 
 type LineupTeamProps = {
   team: GameTeamType;
