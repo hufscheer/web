@@ -4,8 +4,8 @@ import { useState } from 'react';
 import Banner from 'components/cheertalk/Modal/Banner';
 import CheerTalkList from 'components/cheertalk/Modal/CheerTalkList';
 
-import AsyncBoundary from '@/components/common/AsyncBoundary';
-import Loader from '@/components/common/Loader';
+import AsyncBoundary from '@/components/AsyncBoundary';
+import Loader from '@/components/Loader';
 import useSocket from '@/hooks/useSocket';
 import { GameCheerTalkType } from '@/types/game';
 

@@ -3,7 +3,7 @@
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 
-import { FallbackProps } from '@/components/common/ErrorBoundary';
+import { FallbackProps } from '@/components/ErrorBoundary';
 import { COMMENT_API_ERROR_MESSAGE } from '@/constants/error';
 import useInfiniteObserver from '@/hooks/useInfiniteObserver';
 import { GameCheerTalkType } from '@/types/game';

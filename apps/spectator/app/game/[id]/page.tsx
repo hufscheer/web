@@ -1,13 +1,10 @@
 'use client';
 
+import AsyncBoundary from '@/components/AsyncBoundary';
 import Live from '@/app/_components/Live';
 import CheerTalkModal from '@/components/cheertalk/Modal/CheerTalkModal';
-import AsyncBoundary from '@/components/common/AsyncBoundary';
-import Loader from '@/components/common/Loader';
-import Lineup from '@/components/game/LineupList';
-import Panel from '@/components/game/Panel';
-import RecordList from '@/components/game/RecordList';
-import Video from '@/components/game/Video';
+import Loader from '@/components/Loader';
+import Panel from '@/components/Panel';
 
 import Banner from './_components/Banner';
 import BannerFallback from './_components/Banner/Error';
@@ -17,7 +14,7 @@ import CheerVSFallback from './_components/CheerVS/Error';
 import CheerTalkInReal from './_components/CheerTalk/OnAir';
 import * as styles from './page.css';
 
-export default function Game({ params }: { params: { id: string } }) {
+export default function Page({ params }: { params: { id: string } }) {
   const options = [
     { label: '라인업' },
     { label: '응원댓글' },
@@ -61,7 +58,7 @@ export default function Game({ params }: { params: { id: string } }) {
             <>
               {selected === '라인업' && (
                 <AsyncBoundary
-                  errorFallback={props => <Lineup.ErrorFallback {...props} />}
+                  errorFallback={() => <div>에러</div>}
                   loadingFallback={<Loader />}
                 >
                   <div></div>
@@ -78,9 +75,7 @@ export default function Game({ params }: { params: { id: string } }) {
               )}
               {selected === '타임라인' && (
                 <AsyncBoundary
-                  errorFallback={props => (
-                    <RecordList.ErrorFallback {...props} />
-                  )}
+                  errorFallback={() => <div>에러</div>}
                   loadingFallback={<Loader />}
                 >
                   <div></div>
@@ -97,7 +92,7 @@ export default function Game({ params }: { params: { id: string } }) {
               {selected === '응원댓글' && <></>}
               {selected === '경기영상' && (
                 <AsyncBoundary
-                  errorFallback={props => <Video.ErrorFallback {...props} />}
+                  errorFallback={() => <div>에러</div>}
                   loadingFallback={<Loader />}
                 >
                   <div></div>
