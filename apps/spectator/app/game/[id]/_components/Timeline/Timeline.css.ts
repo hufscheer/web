@@ -43,7 +43,7 @@ export const timingBase = style({
   padding: rem(4),
 });
 
-export const timing = styleVariants({
+export const timestamp = styleVariants({
   left: [
     timingBase,
     {
