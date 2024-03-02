@@ -23,7 +23,7 @@ export type GameCheerType = {
   cheerCount: number;
 };
 
-export type RecordsType = 'SCORE' | 'REPLACEMENT';
+export type RecordType = 'SCORE' | 'REPLACEMENT';
 
 type Snapshot = {
   teamName: string;
