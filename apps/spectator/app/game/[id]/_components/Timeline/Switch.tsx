@@ -2,7 +2,7 @@ import { SwitchIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import Image from 'next/image';
 
-import { ReplacementRecordType } from '@/types/game';
+import { GenericRecordType } from '@/types/game';
 
 import * as styles from './Timeline.css';
 
@@ -12,7 +12,7 @@ export default function SwitchTimeline({
   replacementRecord,
   teamImageUrl,
   teamName,
-}: ReplacementRecordType) {
+}: GenericRecordType<'REPLACEMENT'>) {
   return (
     <li key={recordedAt} className={styles.timeline}>
       <div className={styles.timingBase}>{recordedAt}′</div>

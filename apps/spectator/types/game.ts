@@ -39,29 +39,23 @@ type CommonRecordType = {
   teamImageUrl: string;
 };
 
-export type ScoreRecordType = CommonRecordType & {
-  type: 'SCORE';
-  scoreRecord: {
-    score: number;
-    snapshot: Snapshot[];
+export type ScoreRecord = { score: number; snapshot: Snapshot[] };
+export type ReplacementRecord = { replacedPlayerName: string };
+export type GenericRecordType<T extends 'SCORE' | 'REPLACEMENT'> =
+  CommonRecordType & {
+    type: T;
+    scoreRecord: T extends 'SCORE' ? ScoreRecord : null;
+    replacementRecord: T extends 'REPLACEMENT' ? ReplacementRecord : null;
   };
-  replacementRecord: null;
-};
 
-export type ReplacementRecordType = CommonRecordType & {
-  type: 'REPLACEMENT';
-  replacementRecord: {
-    replacedPlayerName: string;
-  };
-  scoreRecord: null;
-};
-
-export type GameRecordsType = ScoreRecordType | ReplacementRecordType;
+export type GameRecordType =
+  | GenericRecordType<'SCORE'>
+  | GenericRecordType<'REPLACEMENT'>;
 
 // TODO 추후 회의를 통해 Quarter 타입을 특정하고 유니온 타입으로 사용할 것
 export type GameTimelineType = {
   gameQuarter: string;
-  records: GameRecordsType[];
+  records: GameRecordType[];
 };
 
 export type GameLineupType = {

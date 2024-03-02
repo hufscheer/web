@@ -2,7 +2,7 @@ import { SoccerIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import Image from 'next/image';
 
-import { ScoreRecordType } from '@/types/game';
+import { GenericRecordType } from '@/types/game';
 
 import * as styles from './Timeline.css';
 
@@ -13,10 +13,10 @@ export default function ScoreTimeline({
   teamName,
   scoreRecord,
   playerName,
-}: ScoreRecordType) {
+}: GenericRecordType<'SCORE'>) {
   return (
     <li key={recordedAt} className={styles.timeline}>
-      <div className={styles.timing[direction]}>{recordedAt}′</div>
+      <div className={styles.timestamp[direction]}>{recordedAt}′</div>
       <div className={styles.rightSide}>
         <Icon source={SoccerIcon} />
         <div className={styles.content.wrapper}>
