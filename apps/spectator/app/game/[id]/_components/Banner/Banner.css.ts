@@ -5,7 +5,7 @@ export const root = style({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'baseline',
-  gap: '20px',
+  gap: rem(20),
 
   width: '100%',
   padding: `${theme.spaces.sm} ${theme.spaces.default}`,
