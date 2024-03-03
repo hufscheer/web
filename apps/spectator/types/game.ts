@@ -55,7 +55,6 @@ export type GameCheerTalkType = {
   gameTeamId: number;
   createdAt: string;
   isBlocked: boolean;
-  order: number;
 };
 
 export type GameCheerTalkPayload = Pick<

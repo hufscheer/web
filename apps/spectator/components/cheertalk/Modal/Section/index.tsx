@@ -11,7 +11,10 @@ import * as styles from '../CheerTalkModal.css';
 
 type ModalSectionProps = {
   gameId: string;
-  cheerTalks: GameCheerTalkType[];
+  cheerTalks: (GameCheerTalkType & {
+    direction: 'left' | 'right';
+    logoImageUrl: string;
+  })[];
 };
 
 export default function ModalSection({

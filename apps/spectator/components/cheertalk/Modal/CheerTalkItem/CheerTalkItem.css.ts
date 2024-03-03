@@ -9,8 +9,8 @@ const wrapperBase = style({
 });
 
 export const wrapper = styleVariants({
-  odd: [wrapperBase],
-  even: [wrapperBase, { flexDirection: 'row-reverse' }],
+  left: [wrapperBase],
+  right: [wrapperBase, { flexDirection: 'row-reverse' }],
 });
 
 export const teamLogo = style({
@@ -35,8 +35,8 @@ const infoContainerBase = style({
 });
 
 export const infoContainer = styleVariants({
-  odd: [infoContainerBase],
-  even: [infoContainerBase, { flexDirection: 'row-reverse' }],
+  left: [infoContainerBase],
+  right: [infoContainerBase, { flexDirection: 'row-reverse' }],
 });
 
 export const time = style({
