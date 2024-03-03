@@ -40,7 +40,6 @@ export type GameLineupType = {
   gameTeamId: number;
   teamName: string;
   gameTeamPlayers: GamePlayerType[];
-  order: number;
 };
 
 export type GamePlayerType = {
