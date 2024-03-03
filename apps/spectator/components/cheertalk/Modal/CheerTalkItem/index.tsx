@@ -8,21 +8,20 @@ import { parseTimeString } from '@/utils/time';
 import * as styles from './CheerTalkItem.css';
 
 interface CheerTalkItemProps {
+  direction: 'left' | 'right';
   cheerTalkId: number;
   content: string;
-  order: number;
   isBlocked: boolean;
   createdAt: string;
 }
 
 const CheerTalkItem = ({
+  direction,
   cheerTalkId,
   content,
-  order,
   isBlocked,
   createdAt,
 }: CheerTalkItemProps) => {
-  const type: 'even' | 'odd' = order % 2 === 0 ? 'even' : 'odd';
   const { period, hours, minutes } = parseTimeString(createdAt);
 
   if (isBlocked)
@@ -34,7 +33,7 @@ const CheerTalkItem = ({
 
   return (
     <>
-      <li className={styles.wrapper[type]}>
+      <li className={styles.wrapper[direction]}>
         <Image
           src="https://github.com/hufs-sports-live/server/assets/77621712/db8f425a-43ee-4426-9317-8d2623aab4e3"
           width={24}
@@ -44,7 +43,7 @@ const CheerTalkItem = ({
           alt={'team'}
         />
         <div className={styles.content}>{content}</div>
-        <div className={styles.infoContainer[type]}>
+        <div className={styles.infoContainer[direction]}>
           <time className={styles.time}>
             {`${period} ${hours}:${minutes.toString().padStart(2, '0')}`}
           </time>
