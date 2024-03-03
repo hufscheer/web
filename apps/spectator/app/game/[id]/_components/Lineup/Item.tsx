@@ -1,20 +1,18 @@
 import { GamePlayerType } from '@/types/game';
 
 import LineupCaptain from './Captain';
-import * as styles from '../Lineup.css';
+import * as styles from './Lineup.css';
 
 type LineupItemProps = GamePlayerType & {
-  order: number;
+  whichSide: 'blue' | 'red';
 };
 
 export default function LineupItem({
   playerName,
-  // description,
   number,
   isCaptain,
-  order,
+  whichSide,
 }: LineupItemProps) {
-  const whichSide = order === 1 ? 'blue' : 'red';
   return (
     <li className={styles.item.root}>
       <span className={styles.backNumber[whichSide]}>{number}</span>

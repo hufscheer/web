@@ -1,4 +1,4 @@
-import * as styles from '../Lineup.css';
+import * as styles from './Lineup.css';
 
 type LineupCaptainProps = {
   isCaptain: boolean;
