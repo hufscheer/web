@@ -4,7 +4,7 @@ import { style, styleVariants } from '@vanilla-extract/css';
 const panelItemBase = style({
   ...theme.textVariants.default,
   textAlign: 'center',
-  paddingBlock: rem(16),
+  paddingBlock: rem(12),
   color: theme.colors.gray[4],
   borderBlock: `1px solid ${theme.colors.gray[2]}`,
 });
@@ -22,10 +22,9 @@ export const panel = styleVariants({
   itemSelected: [
     panelItemBase,
     {
-      background: theme.colors.secondary[2],
+      background: theme.colors.primary[1],
       color: theme.colors.primary[3],
-      borderTop: 0,
-      borderBottom: `0.5px solid ${theme.colors.primary[3]}`,
+      borderBottom: `1px solid ${theme.colors.primary[3]}`,
     },
   ],
 });
