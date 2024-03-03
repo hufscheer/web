@@ -2,7 +2,7 @@ import { ArrowClockwiseIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { AxiosError } from 'axios';
 
-import { FallbackProps } from '@/components/common/ErrorBoundary';
+import { FallbackProps } from '@/components/ErrorBoundary';
 import { LINEUP_API_ERROR_MESSAGE } from '@/constants/error';
 
 import * as styles from './Lineup.css';
