@@ -1,7 +1,9 @@
 import { rem, theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
+import { calc } from '@vanilla-extract/css-utils';
 
 export const wrapper = style({
+  position: 'relative',
   display: 'flex',
   flexDirection: 'column',
   height: '100vh',
@@ -35,3 +37,11 @@ export const cheerTalkList = style([
     overflowY: 'auto',
   },
 ]);
+
+export const close = style({
+  position: 'absolute',
+  top: calc.subtract(theme.spaces.default, rem(4)),
+  right: theme.spaces.default,
+
+  zIndex: 100,
+});
