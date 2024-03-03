@@ -1,5 +1,4 @@
-import { clsx } from 'clsx';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, AnimationProps, motion } from 'framer-motion';
 import { ElementType, forwardRef, useEffect } from 'react';
 
 import { useModal } from './hooks';
@@ -25,7 +24,7 @@ type ModalContentProps = {
   disableEscapeKeyDown?: boolean;
   backdropColor?: string;
   children: React.ReactNode;
-};
+} & AnimationProps;
 
 type Props<C extends ElementType> = PolymorphicComponentProps<
   C,
@@ -41,9 +40,10 @@ const ModalContent: ContentType = forwardRef(function ModalContent<
   {
     disableBackdropClick = false,
     disableEscapeKeyDown = false,
+    variants = modalVariants,
     backdropColor = 'rgba(0, 0, 0, 0.5)',
-    className,
     children,
+    ...props
   }: Props<C>,
   ref: PolymorphicRef<C>,
 ) {
@@ -77,12 +77,12 @@ const ModalContent: ContentType = forwardRef(function ModalContent<
         >
           <motion.div
             ref={ref}
-            className={clsx(styles.content, className)}
-            variants={modalVariants}
+            variants={variants}
             initial="hidden"
             animate="visible"
             exit="hidden"
             onClick={e => e.stopPropagation()}
+            {...props}
           >
             {children}
           </motion.div>

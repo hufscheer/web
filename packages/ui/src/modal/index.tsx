@@ -1,4 +1,3 @@
-import { AnimatePresence } from 'framer-motion';
 import { createContext, useCallback, useState } from 'react';
 
 import ModalClose from './Close';
@@ -28,7 +27,7 @@ const Modal = ({ children }: ModalProps) => {
 
   return (
     <ModalContext.Provider value={{ open, onOpenChange, onOpenToggle }}>
-      <AnimatePresence mode="wait">{children}</AnimatePresence>
+      {children}
     </ModalContext.Provider>
   );
 };

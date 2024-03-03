@@ -1,4 +1,3 @@
-import { theme } from '@hcc/styles/dist/theme.css';
 import { style } from '@vanilla-extract/css';
 
 export const backdrop = style({
@@ -13,30 +12,26 @@ export const backdrop = style({
   zIndex: 2048,
 });
 
-export const content = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: theme.spaces.default,
+// export const content = style({
+//   display: 'flex',
+//   flexDirection: 'column',
+//   gap: theme.spaces.default,
 
-  position: 'relative',
+//   position: 'relative',
 
-  width: theme.sizes.appWidth,
-  height: 'auto',
+//   width: theme.sizes.appWidth,
+//   height: 'auto',
 
-  padding: theme.spaces.default,
+//   padding: theme.spaces.default,
 
-  backgroundColor: theme.colors.background.normal,
-  borderRadius: 8,
-});
+//   backgroundColor: theme.colors.background.normal,
+//   borderRadius: 8,
+// });
 
 export const close = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-
-  position: 'absolute',
-  top: '1rem',
-  right: '1rem',
 
   width: 24,
   height: 24,
