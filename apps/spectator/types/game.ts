@@ -62,12 +62,13 @@ export type GameLineupType = {
   gameTeamId: number;
   teamName: string;
   gameTeamPlayers: GamePlayerType[];
-  order: number;
 };
 
 export type GamePlayerType = {
   playerName: string;
   description: string;
+  number: number;
+  isCaptain: boolean;
 };
 
 export type GameCheerTalkType = {
@@ -76,7 +77,6 @@ export type GameCheerTalkType = {
   gameTeamId: number;
   createdAt: string;
   isBlocked: boolean;
-  order: number;
 };
 
 export type GameCheerTalkPayload = Pick<

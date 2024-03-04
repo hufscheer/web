@@ -1,27 +1,30 @@
-import { theme } from '@hcc/styles';
-import { styleVariants } from '@vanilla-extract/css';
+import { rem, theme } from '@hcc/styles';
+import { style, styleVariants } from '@vanilla-extract/css';
+
+const panelItemBase = style({
+  ...theme.textVariants.default,
+  textAlign: 'center',
+  paddingBlock: rem(12),
+  color: theme.colors.gray[4],
+  borderBlock: `1px solid ${theme.colors.gray[2]}`,
+});
 
 export const panel = styleVariants({
   wrapper: {
     position: 'relative',
-    borderRadius: '0.75rem',
-    borderWidth: '2px',
-    borderColor: theme.colors.gray[2],
   },
   menu: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
-    borderRadius: '0.5rem',
+    gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
     width: '100%',
   },
-  item: {
-    borderRadius: '0.75rem',
-    padding: '0.75rem 0',
-  },
-  itemSelected: {
-    borderRadius: '0.75rem',
-    padding: '0.75rem 0',
-    background: theme.colors.secondary[2],
-    color: theme.colors.primary[3],
-  },
+  item: [panelItemBase],
+  itemSelected: [
+    panelItemBase,
+    {
+      background: theme.colors.primary[1],
+      color: theme.colors.primary[3],
+      borderBottom: `1px solid ${theme.colors.primary[3]}`,
+    },
+  ],
 });

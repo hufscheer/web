@@ -12,15 +12,15 @@ import BannerSkeleton from './_components/Banner/Skeleton';
 import CheerTalkInReal from './_components/CheerTalk/OnAir';
 import CheerVS from './_components/CheerVS';
 import CheerVSFallback from './_components/CheerVS/Error';
+import Lineup from './_components/Lineup';
 import Timeline from './_components/Timeline';
 import * as styles from './page.css';
 
 export default function Page({ params }: { params: { id: string } }) {
   const options = [
     { label: '라인업' },
-    { label: '응원댓글' },
-    { label: '경기영상' },
     { label: '타임라인' },
+    { label: '경기영상' },
   ];
 
   return (
@@ -61,7 +61,7 @@ export default function Page({ params }: { params: { id: string } }) {
                 errorFallback={() => <div>에러</div>}
                 loadingFallback={<Loader />}
               >
-                <div></div>
+                <Lineup gameId={params.id} />
               </AsyncBoundary>
             )}
             {selected === '타임라인' && (
@@ -72,7 +72,6 @@ export default function Page({ params }: { params: { id: string } }) {
                 <Timeline gameId={params.id} />
               </AsyncBoundary>
             )}
-            {selected === '응원댓글' && <></>}
             {selected === '경기영상' && (
               <AsyncBoundary
                 errorFallback={() => <div>에러</div>}

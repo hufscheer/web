@@ -18,9 +18,19 @@ interface CheerTalkModalProps {
 }
 
 const CheerTalkModal = ({ gameId }: CheerTalkModalProps) => {
-  const [cheerTalks, setCheerTalks] = useState<GameCheerTalkType[]>([]);
+  const [cheerTalks, setCheerTalks] = useState<
+    (GameCheerTalkType & {
+      direction: 'left' | 'right';
+      logoImageUrl: string;
+    })[]
+  >([]);
 
-  const handleSocketMessage = (cheerTalk: GameCheerTalkType) => {
+  const handleSocketMessage = (
+    cheerTalk: GameCheerTalkType & {
+      direction: 'left' | 'right';
+      logoImageUrl: string;
+    },
+  ) => {
     if (cheerTalk) {
       setCheerTalks(prev => [...prev, cheerTalk]);
     }

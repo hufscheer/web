@@ -12,7 +12,10 @@ import { errorFallback } from './CheerTalkLIst.css';
 import CheerTalkItem from '../CheerTalkItem';
 
 interface CheerTalkListProps {
-  cheerTalkList: GameCheerTalkType[];
+  cheerTalkList: (GameCheerTalkType & {
+    direction: 'left' | 'right';
+    logoImageUrl: string;
+  })[];
   hasNextPage: boolean;
   fetchNextPage: () => void;
   isFetching: boolean;
@@ -45,11 +48,7 @@ const CheerTalkList = ({
     <>
       <div ref={ref}></div>
       {cheerTalkList.map(cheerTalk => (
-        <CheerTalkItem
-          {...cheerTalk}
-          key={cheerTalk.cheerTalkId}
-          order={cheerTalk.order}
-        />
+        <CheerTalkItem {...cheerTalk} key={cheerTalk.cheerTalkId} />
       ))}
     </>
   );
@@ -61,11 +60,7 @@ CheerTalkList.SocketList = function SocketList({
   return (
     <>
       {cheerTalkList.map(cheerTalk => (
-        <CheerTalkItem
-          {...cheerTalk}
-          key={cheerTalk.cheerTalkId}
-          order={cheerTalk.order}
-        />
+        <CheerTalkItem {...cheerTalk} key={cheerTalk.cheerTalkId} />
       ))}
     </>
   );
