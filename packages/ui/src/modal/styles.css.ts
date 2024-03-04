@@ -16,7 +16,6 @@ export const backdrop = style({
 export const content = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: theme.spaces.default,
 
   position: 'relative',
 
@@ -24,8 +23,6 @@ export const content = style({
   height: 'auto',
 
   padding: theme.spaces.default,
-
-  backgroundColor: theme.colors.background.normal,
   borderRadius: 8,
 });
 

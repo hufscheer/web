@@ -21,9 +21,14 @@ const ModalClose: CloseType = forwardRef(function ModalClose<
   const Component = as || 'button';
   const { onOpenChange } = useModal();
 
+  const handleOnClick = () => {
+    if (props.onClick) props.onClick();
+    onOpenChange(false);
+  };
+
   if (children) {
     return (
-      <Component ref={ref} {...props} onClick={() => onOpenChange(false)}>
+      <Component ref={ref} {...props} onClick={handleOnClick}>
         {children}
       </Component>
     );
