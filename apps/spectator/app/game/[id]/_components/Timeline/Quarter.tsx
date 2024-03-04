@@ -1,7 +1,7 @@
 import { GameTimelineType } from '@/types/game';
 
+import ReplacementTimeline from './Replacement';
 import ScoreTimeline from './Score';
-import SwitchTimeline from './Switch';
 import * as styles from './Timeline.css';
 
 export default function Quarter(timeline: GameTimelineType) {
@@ -13,7 +13,7 @@ export default function Quarter(timeline: GameTimelineType) {
           if (record.type === 'SCORE')
             return <ScoreTimeline key={record.recordedAt} {...record} />;
           if (record.type === 'REPLACEMENT')
-            return <SwitchTimeline key={record.recordedAt} {...record} />;
+            return <ReplacementTimeline key={record.recordedAt} {...record} />;
         })}
       </ul>
     </div>

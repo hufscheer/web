@@ -6,7 +6,7 @@ import { GenericRecordType } from '@/types/game';
 
 import * as styles from './Timeline.css';
 
-export default function SwitchTimeline({
+export default function ReplacementTimeline({
   recordedAt,
   playerName,
   replacementRecord,
@@ -15,7 +15,7 @@ export default function SwitchTimeline({
 }: GenericRecordType<'REPLACEMENT'>) {
   return (
     <li key={recordedAt} className={styles.timeline}>
-      <div className={styles.timingBase}>{recordedAt}′</div>
+      <div className={styles.timestampBase}>{recordedAt}′</div>
       <div className={styles.rightSide}>
         <Icon source={SwitchIcon} />
         <div className={styles.content.wrapper}>
