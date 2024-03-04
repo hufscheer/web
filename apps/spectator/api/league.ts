@@ -3,6 +3,16 @@ import { AxiosError } from 'axios';
 import instance from '@/api';
 import { LeagueType, SportsType } from '@/types/league';
 
+export const getLeagues = async (year: number) => {
+  const { data } = await instance.get<LeagueType[]>(`/leagues`, {
+    params: {
+      year,
+    },
+  });
+
+  return data;
+};
+
 export const getAllLeagues = async () => {
   try {
     const response = await instance.get<LeagueType[]>('/leagues');
