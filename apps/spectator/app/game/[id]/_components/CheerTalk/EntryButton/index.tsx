@@ -4,6 +4,8 @@ import { useEffect, useState, ComponentProps } from 'react';
 
 import * as styles from './EntryButton.css';
 
+const TOOLTIP_KEY = 'cheertalk';
+
 export default function CheerTalkEntryButton({
   ...props
 }: ComponentProps<'button'>) {
@@ -11,15 +13,14 @@ export default function CheerTalkEntryButton({
     useState(true);
 
   useEffect(() => {
-    const storedValue = window.localStorage.getItem('cheertalk');
-    if (storedValue) {
-      setIsCheerTalkTooltipVisible(JSON.parse(storedValue));
-    }
+    setIsCheerTalkTooltipVisible(
+      window.localStorage.getItem(TOOLTIP_KEY) !== 'false',
+    );
   }, []);
 
   const handleButtonClick = () => {
     setIsCheerTalkTooltipVisible(false);
-    window.localStorage.setItem('cheertalk', JSON.stringify(false));
+    window.localStorage.setItem(TOOLTIP_KEY, String(false));
   };
 
   return (
