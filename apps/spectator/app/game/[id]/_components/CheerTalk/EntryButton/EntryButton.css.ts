@@ -1,19 +1,19 @@
 import { rem, theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 
-export const cheerTalkEntryContainer = style({
+export const entryContainer = style({
   position: 'fixed',
   bottom: rem(16),
   right: rem(16),
 });
 
-export const cheerTalkEntryButtonContent = style({
+export const entryButtonContent = style({
   display: 'flex',
   minWidth: rem(120),
   justifyContent: 'flex-end',
 });
 
-export const cheerTalkEntryButton = style({
+export const entryButton = style({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -24,7 +24,7 @@ export const cheerTalkEntryButton = style({
   backgroundColor: theme.colors.primary[3],
 });
 
-export const cheerTalkEntryButtonIcon = style({
+export const entryButtonIcon = style({
   width: rem(18),
   height: rem(18),
   color: 'white',

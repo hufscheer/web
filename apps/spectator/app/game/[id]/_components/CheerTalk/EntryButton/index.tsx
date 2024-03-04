@@ -1,10 +1,12 @@
 import { ChatIcon } from '@hcc/icons';
 import { Icon, Tooltip } from '@hcc/ui';
-import { useEffect, useState, MouseEvent, ComponentProps } from 'react';
+import { useEffect, useState, ComponentProps } from 'react';
 
-import * as styles from './CheerTalkEntryButton.css';
+import * as styles from './EntryButton.css';
 
-const CheerTalkEntryButton = ({ ...props }: ComponentProps<'button'>) => {
+export default function CheerTalkEntryButton({
+  ...props
+}: ComponentProps<'button'>) {
   const [isCheerTalkTooltipVisible, setIsCheerTalkTooltipVisible] =
     useState(true);
 
@@ -15,35 +17,29 @@ const CheerTalkEntryButton = ({ ...props }: ComponentProps<'button'>) => {
     }
   }, []);
 
-  const handleButtonClick = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleButtonClick = () => {
     setIsCheerTalkTooltipVisible(false);
     window.localStorage.setItem('cheertalk', JSON.stringify(false));
-    if (props.onClick) props.onClick(event);
   };
 
   return (
-    <div className={styles.cheerTalkEntryContainer}>
+    <div className={styles.entryContainer}>
       <Tooltip
         content="당신의 팀을 응원하는 톡을 남겨보세요!"
         position="top"
         isVisible={isCheerTalkTooltipVisible}
         arrowPosition="rightEnd"
       >
-        <div className={styles.cheerTalkEntryButtonContent}>
+        <div className={styles.entryButtonContent}>
           <button
-            className={styles.cheerTalkEntryButton}
-            {...props}
+            className={styles.entryButton}
             onClick={handleButtonClick}
+            {...props}
           >
-            <Icon
-              source={ChatIcon}
-              className={styles.cheerTalkEntryButtonIcon}
-            />
+            <Icon source={ChatIcon} className={styles.entryButtonIcon} />
           </button>
         </div>
       </Tooltip>
     </div>
   );
-};
-
-export default CheerTalkEntryButton;
+}

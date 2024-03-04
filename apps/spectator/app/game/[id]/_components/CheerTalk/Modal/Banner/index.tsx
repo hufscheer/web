@@ -3,11 +3,11 @@ import { formatTime } from '@/utils/time';
 
 import * as styles from './Banner.css';
 
-interface HeaderProps {
+type BannerProps = {
   gameId: string;
-}
+};
 
-const Banner = ({ gameId }: HeaderProps) => {
+const Banner = ({ gameId }: BannerProps) => {
   const { gameDetail } = useGameById(gameId);
   const [firstTeam, secondTeam] = gameDetail.gameTeams;
 

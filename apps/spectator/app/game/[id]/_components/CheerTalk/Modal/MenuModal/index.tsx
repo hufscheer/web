@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 
 import useReportCheerTalkMutation from '@/queries/useReportCheerTalkMutation/query';
 
-import * as styles from './CheerTalkMenuModal.css';
+import * as styles from './MenuModal.css';
 
 interface CheerTalkMenuModalProps {
   cheerTalkId: number;
@@ -21,7 +21,7 @@ const CheerTalkMenuModal = ({
 }: CheerTalkMenuModalProps) => {
   const { mutate, isSuccess } = useReportCheerTalkMutation();
 
-  const handleReportButton = (payload: { cheerTalkId: number }): void => {
+  const handleReportButton = async (payload: { cheerTalkId: number }) => {
     if (isSuccess) {
       alert('이미 신고했습니다!');
 

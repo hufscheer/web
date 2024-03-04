@@ -19,13 +19,15 @@ export const teamLogo = style({
 });
 
 export const content = style({
-  padding: `${rem(8)} ${rem(12)}`,
+  padding: `${theme.spaces.xs} ${theme.spaces.sm}`,
   borderRadius: rem(15),
   backgroundColor: '#F2F2F7',
   ...theme.textVariants.xs,
 });
 
-export const blockedContent = style([content, { marginBottom: rem(11) }]);
+export const blockedContent = style({
+  color: theme.colors.gray[4],
+});
 
 const infoContainerBase = style({
   display: 'flex',
@@ -39,8 +41,9 @@ export const infoContainer = styleVariants({
   right: [infoContainerBase, { flexDirection: 'row-reverse' }],
 });
 
-export const time = style({
+export const timestamp = style({
   fontSize: rem(8),
+  whiteSpace: 'nowrap',
 });
 
 export const menuButton = style({

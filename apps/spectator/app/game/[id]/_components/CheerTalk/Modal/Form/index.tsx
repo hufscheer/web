@@ -5,14 +5,14 @@ import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 
 import { GameCheerTalkPayload, GameTeamType } from '@/types/game';
 
-import * as styles from './CheerTalkForm.css';
+import * as styles from './Form.css';
 
-interface CheerTalkFormProps {
+type CheerTalkFormProps = {
   gameId: string;
   gameTeams: GameTeamType[];
   mutate: UseMutateFunction<void, Error, GameCheerTalkPayload, unknown>;
   scrollToBottom: () => void;
-}
+};
 
 const CheerTalkForm = ({
   gameId,

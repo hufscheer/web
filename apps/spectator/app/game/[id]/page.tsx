@@ -1,15 +1,14 @@
 'use client';
 
 import Live from '@/app/_components/Live';
+import CheerTalk from '@/app/game/[id]/_components/CheerTalk';
 import AsyncBoundary from '@/components/AsyncBoundary';
-import CheerTalkModal from '@/components/cheertalk/Modal/CheerTalkModal';
 import Loader from '@/components/Loader';
 import Panel from '@/components/Panel';
 
 import Banner from './_components/Banner';
 import BannerFallback from './_components/Banner/Error';
 import BannerSkeleton from './_components/Banner/Skeleton';
-import CheerTalkInReal from './_components/CheerTalk/OnAir';
 import CheerVS from './_components/CheerVS';
 import CheerVSFallback from './_components/CheerVS/Error';
 import Lineup from './_components/Lineup';
@@ -49,7 +48,7 @@ export default function Page({ params }: { params: { id: string } }) {
             errorFallback={() => <div>에러</div>}
             loadingFallback={<div>로딩</div>}
           >
-            <CheerTalkInReal gameId={params.id} />
+            <CheerTalk gameId={params.id} />
           </AsyncBoundary>
         </section>
 
@@ -98,7 +97,6 @@ export default function Page({ params }: { params: { id: string } }) {
             </>
           )}
         </Panel>
-        <CheerTalkModal gameId={params.id} />
       </section>
     </>
   );

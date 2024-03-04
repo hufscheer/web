@@ -6,16 +6,13 @@ import { useEffect } from 'react';
 import { FallbackProps } from '@/components/ErrorBoundary';
 import { COMMENT_API_ERROR_MESSAGE } from '@/constants/error';
 import useInfiniteObserver from '@/hooks/useInfiniteObserver';
-import { GameCheerTalkType } from '@/types/game';
+import { GameCheerTalkWithTeamInfo } from '@/types/game';
 
-import { errorFallback } from './CheerTalkLIst.css';
-import CheerTalkItem from '../CheerTalkItem';
+import { errorFallback } from './LIst.css';
+import CheerTalkItem from '../Item';
 
 interface CheerTalkListProps {
-  cheerTalkList: (GameCheerTalkType & {
-    direction: 'left' | 'right';
-    logoImageUrl: string;
-  })[];
+  cheerTalkList: GameCheerTalkWithTeamInfo[];
   hasNextPage: boolean;
   fetchNextPage: () => void;
   isFetching: boolean;
@@ -32,9 +29,7 @@ const CheerTalkList = ({
   const { ref } = useInfiniteObserver<HTMLDivElement>(
     async (entry, observer): Promise<void> => {
       observer.unobserve(entry.target);
-      if (hasNextPage && !isFetching) {
-        fetchNextPage();
-      }
+      if (hasNextPage && !isFetching) fetchNextPage();
     },
   );
 

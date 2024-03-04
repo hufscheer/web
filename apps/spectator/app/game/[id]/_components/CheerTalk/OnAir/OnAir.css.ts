@@ -1,4 +1,4 @@
-import { theme } from '@hcc/styles';
+import { rem, theme } from '@hcc/styles';
 import { style, styleVariants } from '@vanilla-extract/css';
 
 export const rootBase = style({
@@ -25,13 +25,10 @@ export const root = styleVariants({
 
 export const talkBox = style({
   flex: 1,
-
-  paddingInline: theme.spaces.sm,
-  paddingBlock: theme.spaces.xs,
-
-  backgroundColor: theme.colors.gray[2],
-
-  borderRadius: 15,
+  padding: `${theme.spaces.xs} ${theme.spaces.sm}`,
+  borderRadius: rem(15),
+  backgroundColor: '#F2F2F7',
+  ...theme.textVariants.xs,
 });
 
 export const content = style({
@@ -42,11 +39,11 @@ export const content = style({
   WebkitBoxOrient: 'vertical',
 });
 
-export const time = style({
+export const timestamp = style({
   alignSelf: 'flex-end',
   paddingBlock: theme.spaces.xxs,
 
-  ...theme.textVariants.xs,
+  fontSize: rem(8),
   color: theme.colors.gray[5],
 });
 
