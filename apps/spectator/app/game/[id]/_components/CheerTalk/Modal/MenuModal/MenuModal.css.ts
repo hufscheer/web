@@ -6,12 +6,12 @@ export const container = style({
   flexDirection: 'column',
   width: '100%',
   maxWidth: rem(218),
-  margin: '0 auto',
-  padding: `0 ${rem(16)}`,
+  marginInline: 'auto',
+  paddingInline: theme.spaces.default,
 });
 
 export const content = style({
-  padding: `${rem(8)} ${rem(16)}`,
+  padding: `${theme.spaces.xs} ${theme.spaces.default}`,
   borderRadius: rem(15),
   backgroundColor: theme.colors.gray[2],
   ...theme.textVariants.xs,
@@ -21,8 +21,8 @@ export const menuBlock = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: `${rem(12)} ${rem(16)}`,
-  marginTop: rem(4),
+  padding: `${theme.spaces.sm} ${theme.spaces.default}`,
+  marginTop: theme.spaces.xxs,
   borderRadius: rem(10),
   backgroundColor: 'white',
   ...theme.textVariants.xs,

@@ -20,18 +20,3 @@ export const timeline = style({
   alignItems: 'center',
   borderBottom: `${rem(1)} solid ${theme.colors.gray[2]}`,
 });
-
-export const cheerTalkListContainer = style({
-  display: 'flex',
-  flex: 1,
-  flexDirection: 'column',
-  overflow: 'hidden',
-});
-
-export const cheerTalkList = style([
-  cheerTalkListContainer,
-  {
-    padding: `${rem(16)} ${rem(16)} 0 ${rem(16)}`,
-    overflowY: 'auto',
-  },
-]);

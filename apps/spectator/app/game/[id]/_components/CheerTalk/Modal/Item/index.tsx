@@ -17,47 +17,43 @@ interface CheerTalkItemProps {
   createdAt: string;
 }
 
-const CheerTalkItem = ({
+export default function CheerTalkItem({
   direction,
   logoImageUrl,
   cheerTalkId,
   content,
   isBlocked,
   createdAt,
-}: CheerTalkItemProps) => {
+}: CheerTalkItemProps) {
   return (
-    <>
-      <li className={styles.wrapper[direction]}>
-        <Image
-          src={logoImageUrl}
-          width={24}
-          height={24}
-          className={styles.teamLogo}
-          draggable={false}
-          alt={'team'}
-        />
-        <div
-          className={clsx(styles.content, isBlocked && styles.blockedContent)}
-        >
-          {isBlocked ? '⚠️ 관리자에 의해 차단된 톡입니다.' : content}
-        </div>
-        <div className={styles.infoContainer[direction]}>
-          <time className={styles.timestamp}>
-            {formatTime(createdAt, 'A hh:mm')}
-          </time>
-          {!isBlocked && (
-            <CheerTalkMenuModal
-              cheerTalkId={cheerTalkId}
-              content={content}
-              className={styles.menuButton}
-            >
-              <Icon source={MenuIcon} className={styles.menuButtonIcon} />
-            </CheerTalkMenuModal>
-          )}
-        </div>
-      </li>
-    </>
+    <li className={styles.itemWrapper[direction]}>
+      <Image
+        src={logoImageUrl}
+        width={24}
+        height={24}
+        className={styles.item.teamLogo}
+        draggable={false}
+        alt={'team'}
+      />
+      <div
+        className={clsx(styles.item.content, isBlocked && styles.item.blocked)}
+      >
+        {isBlocked ? '⚠️ 관리자에 의해 차단된 톡입니다.' : content}
+      </div>
+      <div className={styles.infoContainer[direction]}>
+        <time className={styles.item.timestamp}>
+          {formatTime(createdAt, 'A hh:mm')}
+        </time>
+        {!isBlocked && (
+          <CheerTalkMenuModal
+            cheerTalkId={cheerTalkId}
+            content={content}
+            className={styles.item.menuButton}
+          >
+            <Icon source={MenuIcon} className={styles.item.menuButtonIcon} />
+          </CheerTalkMenuModal>
+        )}
+      </div>
+    </li>
   );
-};
-
-export default CheerTalkItem;
+}

@@ -8,14 +8,12 @@ import { GameCheerTalkPayload, GameTeamType } from '@/types/game';
 import * as styles from './Form.css';
 
 type CheerTalkFormProps = {
-  gameId: string;
   gameTeams: GameTeamType[];
   mutate: UseMutateFunction<void, Error, GameCheerTalkPayload, unknown>;
   scrollToBottom: () => void;
 };
 
 const CheerTalkForm = ({
-  gameId,
   gameTeams,
   mutate,
   scrollToBottom,
@@ -25,18 +23,21 @@ const CheerTalkForm = ({
     gameTeams[0].gameTeamId,
   );
 
-  const handleCheerTalkSubmit = (
-    e: FormEvent<HTMLFormElement>,
-    payload: GameCheerTalkPayload,
-  ): void => {
-    e.preventDefault();
+  const handleCheerTalkSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>): void => {
+      e.preventDefault();
 
-    if (!payload.content.trim()) return;
+      if (!inputValue.trim()) return;
 
-    mutate({ ...payload, gameTeamId: selectedTeamId });
-    setInputValue('');
-    scrollToBottom();
-  };
+      mutate({
+        gameTeamId: selectedTeamId,
+        content: inputValue,
+      });
+      setInputValue('');
+      scrollToBottom();
+    },
+    [inputValue, mutate, selectedTeamId, scrollToBottom],
+  );
 
   const handleRadioClick = useCallback(
     (e: ChangeEvent<HTMLInputElement>): void => {
@@ -46,15 +47,7 @@ const CheerTalkForm = ({
   );
 
   return (
-    <form
-      className={styles.form}
-      onSubmit={e =>
-        handleCheerTalkSubmit(e, {
-          gameTeamId: Number(gameId),
-          content: inputValue,
-        })
-      }
-    >
+    <form className={styles.form} onSubmit={handleCheerTalkSubmit}>
       <fieldset className={styles.radioBox}>
         {gameTeams.map(team => (
           <label key={team.gameTeamId} className={styles.radioField}>
@@ -75,12 +68,17 @@ const CheerTalkForm = ({
           value={inputValue}
           onChange={e => setInputValue(e.target.value)}
           placeholder="응원톡을 남겨보세요!"
+          aria-label="응원 메시지 입력"
         />
-        <button className={styles.cheerTalkSendButton}>
+        <button className={styles.cheerTalkSendButton} type="button">
           <Icon source={SendIcon} className={styles.cheerTalkSendIcon} />
         </button>
       </div>
-      <button className={styles.scrollToBottomButton} onClick={scrollToBottom}>
+      <button
+        className={styles.scrollToBottomButton}
+        onClick={scrollToBottom}
+        type="button"
+      >
         <Icon source={ArrowDownIcon} className={styles.scrollToBottomIcon} />
       </button>
     </form>
