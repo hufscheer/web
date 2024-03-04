@@ -31,7 +31,7 @@ export const rightSide = style({
   borderBottom: `1px solid ${theme.colors.gray[2]}`,
 });
 
-export const timingBase = style({
+export const timestampBase = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -45,14 +45,14 @@ export const timingBase = style({
 
 export const timestamp = styleVariants({
   left: [
-    timingBase,
+    timestampBase,
     {
       backgroundColor: theme.colors.indicatorBlue[3],
       color: theme.colors.background.normal,
     },
   ],
   right: [
-    timingBase,
+    timestampBase,
     {
       backgroundColor: theme.colors.indicatorRed[3],
       color: theme.colors.background.normal,
@@ -64,11 +64,11 @@ export const content = styleVariants({
   wrapper: {
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spaces.xs,
+    gap: theme.spaces.xxs,
   },
   title: {
     fontSize: theme.textVariants.sm.fontSize,
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
   description: {
     fontSize: theme.textVariants.xs.fontSize,
