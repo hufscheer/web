@@ -13,6 +13,7 @@ import CheerTalkInReal from './_components/CheerTalk/OnAir';
 import CheerVS from './_components/CheerVS';
 import CheerVSFallback from './_components/CheerVS/Error';
 import Lineup from './_components/Lineup';
+import Timeline from './_components/Timeline';
 import * as styles from './page.css';
 
 export default function Page({ params }: { params: { id: string } }) {
@@ -23,83 +24,66 @@ export default function Page({ params }: { params: { id: string } }) {
   ];
 
   return (
-    <>
-      <section>
-        <AsyncBoundary
-          errorFallback={() => <BannerFallback />}
-          loadingFallback={<BannerSkeleton />}
-        >
-          <Banner gameId={params.id} />
-        </AsyncBoundary>
+    <section>
+      <AsyncBoundary
+        errorFallback={() => <BannerFallback />}
+        loadingFallback={<BannerSkeleton />}
+      >
+        <Banner gameId={params.id} />
+      </AsyncBoundary>
+
+      <AsyncBoundary
+        errorFallback={() => <CheerVSFallback />}
+        loadingFallback={<Loader />}
+      >
+        <CheerVS gameId={params.id} />
+      </AsyncBoundary>
+
+      <section className={styles.cheerTalk.section}>
+        <div className={styles.cheerTalk.header}>
+          <h2 className={styles.cheerTalk.title}>실시간 응원톡</h2>
+          <Live />
+        </div>
 
         <AsyncBoundary
-          errorFallback={() => <CheerVSFallback />}
-          loadingFallback={<Loader />}
+          errorFallback={() => <div>에러</div>}
+          loadingFallback={<div>로딩</div>}
         >
-          <CheerVS gameId={params.id} />
+          <CheerTalkInReal gameId={params.id} />
         </AsyncBoundary>
-
-        <section className={styles.cheerTalk.section}>
-          <div className={styles.cheerTalk.header}>
-            <h2 className={styles.cheerTalk.title}>실시간 응원톡</h2>
-            <Live />
-          </div>
-
-          <AsyncBoundary
-            errorFallback={() => <div>에러</div>}
-            loadingFallback={<div>로딩</div>}
-          >
-            <CheerTalkInReal gameId={params.id} />
-          </AsyncBoundary>
-        </section>
-
-        <Panel options={options} defaultValue="라인업">
-          {({ selected }) => (
-            <>
-              {selected === '라인업' && (
-                <AsyncBoundary
-                  errorFallback={() => <div>에러</div>}
-                  loadingFallback={<Loader />}
-                >
-                  <Lineup gameId={params.id} />
-                </AsyncBoundary>
-              )}
-              {selected === '타임라인' && (
-                <AsyncBoundary
-                  errorFallback={() => <div>에러</div>}
-                  loadingFallback={<Loader />}
-                >
-                  <div></div>
-                  {/* <GameTimelineFetcher gameId={params.id}>
-                    {([firstHalf, secondHalf]) => (
-                      <div className={styles.timelineSection}>
-                        <RecordList {...firstHalf} />
-                        <RecordList {...secondHalf} />
-                      </div>
-                    )}
-                  </GameTimelineFetcher> */}
-                </AsyncBoundary>
-              )}
-              {selected === '경기영상' && (
-                <AsyncBoundary
-                  errorFallback={() => <div>에러</div>}
-                  loadingFallback={<Loader />}
-                >
-                  <div></div>
-                  {/* <GameVideoFetcher gameId={params.id}>
-                    {data => (
-                      <div className={styles.videoSection}>
-                        <Video {...data} />
-                      </div>
-                    )}
-                  </GameVideoFetcher> */}
-                </AsyncBoundary>
-              )}
-            </>
-          )}
-        </Panel>
-        <CheerTalkModal gameId={params.id} />
       </section>
-    </>
+
+      <Panel options={options} defaultValue="라인업">
+        {({ selected }) => (
+          <>
+            {selected === '라인업' && (
+              <AsyncBoundary
+                errorFallback={() => <div>에러</div>}
+                loadingFallback={<Loader />}
+              >
+                <Lineup gameId={params.id} />
+              </AsyncBoundary>
+            )}
+            {selected === '타임라인' && (
+              <AsyncBoundary
+                errorFallback={() => <div>에러</div>}
+                loadingFallback={<Loader />}
+              >
+                <Timeline gameId={params.id} />
+              </AsyncBoundary>
+            )}
+            {selected === '경기영상' && (
+              <AsyncBoundary
+                errorFallback={() => <div>에러</div>}
+                loadingFallback={<Loader />}
+              >
+                <div></div>
+              </AsyncBoundary>
+            )}
+          </>
+        )}
+      </Panel>
+      <CheerTalkModal gameId={params.id} />
+    </section>
   );
 }
