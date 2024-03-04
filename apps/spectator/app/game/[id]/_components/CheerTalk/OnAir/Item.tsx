@@ -29,7 +29,7 @@ export default function CheerTalkItem({
         <span className={styles.content}>{content}</span>
       </span>
       <time className={styles.timestamp}>
-        {formatTime(createdAt, 'a HH:MM')}
+        {formatTime(createdAt, 'A hh:mm')}
       </time>
     </div>
   );
