@@ -1,3 +1,4 @@
+import { Accordion } from '@hcc/ui';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 
@@ -19,28 +20,34 @@ export default function LeagueList() {
   return (
     <List lists={YEARS_LIST} className={styles.yearList}>
       {year => (
-        <li key={year}>
-          <h2 className={styles.yearName}>{year}년도</h2>
+        <Accordion type="single" key={year}>
+          <Accordion.Item value={year.toString()}>
+            <Accordion.Trigger className={styles.yearName}>
+              {year}년도
+            </Accordion.Trigger>
 
-          <List
-            lists={leagues[year] || []}
-            _key="leagueId"
-            className={styles.leagueList}
-          >
-            {league => (
-              <li className={styles.leagueItem}>
-                <Link
-                  href={{
-                    pathname: '/',
-                    query: { year, leagueId: league.leagueId },
-                  }}
-                >
-                  {league.name}
-                </Link>
-              </li>
-            )}
-          </List>
-        </li>
+            <Accordion.Content>
+              <List
+                lists={leagues[year] || []}
+                _key="leagueId"
+                className={styles.leagueList}
+              >
+                {league => (
+                  <li className={styles.leagueItem}>
+                    <Link
+                      href={{
+                        pathname: '/',
+                        query: { year, leagueId: league.leagueId },
+                      }}
+                    >
+                      {league.name}
+                    </Link>
+                  </li>
+                )}
+              </List>
+            </Accordion.Content>
+          </Accordion.Item>
+        </Accordion>
       )}
     </List>
   );
