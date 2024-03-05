@@ -5,6 +5,7 @@ import { GameCheerTalkWithTeamInfo } from '@/types/game';
 import CheerTalkBanner from './Banner';
 import CheerTalkList from './List';
 import * as styles from './Modal.css';
+import CheerTalkTimeline from './Timeline';
 import CheerTalkEntryButton from '../EntryButton';
 
 interface CheerTalkModalProps {
@@ -34,7 +35,7 @@ export default function CheerTalkModal({
         <CheerTalkBanner gameId={gameId} />
 
         {/* Game Timeline */}
-        <div className={styles.timeline}></div>
+        <CheerTalkTimeline gameId={gameId} />
 
         {/* CheerTalk List */}
         <CheerTalkList
