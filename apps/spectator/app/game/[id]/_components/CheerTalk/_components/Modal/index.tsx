@@ -2,11 +2,11 @@ import { Modal } from '@hcc/ui';
 
 import { GameCheerTalkWithTeamInfo } from '@/types/game';
 
-import CheerTalkBanner from './Banner';
-import CheerTalkList from './List';
 import * as styles from './Modal.css';
-import CheerTalkTimeline from './Timeline';
+import CheerTalkBanner from '../Banner';
 import CheerTalkEntryButton from '../EntryButton';
+import CheerTalkList from '../List';
+import CheerTalkTimeline from '../Timeline';
 
 interface CheerTalkModalProps {
   gameId: string;

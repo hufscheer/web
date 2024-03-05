@@ -1,13 +1,13 @@
 import { useEffect, useRef, memo } from 'react';
 
-import CheerTalkForm from '@/app/game/[id]/_components/CheerTalk/Modal/Form';
-import CheerTalkItem from '@/app/game/[id]/_components/CheerTalk/Modal/Item';
 import useInfiniteObserver from '@/hooks/useInfiniteObserver';
 import useGameById from '@/queries/useGameById';
 import useSaveCheerTalkMutation from '@/queries/useSaveCheerTalkMutation/query';
 import { GameCheerTalkWithTeamInfo } from '@/types/game';
 
 import * as styles from './List.css';
+import CheerTalkForm from '../Form';
+import CheerTalkItem from '../Item';
 
 interface CheerTalkListProps {
   gameId: string;

@@ -5,8 +5,8 @@ import useCheerTalkById from '@/queries/useCheerTalkById';
 import useGameById from '@/queries/useGameById';
 import { GameCheerTalkType, GameCheerTalkWithTeamInfo } from '@/types/game';
 
-import CheerTalkModal from './Modal';
-import CheerTalkOnAir from './OnAir';
+import CheerTalkModal from './_components/Modal';
+import CheerTalkOnAir from './_components/OnAir';
 
 type CheerTalkItemProps = {
   gameId: string;
