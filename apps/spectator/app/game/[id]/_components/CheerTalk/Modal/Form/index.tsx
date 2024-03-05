@@ -9,13 +9,18 @@ import * as styles from './Form.css';
 
 type CheerTalkFormProps = {
   gameTeams: GameTeamType[];
-  mutate: UseMutateFunction<void, Error, GameCheerTalkPayload, unknown>;
+  saveCheerTalkMutate: UseMutateFunction<
+    void,
+    Error,
+    GameCheerTalkPayload,
+    unknown
+  >;
   scrollToBottom: () => void;
 };
 
 const CheerTalkForm = ({
   gameTeams,
-  mutate,
+  saveCheerTalkMutate,
   scrollToBottom,
 }: CheerTalkFormProps) => {
   const [inputValue, setInputValue] = useState<string>('');
@@ -29,14 +34,14 @@ const CheerTalkForm = ({
 
       if (!inputValue.trim()) return;
 
-      mutate({
+      saveCheerTalkMutate({
         gameTeamId: selectedTeamId,
         content: inputValue,
       });
       setInputValue('');
       scrollToBottom();
     },
-    [inputValue, mutate, selectedTeamId, scrollToBottom],
+    [inputValue, saveCheerTalkMutate, selectedTeamId, scrollToBottom],
   );
 
   const handleRadioClick = useCallback(
@@ -70,7 +75,7 @@ const CheerTalkForm = ({
           placeholder="응원톡을 남겨보세요!"
           aria-label="응원 메시지 입력"
         />
-        <button className={styles.cheerTalkSendButton} type="button">
+        <button className={styles.cheerTalkSendButton} type="submit">
           <Icon source={SendIcon} className={styles.cheerTalkSendIcon} />
         </button>
       </div>

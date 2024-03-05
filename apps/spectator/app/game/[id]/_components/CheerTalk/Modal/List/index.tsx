@@ -63,7 +63,7 @@ export default function CheerTalkList({
       </ul>
       <CheerTalkForm
         gameTeams={gameDetail.gameTeams}
-        mutate={mutate}
+        saveCheerTalkMutate={mutate}
         scrollToBottom={scrollToBottom}
       />
     </div>
