@@ -1,8 +1,9 @@
 import Image from 'next/image';
 
-import * as styles from '@/app/game/[id]/_components/CheerTalk/OnAir/OnAir.css';
 import { GameCheerTalkType } from '@/types/game';
 import { formatTime } from '@/utils/time';
+
+import * as styles from './OnAir.css';
 
 type CheerTalkItemProps = GameCheerTalkType & {
   direction: 'left' | 'right';

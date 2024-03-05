@@ -1,11 +1,12 @@
 import { useState } from 'react';
 
-import CheerTalkModal from '@/app/game/[id]/_components/CheerTalk/Modal';
-import CheerTalkOnAir from '@/app/game/[id]/_components/CheerTalk/OnAir';
 import useSocket from '@/hooks/useSocket';
 import useCheerTalkById from '@/queries/useCheerTalkById';
 import useGameById from '@/queries/useGameById';
 import { GameCheerTalkType, GameCheerTalkWithTeamInfo } from '@/types/game';
+
+import CheerTalkModal from './Modal';
+import CheerTalkOnAir from './OnAir';
 
 type CheerTalkItemProps = {
   gameId: string;
