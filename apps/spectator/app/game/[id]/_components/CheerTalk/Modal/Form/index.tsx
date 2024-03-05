@@ -38,6 +38,7 @@ const CheerTalkForm = ({
         gameTeamId: selectedTeamId,
         content: inputValue,
       });
+
       setInputValue('');
       scrollToBottom();
     },
