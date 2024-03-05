@@ -17,6 +17,8 @@ export { ReactComponent as PencilIcon } from './svg/pencil.svg';
 export { ReactComponent as PlusIcon } from './svg/plus.svg';
 export { ReactComponent as ProfileIcon } from './svg/profile.svg';
 export { ReactComponent as SendIcon } from './svg/send.svg';
+export { ReactComponent as SoccerIcon } from './svg/soccer.svg';
+export { ReactComponent as SwitchIcon } from './svg/switch.svg';
 export { ReactComponent as SymbolIcon } from './svg/symbol.svg';
 export { ReactComponent as ThumbsUpIcon } from './svg/thumbs-up.svg';
 export { ReactComponent as TrashIcon } from './svg/trash.svg';
