@@ -1,10 +1,11 @@
 'use client';
 
+import { Tabs } from '@hcc/ui';
+
 import Live from '@/app/_components/Live';
 import AsyncBoundary from '@/components/AsyncBoundary';
 import CheerTalkModal from '@/components/cheertalk/Modal/CheerTalkModal';
 import Loader from '@/components/Loader';
-import Panel from '@/components/Panel';
 
 import Banner from './_components/Banner';
 import BannerFallback from './_components/Banner/Error';
@@ -16,13 +17,22 @@ import Lineup from './_components/Lineup';
 import Timeline from './_components/Timeline';
 import * as styles from './page.css';
 
-export default function Page({ params }: { params: { id: string } }) {
-  const options = [
-    { label: '라인업' },
-    { label: '타임라인' },
-    { label: '경기영상' },
-  ];
+const tabs = [
+  {
+    label: '라인업',
+    renderer: (gameId: string) => <Lineup gameId={gameId} />,
+  },
+  {
+    label: '타임라인',
+    renderer: (gameId: string) => <Timeline gameId={gameId} />,
+  },
+  {
+    label: '경기영상',
+    renderer: (gameId: string) => <div>{gameId} 경기영상</div>,
+  },
+];
 
+export default function Page({ params }: { params: { id: string } }) {
   return (
     <section>
       <AsyncBoundary
@@ -53,36 +63,30 @@ export default function Page({ params }: { params: { id: string } }) {
         </AsyncBoundary>
       </section>
 
-      <Panel options={options} defaultValue="라인업">
-        {({ selected }) => (
-          <>
-            {selected === '라인업' && (
-              <AsyncBoundary
-                errorFallback={() => <div>에러</div>}
-                loadingFallback={<Loader />}
-              >
-                <Lineup gameId={params.id} />
-              </AsyncBoundary>
-            )}
-            {selected === '타임라인' && (
-              <AsyncBoundary
-                errorFallback={() => <div>에러</div>}
-                loadingFallback={<Loader />}
-              >
-                <Timeline gameId={params.id} />
-              </AsyncBoundary>
-            )}
-            {selected === '경기영상' && (
-              <AsyncBoundary
-                errorFallback={() => <div>에러</div>}
-                loadingFallback={<Loader />}
-              >
-                <div></div>
-              </AsyncBoundary>
-            )}
-          </>
-        )}
-      </Panel>
+      <Tabs defaultValue="라인업" className={styles.panel.wrapper}>
+        <Tabs.List className={styles.panel.menu}>
+          {tabs.map(tab => (
+            <Tabs.Trigger
+              key={tab.label}
+              value={tab.label}
+              className={state => styles.item[state]}
+            >
+              {tab.label}
+            </Tabs.Trigger>
+          ))}
+        </Tabs.List>
+        {tabs.map(tab => (
+          <Tabs.Content key={tab.label} value={tab.label}>
+            <AsyncBoundary
+              errorFallback={() => <div>에러</div>}
+              loadingFallback={<Loader />}
+            >
+              {tab.renderer(params.id)}
+            </AsyncBoundary>
+          </Tabs.Content>
+        ))}
+      </Tabs>
+
       <CheerTalkModal gameId={params.id} />
     </section>
   );
