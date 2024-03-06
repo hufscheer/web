@@ -1,16 +1,19 @@
 import { rem, theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
+import { calc } from '@vanilla-extract/css-utils';
 
 export const container = style({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
-  maxWidth: rem(218),
+  maxWidth: calc.divide(theme.sizes.appWidth, 2),
   margin: '0 auto',
   padding: `0 ${rem(16)}`,
 });
 
 export const content = style({
+  width: '100%',
+
   padding: `${rem(8)} ${rem(16)}`,
   borderRadius: rem(15),
   backgroundColor: theme.colors.gray[2],

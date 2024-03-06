@@ -46,11 +46,12 @@ const CheerTalkModal = ({ gameId }: CheerTalkModalProps) => {
 
   return (
     <Modal>
-      <Modal.Trigger>
+      <Modal.Trigger as="div">
         <CheerTalkEntryButton />
       </Modal.Trigger>
-      <Modal.Content className={styles.wrapper}>
+      <Modal.Content key="cheer-talk" className={styles.wrapper}>
         {/* Game Banner */}
+        <Modal.Close className={styles.close} />
         <AsyncBoundary
           errorFallback={props => <>{props}</>}
           loadingFallback={<></>}
@@ -68,7 +69,6 @@ const CheerTalkModal = ({ gameId }: CheerTalkModalProps) => {
         >
           <ModalSection gameId={gameId} cheerTalks={cheerTalks} />
         </AsyncBoundary>
-        <Modal.Close />
       </Modal.Content>
     </Modal>
   );
