@@ -19,7 +19,7 @@ export default function LeagueList() {
   return (
     <>
       {YEARS_LIST.map(year => (
-        <Accordion type="single" key={year}>
+        <Accordion type="single" key={year} defaultValue={`${YEARS_LIST[0]}`}>
           <Accordion.Item value={year.toString()}>
             <Accordion.Trigger className={styles.yearName}>
               {year}년도
