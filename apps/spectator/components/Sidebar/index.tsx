@@ -5,6 +5,7 @@ import { theme } from '@hcc/styles';
 import { Icon, Modal } from '@hcc/ui';
 
 import * as styles from './Sidebar.css';
+import AsyncBoundary from '../AsyncBoundary';
 import LeagueList from '../LeagueList';
 
 export default function Sidebar() {
@@ -31,7 +32,12 @@ export default function Sidebar() {
           <Modal.Close className={styles.close} />
         </div>
 
-        <LeagueList />
+        <AsyncBoundary
+          errorFallback={() => <div>에러</div>}
+          loadingFallback={<div>스켈레톤</div>}
+        >
+          <LeagueList />
+        </AsyncBoundary>
       </Modal.Content>
     </Modal>
   );

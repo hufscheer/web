@@ -1,4 +1,4 @@
-import { useQueries } from '@tanstack/react-query';
+import { useSuspenseQueries } from '@tanstack/react-query';
 
 import { getLeagues } from '@/api/league';
 import { LeagueType } from '@/types/league';
@@ -8,7 +8,7 @@ export default function useLeagues<T extends number[]>(years: T) {
     queryKey: ['league', year],
     queryFn: () => getLeagues(year),
   }));
-  const { error, ...rest } = useQueries({
+  const { error, ...rest } = useSuspenseQueries({
     queries: options,
     combine: results => {
       return {
