@@ -5,7 +5,6 @@ import Link from 'next/link';
 import useLeagues from '@/queries/useLeagues';
 
 import * as styles from './LeagueList.css';
-import List from '../List';
 
 const START_YEAR = 2023;
 const CURRENT_YEAR = dayjs().year();
@@ -18,8 +17,8 @@ export default function LeagueList() {
   const { leagues } = useLeagues<typeof YEARS_LIST>(YEARS_LIST);
 
   return (
-    <List lists={YEARS_LIST} className={styles.yearList}>
-      {year => (
+    <>
+      {YEARS_LIST.map(year => (
         <Accordion type="single" key={year}>
           <Accordion.Item value={year.toString()}>
             <Accordion.Trigger className={styles.yearName}>
@@ -27,13 +26,9 @@ export default function LeagueList() {
             </Accordion.Trigger>
 
             <Accordion.Content>
-              <List
-                lists={leagues[year] || []}
-                _key="leagueId"
-                className={styles.leagueList}
-              >
-                {league => (
-                  <li className={styles.leagueItem}>
+              <ul className={styles.leagueList}>
+                {leagues[year].map(league => (
+                  <li key={league.leagueId} className={styles.leagueItem}>
                     <Link
                       href={{
                         pathname: '/',
@@ -43,12 +38,12 @@ export default function LeagueList() {
                       {league.name}
                     </Link>
                   </li>
-                )}
-              </List>
+                ))}
+              </ul>
             </Accordion.Content>
           </Accordion.Item>
         </Accordion>
-      )}
-    </List>
+      ))}
+    </>
   );
 }
