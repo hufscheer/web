@@ -1,17 +1,20 @@
 import { rem, theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
+import { calc } from '@vanilla-extract/css-utils';
 
 export const container = style({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
-  maxWidth: rem(218),
-  marginInline: 'auto',
-  paddingInline: theme.spaces.default,
+  maxWidth: calc.divide(theme.sizes.appWidth, 2),
+  margin: '0 auto',
+  padding: `0 ${rem(16)}`,
 });
 
 export const content = style({
-  padding: `${theme.spaces.xs} ${theme.spaces.default}`,
+  width: '100%',
+
+  padding: `${rem(8)} ${rem(16)}`,
   borderRadius: rem(15),
   backgroundColor: theme.colors.gray[2],
   ...theme.textVariants.xs,
@@ -21,8 +24,8 @@ export const menuBlock = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: `${theme.spaces.sm} ${theme.spaces.default}`,
-  marginTop: theme.spaces.xxs,
+  padding: `${rem(12)} ${rem(16)}`,
+  marginTop: rem(4),
   borderRadius: rem(10),
   backgroundColor: 'white',
   ...theme.textVariants.xs,

@@ -46,7 +46,7 @@ export default function CheerTalkModal({
           fetchNextPage={fetchNextPage}
           isFetching={isFetching}
         />
-        <Modal.Close />
+        <Modal.Close className={styles.close} />
       </Modal.Content>
     </Modal>
   );

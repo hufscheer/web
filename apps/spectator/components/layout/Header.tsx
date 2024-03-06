@@ -1,17 +1,13 @@
 'use client';
 
-import { HamburgerIcon, HccIcon } from '@hcc/icons';
+import { HccIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import Link from 'next/link';
-import { useState } from 'react';
 
 import * as styles from './Header.css';
+import Sidebar from '../Sidebar';
 
 export default function Header() {
-  const [, setIsSidebarOpen] = useState(false);
-
-  const toggleSidebar = () => setIsSidebarOpen(prev => !prev);
-
   return (
     <header className={styles.header.wrapper}>
       <div>
@@ -21,15 +17,7 @@ export default function Header() {
           </span>
         </Link>
       </div>
-      <div>
-        <button onClick={toggleSidebar}>
-          <Icon
-            source={HamburgerIcon}
-            size={30}
-            className={styles.header.hamburgerMenu}
-          />
-        </button>
-      </div>
+      <Sidebar />
     </header>
   );
 }

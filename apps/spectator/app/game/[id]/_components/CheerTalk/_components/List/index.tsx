@@ -1,6 +1,7 @@
 import { useEffect, useRef, memo } from 'react';
 
 import useInfiniteObserver from '@/hooks/useInfiniteObserver';
+import useThrottle from '@/hooks/useThrottle';
 import useGameById from '@/queries/useGameById';
 import useSaveCheerTalkMutation from '@/queries/useSaveCheerTalkMutation/query';
 import { GameCheerTalkWithTeamInfo } from '@/types/game';
@@ -36,13 +37,17 @@ export default function CheerTalkList({
     scrollRef.current?.scrollIntoView();
   };
 
+  const throttledFetchNextPage = useThrottle(fetchNextPage, 1000);
+
   const { ref } = useInfiniteObserver<HTMLDivElement>(() => {
-    if (hasNextPage && !isFetching) fetchNextPage();
+    if (hasNextPage && !isFetching) {
+      throttledFetchNextPage();
+    }
   });
 
   useEffect(() => {
     scrollToBottom();
-  }, [cheerTalkList, socketTalkList]);
+  }, []);
 
   return (
     <div className={styles.list.container}>

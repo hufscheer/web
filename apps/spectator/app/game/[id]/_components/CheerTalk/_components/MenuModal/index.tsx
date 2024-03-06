@@ -34,7 +34,7 @@ const CheerTalkMenuModal = ({
   return (
     <Modal>
       <Modal.Trigger className={className}>{children}</Modal.Trigger>
-      <Modal.Content className={styles.container}>
+      <Modal.Content key="cheer-talk-menu" className={styles.container}>
         <p className={styles.content}>{content}</p>
         <Modal.Close
           className={styles.menuBlock}
