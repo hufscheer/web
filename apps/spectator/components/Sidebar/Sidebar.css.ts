@@ -38,10 +38,14 @@ export const sidebarHeader = style({
   borderBottom: `1px solid ${theme.colors.gray[2]}`,
 });
 
+export const openIconButton = style({
+  display: 'flex',
+  alignItems: 'center',
+});
+
 export const close = style({
   position: 'absolute',
   top: '50%',
   right: 0,
   transform: 'translate(0, -50%)',
-  // transform: 'translateY(-75%)',
 });

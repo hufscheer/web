@@ -10,13 +10,11 @@ import Sidebar from '../Sidebar';
 export default function Header() {
   return (
     <header className={styles.header.wrapper}>
-      <div>
-        <Link href="/" className={styles.header.logoWrapper}>
-          <span className={styles.header.logoContent}>
-            <Icon source={HccIcon} size={75} />
-          </span>
-        </Link>
-      </div>
+      <Link href="/">
+        <span className={styles.header.logoContent}>
+          <Icon source={HccIcon} size={58} height={41} color="primary" />
+        </span>
+      </Link>
       <Sidebar />
     </header>
   );

@@ -11,8 +11,8 @@ import LeagueList from '../LeagueList';
 export default function Sidebar() {
   return (
     <Modal>
-      <Modal.Trigger>
-        <Icon source={HamburgerIcon} />
+      <Modal.Trigger className={styles.openIconButton}>
+        <Icon source={HamburgerIcon} size={20} color="primary" />
       </Modal.Trigger>
       <Modal.Content
         key="sidebar"
