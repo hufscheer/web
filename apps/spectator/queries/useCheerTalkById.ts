@@ -1,6 +1,7 @@
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 import { getGameCheerTalkById } from '@/api/game';
+import { GameCheerTalkWithTeamInfo } from '@/types/game';
 
 import useGameById from './useGameById';
 
@@ -24,12 +25,16 @@ export default function useCheerTalkById(gameId: string) {
       queryFn: ({ pageParam }) => getGameCheerTalkById(gameId, pageParam || ''),
       getNextPageParam: lastPage => lastPage[0]?.cheerTalkId || null,
       select: data => ({
-        pages: [
-          ...data.pages.flat().map(talk => ({
-            ...talk,
-            ...getTeamInfo(talk.gameTeamId),
-          })),
-        ].reverse(),
+        pages: data.pages.reduce<GameCheerTalkWithTeamInfo[]>(
+          (acc, page) => [
+            ...page.map(talk => ({
+              ...talk,
+              ...getTeamInfo(talk.gameTeamId),
+            })),
+            ...acc,
+          ],
+          [],
+        ),
         pageParams: [...data.pageParams].reverse(),
       }),
     });

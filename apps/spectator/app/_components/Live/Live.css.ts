@@ -32,6 +32,6 @@ export const redLight = style({
 });
 
 export const liveText = style({
-  fontWeight: theme.textVariants.lg.fontWeight,
+  fontWeight: 'bold',
   fontSize: theme.textVariants.default.fontSize,
 });

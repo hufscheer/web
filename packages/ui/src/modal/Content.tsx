@@ -1,5 +1,5 @@
 import { AnimatePresence, AnimationProps, motion } from 'framer-motion';
-import { ElementType, forwardRef, useEffect } from 'react';
+import React, { ElementType, forwardRef, useEffect } from 'react';
 
 import { useModal } from './hooks';
 import * as styles from './styles.css';

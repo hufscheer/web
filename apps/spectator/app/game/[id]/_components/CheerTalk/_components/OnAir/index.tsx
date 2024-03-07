@@ -1,19 +1,16 @@
 import { ChatIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 
-import useCheerTalkById from '@/queries/useCheerTalkById';
+import { GameCheerTalkWithTeamInfo } from '@/types/game';
 
-import * as styles from './CheerTalk.css';
 import CheerTalkItem from './Item';
+import * as styles from './OnAir.css';
 
 type CheerTalkInRealProps = {
-  gameId: string;
+  cheerTalk: GameCheerTalkWithTeamInfo | undefined;
 };
 
-export default function CheerTalkInReal({ gameId }: CheerTalkInRealProps) {
-  const { cheerTalkList } = useCheerTalkById(gameId);
-  const cheerTalk = cheerTalkList.pages.at(0);
-
+export default function CheerTalkOnAir({ cheerTalk }: CheerTalkInRealProps) {
   if (!cheerTalk)
     return (
       <div className={styles.empty.root}>

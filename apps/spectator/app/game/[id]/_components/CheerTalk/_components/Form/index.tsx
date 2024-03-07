@@ -5,19 +5,22 @@ import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 
 import { GameCheerTalkPayload, GameTeamType } from '@/types/game';
 
-import * as styles from './CheerTalkForm.css';
+import * as styles from './Form.css';
 
-interface CheerTalkFormProps {
-  gameId: string;
+type CheerTalkFormProps = {
   gameTeams: GameTeamType[];
-  mutate: UseMutateFunction<void, Error, GameCheerTalkPayload, unknown>;
+  saveCheerTalkMutate: UseMutateFunction<
+    void,
+    Error,
+    GameCheerTalkPayload,
+    unknown
+  >;
   scrollToBottom: () => void;
-}
+};
 
 const CheerTalkForm = ({
-  gameId,
   gameTeams,
-  mutate,
+  saveCheerTalkMutate,
   scrollToBottom,
 }: CheerTalkFormProps) => {
   const [inputValue, setInputValue] = useState<string>('');
@@ -25,18 +28,22 @@ const CheerTalkForm = ({
     gameTeams[0].gameTeamId,
   );
 
-  const handleCheerTalkSubmit = (
-    e: FormEvent<HTMLFormElement>,
-    payload: GameCheerTalkPayload,
-  ): void => {
-    e.preventDefault();
+  const handleCheerTalkSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>): void => {
+      e.preventDefault();
 
-    if (!payload.content.trim()) return;
+      if (!inputValue.trim()) return;
 
-    mutate({ ...payload, gameTeamId: selectedTeamId });
-    setInputValue('');
-    scrollToBottom();
-  };
+      saveCheerTalkMutate({
+        gameTeamId: selectedTeamId,
+        content: inputValue,
+      });
+
+      setInputValue('');
+      scrollToBottom();
+    },
+    [inputValue, saveCheerTalkMutate, selectedTeamId, scrollToBottom],
+  );
 
   const handleRadioClick = useCallback(
     (e: ChangeEvent<HTMLInputElement>): void => {
@@ -46,15 +53,7 @@ const CheerTalkForm = ({
   );
 
   return (
-    <form
-      className={styles.form}
-      onSubmit={e =>
-        handleCheerTalkSubmit(e, {
-          gameTeamId: Number(gameId),
-          content: inputValue,
-        })
-      }
-    >
+    <form className={styles.form} onSubmit={handleCheerTalkSubmit}>
       <fieldset className={styles.radioBox}>
         {gameTeams.map(team => (
           <label key={team.gameTeamId} className={styles.radioField}>
@@ -75,12 +74,17 @@ const CheerTalkForm = ({
           value={inputValue}
           onChange={e => setInputValue(e.target.value)}
           placeholder="응원톡을 남겨보세요!"
+          aria-label="응원 메시지 입력"
         />
-        <button className={styles.cheerTalkSendButton}>
+        <button className={styles.cheerTalkSendButton} type="submit">
           <Icon source={SendIcon} className={styles.cheerTalkSendIcon} />
         </button>
       </div>
-      <button className={styles.scrollToBottomButton} onClick={scrollToBottom}>
+      <button
+        className={styles.scrollToBottomButton}
+        onClick={scrollToBottom}
+        type="button"
+      >
         <Icon source={ArrowDownIcon} className={styles.scrollToBottomIcon} />
       </button>
     </form>

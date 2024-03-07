@@ -24,6 +24,7 @@ export const cheerTalk = styleVariants({
 
   title: {
     ...theme.textVariants.lg,
+    fontWeight: 'bold',
   },
 });
 

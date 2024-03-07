@@ -15,7 +15,6 @@ export type GameTeamType = {
   gameTeamName: string;
   logoImageUrl: string;
   score: number;
-  order: number;
 };
 
 export type GameCheerType = {
@@ -77,6 +76,11 @@ export type GameCheerTalkType = {
   gameTeamId: number;
   createdAt: string;
   isBlocked: boolean;
+};
+
+export type GameCheerTalkWithTeamInfo = GameCheerTalkType & {
+  direction: 'left' | 'right';
+  logoImageUrl: string;
 };
 
 export type GameCheerTalkPayload = Pick<

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { GameCheerTalkType } from '@/types/game';
 import { formatTime } from '@/utils/time';
 
-import * as styles from './CheerTalk.css';
+import * as styles from './OnAir.css';
 
 type CheerTalkItemProps = GameCheerTalkType & {
   direction: 'left' | 'right';
@@ -29,7 +29,9 @@ export default function CheerTalkItem({
       <span className={styles.talkBox}>
         <span className={styles.content}>{content}</span>
       </span>
-      <time className={styles.time}>{formatTime(createdAt, 'a HH:MM')}</time>
+      <time className={styles.timestamp}>
+        {formatTime(createdAt, 'A hh:mm')}
+      </time>
     </div>
   );
 }
