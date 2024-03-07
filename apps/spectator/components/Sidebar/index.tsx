@@ -12,7 +12,7 @@ export default function Sidebar() {
   return (
     <Modal>
       <Modal.Trigger>
-        <Icon source={HamburgerIcon} />
+        <Icon source={HamburgerIcon} color="primary" />
       </Modal.Trigger>
       <Modal.Content
         key="sidebar"
