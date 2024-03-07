@@ -14,12 +14,17 @@ type TriggerType = <C extends ElementType = 'button'>(
 
 const ModalTrigger: TriggerType = forwardRef(function ModalTrigger<
   C extends ElementType = 'button',
->({ as, children }: Props<C>, ref: PolymorphicRef<C>) {
+>({ as, className, children, ...props }: Props<C>, ref: PolymorphicRef<C>) {
   const Component = as || 'button';
   const { onOpenToggle } = useModal();
 
   return (
-    <Component ref={ref} onClick={onOpenToggle}>
+    <Component
+      ref={ref}
+      className={className}
+      {...props}
+      onClick={onOpenToggle}
+    >
       {children}
     </Component>
   );
