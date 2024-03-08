@@ -12,22 +12,6 @@ export const backdrop = style({
   zIndex: 2048,
 });
 
-// export const content = style({
-//   display: 'flex',
-//   flexDirection: 'column',
-//   gap: theme.spaces.default,
-
-//   position: 'relative',
-
-//   width: theme.sizes.appWidth,
-//   height: 'auto',
-
-//   padding: theme.spaces.default,
-
-//   backgroundColor: theme.colors.background.normal,
-//   borderRadius: 8,
-// });
-
 export const close = style({
   display: 'flex',
   alignItems: 'center',
