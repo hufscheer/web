@@ -39,7 +39,7 @@ export default function CheerTalkList({
 
   const throttledFetchNextPage = useThrottle(fetchNextPage, 1000);
 
-  const { ref } = useInfiniteObserver<HTMLDivElement>(() => {
+  const { ref } = useInfiniteObserver<HTMLLIElement>(() => {
     if (hasNextPage && !isFetching) {
       throttledFetchNextPage();
     }
@@ -52,7 +52,7 @@ export default function CheerTalkList({
   return (
     <div className={styles.list.container}>
       <ul className={styles.list.content}>
-        <div ref={ref}></div>
+        <li ref={ref}></li>
 
         {/* HTTP */}
         {cheerTalkList.map(talk => (
