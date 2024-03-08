@@ -32,7 +32,7 @@ export default function ScoreTimeline({
           alt={`${teamName} 로고`}
           width={24}
           height={24}
-          priority={true}
+          loading="lazy"
         />
       </div>
     </li>

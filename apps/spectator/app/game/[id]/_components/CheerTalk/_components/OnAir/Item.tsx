@@ -24,7 +24,7 @@ export default function CheerTalkItem({
         alt={`${gameTeamId} logo`}
         width={32}
         height={32}
-        priority={true}
+        loading="lazy"
       />
       <span className={styles.talkBox}>
         <span className={styles.content}>{content}</span>
