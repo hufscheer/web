@@ -1,7 +1,6 @@
 import '@hcc/styles/dist/globals.css';
 
 import { theme } from '@hcc/styles';
-import { Analytics } from '@vercel/analytics/react';
 import { Metadata } from 'next';
 import { ReactNode } from 'react';
 
@@ -12,8 +11,7 @@ import GoogleAnalytics from './GoogleAnalytics';
 import ReactQueryProvider from './ReactQueryProvider';
 
 import 'dayjs/locale/ko';
-import 'pretendard/dist/web/static/pretendard.css';
-import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
+import 'pretendard/dist/web/static/pretendard-subset.css';
 
 interface RootLayoutProps {
   children: ReactNode;
@@ -30,17 +28,17 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="ko">
-      <GoogleAnalytics />
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
       <body style={{ margin: 'auto', maxWidth: theme.sizes.appWidth }}>
         <ReactQueryProvider>
           <Header />
-          <main>
-            {children}
-            <Analytics />
-          </main>
+          <main>{children}</main>
           <Footer />
         </ReactQueryProvider>
       </body>
+      <GoogleAnalytics />
     </html>
   );
 }
