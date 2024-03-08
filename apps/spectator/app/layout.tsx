@@ -11,7 +11,7 @@ import GoogleAnalytics from './GoogleAnalytics';
 import ReactQueryProvider from './ReactQueryProvider';
 
 import 'dayjs/locale/ko';
-import 'pretendard/dist/web/static/pretendard-subset.css';
+import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
 
 interface RootLayoutProps {
   children: ReactNode;
