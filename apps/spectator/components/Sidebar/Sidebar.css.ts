@@ -1,16 +1,5 @@
 import { theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
-import { CSSProperties } from 'react';
-
-export const root: CSSProperties = {
-  position: 'absolute',
-  top: 0,
-  right: 0,
-
-  width: 300,
-  height: '100vh',
-  borderRadius: '8px 0 0 8px',
-};
 
 export const sidebar = style({
   display: 'flex',
@@ -27,7 +16,7 @@ export const sidebar = style({
   paddingInline: theme.spaces.default,
 
   backgroundColor: theme.colors.background.normal,
-  borderRadius: '8px 0 0 8px',
+  borderRadius: 0,
 });
 
 export const sidebarHeader = style({

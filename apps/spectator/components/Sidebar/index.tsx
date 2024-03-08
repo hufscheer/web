@@ -30,7 +30,6 @@ export default function Sidebar() {
         }}
         transition={{ type: 'just' }}
         aria-label="Sidebar"
-        style={styles.root}
         className={styles.sidebar}
       >
         <div className={styles.sidebarHeader}>
