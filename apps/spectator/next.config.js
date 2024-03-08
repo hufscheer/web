@@ -1,11 +1,11 @@
 const { createVanillaExtractPlugin } = require('@vanilla-extract/next-plugin');
-
 const withVanillaExtract = createVanillaExtractPlugin();
 
-const transpilePackages = ['@hcc/ui'];
-
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 60 * 60 * 24 * 14,
     remotePatterns: [
       {
         protocol: 'https',
@@ -22,4 +22,5 @@ const nextConfig = {
     ],
   },
 };
+
 module.exports = withVanillaExtract(nextConfig);

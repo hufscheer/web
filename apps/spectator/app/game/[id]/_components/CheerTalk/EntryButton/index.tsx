@@ -35,6 +35,7 @@ export default function CheerTalkEntryButton({
           <button
             className={styles.entryButton}
             onClick={handleButtonClick}
+            aria-label="응원톡 열기"
             {...props}
           >
             <Icon source={ChatIcon} className={styles.entryButtonIcon} />

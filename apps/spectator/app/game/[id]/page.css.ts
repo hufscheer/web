@@ -1,12 +1,6 @@
 import { theme, rem } from '@hcc/styles';
 import { style, styleVariants } from '@vanilla-extract/css';
 
-const contentSection = style({ overflowY: 'auto', padding: '1.25rem' });
-
-export const timelineSection = contentSection;
-
-export const videoSection = contentSection;
-
 export const cheerTalk = styleVariants({
   section: {
     display: 'flex',

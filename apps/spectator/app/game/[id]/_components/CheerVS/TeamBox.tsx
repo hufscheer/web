@@ -64,7 +64,7 @@ export default function CheerTeamBox({
         height={50}
         src={logoImageUrl}
         alt={`${gameTeamName} 로고`}
-        priority={true}
+        loading="lazy"
       />
       <span>{count}</span>
     </button>

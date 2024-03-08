@@ -33,7 +33,9 @@ const CheerTalkMenuModal = ({
 
   return (
     <Modal>
-      <Modal.Trigger className={className}>{children}</Modal.Trigger>
+      <Modal.Trigger className={className} aria-label="응원톡 모달 열기">
+        {children}
+      </Modal.Trigger>
       <Modal.Content key="cheer-talk-menu" className={styles.container}>
         <p className={styles.content}>{content}</p>
         <Modal.Close
@@ -44,6 +46,7 @@ const CheerTalkMenuModal = ({
           <Icon
             source={ExclamationCircleFillIcon}
             className={styles.menuIcon}
+            aria-label="응원톡 신고"
           />
         </Modal.Close>
       </Modal.Content>

@@ -16,7 +16,7 @@ export default function LineupTeam({ team }: LineupTeamProps) {
         alt={`${team.gameTeamName} logo image`}
         width={50}
         height={50}
-        priority={true}
+        loading="lazy"
       />
       <span className={styles.team.name}>{team.gameTeamName}</span>
     </div>

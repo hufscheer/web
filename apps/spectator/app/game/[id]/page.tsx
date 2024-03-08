@@ -85,8 +85,6 @@ export default function Page({ params }: { params: { id: string } }) {
           </Tabs.Content>
         ))}
       </Tabs>
-
-      <CheerTalkModal gameId={params.id} />
     </section>
   );
 }

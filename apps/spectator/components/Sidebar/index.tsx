@@ -11,8 +11,14 @@ import LeagueList from '../LeagueList';
 export default function Sidebar() {
   return (
     <Modal>
-      <Modal.Trigger className={styles.openIconButton}>
-        <Icon source={HamburgerIcon} size={20} color="primary" />
+      <Modal.Trigger>
+        <Icon
+          source={HamburgerIcon}
+          aria-label="메뉴 열기"
+          role="button"
+          size={20}
+          color="primary"
+        />
       </Modal.Trigger>
       <Modal.Content
         key="sidebar"
@@ -24,7 +30,6 @@ export default function Sidebar() {
         }}
         transition={{ type: 'just' }}
         aria-label="Sidebar"
-        style={styles.root}
         className={styles.sidebar}
       >
         <div className={styles.sidebarHeader}>

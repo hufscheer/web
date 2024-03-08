@@ -10,10 +10,18 @@ import Sidebar from '../Sidebar';
 export default function Header() {
   return (
     <header className={styles.header.wrapper}>
-      <Link href="/">
-        <span className={styles.header.logoContent}>
-          <Icon source={HccIcon} size={58} height={41} color="primary" />
-        </span>
+      <Link
+        href="/"
+        aria-label="홈페이지로 이동"
+        className={styles.header.logoContent}
+      >
+        <Icon
+          source={HccIcon}
+          size={58}
+          height={41}
+          color="primary"
+          aria-label="훕치치"
+        />
       </Link>
       <Sidebar />
     </header>
