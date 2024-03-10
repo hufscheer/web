@@ -2,6 +2,16 @@ export interface GameListType extends GameType {
   id: number;
 }
 
+export type GameListParams = {
+  league_id?: string;
+  state: GameStatus;
+  sport_id?: string;
+  cursor?: string | number;
+  size?: string;
+  league_team_id?: string;
+  round?: string;
+};
+
 export interface GameType {
   gameTeams: GameTeamType[];
   startTime: string;
