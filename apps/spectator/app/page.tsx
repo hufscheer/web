@@ -8,7 +8,7 @@ import Loader from '@/components/Loader';
 import { QUERY_PARAMS } from '@/constants/queryParams';
 import useQueryParams from '@/hooks/useQueryParams';
 import SportsListFetcher from '@/queries/useSportsListByLeagueId/Fetcher';
-import { GameStatus } from '@/types/game';
+import { GameState } from '@/types/game';
 
 import {
   gameListWrapper,
@@ -22,7 +22,7 @@ export default function Page() {
     useQueryParams();
 
   const paramsObj = repeatIterator(
-    {} as { status: GameStatus },
+    {} as { status: GameState },
     params.entries(),
   );
 
