@@ -4,7 +4,7 @@ export interface GameListType extends GameType {
 
 export type GameListParams = {
   league_id?: string;
-  state: GameStatus;
+  state: GameState;
   sport_id?: string;
   cursor?: string | number;
   size?: string;
@@ -102,4 +102,10 @@ export type GameVideoType = {
   videoId: string;
 };
 
-export type GameStatus = 'playing' | 'scheduled' | 'finished';
+export type GameState = 'playing' | 'scheduled' | 'finished';
+
+export enum GameStateString {
+  playing = '진행 중',
+  scheduled = '예정',
+  finished = '종료',
+}
