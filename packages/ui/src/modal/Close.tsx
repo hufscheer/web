@@ -1,6 +1,6 @@
 import { CrossIcon } from '@hcc/icons';
 import { clsx } from 'clsx';
-import React, { ElementType, forwardRef } from 'react';
+import React, { ElementType, MouseEvent, forwardRef } from 'react';
 
 import { useModal } from './hooks';
 import * as styles from './styles.css';
