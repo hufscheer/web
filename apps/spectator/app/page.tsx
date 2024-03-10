@@ -1,7 +1,5 @@
 'use client';
 
-import Link from 'next/link';
-
 import AsyncBoundary from '@/components/AsyncBoundary';
 import SportsList from '@/components/league/SportsList';
 import Loader from '@/components/Loader';
@@ -10,12 +8,8 @@ import useQueryParams from '@/hooks/useQueryParams';
 import SportsListFetcher from '@/queries/useSportsListByLeagueId/Fetcher';
 import { GameState } from '@/types/game';
 
-import {
-  gameListWrapper,
-  section,
-  statusButton,
-  statusCheckbox,
-} from './page.css';
+import GameList from './_components/GameList';
+import { section, statusButton, statusCheckbox } from './page.css';
 
 export default function Page() {
   const { params, repeatIterator, appendToParams, setInParams } =
@@ -78,12 +72,22 @@ export default function Page() {
       </div>
 
       <AsyncBoundary
-        errorFallback={() => <div>에러</div>}
+        errorFallback={GameList.PlayingErrorFallback}
         loadingFallback={<Loader />}
       >
-        <Link href={`/game/52`}>
-          <div className={gameListWrapper}>임시 게임 아이템 {'->'} 클릭</div>
-        </Link>
+        <GameList state="playing" />
+      </AsyncBoundary>
+      <AsyncBoundary
+        errorFallback={GameList.ScheduledErrorFallback}
+        loadingFallback={<Loader />}
+      >
+        <GameList state="scheduled" />
+      </AsyncBoundary>
+      <AsyncBoundary
+        errorFallback={GameList.FinishedErrorFallback}
+        loadingFallback={<Loader />}
+      >
+        <GameList state="finished" />
       </AsyncBoundary>
     </section>
   );
