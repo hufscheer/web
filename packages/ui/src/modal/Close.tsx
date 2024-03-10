@@ -1,5 +1,5 @@
 import { CrossIcon } from '@hcc/icons';
-import { ElementType, forwardRef } from 'react';
+import { ElementType, MouseEvent, forwardRef } from 'react';
 
 import { useModal } from './hooks';
 import * as styles from './styles.css';
@@ -21,9 +21,14 @@ const ModalClose: CloseType = forwardRef(function ModalClose<
   const Component = as || 'button';
   const { onOpenChange } = useModal();
 
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+    onOpenChange(false);
+    if (props.onClick) props.onClick(e);
+  };
+
   if (children) {
     return (
-      <Component ref={ref} {...props} onClick={() => onOpenChange(false)}>
+      <Component ref={ref} {...props} onClick={handleClick}>
         {children}
       </Component>
     );
@@ -33,7 +38,7 @@ const ModalClose: CloseType = forwardRef(function ModalClose<
     <Component
       ref={ref}
       {...props}
-      onClick={() => onOpenChange(false)}
+      onClick={handleClick}
       className={styles.close}
     >
       <Icon source={CrossIcon} size="xs" />
