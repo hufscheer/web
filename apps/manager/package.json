@@ -9,10 +9,8 @@
     "lint": "eslint . --max-warnings 0"
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": [
-      "prettier --write",
-      "eslint --fix --max-warnings 0"
-    ]
+    "**/*": "prettier --write",
+    "**/*.{ts,tsx}": "eslint --fix --max-warnings 0"
   },
   "dependencies": {
     "@hcc/icons": "workspace:^",
