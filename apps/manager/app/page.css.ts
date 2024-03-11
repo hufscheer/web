@@ -1,7 +1,8 @@
 import { theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 
-export const customButtonStyle = style({
-  backgroundColor: theme.colors.gray[2],
-  color: theme.colors.gray[6],
+export const layout = style({
+  maxWidth: theme.sizes.appWidth,
+  margin: 'auto',
+  paddingInline: theme.spaces.default,
 });

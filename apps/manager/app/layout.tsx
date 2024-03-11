@@ -7,6 +7,9 @@ import { ReactNode } from 'react';
 
 import { mantineTheme } from '@/styles/theme';
 
+import * as styles from './page.css';
+import ReactQueryProvider from './ReactQueryProvider';
+
 interface RootLayoutProps {
   children: ReactNode;
 }
@@ -23,8 +26,10 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
         />
         <ColorSchemeScript />
       </head>
-      <body>
-        <MantineProvider theme={mantineTheme}>{children}</MantineProvider>
+      <body className={styles.layout}>
+        <ReactQueryProvider>
+          <MantineProvider theme={mantineTheme}>{children}</MantineProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );
