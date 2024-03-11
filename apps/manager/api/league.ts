@@ -9,7 +9,7 @@ import {
 } from '@/types/league';
 
 export const getAllLeagues = async () => {
-  const { data } = await instance.get<LeagueType[]>('/league/all/');
+  const { data } = await instance.get<LeagueType[]>('/leagues/all/');
 
   return data;
 };

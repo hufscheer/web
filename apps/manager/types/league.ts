@@ -18,7 +18,11 @@ export type SportsDataType = number[];
 
 export type SportsCategoriesType = SportIdType & SportsQuarterType;
 
-export type LeagueType = LeagueIdType & LeagueDataType;
+export type LeagueType = LeagueIdType &
+  LeagueDataType & {
+    InProgressRound: number;
+    maxRound: number;
+  };
 
 export type NewLeaguePayload = {
   leagueData: LeagueDataType;
