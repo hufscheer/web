@@ -2,21 +2,23 @@ import { CrossIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 
 import { QUERY_PARAMS } from '@/constants/queryParams';
-import { SportsType } from '@/types/league';
+import useSportsListByLeagueId from '@/queries/useSportsListByLeagueId';
 
 import * as styles from './SportsList.css';
 
 type SportsListProps = {
   selectedId: string[];
-  sportsList: SportsType[];
+  leagueId: string;
   onClick: (key: string, value: string) => void;
 };
 
 export default function SportsList({
   selectedId = [],
-  sportsList,
+  leagueId,
   onClick,
 }: SportsListProps) {
+  const { sportsList } = useSportsListByLeagueId(leagueId);
+
   return (
     <ul className={styles.sportsList.wrapper}>
       {sportsList.map(sports => (

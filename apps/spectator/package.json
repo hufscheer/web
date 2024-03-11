@@ -13,6 +13,7 @@
     "**/*.{ts,tsx}": "eslint --fix --max-warnings 0"
   },
   "dependencies": {
+    "@egjs/react-flicking": "^3.8.3",
     "@hcc/icons": "workspace:^",
     "@hcc/styles": "workspace:*",
     "@hcc/ui": "workspace:*",

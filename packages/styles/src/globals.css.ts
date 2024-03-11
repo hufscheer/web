@@ -14,3 +14,7 @@ globalStyle('body', {
 globalStyle('div, span, p, a, button, ul, li', {
   fontFamily: theme.fonts.body,
 });
+
+globalStyle('.eg-flick-camera', {
+  display: 'flex',
+});

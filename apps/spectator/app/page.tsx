@@ -1,25 +1,25 @@
 'use client';
 
+import dayjs from 'dayjs';
 import Link from 'next/link';
 
 import AsyncBoundary from '@/components/AsyncBoundary';
-import SportsList from '@/components/league/SportsList';
 import Loader from '@/components/Loader';
 import { QUERY_PARAMS } from '@/constants/queryParams';
 import useQueryParams from '@/hooks/useQueryParams';
-import SportsListFetcher from '@/queries/useSportsListByLeagueId/Fetcher';
 import { GameStatus } from '@/types/game';
 
-import {
-  gameListWrapper,
-  section,
-  statusButton,
-  statusCheckbox,
-} from './page.css';
+import LeagueList from './_components/LeagueList';
+import SportsList from './_components/SportsList';
+import { gameListWrapper, section } from './page.css';
 
 export default function Page() {
   const { params, repeatIterator, appendToParams, setInParams } =
     useQueryParams();
+
+  const selectedYear =
+    Number.parseInt(params.get('year') as string) || dayjs().year();
+  const selectedId = Number.parseInt(params.get('league_id') as string);
 
   const paramsObj = repeatIterator(
     {} as { status: GameStatus },
@@ -29,53 +29,25 @@ export default function Page() {
   return (
     <section className={section}>
       <AsyncBoundary
+        errorFallback={() => <div>에러</div>}
+        loadingFallback={<div>스켈레톤</div>}
+      >
+        <LeagueList
+          year={selectedYear}
+          selectedLeagueId={selectedId}
+          onClick={setInParams}
+        />
+      </AsyncBoundary>
+      <AsyncBoundary
         errorFallback={() => <SportsList.Skeleton />}
         loadingFallback={<SportsList.Skeleton />}
       >
-        <SportsListFetcher leagueId={params.get('leagueId') || '39'}>
-          {data => (
-            <SportsList
-              selectedId={paramsObj[QUERY_PARAMS.sports] as string[]}
-              sportsList={data}
-              onClick={appendToParams}
-            />
-          )}
-        </SportsListFetcher>
+        <SportsList
+          selectedId={paramsObj[QUERY_PARAMS.sports] as string[]}
+          leagueId={params.get('leagueId') || '39'}
+          onClick={appendToParams}
+        />
       </AsyncBoundary>
-
-      <div className={statusCheckbox}>
-        <button
-          onClick={() => setInParams(QUERY_PARAMS.status, 'finished')}
-          className={
-            params.get(QUERY_PARAMS.status) === 'finished'
-              ? statusButton['focused']
-              : statusButton['default']
-          }
-        >
-          종료
-        </button>
-        <button
-          onClick={() => setInParams(QUERY_PARAMS.status, 'playing')}
-          className={
-            params.get(QUERY_PARAMS.status) === 'playing' ||
-            params.get(QUERY_PARAMS.status) === null
-              ? statusButton['focused']
-              : statusButton['default']
-          }
-        >
-          진행 중
-        </button>
-        <button
-          onClick={() => setInParams(QUERY_PARAMS.status, 'scheduled')}
-          className={
-            params.get(QUERY_PARAMS.status) === 'scheduled'
-              ? statusButton['focused']
-              : statusButton['default']
-          }
-        >
-          예정
-        </button>
-      </div>
 
       <AsyncBoundary
         errorFallback={() => <div>에러</div>}
