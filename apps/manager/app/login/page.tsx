@@ -2,12 +2,16 @@
 
 import { Box, Button, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import useLoginMutation from '@/hooks/mutations/useLoginMutation';
 
 import * as styles from './page.css';
 
 export default function Login() {
+  const router = useRouter();
+  const params = useSearchParams();
+
   const form = useForm({
     initialValues: {
       email: '',
@@ -19,9 +23,17 @@ export default function Login() {
     },
     validateInputOnChange: true,
   });
+
   const { mutate: mutateLogin } = useLoginMutation();
   const handleSubmit = (values: typeof form.values) => {
-    mutateLogin(values);
+    mutateLogin(values, {
+      onSuccess: () => {
+        const redirect = params.get('redirect');
+
+        if (redirect) router.replace(redirect);
+        else router.replace('/');
+      },
+    });
   };
 
   return (
