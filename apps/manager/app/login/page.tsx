@@ -1,6 +1,5 @@
 'use client';
 
-import { Toast } from '@hcc/ui';
 import { Box, Button, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
@@ -22,10 +21,7 @@ export default function Login() {
   });
   const { mutate: mutateLogin } = useLoginMutation();
   const handleSubmit = (values: typeof form.values) => {
-    mutateLogin(values, {
-      onSuccess: () => Toast.show('로그인에 성공했습니다!'),
-      onError: () => Toast.show('이메일 혹은 비밀번호를 확인해주세요.'),
-    });
+    mutateLogin(values);
   };
 
   return (
