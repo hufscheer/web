@@ -52,6 +52,9 @@ export const title = recipe({
       normal: {
         fontWeight: theme.textVariants.sm.fontWeight,
       },
+      semibold: {
+        fontWeight: 600,
+      },
     },
   },
 });
