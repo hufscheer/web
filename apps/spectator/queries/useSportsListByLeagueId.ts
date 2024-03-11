@@ -8,8 +8,7 @@ export default function useSportsListByLeagueId(leagueId: string) {
     queryFn: () => getSportsListByLeagueId(leagueId),
   });
 
-  return {
-    sportsList: data,
-    error,
-  };
+  if (error) throw error;
+
+  return { sportsList: data };
 }

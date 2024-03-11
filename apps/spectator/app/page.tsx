@@ -23,18 +23,24 @@ export default function Page() {
   return (
     <section className={section}>
       <AsyncBoundary
+        errorFallback={() => <div>에러</div>}
+        loadingFallback={<div>스켈레톤</div>}
+      >
+        <LeagueList
+          year={selectedYear}
+          selectedLeagueId={selectedId}
+          onClick={setInParams}
+        />
+      </AsyncBoundary>
+      <AsyncBoundary
         errorFallback={() => <SportsList.Skeleton />}
         loadingFallback={<SportsList.Skeleton />}
       >
-        <SportsListFetcher leagueId={params.get('leagueId') || '39'}>
-          {data => (
-            <SportsList
-              selectedId={paramsObj[QUERY_PARAMS.sports] as string[]}
-              sportsList={data}
-              onClick={appendToParams}
-            />
-          )}
-        </SportsListFetcher>
+        <SportsList
+          selectedId={paramsObj[QUERY_PARAMS.sports] as string[]}
+          leagueId={params.get('leagueId') || '39'}
+          onClick={appendToParams}
+        />
       </AsyncBoundary>
 
       <div className={statusCheckbox}>
