@@ -13,7 +13,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*/',
-        destination: 'https://backoffice.hufstreaming.site/:path*/',
+        destination: `https://backoffice.hufstreaming.site/:path*/`,
       },
     ];
   },
