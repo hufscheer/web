@@ -11,7 +11,7 @@ type GameButtonProps = {
 
 export default function GameButton({ id, state }: GameButtonProps) {
   if (state === 'scheduled') {
-    return <div className={styles.gameButtonArea.root}></div>;
+    return <></>;
   }
 
   return (
