@@ -1,4 +1,6 @@
 import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
+import '@mantine/dropzone/styles.css';
 import '@hcc/styles/dist/globals.css';
 import '@hcc/styles/dist/theme.css';
 
