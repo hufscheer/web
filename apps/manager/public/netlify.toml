@@ -1,6 +1,0 @@
-[[redirects]]
-  from = "/api/*"
-  to = "https://backoffice.hufstreaming.site/:splat"
-  status = 200
-  force = true
-  headers = {Content-Type = "application/json"}
