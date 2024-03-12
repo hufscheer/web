@@ -48,7 +48,7 @@ const CardAction = forwardRef<HTMLButtonElement, CardActionProps>(
 );
 
 interface CardTitleProps extends ComponentPropsWithoutRef<'h3'> {
-  text?: 'bold' | 'normal';
+  text?: 'bold' | 'semibold' | 'normal';
 }
 
 const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(

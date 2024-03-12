@@ -1,15 +1,18 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import AddButton from '@/components/AddButton';
 
-export default function LeagueList() {
-  const pathname = usePathname();
+import LeagueCard from './_components/LeagueCard';
+
+export default function Page() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      대회 관리
-      <Link href={`${pathname}/1`}>2024 월드컵</Link>
-      <Link href={`${pathname}/register`}>신규 대회 추가...</Link>
+      <LeagueCard title="진행 중" />
+      <AddButton onClick={() => {}}>신규 대회 추가</AddButton>
+      <LeagueCard title="예정" />
+      <AddButton onClick={() => {}}>신규 대회 추가</AddButton>
+      <LeagueCard title="종료" />
+      <AddButton onClick={() => {}}>신규 대회 추가</AddButton>
     </div>
   );
 }
