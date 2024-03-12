@@ -19,7 +19,7 @@ export default function GameCard({ info, state }: GameCardProps) {
       <GameMetadata state={state} gameName={gameName} startTime={startTime} />
 
       <div className={styles.gameContentArea}>
-        <GameInfo gameTeams={gameTeams} state={state} />
+        <GameInfo gameTeams={gameTeams} gameId={id} state={state} />
         <GameButton id={id} state={state} />
       </div>
     </div>

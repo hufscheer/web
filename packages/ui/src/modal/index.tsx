@@ -17,11 +17,12 @@ export const ModalContext = createContext<ModalContext>({
 });
 
 type ModalProps = {
+  defaultState?: boolean;
   children: React.ReactNode;
 };
 
-const Modal = ({ children }: ModalProps) => {
-  const [open, setOpen] = useState(false);
+const Modal = ({ defaultState, children }: ModalProps) => {
+  const [open, setOpen] = useState(defaultState ?? false);
   const onOpenChange = useCallback((open: boolean) => setOpen(open), []);
   const onOpenToggle = useCallback(() => setOpen(prev => !prev), []);
 

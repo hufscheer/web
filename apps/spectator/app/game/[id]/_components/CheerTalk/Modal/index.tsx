@@ -15,6 +15,7 @@ interface CheerTalkModalProps {
   fetchNextPage: () => void;
   hasNextPage: boolean;
   isFetching: boolean;
+  defaultState?: boolean;
 }
 
 export default function CheerTalkModal({
@@ -24,9 +25,10 @@ export default function CheerTalkModal({
   fetchNextPage,
   hasNextPage,
   isFetching,
+  defaultState,
 }: CheerTalkModalProps) {
   return (
-    <Modal>
+    <Modal defaultState={defaultState}>
       <Modal.Trigger as="span">
         <CheerTalkEntryButton />
       </Modal.Trigger>

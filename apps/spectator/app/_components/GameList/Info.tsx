@@ -1,21 +1,25 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { GameListType, GameState } from '@/types/game';
 
 import * as styles from './GameList.css';
 
-export default function GameInfo({
-  gameTeams,
-  state,
-}: {
+type GameInfoProps = {
   gameTeams: GameListType['gameTeams'];
+  gameId: number;
   state: GameState;
-}) {
+};
+
+export default function GameInfo({ gameTeams, gameId, state }: GameInfoProps) {
   // todo: fisished 상태일 때 경기 승패를 score 색상으로 표시
   const [firstTeam, secondTeam] = gameTeams;
   const IMAGE_SIZE = 36;
   return (
-    <div className={styles.gameInfoArea}>
+    <Link
+      href={{ pathname: `/game/${gameId}`, query: { tabs: 'lineup' } }}
+      className={styles.gameInfoArea}
+    >
       <div className={styles.gameInfoRow.root}>
         <div className={styles.gameInfoRow.team}>
           <Image
@@ -46,7 +50,7 @@ export default function GameInfo({
         </div>
         <GameScore score={secondTeam.score} state={state} />
       </div>
-    </div>
+    </Link>
   );
 }
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { Tabs } from '@hcc/ui';
+import { useSearchParams } from 'next/navigation';
 
 import Live from '@/app/_components/Live';
 import CheerTalk from '@/app/game/[id]/_components/CheerTalk';
@@ -18,20 +19,31 @@ import * as styles from './page.css';
 
 const tabs = [
   {
+    key: 'lineup',
     label: '라인업',
     renderer: (gameId: string) => <Lineup gameId={gameId} />,
   },
   {
+    key: 'timeline',
     label: '타임라인',
     renderer: (gameId: string) => <Timeline gameId={gameId} />,
   },
   {
+    key: 'highlight',
     label: '경기영상',
     renderer: (gameId: string) => <div>{gameId} 경기영상</div>,
   },
 ];
 
 export default function Page({ params }: { params: { id: string } }) {
+  const searchParams = useSearchParams();
+  const tabQuery = searchParams.get('tab');
+  const cheerQuery = searchParams.get('cheer');
+  const validTabKeys = tabs.map(tab => tab.key);
+  const tabState =
+    tabQuery && validTabKeys.includes(tabQuery) ? tabQuery : 'lineup';
+  const cheerState = !!(cheerQuery && cheerQuery === 'open');
+
   return (
     <section>
       <AsyncBoundary
@@ -58,16 +70,16 @@ export default function Page({ params }: { params: { id: string } }) {
           errorFallback={() => <div>에러</div>}
           loadingFallback={<div>로딩</div>}
         >
-          <CheerTalk gameId={params.id} />
+          <CheerTalk gameId={params.id} defaultState={cheerState} />
         </AsyncBoundary>
       </section>
 
-      <Tabs defaultValue="라인업" className={styles.panel.wrapper}>
+      <Tabs defaultValue={tabState} className={styles.panel.wrapper}>
         <Tabs.List className={styles.panel.menu}>
           {tabs.map(tab => (
             <Tabs.Trigger
-              key={tab.label}
-              value={tab.label}
+              key={tab.key}
+              value={tab.key}
               className={state => styles.item[state]}
             >
               {tab.label}
@@ -75,7 +87,7 @@ export default function Page({ params }: { params: { id: string } }) {
           ))}
         </Tabs.List>
         {tabs.map(tab => (
-          <Tabs.Content key={tab.label} value={tab.label}>
+          <Tabs.Content key={tab.key} value={tab.key}>
             <AsyncBoundary
               errorFallback={() => <div>에러</div>}
               loadingFallback={<Loader />}

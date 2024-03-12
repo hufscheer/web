@@ -10,9 +10,13 @@ import CheerTalkOnAir from './OnAir';
 
 type CheerTalkItemProps = {
   gameId: string;
+  defaultState?: boolean;
 };
 
-export default function CheerTalk({ gameId }: CheerTalkItemProps) {
+export default function CheerTalk({
+  gameId,
+  defaultState,
+}: CheerTalkItemProps) {
   const [socketTalkList, setSocketTalkList] = useState<
     GameCheerTalkWithTeamInfo[]
   >([]);
@@ -53,6 +57,7 @@ export default function CheerTalk({ gameId }: CheerTalkItemProps) {
         gameId={gameId}
         cheerTalkList={cheerTalkList.pages}
         socketTalkList={socketTalkList}
+        defaultState={defaultState}
         {...rest}
       />
     </div>
