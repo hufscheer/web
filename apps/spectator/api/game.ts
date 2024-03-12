@@ -49,7 +49,7 @@ export const postCheer = async ({
   gameTeamId: number;
   cheerCount: number;
 }) => {
-  return await instance.post(`/games/${gameId}/cheer`, payload);
+  return await instance.post(`/games/${gameId}/cheer`, JSON.stringify(payload));
 };
 
 export const getGameTimelineById = async (gameId: string) => {
@@ -87,9 +87,9 @@ export const getGameCheerTalkById = async (
 };
 
 export const postGameCheerTalk = async (payload: GameCheerTalkPayload) => {
-  await instance.post(`/cheer-talks`, payload);
+  await instance.post(`/cheer-talks`, JSON.stringify(payload));
 };
 
 export const postReportCheerTalk = async (payload: { cheerTalkId: number }) => {
-  await instance.post(`/reports`, payload);
+  await instance.post(`/reports`, JSON.stringify(payload));
 };
