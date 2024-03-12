@@ -10,18 +10,15 @@ import {
   GameVideoType,
   GameListParams,
 } from '@/types/game';
-import { convertObjectToQueryString } from '@/utils/queryString';
 
 export const getGameList = async ({
   size = '5',
   cursor,
   ...params
 }: GameListParams) => {
-  const queryString = convertObjectToQueryString(params);
-
-  const { data } = await instance.get<GameListType[]>(
-    `/games?${queryString}&cursor=${cursor}&size=${size}`,
-  );
+  const { data } = await instance.get<GameListType[]>('/games', {
+    params: { size, cursor, ...params },
+  });
 
   return data;
 };
