@@ -31,7 +31,7 @@ let retryCounter = 0;
 
 const getAccessToken = () => {
   if (typeof window !== 'undefined') {
-    const tokenInLocalStorage = localStorage.getItem('token');
+    const tokenInLocalStorage = localStorage.getItem('accessToken');
 
     if (tokenInLocalStorage) return tokenInLocalStorage;
   } else return null;
