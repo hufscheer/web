@@ -14,8 +14,8 @@ export const getAllLeagues = async () => {
   return data;
 };
 
-export const postNewLeague = async (body: NewLeaguePayload) => {
-  const { data } = await instance.post<LeagueIdType>('/league/', body);
+export const createLeague = async (payload: NewLeaguePayload) => {
+  const { data } = await instance.post<LeagueIdType>('/league/', payload);
 
   return data;
 };

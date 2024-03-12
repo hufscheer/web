@@ -8,6 +8,7 @@ export type LeagueDataType = {
   name: string;
   startAt: string;
   endAt: string;
+  maxRound: number;
 };
 
 export type SportIdType = {
