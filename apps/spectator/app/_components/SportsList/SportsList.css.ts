@@ -1,10 +1,5 @@
-import { theme } from '@hcc/styles';
-import { keyframes, style, styleVariants } from '@vanilla-extract/css';
-
-const sportsItemBase = style({
-  borderRadius: '0.75rem',
-  cursor: 'pointer',
-});
+import { rem, theme } from '@hcc/styles';
+import { style, styleVariants } from '@vanilla-extract/css';
 
 const sportsItem = styleVariants({
   default: [
@@ -52,13 +47,8 @@ export const skeleton = styleVariants({
     maxWidth: '28rem',
     height: '40px',
   },
-  li: {
-    borderRadius: '0.75rem',
-    animation: `${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`,
-    cursor: 'pointer',
-    height: '40px',
-    width: '70px',
-    color: theme.colors.gray[5],
-    background: theme.colors.gray[2],
-  },
+});
+
+export const focused = style({
+  color: theme.colors.primary[3],
 });

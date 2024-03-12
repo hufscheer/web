@@ -8,8 +8,8 @@ import useLeague from '@/queries/useLeuage';
 import * as styles from './LeagueList.css';
 
 type LeagueListProps = {
-  year: number;
-  selectedLeagueId: number;
+  year: string;
+  selectedLeagueId: string;
   onClick: (key: string, value: string) => void;
 };
 
@@ -18,11 +18,11 @@ export default function LeagueList({
   selectedLeagueId,
   onClick,
 }: LeagueListProps) {
-  const leaguesData = useLeague(year);
+  const { leagueList } = useLeague(year);
   const flickingRef = useRef<Flicking | null>(null);
 
-  const selectedLeagueIndex = leaguesData.leagues.findIndex(
-    league => league.leagueId === selectedLeagueId,
+  const selectedLeagueIndex = leagueList.findIndex(
+    league => league.leagueId === Number(selectedLeagueId),
   );
 
   useEffect(() => {
@@ -44,46 +44,12 @@ export default function LeagueList({
         autoResize={true}
         bound={true}
       >
-        {leaguesData.leagues.map(league => (
+        {leagueList.map(league => (
           <li
             key={league.leagueId}
             className={clsx(
               styles.league.item,
-              league.leagueId === selectedLeagueId && styles.focused,
-            )}
-          >
-            <button
-              onClick={() =>
-                onClick(QUERY_PARAMS.league, String(league.leagueId))
-              }
-            >
-              {league.name}
-            </button>
-          </li>
-        ))}
-        {leaguesData.leagues.map(league => (
-          <li
-            key={league.leagueId}
-            className={clsx(
-              styles.league.item,
-              league.leagueId === selectedLeagueId && styles.focused,
-            )}
-          >
-            <button
-              onClick={() =>
-                onClick(QUERY_PARAMS.league, String(league.leagueId))
-              }
-            >
-              {league.name}
-            </button>
-          </li>
-        ))}
-        {leaguesData.leagues.map(league => (
-          <li
-            key={league.leagueId}
-            className={clsx(
-              styles.league.item,
-              league.leagueId === selectedLeagueId && styles.focused,
+              league.leagueId === Number(selectedLeagueId) && styles.focused,
             )}
           >
             <button

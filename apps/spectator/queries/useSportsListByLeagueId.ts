@@ -10,5 +10,5 @@ export default function useSportsListByLeagueId(leagueId: string) {
 
   if (error) throw error;
 
-  return { sportsList: data };
+  return { sportList: data };
 }

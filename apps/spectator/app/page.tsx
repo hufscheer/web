@@ -1,24 +1,24 @@
 'use client';
 
+import dayjs from 'dayjs';
+import Link from 'next/link';
+
 import AsyncBoundary from '@/components/AsyncBoundary';
-import SportsList from '@/components/league/SportsList';
 import Loader from '@/components/Loader';
 import { QUERY_PARAMS } from '@/constants/queryParams';
 import useQueryParams from '@/hooks/useQueryParams';
-import SportsListFetcher from '@/queries/useSportsListByLeagueId/Fetcher';
-import { GameState } from '@/types/game';
+import { GameStatus } from '@/types/game';
 
-import GameList from './_components/GameList';
-import { section, statusButton, statusCheckbox } from './page.css';
+import LeagueList from './_components/LeagueList';
+import SportsList from './_components/SportsList';
+import { gameListWrapper, section } from './page.css';
 
 export default function Page() {
-  const { params, repeatIterator, appendToParams, setInParams } =
-    useQueryParams();
+  const { params, setInParams } = useQueryParams();
 
-  const paramsObj = repeatIterator(
-    {} as { status: GameState },
-    params.entries(),
-  );
+  const selectedYear = params.get('year') || String(dayjs().year());
+  const selectedLeagueId = params.get('league_id') || '39';
+  const selectedSportId = params.get('sport_id') || '';
 
   return (
     <section className={section}>
@@ -28,18 +28,15 @@ export default function Page() {
       >
         <LeagueList
           year={selectedYear}
-          selectedLeagueId={selectedId}
+          selectedLeagueId={selectedLeagueId}
           onClick={setInParams}
         />
       </AsyncBoundary>
-      <AsyncBoundary
-        errorFallback={() => <SportsList.Skeleton />}
-        loadingFallback={<SportsList.Skeleton />}
-      >
+      <AsyncBoundary errorFallback={() => <></>} loadingFallback={<></>}>
         <SportsList
-          selectedId={paramsObj[QUERY_PARAMS.sports] as string[]}
-          leagueId={params.get('leagueId') || '39'}
-          onClick={appendToParams}
+          selectedSportId={selectedSportId}
+          leagueId={selectedLeagueId}
+          onClick={setInParams}
         />
       </AsyncBoundary>
 
