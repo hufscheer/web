@@ -42,6 +42,11 @@ export const inner = style({
   flex: 1,
 });
 
+export const action = style({
+  display: 'flex',
+  alignItems: 'center',
+});
+
 export const title = recipe({
   base: { ...theme.textVariants.default },
   variants: {
