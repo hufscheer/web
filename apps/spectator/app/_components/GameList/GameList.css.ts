@@ -169,7 +169,7 @@ export const errorFallback = styleVariants({
     minHeight: rem(138),
     backgroundColor: theme.colors.gray[1],
   },
-  span: {
+  message: {
     ...theme.textVariants.default,
     color: theme.colors.gray[5],
   },

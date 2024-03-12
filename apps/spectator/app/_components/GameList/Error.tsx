@@ -7,7 +7,7 @@ function GameListErrorFallback({ message }: { message: string }) {
   return (
     <div className={errorFallback.root}>
       <Icon source={WhistlingIcon} size="lg" />
-      <span className={errorFallback.span}>{message}</span>
+      <span className={errorFallback.message}>{message}</span>
     </div>
   );
 }
