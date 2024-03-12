@@ -1,19 +1,26 @@
-import { Button, ButtonProps } from '@mantine/core';
+import { Button, ButtonProps, createPolymorphicComponent } from '@mantine/core';
+import { forwardRef } from 'react';
 
 import * as styles from './AddButton.css';
 
-interface AddButtonProps extends ButtonProps {
-  onClick: () => void;
-}
+interface AddButtonProps extends ButtonProps {}
 
-export default function AddButton({
-  variant = 'subtle',
-  children,
-  ...props
-}: AddButtonProps) {
-  return (
-    <Button variant={variant} className={styles.addButton} {...props}>
-      {children}
-    </Button>
-  );
-}
+const AddButton = createPolymorphicComponent<'button', AddButtonProps>(
+  forwardRef<HTMLButtonElement, AddButtonProps>(function AddButton(
+    { variant = 'subtle', children, ...props }: AddButtonProps,
+    ref,
+  ) {
+    return (
+      <Button
+        ref={ref}
+        variant={variant}
+        className={styles.addButton}
+        {...props}
+      >
+        {children}
+      </Button>
+    );
+  }),
+);
+
+export default AddButton;
