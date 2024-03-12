@@ -10,8 +10,6 @@ import { mantineTheme } from '@/styles/theme';
 import * as styles from './page.css';
 import ReactQueryProvider from './ReactQueryProvider';
 
-import 'dayjs/locale/ko';
-
 interface RootLayoutProps {
   children: ReactNode;
 }
