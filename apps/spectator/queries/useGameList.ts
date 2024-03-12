@@ -2,6 +2,7 @@ import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 import { getGameList } from '@/api/game';
 import { GameListParams, GameListType } from '@/types/game';
+import { formatTime } from '@/utils/time';
 
 export const useGameList = ({
   sport_id,
@@ -36,12 +37,11 @@ export const useGameList = ({
 
         data.pages.flatMap(gameList => {
           gameList.forEach(game => {
-            const date = game.startTime.split('T')[0];
+            const date = formatTime(game.startTime, 'MM월 DD일 (ddd)');
             const existing = gameMap.get(date);
 
             if (existing) {
-              existing.push(game);
-              gameMap.set(date, existing);
+              gameMap.set(date, [...existing, game]);
             } else {
               gameMap.set(date, [game]);
             }

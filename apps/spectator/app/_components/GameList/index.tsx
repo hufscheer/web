@@ -3,7 +3,6 @@ import Loader from '@/components/Loader';
 import useIntersect from '@/hooks/useInfiniteObserver';
 import { useGameList } from '@/queries/useGameList';
 import { GameState } from '@/types/game';
-import { parseTimeString } from '@/utils/time';
 
 import GameCard from './Card';
 import {
@@ -36,11 +35,9 @@ export default function GameList({ state }: GameListProps) {
     <>
       <div className={styles.root}>
         {groupedGameList.map(gameList => {
-          const { month, date, weekday } = parseTimeString(gameList.startTime);
-          const dateRow = `${month}월 ${date}일 (${weekday})`;
           return (
             <ul key={gameList.startTime} className={styles.listRoot}>
-              <div className={styles.dateRow}>{dateRow}</div>
+              <div className={styles.dateRow}>{gameList.startTime}</div>
               {gameList.data.map(game => (
                 <AsyncBoundary
                   errorFallback={GameCard.ErrorFallback}
