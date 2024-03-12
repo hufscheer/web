@@ -1,5 +1,6 @@
-import { CrossIcon } from '@hcc/icons';
-import { Icon } from '@hcc/ui';
+import Flicking from '@egjs/react-flicking';
+import { clsx } from 'clsx';
+import { useEffect, useRef } from 'react';
 
 import { QUERY_PARAMS } from '@/constants/queryParams';
 import useSportsListByLeagueId from '@/queries/useSportsListByLeagueId';
@@ -7,51 +8,60 @@ import useSportsListByLeagueId from '@/queries/useSportsListByLeagueId';
 import * as styles from './SportsList.css';
 
 type SportsListProps = {
-  selectedId: string[];
+  selectedSportId: string;
   leagueId: string;
   onClick: (key: string, value: string) => void;
 };
 
 export default function SportsList({
-  selectedId = [],
   leagueId,
+  selectedSportId,
   onClick,
 }: SportsListProps) {
-  const { sportsList } = useSportsListByLeagueId(leagueId);
+  const { sportList } = useSportsListByLeagueId(leagueId);
+  const flickingRef = useRef<Flicking | null>(null);
+
+  const selectedSportIndex = sportList.findIndex(
+    sport => sport.sportId === Number(selectedSportId),
+  );
+
+  useEffect(() => {
+    const flicking = flickingRef.current;
+
+    if (flicking && selectedSportIndex >= 0) {
+      flicking.moveTo(selectedSportIndex);
+    }
+  }, [selectedSportIndex]);
 
   return (
-    <ul className={styles.sportsList.wrapper}>
-      {sportsList.map(sports => (
-        <li
-          key={sports.sportId}
-          className={
-            selectedId.includes(sports.sportId + '')
-              ? styles.sportsList.itemFocused
-              : styles.sportsList.item
-          }
-        >
-          <button
-            onClick={() => onClick(QUERY_PARAMS.sports, String(sports.sportId))}
-            className={styles.sportsList.button}
-          >
-            <span>{sports.name}</span>
-            {selectedId.includes(sports.sportId + '') && (
-              <Icon source={CrossIcon} size={12} />
+    <div className={styles.wrapper}>
+      <Flicking
+        ref={flickingRef}
+        viewportTag="div"
+        cameraTag="ul"
+        align="center"
+        duration={500}
+        autoResize={true}
+        bound={true}
+      >
+        {sportList.map(sport => (
+          <li
+            key={sport.sportId}
+            className={clsx(
+              styles.sport.item,
+              sport.sportId === Number(selectedSportId) && styles.focused,
             )}
-          </button>
-        </li>
-      ))}
-    </ul>
+          >
+            <button
+              onClick={() =>
+                onClick(QUERY_PARAMS.sports, String(sport.sportId))
+              }
+            >
+              {sport.name}
+            </button>
+          </li>
+        ))}
+      </Flicking>
+    </div>
   );
 }
-
-SportsList.Skeleton = function Skeleton() {
-  return (
-    <ul className={styles.skeleton.ul}>
-      <li className={styles.skeleton.li} />
-      <li className={styles.skeleton.li} />
-      <li className={styles.skeleton.li} />
-      <li className={styles.skeleton.li} />
-    </ul>
-  );
-};

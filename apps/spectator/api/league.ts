@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import instance from '@/api';
 import { LeagueType, SportsType } from '@/types/league';
 
-export const getLeagues = async (year: number) => {
+export const getLeagues = async (year: string) => {
   const { data } = await instance.get<LeagueType[]>(`/leagues`, {
     params: {
       year,

@@ -5,26 +5,18 @@ import Link from 'next/link';
 
 import AsyncBoundary from '@/components/AsyncBoundary';
 import Loader from '@/components/Loader';
-import { QUERY_PARAMS } from '@/constants/queryParams';
 import useQueryParams from '@/hooks/useQueryParams';
-import { GameStatus } from '@/types/game';
 
 import LeagueList from './_components/LeagueList';
 import SportsList from './_components/SportsList';
 import { gameListWrapper, section } from './page.css';
 
 export default function Page() {
-  const { params, repeatIterator, appendToParams, setInParams } =
-    useQueryParams();
+  const { params, setInParams } = useQueryParams();
 
-  const selectedYear =
-    Number.parseInt(params.get('year') as string) || dayjs().year();
-  const selectedId = Number.parseInt(params.get('league_id') as string);
-
-  const paramsObj = repeatIterator(
-    {} as { status: GameStatus },
-    params.entries(),
-  );
+  const selectedYear = params.get('year') || String(dayjs().year());
+  const selectedLeagueId = params.get('league_id') || '39';
+  const selectedSportId = params.get('sport_id') || '';
 
   return (
     <section className={section}>
@@ -34,18 +26,15 @@ export default function Page() {
       >
         <LeagueList
           year={selectedYear}
-          selectedLeagueId={selectedId}
+          selectedLeagueId={selectedLeagueId}
           onClick={setInParams}
         />
       </AsyncBoundary>
-      <AsyncBoundary
-        errorFallback={() => <SportsList.Skeleton />}
-        loadingFallback={<SportsList.Skeleton />}
-      >
+      <AsyncBoundary errorFallback={() => <></>} loadingFallback={<></>}>
         <SportsList
-          selectedId={paramsObj[QUERY_PARAMS.sports] as string[]}
-          leagueId={params.get('leagueId') || '39'}
-          onClick={appendToParams}
+          selectedSportId={selectedSportId}
+          leagueId={selectedLeagueId}
+          onClick={setInParams}
         />
       </AsyncBoundary>
 
