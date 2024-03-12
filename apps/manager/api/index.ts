@@ -6,7 +6,7 @@ import axios, {
 } from 'axios';
 
 const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACK_OFFICE_BASE_URL,
+  baseURL: '/api',
   headers: {
     Authorization: `Bearer `,
     'Content-Type': 'application/json',

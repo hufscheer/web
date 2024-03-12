@@ -9,7 +9,7 @@
     "lint": "eslint . --max-warnings 0"
   },
   "lint-staged": {
-    "**/*": "prettier --write",
+    "**/*.{js,jsx,ts,tsx,json,css,md}": "prettier --write",
     "**/*.{ts,tsx}": "eslint --fix --max-warnings 0"
   },
   "dependencies": {
