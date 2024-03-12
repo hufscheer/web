@@ -22,7 +22,7 @@ export type GameListParams = {
 export const getGameList = async ({ ...params }: GameListParams) => {
   const queryString = convertObjectToQueryString(params);
 
-  const { data } = await instance.get<GameListType[]>(`games?${queryString}`);
+  const { data } = await instance.get<GameListType[]>(`/games?${queryString}`);
 
   return data;
 };
