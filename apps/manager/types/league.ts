@@ -38,3 +38,11 @@ export type LeagueRegisterDataType = {
   leagueData: LeagueType[];
   sportsListData: SportsCategoriesType[];
 };
+
+export type LeagueTeamPayload = { names: string[]; logos: string[] };
+
+export type LeaguePlayerPayload = {
+  name: string;
+  description: string | null;
+  playerNumber: number | null;
+};

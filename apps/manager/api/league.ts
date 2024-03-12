@@ -2,6 +2,8 @@ import instance from '@/api';
 import {
   DeleteLeaguePayload,
   LeagueIdType,
+  LeaguePlayerPayload,
+  LeagueTeamPayload,
   LeagueType,
   NewLeaguePayload,
   PutLeaguePayload,
@@ -15,9 +17,33 @@ export const getAllLeagues = async () => {
 };
 
 export const createLeague = async (payload: NewLeaguePayload) => {
-  const { data } = await instance.post<LeagueIdType>('/league/', payload);
+  const { data } = await instance.post<LeagueIdType>('/leagues/', payload);
 
   return data;
+};
+
+export const createLeagueTeam = async (
+  leagueId: number,
+  payload: LeagueTeamPayload,
+) => {
+  const { data } = await instance.post<{ data: [] }>(
+    `/league-teams/register/${leagueId}/`,
+    payload,
+  );
+
+  return data;
+};
+
+export const createLeaguePlayers = async (
+  teamId: number,
+  payload: LeaguePlayerPayload[],
+) => {
+  await instance.post(`/league-teams/${teamId}/player/`, {
+    data: payload.map(({ playerNumber, ...player }) => ({
+      ...player,
+      number: playerNumber,
+    })),
+  });
 };
 
 export const deleteLeagueById = async (body: DeleteLeaguePayload) => {
