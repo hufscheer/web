@@ -1,4 +1,4 @@
-import MenuModal from '@/app/league/report/_components/MenuModal';
+import MenuModal from '@/app/report/_components/MenuModal';
 import Card from '@/components/Card';
 
 import * as styles from './CheerTalkCard.css';
