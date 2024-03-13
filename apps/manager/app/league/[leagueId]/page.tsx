@@ -13,7 +13,7 @@ export default function LeagueInfoMap() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const leagueId = Number(pathname.split('/')[2]);
+  const leagueId = Number(pathname.split('/').at(-1));
   const { data: leagues } = useLeagueQuery();
 
   const league = leagues?.find(league => league.leagueId === leagueId);
