@@ -8,8 +8,6 @@ export const title = style({
 });
 
 export const wrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
   marginTop: theme.spaces.sm,
 });
 

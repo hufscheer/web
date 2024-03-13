@@ -42,14 +42,11 @@ export default function MenuModal({
       <Modal.Content key="cheer-talk-menu" className={styles.container}>
         <p className={styles.content}>{content}</p>
         <div className={clsx(styles.content, styles.alert)}>
-          <p
-            dangerouslySetInnerHTML={{
-              __html:
-                type === 'block'
-                  ? '차단된 응원톡은 추후 복구할 수 있습니다.<br/>위 응원톡을 차단하시겠습니까?'
-                  : '복구된 응원톡은 화면에 드러납니다.<br/>위 응원톡을 복구하시겠습니까?',
-            }}
-          />
+          <p>
+            {type === 'block'
+              ? '차단된 응원톡은 추후 복구할 수 있습니다. 위 응원톡을 차단하시겠습니까?'
+              : '복구된 응원톡은 화면에 드러납니다. 위 응원톡을 복구하시겠습니까?'}
+          </p>
           <div className={styles.menuContainer}>
             <Modal.Close
               style={{ flex: '1' }}

@@ -13,7 +13,7 @@ export default function LeagueInfoMap() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const leagueId = Number(pathname.split('/').at(-1));
+  const leagueId = Number(pathname.split('/').at(-2));
   const { data: leagues } = useLeagueQuery();
 
   const league = leagues?.find(league => league.leagueId === leagueId);
@@ -23,12 +23,7 @@ export default function LeagueInfoMap() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <Flex h={rem(43)} align="center">
-        <Button
-          pos="absolute"
-          p={0}
-          bg="none"
-          onClick={() => router.replace('/league')}
-        >
+        <Button pos="absolute" p={0} bg="none" onClick={() => router.back()}>
           <Icon source={CaretDownIcon} style={{ transform: 'rotate(90deg)' }} />
         </Button>
         <Text flex={1} ta="center" size="md" fw="bold">
