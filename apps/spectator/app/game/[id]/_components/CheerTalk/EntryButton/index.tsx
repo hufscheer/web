@@ -4,7 +4,7 @@ import { useEffect, useState, ComponentProps } from 'react';
 
 import * as styles from './EntryButton.css';
 
-const TOOLTIP_KEY = 'cheertalk';
+const TOOLTIP_KEY = 'report';
 
 export default function CheerTalkEntryButton({
   ...props

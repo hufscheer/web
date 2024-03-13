@@ -71,12 +71,18 @@ importers:
       '@vanilla-extract/css':
         specifier: ^1.14.0
         version: 1.14.0
+      '@vanilla-extract/css-utils':
+        specifier: ^0.1.3
+        version: 0.1.3
       '@vanilla-extract/recipes':
         specifier: ^0.5.1
         version: 0.5.1(@vanilla-extract/css@1.14.0)
       axios:
         specifier: ^1.6.5
         version: 1.6.5
+      clsx:
+        specifier: ^2.1.0
+        version: 2.1.0
       dayjs:
         specifier: ^1.11.10
         version: 1.11.10
