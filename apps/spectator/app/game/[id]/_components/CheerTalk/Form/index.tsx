@@ -40,6 +40,7 @@ const CheerTalkForm = ({
           content: inputValue,
         },
         {
+          onSuccess: () => scrollToBottom(),
           onError: () => {
             alert('공격적인 단어가 포함되어 있습니다.');
           },
@@ -47,7 +48,6 @@ const CheerTalkForm = ({
       );
 
       setInputValue('');
-      scrollToBottom();
     },
     [inputValue, saveCheerTalkMutate, selectedTeamId, scrollToBottom],
   );

@@ -32,9 +32,11 @@ export default function CheerTalkList({
   const { gameDetail } = useGameById(gameId);
   const { mutate } = useSaveCheerTalkMutation();
 
-  const scrollRef = useRef<HTMLLIElement>(null);
+  const scrollRef = useRef<HTMLUListElement>(null);
   const scrollToBottom = () => {
-    scrollRef.current?.scrollIntoView();
+    if (!scrollRef.current) return;
+
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   };
 
   const throttledFetchNextPage = useThrottle(fetchNextPage, 1000);
@@ -51,7 +53,7 @@ export default function CheerTalkList({
 
   return (
     <div className={styles.list.container}>
-      <ul className={styles.list.content}>
+      <ul ref={scrollRef} className={styles.list.content}>
         <li ref={ref}></li>
 
         {/* HTTP */}
@@ -63,8 +65,6 @@ export default function CheerTalkList({
         {socketTalkList.map(talk => (
           <CheerTalkItemMemo {...talk} key={`socket-${talk.cheerTalkId}`} />
         ))}
-
-        <li ref={scrollRef}></li>
       </ul>
       <CheerTalkForm
         gameTeams={gameDetail.gameTeams}
