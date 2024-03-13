@@ -1,5 +1,4 @@
 import { Modal } from '@hcc/ui';
-import { Button } from '@mantine/core';
 import { clsx } from 'clsx';
 import { ReactNode } from 'react';
 
@@ -60,10 +59,10 @@ export default function MenuModal({
                   : handleRestoreButton({ cheerTalkId })
               }
             >
-              <Button fullWidth>예</Button>
+              <div className={styles.positiveMenu}>예</div>
             </Modal.Close>
             <Modal.Close style={{ flex: '1' }}>
-              <Button fullWidth>아니오</Button>
+              <div className={styles.negativeMenu}>아니오</div>
             </Modal.Close>
           </div>
         </div>
