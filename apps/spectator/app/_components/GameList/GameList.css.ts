@@ -120,7 +120,7 @@ export const gameInfoRow = styleVariants({
     fontWeight: 700,
   },
   score: {
-    fontSize: 24,
+    fontSize: rem(24),
     color: 'black',
     fontWeight: 700,
   },
