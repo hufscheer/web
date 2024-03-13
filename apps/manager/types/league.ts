@@ -8,6 +8,7 @@ export type LeagueDataType = {
   name: string;
   startAt: string;
   endAt: string;
+  maxRound: number;
 };
 
 export type SportIdType = {
@@ -36,4 +37,12 @@ export type DeleteLeaguePayload = LeagueIdType;
 export type LeagueRegisterDataType = {
   leagueData: LeagueType[];
   sportsListData: SportsCategoriesType[];
+};
+
+export type LeagueTeamPayload = { names: string[]; logos: string[] };
+
+export type LeaguePlayerPayload = {
+  name: string;
+  description: string | null;
+  playerNumber: number | null;
 };

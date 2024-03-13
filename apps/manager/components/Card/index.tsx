@@ -40,7 +40,7 @@ interface CardActionProps extends ComponentPropsWithoutRef<'button'> {}
 const CardAction = forwardRef<HTMLButtonElement, CardActionProps>(
   function CardAction({ children, ...props }, ref) {
     return (
-      <button ref={ref} {...props}>
+      <button ref={ref} className={styles.action} {...props}>
         {children}
       </button>
     );
