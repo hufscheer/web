@@ -8,10 +8,8 @@ import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { Metadata, Viewport } from 'next';
 import { ReactNode } from 'react';
 
-import Header from '@/components/Header';
 import { mantineTheme } from '@/styles/theme';
 
-import * as styles from './page.css';
 import ReactQueryProvider from './ReactQueryProvider';
 
 interface RootLayoutProps {
@@ -30,19 +28,17 @@ export const viewport: Viewport = {
   themeColor: '#C5C8CE',
 };
 
-export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="ko">
       <head>
+        <title>훕치치 매니저</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <ColorSchemeScript />
       </head>
-      <body className={styles.layout}>
+      <body>
         <ReactQueryProvider>
-          <MantineProvider theme={mantineTheme}>
-            <Header />
-            <div className={styles.content}>{children}</div>
-          </MantineProvider>
+          <MantineProvider theme={mantineTheme}>{children}</MantineProvider>
         </ReactQueryProvider>
       </body>
     </html>

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import AddButton from '@/components/AddButton';
+import Layout from '@/components/Layout';
 
 import LeagueCard from './_components/LeagueCard';
 
@@ -11,7 +12,7 @@ export default function Page() {
   const pathname = usePathname();
 
   return (
-    <>
+    <Layout>
       <LeagueCard title="진행 중" />
       <AddButton
         component={Link}
@@ -23,6 +24,6 @@ export default function Page() {
       <AddButton onClick={() => {}}>신규 대회 추가</AddButton>
       <LeagueCard title="종료" />
       <AddButton onClick={() => {}}>신규 대회 추가</AddButton>
-    </>
+    </Layout>
   );
 }

@@ -4,9 +4,8 @@ import { Button, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useRouter, useSearchParams } from 'next/navigation';
 
+import Layout from '@/components/Layout';
 import useLoginMutation from '@/hooks/mutations/useLoginMutation';
-
-import * as styles from './page.css';
 
 export default function Login() {
   const router = useRouter();
@@ -37,25 +36,27 @@ export default function Login() {
   };
 
   return (
-    <form onSubmit={form.onSubmit(handleSubmit)} className={styles.page}>
-      <TextInput
-        withAsterisk
-        label="Email"
-        placeholder="이메일을 입력해주세요."
-        {...form.getInputProps('email')}
-      />
+    <Layout headerVisible={false}>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
+        <TextInput
+          withAsterisk
+          label="Email"
+          placeholder="이메일을 입력해주세요."
+          {...form.getInputProps('email')}
+        />
 
-      <TextInput
-        type="password"
-        withAsterisk
-        label="Password"
-        placeholder="비밀번호을 입력해주세요."
-        {...form.getInputProps('password')}
-      />
+        <TextInput
+          type="password"
+          withAsterisk
+          label="Password"
+          placeholder="비밀번호을 입력해주세요."
+          {...form.getInputProps('password')}
+        />
 
-      <Button mt="md" fullWidth type="submit">
-        로그인
-      </Button>
-    </form>
+        <Button mt="md" fullWidth type="submit">
+          로그인
+        </Button>
+      </form>
+    </Layout>
   );
 }
