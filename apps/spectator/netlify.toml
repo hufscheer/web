@@ -5,8 +5,3 @@ status = 200
 force = true
 [headers.values]
 Access-Control-Allow-Origin = "*"
-
-[[headers]]
-for = "/"
-[headers.values]
-Access-Control-Allow-Origin = "*"
