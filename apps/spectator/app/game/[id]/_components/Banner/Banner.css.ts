@@ -54,7 +54,7 @@ export const gameInfo = style({
 
 export const badge = style({
   ...theme.textVariants.sm,
-  color: theme.colors.background.normal,
+  color: theme.colors.white,
   backgroundColor: theme.colors.primary[3],
 
   padding: `${theme.spaces.xxs} ${theme.spaces.xs}`,

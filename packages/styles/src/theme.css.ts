@@ -53,10 +53,11 @@ export const theme = createGlobalTheme(':root', {
       '6': '#28323C',
     },
     background: {
-      normal: '#FFFFFF',
       secondary: '#F7F8F9',
       light: '#D5D5DC',
     },
+    black: '#14191F',
+    white: '#FFFFFF',
   },
 
   shadows: {

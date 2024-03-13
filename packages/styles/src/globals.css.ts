@@ -7,7 +7,7 @@ import { theme } from './theme.css';
 
 globalStyle('body', {
   fontFamily: theme.fonts.body,
-  background: theme.colors.background.normal,
+  background: theme.colors.white,
   paddingBottom: 'env(safe-area-inset-bottom)',
 });
 

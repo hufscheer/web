@@ -14,24 +14,34 @@ import CheerVS from './_components/CheerVS';
 import CheerVSFallback from './_components/CheerVS/Error';
 import Lineup from './_components/Lineup';
 import Timeline from './_components/Timeline';
+import useQueryValidator from './_hooks/useQueryValidator';
 import * as styles from './page.css';
 
 const tabs = [
   {
+    key: 'lineup',
     label: '라인업',
     renderer: (gameId: string) => <Lineup gameId={gameId} />,
   },
   {
+    key: 'timeline',
     label: '타임라인',
     renderer: (gameId: string) => <Timeline gameId={gameId} />,
   },
   {
+    key: 'highlight',
     label: '경기영상',
     renderer: (gameId: string) => <div>{gameId} 경기영상</div>,
   },
 ];
 
 export default function Page({ params }: { params: { id: string } }) {
+  const tabState = useQueryValidator(
+    'tab',
+    tabs.map(tab => tab.key),
+  );
+  const cheerState = !!useQueryValidator('cheer', ['open']);
+
   return (
     <section>
       <AsyncBoundary
@@ -58,16 +68,19 @@ export default function Page({ params }: { params: { id: string } }) {
           errorFallback={() => <div>에러</div>}
           loadingFallback={<div>로딩</div>}
         >
-          <CheerTalk gameId={params.id} />
+          <CheerTalk gameId={params.id} defaultState={cheerState} />
         </AsyncBoundary>
       </section>
 
-      <Tabs defaultValue="라인업" className={styles.panel.wrapper}>
+      <Tabs
+        defaultValue={tabState || 'lineup'}
+        className={styles.panel.wrapper}
+      >
         <Tabs.List className={styles.panel.menu}>
           {tabs.map(tab => (
             <Tabs.Trigger
-              key={tab.label}
-              value={tab.label}
+              key={tab.key}
+              value={tab.key}
               className={state => styles.item[state]}
             >
               {tab.label}
@@ -75,7 +88,7 @@ export default function Page({ params }: { params: { id: string } }) {
           ))}
         </Tabs.List>
         {tabs.map(tab => (
-          <Tabs.Content key={tab.label} value={tab.label}>
+          <Tabs.Content key={tab.key} value={tab.key}>
             <AsyncBoundary
               errorFallback={() => <div>에러</div>}
               loadingFallback={<Loader />}

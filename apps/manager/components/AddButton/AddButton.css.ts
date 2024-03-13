@@ -3,5 +3,5 @@ import { style } from '@vanilla-extract/css';
 
 export const addButton = style({
   paddingBlock: theme.spaces.xxs,
-  backgroundColor: theme.colors.background.normal,
+  backgroundColor: theme.colors.white,
 });

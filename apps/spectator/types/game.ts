@@ -2,6 +2,16 @@ export interface GameListType extends GameType {
   id: number;
 }
 
+export type GameListParams = {
+  league_id?: string;
+  state: GameState;
+  sport_id?: string;
+  cursor?: string | number;
+  size?: string;
+  league_team_id?: string;
+  round?: string;
+};
+
 export interface GameType {
   gameTeams: GameTeamType[];
   startTime: string;
@@ -92,4 +102,10 @@ export type GameVideoType = {
   videoId: string;
 };
 
-export type GameStatus = 'playing' | 'scheduled' | 'finished';
+export type GameState = 'playing' | 'scheduled' | 'finished';
+
+export const GameStateString = {
+  playing: '진행 중',
+  scheduled: '예정',
+  finished: '종료',
+} as const;

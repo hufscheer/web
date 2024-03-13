@@ -8,7 +8,7 @@ export const tooltipContainer = style({
 
 export const tooltipContent = style({
   position: 'absolute',
-  backgroundColor: 'white',
+  backgroundColor: theme.colors.white,
   color: theme.colors.gray[5],
   borderRadius: '4px',
   padding: '8px',
@@ -56,28 +56,28 @@ export const arrowPosition = styleVariants({
     left: '50%',
     transform: 'translateX(-50%)',
     borderWidth: '5px 5px 0',
-    borderColor: 'white transparent transparent',
+    borderColor: `${theme.colors.white} transparent transparent`,
   },
   right: {
     top: '50%',
     left: '-7px',
     transform: 'translateY(-50%) rotate(-90deg)',
     borderWidth: '0 5px 5px',
-    borderColor: 'transparent transparent white transparent',
+    borderColor: `transparent transparent ${theme.colors.white} transparent`,
   },
   bottom: {
     top: '-5px',
     left: '50%',
     transform: 'translateX(-50%)',
     borderWidth: '0 5px 5px',
-    borderColor: 'transparent transparent white',
+    borderColor: `transparent transparent ${theme.colors.white}`,
   },
   left: {
     top: '50%',
     right: '-7px',
     transform: 'translateY(-50%) rotate(90deg)',
     borderWidth: '0 5px 5px',
-    borderColor: 'transparent transparent white transparent',
+    borderColor: `transparent transparent ${theme.colors.white} transparent`,
   },
 });
 
