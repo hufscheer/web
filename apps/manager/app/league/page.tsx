@@ -1,14 +1,24 @@
 'use client';
 
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
 import AddButton from '@/components/AddButton';
 
 import LeagueCard from './_components/LeagueCard';
 
 export default function Page() {
+  const pathname = usePathname();
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <LeagueCard title="진행 중" />
-      <AddButton onClick={() => {}}>신규 대회 추가</AddButton>
+      <AddButton
+        component={Link}
+        href={{ pathname: `${pathname}/register`, query: { type: 'playing' } }}
+      >
+        신규 대회 추가
+      </AddButton>
       <LeagueCard title="예정" />
       <AddButton onClick={() => {}}>신규 대회 추가</AddButton>
       <LeagueCard title="종료" />

@@ -17,6 +17,8 @@
     "@hcc/styles": "workspace:*",
     "@hcc/ui": "workspace:*",
     "@mantine/core": "^7.6.1",
+    "@mantine/dates": "^7.6.1",
+    "@mantine/dropzone": "^7.6.1",
     "@mantine/form": "^7.6.1",
     "@mantine/hooks": "^7.6.1",
     "@mantine/vanilla-extract": "^7.6.1",

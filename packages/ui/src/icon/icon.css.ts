@@ -8,10 +8,10 @@ export const icon = recipe({
   variants: {
     color: {
       primary: { color: theme.colors.primary[3] },
-      secondary: { color: theme.colors.primary[3] },
-      gray: { color: theme.colors.primary[3] },
-      error: { color: theme.colors.primary[3] },
-      success: { color: theme.colors.primary[3] },
+      secondary: { color: theme.colors.secondary[3] },
+      gray: { color: theme.colors.gray[3] },
+      error: { color: theme.colors.indicatorRed[3] },
+      success: { color: theme.colors.indicatorBlue[3] },
       white: { color: theme.colors.background.normal },
     },
   },
