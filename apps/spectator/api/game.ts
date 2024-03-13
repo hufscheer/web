@@ -5,24 +5,20 @@ import {
   GameCheerTalkType,
   GameLineupType,
   GameListType,
-  GameStatus,
   GameTimelineType,
   GameType,
   GameVideoType,
+  GameListParams,
 } from '@/types/game';
-import { convertObjectToQueryString } from '@/utils/queryString';
 
-export type GameListParams = {
-  sport_id?: string[];
-  status: GameStatus;
-  league_id?: string;
-  // cursor?: number;
-};
-
-export const getGameList = async ({ ...params }: GameListParams) => {
-  const queryString = convertObjectToQueryString(params);
-
-  const { data } = await instance.get<GameListType[]>(`/games?${queryString}`);
+export const getGameList = async ({
+  size = '5',
+  cursor,
+  ...params
+}: GameListParams) => {
+  const { data } = await instance.get<GameListType[]>('/games', {
+    params: { size, cursor, ...params },
+  });
 
   return data;
 };

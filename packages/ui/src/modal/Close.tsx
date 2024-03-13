@@ -18,12 +18,15 @@ type CloseType = <C extends ElementType = 'button'>(
 
 const ModalClose: CloseType = forwardRef(function ModalClose<
   C extends ElementType = 'button',
->({ as, children, className, ...props }: Props<C>, ref: PolymorphicRef<C>) {
+>(
+  { as, children, className, onClick, ...props }: Props<C>,
+  ref: PolymorphicRef<C>,
+) {
   const Component = as || 'button';
   const { onOpenChange } = useModal();
 
   const handleOnClick = () => {
-    if (props.onClick) props.onClick();
+    if (onClick) onClick();
     onOpenChange(false);
   };
 
@@ -44,7 +47,7 @@ const ModalClose: CloseType = forwardRef(function ModalClose<
     <Component
       ref={ref}
       {...props}
-      onClick={() => onOpenChange(false)}
+      onClick={handleOnClick}
       className={clsx(styles.close, className)}
     >
       <Icon source={CrossIcon} size="xs" />

@@ -48,14 +48,14 @@ export const timestamp = styleVariants({
     timestampBase,
     {
       backgroundColor: theme.colors.indicatorBlue[3],
-      color: theme.colors.background.normal,
+      color: theme.colors.white,
     },
   ],
   right: [
     timestampBase,
     {
       backgroundColor: theme.colors.indicatorRed[3],
-      color: theme.colors.background.normal,
+      color: theme.colors.white,
     },
   ],
 });

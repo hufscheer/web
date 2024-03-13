@@ -27,5 +27,5 @@ export const entryButton = style({
 export const entryButtonIcon = style({
   width: rem(18),
   height: rem(18),
-  color: 'white',
+  color: theme.colors.white,
 });

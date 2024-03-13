@@ -13,7 +13,7 @@ const sportsItem = styleVariants({
   ],
   selected: [
     sportsItemBase,
-    { color: 'white', background: theme.colors.primary[3] },
+    { color: theme.colors.white, background: theme.colors.primary[3] },
   ],
 });
 

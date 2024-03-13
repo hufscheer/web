@@ -5,7 +5,7 @@ type IntersectHandler = (
   observer: IntersectionObserver,
 ) => void;
 
-export default function useIntersect<T extends HTMLElement>(
+export default function useIntersectionObserver<T extends HTMLElement>(
   onIntersect: IntersectHandler,
   options?: IntersectionObserverInit,
 ) {
