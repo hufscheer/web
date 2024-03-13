@@ -2,11 +2,13 @@ import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
 import '@mantine/dropzone/styles.css';
 import '@hcc/styles/dist/globals.css';
-import '@hcc/styles/dist/theme.css';
+import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
 
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
+import { Metadata, Viewport } from 'next';
 import { ReactNode } from 'react';
 
+import Header from '@/components/Header';
 import { mantineTheme } from '@/styles/theme';
 
 import * as styles from './page.css';
@@ -16,21 +18,31 @@ interface RootLayoutProps {
   children: ReactNode;
 }
 
+export const metadata: Metadata = {
+  title: '훕치치 매니저',
+  description: '한국외대 스포츠 플랫폼 훕치치, 매니저 페이지',
+  icons: {
+    icon: '/icon_hufscheer.svg',
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#C5C8CE',
+};
+
 export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
   return (
     <html lang="ko">
       <head>
-        <link
-          rel="stylesheet"
-          as="style"
-          crossOrigin="anonymous"
-          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <ColorSchemeScript />
       </head>
       <body className={styles.layout}>
         <ReactQueryProvider>
-          <MantineProvider theme={mantineTheme}>{children}</MantineProvider>
+          <MantineProvider theme={mantineTheme}>
+            <Header />
+            {children}
+          </MantineProvider>
         </ReactQueryProvider>
       </body>
     </html>

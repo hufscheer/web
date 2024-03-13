@@ -13,6 +13,7 @@ export const icon = recipe({
       error: { color: theme.colors.indicatorRed[3] },
       success: { color: theme.colors.indicatorBlue[3] },
       white: { color: theme.colors.white },
+      black: { color: theme.colors.black },
     },
   },
 });
