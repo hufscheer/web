@@ -40,7 +40,7 @@ export default function CheerTalkList({
   const scrollToBottom = () => {
     if (!scrollRef.current) return;
 
-    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    scrollRef.current.scrollTop = 9999;
   };
 
   // const handleFetchNextPage = () => {
