@@ -20,7 +20,7 @@ export default function useCheerTalkById(gameId: string) {
 
   const { data, error, fetchNextPage, hasNextPage, isFetching } =
     useSuspenseInfiniteQuery({
-      queryKey: ['game-report', gameId],
+      queryKey: ['game-cheertalk', gameId],
       initialPageParam: 0,
       queryFn: ({ pageParam }) => getGameCheerTalkById(gameId, pageParam || ''),
       getNextPageParam: lastPage => lastPage[0]?.cheerTalkId || null,

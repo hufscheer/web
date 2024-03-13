@@ -4,7 +4,7 @@ import { postReportCheerTalk } from '@/api/game';
 
 export default function useReportCheerTalkMutation() {
   return useMutation({
-    mutationKey: ['report-report'],
+    mutationKey: ['report-cheertalk'],
     mutationFn: postReportCheerTalk,
   });
 }

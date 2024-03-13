@@ -4,7 +4,7 @@ import { postGameCheerTalk } from '@/api/game';
 
 export default function useSaveCheerTalkMutation() {
   return useMutation({
-    mutationKey: ['save-report'],
+    mutationKey: ['save-cheertalk'],
     mutationFn: postGameCheerTalk,
   });
 }
