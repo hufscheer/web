@@ -63,7 +63,7 @@ const timeStampBase = style({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  padding: 4,
+  padding: theme.spaces.xxs,
 });
 
 export const timeStamp = styleVariants({
