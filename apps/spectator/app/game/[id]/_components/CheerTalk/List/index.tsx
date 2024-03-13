@@ -1,6 +1,6 @@
 import { useEffect, useRef, memo } from 'react';
 
-import useInfiniteObserver from '@/hooks/useInfiniteObserver';
+import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import useThrottle from '@/hooks/useThrottle';
 import useGameById from '@/queries/useGameById';
 import useSaveCheerTalkMutation from '@/queries/useSaveCheerTalkMutation/query';
@@ -39,7 +39,7 @@ export default function CheerTalkList({
 
   const throttledFetchNextPage = useThrottle(fetchNextPage, 1000);
 
-  const { ref } = useInfiniteObserver<HTMLLIElement>(() => {
+  const { ref } = useIntersectionObserver<HTMLLIElement>(() => {
     if (hasNextPage && !isFetching) {
       throttledFetchNextPage();
     }

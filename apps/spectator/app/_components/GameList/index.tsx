@@ -1,6 +1,6 @@
 import AsyncBoundary from '@/components/AsyncBoundary';
 import Loader from '@/components/Loader';
-import useIntersect from '@/hooks/useInfiniteObserver';
+import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { useGameList } from '@/queries/useGameList';
 import { GameState } from '@/types/game';
 
@@ -22,7 +22,7 @@ export default function GameList({ state }: GameListProps) {
   });
 
   const { fetchNextPage, hasNextPage, isFetching } = rest;
-  const { ref } = useIntersect<HTMLDivElement>(
+  const { ref } = useIntersectionObserver<HTMLDivElement>(
     async (entry, observer): Promise<void> => {
       observer.unobserve(entry.target);
       if (hasNextPage && !isFetching) {
