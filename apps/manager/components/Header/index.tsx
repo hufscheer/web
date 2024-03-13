@@ -1,6 +1,6 @@
 'use client';
 
-import { HccIcon } from '@hcc/icons';
+import { HccIcon, PeopleIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import Link from 'next/link';
 
@@ -10,7 +10,7 @@ export default function Header() {
   return (
     <header className={styles.wrapper}>
       <Link
-        href="/"
+        href={'/'}
         aria-label="홈페이지로 이동"
         className={styles.logoContainer}
       >
@@ -22,6 +22,9 @@ export default function Header() {
           aria-label="훕치치"
         />
         <p className={styles.subtitle}>매니저</p>
+      </Link>
+      <Link href={'/profile'} className={styles.logoContainer}>
+        <Icon source={PeopleIcon} size="md" color="black" />
       </Link>
     </header>
   );
