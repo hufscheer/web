@@ -34,10 +34,17 @@ const CheerTalkForm = ({
 
       if (!inputValue.trim()) return;
 
-      saveCheerTalkMutate({
-        gameTeamId: selectedTeamId,
-        content: inputValue,
-      });
+      saveCheerTalkMutate(
+        {
+          gameTeamId: selectedTeamId,
+          content: inputValue,
+        },
+        {
+          onError: () => {
+            alert('공격적인 단어가 포함되어 있습니다.');
+          },
+        },
+      );
 
       setInputValue('');
       scrollToBottom();
