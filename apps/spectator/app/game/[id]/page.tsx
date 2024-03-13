@@ -1,7 +1,6 @@
 'use client';
 
 import { Tabs } from '@hcc/ui';
-import { useSearchParams } from 'next/navigation';
 
 import Live from '@/app/_components/Live';
 import CheerTalk from '@/app/game/[id]/_components/CheerTalk';
@@ -15,6 +14,7 @@ import CheerVS from './_components/CheerVS';
 import CheerVSFallback from './_components/CheerVS/Error';
 import Lineup from './_components/Lineup';
 import Timeline from './_components/Timeline';
+import useQueryValidator from './_hooks/useQueryValidator';
 import * as styles from './page.css';
 
 const tabs = [
@@ -36,13 +36,11 @@ const tabs = [
 ];
 
 export default function Page({ params }: { params: { id: string } }) {
-  const searchParams = useSearchParams();
-  const tabQuery = searchParams.get('tab');
-  const cheerQuery = searchParams.get('cheer');
-  const validTabKeys = tabs.map(tab => tab.key);
-  const tabState =
-    tabQuery && validTabKeys.includes(tabQuery) ? tabQuery : 'lineup';
-  const cheerState = !!(cheerQuery && cheerQuery === 'open');
+  const tabState = useQueryValidator(
+    'tab',
+    tabs.map(tab => tab.key),
+  );
+  const cheerState = !!useQueryValidator('cheer', ['open']);
 
   return (
     <section>
@@ -74,7 +72,10 @@ export default function Page({ params }: { params: { id: string } }) {
         </AsyncBoundary>
       </section>
 
-      <Tabs defaultValue={tabState} className={styles.panel.wrapper}>
+      <Tabs
+        defaultValue={tabState || 'lineup'}
+        className={styles.panel.wrapper}
+      >
         <Tabs.List className={styles.panel.menu}>
           {tabs.map(tab => (
             <Tabs.Trigger

@@ -16,10 +16,7 @@ export default function GameInfo({ gameTeams, gameId, state }: GameInfoProps) {
   const [firstTeam, secondTeam] = gameTeams;
   const IMAGE_SIZE = 36;
   return (
-    <Link
-      href={{ pathname: `/game/${gameId}`, query: { tabs: 'lineup' } }}
-      className={styles.gameInfoArea}
-    >
+    <Link href={`/game/${gameId}`} className={styles.gameInfoArea}>
       <div className={styles.gameInfoRow.root}>
         <div className={styles.gameInfoRow.team}>
           <Image

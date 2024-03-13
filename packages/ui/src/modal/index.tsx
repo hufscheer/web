@@ -22,7 +22,7 @@ type ModalProps = {
 };
 
 const Modal = ({ defaultState, children }: ModalProps) => {
-  const [open, setOpen] = useState(defaultState ?? false);
+  const [open, setOpen] = useState(!!defaultState);
   const onOpenChange = useCallback((open: boolean) => setOpen(open), []);
   const onOpenToggle = useCallback(() => setOpen(prev => !prev), []);
 
