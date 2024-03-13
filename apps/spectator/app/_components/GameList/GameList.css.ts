@@ -131,7 +131,7 @@ const buttonBase = style({
   justifyContent: 'center',
   alignItems: 'center',
   padding: `${rem(6)} ${rem(8)}`,
-  borderRadius: 4,
+  borderRadius: rem(4),
   fontSize: rem(10),
   cursor: 'pointer',
   color: theme.colors.gray[5],
