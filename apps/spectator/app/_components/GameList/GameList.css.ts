@@ -59,7 +59,7 @@ export const gameMetadata = styleVariants({
 
 const timeStampBase = style({
   ...theme.textVariants.xxs,
-  borderRadius: 4,
+  borderRadius: rem(4),
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
