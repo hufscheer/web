@@ -1,3 +1,4 @@
+import { Modal } from '@hcc/ui';
 import { useState } from 'react';
 
 import useSocket from '@/hooks/useSocket';
@@ -5,8 +6,12 @@ import useCheerTalkById from '@/queries/useCheerTalkById';
 import useGameById from '@/queries/useGameById';
 import { GameCheerTalkType, GameCheerTalkWithTeamInfo } from '@/types/game';
 
-import CheerTalkModal from './Modal';
+import CheerTalkBanner from './Banner';
+import * as styles from './CheerTalk.css';
+import CheerTalkEntryButton from './EntryButton';
+import CheerTalkList from './List';
 import CheerTalkOnAir from './OnAir';
+import CheerTalkTimeline from './Timeline';
 
 type CheerTalkItemProps = {
   gameId: string;
@@ -51,15 +56,33 @@ export default function CheerTalk({
   connect();
 
   return (
-    <div>
-      <CheerTalkOnAir cheerTalk={socketTalkList[socketTalkList.length - 1]} />
-      <CheerTalkModal
-        gameId={gameId}
-        cheerTalkList={cheerTalkList.pages}
-        socketTalkList={socketTalkList}
-        defaultState={defaultState}
-        {...rest}
-      />
-    </div>
+    <Modal defaultState={defaultState}>
+      <Modal.Trigger as="span">
+        <CheerTalkOnAir
+          cheerTalk={
+            !socketTalkList.length ? cheerTalkList.pages : socketTalkList
+          }
+        />
+        <CheerTalkEntryButton />
+      </Modal.Trigger>
+      <Modal.Content className={styles.wrapper}>
+        {/* Game Banner */}
+        <CheerTalkBanner gameId={gameId} />
+
+        {/* Game Timeline */}
+        <CheerTalkTimeline gameId={gameId} />
+
+        {/* CheerTalk List */}
+        <CheerTalkList
+          gameId={gameId}
+          cheerTalkList={cheerTalkList.pages}
+          socketTalkList={socketTalkList}
+          hasNextPage={rest.hasNextPage}
+          fetchNextPage={rest.fetchNextPage}
+          isFetching={rest.isFetching}
+        />
+        <Modal.Close className={styles.close} />
+      </Modal.Content>
+    </Modal>
   );
 }

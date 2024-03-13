@@ -5,6 +5,8 @@ export const rootBase = style({
   display: 'flex',
   alignItems: 'center',
   gap: theme.spaces.xxs,
+
+  cursor: 'pointer',
 });
 
 export const root = styleVariants({
