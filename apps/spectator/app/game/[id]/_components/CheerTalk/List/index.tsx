@@ -3,6 +3,7 @@ import { useEffect, useRef, memo, useState } from 'react';
 import Loader from '@/components/Loader';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import useThrottle from '@/hooks/useThrottle';
+import { useTimeout } from '@/hooks/useTimeout';
 import useGameById from '@/queries/useGameById';
 import useSaveCheerTalkMutation from '@/queries/useSaveCheerTalkMutation/query';
 import { GameCheerTalkWithTeamInfo } from '@/types/game';
@@ -36,18 +37,14 @@ export default function CheerTalkList({
   const { gameDetail } = useGameById(gameId);
   const { mutate } = useSaveCheerTalkMutation();
 
+  const bottomRef = useRef<HTMLLIElement>(null);
   const scrollRef = useRef<HTMLUListElement>(null);
   const scrollToBottom = () => {
-    if (!scrollRef.current) return;
+    if (!bottomRef.current) return;
 
-    scrollRef.current.scrollTop = 9999;
+    bottomRef.current.scrollIntoView(false);
   };
-
-  // const handleFetchNextPage = () => {
-  //   if (hasNextPage && !isFetching && !isFetchingNextPage) {
-  //     fetchNextPage();
-  //   }
-  // };
+  const [run] = useTimeout(scrollToBottom, 100);
 
   const throttledFetchNextPage = useThrottle(fetchNextPage, 1000);
 
@@ -72,9 +69,6 @@ export default function CheerTalkList({
     <div className={styles.list.container}>
       <ul ref={scrollRef} className={styles.list.content}>
         {isFetchingNextPage && <Loader />}
-        {/* <li>
-          <button onClick={handleFetchNextPage}>더 보기</button>
-        </li> */}
         <li ref={ref} />
         {/* HTTP */}
         {cheerTalkList.map(talk => (
@@ -85,11 +79,12 @@ export default function CheerTalkList({
         {socketTalkList.map(talk => (
           <CheerTalkItemMemo {...talk} key={`socket-${talk.cheerTalkId}`} />
         ))}
+        <li ref={bottomRef} />
       </ul>
       <CheerTalkForm
         gameTeams={gameDetail.gameTeams}
         saveCheerTalkMutate={mutate}
-        scrollToBottom={scrollToBottom}
+        scrollToBottom={run}
       />
     </div>
   );
