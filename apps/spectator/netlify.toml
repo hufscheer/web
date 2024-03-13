@@ -7,4 +7,3 @@ Access-Control-Allow-Origin = ""
 from = "/api/*"
 to = "https://api.hufstreaming.site/:splat"
 status = 200
-force = true
