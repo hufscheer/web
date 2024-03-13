@@ -28,7 +28,7 @@ export const statusButton = styleVariants({
   focused: [
     statusButtonBase,
     {
-      color: 'white',
+      color: theme.colors.white,
       background: theme.colors.primary[3],
     },
   ],

@@ -12,7 +12,7 @@ export const icon = recipe({
       gray: { color: theme.colors.primary[3] },
       error: { color: theme.colors.primary[3] },
       success: { color: theme.colors.primary[3] },
-      white: { color: theme.colors.background.normal },
+      white: { color: theme.colors.white },
     },
   },
 });

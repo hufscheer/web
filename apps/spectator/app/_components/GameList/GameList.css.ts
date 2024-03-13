@@ -25,7 +25,7 @@ export const dateRow = style({
 const cardBase = style({
   display: 'flex',
   flexDirection: 'column',
-  backgroundColor: 'white',
+  backgroundColor: theme.colors.white,
   borderBottom: `1px solid ${theme.colors.gray[2]}`,
   padding: theme.spaces.default,
   gap: theme.spaces.xs,
@@ -54,7 +54,11 @@ export const gameMetadata = styleVariants({
     gap: theme.spaces.xs,
     alignItems: 'center',
   },
-  timeStamp: { color: 'black', ...theme.textVariants.default, fontWeight: 700 },
+  timeStamp: {
+    color: theme.colors.black,
+    ...theme.textVariants.default,
+    fontWeight: 700,
+  },
 });
 
 const timeStampBase = style({
@@ -70,7 +74,7 @@ export const timeStamp = styleVariants({
   playing: [
     timeStampBase,
     {
-      color: 'white',
+      color: theme.colors.white,
       backgroundColor: theme.colors.indicatorRed[3],
     },
   ],
@@ -116,12 +120,12 @@ export const gameInfoRow = styleVariants({
   },
   teamName: {
     ...theme.textVariants.sm,
-    color: 'black',
+    color: theme.colors.black,
     fontWeight: 700,
   },
   score: {
     fontSize: rem(24),
-    color: 'black',
+    color: theme.colors.black,
     fontWeight: 700,
   },
 });

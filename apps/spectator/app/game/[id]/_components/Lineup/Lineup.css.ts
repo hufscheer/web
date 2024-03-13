@@ -73,7 +73,7 @@ export const item = styleVariants({
 
 const backNumberBase = style({
   ...theme.textVariants.xs,
-  color: 'white',
+  color: theme.colors.white,
   display: 'flex',
   width: rem(32),
   height: rem(32),
@@ -100,7 +100,7 @@ export const backNumber = styleVariants({
 const captainBase = style({
   fontSize: rem(6),
   fontWeight: 700,
-  color: 'white',
+  color: theme.colors.white,
 });
 
 export const captain = styleVariants({

@@ -12,7 +12,7 @@ export const root = recipe({
     paddingInline: theme.spaces.default,
     borderRadius: rem(12),
 
-    backgroundColor: theme.colors.background.normal,
+    backgroundColor: theme.colors.white,
 
     boxShadow: theme.shadows.base,
   },

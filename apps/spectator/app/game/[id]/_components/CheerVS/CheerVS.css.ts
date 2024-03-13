@@ -21,7 +21,7 @@ export const box = style({
   paddingInline: theme.spaces.default,
 
   borderRadius: 10,
-  color: theme.colors.background.normal,
+  color: theme.colors.white,
 
   transition: 'width 0.5s ease-in-out, background-color 0.1s ease-in-out',
   cursor: 'pointer',
@@ -78,7 +78,7 @@ export const vs = style({
 
   borderRadius: 8,
 
-  backgroundColor: theme.colors.background.normal,
+  backgroundColor: theme.colors.white,
   color: theme.colors.gray[4],
 
   fontSize: theme.textVariants.sm.fontSize,

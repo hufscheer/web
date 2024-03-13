@@ -15,7 +15,7 @@ export const sidebar = style({
 
   paddingInline: theme.spaces.default,
 
-  backgroundColor: theme.colors.background.normal,
+  backgroundColor: theme.colors.white,
   borderRadius: 0,
 });
 
