@@ -1,5 +1,5 @@
 import { Modal } from '@hcc/ui';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import useSocket from '@/hooks/useSocket';
 import useCheerTalkById from '@/queries/useCheerTalkById';
@@ -39,6 +39,10 @@ export default function CheerTalk({
   };
 
   const { cheerTalkList, ...rest } = useCheerTalkById(gameId);
+  const cheerTalks = useMemo(
+    () => (cheerTalkList ? cheerTalkList.pages.flatMap(talk => talk) : []),
+    [cheerTalkList],
+  );
 
   const handleSocketMessage = (cheerTalk: GameCheerTalkType) => {
     if (cheerTalk) {
@@ -75,11 +79,9 @@ export default function CheerTalk({
         {/* CheerTalk List */}
         <CheerTalkList
           gameId={gameId}
-          cheerTalkList={cheerTalkList.pages}
+          cheerTalkList={cheerTalks}
           socketTalkList={socketTalkList}
-          hasNextPage={rest.hasNextPage}
-          fetchNextPage={rest.fetchNextPage}
-          isFetching={rest.isFetching}
+          {...rest}
         />
         <Modal.Close className={styles.close} />
       </Modal.Content>
