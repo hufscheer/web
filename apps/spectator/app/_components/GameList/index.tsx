@@ -36,18 +36,20 @@ export default function GameList({ state }: GameListProps) {
       <div className={styles.root}>
         {groupedGameList.map(gameList => {
           return (
-            <ul key={gameList.startTime} className={styles.listRoot}>
+            <>
               <div className={styles.dateRow}>{gameList.startTime}</div>
-              {gameList.data.map(game => (
-                <AsyncBoundary
-                  errorFallback={GameCard.ErrorFallback}
-                  loadingFallback={<Loader />}
-                  key={game.id}
-                >
-                  <GameCard info={game} state={state} {...rest} />
-                </AsyncBoundary>
-              ))}
-            </ul>
+              <ul key={gameList.startTime} className={styles.listRoot}>
+                {gameList.data.map(game => (
+                  <AsyncBoundary
+                    errorFallback={GameCard.ErrorFallback}
+                    loadingFallback={<Loader />}
+                    key={game.id}
+                  >
+                    <GameCard info={game} state={state} {...rest} />
+                  </AsyncBoundary>
+                ))}
+              </ul>
+            </>
           );
         })}
       </div>
