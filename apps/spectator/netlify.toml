@@ -3,5 +3,4 @@ from = "/api/*"
 to = "https://api.hufstreaming.site/:splat"
 status = 200
 force = true
-[headers.values]
-Access-Control-Allow-Origin = "*"
+headers = { Access-Control-Allow-Origin = "*" }
