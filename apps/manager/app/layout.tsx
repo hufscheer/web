@@ -41,7 +41,7 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
         <ReactQueryProvider>
           <MantineProvider theme={mantineTheme}>
             <Header />
-            {children}
+            <div className={styles.content}>{children}</div>
           </MantineProvider>
         </ReactQueryProvider>
       </body>

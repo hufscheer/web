@@ -11,7 +11,7 @@ export default function Page() {
   const pathname = usePathname();
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <>
       <LeagueCard title="진행 중" />
       <AddButton
         component={Link}
@@ -23,6 +23,6 @@ export default function Page() {
       <AddButton onClick={() => {}}>신규 대회 추가</AddButton>
       <LeagueCard title="종료" />
       <AddButton onClick={() => {}}>신규 대회 추가</AddButton>
-    </div>
+    </>
   );
 }

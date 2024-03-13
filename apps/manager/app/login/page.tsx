@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Button, TextInput } from '@mantine/core';
+import { Button, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -37,27 +37,25 @@ export default function Login() {
   };
 
   return (
-    <Box>
-      <form onSubmit={form.onSubmit(handleSubmit)} className={styles.page}>
-        <TextInput
-          withAsterisk
-          label="Email"
-          placeholder="이메일을 입력해주세요."
-          {...form.getInputProps('email')}
-        />
+    <form onSubmit={form.onSubmit(handleSubmit)} className={styles.page}>
+      <TextInput
+        withAsterisk
+        label="Email"
+        placeholder="이메일을 입력해주세요."
+        {...form.getInputProps('email')}
+      />
 
-        <TextInput
-          type="password"
-          withAsterisk
-          label="Password"
-          placeholder="비밀번호을 입력해주세요."
-          {...form.getInputProps('password')}
-        />
+      <TextInput
+        type="password"
+        withAsterisk
+        label="Password"
+        placeholder="비밀번호을 입력해주세요."
+        {...form.getInputProps('password')}
+      />
 
-        <Button mt="md" fullWidth type="submit">
-          로그인
-        </Button>
-      </form>
-    </Box>
+      <Button mt="md" fullWidth type="submit">
+        로그인
+      </Button>
+    </form>
   );
 }

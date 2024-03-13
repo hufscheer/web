@@ -11,9 +11,9 @@ export default function GameList({
   const pathname = usePathname();
   const gameData = leagueId;
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <>
       2024 월드컵
       <Link href={`${pathname}/${gameData}`}>4강 1경기</Link>
-    </div>
+    </>
   );
 }

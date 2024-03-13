@@ -7,3 +7,9 @@ export const layout = style({
 
   backgroundColor: theme.colors.gray[1],
 });
+
+export const content = style({
+  display: 'flex',
+  flexDirection: 'column',
+  padding: theme.spaces.default,
+});
