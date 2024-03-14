@@ -1,6 +1,7 @@
 import { CaretDownIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { Title } from '@mantine/core';
+import { useRouter } from 'next/navigation';
 
 import Card from '@/components/Card';
 import useLeagueQuery from '@/hooks/queries/useLeagueQuery';
@@ -14,6 +15,8 @@ type LeagueCardProps = {
 
 export default function LeagueCard({ title }: LeagueCardProps) {
   const { data: leagues } = useLeagueQuery();
+
+  const router = useRouter();
 
   return (
     <>
@@ -30,7 +33,9 @@ export default function LeagueCard({ title }: LeagueCardProps) {
                 {formatTime(league.endAt, 'YYYY.MM.DD')}
               </Card.SubContent>
             </div>
-            <Card.Action>
+            <Card.Action
+              onClick={() => router.push(`/league/${league.leagueId}`)}
+            >
               <Icon source={CaretDownIcon} className={styles.caret} />
             </Card.Action>
           </Card.Content>

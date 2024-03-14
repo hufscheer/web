@@ -66,7 +66,7 @@ export const title = recipe({
 
 export const subContent = style({
   color: theme.colors.gray[4],
-  ...theme.textVariants.sm,
+  ...theme.textVariants.xs,
 });
 
 export const footer = style({
