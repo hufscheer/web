@@ -2,9 +2,9 @@ import { theme } from '@hcc/styles';
 import { style, styleVariants } from '@vanilla-extract/css';
 
 export const title = style({
-  marginTop: theme.spaces.default,
-  ...theme.textVariants.default,
+  ...theme.textVariants.sm,
   color: theme.colors.gray[4],
+  fontWeight: '600',
 });
 
 export const wrapper = style({
@@ -23,7 +23,10 @@ export const card = styleVariants({
     flexDirection: 'column',
     gap: theme.spaces.xxs,
   },
-  menu: {},
+  menu: {
+    display: 'flex',
+    gap: theme.spaces.xs,
+  },
 });
 
 export const caption = style({

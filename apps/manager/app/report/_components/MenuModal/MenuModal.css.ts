@@ -22,11 +22,14 @@ export const content = style({
   fontWeight: 'normal',
 });
 
-export const alert = style({
-  paddingBlock: theme.spaces.lg,
-  marginTop: theme.spaces.xxs,
-  textAlign: 'center',
-});
+export const alert = style([
+  content,
+  {
+    paddingBlock: theme.spaces.lg,
+    marginTop: theme.spaces.xxs,
+    textAlign: 'center',
+  },
+]);
 
 export const menuContainer = style({
   display: 'flex',

@@ -6,7 +6,7 @@ type Params = {
   cheerTalkId: number;
 };
 
-export default function useReportBlockMutation() {
+export default function useRestoreReportMutation() {
   return useMutation({
     mutationFn: ({ cheerTalkId }: Params) => postReport(cheerTalkId),
   });
