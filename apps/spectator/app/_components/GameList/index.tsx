@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+
 import AsyncBoundary from '@/components/AsyncBoundary';
 import Loader from '@/components/Loader';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
@@ -34,24 +36,22 @@ export default function GameList({ state }: GameListProps) {
   return (
     <>
       <div className={styles.root}>
-        {groupedGameList.map(gameList => {
-          return (
-            <>
-              <div className={styles.dateRow}>{gameList.startTime}</div>
-              <ul key={gameList.startTime} className={styles.listRoot}>
-                {gameList.data.map(game => (
-                  <AsyncBoundary
-                    errorFallback={GameCard.ErrorFallback}
-                    loadingFallback={<Loader />}
-                    key={game.id}
-                  >
-                    <GameCard info={game} state={state} {...rest} />
-                  </AsyncBoundary>
-                ))}
-              </ul>
-            </>
-          );
-        })}
+        {groupedGameList.map(gameList => (
+          <Fragment key={gameList.startTime}>
+            <div className={styles.dateRow}>{gameList.startTime}</div>
+            <ul key={gameList.startTime} className={styles.listRoot}>
+              {gameList.data.map(game => (
+                <AsyncBoundary
+                  errorFallback={GameCard.ErrorFallback}
+                  loadingFallback={<Loader />}
+                  key={game.id}
+                >
+                  <GameCard info={game} state={state} {...rest} />
+                </AsyncBoundary>
+              ))}
+            </ul>
+          </Fragment>
+        ))}
       </div>
       <div ref={ref}></div>
     </>
