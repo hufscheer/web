@@ -43,6 +43,7 @@ type Snapshot = {
 type CommonRecordType = {
   direction: 'left' | 'right';
   recordedAt: number;
+  gameTeamId: number;
   playerName: string;
   teamName: string;
   teamImageUrl: string;

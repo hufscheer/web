@@ -3,20 +3,10 @@ import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { getGameCheerTalkById } from '@/api/game';
 import { GameCheerTalkWithTeamInfo } from '@/types/game';
 
-import useGameById from './useGameById';
+import { useGameTeamInfo } from './useGameTeamInfo';
 
 export default function useCheerTalkById(gameId: string) {
-  const { gameDetail } = useGameById(gameId);
-  const getTeamInfo = (gameTeamId: number) => {
-    const order = gameDetail.gameTeams.findIndex(
-      team => team.gameTeamId === gameTeamId,
-    );
-
-    return {
-      direction: (['left', 'right'] as const)[order],
-      logoImageUrl: gameDetail.gameTeams[order].logoImageUrl,
-    };
-  };
+  const { getTeamInfo } = useGameTeamInfo(gameId);
 
   const {
     data,

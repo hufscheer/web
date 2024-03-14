@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 
 import useSocket from '@/hooks/useSocket';
 import useCheerTalkById from '@/queries/useCheerTalkById';
-import useGameById from '@/queries/useGameById';
+import { useGameTeamInfo } from '@/queries/useGameTeamInfo';
 import { GameCheerTalkType, GameCheerTalkWithTeamInfo } from '@/types/game';
 
 import CheerTalkBanner from './Banner';
@@ -25,18 +25,7 @@ export default function CheerTalk({
   const [socketTalkList, setSocketTalkList] = useState<
     GameCheerTalkWithTeamInfo[]
   >([]);
-
-  const { gameDetail } = useGameById(gameId);
-  const getTeamInfo = (gameTeamId: number) => {
-    const order = gameDetail.gameTeams.findIndex(
-      team => team.gameTeamId === gameTeamId,
-    );
-
-    return {
-      direction: (['left', 'right'] as const)[order],
-      logoImageUrl: gameDetail.gameTeams[order].logoImageUrl,
-    };
-  };
+  const { getTeamInfo } = useGameTeamInfo(gameId);
 
   const { cheerTalkList, ...rest } = useCheerTalkById(gameId);
   const cheerTalks = useMemo(
@@ -52,7 +41,7 @@ export default function CheerTalk({
   };
 
   const { connect } = useSocket({
-    url: 'wss://api.hufstreaming.site/ws',
+    url: process.env.NEXT_PUBLIC_SOCKET_URL || '',
     destination: `/topic/games/${gameId}`,
     callback: handleSocketMessage,
   });
