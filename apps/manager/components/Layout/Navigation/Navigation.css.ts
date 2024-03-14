@@ -14,7 +14,7 @@ export const wrapper = style({
 export const backButton = style({
   position: 'absolute',
   display: 'flex',
-  left: rem(16),
+  left: theme.spaces.default,
   justifyContent: 'center',
   alignItems: 'center',
 });
@@ -27,5 +27,5 @@ export const title = style({
 
 export const menuContainer = style({
   position: 'absolute',
-  right: rem(16),
+  right: theme.spaces.default,
 });
