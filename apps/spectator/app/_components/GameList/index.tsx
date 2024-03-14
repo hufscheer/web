@@ -39,7 +39,7 @@ export default function GameList({ state }: GameListProps) {
         {groupedGameList.map(gameList => (
           <Fragment key={gameList.startTime}>
             <div className={styles.dateRow}>{gameList.startTime}</div>
-            <ul key={gameList.startTime} className={styles.listRoot}>
+            <ul className={styles.listRoot}>
               {gameList.data.map(game => (
                 <AsyncBoundary
                   errorFallback={GameCard.ErrorFallback}
