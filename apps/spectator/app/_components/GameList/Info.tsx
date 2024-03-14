@@ -15,6 +15,7 @@ export default function GameInfo({ gameTeams, gameId, state }: GameInfoProps) {
   // todo: fisished 상태일 때 경기 승패를 score 색상으로 표시
   const [firstTeam, secondTeam] = gameTeams;
   const IMAGE_SIZE = 36;
+
   return (
     <Link href={`/game/${gameId}`} className={styles.gameInfoArea}>
       <div className={styles.gameInfoRow.root}>
@@ -52,6 +53,7 @@ export default function GameInfo({ gameTeams, gameId, state }: GameInfoProps) {
 }
 
 function GameScore({ score, state }: { score: number; state: GameState }) {
-  if (state === 'scheduled') return <div></div>;
+  if (state === 'scheduled') return null;
+
   return <span className={styles.gameInfoRow.score}>{score}</span>;
 }

@@ -1,7 +1,9 @@
-import { useEffect, useRef, memo } from 'react';
+import { useEffect, useRef, memo, useState } from 'react';
 
+import Loader from '@/components/Loader';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import useThrottle from '@/hooks/useThrottle';
+import { useTimeout } from '@/hooks/useTimeout';
 import useGameById from '@/queries/useGameById';
 import useSaveCheerTalkMutation from '@/queries/useSaveCheerTalkMutation/query';
 import { GameCheerTalkWithTeamInfo } from '@/types/game';
@@ -17,6 +19,7 @@ interface CheerTalkListProps {
   hasNextPage: boolean;
   fetchNextPage: () => void;
   isFetching: boolean;
+  isFetchingNextPage: boolean;
 }
 
 const CheerTalkItemMemo = memo(CheerTalkItem);
@@ -28,48 +31,67 @@ export default function CheerTalkList({
   fetchNextPage,
   hasNextPage,
   isFetching,
+  isFetchingNextPage,
 }: CheerTalkListProps) {
+  const [scrollHeight, setScrollHeight] = useState(0);
   const { gameDetail } = useGameById(gameId);
   const { mutate } = useSaveCheerTalkMutation();
 
-  const scrollRef = useRef<HTMLLIElement>(null);
+  const bottomRef = useRef<HTMLLIElement>(null);
+  const scrollRef = useRef<HTMLUListElement>(null);
   const scrollToBottom = () => {
-    scrollRef.current?.scrollIntoView();
+    if (!bottomRef.current) return;
+
+    bottomRef.current.scrollIntoView(false);
   };
+  const [run] = useTimeout(scrollToBottom, 100);
 
   const throttledFetchNextPage = useThrottle(fetchNextPage, 1000);
 
   const { ref } = useIntersectionObserver<HTMLLIElement>(() => {
-    if (hasNextPage && !isFetching) {
+    if (hasNextPage && !isFetching && !isFetchingNextPage) {
       throttledFetchNextPage();
     }
   });
 
   useEffect(() => {
-    scrollToBottom();
-  }, []);
+    if (!scrollRef.current) return;
+
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight - scrollHeight;
+    setScrollHeight(scrollRef.current.scrollHeight);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cheerTalkList]);
+
+  useEffect(() => scrollToBottom(), []);
 
   return (
     <div className={styles.list.container}>
-      <ul className={styles.list.content}>
-        <li ref={ref}></li>
-
+      <ul ref={scrollRef} className={styles.list.content}>
+        {isFetchingNextPage && <Loader />}
+        <li ref={ref} />
         {/* HTTP */}
         {cheerTalkList.map(talk => (
-          <CheerTalkItemMemo {...talk} key={`cheer-${talk.cheerTalkId}`} />
+          <CheerTalkItemMemo
+            key={`cheer-${talk.cheerTalkId}`}
+            hasMenu
+            {...talk}
+          />
         ))}
 
         {/* Socket */}
         {socketTalkList.map(talk => (
-          <CheerTalkItemMemo {...talk} key={`socket-${talk.cheerTalkId}`} />
+          <CheerTalkItemMemo
+            key={`socket-${talk.cheerTalkId}`}
+            hasMenu
+            {...talk}
+          />
         ))}
-
-        <li ref={scrollRef}></li>
+        <li ref={bottomRef} />
       </ul>
       <CheerTalkForm
         gameTeams={gameDetail.gameTeams}
         saveCheerTalkMutate={mutate}
-        scrollToBottom={scrollToBottom}
+        scrollToBottom={run}
       />
     </div>
   );

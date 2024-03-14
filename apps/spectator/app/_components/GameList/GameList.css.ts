@@ -5,7 +5,8 @@ export const root = style({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
-  gap: theme.spaces.sm,
+
+  backgroundColor: theme.colors.gray[1],
 });
 
 export const listRoot = style({
@@ -17,9 +18,11 @@ export const dateRow = style({
   justifyContent: 'flex-start',
   alignItems: 'center',
   padding: `${rem(10)} ${theme.spaces.default}`,
-  borderBottom: `1px solid ${theme.colors.gray[2]}`,
+  marginTop: rem(10),
+  borderBlock: `1px solid ${theme.colors.gray[2]}`,
   ...theme.textVariants.default,
   fontWeight: 700,
+  backgroundColor: theme.colors.white,
 });
 
 const cardBase = style({

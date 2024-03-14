@@ -9,8 +9,21 @@ const itemBase = style({
 });
 
 export const itemWrapper = styleVariants({
-  left: [itemBase],
-  right: [itemBase, { flexDirection: 'row-reverse' }],
+  left: [
+    itemBase,
+    {
+      paddingRight: theme.spaces.xl,
+    },
+  ],
+  right: [
+    itemBase,
+    { flexDirection: 'row-reverse', paddingLeft: theme.spaces.xl },
+  ],
+});
+
+export const clickable = style({
+  marginBottom: 0,
+  cursor: 'pointer',
 });
 
 const infoBase = style({
@@ -41,6 +54,7 @@ export const item = styleVariants({
   },
   timestamp: {
     fontSize: rem(8),
+    flexShrink: 0,
   },
   menuButton: {
     display: 'flex',

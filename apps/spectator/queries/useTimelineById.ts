@@ -2,11 +2,10 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { getGameTimelineById } from '@/api/game';
 
-import useGameById from './useGameById';
+import { useGameTeamInfo } from './useGameTeamInfo';
 
 export const useTimelineById = (gameId: string) => {
-  const { gameDetail } = useGameById(gameId);
-  const teams = gameDetail.gameTeams;
+  const { getTeamInfo } = useGameTeamInfo(gameId);
   const { error, ...rest } = useSuspenseQuery({
     queryKey: ['game-timeline', gameId],
     queryFn: () => getGameTimelineById(gameId),
@@ -15,9 +14,7 @@ export const useTimelineById = (gameId: string) => {
         ...d,
         records: d.records.map(record => ({
           ...record,
-          direction: (['left', 'right'] as const)[
-            teams.findIndex(team => team.gameTeamName === record.teamName)
-          ],
+          ...getTeamInfo(record.gameTeamId),
         })),
       }));
     },

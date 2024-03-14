@@ -3,15 +3,15 @@ import { Icon } from '@hcc/ui';
 
 import { GameCheerTalkWithTeamInfo } from '@/types/game';
 
-import CheerTalkItem from './Item';
 import * as styles from './OnAir.css';
+import CheerTalkItem from '../Item';
 
 type CheerTalkInRealProps = {
-  cheerTalk: GameCheerTalkWithTeamInfo | undefined;
+  cheerTalk: GameCheerTalkWithTeamInfo[];
 };
 
 export default function CheerTalkOnAir({ cheerTalk }: CheerTalkInRealProps) {
-  if (!cheerTalk)
+  if (!cheerTalk.length || !cheerTalk.at(-1))
     return (
       <div className={styles.empty.root}>
         <div className={styles.empty.iconWrapper}>
@@ -23,5 +23,5 @@ export default function CheerTalkOnAir({ cheerTalk }: CheerTalkInRealProps) {
       </div>
     );
 
-  return <CheerTalkItem {...cheerTalk} />;
+  return <CheerTalkItem {...(cheerTalk.at(-1) as GameCheerTalkWithTeamInfo)} />;
 }

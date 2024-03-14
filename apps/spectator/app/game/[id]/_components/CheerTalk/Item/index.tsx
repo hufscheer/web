@@ -15,6 +15,7 @@ interface CheerTalkItemProps {
   content: string;
   isBlocked: boolean;
   createdAt: string;
+  hasMenu?: boolean;
 }
 
 export default function CheerTalkItem({
@@ -24,9 +25,15 @@ export default function CheerTalkItem({
   content,
   isBlocked,
   createdAt,
+  hasMenu = false,
 }: CheerTalkItemProps) {
   return (
-    <li className={styles.itemWrapper[direction]}>
+    <li
+      className={clsx(
+        styles.itemWrapper[direction],
+        !hasMenu && styles.clickable,
+      )}
+    >
       <Image
         src={logoImageUrl}
         width={24}
@@ -44,7 +51,7 @@ export default function CheerTalkItem({
         <time className={styles.item.timestamp}>
           {formatTime(createdAt, 'A hh:mm')}
         </time>
-        {!isBlocked && (
+        {!isBlocked && hasMenu && (
           <CheerTalkMenuModal
             cheerTalkId={cheerTalkId}
             content={content}

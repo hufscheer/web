@@ -71,24 +71,39 @@ export default function Page() {
         </button>
       </div>
 
-      <AsyncBoundary
-        errorFallback={GameList.PlayingErrorFallback}
-        loadingFallback={<Loader />}
-      >
-        <GameList state="playing" />
-      </AsyncBoundary>
-      <AsyncBoundary
-        errorFallback={GameList.ScheduledErrorFallback}
-        loadingFallback={<Loader />}
-      >
-        <GameList state="scheduled" />
-      </AsyncBoundary>
-      <AsyncBoundary
-        errorFallback={GameList.FinishedErrorFallback}
-        loadingFallback={<Loader />}
-      >
-        <GameList state="finished" />
-      </AsyncBoundary>
+      {GAMES.map(game => (
+        <AsyncBoundary
+          key={game.key}
+          errorFallback={() => game.errorFallback()}
+          loadingFallback={game.loadingFallback}
+        >
+          <GameList state={game.key} />
+        </AsyncBoundary>
+      ))}
     </section>
   );
 }
+
+type Games = {
+  key: GameState;
+  errorFallback: () => JSX.Element;
+  loadingFallback: JSX.Element;
+};
+
+const GAMES: Games[] = [
+  {
+    key: 'playing',
+    errorFallback: GameList.PlayingErrorFallback,
+    loadingFallback: <Loader />,
+  },
+  {
+    key: 'scheduled',
+    errorFallback: GameList.ScheduledErrorFallback,
+    loadingFallback: <Loader />,
+  },
+  {
+    key: 'finished',
+    errorFallback: GameList.FinishedErrorFallback,
+    loadingFallback: <Loader />,
+  },
+];

@@ -1,6 +1,7 @@
 import { ArrowDownIcon, SendIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { UseMutateFunction } from '@tanstack/react-query';
+import axios from 'axios';
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 
 import { GameCheerTalkPayload, GameTeamType } from '@/types/game';
@@ -34,13 +35,21 @@ const CheerTalkForm = ({
 
       if (!inputValue.trim()) return;
 
-      saveCheerTalkMutate({
-        gameTeamId: selectedTeamId,
-        content: inputValue,
-      });
+      saveCheerTalkMutate(
+        {
+          gameTeamId: selectedTeamId,
+          content: inputValue,
+        },
+        {
+          onSuccess: () => scrollToBottom(),
+          onError: error => {
+            if (axios.isAxiosError(error) && error.response?.status === 400)
+              alert(error.response.data.message);
+          },
+        },
+      );
 
       setInputValue('');
-      scrollToBottom();
     },
     [inputValue, saveCheerTalkMutate, selectedTeamId, scrollToBottom],
   );
