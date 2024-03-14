@@ -1,6 +1,7 @@
 import { ArrowDownIcon, SendIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { UseMutateFunction } from '@tanstack/react-query';
+import axios from 'axios';
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 
 import { GameCheerTalkPayload, GameTeamType } from '@/types/game';
@@ -41,8 +42,9 @@ const CheerTalkForm = ({
         },
         {
           onSuccess: () => scrollToBottom(),
-          onError: () => {
-            alert('공격적인 단어가 포함되어 있습니다.');
+          onError: error => {
+            if (axios.isAxiosError(error) && error.response?.status === 400)
+              alert(error.response.data.message);
           },
         },
       );
