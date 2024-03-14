@@ -6,7 +6,7 @@ import {
   LeagueTeamPayload,
   LeagueType,
   NewLeaguePayload,
-  PutLeaguePayload,
+  UpdateLeaguePayload,
   SportsCategoriesType,
 } from '@/types/league';
 
@@ -52,7 +52,7 @@ export const deleteLeagueById = async (body: DeleteLeaguePayload) => {
   return status;
 };
 
-export const putLeague = async (data: PutLeaguePayload) => {
+export const updateLeague = async (data: UpdateLeaguePayload) => {
   await instance.put('/league/', data);
 
   return data.leagueId;
