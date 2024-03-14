@@ -1,17 +1,14 @@
 'use client';
 
-import { CaretDownIcon } from '@hcc/icons';
-import { Icon } from '@hcc/ui';
-import { Button, Flex, Text, rem } from '@mantine/core';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
+import Layout from '@/components/Layout';
 import useLeagueQuery from '@/hooks/queries/useLeagueQuery';
 
 import LeagueMenuCard from './_components/LeagueMenuCard';
 
 export default function LeagueInfoMap() {
   const pathname = usePathname();
-  const router = useRouter();
 
   const leagueId = Number(pathname.split('/').at(-2));
   const { data: leagues } = useLeagueQuery();
@@ -21,18 +18,10 @@ export default function LeagueInfoMap() {
   if (!league) return null;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <Flex h={rem(43)} align="center">
-        <Button pos="absolute" p={0} bg="none" onClick={() => router.back()}>
-          <Icon source={CaretDownIcon} style={{ transform: 'rotate(90deg)' }} />
-        </Button>
-        <Text flex={1} ta="center" size="md" fw="bold">
-          {league.name}
-        </Text>
-      </Flex>
+    <Layout navigationTitle={league.name}>
       <LeagueMenuCard href={`${pathname}/detail`} title="대회 정보 관리" />
       <LeagueMenuCard href={`${pathname}/team`} title="대회 팀 관리" />
       <LeagueMenuCard href={`${pathname}/game`} title="대회 게임 관리" />
-    </div>
+    </Layout>
   );
 }

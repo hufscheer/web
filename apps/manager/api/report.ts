@@ -8,5 +8,5 @@ export const getReports = async () => {
 };
 
 export const postReport = async (cheerTalkId: number) => {
-  await instance.post(`/reports/cheer-talk/${cheerTalkId}`);
+  await instance.post(`/reports/cheer-talk/${cheerTalkId}/`);
 };
