@@ -59,7 +59,8 @@ export default function CheerTalkList({
 
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight - scrollHeight;
     setScrollHeight(scrollRef.current.scrollHeight);
-  }, [cheerTalkList, scrollHeight]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cheerTalkList]);
 
   useEffect(() => scrollToBottom(), []);
 
