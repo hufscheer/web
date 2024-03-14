@@ -4,14 +4,19 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import AddButton from '@/components/AddButton';
+import Layout from '@/components/Layout';
 
 import LeagueCard from './_components/LeagueCard';
 
 export default function Page() {
   const pathname = usePathname();
 
+  const Edit = () => {
+    return <button onClick={() => alert('편집')}>편집</button>;
+  };
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <Layout navigationTitle="대회 관리" navigationMenu={<Edit />}>
       <LeagueCard title="진행 중" />
       <AddButton
         component={Link}
@@ -23,6 +28,6 @@ export default function Page() {
       <AddButton onClick={() => {}}>신규 대회 추가</AddButton>
       <LeagueCard title="종료" />
       <AddButton onClick={() => {}}>신규 대회 추가</AddButton>
-    </div>
+    </Layout>
   );
 }

@@ -15,6 +15,7 @@ export { ReactComponent as ImageIcon } from './svg/image.svg';
 export { ReactComponent as MenuIcon } from './svg/menu.svg';
 export { ReactComponent as PaperIcon } from './svg/paper.svg';
 export { ReactComponent as PencilIcon } from './svg/pencil.svg';
+export { ReactComponent as PeopleIcon } from './svg/people.svg';
 export { ReactComponent as PlusIcon } from './svg/plus.svg';
 export { ReactComponent as ProfileIcon } from './svg/profile.svg';
 export { ReactComponent as RestoreIcon } from './svg/restore.svg';

@@ -1,13 +1,15 @@
 import Link from 'next/link';
 
-export default function Page(): JSX.Element {
+import Layout from '@/components/Layout';
+
+export default function Page() {
   return (
-    <main style={{ display: 'flex', flexDirection: 'column' }}>
+    <Layout navigationVisible={false}>
       <Link
         href={{ pathname: '/login', query: { redirectPath: 'redirectUrl' } }}
       >
         로그인 페이지로
       </Link>
-    </main>
+    </Layout>
   );
 }
