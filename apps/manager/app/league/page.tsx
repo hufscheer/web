@@ -11,8 +11,12 @@ import LeagueCard from './_components/LeagueCard';
 export default function Page() {
   const pathname = usePathname();
 
+  const Edit = () => {
+    return <button onClick={() => alert('편집')}>편집</button>;
+  };
+
   return (
-    <Layout navigationTitle="대회 관리">
+    <Layout navigationTitle="대회 관리" navigationMenu={<Edit />}>
       <LeagueCard title="진행 중" />
       <AddButton
         component={Link}
