@@ -4,9 +4,10 @@ import axios, {
   InternalAxiosRequestConfig,
   isAxiosError,
 } from 'axios';
+import * as process from 'process';
 
 const instance = axios.create({
-  baseURL: '/api',
+  baseURL: process.env.NEXT_PUBLIC_BACK_OFFICE_BASE_URL,
   headers: {
     Authorization: `Bearer `,
     'Content-Type': 'application/json',
