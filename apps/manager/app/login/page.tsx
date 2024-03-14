@@ -36,7 +36,7 @@ export default function Login() {
   };
 
   return (
-    <Layout headerVisible={false}>
+    <Layout headerVisible={false} navigationVisible={false}>
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <TextInput
           withAsterisk

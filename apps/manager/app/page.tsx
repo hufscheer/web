@@ -4,7 +4,7 @@ import Layout from '@/components/Layout';
 
 export default function Page() {
   return (
-    <Layout>
+    <Layout navigationVisible={false}>
       <Link
         href={{ pathname: '/login', query: { redirectPath: 'redirectUrl' } }}
       >

@@ -12,7 +12,7 @@ export default function Page() {
   const pathname = usePathname();
 
   return (
-    <Layout>
+    <Layout navigationTitle="대회 관리">
       <LeagueCard title="진행 중" />
       <AddButton
         component={Link}
