@@ -20,7 +20,7 @@ export default function CardList({ type, caption }: CardListProps) {
   const { mutate: blockReportMutation } = useBlockReportMutation();
   const { mutate: restoreReportMutation } = useRestoreReportMutation();
 
-  const filteredReports = useMemo(
+  const reportList = useMemo(
     () => (type === 'pending' ? reports?.pending : reports?.isBlocked),
     [type, reports],
   );
@@ -38,51 +38,52 @@ export default function CardList({ type, caption }: CardListProps) {
       <p className={styles.title}>
         {type === 'pending' ? '보류 중' : '차단됨'}
       </p>
-      {filteredReports &&
-        filteredReports.map(({ reportInfo, gameInfo }) => (
-          <div key={reportInfo.cheerTalkId} className={styles.wrapper}>
-            <Card.Root paddingVertical="sm">
-              <div className={styles.card.container}>
-                <Card.Content>
-                  <div className={styles.card.content}>
-                    <Card.Title text="semibold">
-                      {reportInfo.content}
-                    </Card.Title>
-                    <Card.SubContent>
-                      {`${gameInfo.leagueName} > ${gameInfo.gameName}`}
-                    </Card.SubContent>
-                  </div>
-                </Card.Content>
-                <div className={styles.card.menu}>
-                  <MenuModal
-                    type={'restore'}
-                    content={reportInfo.content}
-                    onPositiveClick={() =>
-                      handleRestore(reportInfo.cheerTalkId)
-                    }
-                  >
-                    <Icon
-                      source={type === 'pending' ? UnholdIcon : RestoreIcon}
-                      color={type === 'pending' ? 'primary' : 'gray'}
-                      size="xs"
-                    />
-                  </MenuModal>
-                  {type === 'pending' && (
+      {reportList && reportList.length > 0 ? (
+        reportList.map(({ reportInfo, gameInfo }) => {
+          const { cheerTalkId, content } = reportInfo;
+
+          return (
+            <div key={cheerTalkId} className={styles.wrapper}>
+              <Card.Root paddingVertical="sm">
+                <div className={styles.card.container}>
+                  <Card.Content>
+                    <div className={styles.card.content}>
+                      <Card.Title text="semibold">{content}</Card.Title>
+                      <Card.SubContent>
+                        {`${gameInfo.leagueName} > ${gameInfo.gameName}`}
+                      </Card.SubContent>
+                    </div>
+                  </Card.Content>
+                  <div className={styles.card.menu}>
                     <MenuModal
-                      type="block"
-                      content={reportInfo.content}
-                      onPositiveClick={() =>
-                        handleBlock(reportInfo.cheerTalkId)
-                      }
+                      type="restore"
+                      content={content}
+                      onPositiveClick={() => handleRestore(cheerTalkId)}
                     >
-                      <Icon source={HoldIcon} size="xs" color="error" />
+                      <Icon
+                        source={type === 'pending' ? UnholdIcon : RestoreIcon}
+                        color={type === 'pending' ? 'primary' : 'gray'}
+                        size="xs"
+                      />
                     </MenuModal>
-                  )}
+                    {type === 'pending' && (
+                      <MenuModal
+                        type="block"
+                        content={content}
+                        onPositiveClick={() => handleBlock(cheerTalkId)}
+                      >
+                        <Icon source={HoldIcon} size="xs" color="error" />
+                      </MenuModal>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </Card.Root>
-          </div>
-        ))}
+              </Card.Root>
+            </div>
+          );
+        })
+      ) : (
+        <p className={styles.noData}>해당하는 응원톡이 없습니다.</p>
+      )}
       {caption && <p className={styles.caption}>{caption}</p>}
     </section>
   );

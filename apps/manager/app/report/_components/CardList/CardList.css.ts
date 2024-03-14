@@ -2,7 +2,7 @@ import { theme } from '@hcc/styles';
 import { style, styleVariants } from '@vanilla-extract/css';
 
 export const title = style({
-  ...theme.textVariants.sm,
+  ...theme.textVariants.default,
   color: theme.colors.gray[4],
   fontWeight: '600',
 });
@@ -27,6 +27,13 @@ export const card = styleVariants({
     display: 'flex',
     gap: theme.spaces.xs,
   },
+});
+
+export const noData = style({
+  paddingBlock: theme.spaces.sm,
+  textAlign: 'center',
+  ...theme.textVariants.default,
+  color: theme.colors.gray[4],
 });
 
 export const caption = style({
