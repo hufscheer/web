@@ -57,11 +57,9 @@ export default function CheerTalkList({
   useEffect(() => {
     if (!scrollRef.current) return;
 
-    const scrollTop = scrollRef.current.scrollHeight - scrollHeight;
-    scrollRef.current.scrollTop = scrollTop;
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight - scrollHeight;
     setScrollHeight(scrollRef.current.scrollHeight);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cheerTalkList]);
+  }, [cheerTalkList, scrollHeight]);
 
   useEffect(() => scrollToBottom(), []);
 
@@ -72,12 +70,20 @@ export default function CheerTalkList({
         <li ref={ref} />
         {/* HTTP */}
         {cheerTalkList.map(talk => (
-          <CheerTalkItemMemo {...talk} key={`cheer-${talk.cheerTalkId}`} />
+          <CheerTalkItemMemo
+            key={`cheer-${talk.cheerTalkId}`}
+            hasMenu
+            {...talk}
+          />
         ))}
 
         {/* Socket */}
         {socketTalkList.map(talk => (
-          <CheerTalkItemMemo {...talk} key={`socket-${talk.cheerTalkId}`} />
+          <CheerTalkItemMemo
+            key={`socket-${talk.cheerTalkId}`}
+            hasMenu
+            {...talk}
+          />
         ))}
         <li ref={bottomRef} />
       </ul>

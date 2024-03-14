@@ -21,6 +21,11 @@ export const itemWrapper = styleVariants({
   ],
 });
 
+export const clickable = style({
+  marginBottom: 0,
+  cursor: 'pointer',
+});
+
 const infoBase = style({
   display: 'flex',
   alignItems: 'center',
