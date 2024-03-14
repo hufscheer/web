@@ -125,6 +125,6 @@ export const theme = createGlobalTheme(':root', {
   },
 
   sizes: {
-    appWidth: rem(448),
+    appWidth: rem(480),
   },
 });

@@ -1,12 +1,11 @@
 'use client';
 
-import { Box, Button, TextInput } from '@mantine/core';
+import { Button, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useRouter, useSearchParams } from 'next/navigation';
 
+import Layout from '@/components/Layout';
 import useLoginMutation from '@/hooks/mutations/useLoginMutation';
-
-import * as styles from './page.css';
 
 export default function Login() {
   const router = useRouter();
@@ -37,8 +36,8 @@ export default function Login() {
   };
 
   return (
-    <Box>
-      <form onSubmit={form.onSubmit(handleSubmit)} className={styles.page}>
+    <Layout headerVisible={false} navigationVisible={false}>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
         <TextInput
           withAsterisk
           label="Email"
@@ -58,6 +57,6 @@ export default function Login() {
           로그인
         </Button>
       </form>
-    </Box>
+    </Layout>
   );
 }
