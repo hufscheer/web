@@ -1,3 +1,4 @@
+import { Flex, FlexProps, createPolymorphicComponent } from '@mantine/core';
 import { ComponentPropsWithoutRef, forwardRef } from 'react';
 
 import * as styles from './Card.css';
@@ -18,21 +19,19 @@ const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
   );
 });
 
-interface CardContentProps extends ComponentPropsWithoutRef<'div'> {
-  left?: React.ReactNode;
-  right?: React.ReactNode;
-}
+interface CardContentProps extends FlexProps {}
 
-const CardContent = forwardRef<HTMLDivElement, CardContentProps>(
-  function CardContent({ left, right, children, ...props }, ref) {
+const CardContent = createPolymorphicComponent<'div', CardContentProps>(
+  forwardRef<HTMLDivElement, CardContentProps>(function CardContent(
+    { children, ...props },
+    ref,
+  ) {
     return (
-      <div ref={ref} className={styles.content} {...props}>
-        {left}
+      <Flex ref={ref} className={styles.content} {...props}>
         <div className={styles.inner}>{children}</div>
-        {right}
-      </div>
+      </Flex>
     );
-  },
+  }),
 );
 
 interface CardActionProps extends ComponentPropsWithoutRef<'button'> {}
