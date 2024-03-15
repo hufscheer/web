@@ -12,6 +12,7 @@ import {
 import { DateInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 
+import { GAMES } from '@/constants/games';
 import useCreateLeagueMutation from '@/hooks/mutations/useCreateLeagueMutation';
 import { NewLeaguePayload } from '@/types/league';
 
@@ -68,22 +69,13 @@ export default function LeagueInfo({ handleLeagueId }: LeagueInfoProps) {
       <MultiSelect
         checkIconPosition="left"
         label="종목"
-        data={[
-          { value: '4', label: '축구' },
-          { value: '2', label: '농구' },
-          { value: '3', label: '야구' },
-        ]}
+        data={GAMES.SPORTS}
         {...form.getInputProps('sportData')}
       />
 
       <Select
         label="라운드"
-        data={[
-          { value: '16', label: '16강' },
-          { value: '8', label: '8강' },
-          { value: '4', label: '4강' },
-          { value: '2', label: '결승' },
-        ]}
+        data={GAMES.ROUND}
         placeholder="필수 항목"
         withAsterisk
         {...form.getInputProps('leagueData.maxRound')}

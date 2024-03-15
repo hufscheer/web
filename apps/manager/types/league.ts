@@ -30,7 +30,7 @@ export type NewLeaguePayload = {
   sportData: SportsDataType;
 };
 
-export type PutLeaguePayload = LeagueIdType & NewLeaguePayload;
+export type UpdateLeaguePayload = LeagueIdType & NewLeaguePayload;
 
 export type DeleteLeaguePayload = LeagueIdType;
 
