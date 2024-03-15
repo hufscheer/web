@@ -1,17 +1,17 @@
 'use client';
 
 import dayjs from 'dayjs';
-import Link from 'next/link';
+import { ReactElement } from 'react';
 
 import AsyncBoundary from '@/components/AsyncBoundary';
 import Loader from '@/components/Loader';
-import { QUERY_PARAMS } from '@/constants/queryParams';
 import useQueryParams from '@/hooks/useQueryParams';
-import { GameStatus } from '@/types/game';
+import { GameState } from '@/types/game';
 
+import GameList from './_components/GameList';
 import LeagueList from './_components/LeagueList';
 import SportsList from './_components/SportsList';
-import { gameListWrapper, section } from './page.css';
+import { section } from './page.css';
 
 export default function Page() {
   const { params, setInParams } = useQueryParams();
@@ -40,40 +40,6 @@ export default function Page() {
         />
       </AsyncBoundary>
 
-      <div className={statusCheckbox}>
-        <button
-          onClick={() => setInParams(QUERY_PARAMS.status, 'finished')}
-          className={
-            params.get(QUERY_PARAMS.status) === 'finished'
-              ? statusButton['focused']
-              : statusButton['default']
-          }
-        >
-          종료
-        </button>
-        <button
-          onClick={() => setInParams(QUERY_PARAMS.status, 'playing')}
-          className={
-            params.get(QUERY_PARAMS.status) === 'playing' ||
-            params.get(QUERY_PARAMS.status) === null
-              ? statusButton['focused']
-              : statusButton['default']
-          }
-        >
-          진행 중
-        </button>
-        <button
-          onClick={() => setInParams(QUERY_PARAMS.status, 'scheduled')}
-          className={
-            params.get(QUERY_PARAMS.status) === 'scheduled'
-              ? statusButton['focused']
-              : statusButton['default']
-          }
-        >
-          예정
-        </button>
-      </div>
-
       {GAMES.map(game => (
         <AsyncBoundary
           key={game.key}
@@ -89,8 +55,8 @@ export default function Page() {
 
 type Games = {
   key: GameState;
-  errorFallback: () => JSX.Element;
-  loadingFallback: JSX.Element;
+  errorFallback: () => ReactElement;
+  loadingFallback: ReactElement;
 };
 
 const GAMES: Games[] = [
