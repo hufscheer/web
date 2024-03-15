@@ -9,10 +9,10 @@ import { Fragment, useEffect, useState } from 'react';
 import AddButton from '@/components/AddButton';
 import { GAMES } from '@/constants/games';
 import useUpdateLeagueMutation from '@/hooks/mutations/useUpdateLeagueMutation';
-import { LeagueType } from '@/types/league';
+import { LeagueDataType, LeagueIdType, SportsDataType } from '@/types/league';
 
 type LeagueDetailFormProps = {
-  league: LeagueType;
+  league: LeagueDataType & LeagueIdType;
   edit: boolean;
   buttonRef: React.MutableRefObject<() => void>;
   handleClick: () => void;
@@ -24,13 +24,17 @@ export default function LeagueDetailForm({
   buttonRef,
   handleClick,
 }: LeagueDetailFormProps) {
+  const { leagueId, ...leagueRest } = league;
   const [sportsCount, setSportsCount] = useState(1);
   const form = useForm({
     initialValues: {
-      ...league,
-      startAt: new Date(league.startAt),
-      endAt: new Date(league.endAt),
-      sportData: [],
+      leagueData: {
+        ...leagueRest,
+        startAt: new Date(league.startAt),
+        endAt: new Date(league.endAt),
+      },
+      sportData: [] as SportsDataType,
+      leagueId,
     },
   });
   const { mutate: mutateUpdateLeague } = useUpdateLeagueMutation();
@@ -39,19 +43,20 @@ export default function LeagueDetailForm({
     if (!buttonRef.current) return;
     if (!edit) return;
 
-    buttonRef.current = form.onSubmit(({ sportData, ...values }) =>
+    buttonRef.current = form.onSubmit(({ sportData, leagueData, leagueId }) =>
       mutateUpdateLeague(
         {
           leagueData: {
-            ...values,
-            startAt: values.startAt.toISOString(),
-            endAt: values.endAt.toISOString(),
+            ...leagueData,
+            startAt: leagueData.startAt.toISOString(),
+            endAt: leagueData.endAt.toISOString(),
           },
-          sportData: sportData,
-          leagueId: league.leagueId,
+          sportData: [...sportData],
+          leagueId: leagueId,
         },
         {
-          onSettled: () => handleClick(),
+          onSuccess: () => handleClick(),
+          onError: () => alert('에러가 발생했습니다.'),
         },
       ),
     );
@@ -62,7 +67,7 @@ export default function LeagueDetailForm({
       <TextInput
         label="이름"
         disabled={!edit}
-        {...form.getInputProps('name')}
+        {...form.getInputProps('leagueData.name')}
       />
 
       <Flex direction="column" mt="md" gap={rem(4)}>
@@ -74,14 +79,14 @@ export default function LeagueDetailForm({
           placeholder="시작"
           rightSection={<Icon source={CalendarIcon} size="sm" color="gray" />}
           disabled={!edit}
-          {...form.getInputProps('startAt')}
+          {...form.getInputProps('leagueData.startAt')}
         />
         <DateInput
           valueFormat="YYYY.MM.DD"
           placeholder="종료"
           rightSection={<Icon source={CalendarIcon} size="sm" color="gray" />}
           disabled={!edit}
-          {...form.getInputProps('endAt')}
+          {...form.getInputProps('leagueData.endAt')}
         />
       </Flex>
 
@@ -96,14 +101,14 @@ export default function LeagueDetailForm({
               data={GAMES.SPORTS}
               checkIconPosition="right"
               disabled={!edit}
-              {...form.getInputProps('sportData')}
+              {...form.getInputProps(`sportData.${index}`)}
             />
             <Select
               placeholder="라운드"
               data={GAMES.ROUND}
               checkIconPosition="right"
               disabled={!edit}
-              {...form.getInputProps('round')}
+              {...form.getInputProps('leagueData.maxRound')}
             />
           </Fragment>
         ))}
