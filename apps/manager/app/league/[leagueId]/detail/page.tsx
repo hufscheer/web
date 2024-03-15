@@ -18,12 +18,9 @@ export default function LeagueDetail() {
 
   useEffect(() => {
     if (!buttonRef.current) return;
+    if (edit) return;
 
-    const handleClick = () => {
-      setEdit(!edit);
-    };
-
-    buttonRef.current = handleClick;
+    buttonRef.current = () => setEdit(true);
   }, [edit]);
 
   if (!league) return null;
@@ -36,7 +33,12 @@ export default function LeagueDetail() {
 
   return (
     <Layout navigationTitle={'대회 정보 관리'} navigationMenu={<RightButton />}>
-      <LeagueDetailForm league={league} edit={edit} buttonRef={buttonRef} />
+      <LeagueDetailForm
+        league={league}
+        edit={edit}
+        handleClick={() => setEdit(false)}
+        buttonRef={buttonRef}
+      />
     </Layout>
   );
 }

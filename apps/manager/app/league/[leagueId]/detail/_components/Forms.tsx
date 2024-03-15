@@ -15,12 +15,14 @@ type LeagueDetailFormProps = {
   league: LeagueType;
   edit: boolean;
   buttonRef: React.MutableRefObject<() => void>;
+  handleClick: () => void;
 };
 
 export default function LeagueDetailForm({
   league,
   edit,
   buttonRef,
+  handleClick,
 }: LeagueDetailFormProps) {
   const [sportsCount, setSportsCount] = useState(1);
   const form = useForm({
@@ -35,19 +37,25 @@ export default function LeagueDetailForm({
 
   useEffect(() => {
     if (!buttonRef.current) return;
+    if (!edit) return;
 
     buttonRef.current = form.onSubmit(({ sportData, ...values }) =>
-      mutateUpdateLeague({
-        leagueData: {
-          ...values,
-          startAt: values.startAt.toISOString(),
-          endAt: values.endAt.toISOString(),
+      mutateUpdateLeague(
+        {
+          leagueData: {
+            ...values,
+            startAt: values.startAt.toISOString(),
+            endAt: values.endAt.toISOString(),
+          },
+          sportData: sportData,
+          leagueId: league.leagueId,
         },
-        sportData: sportData,
-        leagueId: league.leagueId,
-      }),
+        {
+          onSettled: () => handleClick(),
+        },
+      ),
     );
-  }, [buttonRef, edit, form, league.leagueId, mutateUpdateLeague]);
+  }, [buttonRef, edit, form, handleClick, league.leagueId, mutateUpdateLeague]);
 
   return (
     <Box>
