@@ -26,7 +26,11 @@ export default function LeagueDetail() {
   if (!league) return null;
 
   const RightButton = () => (
-    <Button variant="subtle" size="compact-md" onClick={buttonRef.current}>
+    <Button
+      variant="subtle"
+      size="compact-md"
+      onClick={() => buttonRef.current()}
+    >
       {edit ? '완료' : '편집'}
     </Button>
   );
