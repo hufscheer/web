@@ -21,6 +21,7 @@ export { ReactComponent as ProfileIcon } from './svg/profile.svg';
 export { ReactComponent as RestoreIcon } from './svg/restore.svg';
 export { ReactComponent as SendIcon } from './svg/send.svg';
 export { ReactComponent as SoccerIcon } from './svg/soccer.svg';
+export { ReactComponent as SubtractIcon } from './svg/subtract.svg';
 export { ReactComponent as SwitchIcon } from './svg/switch.svg';
 export { ReactComponent as SymbolIcon } from './svg/symbol.svg';
 export { ReactComponent as ThumbsUpIcon } from './svg/thumbs-up.svg';
