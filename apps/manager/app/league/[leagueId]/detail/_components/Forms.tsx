@@ -1,11 +1,12 @@
 import { CalendarIcon } from '@hcc/icons';
 import { rem } from '@hcc/styles';
 import { Icon } from '@hcc/ui';
-import { Box, Flex, MultiSelect, Select, Text, TextInput } from '@mantine/core';
+import { Box, Flex, Select, Text, TextInput } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
-import { useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
+import AddButton from '@/components/AddButton';
 import { GAMES } from '@/constants/games';
 import useUpdateLeagueMutation from '@/hooks/mutations/useUpdateLeagueMutation';
 import { LeagueType } from '@/types/league';
@@ -21,6 +22,7 @@ export default function LeagueDetailForm({
   edit,
   buttonRef,
 }: LeagueDetailFormProps) {
+  const [sportsCount, setSportsCount] = useState(1);
   const form = useForm({
     initialValues: {
       ...league,
@@ -32,6 +34,8 @@ export default function LeagueDetailForm({
   const { mutate: mutateUpdateLeague } = useUpdateLeagueMutation();
 
   useEffect(() => {
+    if (!buttonRef.current) return;
+
     buttonRef.current = form.onSubmit(({ sportData, ...values }) =>
       mutateUpdateLeague({
         leagueData: {
@@ -74,23 +78,33 @@ export default function LeagueDetailForm({
       </Flex>
 
       <Flex direction="column" mt="md" gap={rem(4)}>
-        <Text fz="14" fw="500">
-          종목 1
-        </Text>
-        <MultiSelect
-          placeholder="종목"
-          data={GAMES.SPORTS}
-          checkIconPosition="right"
-          disabled={!edit}
-          {...form.getInputProps('sportData')}
-        />
-        <Select
-          placeholder="라운드"
-          data={GAMES.ROUND}
-          checkIconPosition="right"
-          disabled={!edit}
-          {...form.getInputProps('round')}
-        />
+        {Array.from({ length: sportsCount }, (_, index) => (
+          <Fragment key={index}>
+            <Text fz="14" fw="500">
+              종목 {index + 1}
+            </Text>
+            <Select
+              placeholder="종목"
+              data={GAMES.SPORTS}
+              checkIconPosition="right"
+              disabled={!edit}
+              {...form.getInputProps('sportData')}
+            />
+            <Select
+              placeholder="라운드"
+              data={GAMES.ROUND}
+              checkIconPosition="right"
+              disabled={!edit}
+              {...form.getInputProps('round')}
+            />
+          </Fragment>
+        ))}
+
+        {edit && (
+          <AddButton onClick={() => setSportsCount(prev => prev + 1)}>
+            신규 종목 추가
+          </AddButton>
+        )}
       </Flex>
     </Box>
   );

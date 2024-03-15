@@ -53,7 +53,7 @@ export const deleteLeagueById = async (body: DeleteLeaguePayload) => {
 };
 
 export const updateLeague = async (data: UpdateLeaguePayload) => {
-  await instance.put('/league/', data);
+  await instance.put('/leagues/', data);
 
   return data.leagueId;
 };
