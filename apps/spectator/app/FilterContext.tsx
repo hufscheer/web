@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { useSearchParams } from 'next/navigation';
 import React, {
   createContext,
   useContext,
@@ -7,33 +8,27 @@ import React, {
   useEffect,
 } from 'react';
 
-import useQueryParams from '@/hooks/useQueryParams';
-
-interface FilterContextType {
-  year: number;
+type FilterContextType = {
+  year: number | null;
   league: number | null;
   sport: number | null;
   maxRound: number | null;
   round: number | null;
   leagueTeam: number | null;
   setYear: (year: number) => void;
-  setLeague: (league: number) => void;
-  setSport: (sport: number) => void;
-  setMaxRound: (maxRound: number) => void;
-  setRound: (round: number) => void;
-  setLeagueTeam: (leagueTeam: number) => void;
-}
+  setLeague: (league: number | null) => void;
+  setSport: (sport: number | null) => void;
+  setMaxRound: (maxRound: number | null) => void;
+  setRound: (round: number | null) => void;
+  setLeagueTeam: (leagueTeam: number | null) => void;
+};
 
 const FilterContext = createContext<FilterContextType | undefined>(undefined);
 
-export const FilterProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
-  const { params } = useQueryParams();
+export const FilterProvider = ({ children }: { children: ReactNode }) => {
+  const params = useSearchParams();
 
-  const [year, setYear] = useState<number>(
-    Number(params.get('year')) || dayjs().year(),
-  );
+  const [year, setYear] = useState<number | null>(null);
   const [league, setLeague] = useState<number | null>(null);
   const [sport, setSport] = useState<number | null>(null);
   const [maxRound, setMaxRound] = useState<number | null>(null);
@@ -46,6 +41,7 @@ export const FilterProvider: React.FC<{ children: ReactNode }> = ({
     setSport(Number(params.get('sport')));
     setRound(Number(params.get('round')));
     setLeagueTeam(Number(params.get('team')));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params]);
 
   return (

@@ -10,3 +10,8 @@ export type SportType = {
   name: string;
   sportId: number;
 };
+
+export type LeagueTeamType = {
+  leagueTeamId: number;
+  teamName: string;
+};

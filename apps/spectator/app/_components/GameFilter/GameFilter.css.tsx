@@ -1,12 +1,11 @@
 import { rem, theme } from '@hcc/styles';
-import { style } from '@vanilla-extract/css';
+import { style, styleVariants } from '@vanilla-extract/css';
 
 export const wrapper = style({
   position: 'relative',
   width: '100%',
   overflow: 'hidden',
   backgroundColor: theme.colors.gray[1],
-  justifyContent: 'center',
 });
 
 export const filterItemBase = style({
@@ -58,9 +57,59 @@ export const divider = style({
   bottom: 0,
 });
 
-export const leagueTeamWrapper = style({
-  display: 'flex',
-  paddingBlock: rem(10),
-  paddingInline: rem(14),
-  backgroundColor: theme.colors.gray[1],
+export const leagueTeam = styleVariants({
+  wrapper: {
+    position: 'relative',
+    paddingBlock: theme.spaces.sm,
+    paddingInline: rem(10),
+    justifyContent: 'start',
+    backgroundColor: theme.colors.gray[1],
+  },
+  list: {
+    display: 'flex',
+    flexWrap: 'nowrap',
+    overflow: 'hidden',
+    gap: theme.spaces.xs,
+  },
+  listExpand: {
+    flexWrap: 'wrap',
+  },
+  item: {
+    paddingBlock: theme.spaces.xs,
+    paddingInline: theme.spaces.sm,
+    whiteSpace: 'nowrap',
+    border: `${rem(1)} solid ${theme.colors.gray[2]}`,
+    borderRadius: rem(16),
+    backgroundColor: theme.colors.white,
+    ...theme.textVariants.xs,
+    color: theme.colors.gray[4],
+    fontWeight: 'bold',
+  },
+  itemFocused: {
+    borderColor: theme.colors.primary[3],
+    backgroundColor: theme.colors.primary[3],
+    color: theme.colors.white,
+  },
+  expandButton: {
+    position: 'absolute',
+    display: 'flex',
+    right: 0,
+    bottom: 0,
+    padding: theme.spaces.default,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.colors.gray[1],
+  },
+  expandButtonFocused: {
+    backgroundColor: 'transparent',
+    padding: 0,
+    right: theme.spaces.default,
+    bottom: theme.spaces.default,
+  },
+  expandButtonIcon: {
+    transform: 'rotate(0)',
+  },
+  expandButtonIconFocused: {
+    transform: 'rotate(180deg)',
+  },
 });

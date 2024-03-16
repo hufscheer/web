@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import { useRef } from 'react';
 
 import { useFilter } from '@/app/FilterContext';
+import { useFilterParams } from '@/hooks/useFilterParams';
 
 import * as styles from './GameFilter.css';
 
@@ -18,7 +19,8 @@ function formatRoundLabel(round: number): string {
 
 export default function RoundFilter() {
   const flickingRef = useRef<Flicking | null>(null);
-  const { maxRound, round, setRound } = useFilter();
+  const { maxRound, round } = useFilter();
+  const { updateRound } = useFilterParams();
 
   const rounds = calculateRounds(maxRound || -1);
 
@@ -41,7 +43,7 @@ export default function RoundFilter() {
               roundValue === Number(round) && styles.roundFilterFocused,
             )}
           >
-            <button onClick={() => setRound(roundValue)}>
+            <button onClick={() => updateRound(roundValue)}>
               {formatRoundLabel(roundValue)}
             </button>
           </li>

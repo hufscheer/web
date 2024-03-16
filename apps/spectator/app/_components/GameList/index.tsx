@@ -20,10 +20,11 @@ type GameListProps = {
 };
 
 export default function GameList({ state }: GameListProps) {
-  const { league, sport } = useFilter();
+  const { league, sport, leagueTeam } = useFilter();
   const { groupedGameList, ...rest } = useGameList({
-    league_id: String(league) || undefined,
-    sport_id: String(sport) || undefined,
+    league_id: league ? String(league) : undefined,
+    sport_id: sport ? String(sport) : undefined,
+    league_team_id: leagueTeam ? String(leagueTeam) : undefined,
     state,
   });
 

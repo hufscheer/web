@@ -2,7 +2,6 @@
 
 import { ReactElement } from 'react';
 
-import { FilterProvider } from '@/app/FilterContext';
 import AsyncBoundary from '@/components/AsyncBoundary';
 import Loader from '@/components/Loader';
 import { GameState } from '@/types/game';
@@ -12,7 +11,7 @@ import GameList from './_components/GameList';
 
 export default function Page() {
   return (
-    <FilterProvider>
+    <>
       <GameFilter />
       {GAMES.map(game => (
         <AsyncBoundary
@@ -23,7 +22,7 @@ export default function Page() {
           <GameList state={game.key} />
         </AsyncBoundary>
       ))}
-    </FilterProvider>
+    </>
   );
 }
 

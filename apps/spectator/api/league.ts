@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 
 import instance from '@/api';
-import { LeagueType, SportType } from '@/types/league';
+import { LeagueTeamType, LeagueType, SportType } from '@/types/league';
 
 export const getLeagues = async (year: number) => {
   const { data } = await instance.get<LeagueType[]>(`/leagues`, {
@@ -27,9 +27,17 @@ export const getAllLeagues = async () => {
   }
 };
 
-export const getSportsList = async (leagueId: number) => {
+export const getSports = async (leagueId: number) => {
   const { data } = await instance.get<SportType[]>(
     `/leagues/${leagueId}/sports`,
+  );
+
+  return data;
+};
+
+export const getLeagueTeams = async (leagueId: number) => {
+  const { data } = await instance.get<LeagueTeamType[]>(
+    `/leagues/${leagueId}/teams`,
   );
 
   return data;

@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import { useEffect, useRef } from 'react';
 
 import { useFilter } from '@/app/FilterContext';
+import { useFilterParams } from '@/hooks/useFilterParams';
 import useSports from '@/queries/useSports';
 
 import * as styles from './GameFilter.css';
@@ -12,6 +13,7 @@ export default function SportFilter() {
 
   const { league, sport: selectedSport, setSport } = useFilter();
   const { sports } = useSports(league);
+  const { updateSport } = useFilterParams();
 
   useEffect(() => {
     if (sports && !selectedSport && sports.length > 0) {
@@ -45,7 +47,9 @@ export default function SportFilter() {
               sport.sportId === selectedSport && styles.focused,
             )}
           >
-            <button onClick={() => undefined}>{sport.name}</button>
+            <button onClick={() => updateSport(sport.sportId)}>
+              {sport.name}
+            </button>
           </li>
         ))}
       </Flicking>

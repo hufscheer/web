@@ -32,7 +32,7 @@ export default function LeagueList() {
                     <Link
                       href={{
                         pathname: '/',
-                        query: { year, leagueId: league.leagueId },
+                        query: { year, league: league.leagueId },
                       }}
                     >
                       {league.name}

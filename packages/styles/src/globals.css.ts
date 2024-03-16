@@ -23,5 +23,4 @@ globalStyle('.eg-flick-camera', {
   position: 'relative',
   display: 'flex',
   width: '100%',
-  justifyContent: 'center',
 });

@@ -3,6 +3,7 @@ import { Fragment } from 'react';
 import AsyncBoundary from '@/components/AsyncBoundary';
 
 import LeagueFilter from './LeagueFilter';
+import LeagueTeamFilter from './LeagueTeamFilter';
 import RoundFilter from './RoundFilter';
 import SportFilter from './SportFilter';
 
@@ -26,6 +27,12 @@ export default function GameFilter() {
         loadingFallback={<div></div>}
       >
         <RoundFilter />
+      </AsyncBoundary>
+      <AsyncBoundary
+        errorFallback={() => <div></div>}
+        loadingFallback={<div></div>}
+      >
+        <LeagueTeamFilter />
       </AsyncBoundary>
     </Fragment>
   );

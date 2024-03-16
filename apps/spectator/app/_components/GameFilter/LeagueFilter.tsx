@@ -1,29 +1,34 @@
 import Flicking from '@egjs/react-flicking';
 import { clsx } from 'clsx';
-import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
 import { useFilter } from '@/app/FilterContext';
+import { useFilterParams } from '@/hooks/useFilterParams';
 import useLeague from '@/queries/useLeuage';
 
 import * as styles from './GameFilter.css';
 
 export default function LeagueFilter() {
-  const router = useRouter();
   const flickingRef = useRef<Flicking | null>(null);
 
+  const params = useSearchParams();
   const {
     year,
     league: selectedLeague,
     setLeague,
+    setSport,
     setMaxRound,
     setRound,
   } = useFilter();
   const { leagues } = useLeague(year);
+  const { updateLeague } = useFilterParams();
 
   useEffect(() => {
+    if (!leagues) return;
+
     if (leagues.length > 0 && !selectedLeague) {
-      setLeague(leagues[0].leagueId);
+      if (params.get('league') === null) setLeague(leagues[0].leagueId);
       flickingRef.current?.moveTo(0);
     } else if (selectedLeague && leagues.length > 0) {
       const league = leagues.find(league => league.leagueId === selectedLeague);
@@ -31,7 +36,17 @@ export default function LeagueFilter() {
       setRound(league?.inProgressRound || league?.maxRound || 0);
       flickingRef.current?.moveTo(league ? leagues.indexOf(league) : -1);
     }
-  }, [leagues, selectedLeague, setLeague, setMaxRound, setRound]);
+  }, [
+    leagues,
+    params,
+    selectedLeague,
+    setLeague,
+    setMaxRound,
+    setRound,
+    setSport,
+  ]);
+
+  if (!leagues) return null;
 
   return (
     <div className={styles.wrapper}>
@@ -52,7 +67,7 @@ export default function LeagueFilter() {
               league.leagueId === selectedLeague && styles.focused,
             )}
           >
-            <button onClick={() => router.push('/?league=' + league.leagueId)}>
+            <button onClick={() => updateLeague(league.leagueId)}>
               {league.name}
             </button>
           </li>
