@@ -6,7 +6,8 @@ export const form = style({
   display: 'flex',
   flexDirection: 'column',
   padding: rem(16),
-  gap: rem(4),
+  paddingTop: rem(8),
+  gap: rem(8),
 });
 
 export const radioBox = style({
