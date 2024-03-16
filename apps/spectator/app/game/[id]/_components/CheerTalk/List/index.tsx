@@ -1,3 +1,5 @@
+import { ArrowDownIcon } from '@hcc/icons';
+import { Icon } from '@hcc/ui';
 import { useEffect, useRef, memo, useState } from 'react';
 
 import Loader from '@/components/Loader';
@@ -34,6 +36,9 @@ export default function CheerTalkList({
   isFetchingNextPage,
 }: CheerTalkListProps) {
   const [scrollHeight, setScrollHeight] = useState(0);
+  const [showScrollToBottomButton, setShowScrollToBottomButton] =
+    useState(false);
+
   const { gameDetail } = useGameById(gameId);
   const { mutate } = useSaveCheerTalkMutation();
 
@@ -45,6 +50,16 @@ export default function CheerTalkList({
     bottomRef.current.scrollIntoView(false);
   };
   const [run] = useTimeout(scrollToBottom, 100);
+
+  const checkScrollHeight = () => {
+    if (!scrollRef.current) return;
+
+    const isBottom =
+      scrollRef.current.scrollHeight - scrollRef.current.scrollTop ===
+      scrollRef.current.clientHeight;
+
+    setShowScrollToBottomButton(!isBottom);
+  };
 
   const throttledFetchNextPage = useThrottle(fetchNextPage, 1000);
 
@@ -63,6 +78,19 @@ export default function CheerTalkList({
   }, [cheerTalkList]);
 
   useEffect(() => scrollToBottom(), []);
+
+  useEffect(() => {
+    const scrollElement = scrollRef.current;
+    if (scrollElement) {
+      scrollElement.addEventListener('scroll', checkScrollHeight);
+    }
+
+    return () => {
+      if (scrollElement) {
+        scrollElement.removeEventListener('scroll', checkScrollHeight);
+      }
+    };
+  }, []);
 
   return (
     <div className={styles.list.container}>
@@ -93,6 +121,15 @@ export default function CheerTalkList({
         saveCheerTalkMutate={mutate}
         scrollToBottom={run}
       />
+      {showScrollToBottomButton && (
+        <button
+          className={styles.scrollToBottomButton}
+          onClick={run}
+          type="button"
+        >
+          <Icon source={ArrowDownIcon} className={styles.scrollToBottomIcon} />
+        </button>
+      )}
     </div>
   );
 }
