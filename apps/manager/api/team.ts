@@ -1,22 +1,11 @@
-import { isAxiosError } from 'axios';
-
 import instance from '@/api';
-import { TeamErrorType, TeamType } from '@/types/team';
+import { TeamType } from '@/types/team';
 
 /* 리그 내 팀 관리 API */
-
 export const getTeamListByLeagueId = async (leagueId: string) => {
-  try {
-    const { data } = await instance.get<TeamType[]>(`/team/${leagueId}/`);
+  const { data } = await instance.get<TeamType[]>(`/league-teams/${leagueId}/`);
 
-    return data;
-  } catch (error) {
-    if (isAxiosError<TeamErrorType>(error)) {
-      return error.response?.data.detail;
-    } else {
-      throw new Error('리그 내 팀을 조회하는데 실패했습니다.');
-    }
-  }
+  return data;
 };
 
 export const postTeamByLeagueId = async (payload: {

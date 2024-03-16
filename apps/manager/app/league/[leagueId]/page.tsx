@@ -1,5 +1,6 @@
 'use client';
 
+import { Flex } from '@mantine/core';
 import { usePathname } from 'next/navigation';
 
 import Layout from '@/components/Layout';
@@ -19,9 +20,11 @@ export default function LeagueInfoMap() {
 
   return (
     <Layout navigationTitle={league.name}>
-      <LeagueMenuCard href={`${pathname}/detail`} title="대회 정보 관리" />
-      <LeagueMenuCard href={`${pathname}/team`} title="대회 팀 관리" />
-      <LeagueMenuCard href={`${pathname}/game`} title="대회 게임 관리" />
+      <Flex direction="column" gap="xs">
+        <LeagueMenuCard href={`${pathname}/detail`} title="대회 정보 관리" />
+        <LeagueMenuCard href={`${pathname}/team`} title="대회 팀 관리" />
+        <LeagueMenuCard href={`${pathname}/game`} title="대회 게임 관리" />
+      </Flex>
     </Layout>
   );
 }

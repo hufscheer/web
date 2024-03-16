@@ -19,6 +19,7 @@ export default function ReactQueryProvider({
             refetchOnWindowFocus: false,
             refetchInterval: false,
             staleTime: 1000 * 60 * 10,
+            retry: 0,
           },
         },
       }),
