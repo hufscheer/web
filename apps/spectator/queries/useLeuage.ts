@@ -2,7 +2,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { getLeagues } from '@/api/league';
 
-export default function useLeague(year: string) {
+export default function useLeague(year: number) {
   const { data, error } = useSuspenseQuery({
     queryKey: ['league', year],
     queryFn: () => getLeagues(year),
@@ -10,5 +10,5 @@ export default function useLeague(year: string) {
 
   if (error) throw error;
 
-  return { leagueList: data };
+  return { leagues: data };
 }

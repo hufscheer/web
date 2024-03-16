@@ -15,17 +15,13 @@ globalStyle('div, span, p, a, button, ul, li', {
   fontFamily: theme.fonts.body,
 });
 
-globalStyle('.center', {
-  display: 'flex',
-  width: '100%',
-  justifyContent: 'center',
-});
-
 globalStyle('.eg-flick-viewport', {
-  width: 'fit-content',
+  display: 'flex',
 });
 
 globalStyle('.eg-flick-camera', {
+  position: 'relative',
   display: 'flex',
-  width: 'fit-content',
+  width: '100%',
+  justifyContent: 'center',
 });

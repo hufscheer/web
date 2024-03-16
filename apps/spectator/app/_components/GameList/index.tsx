@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 
+import { useFilter } from '@/app/FilterContext';
 import AsyncBoundary from '@/components/AsyncBoundary';
 import Loader from '@/components/Loader';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
@@ -19,7 +20,10 @@ type GameListProps = {
 };
 
 export default function GameList({ state }: GameListProps) {
+  const { league, sport } = useFilter();
   const { groupedGameList, ...rest } = useGameList({
+    league_id: String(league) || undefined,
+    sport_id: String(sport) || undefined,
     state,
   });
 

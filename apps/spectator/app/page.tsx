@@ -1,45 +1,19 @@
 'use client';
 
-import dayjs from 'dayjs';
 import { ReactElement } from 'react';
 
+import { FilterProvider } from '@/app/FilterContext';
 import AsyncBoundary from '@/components/AsyncBoundary';
 import Loader from '@/components/Loader';
-import useQueryParams from '@/hooks/useQueryParams';
 import { GameState } from '@/types/game';
 
+import GameFilter from './_components/GameFilter';
 import GameList from './_components/GameList';
-import LeagueList from './_components/LeagueList';
-import SportsList from './_components/SportsList';
-import { section } from './page.css';
 
 export default function Page() {
-  const { params, setInParams } = useQueryParams();
-
-  const selectedYear = params.get('year') || String(dayjs().year());
-  const selectedLeagueId = params.get('league_id') || '39';
-  const selectedSportId = params.get('sport_id') || '';
-
   return (
-    <section className={section}>
-      <AsyncBoundary
-        errorFallback={() => <div>에러</div>}
-        loadingFallback={<div>스켈레톤</div>}
-      >
-        <LeagueList
-          year={selectedYear}
-          selectedLeagueId={selectedLeagueId}
-          onClick={setInParams}
-        />
-      </AsyncBoundary>
-      <AsyncBoundary errorFallback={() => <></>} loadingFallback={<></>}>
-        <SportsList
-          selectedSportId={selectedSportId}
-          leagueId={selectedLeagueId}
-          onClick={setInParams}
-        />
-      </AsyncBoundary>
-
+    <FilterProvider>
+      <GameFilter />
       {GAMES.map(game => (
         <AsyncBoundary
           key={game.key}
@@ -49,7 +23,7 @@ export default function Page() {
           <GameList state={game.key} />
         </AsyncBoundary>
       ))}
-    </section>
+    </FilterProvider>
   );
 }
 

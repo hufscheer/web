@@ -6,7 +6,7 @@ export type LeagueType = {
   isInProgress: boolean;
 };
 
-export type SportsType = {
+export type SportType = {
   name: string;
   sportId: number;
 };
