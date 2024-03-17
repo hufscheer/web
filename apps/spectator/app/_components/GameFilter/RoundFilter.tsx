@@ -7,14 +7,8 @@ import { useFilterParams } from '@/hooks/useFilterParams';
 
 import * as styles from './GameFilter.css';
 
-function calculateRounds(maxRound: number): number[] {
-  const rounds: number[] = [];
-  for (let round = maxRound; round >= 1; round /= 2) rounds.push(round);
-  return rounds;
-}
-
 function formatRoundLabel(round: number): string {
-  return round > 1 ? `${round}강` : `결승`;
+  return round > 2 ? `${round}강` : `결승`;
 }
 
 export default function RoundFilter() {
@@ -22,7 +16,12 @@ export default function RoundFilter() {
   const { maxRound, round } = useFilterContext();
   const { updateRound } = useFilterParams();
 
-  const rounds = calculateRounds(maxRound || -1);
+  if (!maxRound) return null;
+
+  const rounds = Array.from(
+    { length: Math.floor(Math.log2(maxRound)) },
+    (_, i) => maxRound / 2 ** i,
+  );
 
   return (
     <div className={styles.wrapper}>
