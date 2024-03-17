@@ -12,6 +12,10 @@ const nextConfig = {
   async rewrites() {
     return [
       {
+        source: '/api/games/',
+        destination: `https://api.hufstreaming.site/games`,
+      },
+      {
         source: '/api/:path*/',
         destination: `https://backoffice.hufstreaming.site/:path*/`,
       },

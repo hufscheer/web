@@ -1,19 +1,34 @@
 import instance from '@/api';
 import {
   DeleteLeaguePayload,
+  GameListParams,
+  GameListType,
   LeagueIdType,
+  LeagueListType,
   LeaguePlayerPayload,
   LeagueTeamPayload,
-  LeagueType,
   NewLeaguePayload,
   PutLeaguePayload,
   SportsCategoriesType,
 } from '@/types/league';
 
 export const getAllLeagues = async () => {
-  const { data } = await instance.get<LeagueType[]>('/leagues/all/');
+  const { data } = await instance.get<LeagueListType>('/leagues/all/');
 
   return data;
+};
+
+export const getGameList = async ({
+  size = '5',
+  leagueName,
+  ...params
+}: GameListParams & { leagueName: string }) => {
+  const { data } = await instance.get<GameListType[]>('/games', {
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
+    params: { size, ...params },
+  });
+
+  return { leagueName, data };
 };
 
 export const createLeague = async (payload: NewLeaguePayload) => {
