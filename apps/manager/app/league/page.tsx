@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Suspense } from 'react';
 
 import AddButton from '@/components/AddButton';
 import Layout from '@/components/Layout';
@@ -17,17 +18,22 @@ export default function Page() {
 
   return (
     <Layout navigationTitle="대회 관리" navigationMenu={<Edit />}>
-      <LeagueCard title="진행 중" />
-      <AddButton
-        component={Link}
-        href={{ pathname: `${pathname}/register`, query: { type: 'playing' } }}
-      >
-        신규 대회 추가
-      </AddButton>
-      <LeagueCard title="예정" />
-      <AddButton onClick={() => {}}>신규 대회 추가</AddButton>
-      <LeagueCard title="종료" />
-      <AddButton onClick={() => {}}>신규 대회 추가</AddButton>
+      <Suspense fallback={<div>로딩</div>}>
+        <LeagueCard state="playing" />
+        <AddButton
+          component={Link}
+          href={{
+            pathname: `${pathname}/register`,
+            query: { type: 'playing' },
+          }}
+        >
+          신규 대회 추가
+        </AddButton>
+        <LeagueCard state="scheduled" />
+        <AddButton onClick={() => {}}>신규 대회 추가</AddButton>
+        <LeagueCard state="finished" />
+        <AddButton onClick={() => {}}>신규 대회 추가</AddButton>
+      </Suspense>
     </Layout>
   );
 }
