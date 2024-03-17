@@ -1,10 +1,10 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { getAllLeagues } from '@/api/league';
 
 export const LEAGUE_QUERY_KEY = 'league';
 export default function useLeagueQuery() {
-  const { data, error } = useSuspenseQuery({
+  const { data, error } = useQuery({
     queryKey: [LEAGUE_QUERY_KEY],
     queryFn: getAllLeagues,
   });

@@ -19,7 +19,7 @@ export default function Page() {
   return (
     <Layout navigationVisible={false}>
       <Suspense fallback={<div>로딩</div>}>
-        <PlayingCard leagues={leagues.playing} />
+        <PlayingCard leagues={leagues?.playing} />
       </Suspense>
 
       <Title order={2} className={styles.title} mb="xs">

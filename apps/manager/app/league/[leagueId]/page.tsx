@@ -14,7 +14,7 @@ export default function LeagueInfoMap() {
   const leagueId = Number(pathname.split('/').at(-2));
   const { data: leagues } = useLeagueQuery();
 
-  const league = leagues.finished.find(league => league.leagueId === leagueId);
+  const league = leagues?.finished.find(league => league.leagueId === leagueId);
 
   if (!league) return null;
 

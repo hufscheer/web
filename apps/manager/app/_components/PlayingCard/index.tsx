@@ -12,11 +12,11 @@ import { formatTime } from '@/utils/time';
 import * as styles from './PlayingCard.css';
 
 type PlayingCardProps = {
-  leagues: LeagueType[];
+  leagues: LeagueType[] | undefined;
 };
 
 export default function PlayingCard({ leagues }: PlayingCardProps) {
-  const playingLeagues = useGamesQuery(leagues);
+  const playingLeagues = useGamesQuery(leagues || []);
 
   return (
     <>
