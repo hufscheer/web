@@ -17,16 +17,19 @@ export default function Page() {
 
   return (
     <Layout navigationTitle="대회 관리" navigationMenu={<Edit />}>
-      <LeagueCard title="진행 중" />
+      <LeagueCard state="playing" />
       <AddButton
         component={Link}
-        href={{ pathname: `${pathname}/register`, query: { type: 'playing' } }}
+        href={{
+          pathname: `${pathname}/register`,
+          query: { type: 'playing' },
+        }}
       >
         신규 대회 추가
       </AddButton>
-      <LeagueCard title="예정" />
+      <LeagueCard state="scheduled" />
       <AddButton onClick={() => {}}>신규 대회 추가</AddButton>
-      <LeagueCard title="종료" />
+      <LeagueCard state="finished" />
       <AddButton onClick={() => {}}>신규 대회 추가</AddButton>
     </Layout>
   );
