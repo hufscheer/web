@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
-import { useFilter } from '@/app/FilterContext';
+import { useFilterContext } from '@/app/_contexts/FilterContext';
 import { useFilterParams } from '@/hooks/useFilterParams';
 import useLeague from '@/queries/useLeuage';
 
@@ -20,7 +20,7 @@ export default function LeagueFilter() {
     setSport,
     setMaxRound,
     setRound,
-  } = useFilter();
+  } = useFilterContext();
   const { leagues } = useLeague(year);
   const { updateLeague } = useFilterParams();
 

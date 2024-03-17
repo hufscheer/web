@@ -1,11 +1,11 @@
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 
-import { useFilter } from '@/app/FilterContext';
+import { useFilterContext } from '@/app/_contexts/FilterContext';
 
 export function useFilterParams() {
   const router = useRouter();
-  const { year, league, sport, round, leagueTeam } = useFilter();
+  const { year, league, sport, round, leagueTeam } = useFilterContext();
 
   const buildQueryString = useCallback(
     (params: Record<string, number | null | undefined>) => {

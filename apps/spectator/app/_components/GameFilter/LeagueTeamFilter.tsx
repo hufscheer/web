@@ -3,14 +3,14 @@ import { Icon } from '@hcc/ui';
 import { clsx } from 'clsx';
 import { useState } from 'react';
 
-import { useFilter } from '@/app/FilterContext';
+import { useFilterContext } from '@/app/_contexts/FilterContext';
 import { useFilterParams } from '@/hooks/useFilterParams';
 import useLeagueTeams from '@/queries/useLeagueTeams';
 
 import * as styles from './GameFilter.css';
 
 export default function LeagueTeamFilter() {
-  const { league, leagueTeam } = useFilter();
+  const { league, leagueTeam } = useFilterContext();
   const { leagueTeams } = useLeagueTeams(league);
   const { updateTeam } = useFilterParams();
 

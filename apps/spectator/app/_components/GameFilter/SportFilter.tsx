@@ -2,7 +2,7 @@ import Flicking from '@egjs/react-flicking';
 import { clsx } from 'clsx';
 import { useEffect, useRef } from 'react';
 
-import { useFilter } from '@/app/FilterContext';
+import { useFilterContext } from '@/app/_contexts/FilterContext';
 import { useFilterParams } from '@/hooks/useFilterParams';
 import useSports from '@/queries/useSports';
 
@@ -11,7 +11,7 @@ import * as styles from './GameFilter.css';
 export default function SportFilter() {
   const flickingRef = useRef<Flicking | null>(null);
 
-  const { league, sport: selectedSport, setSport } = useFilter();
+  const { league, sport: selectedSport, setSport } = useFilterContext();
   const { sports } = useSports(league);
   const { updateSport } = useFilterParams();
 
