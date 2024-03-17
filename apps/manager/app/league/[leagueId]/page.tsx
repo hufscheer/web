@@ -4,7 +4,7 @@ import { Flex } from '@mantine/core';
 import { usePathname } from 'next/navigation';
 
 import Layout from '@/components/Layout';
-import useLeagueQuery from '@/hooks/queries/useLeagueQuery';
+import useLeagueDetailQuery from '@/hooks/queries/useLeagueDetailQuery';
 
 import LeagueMenuCard from './_components/LeagueMenuCard';
 
@@ -12,9 +12,7 @@ export default function LeagueInfoMap() {
   const pathname = usePathname();
 
   const leagueId = Number(pathname.split('/').at(-2));
-  const { data: leagues } = useLeagueQuery();
-
-  const league = leagues?.finished.find(league => league.leagueId === leagueId);
+  const { data: league } = useLeagueDetailQuery(leagueId);
 
   if (!league) return null;
 
