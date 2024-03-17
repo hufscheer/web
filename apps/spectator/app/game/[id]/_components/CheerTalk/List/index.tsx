@@ -51,7 +51,7 @@ export default function CheerTalkList({
   };
   const [run] = useTimeout(scrollToBottom, 100);
 
-  const checkScrollHeight = () => {
+  const checkScrollHeight = useThrottle(() => {
     if (!scrollRef.current) return;
 
     const isBottom =
@@ -59,7 +59,7 @@ export default function CheerTalkList({
       scrollRef.current.clientHeight;
 
     setShowScrollToBottomButton(!isBottom);
-  };
+  }, 250);
 
   const throttledFetchNextPage = useThrottle(fetchNextPage, 1000);
 
@@ -81,6 +81,8 @@ export default function CheerTalkList({
 
   useEffect(() => {
     const scrollElement = scrollRef.current;
+    if (!scrollElement) return;
+
     if (scrollElement) {
       scrollElement.addEventListener('scroll', checkScrollHeight);
     }
@@ -90,7 +92,7 @@ export default function CheerTalkList({
         scrollElement.removeEventListener('scroll', checkScrollHeight);
       }
     };
-  }, []);
+  }, [checkScrollHeight]);
 
   return (
     <div className={styles.list.container}>
@@ -127,7 +129,7 @@ export default function CheerTalkList({
           onClick={run}
           type="button"
         >
-          <Icon source={ArrowDownIcon} className={styles.scrollToBottomIcon} />
+          <Icon source={ArrowDownIcon} size={16} color="black" />
         </button>
       )}
     </div>
