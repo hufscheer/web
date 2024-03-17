@@ -1,4 +1,4 @@
-import { ArrowDownIcon, SendIcon } from '@hcc/icons';
+import { SendIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { UseMutateFunction } from '@tanstack/react-query';
 import axios from 'axios';
@@ -89,13 +89,6 @@ const CheerTalkForm = ({
           <Icon source={SendIcon} className={styles.cheerTalkSendIcon} />
         </button>
       </div>
-      <button
-        className={styles.scrollToBottomButton}
-        onClick={scrollToBottom}
-        type="button"
-      >
-        <Icon source={ArrowDownIcon} className={styles.scrollToBottomIcon} />
-      </button>
     </form>
   );
 };
