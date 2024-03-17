@@ -53,7 +53,7 @@ export default function PlayingCard({ leagues }: PlayingCardProps) {
                       fullWidth
                       component={Link}
                       variant="light"
-                      href={`/game/${game.id}/cheer-talk`}
+                      href={`/report`}
                     >
                       응원톡
                     </Button>

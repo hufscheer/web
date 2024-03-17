@@ -49,7 +49,7 @@ export default function Page() {
           </Card.Content>
         </Card.Root>
         <Card.Root>
-          <Card.Content component={Link} href={`/cheer-talk`}>
+          <Card.Content component={Link} href={`/report`}>
             <Icon source={ChatIcon} />
             <div className={styles.content}>
               <Card.Title text="semibold">응원톡 관리</Card.Title>
