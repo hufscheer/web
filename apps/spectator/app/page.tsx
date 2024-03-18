@@ -1,14 +1,12 @@
+import { Skeleton } from '@hcc/ui';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { ReactElement } from 'react';
+import { ReactElement, Suspense } from 'react';
 
-import Loader from '@/components/Loader';
-import { useGameListPrefetch } from '@/queries/useGameList';
+import { useLeaguesPrefetch } from '@/queries/useLeague';
 import { useLeagueTeamsPrefetch } from '@/queries/useLeagueTeams';
-import { LEAGUES_QUERY_KEY, useLeaguesPrefetch } from '@/queries/useLeuage';
-import { SPORTS_QUERY_KEY, useSportsPrefetch } from '@/queries/useSports';
+import { useSportsPrefetch } from '@/queries/useSports';
 import { GameState } from '@/types/game';
-import { LeagueType, SportType } from '@/types/league';
 
 import LeagueFilter from './_components/GameFilter/LeagueFilter';
 import LeagueTeamFilter from './_components/GameFilter/LeagueTeamFilter';
@@ -24,29 +22,13 @@ type PageProps = {
 export default async function Page({ searchParams }: PageProps) {
   const year = Number(searchParams.year) || dayjs().year();
   const queryClient = getQueryClient();
-  await useLeaguesPrefetch(year);
-
-  const leagues = queryClient.getQueryData<LeagueType[]>([
-    LEAGUES_QUERY_KEY,
-    year,
-  ]);
-  const inProgress = leagues?.[0];
+  const leagues = await useLeaguesPrefetch(year);
+  const inProgress =
+    leagues.find(league => league.isInProgress) || leagues?.[0];
   const initialLeagueId = Number(searchParams.league) || inProgress?.leagueId;
-
-  const sports = queryClient.getQueryData<SportType[]>([
-    SPORTS_QUERY_KEY,
-    initialLeagueId,
-  ]);
 
   await useLeagueTeamsPrefetch(initialLeagueId);
   await useSportsPrefetch(initialLeagueId);
-  await useGameListPrefetch({
-    state: 'playing',
-    league_id: initialLeagueId?.toString(),
-    round:
-      (searchParams.round as string) || inProgress?.inProgressRound?.toString(),
-    sport_id: searchParams.sports?.toString() || sports?.[0].sportId.toString(),
-  });
 
   return (
     <>
@@ -60,41 +42,37 @@ export default async function Page({ searchParams }: PageProps) {
           />
         )}
         {initialLeagueId && <LeagueTeamFilter leagueId={initialLeagueId} />}
+      </HydrationBoundary>
 
-        {GAMES.map(game => (
+      {GAMES.map(game => (
+        <Suspense key={game.key} fallback={game.loadingFallback}>
           <GameList
             key={game.key}
             state={game.key}
-            leagueId={initialLeagueId?.toString()}
-            round={
-              (searchParams.round as string) ||
-              inProgress?.inProgressRound?.toString()
-            }
-            sportId={searchParams.sports?.toString()}
+            initialLeagueId={initialLeagueId.toString()}
           />
-        ))}
-      </HydrationBoundary>
+        </Suspense>
+      ))}
     </>
   );
 }
 
 type Games = {
   key: GameState;
-  // errorFallback: () => ReactElement;
   loadingFallback: ReactElement;
 };
 
 const GAMES: Games[] = [
   {
     key: 'playing',
-    loadingFallback: <Loader />,
+    loadingFallback: <Skeleton />,
   },
   {
     key: 'scheduled',
-    loadingFallback: <Loader />,
+    loadingFallback: <Skeleton />,
   },
   {
     key: 'finished',
-    loadingFallback: <Loader />,
+    loadingFallback: <Skeleton />,
   },
 ];
