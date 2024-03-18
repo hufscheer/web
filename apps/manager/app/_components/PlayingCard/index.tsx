@@ -1,6 +1,6 @@
 import { CaretDownIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
-import { Button, Flex, Title } from '@mantine/core';
+import { Button, Flex, rem, Title } from '@mantine/core';
 import Link from 'next/link';
 import { Fragment } from 'react';
 
@@ -16,19 +16,19 @@ type PlayingCardProps = {
 };
 
 export default function PlayingCard({ leagues }: PlayingCardProps) {
-  const playingLeagues = useGamesQuery(leagues || []);
+  const playingLeagues = useGamesQuery(leagues || [], 'playing');
 
   return (
     <>
       {playingLeagues.map(({ data, leagueName }) => (
         <Fragment key={leagueName}>
-          <Title order={3} mb="xs">
+          <Title order={3} mt="lg" mb="xs" size={rem(20)}>
             {leagueName}
           </Title>
-          <Flex direction="column" gap="xs" mb="sm">
+          <Flex direction="column" gap="xs">
             {data.map(game => (
               <Card.Root key={game.id}>
-                <Card.Content component={Link} href={`game/${game.id}`}>
+                <Card.Content component={Link} href={`/game/${game.id}`}>
                   <div style={{ flex: 1 }}>
                     <Card.Title text="semibold">{game.gameName}</Card.Title>
                     <Card.SubContent>

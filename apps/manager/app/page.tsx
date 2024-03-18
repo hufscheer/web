@@ -22,7 +22,7 @@ export default function Page() {
         <PlayingCard leagues={leagues?.playing} />
       </Suspense>
 
-      <Title order={2} className={styles.title} mb="xs">
+      <Title order={2} className={styles.title} mt="lg" mb="xs">
         설정
       </Title>
       <Flex direction="column" gap="xs">

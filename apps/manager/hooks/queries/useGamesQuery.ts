@@ -1,15 +1,15 @@
 import { useSuspenseQueries } from '@tanstack/react-query';
 
 import { getGameList } from '@/api/league';
-import { LeagueType } from '@/types/league';
+import { GameState, LeagueType } from '@/types/league';
 
-export default function useGamesQuery(leagues: LeagueType[]) {
+export default function useGamesQuery(leagues: LeagueType[], state: GameState) {
   const options = leagues.map(league => ({
-    queryKey: ['games', { league_id: league.leagueId }],
+    queryKey: ['games', { league_id: league.leagueId, state }],
     queryFn: () =>
       getGameList({
         league_id: league.leagueId,
-        state: 'finished',
+        state: state,
         leagueName: league.name,
       }),
   }));
