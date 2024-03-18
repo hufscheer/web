@@ -1,9 +1,4 @@
-/**
- * Accordion => state => ({value1, value2, value3})
- * AccordionTrigger => setState({...state, [value]: prev => !prev})
- * AccordionContent => state => state && collapse
- * AccordionItem => value props
- */
+'use client';
 
 import { clsx } from 'clsx';
 import { ReactNode, createContext, useCallback, useState } from 'react';
