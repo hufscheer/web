@@ -14,22 +14,16 @@ import * as styles from './GameList.css';
 
 type GameListProps = {
   state: GameState;
-  leagueId: string | undefined;
-  sportId: string | undefined;
-  round: string | undefined;
+  initialLeagueId: string;
 };
 
-export default function GameList({
-  state,
-  leagueId,
-  round,
-  sportId,
-}: GameListProps) {
+export default function GameList({ state, initialLeagueId }: GameListProps) {
   const searchParams = useSearchParams();
   const { groupedGameList, ...rest } = useGameList({
-    league_id: searchParams.get('league') || leagueId,
-    sport_id: searchParams.get('sports') || sportId,
-    round: searchParams.get('round') || round,
+    league_id: searchParams.get('league') || initialLeagueId,
+    sport_id: searchParams.get('sports') || undefined,
+    round: searchParams.get('round') || undefined,
+    league_team_id: searchParams.get('leagueTeam') || undefined,
     state,
   });
 
@@ -43,7 +37,7 @@ export default function GameList({
     },
   );
 
-  if (!groupedGameList) return null;
+  if (!groupedGameList.length) return null;
 
   return (
     <>
