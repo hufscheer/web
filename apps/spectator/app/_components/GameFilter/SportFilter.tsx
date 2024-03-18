@@ -25,8 +25,7 @@ export default function SportFilter({ leagueId }: SportFilterProps) {
 
   if (!sports || sports.length <= 1) return;
 
-  const selectedSports =
-    Number(searchParams.get('sports')) || sports[0].sportId;
+  const selectedSports = Number(searchParams.get('sports')) || '';
 
   return (
     <div className={styles.wrapper}>
@@ -38,6 +37,20 @@ export default function SportFilter({ leagueId }: SportFilterProps) {
         autoResize={true}
         bound={true}
       >
+        <li>
+          <Link
+            href={{
+              href: pathname,
+              query: { year, league, leagueTeam, sports: '' },
+            }}
+            className={clsx(
+              styles.sportFilterItem,
+              selectedSports === '' && styles.focused,
+            )}
+          >
+            전체
+          </Link>
+        </li>
         {sports.map(sport => (
           <li
             key={sport.sportId}

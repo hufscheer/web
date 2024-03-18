@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useRef } from 'react';
 
-import useLeague from '@/queries/useLeuage';
+import useLeague from '@/queries/useLeague';
 
 import * as styles from './GameFilter.css';
 
@@ -42,7 +42,12 @@ export default function LeagueFilter({ year }: { year: number }) {
               league.leagueId === selectedLeague && styles.focused,
             )}
           >
-            <Link href={{ href: pathname, query: { league: league.leagueId } }}>
+            <Link
+              href={{
+                href: pathname,
+                query: { year, league: league.leagueId },
+              }}
+            >
               {league.name}
             </Link>
           </li>
