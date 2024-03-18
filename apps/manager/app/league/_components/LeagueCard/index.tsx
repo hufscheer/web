@@ -1,6 +1,6 @@
 import { CaretDownIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
-import { Box, Title } from '@mantine/core';
+import { Box, Flex, Title } from '@mantine/core';
 import Link from 'next/link';
 
 import Card from '@/components/Card';
@@ -30,20 +30,25 @@ export default function LeagueCard({ state }: LeagueCardProps) {
       {!leagues?.[state] ? (
         <Box>{titleMap[state]} 경기가 없습니다.</Box>
       ) : (
-        leagues[state].map(league => (
-          <Card.Root key={league.leagueId}>
-            <Card.Content component={Link} href={`/league/${league.leagueId}`}>
-              <div className={styles.content}>
-                <Card.Title text="semibold">{league.name}</Card.Title>
-                <Card.SubContent>
-                  {formatTime(league.startAt, 'YYYY.MM.DD')}-
-                  {formatTime(league.endAt, 'YYYY.MM.DD')}
-                </Card.SubContent>
-              </div>
-              <Icon source={CaretDownIcon} className={styles.caret} />
-            </Card.Content>
-          </Card.Root>
-        ))
+        <Flex direction="column" gap="xs">
+          {leagues[state].map(league => (
+            <Card.Root key={league.leagueId}>
+              <Card.Content
+                component={Link}
+                href={`/league/${league.leagueId}`}
+              >
+                <div className={styles.content}>
+                  <Card.Title text="semibold">{league.name}</Card.Title>
+                  <Card.SubContent>
+                    {formatTime(league.startAt, 'YYYY.MM.DD')}-
+                    {formatTime(league.endAt, 'YYYY.MM.DD')}
+                  </Card.SubContent>
+                </div>
+                <Icon source={CaretDownIcon} className={styles.caret} />
+              </Card.Content>
+            </Card.Root>
+          ))}
+        </Flex>
       )}
     </>
   );

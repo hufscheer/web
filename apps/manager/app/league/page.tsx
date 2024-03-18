@@ -1,5 +1,6 @@
 'use client';
 
+import { Flex } from '@mantine/core';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -17,20 +18,23 @@ export default function Page() {
 
   return (
     <Layout navigationTitle="대회 관리" navigationMenu={<Edit />}>
-      <LeagueCard state="playing" />
-      <AddButton
-        component={Link}
-        href={{
-          pathname: `${pathname}/register`,
-          query: { type: 'playing' },
-        }}
-      >
-        신규 대회 추가
-      </AddButton>
-      <LeagueCard state="scheduled" />
-      <AddButton onClick={() => {}}>신규 대회 추가</AddButton>
+      <Flex direction="column" gap="xs">
+        <LeagueCard state="playing" />
+        <AddButton
+          component={Link}
+          href={{
+            pathname: `${pathname}/register`,
+            query: { type: 'playing' },
+          }}
+        >
+          신규 대회 추가
+        </AddButton>
+      </Flex>
+      <Flex direction="column" gap="xs">
+        <LeagueCard state="scheduled" />
+        <AddButton onClick={() => {}}>신규 대회 추가</AddButton>
+      </Flex>
       <LeagueCard state="finished" />
-      <AddButton onClick={() => {}}>신규 대회 추가</AddButton>
     </Layout>
   );
 }
