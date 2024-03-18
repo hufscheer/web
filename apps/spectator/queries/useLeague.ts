@@ -18,7 +18,7 @@ export default function useLeague(year: number) {
 export async function useLeaguesPrefetch(year: number) {
   const queryClient = getQueryClient();
 
-  await queryClient.prefetchQuery({
+  return await queryClient.fetchQuery({
     queryKey: [LEAGUES_QUERY_KEY, year],
     queryFn: () => getLeagues(year || new Date().getFullYear()),
   });

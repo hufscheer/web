@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 import { getGameList } from '@/api/game';
 import getQueryClient from '@/app/getQueryClient';
@@ -10,7 +10,7 @@ export const useGameList = (
   params: Omit<GameListParams, 'cursor' | 'size'>,
 ) => {
   const { data, error, fetchNextPage, hasNextPage, isFetching } =
-    useInfiniteQuery({
+    useSuspenseInfiniteQuery({
       queryKey: [GAME_LIST_QUERY_KEY, params],
       initialPageParam: 0,
       queryFn: ({ pageParam }) =>
