@@ -8,8 +8,8 @@ import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 
 import { FilterProvider } from './_contexts/FilterContext';
-import ReactQueryProvider from './_contexts/ReactQueryProvider';
 import GoogleAnalytics from './GoogleAnalytics';
+import ReactQueryProvider from './ReactQueryProvider';
 
 import 'dayjs/locale/ko';
 import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
