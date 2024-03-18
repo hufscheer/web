@@ -13,7 +13,11 @@ const YEARS_LIST = Array.from(
   (_, index) => CURRENT_YEAR - index,
 );
 
-export default function LeagueList() {
+type LeagueListProps = {
+  handleClose: () => void;
+};
+
+export default function LeagueList({ handleClose }: LeagueListProps) {
   const { leagues } = useLeagues<typeof YEARS_LIST>(YEARS_LIST);
 
   return (
@@ -34,6 +38,7 @@ export default function LeagueList() {
                         pathname: '/',
                         query: { year, league: league.leagueId },
                       }}
+                      onClick={handleClose}
                     >
                       {league.name}
                     </Link>

@@ -3,12 +3,18 @@
 import { HamburgerIcon } from '@hcc/icons';
 import { theme } from '@hcc/styles';
 import { Icon, Modal } from '@hcc/ui';
+import { useRef } from 'react';
 
 import * as styles from './Sidebar.css';
 import AsyncBoundary from '../AsyncBoundary';
 import LeagueList from '../LeagueList';
 
 export default function Sidebar() {
+  const ref = useRef<HTMLButtonElement>(null);
+  const handleClose = () => {
+    ref.current?.click();
+  };
+
   return (
     <Modal>
       <Modal.Trigger>
@@ -34,14 +40,14 @@ export default function Sidebar() {
       >
         <div className={styles.sidebarHeader}>
           <span>대회 목록</span>
-          <Modal.Close className={styles.close} />
+          <Modal.Close ref={ref} className={styles.close} />
         </div>
 
         <AsyncBoundary
           errorFallback={() => <div>에러</div>}
           loadingFallback={<div>스켈레톤</div>}
         >
-          <LeagueList />
+          <LeagueList handleClose={handleClose} />
         </AsyncBoundary>
       </Modal.Content>
     </Modal>
