@@ -7,7 +7,6 @@ import { ReactNode } from 'react';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 
-import { FilterProvider } from './_contexts/FilterContext';
 import GoogleAnalytics from './GoogleAnalytics';
 import ReactQueryProvider from './ReactQueryProvider';
 
@@ -34,11 +33,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
       </head>
       <body style={{ margin: 'auto', maxWidth: theme.sizes.appWidth }}>
         <ReactQueryProvider>
-          <FilterProvider>
-            <Header />
-            <main>{children}</main>
-            <Footer />
-          </FilterProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
         </ReactQueryProvider>
       </body>
       <GoogleAnalytics />
