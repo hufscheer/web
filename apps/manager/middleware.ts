@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+const COOKIE_NAME = 'HCC_SES';
 const PUBLIC_ROUTES = '/login';
 
 export default function middleware(req: NextRequest) {
@@ -39,7 +40,7 @@ function getTokenFromCookies(request: NextRequest) {
 
   const cookies = new Map(cookiesArray);
 
-  return cookies.get('access');
+  return cookies.get(COOKIE_NAME);
 }
 
 export const config = {
