@@ -1,37 +1,36 @@
+'use client';
+
 import Flicking from '@egjs/react-flicking';
 import { clsx } from 'clsx';
-import { useEffect, useRef } from 'react';
+import Link from 'next/link';
+import { usePathname, useSearchParams } from 'next/navigation';
 
-import { useFilterContext } from '@/app/_contexts/FilterContext';
-import { useFilterParams } from '@/hooks/useFilterParams';
 import useSports from '@/queries/useSports';
 
 import * as styles from './GameFilter.css';
 
-export default function SportFilter() {
-  const flickingRef = useRef<Flicking | null>(null);
+type SportFilterProps = {
+  leagueId: number;
+};
 
-  const { league, sport: selectedSport, setSport } = useFilterContext();
-  const { sports } = useSports(league);
-  const { updateSport } = useFilterParams();
+export default function SportFilter({ leagueId }: SportFilterProps) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  useEffect(() => {
-    if (sports && !selectedSport && sports.length > 0) {
-      setSport(sports[0].sportId);
-      flickingRef.current?.moveTo(0);
-    } else if (selectedSport && sports) {
-      flickingRef.current?.moveTo(
-        sports.findIndex(sport => sport.sportId === selectedSport),
-      );
-    }
-  }, [sports, selectedSport, setSport]);
+  const year = searchParams.get('year');
+  const league = searchParams.get('league');
+  const leagueTeam = searchParams.get('leagueTeam');
+
+  const { sports } = useSports(leagueId);
 
   if (!sports || sports.length <= 1) return;
+
+  const selectedSports =
+    Number(searchParams.get('sports')) || sports[0].sportId;
 
   return (
     <div className={styles.wrapper}>
       <Flicking
-        ref={flickingRef}
         viewportTag="div"
         cameraTag="ul"
         align="center"
@@ -44,12 +43,17 @@ export default function SportFilter() {
             key={sport.sportId}
             className={clsx(
               styles.sportFilterItem,
-              sport.sportId === selectedSport && styles.focused,
+              sport.sportId === selectedSports && styles.focused,
             )}
           >
-            <button onClick={() => updateSport(sport.sportId)}>
+            <Link
+              href={{
+                href: pathname,
+                query: { year, league, leagueTeam, sports: sport.sportId },
+              }}
+            >
               {sport.name}
-            </button>
+            </Link>
           </li>
         ))}
       </Flicking>

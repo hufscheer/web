@@ -1,52 +1,27 @@
+'use client';
+
 import Flicking from '@egjs/react-flicking';
 import { clsx } from 'clsx';
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import Link from 'next/link';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useRef } from 'react';
 
-import { useFilterContext } from '@/app/_contexts/FilterContext';
-import { useFilterParams } from '@/hooks/useFilterParams';
 import useLeague from '@/queries/useLeuage';
 
 import * as styles from './GameFilter.css';
 
-export default function LeagueFilter() {
+export default function LeagueFilter({ year }: { year: number }) {
   const flickingRef = useRef<Flicking | null>(null);
 
-  const params = useSearchParams();
-  const {
-    year,
-    league: selectedLeague,
-    setLeague,
-    setSport,
-    setMaxRound,
-    setRound,
-  } = useFilterContext();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { leagues } = useLeague(year);
-  const { updateLeague } = useFilterParams();
 
-  useEffect(() => {
-    if (!leagues) return;
+  if (!leagues?.length) return <div>길이 부족</div>;
 
-    if (leagues.length > 0 && !selectedLeague) {
-      if (params.get('league') === null) setLeague(leagues[0].leagueId);
-      flickingRef.current?.moveTo(0);
-    } else if (selectedLeague && leagues.length > 0) {
-      const league = leagues.find(league => league.leagueId === selectedLeague);
-      setMaxRound(league?.maxRound || 0);
-      setRound(league?.inProgressRound || league?.maxRound || 0);
-      flickingRef.current?.moveTo(league ? leagues.indexOf(league) : -1);
-    }
-  }, [
-    leagues,
-    params,
-    selectedLeague,
-    setLeague,
-    setMaxRound,
-    setRound,
-    setSport,
-  ]);
-
-  if (!leagues) return null;
+  const selectedLeague =
+    Number(searchParams.get('league')) ||
+    (leagues.find(league => league.isInProgress) || leagues[0]).leagueId;
 
   return (
     <div className={styles.wrapper}>
@@ -67,9 +42,9 @@ export default function LeagueFilter() {
               league.leagueId === selectedLeague && styles.focused,
             )}
           >
-            <button onClick={() => updateLeague(league.leagueId)}>
+            <Link href={{ href: pathname, query: { league: league.leagueId } }}>
               {league.name}
-            </button>
+            </Link>
           </li>
         ))}
       </Flicking>

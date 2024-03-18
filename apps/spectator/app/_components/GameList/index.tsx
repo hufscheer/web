@@ -1,6 +1,8 @@
+'use client';
+
+import { useSearchParams } from 'next/navigation';
 import { Fragment } from 'react';
 
-import { useFilterContext } from '@/app/_contexts/FilterContext';
 import AsyncBoundary from '@/components/AsyncBoundary';
 import Loader from '@/components/Loader';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
@@ -8,23 +10,26 @@ import { useGameList } from '@/queries/useGameList';
 import { GameState } from '@/types/game';
 
 import GameCard from './Card';
-import {
-  FinishedGameListErrorFallback,
-  PlayingGameListErrorFallback,
-  ScheduledGameListErrorFallback,
-} from './Error';
 import * as styles from './GameList.css';
 
 type GameListProps = {
   state: GameState;
+  leagueId: string | undefined;
+  sportId: string | undefined;
+  round: string | undefined;
 };
 
-export default function GameList({ state }: GameListProps) {
-  const { league, sport, leagueTeam } = useFilterContext();
+export default function GameList({
+  state,
+  leagueId,
+  round,
+  sportId,
+}: GameListProps) {
+  const searchParams = useSearchParams();
   const { groupedGameList, ...rest } = useGameList({
-    league_id: league ? String(league) : undefined,
-    sport_id: sport ? String(sport) : undefined,
-    league_team_id: leagueTeam ? String(leagueTeam) : undefined,
+    league_id: searchParams.get('league') || leagueId,
+    sport_id: searchParams.get('sports') || sportId,
+    round: searchParams.get('round') || round,
     state,
   });
 
@@ -37,6 +42,8 @@ export default function GameList({ state }: GameListProps) {
       }
     },
   );
+
+  if (!groupedGameList) return null;
 
   return (
     <>
@@ -62,7 +69,3 @@ export default function GameList({ state }: GameListProps) {
     </>
   );
 }
-
-GameList.PlayingErrorFallback = PlayingGameListErrorFallback;
-GameList.ScheduledErrorFallback = ScheduledGameListErrorFallback;
-GameList.FinishedErrorFallback = FinishedGameListErrorFallback;

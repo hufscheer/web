@@ -1,9 +1,9 @@
+'use client';
+
 import Flicking from '@egjs/react-flicking';
 import { clsx } from 'clsx';
-import { useRef } from 'react';
-
-import { useFilterContext } from '@/app/_contexts/FilterContext';
-import { useFilterParams } from '@/hooks/useFilterParams';
+import Link from 'next/link';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 import * as styles from './GameFilter.css';
 
@@ -11,10 +11,20 @@ function formatRoundLabel(round: number): string {
   return round > 2 ? `${round}강` : `결승`;
 }
 
-export default function RoundFilter() {
-  const flickingRef = useRef<Flicking | null>(null);
-  const { maxRound, round } = useFilterContext();
-  const { updateRound } = useFilterParams();
+type RoundFilterProps = {
+  maxRound: number;
+  inProgressRound: number;
+};
+
+export default function RoundFilter({
+  maxRound,
+  inProgressRound,
+}: RoundFilterProps) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentRound = Number(searchParams.get('round')) || inProgressRound;
+  const year = Number(searchParams.get('year'));
+  const league = searchParams.get('league');
 
   if (!maxRound) return null;
 
@@ -26,7 +36,6 @@ export default function RoundFilter() {
   return (
     <div className={styles.wrapper}>
       <Flicking
-        ref={flickingRef}
         viewportTag="div"
         cameraTag="ul"
         align="center"
@@ -39,12 +48,17 @@ export default function RoundFilter() {
             key={index}
             className={clsx(
               styles.roundFilterItem,
-              roundValue === Number(round) && styles.roundFilterFocused,
+              roundValue === currentRound && styles.roundFilterFocused,
             )}
           >
-            <button onClick={() => updateRound(roundValue)}>
+            <Link
+              href={{
+                href: pathname,
+                query: { year, league, round: roundValue },
+              }}
+            >
               {formatRoundLabel(roundValue)}
-            </button>
+            </Link>
           </li>
         ))}
       </Flicking>
