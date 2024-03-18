@@ -20,16 +20,13 @@ export default function LeagueTeamFilter({ leagueId }: { leagueId: number }) {
   const { leagueTeams } = useLeagueTeams(leagueId);
   const selectedLeagueTeam = Number(searchParams.get('leagueTeam')) || -1;
 
-  // const year = Number(searchParams.get('year'));
-  // const league = searchParams.get('league');
-
   if (!leagueTeams || !leagueTeams.length) return;
 
   const handleRouter = (teamId: number) => {
-    const current = new URLSearchParams(Array.from(searchParams.entries())); // -> has to use this form
-    const ss = current.get('leagueTeam');
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+    const currentTeamId = current.get('leagueTeam');
 
-    if (ss === teamId.toString()) {
+    if (currentTeamId === teamId.toString()) {
       current.delete('leagueTeam');
     } else {
       current.set('leagueTeam', teamId.toString());
