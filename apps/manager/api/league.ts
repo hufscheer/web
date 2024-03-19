@@ -61,8 +61,8 @@ export const createLeaguePlayers = async (
   });
 };
 
-export const deleteLeagueById = async (body: DeleteLeaguePayload) => {
-  const { status } = await instance.delete('/league/', { data: body });
+export const deleteLeague = async (body: DeleteLeaguePayload) => {
+  const { status } = await instance.delete('/leagues/', { data: body });
 
   return status;
 };
