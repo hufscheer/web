@@ -17,10 +17,10 @@ globalStyle('div, span, p, a, button, ul, li', {
 
 globalStyle('.eg-flick-viewport', {
   display: 'flex',
+  justifyContent: 'center',
 });
 
 globalStyle('.eg-flick-camera', {
   position: 'relative',
   display: 'flex',
-  width: '100%',
 });
