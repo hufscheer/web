@@ -1,11 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { createLeagueTeam } from '@/api/league';
-import { LeagueTeamPayload } from '@/types/league';
 
 type Params = {
   leagueId: number;
-  payload: LeagueTeamPayload;
+  payload: FormData;
 };
 
 export default function useCreateLeagueTeamMutation() {
