@@ -26,6 +26,7 @@ export { ReactComponent as SwitchIcon } from './svg/switch.svg';
 export { ReactComponent as SymbolIcon } from './svg/symbol.svg';
 export { ReactComponent as ThumbsUpIcon } from './svg/thumbs-up.svg';
 export { ReactComponent as TrashIcon } from './svg/trash.svg';
+export { ReactComponent as TrophyIcon } from './svg/trophy.svg';
 export { ReactComponent as UnholdIcon } from './svg/unhold.svg';
 export { ReactComponent as WhistlingIcon } from './svg/whistling.svg';
 export { ReactComponent as WriteIcon } from './svg/write.svg';

@@ -39,9 +39,9 @@ export default function Page() {
       >
         신규 대회 경기 추가
       </Button>
-      <GameCard league={league} state="playing" />
-      <GameCard league={league} state="scheduled" />
-      <GameCard league={league} state="finished" />
+      <GameCard league={league} state="playing" edit={edit} />
+      <GameCard league={league} state="scheduled" edit={edit} />
+      <GameCard league={league} state="finished" edit={edit} />
     </Layout>
   );
 }

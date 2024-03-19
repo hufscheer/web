@@ -153,7 +153,6 @@ export const gameButtonArea = styleVariants({
     justifyContent: 'center',
     alignItems: 'center',
     gap: theme.spaces.sm,
-    minWidth: rem(42),
   },
   cheer: [
     buttonBase,

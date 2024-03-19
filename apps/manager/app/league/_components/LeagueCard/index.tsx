@@ -1,16 +1,18 @@
-import { CaretDownIcon } from '@hcc/icons';
-import { Icon } from '@hcc/ui';
-import { Box, Title } from '@mantine/core';
+import { CaretDownIcon, SubtractIcon } from '@hcc/icons';
+import { Icon, Modal } from '@hcc/ui';
+import { Box, Flex, Title } from '@mantine/core';
 import Link from 'next/link';
 
 import Card from '@/components/Card';
 import useLeagueQuery from '@/hooks/queries/useLeagueQuery';
+import useDeleteLeagueMutation from '@/queries/league/useDeleteLeagueMutation';
 import { formatTime } from '@/utils/time';
 
 import * as styles from './LeagueCard.css';
 
 type LeagueCardProps = {
   state: 'playing' | 'scheduled' | 'finished';
+  edit: boolean;
 };
 
 const titleMap = {
@@ -19,8 +21,22 @@ const titleMap = {
   finished: '종료',
 };
 
-export default function LeagueCard({ state }: LeagueCardProps) {
-  const { data: leagues } = useLeagueQuery();
+const alertMessage =
+  '삭제된 대회는 이후 복구할 수 없습니다.\n삭제하시겠습니까?';
+
+export default function LeagueCard({ state, edit }: LeagueCardProps) {
+  const { data: leagues, refetch } = useLeagueQuery();
+
+  const { mutate: mutateDeleteLeague } = useDeleteLeagueMutation();
+
+  const handleDelete = async (leagueId: number) => {
+    mutateDeleteLeague(
+      { leagueId },
+      {
+        onSuccess: () => refetch(),
+      },
+    );
+  };
 
   return (
     <>
@@ -30,20 +46,69 @@ export default function LeagueCard({ state }: LeagueCardProps) {
       {!leagues?.[state] ? (
         <Box>{titleMap[state]} 경기가 없습니다.</Box>
       ) : (
-        leagues[state].map(league => (
-          <Card.Root key={league.leagueId}>
-            <Card.Content component={Link} href={`/league/${league.leagueId}`}>
-              <div className={styles.content}>
-                <Card.Title text="semibold">{league.name}</Card.Title>
-                <Card.SubContent>
-                  {formatTime(league.startAt, 'YYYY.MM.DD')}-
-                  {formatTime(league.endAt, 'YYYY.MM.DD')}
-                </Card.SubContent>
-              </div>
-              <Icon source={CaretDownIcon} className={styles.caret} />
-            </Card.Content>
-          </Card.Root>
-        ))
+        <Flex direction="column" gap="xs">
+          {leagues[state].map(league => (
+            <Card.Root key={league.leagueId}>
+              {edit ? (
+                <Card.Content>
+                  <div className={styles.content}>
+                    <Card.Title text="semibold">{league.name}</Card.Title>
+                    <Card.SubContent>
+                      {formatTime(league.startAt, 'YYYY.MM.DD')}-
+                      {formatTime(league.endAt, 'YYYY.MM.DD')}
+                    </Card.SubContent>
+                  </div>
+
+                  <Modal>
+                    <Modal.Trigger>
+                      <Icon source={SubtractIcon} color="error" />
+                    </Modal.Trigger>
+                    <Modal.Content
+                      key="report-menu"
+                      className={styles.modalContainer}
+                    >
+                      <div className={styles.modalContent}>
+                        <p className={styles.leagueName}>{league.name}</p>
+                        <p className={styles.leagueDate}>
+                          {formatTime(league.startAt, 'YYYY.MM.DD')}-
+                          {formatTime(league.endAt, 'YYYY.MM.DD')}
+                        </p>
+                      </div>
+                      <div className={styles.alert}>
+                        <p>{alertMessage}</p>
+                        <div className={styles.menuContainer}>
+                          <Modal.Close
+                            className={styles.positiveMenu}
+                            onClick={() => handleDelete(league.leagueId)}
+                          >
+                            예
+                          </Modal.Close>
+                          <Modal.Close className={styles.negativeMenu}>
+                            아니오
+                          </Modal.Close>
+                        </div>
+                      </div>
+                    </Modal.Content>
+                  </Modal>
+                </Card.Content>
+              ) : (
+                <Card.Content
+                  component={Link}
+                  href={`/league/${league.leagueId}`}
+                >
+                  <div className={styles.content}>
+                    <Card.Title text="semibold">{league.name}</Card.Title>
+                    <Card.SubContent>
+                      {formatTime(league.startAt, 'YYYY.MM.DD')}-
+                      {formatTime(league.endAt, 'YYYY.MM.DD')}
+                    </Card.SubContent>
+                  </div>
+                  <Icon source={CaretDownIcon} className={styles.caret} />
+                </Card.Content>
+              )}
+            </Card.Root>
+          ))}
+        </Flex>
       )}
     </>
   );

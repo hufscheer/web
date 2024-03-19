@@ -1,6 +1,6 @@
 'use client';
 
-import { CaretDownIcon, ChatIcon, SoccerIcon } from '@hcc/icons';
+import { CaretDownIcon, ChatIcon, SoccerIcon, TrophyIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { Flex, Title } from '@mantine/core';
 import Link from 'next/link';
@@ -28,7 +28,7 @@ export default function Page() {
       <Flex direction="column" gap="xs">
         <Card.Root>
           <Card.Content component={Link} href={`/league`}>
-            <Icon source={SoccerIcon} />
+            <Icon source={TrophyIcon} />
             <div className={styles.content}>
               <Card.Title text="semibold">대회 관리</Card.Title>
             </div>
