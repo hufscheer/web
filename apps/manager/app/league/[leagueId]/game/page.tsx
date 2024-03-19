@@ -2,7 +2,7 @@
 
 import { Button } from '@mantine/core';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 import Layout from '@/components/Layout';
@@ -13,8 +13,9 @@ import * as styles from './page.css';
 
 export default function Page() {
   const pathname = usePathname();
+  const params = useParams();
 
-  const leagueId = Number(pathname.split('/').at(-3));
+  const leagueId = Number(params.leagueId as string);
   const { data: league } = useLeagueDetailQuery(leagueId);
 
   const [edit, setEdit] = useState(false);
