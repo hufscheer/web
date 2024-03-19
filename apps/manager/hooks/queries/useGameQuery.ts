@@ -5,7 +5,7 @@ import { GameState, LeagueType } from '@/types/league';
 
 export default function useGameQuery(league: LeagueType, state: GameState) {
   const { data, error, isLoading, refetch } = useQuery({
-    queryKey: ['game', { league.leagueId, state, league.name}],
+    queryKey: ['game', { state, ...league }],
     queryFn: () =>
       getGameList({
         state,

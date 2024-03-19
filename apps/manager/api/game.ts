@@ -11,7 +11,7 @@ export const createGame = async (
 };
 
 export const deleteGame = async (gameId: string) => {
-  const { data } = await instance.delete(`/games/${gameId}/`);
+  const { data } = await instance.delete(`/games/${gameId}/delete/`);
 
   return data;
 };

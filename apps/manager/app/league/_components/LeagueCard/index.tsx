@@ -4,8 +4,8 @@ import { Box, Flex, Title } from '@mantine/core';
 import Link from 'next/link';
 
 import Card from '@/components/Card';
+import useDeleteLeagueMutation from '@/hooks/mutations/useDeleteLeagueMutation';
 import useLeagueQuery from '@/hooks/queries/useLeagueQuery';
-import useDeleteLeagueMutation from '@/queries/league/useDeleteLeagueMutation';
 import { formatTime } from '@/utils/time';
 
 import * as styles from './LeagueCard.css';
