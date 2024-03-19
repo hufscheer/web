@@ -5,12 +5,16 @@ import '@hcc/styles/dist/globals.css';
 import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
 
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
+import { extend } from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Metadata, Viewport } from 'next';
 import { ReactNode } from 'react';
 
 import { mantineTheme } from '@/styles/theme';
 
 import ReactQueryProvider from './ReactQueryProvider';
+
+extend(customParseFormat);
 
 interface RootLayoutProps {
   children: ReactNode;
