@@ -1,11 +1,11 @@
 'use client';
 
-import { rem } from '@hcc/styles';
 import { Button, Flex } from '@mantine/core';
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 import { MouseEvent, useState } from 'react';
 
+import AddButton from '@/components/AddButton';
 import Card from '@/components/Card';
 import Layout from '@/components/Layout';
 import useLeagueTeamQuery from '@/hooks/queries/useLeagueTeamQuery';
@@ -34,16 +34,6 @@ export default function LeagueTeamList() {
     setEdit(prev => !prev);
   };
 
-  if (!leagueTeams.length) {
-    return (
-      <Layout navigationTitle="대회 팀 관리">
-        <Flex align="center" justify="center" style={{ height: '100%' }}>
-          팀이 없습니다.
-        </Flex>
-      </Layout>
-    );
-  }
-
   return (
     <Layout
       navigationTitle="대회 팀 관리"
@@ -53,17 +43,33 @@ export default function LeagueTeamList() {
         </Button>
       }
     >
-      <Flex direction="column" gap={rem(4)}>
-        {leagueTeams.map(team => (
-          <Card.Root key={team.id}>
-            <Card.Content component={Link} href={`${pathname}${team.id}`}>
-              <Card.Title style={{ flex: 1 }}>{team.name}</Card.Title>
-              <Card.Action onClick={handleClickCard}>
-                <LeagueTeamActionIcon edit={edit} />
-              </Card.Action>
-            </Card.Content>
-          </Card.Root>
-        ))}
+      <AddButton
+        component={Link}
+        href={{
+          pathname: `${pathname}register`,
+        }}
+      >
+        신규 대회 팀 추가
+      </AddButton>
+      <Flex direction="column" mt="xs" gap="xs">
+        {leagueTeams.length > 0 ? (
+          leagueTeams.map(team => (
+            <Card.Root key={team.id} paddingVertical="sm">
+              <Card.Content component={Link} href={`${pathname}${team.id}`}>
+                <Card.Title text="semibold" style={{ flex: 1 }}>
+                  {team.name}
+                </Card.Title>
+                <Card.Action onClick={handleClickCard}>
+                  <LeagueTeamActionIcon edit={edit} />
+                </Card.Action>
+              </Card.Content>
+            </Card.Root>
+          ))
+        ) : (
+          <Flex align="center" justify="center" style={{ height: '100%' }}>
+            팀이 없습니다.
+          </Flex>
+        )}
       </Flex>
     </Layout>
   );
