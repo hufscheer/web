@@ -3,6 +3,8 @@
 import { Button, Group, Stepper } from '@mantine/core';
 import { useState } from 'react';
 
+import Layout from '@/components/Layout';
+
 import LeagueInfo from './_components/LeagueInfo';
 import LeagueTeam from './_components/LeagueTeam';
 import LeagueTeamPlayers from './_components/LeagueTeamPlayers';
@@ -19,7 +21,7 @@ export default function Register() {
   const prevStep = () =>
     setActive(current => (current > 0 ? current - 1 : current));
   return (
-    <>
+    <Layout navigationTitle="대회 생성">
       <Stepper active={active} vars={stepperResolver}>
         <Stepper.Step label="대회 정보">
           <LeagueInfo handleLeagueId={(id: number) => setLeagueId(id)} />
@@ -29,7 +31,7 @@ export default function Register() {
           <LeagueTeam leagueId={leagueId} />
         </Stepper.Step>
         <Stepper.Step label="대회 로고">
-          <LeagueTeamPlayers />
+          <LeagueTeamPlayers leagueId={leagueId} />
         </Stepper.Step>
       </Stepper>
 
@@ -39,7 +41,7 @@ export default function Register() {
         </Button>
         <Button onClick={nextStep}>Next step</Button>
       </Group>
-    </>
+    </Layout>
   );
   // useFunnel 필요
 }

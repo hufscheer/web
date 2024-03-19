@@ -3,13 +3,32 @@ import { useForm } from '@mantine/form';
 
 import AddButton from '@/components/AddButton';
 import useCreateLeaguePlayersMutation from '@/hooks/mutations/useCreateLeaguePlayersMutation';
+import useLeagueTeamQuery from '@/hooks/queries/useLeagueTeamQuery';
 
-export default function LeagueTeamPlayers() {
+type LeagueTeamPlayersProps = {
+  leagueId: number;
+};
+
+export default function LeagueTeamPlayers({
+  leagueId,
+}: LeagueTeamPlayersProps) {
+  const { data } = useLeagueTeamQuery(leagueId.toString());
+
+  console.warn(data);
+
   const form = useForm({
     initialValues: {
-      players: [{ name: '', description: null, playerNumber: 0 }],
+      players: [{ name: '', description: null, playerNumber: null }],
     },
   });
+
+  const handleButtonPlus = () => {
+    form.insertListItem('players', {
+      name: '',
+      description: null,
+      playerNumber: null,
+    });
+  };
 
   const { mutate: muatateLeaguePlayers } = useCreateLeaguePlayersMutation();
 
@@ -30,16 +49,7 @@ export default function LeagueTeamPlayers() {
           />
         </Group>
       ))}
-      <AddButton
-        onClick={() =>
-          form.insertListItem('players', {
-            name: '',
-            backNumber: 0,
-          })
-        }
-      >
-        선수 추가
-      </AddButton>
+      <AddButton onClick={handleButtonPlus}>선수 추가</AddButton>
 
       <Button
         onClick={() =>
