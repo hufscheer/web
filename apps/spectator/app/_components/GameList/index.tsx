@@ -1,3 +1,6 @@
+'use client';
+
+import { useSearchParams } from 'next/navigation';
 import { Fragment } from 'react';
 
 import AsyncBoundary from '@/components/AsyncBoundary';
@@ -7,19 +10,20 @@ import { useGameList } from '@/queries/useGameList';
 import { GameState } from '@/types/game';
 
 import GameCard from './Card';
-import {
-  FinishedGameListErrorFallback,
-  PlayingGameListErrorFallback,
-  ScheduledGameListErrorFallback,
-} from './Error';
 import * as styles from './GameList.css';
 
 type GameListProps = {
   state: GameState;
+  initialLeagueId: string;
 };
 
-export default function GameList({ state }: GameListProps) {
+export default function GameList({ state, initialLeagueId }: GameListProps) {
+  const searchParams = useSearchParams();
   const { groupedGameList, ...rest } = useGameList({
+    league_id: searchParams.get('league') || initialLeagueId,
+    sport_id: searchParams.get('sports') || undefined,
+    round: searchParams.get('round') || undefined,
+    league_team_id: searchParams.get('leagueTeam') || undefined,
     state,
   });
 
@@ -32,6 +36,8 @@ export default function GameList({ state }: GameListProps) {
       }
     },
   );
+
+  if (!groupedGameList.length) return null;
 
   return (
     <>
@@ -57,7 +63,3 @@ export default function GameList({ state }: GameListProps) {
     </>
   );
 }
-
-GameList.PlayingErrorFallback = PlayingGameListErrorFallback;
-GameList.ScheduledErrorFallback = ScheduledGameListErrorFallback;
-GameList.FinishedErrorFallback = FinishedGameListErrorFallback;

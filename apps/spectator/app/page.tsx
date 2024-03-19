@@ -1,109 +1,78 @@
-'use client';
+import { Skeleton } from '@hcc/ui';
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
+import dayjs from 'dayjs';
+import { ReactElement, Suspense } from 'react';
 
-import AsyncBoundary from '@/components/AsyncBoundary';
-import SportsList from '@/components/league/SportsList';
-import Loader from '@/components/Loader';
-import { QUERY_PARAMS } from '@/constants/queryParams';
-import useQueryParams from '@/hooks/useQueryParams';
-import SportsListFetcher from '@/queries/useSportsListByLeagueId/Fetcher';
+import { useLeaguesPrefetch } from '@/queries/useLeague';
+import { useLeagueTeamsPrefetch } from '@/queries/useLeagueTeams';
+import { useSportsPrefetch } from '@/queries/useSports';
 import { GameState } from '@/types/game';
 
+import LeagueFilter from './_components/GameFilter/LeagueFilter';
+import LeagueTeamFilter from './_components/GameFilter/LeagueTeamFilter';
+import RoundFilter from './_components/GameFilter/RoundFilter';
+import SportFilter from './_components/GameFilter/SportFilter';
 import GameList from './_components/GameList';
-import { section, statusButton, statusCheckbox } from './page.css';
+import getQueryClient from './getQueryClient';
 
-export default function Page() {
-  const { params, repeatIterator, appendToParams, setInParams } =
-    useQueryParams();
+type PageProps = {
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
-  const paramsObj = repeatIterator(
-    {} as { status: GameState },
-    params.entries(),
-  );
+export default async function Page({ searchParams }: PageProps) {
+  const year = Number(searchParams.year) || dayjs().year();
+  const queryClient = getQueryClient();
+  const leagues = await useLeaguesPrefetch(year);
+  const inProgress =
+    leagues.find(league => league.isInProgress) || leagues?.[0];
+  const initialLeagueId = Number(searchParams.league) || inProgress?.leagueId;
+
+  await useLeagueTeamsPrefetch(initialLeagueId);
+  await useSportsPrefetch(initialLeagueId);
 
   return (
-    <section className={section}>
-      <AsyncBoundary
-        errorFallback={() => <SportsList.Skeleton />}
-        loadingFallback={<SportsList.Skeleton />}
-      >
-        <SportsListFetcher leagueId={params.get('leagueId') || '39'}>
-          {data => (
-            <SportsList
-              selectedId={paramsObj[QUERY_PARAMS.sports] as string[]}
-              sportsList={data}
-              onClick={appendToParams}
-            />
-          )}
-        </SportsListFetcher>
-      </AsyncBoundary>
-
-      <div className={statusCheckbox}>
-        <button
-          onClick={() => setInParams(QUERY_PARAMS.status, 'finished')}
-          className={
-            params.get(QUERY_PARAMS.status) === 'finished'
-              ? statusButton['focused']
-              : statusButton['default']
-          }
-        >
-          종료
-        </button>
-        <button
-          onClick={() => setInParams(QUERY_PARAMS.status, 'playing')}
-          className={
-            params.get(QUERY_PARAMS.status) === 'playing' ||
-            params.get(QUERY_PARAMS.status) === null
-              ? statusButton['focused']
-              : statusButton['default']
-          }
-        >
-          진행 중
-        </button>
-        <button
-          onClick={() => setInParams(QUERY_PARAMS.status, 'scheduled')}
-          className={
-            params.get(QUERY_PARAMS.status) === 'scheduled'
-              ? statusButton['focused']
-              : statusButton['default']
-          }
-        >
-          예정
-        </button>
-      </div>
+    <>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <LeagueFilter year={year} />
+        {initialLeagueId && <SportFilter leagueId={initialLeagueId} />}
+        {inProgress?.inProgressRound && (
+          <RoundFilter
+            maxRound={inProgress.maxRound}
+            inProgressRound={inProgress.inProgressRound}
+          />
+        )}
+        {initialLeagueId && <LeagueTeamFilter leagueId={initialLeagueId} />}
+      </HydrationBoundary>
 
       {GAMES.map(game => (
-        <AsyncBoundary
-          key={game.key}
-          errorFallback={() => game.errorFallback()}
-          loadingFallback={game.loadingFallback}
-        >
-          <GameList state={game.key} />
-        </AsyncBoundary>
+        <Suspense key={game.key} fallback={game.loadingFallback}>
+          <GameList
+            key={game.key}
+            state={game.key}
+            initialLeagueId={initialLeagueId.toString()}
+          />
+        </Suspense>
       ))}
-    </section>
+    </>
   );
 }
 
 type Games = {
   key: GameState;
-  errorFallback: () => JSX.Element;
-  loadingFallback: JSX.Element;
+  loadingFallback: ReactElement;
 };
 
 const GAMES: Games[] = [
   {
     key: 'playing',
-    errorFallback: GameList.PlayingErrorFallback,
-    loadingFallback: <Loader />,
+    loadingFallback: <Skeleton />,
   },
   {
     key: 'scheduled',
-    errorFallback: GameList.ScheduledErrorFallback,
-    loadingFallback: <Loader />,
+    loadingFallback: <Skeleton />,
   },
   {
     key: 'finished',
-    errorFallback: GameList.FinishedErrorFallback,
-    loadingFallback: <Loader />,
+    loadingFallback: <Skeleton />,
   },
 ];
