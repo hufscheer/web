@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Group, Stepper } from '@mantine/core';
+import { Stepper } from '@mantine/core';
 import { useState } from 'react';
 
 import Layout from '@/components/Layout';
@@ -14,33 +14,37 @@ import { stepperResolver } from './resolvers';
 
 export default function Register() {
   const [leagueId, setLeagueId] = useState<number>(-1);
+  const [teamId, setTeamId] = useState<number>(-1);
 
   const [active, setActive] = useState(0);
-  const nextStep = () =>
-    setActive(current => (current < 3 ? current + 1 : current));
-  const prevStep = () =>
-    setActive(current => (current > 0 ? current - 1 : current));
+  const handleLeagueId = (step: number) => {
+    setActive(step);
+  };
+
   return (
     <Layout navigationTitle="대회 생성">
       <Stepper active={active} vars={stepperResolver}>
         <Stepper.Step label="대회 정보">
-          <LeagueInfo handleLeagueId={(id: number) => setLeagueId(id)} />
+          <LeagueInfo
+            nextStep={() => handleLeagueId(1)}
+            handleLeagueId={(id: number) => setLeagueId(id)}
+          />
         </Stepper.Step>
 
         <Stepper.Step label="대회 팀">
-          <LeagueTeam leagueId={leagueId} />
+          <LeagueTeam
+            leagueId={leagueId}
+            handleTeamId={(id: number) => setTeamId(id)}
+            nextStep={() => handleLeagueId(2)}
+          />
         </Stepper.Step>
         <Stepper.Step label="대회 로고">
-          <LeagueTeamPlayers leagueId={leagueId} />
+          <LeagueTeamPlayers
+            teamId={teamId}
+            prevStep={() => handleLeagueId(1)}
+          />
         </Stepper.Step>
       </Stepper>
-
-      <Group justify="center" mt="xl">
-        <Button variant="default" onClick={prevStep}>
-          Back
-        </Button>
-        <Button onClick={nextStep}>Next step</Button>
-      </Group>
     </Layout>
   );
   // useFunnel 필요

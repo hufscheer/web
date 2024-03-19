@@ -5,19 +5,20 @@ import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import Image from 'next/image';
 import { FormEvent, useState } from 'react';
 
-import AddButton from '@/components/AddButton';
 import useCreateLeagueTeamMutation from '@/hooks/mutations/useCreateLeagueTeamMutation';
 
 type LeagueTeamProps = {
   leagueId: number;
+  handleTeamId: (id: number) => void;
+  nextStep: () => void;
 };
 
-export default function LeagueTeam({ leagueId }: LeagueTeamProps) {
+export default function LeagueTeam({
+  leagueId,
+  handleTeamId,
+  nextStep,
+}: LeagueTeamProps) {
   const [formFields, setFormFields] = useState([{ name: '', logo: '' }]);
-
-  const handleButtonPlus = () => {
-    setFormFields(prev => [...prev, { name: '', logo: '' }]);
-  };
 
   const handleChangeName = (index: number, value: string) => {
     setFormFields(prev => {
@@ -46,7 +47,16 @@ export default function LeagueTeam({ leagueId }: LeagueTeamProps) {
       form.append(`logos-${index + 1}`, field.logo);
     });
 
-    createLeagueTeam({ leagueId, payload: form });
+    createLeagueTeam(
+      { leagueId, payload: form },
+      {
+        onSuccess: () => {
+          // ({ data })
+          handleTeamId(1); // data.teamId
+          nextStep();
+        },
+      },
+    );
   };
 
   return (
@@ -91,8 +101,6 @@ export default function LeagueTeam({ leagueId }: LeagueTeamProps) {
         ))}
         <Button type="submit">대회 팀 완료</Button>
       </form>
-
-      <AddButton onClick={handleButtonPlus}>팀 추가</AddButton>
     </Box>
   );
 }
