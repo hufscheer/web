@@ -31,7 +31,7 @@ export default function Page() {
   if (!league) return null;
 
   return (
-    <Layout navigationTitle="대회 게임 관리" navigationMenu={<Menu />}>
+    <Layout navigationTitle="대회 경기 관리" navigationMenu={<Menu />}>
       <Button
         component={Link}
         href={`${pathname}register`}
