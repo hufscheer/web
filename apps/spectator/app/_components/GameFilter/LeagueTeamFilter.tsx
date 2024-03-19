@@ -22,20 +22,19 @@ export default function LeagueTeamFilter({ leagueId }: { leagueId: number }) {
 
   if (!leagueTeams || !leagueTeams.length) return;
 
-  const handleRouter = (teamId: number) => {
+  const handleRouter = (selectedTeamId: number) => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
-    const currentTeamIds = current.get('leagueTeam')?.split(',') || [];
+    const teamIdParams = current.get('leagueTeam');
+    const teamIds = teamIdParams?.split(',').map(Number) || [];
 
-    if (currentTeamIds.includes(teamId.toString())) {
-      currentTeamIds.splice(currentTeamIds.indexOf(teamId.toString()), 1);
-    } else {
-      currentTeamIds.push(teamId.toString());
-    }
+    const hasTeamId = teamIds.includes(selectedTeamId);
+    const updatedTeamIds = hasTeamId
+      ? teamIds.filter(id => id !== selectedTeamId)
+      : [...teamIds, selectedTeamId].sort((a, b) => a - b);
 
-    current.set('leagueTeam', `${currentTeamIds.join(',')}`);
+    current.set('leagueTeam', updatedTeamIds.join(','));
 
-    const search = current.toString();
-    const query = search ? `?${search}` : '';
+    const query = current ? `?${current}` : '';
 
     router.push(`${pathname}${query}`);
   };
