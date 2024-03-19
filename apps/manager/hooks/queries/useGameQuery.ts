@@ -8,8 +8,8 @@ export default function useGameQuery(league: LeagueType, state: GameState) {
     queryKey: ['game', { league.leagueId, state, league.name}],
     queryFn: () =>
       getGameList({
+        state,
         league_id: league.leagueId,
-        state: state,
         leagueName: league.name,
       }),
   });
