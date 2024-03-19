@@ -3,6 +3,7 @@ import { style } from '@vanilla-extract/css';
 
 export const createButton = style({
   display: 'flex',
+  height: 'fit-content',
   paddingBlock: theme.spaces.sm,
   justifyContent: 'center',
   alignItems: 'center',
@@ -10,6 +11,12 @@ export const createButton = style({
   backgroundColor: theme.colors.white,
   ...theme.textVariants.default,
   color: theme.colors.primary[3],
+  transition: 'background-color 0.2s',
+
+  ':hover': {
+    backgroundColor: theme.colors.gray[2],
+    color: theme.colors.primary[3],
+  },
 });
 
 export const title = style({

@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@mantine/core';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
@@ -30,7 +31,13 @@ export default function Page() {
 
   return (
     <Layout navigationTitle="대회 게임 관리" navigationMenu={<Menu />}>
-      <button className={styles.createButton}>신규 대회 경기 추가</button>
+      <Button
+        component={Link}
+        href={`${pathname}register`}
+        className={styles.createButton}
+      >
+        신규 대회 경기 추가
+      </Button>
       <GameCard league={league} state="playing" />
       <GameCard league={league} state="scheduled" />
       <GameCard league={league} state="finished" />
