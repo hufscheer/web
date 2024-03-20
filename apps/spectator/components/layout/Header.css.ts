@@ -6,9 +6,10 @@ export const header = styleVariants({
     display: 'flex',
     position: 'relative',
     paddingInline: theme.spaces.default,
-    paddingBlock: theme.spaces.xs,
+    paddingBlock: theme.spaces.sm,
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: theme.colors.gray[1],
   },
   logoContent: {
     display: 'flex',

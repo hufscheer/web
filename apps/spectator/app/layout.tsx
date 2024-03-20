@@ -1,7 +1,7 @@
 import '@hcc/styles/dist/globals.css';
 
 import { theme } from '@hcc/styles';
-import { Metadata } from 'next';
+import { Metadata, Viewport } from 'next';
 import { ReactNode } from 'react';
 
 import Footer from '@/components/layout/Footer';
@@ -25,10 +25,15 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: '#F7F8F9',
+};
+
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="ko">
       <head>
+        <title>훕치치!</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body style={{ margin: 'auto', maxWidth: theme.sizes.appWidth }}>
