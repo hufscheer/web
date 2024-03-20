@@ -1,1 +1,3 @@
+/api/games/ https://api.hufstreaming.site/games 200!
+
 /api/* https://backoffice.hufstreaming.site/:splat 200!
