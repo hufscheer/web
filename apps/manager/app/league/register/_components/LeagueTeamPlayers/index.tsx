@@ -1,8 +1,9 @@
-import { Box, Button, Flex, Group, TextInput } from '@mantine/core';
+import { PlusIcon, SubtractIcon } from '@hcc/icons';
+import { Icon } from '@hcc/ui';
+import { Box, Button, Flex, Grid, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
-import AddButton from '@/components/AddButton';
-// import useCreateLeaguePlayersMutation from '@/hooks/mutations/useCreateLeaguePlayersMutation';
+import useCreateLeaguePlayersMutation from '@/hooks/mutations/useCreateLeaguePlayersMutation';
 
 type LeagueTeamPlayersProps = {
   teamId: number;
@@ -17,6 +18,11 @@ export default function LeagueTeamPlayers({
     initialValues: {
       players: [{ name: '', description: null, playerNumber: null }],
     },
+    validate: {
+      players: {
+        name: value => value.length < 2 && '이름은 두 글자 이상입니다!',
+      },
+    },
   });
 
   const handleButtonPlus = () => {
@@ -27,40 +33,58 @@ export default function LeagueTeamPlayers({
     });
   };
 
-  // const { mutate: muatateLeaguePlayers } = useCreateLeaguePlayersMutation();
+  const { mutate: muatateLeaguePlayers } = useCreateLeaguePlayersMutation();
   const handleSubmitForm = () => {
-    // muatateLeaguePlayers(
-    //   { teamId: 1, payload: form.values.players },
-    //   { onSuccess: prevStep },
-    // );
-    console.warn(teamId); // mutateLeaguePlayers에 포함해서 api 호출
-    console.warn(form.values.players);
-    prevStep();
+    muatateLeaguePlayers(
+      { teamId, payload: form.values.players },
+      { onSuccess: prevStep },
+    );
+  };
+
+  const handleRemovePlayer = (index: number) => {
+    form.removeListItem('players', index);
   };
 
   return (
     <Box>
-      <form onSubmit={handleSubmitForm}>
-        {form.values.players.map((player, index) => (
-          <Group key={index}>
-            <TextInput
-              label="이름"
-              {...form.getInputProps(`players.${index}.name`)}
-              placeholder="이름을 입력하세요."
-            />
-            <TextInput
-              label="번호"
-              type="number"
-              {...form.getInputProps(`players.${index}.playerNumber`)}
-              placeholder="번호"
-            />
-          </Group>
+      <form onSubmit={form.onSubmit(handleSubmitForm)}>
+        <Grid grow>
+          <Grid.Col span={6}>이름</Grid.Col>
+          <Grid.Col span={3}>번호</Grid.Col>
+          <Grid.Col span={1}></Grid.Col>
+        </Grid>
+        {form.values.players.map((_, index) => (
+          <Grid key={index} grow>
+            <Grid.Col span={6}>
+              <TextInput
+                withAsterisk
+                {...form.getInputProps(`players.${index}.name`)}
+                placeholder="이름을 입력하세요."
+              />
+            </Grid.Col>
+            <Grid.Col span={3}>
+              <TextInput
+                type="number"
+                {...form.getInputProps(`players.${index}.playerNumber`)}
+                placeholder="번호"
+              />
+            </Grid.Col>
+            <Grid.Col span={1}>
+              <Button
+                variant="subtle"
+                color="red"
+                onClick={() => handleRemovePlayer(index)}
+              >
+                <Icon source={SubtractIcon} color="error" />
+              </Button>
+            </Grid.Col>
+          </Grid>
         ))}
 
-        <Flex direction="column">
-          <AddButton type="button" onClick={handleButtonPlus}>
-            선수 추가
-          </AddButton>
+        <Flex direction="column" mt="md" gap="md">
+          <Button type="button" variant="subtle" onClick={handleButtonPlus}>
+            <Icon source={PlusIcon} />
+          </Button>
 
           <Button type="submit">팀 선수 생성</Button>
         </Flex>
