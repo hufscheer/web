@@ -57,9 +57,12 @@ export default function LeagueTeam({
     createLeagueTeam(
       { leagueId, payload },
       {
-        onSuccess: () => {
-          // ({ data })
-          handleTeamId(1); // data.teamId
+        onSuccess: ({ teamIds }) => {
+          const teamId = teamIds.pop();
+
+          if (!teamId) return alert('팀 생성에 실패했습니다.');
+
+          handleTeamId(teamId);
           nextStep();
         },
       },
@@ -107,7 +110,9 @@ export default function LeagueTeam({
             </Flex>
           </Dropzone>
         </Box>
-        <Button type="submit">대회 팀 완료</Button>
+        <Button fullWidth type="submit">
+          대회 팀 완료
+        </Button>
       </form>
     </Box>
   );

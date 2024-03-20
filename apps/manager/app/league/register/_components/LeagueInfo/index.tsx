@@ -85,7 +85,9 @@ export default function LeagueInfo({
         {...form.getInputProps('leagueData.maxRound')}
       />
 
-      <Button onClick={handleClickButton}>대회 생성</Button>
+      <Button fullWidth onClick={handleClickButton} mt="lg">
+        대회 생성
+      </Button>
     </Box>
   );
 }
