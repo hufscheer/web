@@ -43,24 +43,20 @@ export default function LeagueTeamEdit() {
   });
 
   useEffect(() => {
-    if (!team) return;
-    form.setValues(prevValues => ({ ...prevValues, name: team.name }));
+    if (team && players) {
+      form.setValues({
+        name: team.name,
+        logo: null,
+        players: players.map(player => ({
+          id: player.id,
+          name: player.name,
+          description: player.description || '',
+          playerNumber: player.number || 0,
+        })),
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [team]);
-
-  useEffect(() => {
-    if (!players) return;
-    form.setValues(prevValues => ({
-      ...prevValues,
-      players: players.map(player => ({
-        id: player.id,
-        name: player.name,
-        description: player.description || '',
-        playerNumber: player.number || 0,
-      })),
-    }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [players]);
+  }, [team, players]);
 
   const { mutate: updateLeagueTeam } = useUpdateLeagueTeamMutation();
   const { mutate: updateLeagueTeamPlayers } =
@@ -108,7 +104,7 @@ export default function LeagueTeamEdit() {
     );
   };
 
-  if (!team) return null;
+  if (!team || !players) return null;
 
   return (
     <Layout navigationTitle={team.name} navigationMenu={<Edit />}>

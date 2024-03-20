@@ -41,6 +41,7 @@ export default function TeamForm({ form, edit = true }: TeamFormProps) {
   };
 
   const removePlayer = (index: number) => {
+    if (!edit) return;
     const players = form.values.players.filter((_, i) => i !== index);
     form.setFieldValue('players', players);
   };
@@ -90,12 +91,15 @@ export default function TeamForm({ form, edit = true }: TeamFormProps) {
             style={{ width: '100px', marginRight: '8px' }}
             disabled={!edit}
           />
-          <button style={{ flex: '0.1' }} onClick={() => removePlayer(index)}>
-            <Icon source={SubtractIcon} color="error" />
-          </button>
+          {edit && (
+            <button style={{ flex: '0.1' }} onClick={() => removePlayer(index)}>
+              <Icon source={SubtractIcon} color="error" />
+            </button>
+          )}
         </Flex>
       ))}
-      <AddButton onClick={addPlayer}>선수 추가</AddButton>
+
+      {edit && <AddButton onClick={addPlayer}>선수 추가</AddButton>}
     </>
   );
 }
