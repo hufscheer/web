@@ -6,7 +6,6 @@ import {
   LeagueIdType,
   LeagueListType,
   LeaguePlayerPayload,
-  LeagueTeamPayload,
   NewLeaguePayload,
   UpdateLeaguePayload,
   SportsCategoriesType,
@@ -37,13 +36,15 @@ export const createLeague = async (payload: NewLeaguePayload) => {
   return data;
 };
 
-export const createLeagueTeam = async (
-  leagueId: number,
-  payload: LeagueTeamPayload,
-) => {
+export const createLeagueTeam = async (leagueId: number, payload: FormData) => {
   const { data } = await instance.post<{ data: [] }>(
     `/league-teams/register/${leagueId}/`,
     payload,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    },
   );
 
   return data;

@@ -18,9 +18,13 @@ import { NewLeaguePayload } from '@/types/league';
 
 type LeagueInfoProps = {
   handleLeagueId: (id: number) => void;
+  nextStep: () => void;
 };
 
-export default function LeagueInfo({ handleLeagueId }: LeagueInfoProps) {
+export default function LeagueInfo({
+  handleLeagueId,
+  nextStep,
+}: LeagueInfoProps) {
   const form = useForm<NewLeaguePayload>({
     initialValues: {
       leagueData: {
@@ -37,8 +41,8 @@ export default function LeagueInfo({ handleLeagueId }: LeagueInfoProps) {
   const handleClickButton = () => {
     mutateCreateLeague(form.values, {
       onSuccess: ({ leagueId }) => {
-        // router.push(`${pathname}?leagueId=${leagueId}`);
         handleLeagueId(leagueId);
+        nextStep();
       },
     });
   };
