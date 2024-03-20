@@ -23,7 +23,7 @@ export const getGameList = async ({
   leagueName,
   ...params
 }: GameListParams & { leagueName: string }) => {
-  const { data } = await instance.get<GameListType[]>('/games', {
+  const { data } = await instance.get<GameListType[]>('/games/', {
     baseURL: process.env.NEXT_PUBLIC_API_URL,
     params: { size, ...params },
   });
