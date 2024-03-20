@@ -1,9 +1,10 @@
 import { ImageIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { Box, Button, Flex, Text, TextInput } from '@mantine/core';
-import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { Dropzone, MIME_TYPES } from '@mantine/dropzone';
+import { useForm } from '@mantine/form';
 import Image from 'next/image';
-import { FormEvent, useState } from 'react';
+import { FormEvent } from 'react';
 
 import useCreateLeagueTeamMutation from '@/hooks/mutations/useCreateLeagueTeamMutation';
 
@@ -18,37 +19,43 @@ export default function LeagueTeam({
   handleTeamId,
   nextStep,
 }: LeagueTeamProps) {
-  const [formFields, setFormFields] = useState([{ name: '', logo: '' }]);
+  const form = useForm<{
+    name: string;
+    logo: File | null;
+  }>({
+    initialValues: {
+      name: '',
+      logo: null,
+    },
+    validate: {
+      name: value => value.length < 2 && '팀명은 두 글자 이상입니다!',
+    },
+  });
 
-  const handleChangeName = (index: number, value: string) => {
-    setFormFields(prev => {
-      const next = [...prev];
-      next[index].name = value;
-      return next;
-    });
+  const handleDropLogo = (file: File) => {
+    if (file === null) return form.setErrors({ logo: '로고를 업로드하세요.' });
+
+    form.setFieldValue('logo', file);
   };
 
-  const handleDropLogo = (index: number, file: File) => {
-    setFormFields(prev => {
-      const next = [...prev];
-      next[index].logo = URL.createObjectURL(file);
-      return next;
-    });
-  };
-
-  const { mutate: createLeagueTeam } = useCreateLeagueTeamMutation();
+  const { mutate: createLeagueTeam, isPending } = useCreateLeagueTeamMutation();
 
   const handleSubmitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = new FormData();
 
-    formFields.forEach((field, index) => {
-      form.append(`names-${index + 1}`, field.name);
-      form.append(`logos-${index + 1}`, field.logo);
-    });
+    if (isPending) return;
+    if (!form.values.logo) return alert('로고를 업로드하세요.');
+
+    form.validate();
+
+    const payload = new FormData();
+    const { name, logo } = form.values;
+
+    payload.append('names', name);
+    payload.append('logos', logo as File);
 
     createLeagueTeam(
-      { leagueId, payload: form },
+      { leagueId, payload },
       {
         onSuccess: () => {
           // ({ data })
@@ -62,43 +69,44 @@ export default function LeagueTeam({
   return (
     <Box w="100%">
       <form onSubmit={handleSubmitForm}>
-        {formFields.map((field, index) => (
-          <Box key={index} mb="lg">
-            <Text fz="lg" mb="sm">
-              팀 {index + 1}
-            </Text>
-            <TextInput
-              label="팀명"
-              name={`names-${index + 1}`}
-              value={field.name}
-              onChange={e => handleChangeName(index, e.currentTarget.value)}
-              placeholder="팀명을 입력하세요."
-            />
+        <Box mb="lg">
+          <Text fz="lg" mb="sm">
+            새로운 팀
+          </Text>
+          <TextInput
+            withAsterisk
+            label="팀명"
+            {...form.getInputProps('name')}
+            placeholder="팀명을 입력하세요."
+          />
 
-            <Dropzone
-              // loading
-              accept={IMAGE_MIME_TYPE}
-              name={`logos-${index + 1}`}
-              onDrop={([file]) => handleDropLogo(index, file)}
-              w="100%"
-              h="auto"
-              mih={100}
-            >
-              <Flex justify="center" align="center" h="100">
-                {field.logo ? (
-                  <Image
-                    src={field.logo}
-                    alt="팀 로고"
-                    width={100}
-                    height={100}
-                  />
-                ) : (
-                  <Icon source={ImageIcon} />
-                )}
-              </Flex>
-            </Dropzone>
-          </Box>
-        ))}
+          <Dropzone
+            accept={[MIME_TYPES.png]}
+            {...form.getInputProps('logo')}
+            onDrop={([file]) => handleDropLogo(file)}
+            w="100%"
+            h="auto"
+            mih={100}
+          >
+            <Flex justify="center" align="center" h="100">
+              {form.values.logo ? (
+                <Image
+                  src={URL.createObjectURL(form.values.logo)}
+                  alt="팀 로고"
+                  width={100}
+                  height={100}
+                />
+              ) : (
+                <Flex gap="sm">
+                  <Icon source={ImageIcon} color="gray" />
+                  <Text c="gray">
+                    드래그 혹은 클릭하여 로고를 업로드하세요.
+                  </Text>
+                </Flex>
+              )}
+            </Flex>
+          </Dropzone>
+        </Box>
         <Button type="submit">대회 팀 완료</Button>
       </form>
     </Box>
