@@ -5,24 +5,27 @@ import { useState } from 'react';
 
 import Layout from '@/components/Layout';
 
+import ConfirmModal from './_components/Confirm';
 import LeagueInfo from './_components/LeagueInfo';
 import LeagueTeam from './_components/LeagueTeam';
 import LeagueTeamPlayers from './_components/LeagueTeamPlayers';
 import { stepperResolver } from './resolvers';
 
-// import * as styles from './page.css';
-
 export default function Register() {
   const [leagueId, setLeagueId] = useState<number>(-1);
   const [teamId, setTeamId] = useState<number>(-1);
 
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(2);
   const handleLeagueId = (step: number) => {
     setActive(step);
   };
 
+  const RightButton = () => {
+    return <ConfirmModal />;
+  };
+
   return (
-    <Layout navigationTitle="대회 생성">
+    <Layout navigationTitle="대회 생성" navigationMenu={<RightButton />}>
       <Stepper active={active} vars={stepperResolver}>
         <Stepper.Step label="대회 정보">
           <LeagueInfo
@@ -47,5 +50,4 @@ export default function Register() {
       </Stepper>
     </Layout>
   );
-  // useFunnel 필요
 }
