@@ -37,7 +37,7 @@ export const createLeague = async (payload: NewLeaguePayload) => {
 };
 
 export const createLeagueTeam = async (leagueId: number, payload: FormData) => {
-  const { data } = await instance.post<{ data: [] }>(
+  const { data } = await instance.post<{ teamIds: number[] }>(
     `/league-teams/register/${leagueId}/`,
     payload,
     {
@@ -54,12 +54,13 @@ export const createLeaguePlayers = async (
   teamId: number,
   payload: LeaguePlayerPayload[],
 ) => {
-  await instance.post(`/league-teams/${teamId}/player/`, {
-    data: payload.map(({ playerNumber, ...player }) => ({
+  await instance.post(
+    `/league-teams/${teamId}/player/`,
+    payload.map(({ playerNumber, ...player }) => ({
       ...player,
       number: playerNumber,
     })),
-  });
+  );
 };
 
 export const deleteLeague = async (body: DeleteLeaguePayload) => {
