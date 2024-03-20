@@ -1,107 +1,75 @@
 'use client';
 
-import { SubtractIcon } from '@hcc/icons';
-import { theme } from '@hcc/styles';
-import { Icon } from '@hcc/ui';
-import { Flex, Text, TextInput } from '@mantine/core';
-import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { useForm } from '@mantine/form';
-import Image from 'next/image';
+import { useParams, useRouter } from 'next/navigation';
+import React from 'react';
 
-import AddButton from '@/components/AddButton';
 import Layout from '@/components/Layout';
-import { LeagueTeamPayload } from '@/types/league';
+import useCreateLeaguePlayersMutation from '@/hooks/mutations/useCreateLeaguePlayersMutation';
+import useCreateLeagueTeamMutation from '@/hooks/mutations/useCreateLeagueTeamMutation';
+
+import TeamForm from '../_components/TeamForm';
+
+type LeagueTeamFormValues = {
+  name: string;
+  logo: File | null;
+  players: {
+    id: number;
+    name: string;
+    description: string;
+    playerNumber: number;
+  }[];
+};
 
 export default function Page() {
-  const leagueTeam = useForm<LeagueTeamPayload>({
+  const params = useParams();
+  const router = useRouter();
+  const leagueId = Number(params.leagueId as string);
+
+  const { mutate: createLeagueTeam, isPending } = useCreateLeagueTeamMutation();
+  const { mutate: createLeaguePlayers } = useCreateLeaguePlayersMutation();
+
+  const form = useForm<LeagueTeamFormValues>({
     initialValues: {
-      names: [''],
-      logos: [],
+      name: '',
+      logo: null,
+      players: [{ id: -1, name: '', description: '', playerNumber: 0 }],
     },
   });
 
-  const leaguePlayer = useForm({
-    initialValues: {
-      players: [{ name: '', description: null, playerNumber: 0 }],
-    },
-  });
+  const handleSubmit = async () => {
+    if (isPending) return;
+    const { values } = form;
+
+    if (!values.logo) return alert('로고를 업로드하세요.');
+
+    const payload = new FormData();
+    payload.append('names', values.name);
+    payload.append('logos', values.logo as File);
+
+    createLeagueTeam(
+      { leagueId, payload },
+      {
+        onSuccess: r => {
+          createLeaguePlayers(
+            { teamId: r.teamIds[0], payload: values.players },
+            {
+              onSuccess: () => {
+                router.push(`/league/${leagueId}/team`);
+              },
+            },
+          );
+        },
+      },
+    );
+  };
 
   return (
     <Layout
       navigationTitle="대회 팀 생성"
-      navigationMenu={<button>완료</button>}
+      navigationMenu={<button onClick={handleSubmit}>완료</button>}
     >
-      <Text>로고</Text>
-      <Dropzone
-        accept={IMAGE_MIME_TYPE}
-        onDrop={files => {
-          const newLogoUrl = URL.createObjectURL(files[0]);
-          leagueTeam.setFieldValue('logos', [newLogoUrl]);
-        }}
-        multiple={false}
-        style={{ width: '100%', height: 'auto' }}
-      >
-        {leagueTeam.values.logos.length > 0 && (
-          <Image
-            src={leagueTeam.values.logos[0]}
-            alt="Team logo"
-            onLoad={() => URL.revokeObjectURL(leagueTeam.values.logos[0])}
-            width={100}
-            height={100}
-          />
-        )}
-        {leagueTeam.values.logos.length === 0 && (
-          <Text ta="center">Drop image here</Text>
-        )}
-      </Dropzone>
-
-      <TextInput
-        mt="lg"
-        label="팀명"
-        withAsterisk
-        placeholder="필수 항목"
-        {...leagueTeam.getInputProps('names.0')}
-      />
-
-      <Flex mt="lg">
-        <Text flex={0.6}>이름</Text>
-        <Text flex={0.3}>번호</Text>
-        <Text flex={0.1}>-</Text>
-      </Flex>
-      {leaguePlayer.values.players.map((player, index) => (
-        <Flex key={index} align="center">
-          <TextInput
-            label="이름"
-            {...leaguePlayer.getInputProps(`players.${index}.name`)}
-            placeholder="이름을 입력하세요."
-            flex={0.6}
-          />
-          <TextInput
-            label="번호"
-            type="number"
-            {...leaguePlayer.getInputProps(`players.${index}.playerNumber`)}
-            placeholder="번호"
-            flex={0.3}
-          />
-          <button
-            style={{ flex: '0.1' }}
-            onClick={() => leaguePlayer.removeListItem('players', index)}
-          >
-            <Icon source={SubtractIcon} color="error" />
-          </button>
-        </Flex>
-      ))}
-      <AddButton
-        bg={theme.colors.white}
-        onClick={() =>
-          leaguePlayer.insertListItem('players', {
-            name: '',
-            backNumber: 0,
-          })
-        }
-      >
-        신규 선수 추가
-      </AddButton>
+      <TeamForm form={form} />
     </Layout>
   );
 }

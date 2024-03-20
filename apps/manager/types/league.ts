@@ -48,6 +48,11 @@ export type LeaguePlayerPayload = {
   playerNumber: number | null;
 };
 
+export type LeaguePlayerWithIDPayload = LeaguePlayerPayload & {
+  id: number;
+  number?: number;
+};
+
 export interface GameListType extends GameType {
   id: number;
 }

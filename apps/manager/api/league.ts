@@ -9,6 +9,7 @@ import {
   NewLeaguePayload,
   UpdateLeaguePayload,
   SportsCategoriesType,
+  LeaguePlayerWithIDPayload,
 } from '@/types/league';
 
 export const getAllLeagues = async () => {
@@ -45,6 +46,41 @@ export const createLeagueTeam = async (leagueId: number, payload: FormData) => {
         'Content-Type': 'multipart/form-data',
       },
     },
+  );
+
+  return data;
+};
+
+export const updateLeagueTeam = async (teamId: string, payload: FormData) => {
+  const { data } = await instance.put(
+    `/league-teams/${teamId}/change/`,
+    payload,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
+
+  return data;
+};
+
+export const getLeagueTeamPlayers = async (teamId: string) => {
+  const { data } = await instance.get<LeaguePlayerWithIDPayload[]>(
+    `/league-teams/${teamId}/player/all/`,
+  );
+
+  return data;
+};
+
+export const updateLeagueTeamPlayers = async (
+  teamId: string,
+  teamPlayerId: string,
+  payload: LeaguePlayerPayload,
+) => {
+  const { data } = await instance.put(
+    `/league-teams/${teamId}/player/${teamPlayerId}/`,
+    payload,
   );
 
   return data;

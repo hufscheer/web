@@ -22,11 +22,7 @@ export default function Page() {
 
   const Menu = () => {
     return (
-      <Button
-        variant="subtle"
-        size="compact-md"
-        onClick={prev => setEdit(!prev)}
-      >
+      <Button variant="subtle" size="compact-md" onClick={() => setEdit(!edit)}>
         {edit ? '완료' : '편집'}
       </Button>
     );
