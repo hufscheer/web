@@ -20,7 +20,7 @@ export default function useCreateTimelineMutation() {
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
-        queryKey: [TIMELINE_QUERY_KEY, variables.params.gameId],
+        queryKey: [TIMELINE_QUERY_KEY, { gameId: variables.params.gameId }],
       });
     },
   });
