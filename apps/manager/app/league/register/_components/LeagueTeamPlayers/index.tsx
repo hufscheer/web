@@ -33,8 +33,11 @@ export default function LeagueTeamPlayers({
     });
   };
 
-  const { mutate: muatateLeaguePlayers } = useCreateLeaguePlayersMutation();
+  const { mutate: muatateLeaguePlayers, isPending } =
+    useCreateLeaguePlayersMutation();
   const handleSubmitForm = () => {
+    if (isPending) return;
+
     muatateLeaguePlayers(
       { teamId, payload: form.values.players },
       { onSuccess: prevStep },

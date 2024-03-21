@@ -37,8 +37,10 @@ export default function LeagueInfo({
     },
   });
 
-  const { mutate: mutateCreateLeague } = useCreateLeagueMutation();
+  const { mutate: mutateCreateLeague, isPending } = useCreateLeagueMutation();
   const handleClickButton = () => {
+    if (isPending) return;
+
     mutateCreateLeague(form.values, {
       onSuccess: ({ leagueId }) => {
         handleLeagueId(leagueId);
