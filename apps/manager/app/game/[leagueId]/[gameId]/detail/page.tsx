@@ -79,15 +79,15 @@ export default function GameDetail() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Layout
-        navigationTitle="기본 정보"
-        navigationMenu={
-          <Button variant="subtle" type="submit">
-            {edit ? '완료' : '편집'}
-          </Button>
-        }
-      >
+    <Layout
+      navigationTitle="기본 정보"
+      navigationMenu={
+        <Button variant="subtle" type="submit" form="gameDetailForm">
+          {edit ? '완료' : '편집'}
+        </Button>
+      }
+    >
+      <form id="gameDetailForm" onSubmit={handleSubmit}>
         <Flex direction="column" gap="sm">
           <Text>경기 정보</Text>
           <TextInput
@@ -145,7 +145,7 @@ export default function GameDetail() {
             {...form.getInputProps('videoId')}
           />
         </Flex>
-      </Layout>
-    </form>
+      </form>
+    </Layout>
   );
 }
