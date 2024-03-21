@@ -27,7 +27,7 @@ export const getGameList = async ({
     params: { size, ...params },
   });
 
-  return { leagueName, data };
+  return { leagueId: params.league_id, leagueName, data };
 };
 
 export const createLeague = async (payload: NewLeaguePayload) => {
