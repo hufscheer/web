@@ -1,4 +1,4 @@
-import { SportsQuarterType } from './game';
+import { StateType, SportsQuarterType } from './game';
 
 export type LeagueIdType = {
   leagueId: number;
@@ -19,14 +19,12 @@ export type SportsDataType = number[];
 
 export type SportsCategoriesType = SportIdType & SportsQuarterType;
 
-export type LeagueCategory = 'playing' | 'scheduled' | 'finished';
-
 export type LeagueType = LeagueIdType &
   LeagueDataType & {
     InProgressRound: number;
     maxRound: number;
   };
-export type LeagueListType = Record<LeagueCategory, LeagueType[]>;
+export type LeagueListType = Record<StateType, LeagueType[]>;
 
 export type NewLeaguePayload = {
   leagueData: LeagueDataType;
@@ -59,7 +57,7 @@ export interface GameListType extends GameType {
 
 export type GameListParams = {
   league_id?: number;
-  state: GameState;
+  state: StateType;
   sport_id?: string;
   cursor?: string | number;
   size?: string;
@@ -81,5 +79,3 @@ export type GameTeamType = {
   logoImageUrl: string;
   score: number;
 };
-
-export type GameState = 'playing' | 'scheduled' | 'finished';

@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { getGameList } from '@/api/league';
-import { GameState } from '@/types/game';
+import { StateType } from '@/types/game';
 import { LeagueType } from '@/types/league';
 
-export default function useGameQuery(league: LeagueType, state: GameState) {
+export default function useGameQuery(league: LeagueType, state: StateType) {
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ['game', { state, ...league }],
     queryFn: () =>
