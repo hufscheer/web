@@ -1,6 +1,6 @@
 import { SubtractIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
-import { Flex, Text, TextInput } from '@mantine/core';
+import { ActionIcon, Grid, Text, TextInput } from '@mantine/core';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { useForm } from '@mantine/form';
 import Image from 'next/image';
@@ -74,29 +74,42 @@ export default function TeamForm({ form, edit = true }: TeamFormProps) {
         {...form.getInputProps('name')}
       />
 
-      {form.values.players.map((_, index) => (
-        <Flex key={index} align="center" mt="sm">
-          <TextInput
-            label="이름"
-            placeholder="선수 이름"
-            {...form.getInputProps(`players.${index}.name`)}
-            style={{ flex: 1, marginRight: '8px' }}
-            disabled={!edit}
-          />
-          <TextInput
-            label="번호"
-            placeholder="선수 번호"
-            type="number"
-            {...form.getInputProps(`players.${index}.playerNumber`)}
-            style={{ width: '100px', marginRight: '8px' }}
-            disabled={!edit}
-          />
-          {edit && (
-            <button style={{ flex: '0.1' }} onClick={() => removePlayer(index)}>
-              <Icon source={SubtractIcon} color="error" />
-            </button>
-          )}
-        </Flex>
+      <Grid grow>
+        <Grid.Col span={7}>이름</Grid.Col>
+        <Grid.Col span={2}>번호</Grid.Col>
+        <Grid.Col span={0.5} />
+      </Grid>
+      {form.values.players.map((values, index) => (
+        <Grid grow key={values.id}>
+          <Grid.Col span={6}>
+            <TextInput
+              placeholder="선수 이름"
+              {...form.getInputProps(`players.${index}.name`)}
+              disabled={!edit}
+            />
+          </Grid.Col>
+          <Grid.Col span={2}>
+            <TextInput
+              placeholder="선수 번호"
+              type="number"
+              {...form.getInputProps(`players.${index}.playerNumber`)}
+              disabled={!edit}
+            />
+          </Grid.Col>
+          <Grid.Col span={0.5}>
+            {
+              <ActionIcon
+                h="100%"
+                w="100%"
+                onClick={() => removePlayer(index)}
+                variant="subtle"
+                disabled={!edit}
+              >
+                <Icon source={SubtractIcon} color={edit ? 'error' : 'gray'} />
+              </ActionIcon>
+            }
+          </Grid.Col>
+        </Grid>
       ))}
 
       {edit && <AddButton onClick={addPlayer}>선수 추가</AddButton>}

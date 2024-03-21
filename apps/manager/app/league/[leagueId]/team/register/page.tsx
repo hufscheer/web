@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useParams, useRouter } from 'next/navigation';
 import React from 'react';
@@ -67,7 +68,11 @@ export default function Page() {
   return (
     <Layout
       navigationTitle="대회 팀 생성"
-      navigationMenu={<button onClick={handleSubmit}>완료</button>}
+      navigationMenu={
+        <Button variant="subtle" onClick={handleSubmit}>
+          완료
+        </Button>
+      }
     >
       <TeamForm form={form} />
     </Layout>
