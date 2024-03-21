@@ -8,6 +8,7 @@ export { ReactComponent as CheckIcon } from './svg/check.svg';
 export { ReactComponent as ClipIcon } from './svg/clip.svg';
 export { ReactComponent as ClockIcon } from './svg/clock.svg';
 export { ReactComponent as CrossIcon } from './svg/cross.svg';
+export { ReactComponent as DirectionIcon } from './svg/direction.svg';
 export { ReactComponent as ExclamationCircleFillIcon } from './svg/exclamation-circle-fill.svg';
 export { ReactComponent as HamburgerIcon } from './svg/hamburger.svg';
 export { ReactComponent as HccIcon } from './svg/hcc.svg';
