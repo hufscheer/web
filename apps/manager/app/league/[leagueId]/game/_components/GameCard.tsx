@@ -23,8 +23,10 @@ const alertMessage =
 
 export default function GameCard({ league, state, edit }: PlayingCardProps) {
   const { data, refetch } = useGameQuery(league, state);
-  const { mutate: mutateDeleteGame } = useDeleteGameMutation();
+  const { mutate: mutateDeleteGame, isPending } = useDeleteGameMutation();
   const handleDelete = (gameId: string) => {
+    if (isPending) return;
+
     mutateDeleteGame(gameId, {
       onSuccess: () => refetch(),
     });

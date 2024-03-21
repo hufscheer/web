@@ -1,28 +1,32 @@
 'use client';
-import { Flex } from '@mantine/core';
-import { useParams, usePathname } from 'next/navigation';
+
+import { rem } from '@hcc/styles';
+import { Box, Flex } from '@mantine/core';
+import { usePathname } from 'next/navigation';
 
 import Layout from '@/components/Layout';
 import useGameDetailQuery from '@/hooks/queries/useGameDetailQuery';
 
-import GameMenuCard from './_components/GameMenuCard';
+import GameCard from './_components/GameCard';
 
-export default function GameInfoMap() {
+type PageProps = {
+  params: { gameId: string; leagueId: string };
+};
+
+export default function GameInfoMap({ params }: PageProps) {
+  const { data: game } = useGameDetailQuery(params.gameId);
   const pathname = usePathname();
-  const params = useParams();
-
-  const gameId = params.gameId as string;
-
-  const { data: game } = useGameDetailQuery(gameId);
 
   if (!game) return null;
 
   return (
-    <Layout navigationTitle={game.gameName}>
-      <Flex direction="column" gap="xs">
-        <GameMenuCard href={`${pathname}/detail`} title="기본 정보" />
-        <GameMenuCard href={`${pathname}/lineup`} title="라인업" />
-        <GameMenuCard href={`${pathname}/timeline`} title="타임라인" />
+    <Layout navigationTitle={game?.gameName}>
+      <Box mb="lg">
+        <GameCard href={`${pathname}/detail`}>게임 정보</GameCard>
+      </Box>
+      <Flex direction="column" gap={rem(4)}>
+        <GameCard href={`${pathname}/lineup`}>라인업</GameCard>
+        <GameCard href={`${pathname}/timeline`}>타임라인</GameCard>
       </Flex>
     </Layout>
   );
