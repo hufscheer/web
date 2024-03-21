@@ -1,8 +1,7 @@
 import instance from '@/api';
+import { GameListParams, GameListType } from '@/types/game';
 import {
   DeleteLeaguePayload,
-  GameListParams,
-  GameListType,
   LeagueIdType,
   LeagueListType,
   LeaguePlayerPayload,
