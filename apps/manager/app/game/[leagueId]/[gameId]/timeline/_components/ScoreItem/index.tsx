@@ -1,4 +1,5 @@
 import { CaretDownIcon, SoccerIcon } from '@hcc/icons';
+import { rem } from '@hcc/styles';
 import { Icon } from '@hcc/ui';
 import { Flex } from '@mantine/core';
 import Image from 'next/image';
@@ -18,15 +19,18 @@ export default function ScoreItem({ quarter, ...record }: ScoreItemProps) {
   return (
     <li>
       <Card.Root>
-        <Card.Content component={Link} href={`${pathname}${record.recordId}`}>
-          <Flex>
-            <Flex direction="column">
-              <Card.Title>{record.playerName}</Card.Title>
+        <Card.Content
+          component={Link}
+          href={`${pathname}update/${record.recordId}`}
+        >
+          <Flex w="100%" justify="space-between" align="center">
+            <Flex direction="column" gap={rem(4)}>
+              <Card.Title text="semibold">{record.playerName}</Card.Title>
               <Card.SubContent>
                 {quarter} ′{record.recordedAt}
               </Card.SubContent>
             </Flex>
-            <Flex>
+            <Flex gap="xs" align="center">
               <Image
                 src={record.teamImageUrl}
                 alt={`${record.teamName} logo`}
@@ -34,11 +38,11 @@ export default function ScoreItem({ quarter, ...record }: ScoreItemProps) {
                 height={24}
               />
               <Icon source={SoccerIcon} />
+              <Card.Action>
+                <Icon source={CaretDownIcon} transform="rotate(-90)" />
+              </Card.Action>
             </Flex>
           </Flex>
-          <Card.Action>
-            <Icon source={CaretDownIcon} rotate="-90deg" />
-          </Card.Action>
         </Card.Content>
       </Card.Root>
     </li>

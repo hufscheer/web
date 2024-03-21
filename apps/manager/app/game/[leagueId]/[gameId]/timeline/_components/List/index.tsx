@@ -1,5 +1,5 @@
 import { theme } from '@hcc/styles';
-import { Box, Text } from '@mantine/core';
+import { Box, Flex, Text } from '@mantine/core';
 import { Fragment } from 'react';
 
 import { useTimelineQuery } from '@/hooks/queries/useTimelineQuery';
@@ -21,8 +21,10 @@ export default function TimelineList({ gameId }: TimelineListProps) {
     <ul>
       {timelines?.map(timeline => (
         <li key={timeline.gameQuarter}>
-          <Text c={theme.colors.gray[4]}>{timeline.gameQuarter}</Text>
-          <ul>
+          <Text mt="lg" mb="xs" c={theme.colors.gray[4]}>
+            {timeline.gameQuarter}
+          </Text>
+          <Flex component="ul" direction="column" gap="xs">
             {!timeline.records.length ? (
               <Box
                 component="li"
@@ -47,7 +49,7 @@ export default function TimelineList({ gameId }: TimelineListProps) {
                 </Fragment>
               ))
             )}
-          </ul>
+          </Flex>
         </li>
       ))}
     </ul>

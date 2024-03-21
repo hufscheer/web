@@ -7,7 +7,8 @@ import { Button, Flex, Select, Text, TextInput } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import dayjs, { Dayjs } from 'dayjs';
-import { useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { FormEvent } from 'react';
 
 import Layout from '@/components/Layout';
 import useCreateTimelineMutation from '@/hooks/mutations/useCreateTimelineMutation';
@@ -30,10 +31,21 @@ export type TForm = {
   replacedLineupPlayerId: string;
 };
 
-export default function TimelineEdit() {
-  const params = useParams();
-  const recordType = params.recordType as LowerRecordType;
-  const gameId = params.gameId as string;
+type PageProps = {
+  params: {
+    recordType: LowerRecordType;
+    gameId: string;
+    leagueId: string;
+  };
+};
+
+export default function Page({ params }: PageProps) {
+  const { recordType, gameId, leagueId } = params;
+
+  if (!(recordType satisfies LowerRecordType))
+    throw new Error('주소가 올바르지 않습니다!');
+
+  const router = useRouter();
 
   const form = useForm<TForm>({
     initialValues: {
@@ -72,21 +84,33 @@ export default function TimelineEdit() {
   const { data: gameTeams } = useGameTeamsQuery(gameId);
   const { data: quarters } = useGameQuarterQuery('4'); // !축구만 대응
 
-  const { mutate: mutateCreateTimeline } = useCreateTimelineMutation();
-  const handleSubmit = (values: TForm) => {
-    mutateCreateTimeline({
-      recordType: values.recordType,
-      params: {
-        gameId,
-        gameTeamId: Number(values.gameTeamId),
-        recordedAt: values.recordedAt.toString(),
-        recordedQuarterId: Number(values.recordedQuarterId),
-        scoreLineupPlayerId: Number(values.scoreLineupPlayerId),
-        score: values.score,
-        originLineupPlayerId: Number(values.originLineupPlayerId),
-        replacedLineupPlayerId: Number(values.replacedLineupPlayerId),
+  const { mutate: mutateTimeline, isPending } = useCreateTimelineMutation();
+  const handleSubmit = (e: FormEvent<HTMLFormElement>, values: TForm) => {
+    e.preventDefault();
+
+    if (isPending) return;
+
+    form.validate();
+    mutateTimeline(
+      {
+        recordType: values.recordType,
+        params: {
+          gameId,
+          gameTeamId: Number(values.gameTeamId),
+          recordedAt: values.recordedAt.toISOString(),
+          recordedQuarterId: Number(values.recordedQuarterId),
+          scoreLineupPlayerId: Number(values.scoreLineupPlayerId),
+          score: values.score,
+          originLineupPlayerId: Number(values.originLineupPlayerId),
+          replacedLineupPlayerId: Number(values.replacedLineupPlayerId),
+        },
       },
-    });
+      {
+        onSuccess: () => {
+          router.push(`/game/${leagueId}/${gameId}/timeline`);
+        },
+      },
+    );
   };
 
   if (!gameId) return null;
@@ -101,7 +125,10 @@ export default function TimelineEdit() {
 
   return (
     <Layout navigationTitle="타임라인 수정" navigationMenu={<RightButton />}>
-      <form id="timeline-edit-form" onSubmit={form.onSubmit(handleSubmit)}>
+      <form
+        id="timeline-edit-form"
+        onSubmit={e => handleSubmit(e, form.values)}
+      >
         <Text mb={rem(8)}>상황</Text>
         <Flex direction="column" gap={rem(4)} mb="lg">
           <TextInput

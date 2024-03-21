@@ -1,4 +1,5 @@
-import { CaretDownIcon, SoccerIcon } from '@hcc/icons';
+import { CaretDownIcon, SwitchIcon } from '@hcc/icons';
+import { rem } from '@hcc/styles';
 import { Icon } from '@hcc/ui';
 import { Flex } from '@mantine/core';
 import Image from 'next/image';
@@ -21,10 +22,13 @@ export default function ReplacementItem({
   return (
     <li>
       <Card.Root>
-        <Card.Content component={Link} href={`${pathname}${record.recordId}`}>
-          <Flex>
-            <Flex direction="column">
-              <Card.Title>
+        <Card.Content
+          component={Link}
+          href={`${pathname}update/${record.recordId}`}
+        >
+          <Flex w="100%" justify="space-between" align="center">
+            <Flex direction="column" gap={rem(4)}>
+              <Card.Title text="semibold">
                 {record.playerName} OUT /{' '}
                 {record.replacementRecord.replacedPlayerName} IN
               </Card.Title>
@@ -32,19 +36,19 @@ export default function ReplacementItem({
                 {quarter} ′{record.recordedAt}
               </Card.SubContent>
             </Flex>
-            <Flex>
+            <Flex gap="xs" align="center">
               <Image
                 src={record.teamImageUrl}
                 alt={`${record.teamName} logo`}
                 width={24}
                 height={24}
               />
-              <Icon source={SoccerIcon} />
+              <Icon source={SwitchIcon} />
+              <Card.Action>
+                <Icon source={CaretDownIcon} transform="rotate(-90)" />
+              </Card.Action>
             </Flex>
           </Flex>
-          <Card.Action>
-            <Icon source={CaretDownIcon} rotate="-90deg" />
-          </Card.Action>
         </Card.Content>
       </Card.Root>
     </li>
