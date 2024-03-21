@@ -17,12 +17,7 @@ import { LowerRecordType } from '@/types/game';
 
 import ReplacementRecord from './_components/ReplacementRecord';
 import ScoreRecord from './_components/ScoreRecord';
-
-export type RecordMapType = { [key in LowerRecordType]: string };
-export const recordMap: RecordMapType = {
-  score: '득점',
-  replacement: '교체',
-};
+import { recordMap } from '../_utils/recordType';
 
 export type TForm = {
   recordType: LowerRecordType;

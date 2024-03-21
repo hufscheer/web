@@ -1,4 +1,4 @@
-import { SportsQuarterType } from './match';
+import { SportsQuarterType } from './game';
 
 export type LeagueIdType = {
   leagueId: number;
