@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import Layout from '@/components/Layout';
 import useCreateGameMutation from '@/hooks/mutations/useCreateGameMutation';
 import useLeagueTeamQuery from '@/hooks/queries/useLeagueTeamQuery';
-import { GameCreatePayload } from '@/types/game';
 
 import { GameInfoInput } from './_components/GameInfoInput';
 import TeamSelection from './_components/TeamSelection';
@@ -16,14 +15,21 @@ import VideoInput from './_components/VideoInput';
 import * as styles from './page.css';
 
 export default function Page() {
-  const form = useForm<GameCreatePayload>({
+  const form = useForm<{
+    sportsId: string;
+    startTime: Date;
+    gameName: string;
+    videoId: string;
+    teamIds: string[];
+    round: string;
+  }>({
     initialValues: {
-      sportsId: 0,
-      startTime: '',
+      sportsId: '',
+      startTime: new Date(),
       gameName: '',
       videoId: '',
       teamIds: [],
-      round: 0,
+      round: '',
     },
   });
   const params = useParams();
@@ -64,7 +70,14 @@ export default function Page() {
     mutateCreateGame(
       {
         leagueId,
-        payload: { ...form.values, videoId: videoId !== '' ? videoId : null },
+        payload: {
+          ...form.values,
+          sportsId: Number(sportsId),
+          round: Number(round),
+          startTime: startTime.toISOString(),
+          teamIds: teamIds.map(Number),
+          videoId: videoId !== '' ? videoId : null,
+        },
       },
       {
         onSuccess: () => {

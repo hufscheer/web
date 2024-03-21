@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { createGame } from '@/api/game';
 import { GameCreatePayload } from '@/types/game';
@@ -9,8 +9,12 @@ type Params = {
 };
 
 export default function useCreateGameMutation() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ leagueId, payload }: Params) =>
       createGame(leagueId, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['game'] });
+    },
   });
 }

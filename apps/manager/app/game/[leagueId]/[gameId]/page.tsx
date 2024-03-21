@@ -1,18 +1,29 @@
 'use client';
+import { Flex } from '@mantine/core';
+import { useParams, usePathname } from 'next/navigation';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import Layout from '@/components/Layout';
+import useGameDetailQuery from '@/hooks/queries/useGameDetailQuery';
+
+import GameMenuCard from './_components/GameMenuCard';
 
 export default function GameInfoMap() {
   const pathname = usePathname();
+  const params = useParams();
+
+  const gameId = params.gameId as string;
+
+  const { data: game } = useGameDetailQuery(gameId);
+
+  if (!game) return null;
+
   return (
-    <>
-      4강 1경기
-      <Link href={`${pathname}/detail`}>게임 정보</Link>
-      <Link href={`${pathname}/lineup`}>라인업</Link>
-      <Link href={`${pathname}/score`}>점수</Link>
-      <Link href={`${pathname}/timeline`}>타임라인</Link>
-      <Link href={`${pathname}/cheertalk`}>응원톡 관리</Link>
-    </>
+    <Layout navigationTitle={game.gameName}>
+      <Flex direction="column" gap="xs">
+        <GameMenuCard href={`${pathname}/detail`} title="기본 정보" />
+        <GameMenuCard href={`${pathname}/lineup`} title="라인업" />
+        <GameMenuCard href={`${pathname}/timeline`} title="타임라인" />
+      </Flex>
+    </Layout>
   );
 }

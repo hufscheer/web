@@ -29,8 +29,12 @@ export default function CardList({ type, caption }: CardListProps) {
     blockReportMutation({ cheerTalkId }, { onSuccess: () => refetch() });
   };
 
-  const handleRestore = async (cheerTalkId: number) => {
-    restoreReportMutation({ cheerTalkId }, { onSuccess: () => refetch() });
+  const handleRestore = async (id: number) => {
+    if (type === 'pending') {
+      restoreReportMutation({ reportId: id }, { onSuccess: () => refetch() });
+    } else {
+      blockReportMutation({ cheerTalkId: id }, { onSuccess: () => refetch() });
+    }
   };
 
   return (
@@ -40,10 +44,10 @@ export default function CardList({ type, caption }: CardListProps) {
       </p>
       {reportList && reportList.length > 0 ? (
         reportList.map(({ reportInfo, gameInfo }) => {
-          const { cheerTalkId, content } = reportInfo;
+          const { cheerTalkId, reportId, content } = reportInfo;
 
           return (
-            <div key={cheerTalkId} className={styles.wrapper}>
+            <div key={reportId} className={styles.wrapper}>
               <Card.Root paddingVertical="sm">
                 <div className={styles.card.container}>
                   <Card.Content>
@@ -58,7 +62,11 @@ export default function CardList({ type, caption }: CardListProps) {
                     <MenuModal
                       type="restore"
                       content={content}
-                      onPositiveClick={() => handleRestore(cheerTalkId)}
+                      onPositiveClick={() =>
+                        handleRestore(
+                          type === 'pending' ? reportId : cheerTalkId,
+                        )
+                      }
                     >
                       <Icon
                         source={type === 'pending' ? UnholdIcon : RestoreIcon}
