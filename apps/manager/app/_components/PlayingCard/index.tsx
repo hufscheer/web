@@ -20,7 +20,7 @@ export default function PlayingCard({ leagues }: PlayingCardProps) {
 
   return (
     <>
-      {playingLeagues.map(({ data, leagueName }) => (
+      {playingLeagues.map(({ leagueId, data, leagueName }) => (
         <Fragment key={leagueName}>
           <Title order={3} mt="lg" mb="xs" size={rem(20)}>
             {leagueName}
@@ -28,7 +28,10 @@ export default function PlayingCard({ leagues }: PlayingCardProps) {
           <Flex direction="column" gap="xs">
             {data.map(game => (
               <Card.Root key={game.id}>
-                <Card.Content component={Link} href={`/game/${game.id}`}>
+                <Card.Content
+                  component={Link}
+                  href={`/game/${leagueId}/${game.id}`}
+                >
                   <div style={{ flex: 1 }}>
                     <Card.Title text="semibold">{game.gameName}</Card.Title>
                     <Card.SubContent>
@@ -45,7 +48,7 @@ export default function PlayingCard({ leagues }: PlayingCardProps) {
                       fullWidth
                       component={Link}
                       variant="light"
-                      href={`/game/${game.id}/timeline`}
+                      href={`/game/${leagueId}/${game.id}/timeline`}
                     >
                       타임 라인
                     </Button>

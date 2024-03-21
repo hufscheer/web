@@ -1,6 +1,6 @@
 import { theme } from '@hcc/styles';
 import { Text, Select, TextInput } from '@mantine/core';
-import { DateInput } from '@mantine/dates';
+import { DateTimePicker } from '@mantine/dates';
 import { UseFormReturnType } from '@mantine/form';
 import React from 'react';
 
@@ -34,7 +34,7 @@ export function GameInfoInput({ form }: GameInfoInputProps) {
         withAsterisk
         {...form.getInputProps('sportsId')}
       />
-      <DateInput
+      <DateTimePicker
         valueFormat="YYYY.MM.DD HH:mm"
         placeholder="2000.00.00 00:00"
         withAsterisk

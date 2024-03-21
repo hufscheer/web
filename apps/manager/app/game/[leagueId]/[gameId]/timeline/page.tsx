@@ -4,7 +4,7 @@ import { SoccerIcon, SwitchIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { Button, Flex } from '@mantine/core';
 import Link from 'next/link';
-import { useParams, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 import AsyncBoundary from '@/components/AsyncBoundary';
 import Layout from '@/components/Layout';
@@ -12,10 +12,12 @@ import Layout from '@/components/Layout';
 import TimelineList from './_components/List';
 import TimelineError from './_components/List/Error';
 
-export default function Timeline() {
+type PageProps = {
+  params: { gameId: string };
+};
+
+export default function Page({ params: { gameId } }: PageProps) {
   const pathname = usePathname();
-  const params = useParams();
-  const gameId = params.gameId as string;
 
   if (!gameId) return null;
 
