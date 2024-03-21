@@ -18,7 +18,8 @@ export const getAllLeagues = async () => {
 };
 
 export const getGameList = async ({
-  size = '5',
+  // 무한 스크롤 처리 필요!
+  size = '50',
   leagueName,
   ...params
 }: GameListParams & { leagueName: string }) => {
