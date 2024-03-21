@@ -2,18 +2,18 @@ export type GameInfoType = {
   sports: SportsType;
   startTime: string;
   gameName: string;
-  state: gameStateType;
+  state: StateType;
   videoId: string | null;
   gameQuarter: string;
 };
 
-export const gameState = {
-  PLAYING: '진행중',
-  SCHEDULED: '예정',
-  FINISHED: '종료',
+export const stateMap = {
+  playing: '진행 중',
+  scheduled: '예정',
+  finished: '종료',
 } as const;
 
-export type gameStateType = keyof typeof gameState;
+export type StateType = keyof typeof stateMap;
 
 export type SportsQuarterType = {
   id: number;
@@ -100,15 +100,13 @@ export interface GameListType extends GameType {
 
 export type GameListParams = {
   league_id?: number;
-  state: GameState;
+  state: StateType;
   sport_id?: string;
   cursor?: string | number;
   size?: string;
   league_team_id?: string;
   round?: string;
 };
-
-export type GameState = 'playing' | 'scheduled' | 'finished';
 
 export type GameLineupType = {
   id: number;

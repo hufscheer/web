@@ -12,14 +12,13 @@ import useLeagueTeamQuery from '@/hooks/queries/useLeagueTeamQuery';
 
 import LeagueTeamActionIcon from './_components/ActionIcon';
 
-export default function LeagueTeamList() {
+export default function Page() {
   const [edit, setEdit] = useState(false);
   const pathname = usePathname();
   const params = useParams();
   const leagueId = params.leagueId as string;
 
   const { data: leagueTeams } = useLeagueTeamQuery(leagueId);
-  // const {} = useDeleteLeagueTeamMutation()
 
   if (!leagueTeams) return null;
 

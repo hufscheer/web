@@ -6,7 +6,23 @@ const nextConfig = {
   trailingSlash: true,
 
   experimental: {
-    optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
+    optimizePackageImports: [
+      '@mantine/core',
+      '@mantine/hooks',
+      '@mantine/dates',
+      '@mantine/dropzone',
+      '@mantine/form',
+    ],
+  },
+
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'hufscheer-server.s3.ap-northeast-2.amazonaws.com',
+        port: '',
+      },
+    ],
   },
 
   async rewrites() {
@@ -14,6 +30,10 @@ const nextConfig = {
       {
         source: '/api/games/',
         destination: `https://api.hufstreaming.site/games`,
+      },
+      {
+        source: '/api/games/:path*/timeline/',
+        destination: `https://api.hufstreaming.site/games/:path*/timeline`,
       },
       {
         source: '/api/:path*/',

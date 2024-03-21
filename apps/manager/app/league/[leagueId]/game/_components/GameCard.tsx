@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Card from '@/components/Card';
 import useDeleteGameMutation from '@/hooks/mutations/useDeleteGameMutation';
 import useGameQuery from '@/hooks/queries/useGameQuery';
-import { GameState } from '@/types/game';
+import { stateMap, StateType } from '@/types/game';
 import { LeagueType } from '@/types/league';
 import { formatTime } from '@/utils/time';
 
@@ -14,7 +14,7 @@ import * as styles from '../page.css';
 
 type PlayingCardProps = {
   league: LeagueType;
-  state: GameState;
+  state: StateType;
   edit: boolean;
 };
 
@@ -35,18 +35,14 @@ export default function GameCard({ league, state, edit }: PlayingCardProps) {
   return (
     <>
       <p className={styles.title}>
-        {state === 'playing'
-          ? '진행중'
-          : state === 'scheduled'
-            ? '예정'
-            : '종료'}
+        {stateMap[state.toUpperCase() as StateType]}
       </p>
       <Flex direction="column" gap="xs" mt="md">
         {data.data.map(game => (
           <Card.Root key={game.id}>
             <Card.Content
               component={Link}
-              href={edit ? `#` : `/game/${game.id}`}
+              href={edit ? `#` : `/game/${league.leagueId}/${game.id}`}
             >
               <div style={{ flex: 1 }}>
                 <Card.Title text="semibold">{game.gameName}</Card.Title>
@@ -101,7 +97,7 @@ export default function GameCard({ league, state, edit }: PlayingCardProps) {
                     fullWidth
                     component={Link}
                     variant="light"
-                    href={`/game/${game.id}/timeline`}
+                    href={`/game/${league.leagueId}/${game.id}/timeline`}
                   >
                     타임 라인
                   </Button>

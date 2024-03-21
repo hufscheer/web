@@ -2,12 +2,12 @@ import instance from '@/api/index';
 import {
   GameCreatePayload,
   GameLineupType,
-  GameTeamType,
   GameTimelineType,
   GenericRecordPayload,
   LowerRecordType,
   GameInfoType,
   SportsQuarterType,
+  GameTeamType,
 } from '@/types/game';
 
 export const getGameDetail = async (gameId: string) => {

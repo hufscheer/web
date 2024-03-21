@@ -6,19 +6,14 @@ import Link from 'next/link';
 import Card from '@/components/Card';
 import useDeleteLeagueMutation from '@/hooks/mutations/useDeleteLeagueMutation';
 import useLeagueQuery from '@/hooks/queries/useLeagueQuery';
+import { StateType, stateMap } from '@/types/game';
 import { formatTime } from '@/utils/time';
 
 import * as styles from './LeagueCard.css';
 
 type LeagueCardProps = {
-  state: 'playing' | 'scheduled' | 'finished';
+  state: StateType;
   edit: boolean;
-};
-
-const titleMap = {
-  playing: '진행 중',
-  scheduled: '예정',
-  finished: '종료',
 };
 
 const alertMessage =
@@ -41,10 +36,10 @@ export default function LeagueCard({ state, edit }: LeagueCardProps) {
   return (
     <>
       <Title order={2} className={styles.title}>
-        {titleMap[state]}
+        {stateMap[state]}
       </Title>
       {!leagues?.[state] ? (
-        <Box>{titleMap[state]} 경기가 없습니다.</Box>
+        <Box>{stateMap[state]} 경기가 없습니다.</Box>
       ) : (
         <Flex direction="column" gap="xs">
           {leagues[state].map(league => (

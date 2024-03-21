@@ -24,14 +24,14 @@ export default function TeamSelection({
         data={leagueTeamList}
         placeholder="팀을 선택해주세요"
         withAsterisk
-        {...form.getInputProps('teamIds')}
+        {...form.getInputProps('teamIds.0')}
       />
       <Select
         label="팀2"
         data={leagueTeamList}
         placeholder="팀을 선택해주세요"
         withAsterisk
-        {...form.getInputProps('teamIds')}
+        {...form.getInputProps('teamIds.1')}
       />
     </>
   );

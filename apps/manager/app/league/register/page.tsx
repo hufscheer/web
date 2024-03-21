@@ -15,7 +15,7 @@ export default function Register() {
   const [leagueId, setLeagueId] = useState<number>(-1);
   const [teamId, setTeamId] = useState<number>(-1);
 
-  const [active, setActive] = useState(2);
+  const [active, setActive] = useState(0);
   const handleLeagueId = (step: number) => {
     setActive(step);
   };
