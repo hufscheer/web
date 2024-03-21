@@ -46,7 +46,7 @@ export default function GameCard({ league, state, edit }: PlayingCardProps) {
           <Card.Root key={game.id}>
             <Card.Content
               component={Link}
-              href={edit ? `#` : `/game/${game.id}`}
+              href={edit ? `#` : `/game/${league.leagueId}/${game.id}`}
             >
               <div style={{ flex: 1 }}>
                 <Card.Title text="semibold">{game.gameName}</Card.Title>

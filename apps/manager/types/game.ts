@@ -43,6 +43,16 @@ export type GameCreatePayload = {
   round: number;
 };
 
+export type GameInfo = {
+  sports: SportsType;
+  startTime: string;
+  gameName: string;
+  state: gameStateType;
+  videoId: string;
+  gameQuarter: string;
+  round: number;
+};
+
 export type RecordType = 'SCORE' | 'REPLACEMENT';
 
 type Snapshot = {

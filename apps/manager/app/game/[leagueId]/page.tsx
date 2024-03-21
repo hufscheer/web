@@ -13,7 +13,7 @@ export default function GameList({
   return (
     <>
       2024 월드컵
-      <Link href={`${pathname}/${gameData}`}>4강 1경기</Link>
+      <Link href={`${pathname}${gameData}`}>4강 1경기</Link>
     </>
   );
 }

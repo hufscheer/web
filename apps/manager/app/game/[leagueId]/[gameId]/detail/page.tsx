@@ -1,3 +1,9 @@
+import Layout from '@/components/Layout';
+
 export default function GameDetail() {
-  return <>게임 정보</>;
+  return (
+    <Layout navigationTitle="기본 정보">
+      <div>기본 정보</div>
+    </Layout>
+  );
 }

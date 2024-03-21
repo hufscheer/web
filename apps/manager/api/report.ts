@@ -7,6 +7,10 @@ export const getReports = async () => {
   return data;
 };
 
-export const postReport = async (cheerTalkId: number) => {
-  await instance.post(`/reports/cheer-talk/${cheerTalkId}/`);
+export const postReport = async (reportId: number) => {
+  await instance.post(`/reports/cheer-talk/${reportId}/`);
+};
+
+export const postInvalidReport = async (reportId: number) => {
+  await instance.post(`/reports/invalid/${reportId}/`);
 };

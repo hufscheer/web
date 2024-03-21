@@ -1,13 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { postReport } from '@/api/report';
+import { postInvalidReport } from '@/api/report';
 
 type Params = {
-  cheerTalkId: number;
+  reportId: number;
 };
 
 export default function useRestoreReportMutation() {
   return useMutation({
-    mutationFn: ({ cheerTalkId }: Params) => postReport(cheerTalkId),
+    mutationFn: ({ reportId }: Params) => postInvalidReport(reportId),
   });
 }
