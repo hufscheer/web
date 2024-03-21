@@ -58,7 +58,7 @@ export default function GameDetail() {
 
   const { mutate: updateGameMutation } = useUpdateGameMutation();
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (edit) {
