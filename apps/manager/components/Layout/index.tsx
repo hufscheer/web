@@ -33,7 +33,12 @@ export default function Layout({
           navigationMenu={navigationMenu}
         />
       )}
-      <ScrollArea component="main" py="sm" className={styles.main}>
+      <ScrollArea
+        scrollbars="y"
+        component="main"
+        py="sm"
+        className={styles.main}
+      >
         {children}
       </ScrollArea>
       {footerVisible && <Footer />}
