@@ -11,7 +11,14 @@ const SPORTS = [
   { value: '3', label: '야구' },
 ];
 
+const STATE = [
+  { value: 'SCHEDULED', label: '예정' },
+  { value: 'PLAYING', label: '진행중' },
+  { value: 'FINISHED', label: '종료' },
+];
+
 export const GAMES = {
   ROUND,
   SPORTS,
+  STATE,
 };

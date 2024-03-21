@@ -1,13 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { postReport } from '@/api/report';
+import { putReport } from '@/api/report';
 
 type Params = {
-  reportId: number;
+  cheerTalkId: number;
 };
 
 export default function useBlockReportMutation() {
   return useMutation({
-    mutationFn: ({ reportId }: Params) => postReport(reportId),
+    mutationFn: ({ cheerTalkId }: Params) => putReport(cheerTalkId),
   });
 }

@@ -25,15 +25,15 @@ export default function CardList({ type, caption }: CardListProps) {
     [type, reports],
   );
 
-  const handleBlock = async (reportId: number) => {
-    blockReportMutation({ reportId }, { onSuccess: () => refetch() });
+  const handleBlock = async (cheerTalkId: number) => {
+    blockReportMutation({ cheerTalkId }, { onSuccess: () => refetch() });
   };
 
-  const handleRestore = async (reportId: number) => {
+  const handleRestore = async (id: number) => {
     if (type === 'pending') {
-      restoreReportMutation({ reportId }, { onSuccess: () => refetch() });
+      restoreReportMutation({ reportId: id }, { onSuccess: () => refetch() });
     } else {
-      blockReportMutation({ reportId }, { onSuccess: () => refetch() });
+      blockReportMutation({ cheerTalkId: id }, { onSuccess: () => refetch() });
     }
   };
 
@@ -44,7 +44,7 @@ export default function CardList({ type, caption }: CardListProps) {
       </p>
       {reportList && reportList.length > 0 ? (
         reportList.map(({ reportInfo, gameInfo }) => {
-          const { reportId, content } = reportInfo;
+          const { cheerTalkId, reportId, content } = reportInfo;
 
           return (
             <div key={reportId} className={styles.wrapper}>
@@ -62,7 +62,11 @@ export default function CardList({ type, caption }: CardListProps) {
                     <MenuModal
                       type="restore"
                       content={content}
-                      onPositiveClick={() => handleRestore(reportId)}
+                      onPositiveClick={() =>
+                        handleRestore(
+                          type === 'pending' ? reportId : cheerTalkId,
+                        )
+                      }
                     >
                       <Icon
                         source={type === 'pending' ? UnholdIcon : RestoreIcon}
@@ -74,7 +78,7 @@ export default function CardList({ type, caption }: CardListProps) {
                       <MenuModal
                         type="block"
                         content={content}
-                        onPositiveClick={() => handleBlock(reportId)}
+                        onPositiveClick={() => handleBlock(cheerTalkId)}
                       >
                         <Icon source={HoldIcon} size="xs" color="error" />
                       </MenuModal>

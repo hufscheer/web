@@ -2,10 +2,15 @@ import { theme } from '@hcc/styles';
 import { Text, TextInput } from '@mantine/core';
 import { UseFormReturnType } from '@mantine/form';
 
-import { GameCreatePayload } from '@/types/game';
-
 type VideoInputProps = {
-  form: UseFormReturnType<GameCreatePayload>;
+  form: UseFormReturnType<{
+    sportsId: string;
+    startTime: Date;
+    gameName: string;
+    videoId: string;
+    teamIds: string[];
+    round: string;
+  }>;
 };
 
 export default function VideoInput({ form }: VideoInputProps) {

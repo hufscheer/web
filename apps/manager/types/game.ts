@@ -5,6 +5,7 @@ export type GameInfoType = {
   state: StateType;
   videoId: string | null;
   gameQuarter: string;
+  round: number;
 };
 
 export const stateMap = {
@@ -43,11 +44,21 @@ export type GameCreatePayload = {
   round: number;
 };
 
+export type GameUpdatePayload = {
+  sportsId: number;
+  startTime: string;
+  gameName: string;
+  videoId: string | null;
+  gameQuarter: string;
+  state: StateType;
+  round: number;
+};
+
 export type GameInfo = {
   sports: SportsType;
   startTime: string;
   gameName: string;
-  state: gameStateType;
+  state: StateType;
   videoId: string;
   gameQuarter: string;
   round: number;

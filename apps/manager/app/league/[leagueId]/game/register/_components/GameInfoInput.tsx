@@ -5,10 +5,16 @@ import { UseFormReturnType } from '@mantine/form';
 import React from 'react';
 
 import { GAMES } from '@/constants/games';
-import { GameCreatePayload } from '@/types/game';
 
 type GameInfoInputProps = {
-  form: UseFormReturnType<GameCreatePayload>;
+  form: UseFormReturnType<{
+    sportsId: string;
+    startTime: Date;
+    gameName: string;
+    videoId: string;
+    teamIds: string[];
+    round: string;
+  }>;
 };
 
 export function GameInfoInput({ form }: GameInfoInputProps) {

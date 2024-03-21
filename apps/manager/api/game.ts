@@ -8,6 +8,7 @@ import {
   GameInfoType,
   SportsQuarterType,
   GameTeamType,
+  GameUpdatePayload,
 } from '@/types/game';
 
 export const getGameDetail = async (gameId: string) => {
@@ -71,6 +72,15 @@ export const getLineup = async (teamId: string) => {
   const { data } = await instance.get<GameLineupType[]>(
     `/games/team/${teamId}/lineup-player/all/`,
   );
+
+  return data;
+};
+
+export const updateGame = async (
+  gameId: string,
+  payload: GameUpdatePayload,
+) => {
+  const { data } = await instance.put(`/games/${gameId}/change/`, payload);
 
   return data;
 };

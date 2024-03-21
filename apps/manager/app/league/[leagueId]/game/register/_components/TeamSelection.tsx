@@ -3,10 +3,15 @@ import { Text, Select } from '@mantine/core';
 import { UseFormReturnType } from '@mantine/form';
 import React from 'react';
 
-import { GameCreatePayload } from '@/types/game';
-
 type TeamSelectionProps = {
-  form: UseFormReturnType<GameCreatePayload>;
+  form: UseFormReturnType<{
+    sportsId: string;
+    startTime: Date;
+    gameName: string;
+    videoId: string;
+    teamIds: string[];
+    round: string;
+  }>;
   leagueTeamList: { value: string; label: string }[];
 };
 
