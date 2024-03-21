@@ -6,7 +6,8 @@ import Link from 'next/link';
 import Card from '@/components/Card';
 import useDeleteGameMutation from '@/hooks/mutations/useDeleteGameMutation';
 import useGameQuery from '@/hooks/queries/useGameQuery';
-import { GameState, LeagueType } from '@/types/league';
+import { GameState } from '@/types/game';
+import { LeagueType } from '@/types/league';
 import { formatTime } from '@/utils/time';
 
 import * as styles from '../page.css';
