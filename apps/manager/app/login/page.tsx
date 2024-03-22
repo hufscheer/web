@@ -2,14 +2,13 @@
 
 import { Button, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import Layout from '@/components/Layout';
 import useLoginMutation from '@/hooks/mutations/useLoginMutation';
 
 export default function Login() {
   const router = useRouter();
-  const params = useSearchParams();
 
   const form = useForm({
     initialValues: {
@@ -27,10 +26,7 @@ export default function Login() {
   const handleSubmit = (values: typeof form.values) => {
     mutateLogin(values, {
       onSuccess: () => {
-        const redirect = params.get('redirect');
-
-        if (redirect) router.replace(redirect);
-        else router.replace('/');
+        router.replace('/');
       },
     });
   };

@@ -18,7 +18,8 @@ export const getAllLeagues = async () => {
 };
 
 export const getGameList = async ({
-  size = '5',
+  // 무한 스크롤 처리 필요!
+  size = '50',
   leagueName,
   ...params
 }: GameListParams & { leagueName: string }) => {
@@ -67,6 +68,14 @@ export const updateLeagueTeam = async (teamId: string, payload: FormData) => {
 export const getLeagueTeamPlayers = async (teamId: string) => {
   const { data } = await instance.get<LeaguePlayerWithIDPayload[]>(
     `/league-teams/${teamId}/player/all/`,
+  );
+
+  return data;
+};
+
+export const getPlayersByTeamId = async (teamId: string) => {
+  const { data } = await instance.get<LeaguePlayerWithIDPayload[]>(
+    `/league-teams/player/game-team/${teamId}/`,
   );
 
   return data;

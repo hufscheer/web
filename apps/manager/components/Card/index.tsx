@@ -28,7 +28,7 @@ const CardContent = createPolymorphicComponent<'div', CardContentProps>(
   ) {
     return (
       <Flex ref={ref} className={styles.content} {...props}>
-        <div className={styles.inner}>{children}</div>
+        {children}
       </Flex>
     );
   }),

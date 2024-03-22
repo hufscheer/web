@@ -137,6 +137,8 @@ export type GameLineupType = {
   isCaptain: boolean;
 };
 
+export type LineupPayload = Omit<GameLineupType, 'id'>;
+
 // timeline payload
 
 type ScorePayload = {

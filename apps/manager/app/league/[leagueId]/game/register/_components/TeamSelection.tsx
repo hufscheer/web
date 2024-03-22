@@ -3,6 +3,8 @@ import { Text, Select } from '@mantine/core';
 import { UseFormReturnType } from '@mantine/form';
 import React from 'react';
 
+import { TeamType } from '@/types/team';
+
 type TeamSelectionProps = {
   form: UseFormReturnType<{
     sportsId: string;
@@ -12,13 +14,18 @@ type TeamSelectionProps = {
     teamIds: string[];
     round: string;
   }>;
-  leagueTeamList: { value: string; label: string }[];
+  leagueTeamList: TeamType[] | undefined;
 };
 
 export default function TeamSelection({
   form,
   leagueTeamList,
 }: TeamSelectionProps) {
+  const teamData = leagueTeamList?.map(team => ({
+    value: String(team.id),
+    label: team.name,
+  }));
+
   return (
     <>
       <Text mt="lg" c={theme.colors.gray[4]}>
@@ -26,14 +33,14 @@ export default function TeamSelection({
       </Text>
       <Select
         label="팀1"
-        data={leagueTeamList}
+        data={teamData}
         placeholder="팀을 선택해주세요"
         withAsterisk
         {...form.getInputProps('teamIds.0')}
       />
       <Select
         label="팀2"
-        data={leagueTeamList}
+        data={teamData}
         placeholder="팀을 선택해주세요"
         withAsterisk
         {...form.getInputProps('teamIds.1')}
