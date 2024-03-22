@@ -2,30 +2,22 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { getGameLineupById } from '@/api/game';
 
-import useGameById from './useGameById';
+import { useGameTeamInfo } from './useGameTeamInfo';
 
 export const useGameLineupById = (gameId: string) => {
-  const {
-    gameDetail: { gameTeams },
-  } = useGameById(gameId);
+  const { getTeamInfo } = useGameTeamInfo(gameId);
 
-  const { data, error } = useSuspenseQuery({
+  const query = useSuspenseQuery({
     queryKey: ['game-lineup', gameId],
     queryFn: () => getGameLineupById(gameId),
     select: data =>
-      data.map((team, i) => {
-        return {
-          lineup: team.gameTeamPlayers,
-          info:
-            gameTeams.find(
-              gameTeam => gameTeam.gameTeamId === team.gameTeamId,
-            ) || gameTeams[i],
-        };
-      }),
+      data.map(team => ({
+        ...team,
+        ...getTeamInfo(team.gameTeamId),
+      })),
   });
 
-  return {
-    data,
-    error,
-  };
+  if (query.error) throw query.error;
+
+  return query;
 };
