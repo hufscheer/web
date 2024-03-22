@@ -24,7 +24,7 @@ export default function LeagueTeamFilter({ leagueId }: { leagueId: number }) {
 
   const handleRouter = (selectedTeamId: number) => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
-    const teamIdParams = current.get('leagueTeam');
+    const teamIdParams = current.get('leagueTeam') || null;
     const teamIds = teamIdParams?.split(',').map(Number) || [];
 
     const hasTeamId = teamIds.includes(selectedTeamId);
@@ -32,7 +32,8 @@ export default function LeagueTeamFilter({ leagueId }: { leagueId: number }) {
       ? teamIds.filter(id => id !== selectedTeamId)
       : [...teamIds, selectedTeamId].sort((a, b) => a - b);
 
-    current.set('leagueTeam', updatedTeamIds.join(','));
+    if (!updatedTeamIds.length) current.delete('leagueTeam');
+    else current.set('leagueTeam', updatedTeamIds.join(','));
 
     const query = current ? `?${current}` : '';
 
