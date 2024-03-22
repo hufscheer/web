@@ -14,6 +14,7 @@ import CheerVS from './_components/CheerVS';
 import CheerVSFallback from './_components/CheerVS/Error';
 import Lineup from './_components/Lineup';
 import Timeline from './_components/Timeline';
+import Video from './_components/Video';
 import useQueryValidator from './_hooks/useQueryValidator';
 import * as styles from './page.css';
 
@@ -30,8 +31,8 @@ const tabs = [
   },
   {
     key: 'highlight',
-    label: '경기영상',
-    renderer: (gameId: string) => <div>{gameId} 경기영상</div>,
+    label: '경기 영상',
+    renderer: (gameId: string) => <Video gameId={gameId} />,
   },
 ];
 

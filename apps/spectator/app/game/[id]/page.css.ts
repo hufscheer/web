@@ -33,6 +33,7 @@ const panelItemBase = style({
 export const panel = styleVariants({
   wrapper: {
     position: 'relative',
+    marginTop: theme.spaces.xs,
   },
   menu: {
     display: 'grid',
