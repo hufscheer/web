@@ -6,17 +6,16 @@ export const lineup = styleVariants({
     display: 'grid',
     gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
     justifyContent: 'center',
-    alignItems: 'center',
     paddingBlock: theme.spaces.default,
   },
   split: {
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spaces.sm,
+    gap: theme.spaces.lg,
     paddingInline: rem(20),
     selectors: {
       '&:first-of-type': {
-        borderRight: `2px solid ${theme.colors.gray[3]}`,
+        borderRight: `1px solid ${theme.colors.gray[3]}`,
       },
     },
   },
@@ -24,6 +23,8 @@ export const lineup = styleVariants({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spaces.xs,
+
+    height: '100%',
   },
 });
 
@@ -46,29 +47,33 @@ const color = {
 };
 
 const playerBase = style({
-  ...theme.textVariants.xs,
+  ...theme.textVariants.sm,
   color: theme.colors.gray[6],
 });
 
-export const item = styleVariants({
+export const player = styleVariants({
   root: {
-    display: 'flex',
+    display: 'grid',
+    gridTemplateColumns: 'auto 1fr auto',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: rem(12),
+    gap: theme.spaces.default,
+
+    paddingInline: theme.spaces.sm,
   },
-  playerWrapper: { display: 'flex' },
-  playerCaption: [playerBase],
-  playerName: [
+  wrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    marginLeft: theme.spaces.xs,
+  },
+  caption: [playerBase],
+  name: [
     playerBase,
     {
       fontWeight: 600,
       marginRight: theme.spaces.xxs,
     },
   ],
-  empty: {
-    width: theme.spaces.default,
-  },
 });
 
 const backNumberBase = style({
@@ -83,13 +88,13 @@ const backNumberBase = style({
 });
 
 export const backNumber = styleVariants({
-  blue: [
+  left: [
     backNumberBase,
     {
       backgroundColor: color.blue,
     },
   ],
-  red: [
+  right: [
     backNumberBase,
     {
       backgroundColor: color.red,
@@ -98,21 +103,24 @@ export const backNumber = styleVariants({
 });
 
 const captainBase = style({
-  fontSize: rem(6),
+  borderRadius: rem(4),
+  padding: theme.spaces.xxs,
+
+  fontSize: theme.textVariants.sm.fontSize,
   fontWeight: 700,
   color: theme.colors.white,
 });
 
 export const captain = styleVariants({
-  blue: [captainBase, { backgroundColor: color.blue }],
-  red: [captainBase, { backgroundColor: color.red }],
+  left: [captainBase, { backgroundColor: color.blue }],
+  right: [captainBase, { backgroundColor: color.red }],
 });
 
 export const errorFallback = styleVariants({
   wrapper: {
     display: 'flex',
     minHeight: 180,
-    padding: `0 ${theme.spaces.default}`,
+    paddingInline: theme.spaces.default,
   },
   span: { ...theme.textVariants.default, color: theme.colors.gray[5] },
   button: {
