@@ -2,16 +2,12 @@ import * as styles from './Lineup.css';
 
 type LineupCaptainProps = {
   isCaptain: boolean;
-  whichSide: 'blue' | 'red';
+  direction: 'left' | 'right';
 };
 
 export default function LineupCaptain({
   isCaptain,
-  whichSide,
+  direction,
 }: LineupCaptainProps) {
-  return isCaptain ? (
-    <span className={styles.captain[whichSide]}>C</span>
-  ) : (
-    <div className={styles.item.empty} />
-  );
+  return isCaptain && <span className={styles.captain[direction]}>C</span>;
 }

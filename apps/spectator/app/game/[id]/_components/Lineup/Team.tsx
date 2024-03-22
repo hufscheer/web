@@ -1,24 +1,26 @@
 import Image from 'next/image';
 
-import { GameTeamType } from '@/types/game';
-
 import * as styles from './Lineup.css';
 
 type LineupTeamProps = {
-  team: GameTeamType;
+  gameTeamName: string;
+  logoImageUrl: string;
 };
 
-export default function LineupTeam({ team }: LineupTeamProps) {
+export default function LineupTeam({
+  gameTeamName,
+  logoImageUrl,
+}: LineupTeamProps) {
   return (
     <div className={styles.team.root}>
       <Image
-        src={team.logoImageUrl}
-        alt={`${team.gameTeamName} logo image`}
+        src={logoImageUrl}
+        alt={`${gameTeamName} logo image`}
         width={50}
         height={50}
         loading="lazy"
       />
-      <span className={styles.team.name}>{team.gameTeamName}</span>
+      <span className={styles.team.name}>{gameTeamName}</span>
     </div>
   );
 }
