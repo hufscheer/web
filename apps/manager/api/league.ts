@@ -73,6 +73,14 @@ export const getLeagueTeamPlayers = async (teamId: string) => {
   return data;
 };
 
+export const getPlayersByTeamId = async (teamId: string) => {
+  const { data } = await instance.get<LeaguePlayerWithIDPayload[]>(
+    `/league-teams/player/game-team/${teamId}/`,
+  );
+
+  return data;
+};
+
 export const updateLeagueTeamPlayers = async (
   teamId: string,
   teamPlayerId: string,

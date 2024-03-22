@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 import Layout from '@/components/Layout';
 import useCreateLineupMutation from '@/hooks/mutations/useCreateLineupMutation';
-import useLeagueTeamPlayersQuery from '@/hooks/queries/useLeagueTeamPlayersQuery';
+import useLineupPlayerQuery from '@/hooks/queries/useLineupPlayerQuery';
 import { LineupPayload } from '@/types/game';
 import { LeaguePlayerWithIDPayload } from '@/types/league';
 
@@ -27,7 +27,7 @@ export default function LineupEdit({ params }: PageProps) {
     [],
   );
 
-  const { data: players } = useLeagueTeamPlayersQuery(params.teamId);
+  const { data: players } = useLineupPlayerQuery(params.teamId);
   const { mutate: mutateSaveLineup, isPending } = useCreateLineupMutation();
 
   const handleClickAction = (player: PlayerWithCaptain) => {
