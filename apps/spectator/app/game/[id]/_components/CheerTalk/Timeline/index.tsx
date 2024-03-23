@@ -10,6 +10,9 @@ type TimelineProps = {
 
 export default function CheerTalkTimeline({ gameId }: TimelineProps) {
   const { data: timelines } = useTimelineById(gameId);
+
+  if (timelines.length === 0) return null;
+
   const lastRecord = timelines[0].records[0];
 
   if (!lastRecord) return null;

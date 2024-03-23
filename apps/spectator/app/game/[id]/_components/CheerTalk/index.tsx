@@ -27,7 +27,7 @@ export default function CheerTalk({
   >([]);
   const { getTeamInfo } = useGameTeamInfo(gameId);
 
-  const { cheerTalkList, ...rest } = useCheerTalkById(gameId);
+  const { data: cheerTalkList, ...rest } = useCheerTalkById(gameId);
   const cheerTalks = useMemo(
     () => (cheerTalkList ? cheerTalkList.pages.flatMap(talk => talk) : []),
     [cheerTalkList],
