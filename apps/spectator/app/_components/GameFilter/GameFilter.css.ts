@@ -12,18 +12,23 @@ export const filterItemBase = style({
   display: 'inline-flex',
   paddingBlock: rem(10),
   paddingInline: rem(14),
-  color: theme.colors.primary[2],
+  color: theme.colors.gray[5],
+  fontWeight: theme.textVariants.sm.fontWeight,
   whiteSpace: 'nowrap',
 });
 
 export const leagueFilterItem = style([
   filterItemBase,
-  { ...theme.textVariants.default, fontWeight: 'bold' },
+  {
+    ...theme.textVariants.default,
+  },
 ]);
 
 export const sportFilterItem = style([
   filterItemBase,
-  { ...theme.textVariants.sm, fontWeight: 'bold' },
+  {
+    ...theme.textVariants.sm,
+  },
 ]);
 
 export const roundFilterItem = style([
@@ -32,11 +37,11 @@ export const roundFilterItem = style([
     paddingBlock: rem(9),
     borderBlock: `${rem(1)} solid transparent`,
     ...theme.textVariants.sm,
-    fontWeight: 'bold',
   },
 ]);
 
 export const focused = style({
+  fontWeight: '700',
   color: theme.colors.primary[3],
   transition: 'color 200ms',
 });

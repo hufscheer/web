@@ -17,13 +17,12 @@ export default function Sidebar() {
 
   return (
     <Modal>
-      <Modal.Trigger>
+      <Modal.Trigger className={styles.openIconButton}>
         <Icon
           source={HamburgerIcon}
           aria-label="메뉴 열기"
           role="button"
           size={20}
-          color="primary"
         />
       </Modal.Trigger>
       <Modal.Content
