@@ -75,3 +75,33 @@ export const content = styleVariants({
     color: theme.colors.gray[4],
   },
 });
+
+export const errorFallback = styleVariants({
+  wrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: theme.spaces.default,
+
+    minHeight: rem(180),
+    paddingInline: theme.spaces.default,
+    backgroundColor: theme.colors.gray[2],
+  },
+  message: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: theme.spaces.sm,
+
+    color: theme.colors.gray[5],
+    ...theme.textVariants.default,
+
+    textAlign: 'center',
+  },
+  retry: {
+    ...theme.textVariants.default,
+    color: theme.colors.primary[3],
+    gap: theme.spaces.xs,
+  },
+});
