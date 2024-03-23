@@ -1,4 +1,5 @@
-import { GameState, GameStateString } from '@/types/game';
+import { GAME_STATE_KR } from '@/constants/configs';
+import { GameState } from '@/types/game';
 import { formatTime } from '@/utils/time';
 
 import * as styles from './GameList.css';
@@ -14,8 +15,9 @@ export default function GameMetadata({
   gameName,
   startTime,
 }: GameMetadataProps) {
-  const gameState = GameStateString[state];
+  const gameState = GAME_STATE_KR[state];
   const startingTime = formatTime(startTime, 'HH:mm');
+
   return (
     // todo: gameName => round 정보로 교체
     <div className={styles.gameMetadata.root}>

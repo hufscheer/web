@@ -11,7 +11,7 @@ export const GAME_STATE = {
 } as const;
 
 export const GAME_STATE_KR = {
-  SCHEDULED: '예정',
-  PLAYING: '진행 중',
-  FINISHED: '종료',
+  scheduled: '예정',
+  playing: '진행 중',
+  finished: '종료',
 } as const;
