@@ -4,17 +4,18 @@ import { Icon } from '@hcc/ui';
 import { Box, Flex, Select, Text, TextInput } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
-import { Fragment, useEffect, useState } from 'react';
+import { MutableRefObject, Fragment, useEffect, useState } from 'react';
 
 import AddButton from '@/components/AddButton';
 import { GAMES } from '@/constants/games';
 import useUpdateLeagueMutation from '@/hooks/mutations/useUpdateLeagueMutation';
 import { LeagueDataType, LeagueIdType, SportsDataType } from '@/types/league';
+import { convertToServerTime } from '@/utils/time';
 
 type LeagueDetailFormProps = {
   league: LeagueDataType & LeagueIdType;
   edit: boolean;
-  buttonRef: React.MutableRefObject<() => void>;
+  buttonRef: MutableRefObject<() => void>;
   handleClick: () => void;
 };
 
@@ -48,8 +49,8 @@ export default function LeagueDetailForm({
         {
           leagueData: {
             ...leagueData,
-            startAt: leagueData.startAt.toISOString(),
-            endAt: leagueData.endAt.toISOString(),
+            startAt: convertToServerTime(leagueData.startAt),
+            endAt: convertToServerTime(leagueData.endAt),
           },
           sportData: [...sportData],
           leagueId: leagueId,

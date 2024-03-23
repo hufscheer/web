@@ -1,10 +1,10 @@
-import dayjs, { locale } from 'dayjs';
+import dayjs, { Dayjs, locale } from 'dayjs';
 import 'dayjs/locale/ko';
 
 locale('ko');
 
 export const formatTime = (
-  time: string | Date,
+  time: string | Date | Dayjs,
   format: string,
   locale = 'ko',
 ) => {
@@ -24,4 +24,8 @@ export const isCurrentTimeBetween = (
   end: string | Date,
 ) => {
   return isPastFromNow(start) && isFutureFromNow(end);
+};
+
+export const convertToServerTime = (time: string | Date | Dayjs) => {
+  return formatTime(time, 'YYYY-MM-DDTHH:mm:ss');
 };

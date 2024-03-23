@@ -15,6 +15,7 @@ import useCreateTimelineMutation from '@/hooks/mutations/useCreateTimelineMutati
 import useGameQuarterQuery from '@/hooks/queries/useGameQuarterQuery';
 import useGameTeamsQuery from '@/hooks/queries/useGameTeamsQuery';
 import { LowerRecordType } from '@/types/game';
+import { convertToServerTime } from '@/utils/time';
 
 import ReplacementRecord from './_components/ReplacementRecord';
 import ScoreRecord from './_components/ScoreRecord';
@@ -97,7 +98,7 @@ export default function Page({ params }: PageProps) {
         params: {
           gameId,
           gameTeamId: Number(values.gameTeamId),
-          recordedAt: values.recordedAt.toISOString(),
+          recordedAt: convertToServerTime(values.recordedAt),
           recordedQuarterId: Number(values.recordedQuarterId),
           scoreLineupPlayerId: Number(values.scoreLineupPlayerId),
           score: values.score,
