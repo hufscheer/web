@@ -11,7 +11,7 @@ export const root = style({
 
 export const title = style({
   ...theme.textVariants.lg,
-  marginTop: theme.spaces.sm,
+  marginTop: theme.spaces.default,
 });
 
 export const timeline = style({
