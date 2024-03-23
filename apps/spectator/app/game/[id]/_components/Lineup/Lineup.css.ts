@@ -64,7 +64,6 @@ export const player = styleVariants({
   wrapper: {
     display: 'flex',
     alignItems: 'center',
-    marginLeft: theme.spaces.xs,
   },
   caption: [playerBase],
   name: [
@@ -77,27 +76,26 @@ export const player = styleVariants({
 });
 
 const backNumberBase = style({
-  ...theme.textVariants.xs,
-  color: theme.colors.white,
+  ...theme.textVariants.default,
+  backgroundColor: theme.colors.white,
   display: 'flex',
   width: rem(32),
   height: rem(32),
   justifyContent: 'center',
   alignItems: 'center',
-  borderRadius: '100%',
 });
 
 export const backNumber = styleVariants({
   left: [
     backNumberBase,
     {
-      backgroundColor: color.blue,
+      color: color.blue,
     },
   ],
   right: [
     backNumberBase,
     {
-      backgroundColor: color.red,
+      color: color.red,
     },
   ],
 });
