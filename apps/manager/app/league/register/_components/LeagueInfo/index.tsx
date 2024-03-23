@@ -1,14 +1,6 @@
 import { CalendarIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
-import {
-  Box,
-  Button,
-  Group,
-  MultiSelect,
-  Select,
-  Text,
-  TextInput,
-} from '@mantine/core';
+import { Box, Button, Group, Select, Text, TextInput } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import dayjs from 'dayjs';
@@ -16,6 +8,7 @@ import dayjs from 'dayjs';
 import { GAMES } from '@/constants/games';
 import useCreateLeagueMutation from '@/hooks/mutations/useCreateLeagueMutation';
 import { NewLeaguePayload } from '@/types/league';
+import { convertToServerTime } from '@/utils/time';
 
 type LeagueInfoProps = {
   handleLeagueId: (id: number) => void;
@@ -34,7 +27,7 @@ export default function LeagueInfo({
         endAt: '',
         maxRound: -1,
       },
-      sportData: [],
+      sportData: [4],
     },
     validate: {
       leagueData: {
@@ -50,17 +43,29 @@ export default function LeagueInfo({
       sportData: value => !value.length && '종목을 선택해주세요.',
     },
   });
+
   const { mutate: mutateCreateLeague, isPending } = useCreateLeagueMutation();
+
   const handleClickButton = () => {
     if (isPending) return;
     if (form.validate().hasErrors) return;
 
-    mutateCreateLeague(form.values, {
-      onSuccess: ({ leagueId }) => {
-        handleLeagueId(leagueId);
-        nextStep();
+    mutateCreateLeague(
+      {
+        ...form.values,
+        leagueData: {
+          ...form.values.leagueData,
+          startAt: convertToServerTime(form.values.leagueData.startAt),
+          endAt: convertToServerTime(form.values.leagueData.endAt),
+        },
       },
-    });
+      {
+        onSuccess: ({ leagueId }) => {
+          handleLeagueId(leagueId);
+          nextStep();
+        },
+      },
+    );
   };
 
   return (
@@ -86,12 +91,12 @@ export default function LeagueInfo({
         />
       </Group>
 
-      <MultiSelect
-        checkIconPosition="left"
-        label="종목"
-        data={GAMES.SPORTS}
-        {...form.getInputProps('sportData')}
-      />
+      {/*<MultiSelect*/}
+      {/*  checkIconPosition="left"*/}
+      {/*  label="종목"*/}
+      {/*  data={GAMES.SPORTS}*/}
+      {/*  {...form.getInputProps('sportData')}*/}
+      {/*/>*/}
 
       <Select
         label="라운드"
