@@ -1,8 +1,14 @@
+import { clsx } from 'clsx';
+
 import { loader } from './Loader.css';
 
-export default function Loader() {
+type LoaderProps = {
+  className?: string;
+};
+
+export default function Loader({ className }: LoaderProps) {
   return (
-    <div role="status" className={loader.wrapper}>
+    <div role="status" className={clsx(loader.wrapper, className)}>
       <svg
         aria-hidden="true"
         className={loader.svg}
