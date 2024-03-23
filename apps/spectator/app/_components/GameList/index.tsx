@@ -19,7 +19,7 @@ type GameListProps = {
 
 export default function GameList({ state, initialLeagueId }: GameListProps) {
   const searchParams = useSearchParams();
-  const { groupedGameList, ...rest } = useGameList({
+  const { data: groupedGameList, ...rest } = useGameList({
     league_id: searchParams.get('league') || initialLeagueId,
     sport_id: searchParams.get('sports') || undefined,
     round: searchParams.get('round') || undefined,
@@ -37,12 +37,12 @@ export default function GameList({ state, initialLeagueId }: GameListProps) {
     },
   );
 
-  if (!groupedGameList.length) return null;
+  if (!groupedGameList || !groupedGameList.length) return null;
 
   return (
     <>
       <div className={styles.root}>
-        {groupedGameList.map(gameList => (
+        {groupedGameList?.map(gameList => (
           <Fragment key={gameList.startTime}>
             <div className={styles.dateRow}>{gameList.startTime}</div>
             <ul className={styles.listRoot}>
