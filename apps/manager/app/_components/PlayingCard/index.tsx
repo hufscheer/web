@@ -56,9 +56,9 @@ export default function PlayingCard({ leagues }: PlayingCardProps) {
                       fullWidth
                       component={Link}
                       variant="light"
-                      href={`/report`}
+                      href={`/game/${leagueId}/${game.id}/lineup`}
                     >
-                      응원톡
+                      라인업
                     </Button>
                   </Flex>
                 </Card.Footer>
