@@ -51,7 +51,7 @@ export const roundFilterFocused = style([
 
 export const roundFilterDisabled = style({
   color: theme.colors.gray[3],
-  cursor: 'not-allowed',
+  pointerEvents: 'none',
 });
 
 export const divider = style({

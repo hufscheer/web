@@ -51,18 +51,11 @@ export default function RoundFilter({
               [styles.roundFilterDisabled]: roundValue < inProgressRound,
             })}
           >
-            {roundValue < inProgressRound ? (
-              formatRoundLabel(roundValue)
-            ) : (
-              <Link
-                href={{
-                  pathname,
-                  query: { year, league, round: roundValue },
-                }}
-              >
-                {formatRoundLabel(roundValue)}
-              </Link>
-            )}
+            <Link
+              href={{ pathname, query: { year, league, round: roundValue } }}
+            >
+              {formatRoundLabel(roundValue)}
+            </Link>
           </li>
         ))}
       </Flicking>
