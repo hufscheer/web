@@ -4,7 +4,11 @@ import { getGameTimelineById } from '@/api/game';
 
 import { useGameTeamInfo } from './useGameTeamInfo';
 
-export const useTimelineById = (gameId: string) => {
+const TIMELINE_POLLING_INTERVAL = 1000 * 60;
+export const useTimelineById = (
+  gameId: string,
+  interval = TIMELINE_POLLING_INTERVAL,
+) => {
   const { getTeamInfo } = useGameTeamInfo(gameId);
   const { error, ...rest } = useSuspenseQuery({
     queryKey: ['game-timeline', gameId],
@@ -18,6 +22,13 @@ export const useTimelineById = (gameId: string) => {
         })),
       }));
     },
+
+    // refetch options
+    refetchInterval: interval,
+    refetchOnReconnect: true,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
+    staleTime: 1000 * 60,
   });
 
   if (error) throw error;
