@@ -12,7 +12,7 @@ export default function Timeline({ gameId }: TimelineProps) {
   const { data: timelines } = useTimelineById(gameId);
 
   if (timelines.length === 0)
-    throw new NotFoundError('아직 타임라인이 등록되지 않았어요.', '4040');
+    throw new NotFoundError('아직 타임라인이 등록되지 않았어요.');
 
   return (
     <div className={styles.root}>
