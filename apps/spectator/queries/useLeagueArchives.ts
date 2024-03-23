@@ -3,12 +3,12 @@ import { useSuspenseQueries } from '@tanstack/react-query';
 import { getLeagues } from '@/api/league';
 import { LeagueType } from '@/types/league';
 
-export default function useLeagues<T extends number[]>(years: T) {
+export default function useLeagueArchives<T extends number[]>(years: T) {
   const options = years.map(year => ({
     queryKey: ['league', year],
     queryFn: () => getLeagues(year),
   }));
-  const { error, ...rest } = useSuspenseQueries({
+  const query = useSuspenseQueries({
     queries: options,
     combine: results => {
       return {
@@ -20,13 +20,14 @@ export default function useLeagues<T extends number[]>(years: T) {
     },
   });
 
-  if (error) throw error;
+  if (query.error) throw query.error;
 
   return {
-    leagues: rest.data.reduce(
+    ...query,
+    data: query.data.reduce(
       (acc, cur, index) => ({
         ...acc,
-        [years[index]]: cur?.filter(league => !league.isInProgress),
+        [years[index]]: cur,
       }),
       {} as Record<keyof T, LeagueType[]>,
     ),
