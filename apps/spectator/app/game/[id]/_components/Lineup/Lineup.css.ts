@@ -117,14 +117,28 @@ export const captain = styleVariants({
 export const errorFallback = styleVariants({
   wrapper: {
     display: 'flex',
-    minHeight: 180,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    minHeight: rem(180),
     paddingInline: theme.spaces.default,
+    backgroundColor: theme.colors.gray[2],
   },
-  span: { ...theme.textVariants.default, color: theme.colors.gray[5] },
-  button: {
+  message: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: theme.spaces.sm,
+
+    color: theme.colors.gray[5],
+    ...theme.textVariants.default,
+
+    textAlign: 'center',
+  },
+  retry: {
     ...theme.textVariants.default,
     color: theme.colors.gray[5],
     gap: theme.spaces.xs,
   },
-  icon: { aspectRatio: '1 / 1', color: theme.colors.gray[3] },
 });
