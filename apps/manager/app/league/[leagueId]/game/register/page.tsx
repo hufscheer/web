@@ -7,6 +7,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Layout from '@/components/Layout';
 import useCreateGameMutation from '@/hooks/mutations/useCreateGameMutation';
 import useLeagueTeamQuery from '@/hooks/queries/useLeagueTeamQuery';
+import { convertToServerTime } from '@/utils/time';
 
 import { GameInfoInput } from './_components/GameInfoInput';
 import TeamSelection from './_components/TeamSelection';
@@ -58,7 +59,7 @@ export default function Page() {
           ...form.values,
           sportsId: Number(values.sportsId),
           round: Number(values.round),
-          startTime: values.startTime.toISOString(),
+          startTime: convertToServerTime(values.startTime),
           teamIds: values.teamIds.map(Number),
           videoId: values.videoId || null,
         },

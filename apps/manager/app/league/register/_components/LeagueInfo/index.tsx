@@ -11,6 +11,7 @@ import {
 } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
+import dayjs from 'dayjs';
 
 import { GAMES } from '@/constants/games';
 import useCreateLeagueMutation from '@/hooks/mutations/useCreateLeagueMutation';
@@ -31,15 +32,28 @@ export default function LeagueInfo({
         name: '',
         startAt: '',
         endAt: '',
-        maxRound: 16,
+        maxRound: -1,
       },
       sportData: [],
     },
+    validate: {
+      leagueData: {
+        name: value => !value && '이름을 입력해주세요.',
+        startAt: value => !value && '시작일을 선택해주세요.',
+        endAt: (value, values) => {
+          if (!value) return '종료일을 선택해주세요.';
+          if (dayjs(value).isBefore(dayjs(values.leagueData.startAt)))
+            return '종료일은 시작일 이후여야 합니다.';
+        },
+        maxRound: value => (!value || value === -1) && '라운드를 입력해주세요.',
+      },
+      sportData: value => !value.length && '종목을 선택해주세요.',
+    },
   });
-
   const { mutate: mutateCreateLeague, isPending } = useCreateLeagueMutation();
   const handleClickButton = () => {
     if (isPending) return;
+    if (form.validate().hasErrors) return;
 
     mutateCreateLeague(form.values, {
       onSuccess: ({ leagueId }) => {
