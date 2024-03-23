@@ -6,13 +6,13 @@ import { useState } from 'react';
 
 import { useDebounce } from '@/hooks/useDebounce';
 import useCheerMutation from '@/queries/useCheerMutation';
-import { GameCheerType, GameTeamType } from '@/types/game';
+import { GameCheerType, GameTeamType, TeamDirection } from '@/types/game';
 
 import * as styles from './CheerVS.css';
 
 type CheerTeamProps = (GameCheerType & GameTeamType) & {
   gameId: string;
-  direction: 'left' | 'right';
+  direction: TeamDirection;
   fullCheerCount: number;
 };
 

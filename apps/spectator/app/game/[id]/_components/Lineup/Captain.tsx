@@ -1,8 +1,10 @@
+import { TeamDirection } from '@/types/game';
+
 import * as styles from './Lineup.css';
 
 type LineupCaptainProps = {
   isCaptain: boolean;
-  direction: 'left' | 'right';
+  direction: TeamDirection;
 };
 
 export default function LineupCaptain({
