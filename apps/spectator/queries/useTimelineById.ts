@@ -10,7 +10,7 @@ export const useTimelineById = (
   interval = TIMELINE_POLLING_INTERVAL,
 ) => {
   const { getTeamInfo } = useGameTeamInfo(gameId);
-  const { error, ...rest } = useSuspenseQuery({
+  const query = useSuspenseQuery({
     queryKey: ['game-timeline', gameId],
     queryFn: () => getGameTimelineById(gameId),
     select: data => {
@@ -31,7 +31,7 @@ export const useTimelineById = (
     staleTime: 1000 * 60,
   });
 
-  if (error) throw error;
+  if (query.error) throw query.error;
 
-  return rest;
+  return query;
 };

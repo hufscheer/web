@@ -8,14 +8,7 @@ import { useGameTeamInfo } from './useGameTeamInfo';
 export default function useCheerTalkById(gameId: string) {
   const { getTeamInfo } = useGameTeamInfo(gameId);
 
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-  } = useSuspenseInfiniteQuery({
+  const query = useSuspenseInfiniteQuery({
     queryKey: ['game-cheertalk', gameId],
     initialPageParam: 0,
     queryFn: ({ pageParam }) => getGameCheerTalkById(gameId, pageParam || ''),
@@ -35,14 +28,8 @@ export default function useCheerTalkById(gameId: string) {
     }),
   });
 
-  if (error) throw error;
+  if (query.data.pageParams.length === 0) throw query.error;
+  if (query.error) throw query.error;
 
-  return {
-    cheerTalkList: data,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    error,
-  };
+  return query;
 }

@@ -1,7 +1,7 @@
 import { Skeleton } from '@hcc/ui';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { ReactElement, Suspense } from 'react';
+import { ReactElement } from 'react';
 
 import { useLeaguesPrefetch } from '@/queries/useLeague';
 import { useLeagueTeamsPrefetch } from '@/queries/useLeagueTeams';
@@ -45,13 +45,11 @@ export default async function Page({ searchParams }: PageProps) {
       </HydrationBoundary>
 
       {GAMES.map(game => (
-        <Suspense key={game.key} fallback={game.loadingFallback}>
-          <GameList
-            key={game.key}
-            state={game.key}
-            initialLeagueId={initialLeagueId.toString()}
-          />
-        </Suspense>
+        <GameList
+          key={game.key}
+          state={game.key}
+          initialLeagueId={initialLeagueId.toString()}
+        />
       ))}
     </>
   );
