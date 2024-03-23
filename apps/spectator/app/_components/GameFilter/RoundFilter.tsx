@@ -43,22 +43,26 @@ export default function RoundFilter({
         autoResize={true}
         bound={true}
       >
-        {rounds.map((roundValue, index) => (
+        {rounds.map(roundValue => (
           <li
-            key={index}
-            className={clsx(
-              styles.roundFilterItem,
-              roundValue === currentRound && styles.roundFilterFocused,
-            )}
+            key={roundValue}
+            className={clsx(styles.roundFilterItem, {
+              [styles.roundFilterFocused]: roundValue === currentRound,
+              [styles.roundFilterDisabled]: roundValue < inProgressRound,
+            })}
           >
-            <Link
-              href={{
-                href: pathname,
-                query: { year, league, round: roundValue },
-              }}
-            >
-              {formatRoundLabel(roundValue)}
-            </Link>
+            {roundValue < inProgressRound ? (
+              formatRoundLabel(roundValue)
+            ) : (
+              <Link
+                href={{
+                  pathname,
+                  query: { year, league, round: roundValue },
+                }}
+              >
+                {formatRoundLabel(roundValue)}
+              </Link>
+            )}
           </li>
         ))}
       </Flicking>
