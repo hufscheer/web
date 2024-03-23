@@ -1,7 +1,6 @@
 import ReplacementTimeline from '@/app/game/[id]/_components/Timeline/Replacement';
 import ScoreTimeline from '@/app/game/[id]/_components/Timeline/Score';
 import { useTimelineById } from '@/queries/useTimelineById';
-import { GameRecordType, GameTimelineType } from '@/types/game';
 
 import * as styles from './Timeline.css';
 
@@ -9,28 +8,17 @@ type TimelineProps = {
   gameId: string;
 };
 
-const getLastRecord = (gameData: GameTimelineType[]): GameRecordType | null => {
-  const lastQuarterWithRecords = [...gameData]
-    .reverse()
-    .find(quarter => quarter.records.length > 0);
-  return lastQuarterWithRecords
-    ? lastQuarterWithRecords.records[lastQuarterWithRecords.records.length - 1]
-    : null;
-};
-
 export default function CheerTalkTimeline({ gameId }: TimelineProps) {
   const { data: timelines } = useTimelineById(gameId);
+  const lastRecord = timelines[0].records[0];
 
-  const record = getLastRecord(timelines);
-
-  if (!record) return null;
+  if (!lastRecord) return null;
 
   return (
     <div className={styles.wrapper}>
-      {record.type === 'SCORE' ? (
-        <ScoreTimeline key={record.recordedAt} {...record} />
-      ) : (
-        <ReplacementTimeline key={record.recordedAt} {...record} />
+      {lastRecord.type === 'SCORE' && <ScoreTimeline {...lastRecord} />}
+      {lastRecord.type === 'REPLACEMENT' && (
+        <ReplacementTimeline {...lastRecord} />
       )}
     </div>
   );
