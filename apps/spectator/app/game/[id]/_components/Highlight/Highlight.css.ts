@@ -1,7 +1,7 @@
 import { theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 
-export const video = style({
+export const highlight = style({
   width: '100%',
   marginBlock: theme.spaces.default,
   paddingInline: theme.spaces.default,

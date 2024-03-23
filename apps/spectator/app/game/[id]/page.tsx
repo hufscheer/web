@@ -12,9 +12,9 @@ import BannerFallback from './_components/Banner/Error';
 import BannerSkeleton from './_components/Banner/Skeleton';
 import CheerVS from './_components/CheerVS';
 import CheerVSFallback from './_components/CheerVS/Error';
+import Highlight from './_components/Highlight';
 import Lineup from './_components/Lineup';
 import Timeline from './_components/Timeline';
-import Video from './_components/Video';
 import useQueryValidator from './_hooks/useQueryValidator';
 import * as styles from './page.css';
 
@@ -32,7 +32,7 @@ const tabs = [
   {
     key: 'highlight',
     label: '경기 영상',
-    renderer: (gameId: string) => <Video gameId={gameId} />,
+    renderer: (gameId: string) => <Highlight gameId={gameId} />,
   },
 ];
 
