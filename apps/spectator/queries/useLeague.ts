@@ -7,7 +7,7 @@ export const LEAGUES_QUERY_KEY = 'leagues';
 export default function useLeague(year: number) {
   const { data, error } = useQuery({
     queryKey: [LEAGUES_QUERY_KEY, year],
-    queryFn: () => (year ? getLeagues(year) : null),
+    queryFn: () => getLeagues(year),
   });
 
   if (error) throw error;

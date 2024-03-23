@@ -2,7 +2,7 @@ import { Accordion } from '@hcc/ui';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 
-import useLeagues from '@/queries/useLeagues';
+import useLeagueArchives from '@/queries/useLeagueArchives';
 
 import * as styles from './LeagueList.css';
 
@@ -18,7 +18,7 @@ type LeagueListProps = {
 };
 
 export default function LeagueList({ handleClose }: LeagueListProps) {
-  const { leagues } = useLeagues<typeof YEARS_LIST>(YEARS_LIST);
+  const { data: leagues } = useLeagueArchives<typeof YEARS_LIST>(YEARS_LIST);
 
   return (
     <>
