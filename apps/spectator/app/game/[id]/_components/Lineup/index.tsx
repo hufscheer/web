@@ -9,19 +9,31 @@ type LineupProps = {
 };
 
 export default function Lineup({ gameId }: LineupProps) {
-  const {
-    data: [firstTeam, secondTeam],
-  } = useGameLineupById(gameId);
+  const { data: lineups } = useGameLineupById(gameId);
+  const [firstTeam, secondTeam] = lineups;
 
   return (
     <div className={styles.lineup.root}>
       <div className={styles.lineup.split}>
-        <LineupTeam team={firstTeam.info} />
-        <LineupPlayerList lineup={firstTeam.lineup} whichSide="blue" />
+        <LineupTeam
+          gameTeamName={firstTeam.teamName}
+          logoImageUrl={firstTeam.logoImageUrl}
+        />
+        <LineupPlayerList
+          lineup={firstTeam.gameTeamPlayers}
+          direction={firstTeam.direction}
+        />
       </div>
+
       <div className={styles.lineup.split}>
-        <LineupTeam team={secondTeam.info} />
-        <LineupPlayerList lineup={secondTeam.lineup} whichSide="red" />
+        <LineupTeam
+          gameTeamName={secondTeam.teamName}
+          logoImageUrl={secondTeam.logoImageUrl}
+        />
+        <LineupPlayerList
+          lineup={secondTeam.gameTeamPlayers}
+          direction={secondTeam.direction}
+        />
       </div>
     </div>
   );
