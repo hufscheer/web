@@ -53,3 +53,7 @@ export const item = styleVariants({
   ],
   inactive: [panelItemBase],
 });
+
+export const loader = style({
+  padding: 0,
+});
