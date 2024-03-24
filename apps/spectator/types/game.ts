@@ -1,3 +1,5 @@
+import { GAME_STATE } from '@/constants/configs';
+
 export interface GameListType extends GameType {
   id: number;
 }
@@ -18,6 +20,7 @@ export interface GameType {
   gameQuarter: string;
   gameName: string;
   sportsName: string;
+  videoId?: string;
 }
 
 export type GameTeamType = {
@@ -40,8 +43,10 @@ type Snapshot = {
   teamImageUrl: string;
 };
 
+export type TeamDirection = 'left' | 'right';
+
 type CommonRecordType = {
-  direction: 'left' | 'right';
+  direction: TeamDirection;
   recordedAt: number;
   gameTeamId: number;
   playerName: string;
@@ -90,7 +95,7 @@ export type GameCheerTalkType = {
 };
 
 export type GameCheerTalkWithTeamInfo = GameCheerTalkType & {
-  direction: 'left' | 'right';
+  direction: TeamDirection;
   logoImageUrl: string;
 };
 
@@ -103,10 +108,4 @@ export type GameVideoType = {
   videoId: string;
 };
 
-export type GameState = 'playing' | 'scheduled' | 'finished';
-
-export const GameStateString = {
-  playing: '진행 중',
-  scheduled: '예정',
-  finished: '종료',
-} as const;
+export type GameState = (typeof GAME_STATE)[keyof typeof GAME_STATE];

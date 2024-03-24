@@ -3,6 +3,7 @@ import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { ReactElement } from 'react';
 
+import { GAME_STATE } from '@/constants/configs';
 import { useLeaguesPrefetch } from '@/queries/useLeague';
 import { useLeagueTeamsPrefetch } from '@/queries/useLeagueTeams';
 import { useSportsPrefetch } from '@/queries/useSports';
@@ -62,15 +63,15 @@ type Games = {
 
 const GAMES: Games[] = [
   {
-    key: 'playing',
+    key: GAME_STATE.PLAYING,
     loadingFallback: <Skeleton />,
   },
   {
-    key: 'scheduled',
+    key: GAME_STATE.SCHEDULED,
     loadingFallback: <Skeleton />,
   },
   {
-    key: 'finished',
+    key: GAME_STATE.FINISHED,
     loadingFallback: <Skeleton />,
   },
 ];

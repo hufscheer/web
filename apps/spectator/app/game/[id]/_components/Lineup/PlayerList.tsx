@@ -1,11 +1,11 @@
-import { GamePlayerType } from '@/types/game';
+import { GamePlayerType, TeamDirection } from '@/types/game';
 
 import LineupCaptain from './Captain';
 import * as styles from './Lineup.css';
 
 type PlayerProps = {
   lineup: GamePlayerType[];
-  direction: 'left' | 'right';
+  direction: TeamDirection;
 };
 
 export default function LineupPlayerList({ lineup, direction }: PlayerProps) {

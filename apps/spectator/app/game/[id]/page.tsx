@@ -7,6 +7,7 @@ import CheerTalk from '@/app/game/[id]/_components/CheerTalk';
 import AsyncBoundary from '@/components/AsyncBoundary';
 import { FallbackProps } from '@/components/ErrorBoundary';
 import Loader from '@/components/Loader';
+import { TABS_CONFIG } from '@/constants/configs';
 
 import Banner from './_components/Banner';
 import BannerFallback from './_components/Banner/Error';
@@ -25,19 +26,19 @@ import * as styles from './page.css';
 
 const tabs = [
   {
-    key: 'lineup',
+    key: TABS_CONFIG.LINEUP,
     label: '라인업',
     errorUI: (props: FallbackProps) => <LineupFallback {...props} />,
     renderer: (gameId: string) => <Lineup gameId={gameId} />,
   },
   {
-    key: 'timeline',
+    key: TABS_CONFIG.TIMELINE,
     label: '타임라인',
     errorUI: (props: FallbackProps) => <TimelineFallback {...props} />,
     renderer: (gameId: string) => <Timeline gameId={gameId} />,
   },
   {
-    key: 'highlight',
+    key: TABS_CONFIG.HIGHLIGHT,
     label: '경기 영상',
     errorUI: (props: FallbackProps) => <HighlightFallback {...props} />,
     renderer: (gameId: string) => <Highlight gameId={gameId} />,
