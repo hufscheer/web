@@ -3,8 +3,9 @@ import { Icon } from '@hcc/ui';
 import { useMemo } from 'react';
 
 import Card from '@/components/Card';
-import useBlockReportMutation from '@/hooks/mutations/useBlockReportMutation';
-import useRestoreReportMutation from '@/hooks/mutations/useRestoreReportMutation';
+import useCreateReportBlockMutation from '@/hooks/mutations/useCreateReportBlockMutation';
+import useCreateReportUnPendingMutation from '@/hooks/mutations/useCreateReportUnPendingMutation';
+import useUpdateCheerTalkUnblockMutation from '@/hooks/mutations/useUpdateCheerTalkUnblockMutation';
 import useReportsQuery from '@/hooks/queries/useReportsQuery';
 
 import * as styles from './CardList.css';
@@ -17,23 +18,32 @@ type CardListProps = {
 
 export default function CardList({ type, caption }: CardListProps) {
   const { data: reports, refetch } = useReportsQuery();
-  const { mutate: blockReportMutation } = useBlockReportMutation();
-  const { mutate: restoreReportMutation } = useRestoreReportMutation();
+  const { mutate: createReportBlockMutation } = useCreateReportBlockMutation();
+  const { mutate: createReportUnPendingMutation } =
+    useCreateReportUnPendingMutation();
+  const { mutate: updateCheerTalkUnblockMutation } =
+    useUpdateCheerTalkUnblockMutation();
 
   const reportList = useMemo(
     () => (type === 'pending' ? reports?.pending : reports?.isBlocked),
     [type, reports],
   );
 
-  const handleBlock = async (cheerTalkId: number) => {
-    blockReportMutation({ cheerTalkId }, { onSuccess: () => refetch() });
+  const handleBlock = async (reportId: number) => {
+    createReportBlockMutation({ reportId }, { onSuccess: () => refetch() });
   };
 
   const handleRestore = async (id: number) => {
     if (type === 'pending') {
-      restoreReportMutation({ reportId: id }, { onSuccess: () => refetch() });
+      createReportUnPendingMutation(
+        { reportId: id },
+        { onSuccess: () => refetch() },
+      );
     } else {
-      blockReportMutation({ cheerTalkId: id }, { onSuccess: () => refetch() });
+      updateCheerTalkUnblockMutation(
+        { cheerTalkId: id },
+        { onSuccess: () => refetch() },
+      );
     }
   };
 
@@ -78,7 +88,7 @@ export default function CardList({ type, caption }: CardListProps) {
                       <MenuModal
                         type="block"
                         content={content}
-                        onPositiveClick={() => handleBlock(cheerTalkId)}
+                        onPositiveClick={() => handleBlock(reportId)}
                       >
                         <Icon source={HoldIcon} size="xs" color="error" />
                       </MenuModal>
