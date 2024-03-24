@@ -1,7 +1,7 @@
 import { rem, theme } from '@hcc/styles';
 import { style, styleVariants } from '@vanilla-extract/css';
 
-import { skeletonAnimation } from '@/styles/animations';
+import { skeletonAnimation } from '@/styles/animations.css';
 
 export const root = style({
   display: 'grid',
