@@ -55,5 +55,6 @@ export const item = styleVariants({
 });
 
 export const loader = style({
+  height: rem(30),
   padding: 0,
 });

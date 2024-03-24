@@ -1,5 +1,7 @@
-import { theme } from '@hcc/styles';
-import { style } from '@vanilla-extract/css';
+import { rem, theme } from '@hcc/styles';
+import { style, styleVariants } from '@vanilla-extract/css';
+
+import { skeletonAnimation } from '@/styles/animations.css';
 
 export const yearList = style({
   display: 'flex',
@@ -32,4 +34,40 @@ export const leagueItem = style({
       color: theme.colors.gray[4],
     },
   },
+});
+
+export const skeleton = styleVariants({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  list: {
+    display: 'flex',
+    flexDirection: 'column',
+
+    marginBottom: rem(20),
+  },
+  title: [
+    skeletonAnimation,
+    {
+      width: '100%',
+      height: rem(20),
+      marginBottom: theme.spaces.xs,
+
+      borderRadius: rem(4),
+      backgroundColor: theme.colors.gray[2],
+    },
+  ],
+  description: [
+    skeletonAnimation,
+    {
+      width: '80%',
+      height: rem(19),
+      marginBlock: theme.spaces.xxs,
+      marginLeft: theme.spaces.xs,
+
+      borderRadius: rem(4),
+      backgroundColor: theme.colors.gray[2],
+    },
+  ],
 });

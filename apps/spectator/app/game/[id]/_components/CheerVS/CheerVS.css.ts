@@ -1,6 +1,8 @@
-import { theme } from '@hcc/styles';
+import { rem, theme } from '@hcc/styles';
 import { createVar, style, styleVariants } from '@vanilla-extract/css';
 import { calc } from '@vanilla-extract/css-utils';
+
+import { skeletonAnimation } from '@/styles/animations.css';
 
 export const root = style({
   display: 'flex',
@@ -65,6 +67,8 @@ export const cheerTeam = styleVariants({
 export const empty = style({
   position: 'relative',
   width: 8,
+
+  zIndex: 10,
 });
 
 export const vs = style({
@@ -83,4 +87,35 @@ export const vs = style({
 
   fontSize: theme.textVariants.sm.fontSize,
   fontWeight: 'bold',
+});
+
+export const skeleton = styleVariants({
+  root: [
+    root,
+    {
+      height: rem(90),
+      gap: theme.spaces.xxs,
+    },
+  ],
+  box: [
+    box,
+    skeletonAnimation,
+    {
+      height: '100%',
+      width: '100%',
+      backgroundColor: theme.colors.gray[2],
+    },
+  ],
+  empty: [
+    empty,
+    {
+      width: 0,
+    },
+  ],
+  vs: [
+    vs,
+    {
+      left: 0,
+    },
+  ],
 });

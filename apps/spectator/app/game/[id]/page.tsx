@@ -15,6 +15,7 @@ import BannerSkeleton from './_components/Banner/Skeleton';
 import CheerTalkFallback from './_components/CheerTalk/Fallback';
 import CheerVS from './_components/CheerVS';
 import CheerVSFallback from './_components/CheerVS/Error';
+import CheerVSSkeleton from './_components/CheerVS/Skeleton';
 import Highlight from './_components/Highlight';
 import HighlightFallback from './_components/Highlight/Fallback';
 import Lineup from './_components/Lineup';
@@ -63,7 +64,7 @@ export default function Page({ params }: { params: { id: string } }) {
 
       <AsyncBoundary
         errorFallback={() => <CheerVSFallback />}
-        loadingFallback={<Loader />}
+        loadingFallback={<CheerVSSkeleton />}
       >
         <CheerVS gameId={params.id} />
       </AsyncBoundary>
