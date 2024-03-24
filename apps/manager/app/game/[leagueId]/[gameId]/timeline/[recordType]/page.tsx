@@ -6,7 +6,6 @@ import { Icon } from '@hcc/ui';
 import { Button, Flex, Select, Text, TextInput } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
-// import { Dayjs } from 'dayjs';
 import { useRouter } from 'next/navigation';
 import { FormEvent } from 'react';
 
