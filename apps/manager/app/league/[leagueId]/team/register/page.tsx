@@ -56,7 +56,7 @@ export default function Page() {
             { teamId: r.teamIds[0], payload: values.players },
             {
               onSuccess: () => {
-                router.push(`/league/${leagueId}/team`);
+                router.back();
               },
             },
           );

@@ -65,6 +65,12 @@ export const updateLeagueTeam = async (teamId: string, payload: FormData) => {
   return data;
 };
 
+export const deleteLeagueTeam = async (teamId: string) => {
+  const { data } = await instance.delete(`/league-teams/${teamId}/delete/`);
+
+  return data;
+};
+
 export const getLeagueTeamPlayers = async (teamId: string) => {
   const { data } = await instance.get<LeaguePlayerWithIDPayload[]>(
     `/league-teams/${teamId}/player/all/`,
