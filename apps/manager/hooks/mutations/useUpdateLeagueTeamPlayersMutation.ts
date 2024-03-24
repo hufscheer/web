@@ -8,15 +8,9 @@ export default function useUpdateLeagueTeamPlayersMutation() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (variables: {
-      teamId: string;
       teamPlayerId: string;
       payload: LeaguePlayerPayload;
-    }) =>
-      updateLeagueTeamPlayers(
-        variables.teamId,
-        variables.teamPlayerId,
-        variables.payload,
-      ),
+    }) => updateLeagueTeamPlayers(variables.teamPlayerId, variables.payload),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [LEAGUE_TEAM_PLAYERS_QUERY_KEY],

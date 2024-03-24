@@ -88,12 +88,11 @@ export const getPlayersByTeamId = async (teamId: string) => {
 };
 
 export const updateLeagueTeamPlayers = async (
-  teamId: string,
   teamPlayerId: string,
   payload: LeaguePlayerPayload,
 ) => {
   const { data } = await instance.put(
-    `/league-teams/${teamId}/player/${teamPlayerId}/`,
+    `/league-teams/player/${teamPlayerId}/`,
     payload,
   );
 

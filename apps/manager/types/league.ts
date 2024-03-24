@@ -44,10 +44,9 @@ export type LeagueRegisterDataType = {
 export type LeaguePlayerPayload = {
   name: string;
   description: string | null;
-  playerNumber: number | null;
+  number: number | null;
 };
 
 export type LeaguePlayerWithIDPayload = LeaguePlayerPayload & {
   id: number;
-  number?: number;
 };
