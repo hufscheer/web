@@ -31,6 +31,10 @@ export const logo = style({
 
 export const teamName = style({
   fontWeight: 'bold',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  maxWidth: rem(60),
 });
 
 export const scoreBoard = style({
