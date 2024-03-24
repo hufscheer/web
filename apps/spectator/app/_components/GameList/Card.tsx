@@ -12,7 +12,7 @@ type GameCardProps = {
 };
 
 export default function GameCard({ info, state }: GameCardProps) {
-  const { id, gameTeams, gameName, startTime } = info;
+  const { id, gameTeams, gameName, startTime, videoId } = info;
 
   return (
     <li className={styles.cardRoot[state]}>
@@ -20,7 +20,7 @@ export default function GameCard({ info, state }: GameCardProps) {
 
       <div className={styles.gameContentArea}>
         <GameInfo gameTeams={gameTeams} gameId={id} state={state} />
-        <GameButton id={id} state={state} />
+        <GameButton id={id} state={state} hasVideo={!!videoId} />
       </div>
     </li>
   );

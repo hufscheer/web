@@ -8,9 +8,10 @@ import * as styles from './GameList.css';
 type GameButtonProps = {
   id: number;
   state: GameState;
+  hasVideo: boolean;
 };
 
-export default function GameButton({ id, state }: GameButtonProps) {
+export default function GameButton({ id, state, hasVideo }: GameButtonProps) {
   if (state === GAME_STATE.SCHEDULED) {
     return null;
   }
@@ -25,7 +26,7 @@ export default function GameButton({ id, state }: GameButtonProps) {
           응원
         </Link>
       )}
-      {state === GAME_STATE.FINISHED && (
+      {state === GAME_STATE.FINISHED && hasVideo && (
         <Link
           href={{
             pathname: `/game/${id}`,

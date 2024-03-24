@@ -20,6 +20,7 @@ export interface GameType {
   gameQuarter: string;
   gameName: string;
   sportsName: string;
+  videoId?: string;
 }
 
 export type GameTeamType = {
