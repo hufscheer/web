@@ -16,7 +16,7 @@ export default function LeagueTeamPlayers({
 }: LeagueTeamPlayersProps) {
   const form = useForm({
     initialValues: {
-      players: [{ name: '', description: null, playerNumber: null }],
+      players: [{ name: '', description: null, number: null }],
     },
     validate: {
       players: {
@@ -29,7 +29,7 @@ export default function LeagueTeamPlayers({
     form.insertListItem('players', {
       name: '',
       description: null,
-      playerNumber: null,
+      number: null,
     });
   };
 
@@ -68,7 +68,7 @@ export default function LeagueTeamPlayers({
             <Grid.Col span={3}>
               <TextInput
                 type="number"
-                {...form.getInputProps(`players.${index}.playerNumber`)}
+                {...form.getInputProps(`players.${index}.number`)}
                 placeholder="번호"
               />
             </Grid.Col>
