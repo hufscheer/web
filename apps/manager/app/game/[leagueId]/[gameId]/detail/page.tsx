@@ -40,6 +40,18 @@ export default function GameDetail() {
       gameQuarter: '',
       state: 'PENDING',
     },
+    validate: {
+      sportsId: value => !value && '종목을 선택해주세요.',
+      startTime: value => !value && '시작 시간을 선택해주세요.',
+      gameName: value => !value && '게임명을 입력해주세요.',
+      round: value => !value && '라운드를 입력해주세요.',
+      gameQuarter: value => !value && '쿼터를 입력해주세요.',
+      state: value => !value && '상태를 선택해주세요.',
+      videoId: value =>
+        value.length !== 0 &&
+        !value.startsWith('https://youtube.com/') &&
+        '유튜브 전체 URL을 입력해주세요.',
+    },
   });
 
   useEffect(() => {
@@ -64,6 +76,9 @@ export default function GameDetail() {
 
     if (edit) {
       const values = form.values;
+
+      if (form.validate().hasErrors) return;
+
       const payload: GameUpdatePayload = {
         sportsId: Number(values.sportsId),
         gameName: values.gameName,
@@ -127,9 +142,10 @@ export default function GameDetail() {
             disabled={!edit}
             {...form.getInputProps('state')}
           />
-          <TextInput
+          <Select
             label="쿼터"
             disabled={!edit}
+            data={GAMES.QUARTER}
             {...form.getInputProps('gameQuarter')}
           />
           <DateTimePicker
