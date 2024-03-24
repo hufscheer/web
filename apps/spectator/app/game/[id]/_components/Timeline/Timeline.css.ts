@@ -10,7 +10,8 @@ export const root = style({
 });
 
 export const title = style({
-  ...theme.textVariants.lg,
+  ...theme.textVariants.default,
+  fontWeight: 700,
   marginTop: theme.spaces.default,
 });
 
@@ -41,6 +42,7 @@ export const timestampBase = style({
   borderRadius: '50%',
   border: `1px solid ${theme.colors.gray[3]}`,
   padding: rem(4),
+  ...theme.textVariants.xs,
 });
 
 export const timestamp = styleVariants({
@@ -67,12 +69,13 @@ export const content = styleVariants({
     gap: theme.spaces.xxs,
   },
   title: {
-    fontSize: theme.textVariants.sm.fontSize,
-    fontWeight: '600',
-  },
-  description: {
     fontSize: theme.textVariants.xs.fontSize,
-    color: theme.colors.gray[4],
+  },
+  descriptionArea: {
+    fontSize: theme.textVariants.xxs.fontSize,
+  },
+  scoreArea: {
+    marginInline: theme.spaces.xxs,
   },
 });
 

@@ -20,7 +20,7 @@ export default function ReplacementTimeline({
         <Icon source={SwitchIcon} />
         <div className={styles.content.wrapper}>
           <span className={styles.content.title}>{teamName} 선수 교체</span>
-          <span className={styles.content.description}>
+          <span className={styles.content.descriptionArea}>
             {playerName} out {replacementRecord?.replacedPlayerName} in
           </span>
         </div>
