@@ -17,8 +17,14 @@ const STATE = [
   { value: 'FINISHED', label: '종료' },
 ];
 
+const QUARTER = [
+  { value: '전반전', label: '전반전' },
+  { value: '후반전', label: '후반전' },
+];
+
 export const GAMES = {
   ROUND,
   SPORTS,
   STATE,
+  QUARTER,
 };
