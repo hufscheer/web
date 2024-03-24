@@ -15,14 +15,19 @@ import * as styles from './GameList.css';
 type GameListProps = {
   state: GameState;
   initialLeagueId: string;
+  initialRound: number;
 };
 
-export default function GameList({ state, initialLeagueId }: GameListProps) {
+export default function GameList({
+  state,
+  initialLeagueId,
+  initialRound,
+}: GameListProps) {
   const searchParams = useSearchParams();
   const { data: groupedGameList, ...rest } = useGameList({
     league_id: searchParams.get('league') || initialLeagueId,
     sport_id: searchParams.get('sports') || undefined,
-    round: searchParams.get('round') || undefined,
+    round: searchParams.get('round') || initialRound.toString(),
     league_team_id: searchParams.get('leagueTeam') || undefined,
     state,
   });
