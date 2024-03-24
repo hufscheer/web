@@ -6,7 +6,6 @@ import { Icon } from '@hcc/ui';
 import { Button, Flex, Select, Text, TextInput } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
-import dayjs, { Dayjs } from 'dayjs';
 import { useRouter } from 'next/navigation';
 import { FormEvent } from 'react';
 
@@ -24,7 +23,7 @@ import { recordMap } from '../_utils/recordType';
 export type TForm = {
   recordType: LowerRecordType;
   gameTeamId: string;
-  recordedAt: Dayjs;
+  recordedAt: Date;
   recordedQuarterId: string;
   scoreLineupPlayerId: string;
   score: number;
@@ -52,7 +51,7 @@ export default function Page({ params }: PageProps) {
     initialValues: {
       recordType: recordType,
       gameTeamId: '',
-      recordedAt: dayjs(),
+      recordedAt: new Date(),
       recordedQuarterId: '',
 
       scoreLineupPlayerId: '',
@@ -161,6 +160,7 @@ export default function Page({ params }: PageProps) {
             placeholder="시간"
             locale="ko"
             valueFormat="YYYY.MM.DD A HH:mm"
+            defaultValue={new Date()}
             rightSection={<Icon source={ClockIcon} size="sm" color="gray" />}
             {...form.getInputProps('recordedAt')}
           />
