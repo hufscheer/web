@@ -2,7 +2,8 @@ import { rem, theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 
 export const root = style({
-  display: 'flex',
+  display: 'grid',
+  gridTemplateColumns: 'repeat(3, 1fr)',
   justifyContent: 'space-between',
   alignItems: 'baseline',
   gap: rem(20),
@@ -11,6 +12,8 @@ export const root = style({
   padding: `${theme.spaces.sm} ${theme.spaces.default}`,
 
   backgroundColor: theme.colors.background.secondary,
+
+  ...theme.textVariants.xs,
 });
 
 export const team = style({
@@ -27,7 +30,6 @@ export const logo = style({
 });
 
 export const teamName = style({
-  ...theme.textVariants.xs,
   fontWeight: 'bold',
 });
 
@@ -53,7 +55,6 @@ export const gameInfo = style({
 });
 
 export const badge = style({
-  ...theme.textVariants.sm,
   color: theme.colors.white,
   backgroundColor: theme.colors.primary[3],
 
@@ -65,10 +66,10 @@ export const badge = style({
 });
 
 export const round = style({
-  ...theme.textVariants.sm,
+  marginBottom: theme.spaces.xxs,
 });
 
 export const time = style({
-  ...theme.textVariants.sm,
   color: theme.colors.gray[4],
+  whiteSpace: 'nowrap',
 });

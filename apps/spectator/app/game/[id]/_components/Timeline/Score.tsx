@@ -18,20 +18,22 @@ export default function ScoreTimeline({
     <li key={recordedAt} className={styles.timeline}>
       <div className={styles.timestamp[direction]}>{recordedAt}′</div>
       <div className={styles.rightSide}>
-        <Icon source={SoccerIcon} />
+        <Icon source={SoccerIcon} size="sm" />
         <div className={styles.content.wrapper}>
           <span className={styles.content.title}>{playerName} 선수 GOAL!</span>
-          <span className={styles.content.description}>
+          <div className={styles.content.descriptionArea}>
             {scoreRecord?.snapshot[0].teamName}
-            {scoreRecord?.snapshot[0].score} : {scoreRecord?.snapshot[1].score}
+            <span className={styles.content.scoreArea}>
+              {`${scoreRecord?.snapshot[0].score} : ${scoreRecord?.snapshot[1].score}`}
+            </span>
             {scoreRecord?.snapshot[1].teamName}
-          </span>
+          </div>
         </div>
         <Image
           src={teamImageUrl}
           alt={`${teamName} 로고`}
-          width={24}
-          height={24}
+          width={16}
+          height={16}
           loading="lazy"
         />
       </div>

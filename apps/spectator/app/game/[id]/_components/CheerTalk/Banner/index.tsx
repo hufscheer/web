@@ -13,18 +13,25 @@ export default function CheerTalkBanner({ gameId }: BannerProps) {
 
   return (
     <div className={styles.banner.wrapper}>
-      <span className={styles.banner.teamName}>{firstTeam.gameTeamName}</span>
-      <span className={styles.banner.teamScore}>{firstTeam.score}</span>
-      <span className={styles.banner.gameQuarterContainer}>
-        <span className={styles.banner.gameQuarter}>
-          {gameDetail.gameQuarter}
-        </span>
-        <span className={styles.banner.gameStartTime}>
-          {formatTime(gameDetail.startTime, 'hh:mm')}
-        </span>
+      <span className={styles.banner.firstTeamName}>
+        {firstTeam.gameTeamName}
       </span>
-      <span className={styles.banner.teamScore}>{secondTeam.score}</span>
-      <span className={styles.banner.teamName}>{secondTeam.gameTeamName}</span>
+      <div className={styles.banner.gameInfoArea}>
+        <span className={styles.banner.teamScore}>{firstTeam.score}</span>
+        <div className={styles.banner.gameQuarterContainer}>
+          <span className={styles.banner.gameQuarter}>
+            {gameDetail.gameQuarter}
+          </span>
+          <span className={styles.banner.gameStartTime}>
+            {formatTime(gameDetail.startTime, 'hh:mm')}
+          </span>
+        </div>
+        <span className={styles.banner.teamScore}>{secondTeam.score}</span>
+      </div>
+
+      <span className={styles.banner.secondTeamName}>
+        {secondTeam.gameTeamName}
+      </span>
     </div>
   );
 }

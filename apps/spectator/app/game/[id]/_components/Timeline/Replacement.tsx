@@ -17,18 +17,18 @@ export default function ReplacementTimeline({
     <li key={recordedAt} className={styles.timeline}>
       <div className={styles.timestampBase}>{recordedAt}′</div>
       <div className={styles.rightSide}>
-        <Icon source={SwitchIcon} />
+        <Icon source={SwitchIcon} size="sm" />
         <div className={styles.content.wrapper}>
           <span className={styles.content.title}>{teamName} 선수 교체</span>
-          <span className={styles.content.description}>
+          <span className={styles.content.descriptionArea}>
             {playerName} out {replacementRecord?.replacedPlayerName} in
           </span>
         </div>
         <Image
           src={teamImageUrl}
           alt={`${teamName} 로고`}
-          width={24}
-          height={24}
+          width={16}
+          height={16}
           loading="lazy"
         />
       </div>
