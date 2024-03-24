@@ -5,6 +5,7 @@ export const entryContainer = style({
   position: 'fixed',
   bottom: rem(16),
   right: rem(16),
+  zIndex: 100,
 });
 
 export const entryButtonContent = style({
