@@ -49,6 +49,19 @@ export default function LineupEdit({ params }: PageProps) {
     );
   };
 
+  const handleButtonRemoveAll = () => {
+    setSelectedPlayers([]);
+  };
+
+  const handleButtonAddAll = () => {
+    setSelectedPlayers(
+      players?.map(player => ({
+        ...player,
+        isCaptain: false,
+      })) as PlayerWithCaptain[],
+    );
+  };
+
   const handleSave = () => {
     if (isPending) return;
     if (!selectedPlayers.length) return alert('선발 선수를 선택해주세요.');
@@ -83,9 +96,18 @@ export default function LineupEdit({ params }: PageProps) {
 
   return (
     <Layout navigationTitle={'라인업 등록'} navigationMenu={<SaveButton />}>
-      <Text c="gray" mb="xs">
-        선발
-      </Text>
+      <Flex mt="xl" mb="xs" justify="space-between" align="center">
+        <Text c="gray">선발</Text>
+        <Button
+          onClick={handleButtonRemoveAll}
+          variant="light"
+          color="red"
+          size="xs"
+          fz={14}
+        >
+          전체 제거
+        </Button>
+      </Flex>
       <ul>
         {!selectedPlayers.length ? (
           <Flex
@@ -113,9 +135,12 @@ export default function LineupEdit({ params }: PageProps) {
         )}
       </ul>
 
-      <Text c="gray" mt="xl" mb="xs">
-        후보
-      </Text>
+      <Flex mt="xl" mb="xs" justify="space-between" align="center">
+        <Text c="gray">후보</Text>
+        <Button onClick={handleButtonAddAll} variant="light" size="xs" fz={14}>
+          전체 등록
+        </Button>
+      </Flex>
       <ul>
         {players?.map(player => {
           if (selectedPlayers.find(p => p.id === player.id)) return null;
