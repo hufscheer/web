@@ -103,13 +103,7 @@ export const createLeaguePlayers = async (
   teamId: number,
   payload: LeaguePlayerPayload[],
 ) => {
-  await instance.post(
-    `/league-teams/${teamId}/player/`,
-    payload.map(({ playerNumber, ...player }) => ({
-      ...player,
-      number: playerNumber,
-    })),
-  );
+  await instance.post(`/league-teams/${teamId}/player/`, payload);
 };
 
 export const deleteLeague = async (body: DeleteLeaguePayload) => {
