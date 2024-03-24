@@ -67,6 +67,8 @@ export const cheerTeam = styleVariants({
 export const empty = style({
   position: 'relative',
   width: 8,
+
+  zIndex: 10,
 });
 
 export const vs = style({
