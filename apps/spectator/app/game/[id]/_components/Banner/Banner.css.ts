@@ -1,5 +1,5 @@
 import { rem, theme } from '@hcc/styles';
-import { style } from '@vanilla-extract/css';
+import { style, styleVariants } from '@vanilla-extract/css';
 
 export const root = style({
   display: 'grid',
@@ -34,7 +34,8 @@ export const teamName = style({
 });
 
 export const scoreBoard = style({
-  display: 'flex',
+  display: 'grid',
+  gridTemplateColumns: 'repeat(3, 1fr)',
   gap: theme.spaces.lg,
   alignItems: 'center',
   justifyContent: 'center',
@@ -72,4 +73,38 @@ export const round = style({
 export const time = style({
   color: theme.colors.gray[4],
   whiteSpace: 'nowrap',
+});
+
+export const skeleton = styleVariants({
+  root: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1.5fr 1fr',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: rem(20),
+
+    width: '100%',
+    minHeight: rem(95),
+    padding: `${theme.spaces.sm} ${theme.spaces.default}`,
+    backgroundColor: theme.colors.background.secondary,
+  },
+  box: {
+    justifySelf: 'center',
+
+    height: '100%',
+    width: '60%',
+    backgroundColor: theme.colors.gray[2],
+    borderRadius: rem(8),
+  },
+  center: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: rem(8),
+  },
+  line: {
+    backgroundColor: theme.colors.gray[2],
+    borderRadius: rem(8),
+  },
 });
