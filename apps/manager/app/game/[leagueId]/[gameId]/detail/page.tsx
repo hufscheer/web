@@ -13,10 +13,9 @@ import useGameTeamsQuery from '@/hooks/queries/useGameTeamsQuery';
 import { GameUpdatePayload } from '@/types/game';
 import { convertToServerTime } from '@/utils/time';
 
-const YOUTUBE_BASE_URL_LIST = [
-  process.env.NEXT_PUBLIC_YOUTUBE_SHARED_URL,
-  process.env.NEXT_PUBLIC_YOUTUBE_DEFAULT_URL,
-] as string[];
+const SHARED_URL = process.env.NEXT_PUBLIC_YOUTUBE_SHARED_URL;
+const DEFAULT_URL = process.env.NEXT_PUBLIC_YOUTUBE_DEFAULT_URL;
+const YOUTUBE_BASE_URL_LIST = [SHARED_URL, DEFAULT_URL] as string[];
 
 export default function GameDetail() {
   const params = useParams();
@@ -64,7 +63,7 @@ export default function GameDetail() {
       form.setValues({
         sportsId: String(game.sports.sportsId),
         gameName: game.gameName,
-        videoId: game.videoId || '',
+        videoId: `${SHARED_URL}/${game?.videoId}`,
         round: String(game.round),
         startTime: new Date(game.startTime),
         gameQuarter: game.gameQuarter,
