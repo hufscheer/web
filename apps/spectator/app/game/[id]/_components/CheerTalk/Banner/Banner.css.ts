@@ -1,26 +1,49 @@
 import { rem, theme } from '@hcc/styles';
-import { styleVariants } from '@vanilla-extract/css';
+import { style, styleVariants } from '@vanilla-extract/css';
+
+const teamNameBase = style({
+  ...theme.textVariants.xs,
+  color: '#000000',
+  fontWeight: 500,
+  maxWidth: rem(100),
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
 
 export const banner = styleVariants({
   wrapper: {
     position: 'relative',
-    display: 'flex',
-    flexShrink: 0,
-    justifyContent: 'center',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    justifyItems: 'center',
     alignItems: 'center',
     paddingBlock: theme.spaces.xxs,
     backgroundColor: theme.colors.gray[2],
     gap: theme.spaces.default,
   },
-  teamName: {
-    ...theme.textVariants.xs,
-    color: '#000000',
-    fontWeight: 500,
-  },
+  firstTeamName: [
+    teamNameBase,
+    {
+      justifySelf: 'flex-end',
+    },
+  ],
+  secondTeamName: [
+    teamNameBase,
+    {
+      justifySelf: 'flex-start',
+    },
+  ],
   teamScore: {
     color: '#000000',
     fontSize: rem(36),
     fontWeight: 'bold',
+  },
+  gameInfoArea: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: theme.spaces.default,
   },
   gameQuarterContainer: {
     display: 'flex',
