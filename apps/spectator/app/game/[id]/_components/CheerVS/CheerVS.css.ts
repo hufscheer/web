@@ -1,4 +1,4 @@
-import { theme } from '@hcc/styles';
+import { rem, theme } from '@hcc/styles';
 import { createVar, style, styleVariants } from '@vanilla-extract/css';
 import { calc } from '@vanilla-extract/css-utils';
 
@@ -83,4 +83,34 @@ export const vs = style({
 
   fontSize: theme.textVariants.sm.fontSize,
   fontWeight: 'bold',
+});
+
+export const skeleton = styleVariants({
+  root: [
+    root,
+    {
+      height: rem(90),
+      gap: theme.spaces.xxs,
+    },
+  ],
+  box: [
+    box,
+    {
+      height: '100%',
+      width: '100%',
+      backgroundColor: theme.colors.gray[2],
+    },
+  ],
+  empty: [
+    empty,
+    {
+      width: 0,
+    },
+  ],
+  vs: [
+    vs,
+    {
+      left: 0,
+    },
+  ],
 });
