@@ -18,15 +18,19 @@ export default function Page() {
   const params = useParams();
   const leagueId = params.leagueId as string;
 
-  const { data: leagueTeams } = useLeagueTeamQuery(leagueId);
+  const { data: leagueTeams, refetch } = useLeagueTeamQuery(leagueId);
 
   if (!leagueTeams) return null;
 
-  const handleClickCard = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleClickCard = async (
+    e: MouseEvent<HTMLButtonElement>,
+    teamId: number,
+  ) => {
     if (!edit) return;
 
     e.preventDefault();
-    alert('팀 삭제 API');
+    alert(teamId);
+    await refetch();
   };
 
   const handleClickMenuButton = () => {
@@ -58,7 +62,7 @@ export default function Page() {
                 <Card.Title text="semibold" style={{ flex: 1 }}>
                   {team.name}
                 </Card.Title>
-                <Card.Action onClick={handleClickCard}>
+                <Card.Action onClick={e => handleClickCard(e, team.id)}>
                   <LeagueTeamActionIcon edit={edit} />
                 </Card.Action>
               </Card.Content>

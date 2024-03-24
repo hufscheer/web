@@ -41,7 +41,7 @@ export default function Register() {
             nextStep={() => handleLeagueId(2)}
           />
         </Stepper.Step>
-        <Stepper.Step label="대회 로고">
+        <Stepper.Step label="팀 선수">
           <LeagueTeamPlayers
             teamId={teamId}
             prevStep={() => handleLeagueId(1)}
