@@ -5,7 +5,6 @@ import { useParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 import Layout from '@/components/Layout';
-import useLeagueDetailQuery from '@/hooks/queries/useLeagueDetailQuery';
 
 import LeagueDetailForm from './_components/Forms';
 
@@ -13,7 +12,6 @@ export default function LeagueDetail() {
   const [edit, setEdit] = useState(false);
   const params = useParams();
   const leagueId = params.leagueId;
-  const { data: league } = useLeagueDetailQuery(Number(leagueId));
   const buttonRef = useRef(() => {});
 
   useEffect(() => {
@@ -22,8 +20,6 @@ export default function LeagueDetail() {
 
     buttonRef.current = () => setEdit(true);
   }, [edit]);
-
-  if (!league) return null;
 
   const RightButton = () => (
     <Button
@@ -38,7 +34,7 @@ export default function LeagueDetail() {
   return (
     <Layout navigationTitle={'대회 정보 관리'} navigationMenu={<RightButton />}>
       <LeagueDetailForm
-        league={league}
+        leagueId={Number(leagueId)}
         edit={edit}
         handleClick={() => setEdit(false)}
         buttonRef={buttonRef}
