@@ -3,9 +3,9 @@ import { useCheerVSById } from '@/queries/useCheerVSById';
 import * as styles from './CheerVS.css';
 import CheerTeamBox from './TeamBox';
 
-interface CheerVSProps {
+type CheerVSProps = {
   gameId: string;
-}
+};
 
 export default function CheerVS({ gameId }: CheerVSProps) {
   const { firstTeam, secondTeam } = useCheerVSById(gameId);

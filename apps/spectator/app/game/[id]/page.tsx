@@ -71,7 +71,9 @@ export default function Page({ params }: { params: { id: string } }) {
       <section className={styles.cheerTalk.section}>
         <div className={styles.cheerTalk.header}>
           <h2 className={styles.cheerTalk.title}>실시간 응원톡</h2>
-          <Live />
+          <AsyncBoundary errorFallback={() => <></>} loadingFallback={<></>}>
+            <Live gameId={params.id} />
+          </AsyncBoundary>
         </div>
 
         <AsyncBoundary
