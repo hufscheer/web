@@ -11,6 +11,7 @@ import useUpdateGameMutation from '@/hooks/mutations/useUpdateGameMutation';
 import useGameDetailQuery from '@/hooks/queries/useGameDetailQuery';
 import useGameTeamsQuery from '@/hooks/queries/useGameTeamsQuery';
 import { GameUpdatePayload } from '@/types/game';
+import { convertToServerTime } from '@/utils/time';
 
 export default function GameDetail() {
   const params = useParams();
@@ -68,7 +69,7 @@ export default function GameDetail() {
         gameName: values.gameName,
         videoId: values.videoId || null,
         round: Number(values.round),
-        startTime: values.startTime.toISOString(),
+        startTime: convertToServerTime(values.startTime),
         gameQuarter: values.gameQuarter,
         state: values.state as 'playing' | 'scheduled' | 'finished',
       };

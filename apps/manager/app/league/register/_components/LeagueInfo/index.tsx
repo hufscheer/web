@@ -26,6 +26,7 @@ export default function LeagueInfo({
         startAt: '',
         endAt: '',
         maxRound: -1,
+        inProgressRound: -1,
       },
       sportData: [4],
     },
@@ -57,6 +58,7 @@ export default function LeagueInfo({
           ...form.values.leagueData,
           startAt: convertToServerTime(form.values.leagueData.startAt),
           endAt: convertToServerTime(form.values.leagueData.endAt),
+          inProgressRound: form.values.leagueData.maxRound,
         },
       },
       {

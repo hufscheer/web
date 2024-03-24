@@ -4,55 +4,90 @@ import { Icon } from '@hcc/ui';
 import { Box, Flex, Select, Text, TextInput } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
+import dayjs from 'dayjs';
 import { MutableRefObject, Fragment, useEffect, useState } from 'react';
 
 import AddButton from '@/components/AddButton';
 import { GAMES } from '@/constants/games';
 import useUpdateLeagueMutation from '@/hooks/mutations/useUpdateLeagueMutation';
-import { LeagueDataType, LeagueIdType, SportsDataType } from '@/types/league';
+import useLeagueDetailQuery from '@/hooks/queries/useLeagueDetailQuery';
 import { convertToServerTime } from '@/utils/time';
 
 type LeagueDetailFormProps = {
-  league: LeagueDataType & LeagueIdType;
+  leagueId: number;
   edit: boolean;
   buttonRef: MutableRefObject<() => void>;
   handleClick: () => void;
 };
 
+type LeagueDetailFormValues = {
+  leagueData: {
+    name: string;
+    startAt: dayjs.Dayjs;
+    endAt: dayjs.Dayjs;
+    maxRound: string;
+    inProgressRound: string;
+  };
+  sportData: string[];
+  leagueId: string;
+};
+
 export default function LeagueDetailForm({
-  league,
+  leagueId,
   edit,
   buttonRef,
   handleClick,
 }: LeagueDetailFormProps) {
-  const { leagueId, ...leagueRest } = league;
+  const { data: league } = useLeagueDetailQuery(leagueId);
+
   const [sportsCount, setSportsCount] = useState(1);
-  const form = useForm({
+  const form = useForm<LeagueDetailFormValues>({
     initialValues: {
       leagueData: {
-        ...leagueRest,
-        startAt: new Date(league.startAt),
-        endAt: new Date(league.endAt),
+        name: '',
+        startAt: dayjs(),
+        endAt: dayjs(),
+        maxRound: '',
+        inProgressRound: '',
       },
-      sportData: [] as SportsDataType,
-      leagueId,
+      sportData: [],
+      leagueId: leagueId.toString(),
     },
   });
+
+  useEffect(() => {
+    if (!league) return;
+    form.setValues({
+      leagueData: {
+        name: league.name,
+        startAt: dayjs(league.startAt),
+        endAt: dayjs(league.endAt),
+        maxRound: String(league.maxRound),
+        inProgressRound: String(league.inProgressRound),
+      },
+      sportData: ['4'],
+      leagueId: String(league.leagueId),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [league]);
+
   const { mutate: mutateUpdateLeague } = useUpdateLeagueMutation();
 
   useEffect(() => {
     if (!buttonRef.current) return;
     if (!edit) return;
 
-    buttonRef.current = form.onSubmit(({ sportData, leagueData, leagueId }) =>
+    buttonRef.current = form.onSubmit(({ sportData, leagueData }) =>
       mutateUpdateLeague(
         {
           leagueData: {
-            ...leagueData,
             startAt: convertToServerTime(leagueData.startAt),
             endAt: convertToServerTime(leagueData.endAt),
+            name: leagueData.name,
+            maxRound: Number(leagueData.maxRound),
+            inProgressRound: Number(leagueData.inProgressRound),
           },
-          sportData: [...sportData],
+          sportData: sportData.map(Number),
           leagueId: leagueId,
         },
         {
@@ -61,7 +96,7 @@ export default function LeagueDetailForm({
         },
       ),
     );
-  }, [buttonRef, edit, form, handleClick, league.leagueId, mutateUpdateLeague]);
+  }, [buttonRef, edit, form, handleClick, leagueId, mutateUpdateLeague]);
 
   return (
     <Box>
@@ -97,19 +132,26 @@ export default function LeagueDetailForm({
             <Text fz="14" fw="500">
               종목 {index + 1}
             </Text>
+            {/*<Select*/}
+            {/*  placeholder="종목"*/}
+            {/*  data={GAMES.SPORTS}*/}
+            {/*  checkIconPosition="right"*/}
+            {/*  disabled={!edit}*/}
+            {/*  {...form.getInputProps(`sportData.${index}`)}*/}
+            {/*/>*/}
             <Select
-              placeholder="종목"
-              data={GAMES.SPORTS}
-              checkIconPosition="right"
-              disabled={!edit}
-              {...form.getInputProps(`sportData.${index}`)}
-            />
-            <Select
-              placeholder="라운드"
+              label="라운드"
               data={GAMES.ROUND}
               checkIconPosition="right"
               disabled={!edit}
               {...form.getInputProps('leagueData.maxRound')}
+            />
+            <Select
+              label="진행 라운드"
+              data={GAMES.ROUND}
+              checkIconPosition="right"
+              disabled={!edit}
+              {...form.getInputProps('leagueData.inProgressRound')}
             />
           </Fragment>
         ))}

@@ -9,6 +9,7 @@ export type LeagueDataType = {
   startAt: string;
   endAt: string;
   maxRound: number;
+  inProgressRound: number;
 };
 
 export type SportIdType = {
@@ -21,7 +22,7 @@ export type SportsCategoriesType = SportIdType & SportsQuarterType;
 
 export type LeagueType = LeagueIdType &
   LeagueDataType & {
-    InProgressRound: number;
+    inProgressRound: number;
     maxRound: number;
   };
 export type LeagueListType = Record<StateType, LeagueType[]>;
