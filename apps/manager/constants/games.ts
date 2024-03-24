@@ -5,11 +5,7 @@ const ROUND = [
   { value: '2', label: '결승' },
 ];
 
-const SPORTS = [
-  { value: '4', label: '축구' },
-  { value: '2', label: '농구' },
-  { value: '3', label: '야구' },
-];
+const SPORTS = [{ value: '4', label: '축구' }];
 
 const STATE = [
   { value: 'SCHEDULED', label: '예정' },
