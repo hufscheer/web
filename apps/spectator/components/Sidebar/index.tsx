@@ -8,6 +8,7 @@ import { useRef } from 'react';
 import * as styles from './Sidebar.css';
 import AsyncBoundary from '../AsyncBoundary';
 import LeagueList from '../LeagueList';
+import LeagueListSkeleton from '../LeagueList/Skeleton';
 
 export default function Sidebar() {
   const ref = useRef<HTMLButtonElement>(null);
@@ -44,7 +45,7 @@ export default function Sidebar() {
 
         <AsyncBoundary
           errorFallback={() => <div>에러</div>}
-          loadingFallback={<div>스켈레톤</div>}
+          loadingFallback={<LeagueListSkeleton />}
         >
           <LeagueList handleClose={handleClose} />
         </AsyncBoundary>
