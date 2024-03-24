@@ -1,6 +1,6 @@
 'use client';
 
-import { CaretDownIcon, ChatIcon, SoccerIcon, TrophyIcon } from '@hcc/icons';
+import { CaretDownIcon, ChatIcon, TrophyIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { Flex, Title } from '@mantine/core';
 import Link from 'next/link';
@@ -31,17 +31,6 @@ export default function Page() {
             <Icon source={TrophyIcon} />
             <div className={styles.content}>
               <Card.Title text="semibold">대회 관리</Card.Title>
-            </div>
-            <Card.Action>
-              <Icon source={CaretDownIcon} className={styles.caret} />
-            </Card.Action>
-          </Card.Content>
-        </Card.Root>
-        <Card.Root>
-          <Card.Content component={Link} href={`/game`}>
-            <Icon source={SoccerIcon} />
-            <div className={styles.content}>
-              <Card.Title text="semibold">경기 관리</Card.Title>
             </div>
             <Card.Action>
               <Icon source={CaretDownIcon} className={styles.caret} />
