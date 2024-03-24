@@ -65,6 +65,12 @@ export const updateLeagueTeam = async (teamId: string, payload: FormData) => {
   return data;
 };
 
+export const deleteLeagueTeam = async (teamId: string) => {
+  const { data } = await instance.delete(`/league-teams/${teamId}/delete/`);
+
+  return data;
+};
+
 export const getLeagueTeamPlayers = async (teamId: string) => {
   const { data } = await instance.get<LeaguePlayerWithIDPayload[]>(
     `/league-teams/${teamId}/player/all/`,
@@ -82,12 +88,11 @@ export const getPlayersByTeamId = async (teamId: string) => {
 };
 
 export const updateLeagueTeamPlayers = async (
-  teamId: string,
   teamPlayerId: string,
   payload: LeaguePlayerPayload,
 ) => {
   const { data } = await instance.put(
-    `/league-teams/${teamId}/player/${teamPlayerId}/`,
+    `/league-teams/player/${teamPlayerId}/`,
     payload,
   );
 
@@ -98,13 +103,7 @@ export const createLeaguePlayers = async (
   teamId: number,
   payload: LeaguePlayerPayload[],
 ) => {
-  await instance.post(
-    `/league-teams/${teamId}/player/`,
-    payload.map(({ playerNumber, ...player }) => ({
-      ...player,
-      number: playerNumber,
-    })),
-  );
+  await instance.post(`/league-teams/${teamId}/player/`, payload);
 };
 
 export const deleteLeague = async (body: DeleteLeaguePayload) => {

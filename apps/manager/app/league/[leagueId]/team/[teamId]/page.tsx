@@ -15,12 +15,12 @@ import TeamForm from '../_components/TeamForm';
 
 type LeagueTeamFormValues = {
   name: string;
-  logo: File | null;
+  logo: File | string | null;
   players: {
     id: number;
     name: string;
     description: string;
-    playerNumber: number;
+    number: number;
   }[];
 };
 
@@ -46,12 +46,12 @@ export default function LeagueTeamEdit() {
     if (team && players) {
       form.setValues({
         name: team.name,
-        logo: null,
+        logo: team.logoImageUrl,
         players: players.map(player => ({
           id: player.id,
           name: player.name,
           description: player.description || '',
-          playerNumber: player.number || 0,
+          number: player.number || 0,
         })),
       });
     }
@@ -73,26 +73,20 @@ export default function LeagueTeamEdit() {
 
     const payload = new FormData();
     payload.append('name', name);
-    payload.append('logo', logo as File);
+    if (typeof logo === 'string') payload.append('logo', logo);
+    else payload.append('logo', logo);
 
-    updateLeagueTeam(
-      { teamId, payload },
-      {
-        onSuccess: () => {
-          players.map(player => {
-            updateLeagueTeamPlayers({
-              teamId: teamId,
-              teamPlayerId: player.id.toString(),
-              payload: {
-                name: player.name,
-                description: player.description,
-                playerNumber: player.playerNumber,
-              },
-            });
-          });
+    updateLeagueTeam({ teamId, payload });
+    players.map(player => {
+      updateLeagueTeamPlayers({
+        teamPlayerId: player.id.toString(),
+        payload: {
+          name: player.name,
+          description: player.description,
+          number: player.number,
         },
-      },
-    );
+      });
+    });
     setEdit(edit => !edit);
   };
 

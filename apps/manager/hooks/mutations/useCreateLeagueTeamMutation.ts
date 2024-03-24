@@ -14,10 +14,8 @@ export default function useCreateLeagueTeamMutation() {
   return useMutation({
     mutationFn: ({ leagueId, payload }: Params) =>
       createLeagueTeam(leagueId, payload),
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({
-        queryKey: [LEAGUE_TEAM_QUERY_KEY, { leagueId: variables.leagueId }],
-      });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [LEAGUE_TEAM_QUERY_KEY] });
     },
   });
 }

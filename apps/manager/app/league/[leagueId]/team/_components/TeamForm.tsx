@@ -11,12 +11,12 @@ type TeamFormProps = {
   form: ReturnType<
     typeof useForm<{
       name: string;
-      logo: File | null;
+      logo: File | string | null;
       players: {
         id: number;
         name: string;
         description: string;
-        playerNumber: number;
+        number: number;
       }[];
     }>
   >;
@@ -35,7 +35,7 @@ export default function TeamForm({ form, edit = true }: TeamFormProps) {
       id: -1,
       name: '',
       description: '',
-      playerNumber: 0,
+      number: 0,
     });
     form.setFieldValue('players', players);
   };
@@ -58,7 +58,11 @@ export default function TeamForm({ form, edit = true }: TeamFormProps) {
       >
         {form.values.logo && (
           <Image
-            src={URL.createObjectURL(form.values.logo)}
+            src={
+              typeof form.values.logo === 'string'
+                ? form.values.logo
+                : URL.createObjectURL(form.values.logo)
+            }
             alt="Team logo"
             width={100}
             height={100}
@@ -92,7 +96,7 @@ export default function TeamForm({ form, edit = true }: TeamFormProps) {
             <TextInput
               placeholder="선수 번호"
               type="number"
-              {...form.getInputProps(`players.${index}.playerNumber`)}
+              {...form.getInputProps(`players.${index}.number`)}
               disabled={!edit}
             />
           </Grid.Col>

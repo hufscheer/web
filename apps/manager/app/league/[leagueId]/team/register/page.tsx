@@ -13,12 +13,12 @@ import TeamForm from '../_components/TeamForm';
 
 type LeagueTeamFormValues = {
   name: string;
-  logo: File | null;
+  logo: File | string | null;
   players: {
     id: number;
     name: string;
     description: string;
-    playerNumber: number;
+    number: number;
   }[];
 };
 
@@ -34,7 +34,7 @@ export default function Page() {
     initialValues: {
       name: '',
       logo: null,
-      players: [{ id: -1, name: '', description: '', playerNumber: 0 }],
+      players: [{ id: -1, name: '', description: '', number: 0 }],
     },
   });
 
@@ -56,7 +56,7 @@ export default function Page() {
             { teamId: r.teamIds[0], payload: values.players },
             {
               onSuccess: () => {
-                router.push(`/league/${leagueId}/team`);
+                router.back();
               },
             },
           );

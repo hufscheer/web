@@ -8,6 +8,7 @@ import { MouseEvent, useState } from 'react';
 import AddButton from '@/components/AddButton';
 import Card from '@/components/Card';
 import Layout from '@/components/Layout';
+import useDeleteLeagueTeamMutation from '@/hooks/mutations/useDeleteLeagueTeamMutation';
 import useLeagueTeamQuery from '@/hooks/queries/useLeagueTeamQuery';
 
 import LeagueTeamActionIcon from './_components/ActionIcon';
@@ -18,15 +19,22 @@ export default function Page() {
   const params = useParams();
   const leagueId = params.leagueId as string;
 
-  const { data: leagueTeams } = useLeagueTeamQuery(leagueId);
-
+  const { data: leagueTeams, refetch } = useLeagueTeamQuery(leagueId);
+  const { mutate: deleteLeagueTeam } = useDeleteLeagueTeamMutation();
   if (!leagueTeams) return null;
 
-  const handleClickCard = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleClickCard = async (
+    e: MouseEvent<HTMLButtonElement>,
+    teamId: string,
+  ) => {
     if (!edit) return;
 
     e.preventDefault();
-    alert('팀 삭제 API');
+    deleteLeagueTeam(teamId, {
+      onSuccess: () => refetch(),
+    });
+
+    alert('삭제되었습니다.');
   };
 
   const handleClickMenuButton = () => {
@@ -58,7 +66,7 @@ export default function Page() {
                 <Card.Title text="semibold" style={{ flex: 1 }}>
                   {team.name}
                 </Card.Title>
-                <Card.Action onClick={handleClickCard}>
+                <Card.Action onClick={e => handleClickCard(e, String(team.id))}>
                   <LeagueTeamActionIcon edit={edit} />
                 </Card.Action>
               </Card.Content>
