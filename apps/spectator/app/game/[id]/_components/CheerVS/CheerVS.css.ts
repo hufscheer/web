@@ -2,6 +2,8 @@ import { rem, theme } from '@hcc/styles';
 import { createVar, style, styleVariants } from '@vanilla-extract/css';
 import { calc } from '@vanilla-extract/css-utils';
 
+import { skeletonAnimation } from '@/styles/animations';
+
 export const root = style({
   display: 'flex',
   justifyContent: 'space-between',
@@ -95,6 +97,7 @@ export const skeleton = styleVariants({
   ],
   box: [
     box,
+    skeletonAnimation,
     {
       height: '100%',
       width: '100%',

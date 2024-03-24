@@ -1,6 +1,8 @@
 import { rem, theme } from '@hcc/styles';
 import { style, styleVariants } from '@vanilla-extract/css';
 
+import { skeletonAnimation } from '@/styles/animations';
+
 export const root = style({
   display: 'grid',
   gridTemplateColumns: 'repeat(3, 1fr)',
@@ -88,14 +90,17 @@ export const skeleton = styleVariants({
     padding: `${theme.spaces.sm} ${theme.spaces.default}`,
     backgroundColor: theme.colors.background.secondary,
   },
-  box: {
-    justifySelf: 'center',
+  box: [
+    skeletonAnimation,
+    {
+      justifySelf: 'center',
 
-    height: '100%',
-    width: '60%',
-    backgroundColor: theme.colors.gray[2],
-    borderRadius: rem(8),
-  },
+      height: '100%',
+      width: '60%',
+      backgroundColor: theme.colors.gray[2],
+      borderRadius: rem(8),
+    },
+  ],
   center: {
     display: 'flex',
     flexDirection: 'column',
@@ -103,8 +108,11 @@ export const skeleton = styleVariants({
     alignItems: 'center',
     gap: rem(8),
   },
-  line: {
-    backgroundColor: theme.colors.gray[2],
-    borderRadius: rem(8),
-  },
+  line: [
+    skeletonAnimation,
+    {
+      backgroundColor: theme.colors.gray[2],
+      borderRadius: rem(8),
+    },
+  ],
 });
