@@ -35,7 +35,7 @@ export const deleteGame = async (gameId: string) => {
 
 export const getGameTimeline = async (gameId: string) => {
   const { data } = await instance.get<GameTimelineType[]>(
-    `/games/${gameId}/timeline`,
+    `/games/${gameId}/timeline/`,
   );
 
   return data;

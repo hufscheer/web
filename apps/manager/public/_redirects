@@ -1,4 +1,4 @@
 /api/games/ https://api.hufstreaming.site/games 200!
-/api/games/ https://api.hufstreaming.site/games/:splat/timeline 200!
+/api/games/:splat/timeline/ https://api.hufstreaming.site/games/:splat/timeline 200!
 
 /api/* https://backoffice.hufstreaming.site/:splat 200!
