@@ -21,6 +21,7 @@ export interface GameType {
   gameName: string;
   sportsName: string;
   videoId?: string;
+  state: GameState;
 }
 
 export type GameTeamType = {

@@ -1,3 +1,4 @@
+import { GAME_STATE } from '@/constants/configs';
 import useGameById from '@/queries/useGameById';
 
 import * as styles from './Live.css';
@@ -8,9 +9,8 @@ type LiveProps = {
 
 export default function Live({ gameId }: LiveProps) {
   const { gameDetail } = useGameById(gameId);
-  const quarter = gameDetail.gameQuarter;
 
-  if (!(quarter === '전반전' || quarter === '후반전')) return null;
+  if (gameDetail.state !== GAME_STATE['PLAYING'].toUpperCase()) return null;
 
   return (
     <div className={styles.root}>
