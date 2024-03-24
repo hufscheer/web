@@ -13,6 +13,11 @@ import useGameTeamsQuery from '@/hooks/queries/useGameTeamsQuery';
 import { GameUpdatePayload } from '@/types/game';
 import { convertToServerTime } from '@/utils/time';
 
+const YOUTUBE_BASE_URL_LIST = [
+  process.env.NEXT_PUBLIC_YOUTUBE_SHARED_URL,
+  process.env.NEXT_PUBLIC_YOUTUBE_DEFAULT_URL,
+] as string[];
+
 export default function GameDetail() {
   const params = useParams();
   const gameId = params.gameId as string;
@@ -49,7 +54,7 @@ export default function GameDetail() {
       state: value => !value && '상태를 선택해주세요.',
       videoId: value =>
         value.length !== 0 &&
-        !value.startsWith('https://youtube.com/') &&
+        YOUTUBE_BASE_URL_LIST.some(url => url.startsWith(value)) &&
         '유튜브 전체 URL을 입력해주세요.',
     },
   });
