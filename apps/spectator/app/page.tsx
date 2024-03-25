@@ -5,6 +5,7 @@ import { ReactElement } from 'react';
 
 import { GAME_STATE } from '@/constants/configs';
 import { useLeaguesPrefetch } from '@/queries/useLeague';
+import { useLeagueDetailPrefetch } from '@/queries/useLeagueDetail';
 import { useLeagueTeamsPrefetch } from '@/queries/useLeagueTeams';
 import { useSportsPrefetch } from '@/queries/useSports';
 import { GameState } from '@/types/game';
@@ -31,6 +32,7 @@ export default async function Page({ searchParams }: PageProps) {
     ? inProgress.inProgressRound
     : inProgress.maxRound;
 
+  await useLeagueDetailPrefetch(initialLeagueId);
   await useLeagueTeamsPrefetch(initialLeagueId);
   await useSportsPrefetch(initialLeagueId);
 
@@ -41,6 +43,7 @@ export default async function Page({ searchParams }: PageProps) {
         {initialLeagueId && <SportFilter leagueId={initialLeagueId} />}
         {inProgress?.inProgressRound && (
           <RoundFilter
+            initialLeagueId={initialLeagueId}
             maxRound={inProgress.maxRound}
             inProgressRound={inProgress.inProgressRound}
           />
