@@ -84,7 +84,7 @@ export default function TeamForm({ form, edit = true }: TeamFormProps) {
         <Grid.Col span={0.5} />
       </Grid>
       {form.values.players.map((values, index) => (
-        <Grid grow key={values.id}>
+        <Grid grow key={`${index}-${values.id}`}>
           <Grid.Col span={6}>
             <TextInput
               placeholder="선수 이름"
