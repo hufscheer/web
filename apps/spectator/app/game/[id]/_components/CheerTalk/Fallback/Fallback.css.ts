@@ -14,7 +14,7 @@ export const talkBox = style({
   padding: `${theme.spaces.xs} ${theme.spaces.sm}`,
   borderRadius: rem(15),
   backgroundColor: '#F2F2F7',
-  ...theme.textVariants.xs,
+  ...theme.textVariants.sm,
 });
 
 export const empty = styleVariants({

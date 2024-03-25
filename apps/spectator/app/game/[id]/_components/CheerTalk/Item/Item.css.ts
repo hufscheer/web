@@ -47,7 +47,8 @@ export const item = styleVariants({
     padding: `${theme.spaces.xs} ${theme.spaces.sm}`,
     borderRadius: rem(15),
     backgroundColor: '#F2F2F7',
-    ...theme.textVariants.xs,
+    ...theme.textVariants.sm,
+    color: theme.colors.black,
   },
   blocked: {
     color: theme.colors.gray[4],
