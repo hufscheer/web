@@ -1,7 +1,12 @@
 import { AxiosError } from 'axios';
 
 import instance from '@/api';
-import { LeagueTeamType, LeagueType, SportType } from '@/types/league';
+import {
+  LeagueDetail,
+  LeagueTeamType,
+  LeagueType,
+  SportType,
+} from '@/types/league';
 
 export const getLeagues = async (year: number) => {
   const { data } = await instance.get<LeagueType[]>(`/leagues`, {
@@ -25,6 +30,12 @@ export const getAllLeagues = async () => {
       throw new Error('리그 목록을 불러오는 데에 실패했습니다!');
     }
   }
+};
+
+export const getLeagueDetail = async (leagueId: number) => {
+  const { data } = await instance.get<LeagueDetail>(`/leagues/${leagueId}`);
+
+  return data;
 };
 
 export const getSports = async (leagueId: number) => {
