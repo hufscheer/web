@@ -4,12 +4,12 @@ import { getLeagueTeamPlayers } from '@/api/league';
 
 export const LEAGUE_TEAM_PLAYERS_QUERY_KEY = 'leagueTeamPlayersQuery';
 export default function useLeagueTeamPlayersQuery(teamId: string) {
-  const { data, error } = useQuery({
+  const { data, error, refetch } = useQuery({
     queryKey: [LEAGUE_TEAM_PLAYERS_QUERY_KEY, { teamId }],
     queryFn: () => getLeagueTeamPlayers(teamId),
   });
 
   if (error) throw error;
 
-  return { data };
+  return { data, refetch };
 }

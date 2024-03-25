@@ -87,7 +87,7 @@ export const getPlayersByTeamId = async (teamId: string) => {
   return data;
 };
 
-export const updateLeagueTeamPlayers = async (
+export const updateLeaguePlayers = async (
   teamPlayerId: string,
   payload: LeaguePlayerPayload,
 ) => {
@@ -104,6 +104,10 @@ export const createLeaguePlayers = async (
   payload: LeaguePlayerPayload[],
 ) => {
   await instance.post(`/league-teams/${teamId}/player/`, payload);
+};
+
+export const deleteLeaguePlayers = async (teamPlayerId: string) => {
+  await instance.delete(`/league-teams/player/${teamPlayerId}/`);
 };
 
 export const deleteLeague = async (body: DeleteLeaguePayload) => {
