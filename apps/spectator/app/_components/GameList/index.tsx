@@ -24,10 +24,11 @@ export default function GameList({
   initialRound,
 }: GameListProps) {
   const searchParams = useSearchParams();
+  const currentRound = !initialRound ? '' : String(initialRound);
   const { data: groupedGameList, ...rest } = useGameList({
     league_id: searchParams.get('league') || initialLeagueId,
     sport_id: searchParams.get('sports') || undefined,
-    round: searchParams.get('round') || initialRound.toString(),
+    round: searchParams.get('round') || currentRound,
     league_team_id: searchParams.get('leagueTeam') || undefined,
     state,
   });
