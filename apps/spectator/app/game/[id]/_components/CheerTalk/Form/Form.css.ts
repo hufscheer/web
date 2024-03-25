@@ -5,8 +5,7 @@ export const form = style({
   position: 'relative',
   display: 'flex',
   flexDirection: 'column',
-  padding: rem(16),
-  paddingTop: rem(8),
+  padding: `${rem(8)} ${rem(16)}`,
   gap: rem(8),
 });
 
@@ -40,7 +39,6 @@ export const radioInput = style({
 
 export const cheerTalkInputContainer = style({
   display: 'flex',
-  gap: rem(8),
   alignItems: 'center',
 });
 
@@ -51,6 +49,7 @@ export const cheerTalkInput = style({
   borderRadius: rem(12),
   backgroundColor: theme.colors.gray[1],
   ...theme.textVariants.default,
+  transform: 'scale(0.9)',
 });
 
 export const cheerTalkSendButton = style({
