@@ -7,6 +7,7 @@ import AsyncBoundary from '@/components/AsyncBoundary';
 import Loader from '@/components/Loader';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { useGameList } from '@/queries/useGameList';
+import useLeagueDetailQuery from '@/queries/useLeagueDetail';
 import { GameState } from '@/types/game';
 
 import GameCard from './Card';
@@ -18,13 +19,11 @@ type GameListProps = {
   initialRound: number;
 };
 
-export default function GameList({
-  state,
-  initialLeagueId,
-  initialRound,
-}: GameListProps) {
+export default function GameList({ state, initialLeagueId }: GameListProps) {
   const searchParams = useSearchParams();
-  const currentRound = !initialRound ? '' : String(initialRound);
+  const { data: leagueDetail } = useLeagueDetailQuery(Number(initialLeagueId));
+  const currentRound = leagueDetail?.inProgressRound.toString();
+
   const { data: groupedGameList, ...rest } = useGameList({
     league_id: searchParams.get('league') || initialLeagueId,
     sport_id: searchParams.get('sports') || undefined,

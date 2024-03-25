@@ -5,6 +5,8 @@ import { clsx } from 'clsx';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 
+import useLeagueDetailQuery from '@/queries/useLeagueDetail';
+
 import * as styles from './GameFilter.css';
 
 function formatRoundLabel(round: number): string {
@@ -12,25 +14,29 @@ function formatRoundLabel(round: number): string {
 }
 
 type RoundFilterProps = {
+  initialLeagueId: number;
   maxRound: number;
   inProgressRound: number;
 };
 
 export default function RoundFilter({
-  maxRound,
+  initialLeagueId,
   inProgressRound,
 }: RoundFilterProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const currentRound = Number(searchParams.get('round')) || inProgressRound;
   const year = Number(searchParams.get('year'));
   const league = searchParams.get('league');
 
-  if (!maxRound) return null;
+  const { data: leagueDetail } = useLeagueDetailQuery(initialLeagueId);
+  const currentRound =
+    Number(searchParams.get('round')) || leagueDetail?.inProgressRound;
+
+  if (!leagueDetail) return null;
 
   const rounds = Array.from(
-    { length: Math.floor(Math.log2(maxRound)) },
-    (_, i) => maxRound / 2 ** i,
+    { length: Math.floor(Math.log2(leagueDetail.maxRound)) },
+    (_, i) => leagueDetail.maxRound / 2 ** i,
   );
 
   return (
