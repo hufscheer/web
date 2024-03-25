@@ -41,13 +41,7 @@ export default async function Page({ searchParams }: PageProps) {
       <HydrationBoundary state={dehydrate(queryClient)}>
         <LeagueFilter year={year} />
         {initialLeagueId && <SportFilter leagueId={initialLeagueId} />}
-        {inProgress?.inProgressRound && (
-          <RoundFilter
-            initialLeagueId={initialLeagueId}
-            maxRound={inProgress.maxRound}
-            inProgressRound={inProgress.inProgressRound}
-          />
-        )}
+        {initialLeagueId && <RoundFilter initialLeagueId={initialLeagueId} />}
         {initialLeagueId && <LeagueTeamFilter leagueId={initialLeagueId} />}
       </HydrationBoundary>
 
