@@ -49,6 +49,9 @@ const color = {
 const playerBase = style({
   ...theme.textVariants.sm,
   color: theme.colors.gray[6],
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
 });
 
 export const player = styleVariants({
@@ -60,6 +63,7 @@ export const player = styleVariants({
     gap: theme.spaces.default,
 
     paddingInline: theme.spaces.sm,
+    height: rem(32),
   },
   wrapper: {
     display: 'flex',
@@ -71,6 +75,8 @@ export const player = styleVariants({
     {
       fontWeight: 600,
       marginRight: theme.spaces.xxs,
+
+      maxWidth: rem(64),
     },
   ],
 });
@@ -78,9 +84,8 @@ export const player = styleVariants({
 const backNumberBase = style({
   ...theme.textVariants.default,
   backgroundColor: theme.colors.white,
+
   display: 'flex',
-  width: rem(32),
-  height: rem(32),
   justifyContent: 'center',
   alignItems: 'center',
 });
@@ -104,7 +109,7 @@ const captainBase = style({
   borderRadius: rem(4),
   padding: theme.spaces.xxs,
 
-  fontSize: theme.textVariants.sm.fontSize,
+  fontSize: theme.textVariants.xxs.fontSize,
   fontWeight: 700,
   color: theme.colors.white,
 });
