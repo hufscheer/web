@@ -99,17 +99,17 @@ export default function GameCard({ league, state, edit }: PlayingCardProps) {
                     fullWidth
                     component={Link}
                     variant="light"
-                    href={`/game/${league.leagueId}/${game.id}/timeline`}
+                    href={`/game/${league.leagueId}/${game.id}/lineup`}
                   >
-                    타임 라인
+                    라인업
                   </Button>
                   <Button
                     fullWidth
                     component={Link}
                     variant="light"
-                    href={`/report`}
+                    href={`/game/${league.leagueId}/${game.id}/timeline`}
                   >
-                    응원톡
+                    타임 라인
                   </Button>
                 </Flex>
               </Card.Footer>
