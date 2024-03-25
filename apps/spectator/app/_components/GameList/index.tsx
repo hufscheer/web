@@ -16,7 +16,6 @@ import * as styles from './GameList.css';
 type GameListProps = {
   state: GameState;
   initialLeagueId: string;
-  initialRound: number;
 };
 
 export default function GameList({ state, initialLeagueId }: GameListProps) {
