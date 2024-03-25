@@ -58,6 +58,7 @@ export const banner = styleVariants({
     fontWeight: 500,
     borderRadius: rem(8),
     backgroundColor: theme.colors.primary[3],
+    whiteSpace: 'nowrap',
   },
   gameStartTime: {
     ...theme.textVariants.xs,
