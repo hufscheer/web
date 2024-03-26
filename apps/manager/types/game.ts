@@ -158,6 +158,19 @@ export type CommonRecordPayload = {
   recordedAt: string;
 };
 
+export type GameTimelineRecord = CommonRecordPayload & {
+  recordInfo: {
+    game: number;
+    gameTeam: {
+      gameTeamId: number;
+      gameTeamName: string;
+    };
+    recordType: RecordType;
+    recordedAt: number;
+    recordedQuarter: SportsQuarterType;
+  };
+};
+
 export type LowerRecordType = Lowercase<RecordType>;
 export type GenericRecordPayload<T extends LowerRecordType> =
   CommonRecordPayload &
