@@ -22,7 +22,7 @@ export default function ReplacementRecord({ form }: ReplacementRecordProps) {
           value: String(player.id),
           label: player.name,
         }))}
-        {...form.getInputProps('originLineupPlayerId')}
+        {...form.getInputProps('replacedLineupPlayerId')}
         mb="lg"
       />
 
@@ -33,7 +33,7 @@ export default function ReplacementRecord({ form }: ReplacementRecordProps) {
           value: String(player.id),
           label: player.name,
         }))}
-        {...form.getInputProps('replacedLineupPlayerId')}
+        {...form.getInputProps('originLineupPlayerId')}
         mb="lg"
       />
     </>
