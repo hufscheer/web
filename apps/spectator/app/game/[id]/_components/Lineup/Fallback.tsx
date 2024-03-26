@@ -1,4 +1,4 @@
-import { ArrowClockwiseIcon, WhistlingIcon } from '@hcc/icons';
+import { ArrowClockwiseIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { AxiosError } from 'axios';
 
@@ -14,10 +14,7 @@ export default function LineupFallback({
   if (error instanceof NotFoundError) {
     return (
       <div className={styles.errorFallback.wrapper}>
-        <div className={styles.errorFallback.message}>
-          <Icon source={WhistlingIcon} size="sm" />
-          {error.message}
-        </div>
+        <div className={styles.errorFallback.message}>{error.message}</div>
       </div>
     );
   }
@@ -26,10 +23,15 @@ export default function LineupFallback({
     return (
       <div className={styles.errorFallback.wrapper}>
         <div className={styles.errorFallback.message}>
-          <Icon source={WhistlingIcon} size="sm" />
-          {error.message}
+          연결이 원활하지 않습니다.
         </div>
-        <button>다시 시도</button>
+        <button
+          onClick={resetErrorBoundary}
+          className={styles.errorFallback.retry}
+        >
+          재시도
+          <Icon source={ArrowClockwiseIcon} size="xs" color="black" />
+        </button>
       </div>
     );
   }
@@ -39,14 +41,9 @@ export default function LineupFallback({
       <span className={styles.errorFallback.message}>
         {error?.message || ''}
       </span>
-
-      <button
-        onClick={resetErrorBoundary}
-        className={styles.errorFallback.retry}
-      >
-        재시도
-        <Icon source={ArrowClockwiseIcon} size="xs" color="gray" />
-      </button>
+      <span className={styles.errorFallback.message}>
+        잠시 후 다시 시도해주세요.
+      </span>
     </div>
   );
 }

@@ -10,7 +10,7 @@ export default function CheerTalkFallback() {
         <Icon source={ChatIcon} size="xs" color="white" />
       </div>
       <div className={styles.empty.talkBox}>
-        응원톡에서 여러분의 팀을 응원해보세요! 🙌
+        응원톡에 들어가 여러분의 팀을 응원해보세요! 🙌
       </div>
     </div>
   );

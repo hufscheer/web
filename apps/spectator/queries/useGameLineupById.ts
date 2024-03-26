@@ -19,7 +19,7 @@ export const useGameLineupById = (gameId: string) => {
   });
 
   if (query.data.length !== 2)
-    throw new NotFoundError('라인업이 등록되지 않았습니다.');
+    throw new NotFoundError('해당 경기의 선수 선발명단 업데이트 전입니다.');
   if (query.error) throw query.error;
 
   return query;
