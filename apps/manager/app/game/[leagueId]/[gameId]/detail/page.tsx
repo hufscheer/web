@@ -53,8 +53,8 @@ export default function GameDetail() {
       state: value => !value && '상태를 선택해주세요.',
       videoId: value =>
         value.length !== 0 &&
-        YOUTUBE_BASE_URL_LIST.some(url => url.startsWith(value)) &&
-        '유튜브 전체 URL을 입력해주세요.',
+        !YOUTUBE_BASE_URL_LIST.some(url => value.startsWith(url)) &&
+        '정확한 유튜브 공유 링크를 입력해주세요.',
     },
   });
 
@@ -63,7 +63,7 @@ export default function GameDetail() {
       form.setValues({
         sportsId: String(game.sports.sportsId),
         gameName: game.gameName,
-        videoId: `${SHARED_URL}/${game?.videoId}`,
+        videoId: game.videoId ? `${SHARED_URL}${game?.videoId}` : ``,
         round: String(game.round),
         startTime: new Date(game.startTime),
         gameQuarter: game.gameQuarter,
@@ -93,7 +93,14 @@ export default function GameDetail() {
         state: values.state as 'playing' | 'scheduled' | 'finished',
       };
 
-      updateGameMutation({ gameId, payload });
+      updateGameMutation(
+        { gameId, payload },
+        {
+          onError: () => {
+            alert('오류가 발생했습니다. 정확하게 입력했는지 확인해주세요.');
+          },
+        },
+      );
     }
     setEdit(!edit);
   };
