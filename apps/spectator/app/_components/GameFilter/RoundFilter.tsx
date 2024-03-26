@@ -15,14 +15,9 @@ function formatRoundLabel(round: number): string {
 
 type RoundFilterProps = {
   initialLeagueId: number;
-  maxRound: number;
-  inProgressRound: number;
 };
 
-export default function RoundFilter({
-  initialLeagueId,
-  inProgressRound,
-}: RoundFilterProps) {
+export default function RoundFilter({ initialLeagueId }: RoundFilterProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const year = Number(searchParams.get('year'));
@@ -54,7 +49,8 @@ export default function RoundFilter({
             key={roundValue}
             className={clsx(styles.roundFilterItem, {
               [styles.roundFilterFocused]: roundValue === currentRound,
-              [styles.roundFilterDisabled]: roundValue < inProgressRound,
+              [styles.roundFilterDisabled]:
+                roundValue < leagueDetail?.inProgressRound,
             })}
           >
             <Link

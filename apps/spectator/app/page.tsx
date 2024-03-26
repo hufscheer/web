@@ -28,9 +28,6 @@ export default async function Page({ searchParams }: PageProps) {
   const inProgress =
     leagues.find(league => league.isInProgress) || leagues?.[0];
   const initialLeagueId = Number(searchParams.league) || inProgress?.leagueId;
-  const initialRound = inProgress.isInProgress
-    ? inProgress.inProgressRound
-    : inProgress.maxRound;
 
   await useLeagueDetailPrefetch(initialLeagueId);
   await useLeagueTeamsPrefetch(initialLeagueId);
@@ -41,13 +38,7 @@ export default async function Page({ searchParams }: PageProps) {
       <HydrationBoundary state={dehydrate(queryClient)}>
         <LeagueFilter year={year} />
         {initialLeagueId && <SportFilter leagueId={initialLeagueId} />}
-        {inProgress?.inProgressRound && (
-          <RoundFilter
-            initialLeagueId={initialLeagueId}
-            maxRound={inProgress.maxRound}
-            inProgressRound={inProgress.inProgressRound}
-          />
-        )}
+        {initialLeagueId && <RoundFilter initialLeagueId={initialLeagueId} />}
         {initialLeagueId && <LeagueTeamFilter leagueId={initialLeagueId} />}
       </HydrationBoundary>
 
@@ -55,7 +46,6 @@ export default async function Page({ searchParams }: PageProps) {
         <GameList
           key={game.key}
           state={game.key}
-          initialRound={initialRound}
           initialLeagueId={initialLeagueId.toString()}
         />
       ))}

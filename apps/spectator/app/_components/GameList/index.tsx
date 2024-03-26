@@ -16,13 +16,12 @@ import * as styles from './GameList.css';
 type GameListProps = {
   state: GameState;
   initialLeagueId: string;
-  initialRound: number;
 };
 
 export default function GameList({ state, initialLeagueId }: GameListProps) {
   const searchParams = useSearchParams();
   const { data: leagueDetail } = useLeagueDetailQuery(Number(initialLeagueId));
-  const currentRound = leagueDetail?.inProgressRound.toString();
+  const currentRound = leagueDetail?.inProgressRound?.toString() || '';
 
   const { data: groupedGameList, ...rest } = useGameList({
     league_id: searchParams.get('league') || initialLeagueId,
@@ -36,6 +35,7 @@ export default function GameList({ state, initialLeagueId }: GameListProps) {
   const { ref } = useIntersectionObserver<HTMLDivElement>(
     async (entry, observer): Promise<void> => {
       observer.unobserve(entry.target);
+
       if (hasNextPage && !isFetching) {
         fetchNextPage();
       }
