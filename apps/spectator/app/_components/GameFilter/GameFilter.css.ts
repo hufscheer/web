@@ -73,7 +73,7 @@ export const leagueTeam = styleVariants({
     paddingBlock: theme.spaces.sm,
     paddingInline: rem(10),
     justifyContent: 'start',
-    backgroundColor: theme.colors.gray[1],
+    background: `linear-gradient(${theme.colors.gray[1]}, ${theme.colors.white})`,
   },
   list: {
     display: 'flex',
@@ -108,7 +108,6 @@ export const leagueTeam = styleVariants({
     padding: theme.spaces.default,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: theme.colors.gray[1],
   },
   expandButtonFocused: {
     backgroundColor: 'transparent',
