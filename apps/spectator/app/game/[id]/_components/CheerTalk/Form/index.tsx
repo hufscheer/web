@@ -78,15 +78,21 @@ const CheerTalkForm = ({
         ))}
       </fieldset>
       <div className={styles.cheerTalkInputContainer}>
-        <input
-          className={styles.cheerTalkInput}
-          value={inputValue}
-          onChange={e => setInputValue(e.target.value)}
-          placeholder="응원톡을 남겨보세요!"
-          aria-label="응원 메시지 입력"
-        />
+        <div className={styles.inputWrapper}>
+          <input
+            className={styles.cheerTalkInput}
+            value={inputValue}
+            onChange={e => setInputValue(e.target.value)}
+            placeholder="응원톡을 남겨보세요!"
+            aria-label="응원 메시지 입력"
+          />
+        </div>
         <button className={styles.cheerTalkSendButton} type="submit">
-          <Icon source={SendIcon} className={styles.cheerTalkSendIcon} />
+          <Icon
+            source={SendIcon}
+            size="md"
+            color={inputValue ? 'primary' : 'secondary'}
+          />
         </button>
       </div>
     </form>
