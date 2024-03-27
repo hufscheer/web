@@ -7,10 +7,5 @@ export default function useLoginMutation() {
   return useMutation({
     mutationKey: [ADMIN_MUTATION_KEY.POST_LOGIN],
     mutationFn: postLogin,
-    onSuccess: ({ access }) => {
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('accessToken', access);
-      }
-    },
   });
 }
