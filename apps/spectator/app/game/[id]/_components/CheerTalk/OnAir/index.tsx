@@ -46,7 +46,10 @@ export default function CheerTalkOnAir({ cheerTalk }: CheerTalkInRealProps) {
           opacity: { duration: 0.2 },
         }}
       >
-        <CheerTalkItem {...(cheerTalk.at(-1) as GameCheerTalkWithTeamInfo)} />
+        <CheerTalkItem
+          className={styles.onAirTalk}
+          {...(cheerTalk.at(-1) as GameCheerTalkWithTeamInfo)}
+        />
       </motion.ul>
     </AnimatePresence>
   );

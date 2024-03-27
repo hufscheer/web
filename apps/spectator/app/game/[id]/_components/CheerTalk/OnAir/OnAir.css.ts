@@ -6,3 +6,9 @@ export const billboard = style({
   overflow: 'hidden',
   position: 'relative',
 });
+
+export const onAirTalk = style({
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
