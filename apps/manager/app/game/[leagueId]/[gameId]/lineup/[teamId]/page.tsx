@@ -7,8 +7,9 @@ import { useState } from 'react';
 
 import Layout from '@/components/Layout';
 import useCreateLineupMutation from '@/hooks/mutations/useCreateLineupMutation';
+import useGameLineupQuery from '@/hooks/queries/useGameLineupQuery';
 import useLineupPlayerQuery from '@/hooks/queries/useLineupPlayerQuery';
-import { LineupPayload } from '@/types/game';
+import { GameLineupType } from '@/types/game';
 import { LeaguePlayerWithIDPayload } from '@/types/league';
 
 import PlayerCard from './_components/PlayerCard';
@@ -23,16 +24,27 @@ export type PlayerWithCaptain = LeaguePlayerWithIDPayload & {
 
 export default function LineupEdit({ params }: PageProps) {
   const router = useRouter();
-  const [selectedPlayers, setSelectedPlayers] = useState<PlayerWithCaptain[]>(
-    [],
-  );
 
+  const { data: lineups } = useGameLineupQuery(params.teamId);
   const { data: players } = useLineupPlayerQuery(params.teamId);
   const { mutate: mutateSaveLineup, isPending } = useCreateLineupMutation();
 
-  const handleClickAction = (player: PlayerWithCaptain) => {
+  const [selectedPlayers, setSelectedPlayers] = useState<GameLineupType[]>(
+    () => {
+      if (!lineups) return [];
+
+      return lineups.map(player => ({
+        ...player,
+      }));
+    },
+  );
+
+  const handleClickAction = (player: GameLineupType) => {
     setSelectedPlayers(prev => {
-      const index = prev.findIndex(p => p.id === player.id);
+      const index = prev.findIndex(
+        p => p.leagueTeamPlayerId === player.leagueTeamPlayerId,
+      );
+      // const lineupPlayer = lineups?.find(p => p.id === player.id);
 
       if (index === -1) return [...prev, player];
 
@@ -44,7 +56,7 @@ export default function LineupEdit({ params }: PageProps) {
     setSelectedPlayers(prev =>
       prev.map(p => ({
         ...p,
-        isCaptain: p.id === playerId,
+        isCaptain: p.leagueTeamPlayerId === playerId,
       })),
     );
   };
@@ -54,12 +66,22 @@ export default function LineupEdit({ params }: PageProps) {
   };
 
   const handleButtonAddAll = () => {
-    setSelectedPlayers(
-      players?.map(player => ({
+    if (!players) return;
+
+    const nextPlayers = players.map(player => {
+      const lineupPlayer = lineups?.find(
+        p => p.leagueTeamPlayerId === player.id,
+      );
+
+      return {
         ...player,
-        isCaptain: false,
-      })) as PlayerWithCaptain[],
-    );
+        id: lineupPlayer ? lineupPlayer.id : -1,
+        isCaptain: lineupPlayer?.isCaptain || false,
+        leagueTeamPlayerId: player.id,
+      };
+    });
+
+    setSelectedPlayers(nextPlayers);
   };
 
   const handleSave = () => {
@@ -71,12 +93,21 @@ export default function LineupEdit({ params }: PageProps) {
     mutateSaveLineup(
       {
         teamId: params.teamId,
-        payload: selectedPlayers.map(player => ({
-          name: player.name,
-          number: player.number,
-          description: player.description,
-          isCaptain: player.isCaptain || false,
-        })) as LineupPayload[],
+        payload: selectedPlayers.map(player => {
+          const lineupPlayerId = lineups?.find(
+            p => p.leagueTeamPlayerId === player.leagueTeamPlayerId,
+          )?.id;
+
+          return {
+            id:
+              lineupPlayerId && lineupPlayerId > 0 ? lineupPlayerId : undefined,
+            name: player.name,
+            number: player.number,
+            description: player.description,
+            isCaptain: player.isCaptain || false,
+            leagueTeamPlayerId: player.leagueTeamPlayerId,
+          };
+        }),
       },
       {
         onSuccess: () => {
@@ -123,7 +154,7 @@ export default function LineupEdit({ params }: PageProps) {
           </Flex>
         ) : (
           selectedPlayers?.map(player => (
-            <li key={player.id}>
+            <li key={player.leagueTeamPlayerId}>
               <PlayerCard
                 player={player}
                 handleCaptain={handleCaptain}
@@ -143,12 +174,18 @@ export default function LineupEdit({ params }: PageProps) {
       </Flex>
       <ul>
         {players?.map(player => {
-          if (selectedPlayers.find(p => p.id === player.id)) return null;
+          if (selectedPlayers.find(p => p.leagueTeamPlayerId === player.id))
+            return null;
 
           return (
             <li key={player.id}>
               <PlayerCard
-                player={player}
+                player={{
+                  ...player,
+                  id: -1,
+                  isCaptain: false,
+                  leagueTeamPlayerId: player.id,
+                }}
                 handleCaptain={handleCaptain}
                 handleClickAction={handleClickAction}
               />

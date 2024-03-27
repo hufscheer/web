@@ -3,15 +3,13 @@ import { Icon } from '@hcc/ui';
 import { ActionIcon, Badge, Flex, Text } from '@mantine/core';
 
 import Card from '@/components/Card';
-import { LeaguePlayerWithIDPayload } from '@/types/league';
-
-import { PlayerWithCaptain } from '../../page';
+import { GameLineupType } from '@/types/game';
 
 type PlayerCardProps = {
   removable?: boolean;
-  player: PlayerWithCaptain;
-  handleCaptain: (playerId: number) => void;
-  handleClickAction: (player: LeaguePlayerWithIDPayload) => void;
+  player: GameLineupType;
+  handleCaptain: (leagueTeamPlayerId: number) => void;
+  handleClickAction: (player: GameLineupType) => void;
 };
 
 export default function PlayerCard({
@@ -29,7 +27,7 @@ export default function PlayerCard({
             style={{ cursor: 'pointer' }}
             color={player.isCaptain ? 'blue' : 'gray'}
             variant="filled"
-            onClick={() => handleCaptain(player.id)}
+            onClick={() => handleCaptain(player.leagueTeamPlayerId)}
           >
             주장
           </Badge>
