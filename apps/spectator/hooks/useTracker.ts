@@ -1,16 +1,9 @@
-import { useContext } from 'react';
+import { track } from '@amplitude/analytics-browser';
 
-import { AmplitudeContext } from '@/app/providers';
+export default function useTracker() {
+  const tracker = (eventName: string, properties: Record<string, unknown>) => {
+    track(eventName, properties);
+  };
 
-const useTracker = () => {
-  const context = useContext(AmplitudeContext);
-
-  if (!context)
-    throw new Error(
-      'useTracker must be used within a AmplitudeContextProvider',
-    );
-
-  return context;
-};
-
-export default useTracker;
+  return { tracker };
+}

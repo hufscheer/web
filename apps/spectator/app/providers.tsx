@@ -1,9 +1,11 @@
 'use client';
 
-import { init, track } from '@amplitude/analytics-browser';
+import { init } from '@amplitude/analytics-browser';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
+
+const AMPLITUDE_API_KEY = process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY || '';
 
 type ProviderProps = {
   children: ReactNode;
@@ -24,43 +26,12 @@ export default function Provider({ children }: ProviderProps) {
       }),
   );
 
-  useEffect(() => {});
+  init(AMPLITUDE_API_KEY, undefined, {});
 
   return (
-    <AmplitudeContextProvider>
-      <QueryClientProvider client={queryClient}>
-        {children}
-        <ReactQueryDevtools
-          initialIsOpen={false}
-          buttonPosition="bottom-left"
-        />
-      </QueryClientProvider>
-    </AmplitudeContextProvider>
+    <QueryClientProvider client={queryClient}>
+      {children}
+      <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
+    </QueryClientProvider>
   );
 }
-
-const AMPLITUDE_API_KEY = process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY || '';
-
-type Tracker = (eventName: string, properties: Record<string, unknown>) => void;
-type AmplitudeContextType = {
-  tracker: Tracker;
-};
-
-export const AmplitudeContext = createContext<AmplitudeContextType>({
-  tracker: () => {},
-});
-const AmplitudeContextProvider = ({ children }: ProviderProps) => {
-  useEffect(() => {
-    init(AMPLITUDE_API_KEY, undefined, {});
-  }, []);
-
-  const tracker = (eventName: string, properties: Record<string, unknown>) => {
-    track(eventName, properties);
-  };
-
-  return (
-    <AmplitudeContext.Provider value={{ tracker }}>
-      {children}
-    </AmplitudeContext.Provider>
-  );
-};
