@@ -9,16 +9,8 @@ const itemBase = style({
 });
 
 export const itemWrapper = styleVariants({
-  left: [
-    itemBase,
-    {
-      paddingRight: theme.spaces.xl,
-    },
-  ],
-  right: [
-    itemBase,
-    { flexDirection: 'row-reverse', paddingLeft: theme.spaces.xl },
-  ],
+  left: [itemBase],
+  right: [itemBase, { flexDirection: 'row-reverse' }],
 });
 
 export const clickable = style({
@@ -30,6 +22,7 @@ const infoBase = style({
   display: 'flex',
   alignItems: 'center',
   color: theme.colors.gray[4],
+  width: 'max-content',
   gap: rem(2),
 });
 
