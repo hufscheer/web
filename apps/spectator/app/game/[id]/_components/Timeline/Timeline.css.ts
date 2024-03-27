@@ -69,10 +69,10 @@ export const content = styleVariants({
     gap: theme.spaces.xxs,
   },
   title: {
-    fontSize: theme.textVariants.xs.fontSize,
+    fontSize: theme.textVariants.sm.fontSize,
   },
   descriptionArea: {
-    fontSize: theme.textVariants.xxs.fontSize,
+    fontSize: theme.textVariants.xs.fontSize,
   },
   scoreArea: {
     marginInline: theme.spaces.xxs,
