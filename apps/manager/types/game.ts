@@ -1,3 +1,5 @@
+import { Optional } from './utils';
+
 export type GameInfoType = {
   sports: SportsType;
   startTime: string;
@@ -132,12 +134,13 @@ export type GameListParams = {
 export type GameLineupType = {
   id: number;
   name: string;
-  description: string;
+  description: string | null;
   number: number;
   isCaptain: boolean;
+  leagueTeamPlayerId: number;
 };
 
-export type LineupPayload = Omit<GameLineupType, 'id'>;
+export type OptionalLineup = Optional<GameLineupType, 'id'>;
 
 // timeline payload
 
