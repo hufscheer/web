@@ -13,6 +13,8 @@ import useGameTeamsQuery from '@/hooks/queries/useGameTeamsQuery';
 import { useTimelineRecordQuery } from '@/hooks/queries/useTimelineRecordQuery';
 import { LowerRecordType } from '@/types/game';
 
+import ReplacementRecord from '../../[recordType]/_components/ReplacementRecord';
+import ScoreRecord from '../../[recordType]/_components/ScoreRecord';
 import { recordMap } from '../../_utils/recordType';
 
 export type TForm = {
@@ -79,12 +81,22 @@ export default function Page({ params }: PageProps) {
   useEffect(() => {
     if (!timeline) return;
     form.setValues({
-      ...form.values,
+      recordType:
+        timeline.recordInfo.recordType === 'SCORE' ? 'score' : 'replacement',
       gameTeamId: String(timeline.recordInfo.gameTeam.gameTeamId),
+      recordedAt: new Date(timeline.recordInfo.recordedAt),
       recordedQuarterId: String(timeline.recordInfo.recordedQuarter.id),
+
+      scoreLineupPlayerId: String(timeline.lineupPlayer?.id || ''),
+      score: timeline.score || 0,
+
+      originLineupPlayerId: String(timeline.originLineupPlayer?.id || ''),
+      replacedLineupPlayerId: String(timeline.replacedLineupPlayer?.id || ''),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeline]);
+
+  if (!timeline) return null;
 
   return (
     <Layout navigationTitle="타임라인 수정">
@@ -125,8 +137,12 @@ export default function Page({ params }: PageProps) {
           </Text>
         </Flex>
 
-        {/*{recordType === 'score' && <ScoreRecord form={form} />}*/}
-        {/*{recordType === 'replacement' && <ReplacementRecord form={form} />}*/}
+        {timeline.recordInfo.recordType === 'SCORE' && (
+          <ScoreRecord form={form} />
+        )}
+        {timeline.recordInfo.recordType === 'REPLACEMENT' && (
+          <ReplacementRecord form={form} />
+        )}
       </form>
     </Layout>
   );

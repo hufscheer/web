@@ -158,7 +158,7 @@ export type CommonRecordPayload = {
   recordedAt: string;
 };
 
-export type GameTimelineRecord = CommonRecordPayload & {
+export type GameTimelineRecord = TimelineRecordType & {
   recordInfo: {
     game: number;
     gameTeam: {
@@ -169,6 +169,23 @@ export type GameTimelineRecord = CommonRecordPayload & {
     recordedAt: number;
     recordedQuarter: SportsQuarterType;
   };
+};
+
+export type TimelineRecordType =
+  | GeneralTimelineRecordType<'SCORE'>
+  | GeneralTimelineRecordType<'REPLACEMENT'>;
+
+export type GeneralTimelineRecordType<T extends 'SCORE' | 'REPLACEMENT'> = {
+  score: T extends 'SCORE' ? number : null;
+  lineupPlayer: T extends 'SCORE'
+    ? { id: number; name: string; number: number }
+    : null;
+  originLineupPlayer: T extends 'REPLACEMENT'
+    ? { id: number; name: string; number: number }
+    : null;
+  replacedLineupPlayer: T extends 'REPLACEMENT'
+    ? { id: number; name: string; number: number }
+    : null;
 };
 
 export type LowerRecordType = Lowercase<RecordType>;
