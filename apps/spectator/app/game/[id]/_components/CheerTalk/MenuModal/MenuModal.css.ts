@@ -18,19 +18,18 @@ export const content = style({
   paddingInline: theme.spaces.default,
   borderRadius: rem(15),
   backgroundColor: theme.colors.gray[2],
-  ...theme.textVariants.xs,
+  ...theme.textVariants.sm,
 });
 
 export const menuBlock = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  paddingBlock: theme.spaces.xs,
-  paddingInline: theme.spaces.default,
+  padding: theme.spaces.default,
   marginTop: theme.spaces.xxs,
   borderRadius: rem(10),
   backgroundColor: 'white',
-  ...theme.textVariants.xs,
+  ...theme.textVariants.sm,
 });
 
 export const menuIcon = style({
