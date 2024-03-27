@@ -85,11 +85,10 @@ export const errorFallback = styleVariants({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: theme.spaces.default,
+    gap: theme.spaces.xs,
 
     minHeight: rem(180),
     paddingInline: theme.spaces.default,
-    backgroundColor: theme.colors.gray[2],
   },
   message: {
     display: 'flex',
@@ -98,13 +97,18 @@ export const errorFallback = styleVariants({
     gap: theme.spaces.sm,
 
     color: theme.colors.gray[5],
-    ...theme.textVariants.default,
+    ...theme.textVariants.sm,
 
+    fontWeight: 500,
     textAlign: 'center',
   },
   retry: {
-    ...theme.textVariants.default,
-    color: theme.colors.primary[3],
+    display: 'flex',
+    alignItems: 'center',
     gap: theme.spaces.xs,
+
+    ...theme.textVariants.sm,
+    color: theme.colors.gray[5],
+    fontWeight: 500,
   },
 });

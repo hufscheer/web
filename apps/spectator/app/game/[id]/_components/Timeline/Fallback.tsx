@@ -1,4 +1,4 @@
-import { WhistlingIcon } from '@hcc/icons';
+import { ArrowClockwiseIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { AxiosError } from 'axios';
 
@@ -15,7 +15,6 @@ export default function TimelineFallback({
     return (
       <div className={styles.errorFallback.wrapper}>
         <div className={styles.errorFallback.message}>
-          <Icon source={WhistlingIcon} size="sm" />
           <span>{error.message}</span>
         </div>
       </div>
@@ -26,28 +25,27 @@ export default function TimelineFallback({
     return (
       <div className={styles.errorFallback.wrapper}>
         <div className={styles.errorFallback.message}>
-          <span>
-            네트워크 에러가 발생했습니다.
-            <br />
-            잠시 후 다시 시도해주세요.
-          </span>
+          연결이 원활하지 않습니다.
         </div>
-        <button onClick={resetErrorBoundary}>다시 시도</button>
+        <button
+          onClick={resetErrorBoundary}
+          className={styles.errorFallback.retry}
+        >
+          재시도
+          <Icon source={ArrowClockwiseIcon} size="xs" color="black" />
+        </button>
       </div>
     );
   }
 
   return (
     <div className={styles.errorFallback.wrapper}>
-      <div className={styles.errorFallback.message}>
-        <span>알 수 없는 오류가 발생했습니다.</span>
-      </div>
-      <button
-        onClick={resetErrorBoundary}
-        className={styles.errorFallback.retry}
-      >
-        다시 시도
-      </button>
+      <span className={styles.errorFallback.message}>
+        {error?.message || ''}
+      </span>
+      <span className={styles.errorFallback.message}>
+        잠시 후 다시 시도해주세요.
+      </span>
     </div>
   );
 }
