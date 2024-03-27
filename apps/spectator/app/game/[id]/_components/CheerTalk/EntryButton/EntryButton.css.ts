@@ -1,4 +1,5 @@
 import { rem, theme } from '@hcc/styles';
+import { breakpoint } from '@hcc/styles/dist/responsive.css';
 import { style } from '@vanilla-extract/css';
 
 export const entryContainer = style({
@@ -6,6 +7,10 @@ export const entryContainer = style({
   bottom: rem(16),
   right: rem(16),
   zIndex: 100,
+
+  ...breakpoint('tablet', {
+    right: rem(40),
+  }),
 });
 
 export const entryButtonContent = style({

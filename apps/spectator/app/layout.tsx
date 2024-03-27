@@ -1,6 +1,5 @@
 import '@hcc/styles/dist/globals.css';
 
-import { theme } from '@hcc/styles';
 import { Metadata, Viewport } from 'next';
 import { ReactNode } from 'react';
 
@@ -8,6 +7,7 @@ import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 
 import GoogleAnalytics from './GoogleAnalytics';
+import * as styles from './layout.css';
 import ReactQueryProvider from './ReactQueryProvider';
 
 import 'dayjs/locale/ko';
@@ -31,12 +31,12 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="ko">
+    <html lang="ko" className={styles.root}>
       <head>
         <title>훕치치!</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body style={{ margin: 'auto', maxWidth: theme.sizes.appWidth }}>
+      <body className={styles.body}>
         <ReactQueryProvider>
           <Header />
           <main>{children}</main>
