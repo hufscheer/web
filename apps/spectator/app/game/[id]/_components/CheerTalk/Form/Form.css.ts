@@ -40,14 +40,19 @@ export const radioInput = style({
 export const cheerTalkInputContainer = style({
   display: 'flex',
   alignItems: 'center',
+  gap: theme.spaces.default,
+});
+
+export const inputWrapper = style({
+  flex: '1',
+  borderRadius: rem(12),
+  backgroundColor: theme.colors.gray[1],
 });
 
 export const cheerTalkInput = style({
-  flex: '1',
-  padding: `${theme.spaces.sm} ${theme.spaces.default}`,
+  width: '100%',
+  paddingBlock: theme.spaces.sm,
   color: theme.colors.gray[4],
-  borderRadius: rem(12),
-  backgroundColor: theme.colors.gray[1],
   ...theme.textVariants.default,
   transform: 'scale(0.9)',
 });
@@ -56,12 +61,6 @@ export const cheerTalkSendButton = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-});
-
-export const cheerTalkSendIcon = style({
-  width: rem(24),
-  height: rem(24),
-  color: theme.colors.secondary[2],
 });
 
 export const scrollToBottomButton = style({
