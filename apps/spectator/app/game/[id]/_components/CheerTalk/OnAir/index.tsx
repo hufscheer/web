@@ -34,21 +34,20 @@ export default function CheerTalkOnAir({ cheerTalk }: CheerTalkInRealProps) {
 
   return (
     <AnimatePresence initial={false}>
-      <ol className={styles.billboard}>
-        <motion.div
-          key={cheerTalk.at(-1)?.cheerTalkId}
-          initial="initial"
-          animate="enter"
-          variants={variants}
-          transition={{
-            y: { type: 'spring', stiffness: 200, damping: 20, mass: 0.2 },
-            opacity: { duration: 0.2 },
-          }}
-          layout
-        >
-          <CheerTalkItem {...(cheerTalk.at(-1) as GameCheerTalkWithTeamInfo)} />
-        </motion.div>
-      </ol>
+      <motion.ul
+        key={cheerTalk.at(-1)?.cheerTalkId}
+        layout
+        initial="initial"
+        animate="enter"
+        variants={variants}
+        className={styles.billboard}
+        transition={{
+          y: { type: 'spring', stiffness: 200, damping: 20, mass: 0.2 },
+          opacity: { duration: 0.2 },
+        }}
+      >
+        <CheerTalkItem {...(cheerTalk.at(-1) as GameCheerTalkWithTeamInfo)} />
+      </motion.ul>
     </AnimatePresence>
   );
 }
