@@ -5,12 +5,15 @@ import { theme } from '@hcc/styles';
 import { Icon, Modal } from '@hcc/ui';
 import { useRef } from 'react';
 
+import useTracker from '@/hooks/useTracker';
+
 import * as styles from './Sidebar.css';
 import AsyncBoundary from '../AsyncBoundary';
 import LeagueList from '../LeagueList';
 import LeagueListSkeleton from '../LeagueList/Skeleton';
 
 export default function Sidebar() {
+  const { tracker } = useTracker();
   const ref = useRef<HTMLButtonElement>(null);
   const handleClose = () => {
     ref.current?.click();
@@ -18,7 +21,10 @@ export default function Sidebar() {
 
   return (
     <Modal>
-      <Modal.Trigger className={styles.openIconButton}>
+      <Modal.Trigger
+        className={styles.openIconButton}
+        onClick={() => tracker('sidebar', { clickEvent: 'open sidebar' })}
+      >
         <Icon
           source={HamburgerIcon}
           aria-label="메뉴 열기"

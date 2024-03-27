@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 import { useDebounce } from '@/hooks/useDebounce';
+import useTracker from '@/hooks/useTracker';
 import useCheerMutation from '@/queries/useCheerMutation';
 import { GameCheerType, GameTeamType, TeamDirection } from '@/types/game';
 
@@ -28,6 +29,8 @@ export default function CheerTeamBox({
   const [count, setCount] = useState(cheerCount);
   const { mutate } = useCheerMutation();
 
+  const { tracker } = useTracker();
+
   const debouncedMutateCheerCount = useDebounce(
     () => {
       if (count === cheerCount) return;
@@ -42,6 +45,10 @@ export default function CheerTeamBox({
   );
 
   const handleCheerClick = () => {
+    tracker('cheerVS', {
+      clickEvent: `${gameId}, ${gameTeamName} team (${direction})`,
+    });
+
     setCount(prev => {
       const nextCount = prev + 1;
 
