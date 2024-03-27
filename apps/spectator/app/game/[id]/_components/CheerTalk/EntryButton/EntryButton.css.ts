@@ -4,7 +4,7 @@ import { style } from '@vanilla-extract/css';
 export const entryContainer = style({
   position: 'fixed',
   bottom: rem(16),
-  right: rem(16),
+  right: rem(40),
   zIndex: 100,
 });
 
