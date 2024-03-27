@@ -69,11 +69,10 @@ export const divider = style({
 
 export const leagueTeam = styleVariants({
   wrapper: {
-    position: 'relative',
     paddingBlock: theme.spaces.sm,
     paddingInline: rem(10),
     justifyContent: 'start',
-    backgroundColor: theme.colors.gray[1],
+    background: `linear-gradient(${theme.colors.gray[1]}, ${theme.colors.white})`,
   },
   list: {
     display: 'flex',
@@ -100,26 +99,22 @@ export const leagueTeam = styleVariants({
     backgroundColor: theme.colors.primary[3],
     color: theme.colors.white,
   },
-  expandButton: {
-    position: 'absolute',
+});
+
+export const expandable = styleVariants({
+  button: {
+    height: rem(32),
+    width: rem(32),
     display: 'flex',
-    right: 0,
-    bottom: 0,
-    padding: theme.spaces.default,
+    float: 'right',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: theme.colors.gray[1],
   },
-  expandButtonFocused: {
-    backgroundColor: 'transparent',
-    padding: 0,
-    right: theme.spaces.default,
-    bottom: theme.spaces.default,
-  },
-  expandButtonIcon: {
+  caret: {
     transform: 'rotate(0)',
+    transition: 'transform 200ms ease-in-out',
   },
-  expandButtonIconFocused: {
-    transform: 'rotate(180deg)',
+  caretFocused: {
+    transform: 'rotate(-180deg)',
   },
 });

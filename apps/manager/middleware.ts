@@ -2,20 +2,14 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 const COOKIE_NAME = 'HCC_SES';
-const PUBLIC_ROUTES = '/login';
 
 export default function middleware(req: NextRequest) {
   const accessToken = getTokenFromCookies(req);
   const pathUrl = req.nextUrl.pathname;
 
-  if (accessToken && pathUrl.startsWith(PUBLIC_ROUTES)) {
-    const url = req.nextUrl.clone();
-    url.pathname = '/';
+  if (!accessToken && pathUrl === '/login/') return NextResponse.next();
 
-    return NextResponse.redirect(url);
-  }
-
-  if (!accessToken && !pathUrl.startsWith(PUBLIC_ROUTES)) {
+  if (!accessToken && pathUrl !== '/login/') {
     const url = req.nextUrl.clone();
     url.pathname = '/login';
 

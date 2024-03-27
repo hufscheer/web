@@ -11,7 +11,9 @@ export const useVideoQuery = (gameId: string) => {
   });
 
   if (!query.data.videoId)
-    throw new NotFoundError('경기 영상이 등록되지 않았습니다.');
+    throw new NotFoundError(
+      '해당 경기의 하이라이트 영상 업데이트 준비 중입니다.',
+    );
   if (query.error) throw query.error;
 
   return query;

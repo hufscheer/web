@@ -1,10 +1,14 @@
-import { rem } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 
 export const billboard = style({
   display: 'flex',
   flexDirection: 'column-reverse',
-  height: rem(30),
   overflow: 'hidden',
   position: 'relative',
+});
+
+export const onAirTalk = style({
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
 });

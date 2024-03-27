@@ -1,3 +1,3 @@
 export default function CheerVSFallback() {
-  return <div>에러</div>;
+  return <div></div>;
 }

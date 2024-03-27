@@ -120,3 +120,20 @@ export const skeleton = styleVariants({
     },
   ],
 });
+
+export const errorFallback = styleVariants({
+  root: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    minHeight: rem(95),
+  },
+  message: {
+    color: theme.colors.gray[5],
+    ...theme.textVariants.sm,
+
+    fontWeight: 500,
+    textAlign: 'center',
+  },
+});

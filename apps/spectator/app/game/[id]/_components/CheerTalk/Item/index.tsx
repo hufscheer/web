@@ -17,6 +17,7 @@ interface CheerTalkItemProps {
   isBlocked: boolean;
   createdAt: string;
   hasMenu?: boolean;
+  className?: string;
 }
 
 export default function CheerTalkItem({
@@ -27,6 +28,7 @@ export default function CheerTalkItem({
   isBlocked,
   createdAt,
   hasMenu = false,
+  className = '',
 }: CheerTalkItemProps) {
   return (
     <li
@@ -44,7 +46,11 @@ export default function CheerTalkItem({
         alt={'team'}
       />
       <div
-        className={clsx(styles.item.content, isBlocked && styles.item.blocked)}
+        className={clsx(
+          styles.item.content,
+          isBlocked && styles.item.blocked,
+          className && className,
+        )}
       >
         {isBlocked ? '⚠️ 관리자에 의해 차단된 톡입니다.' : content}
       </div>
