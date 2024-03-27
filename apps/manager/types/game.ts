@@ -135,7 +135,7 @@ export type GameLineupType = {
   id: number;
   name: string;
   description: string | null;
-  number: number;
+  number: number | null;
   isCaptain: boolean;
   leagueTeamPlayerId: number;
 };
