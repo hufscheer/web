@@ -8,9 +8,10 @@ import { TForm } from '../../page';
 
 type ScoreRecordProps = {
   form: UseFormReturnType<TForm, (values: TForm) => TForm>;
+  edit?: boolean;
 };
 
-export default function ScoreRecord({ form }: ScoreRecordProps) {
+export default function ScoreRecord({ form, edit = true }: ScoreRecordProps) {
   const { data: lineups } = useGameLineupQuery(form.values.gameTeamId);
 
   return (
@@ -24,6 +25,7 @@ export default function ScoreRecord({ form }: ScoreRecordProps) {
             label: player.name,
           }))}
           {...form.getInputProps('scoreLineupPlayerId')}
+          disabled={!edit}
         />
         <NumberInput
           {...form.getInputProps('score')}
@@ -31,6 +33,7 @@ export default function ScoreRecord({ form }: ScoreRecordProps) {
           min={1}
           max={10}
           suffix="점"
+          disabled={!edit}
         />
       </Flex>
     </>

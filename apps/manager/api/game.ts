@@ -10,6 +10,7 @@ import {
   GameTeamType,
   GameUpdatePayload,
   OptionalLineup,
+  GameTimelineRecord,
 } from '@/types/game';
 
 export const getGameDetail = async (gameId: string) => {
@@ -37,6 +38,33 @@ export const getGameTimeline = async (gameId: string) => {
   const { data } = await instance.get<GameTimelineType[]>(
     `/games/${gameId}/timeline/`,
   );
+
+  return data;
+};
+
+export const getTimelineRecord = async (recordId: string) => {
+  const { data } = await instance.get<GameTimelineRecord>(
+    `/timelines/${recordId}/`,
+  );
+
+  return data;
+};
+
+export const updateTimelineRecord = async (
+  recordId: string,
+  recordType: LowerRecordType,
+  payload: GenericRecordPayload<typeof recordType>,
+) => {
+  const { data } = await instance.put(
+    `/timelines/change/${recordId}/`,
+    payload,
+  );
+
+  return data;
+};
+
+export const deleteTimelineRecord = async (recordId: string) => {
+  const { data } = await instance.delete(`/timelines/delete/${recordId}/`);
 
   return data;
 };
