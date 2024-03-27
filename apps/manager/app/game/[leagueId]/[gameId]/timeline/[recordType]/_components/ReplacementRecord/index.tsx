@@ -8,9 +8,13 @@ import { TForm } from '../../page';
 
 type ReplacementRecordProps = {
   form: UseFormReturnType<TForm, (values: TForm) => TForm>;
+  edit?: boolean;
 };
 
-export default function ReplacementRecord({ form }: ReplacementRecordProps) {
+export default function ReplacementRecord({
+  form,
+  edit = true,
+}: ReplacementRecordProps) {
   const { data: lineups } = useGameLineupQuery(form.values.gameTeamId);
 
   return (
@@ -24,6 +28,7 @@ export default function ReplacementRecord({ form }: ReplacementRecordProps) {
         }))}
         {...form.getInputProps('replacedLineupPlayerId')}
         mb="lg"
+        disabled={!edit}
       />
 
       <Text mb={rem(8)}>교체 아웃 선수 정보</Text>
@@ -35,6 +40,7 @@ export default function ReplacementRecord({ form }: ReplacementRecordProps) {
         }))}
         {...form.getInputProps('originLineupPlayerId')}
         mb="lg"
+        disabled={!edit}
       />
     </>
   );

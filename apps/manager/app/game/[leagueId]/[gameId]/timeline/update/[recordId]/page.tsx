@@ -1,13 +1,13 @@
 'use client';
-import { ClockIcon } from '@hcc/icons';
-import { rem } from '@hcc/styles';
-import { Icon } from '@hcc/ui';
-import { Flex, Select, Text, TextInput } from '@mantine/core';
-import { DateTimePicker } from '@mantine/dates';
+import { rem, theme } from '@hcc/styles';
+import { Button, Flex, Select, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { FormEvent, useEffect, useState } from 'react';
 
 import Layout from '@/components/Layout';
+import useDeleteTimelineRecordMutation from '@/hooks/mutations/useDeleteTimelineRecordMutation';
+import useUpdateTimelineRecordMutation from '@/hooks/mutations/useUpdateTimelineRecordMutation';
 import useGameQuarterQuery from '@/hooks/queries/useGameQuarterQuery';
 import useGameTeamsQuery from '@/hooks/queries/useGameTeamsQuery';
 import { useTimelineRecordQuery } from '@/hooks/queries/useTimelineRecordQuery';
@@ -38,11 +38,17 @@ type PageProps = {
 
 export default function Page({ params }: PageProps) {
   const { recordId, gameId } = params;
-  // const [edit, setEdit] = useState<boolean>(false);
+  const router = useRouter();
+  const [edit, setEdit] = useState<boolean>(false);
 
   const { data: gameTeams } = useGameTeamsQuery(gameId);
   const { data: quarters } = useGameQuarterQuery('4'); // !축구만 대응
   const { data: timeline } = useTimelineRecordQuery(recordId);
+
+  const { mutate: updateTimelineRecordMutation } =
+    useUpdateTimelineRecordMutation();
+  const { mutate: deleteTimelineRecordMutation } =
+    useDeleteTimelineRecordMutation();
 
   const form = useForm<TForm>({
     initialValues: {
@@ -96,11 +102,59 @@ export default function Page({ params }: PageProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeline]);
 
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (edit) {
+      form.validate();
+      if (!timeline) return;
+
+      updateTimelineRecordMutation(
+        {
+          recordId,
+          recordType: form.values.recordType,
+          params: {
+            gameId: gameId,
+            gameTeamId: Number(form.values.gameTeamId),
+            recordedAt: String(timeline.recordInfo.recordedAt),
+            recordedQuarterId: Number(form.values.recordedQuarterId),
+            scoreLineupPlayerId: Number(form.values.scoreLineupPlayerId),
+            score: Number(form.values.score),
+            originLineupPlayerId: Number(form.values.originLineupPlayerId),
+            replacedLineupPlayerId: Number(form.values.replacedLineupPlayerId),
+          },
+        },
+        {
+          onSuccess: () => {
+            alert('타임라인이 수정되었습니다.');
+          },
+        },
+      );
+    }
+
+    setEdit(!edit);
+  };
+
+  const handleDelete = () => {
+    deleteTimelineRecordMutation(recordId, {
+      onSuccess: () => {
+        router.back();
+        alert('타임라인이 삭제되었습니다.');
+      },
+    });
+  };
+
   if (!timeline) return null;
 
   return (
-    <Layout navigationTitle="타임라인 수정">
-      <form id="timeline-edit-form" onSubmit={() => undefined}>
+    <Layout
+      navigationTitle="타임라인 수정"
+      navigationMenu={
+        <Button variant="subtle" type="submit" form="timeline-edit-form">
+          {edit ? '완료' : '편집'}
+        </Button>
+      }
+    >
+      <form id="timeline-edit-form" onSubmit={handleSubmit}>
         <Text mb={rem(8)}>상황</Text>
         <Flex direction="column" gap={rem(4)} mb="lg">
           <TextInput placeholder="상황" value={recordMap['score']} disabled />
@@ -111,6 +165,7 @@ export default function Page({ params }: PageProps) {
               label: team.gameTeamName,
             }))}
             {...form.getInputProps('gameTeamId')}
+            disabled={!edit}
           />
         </Flex>
 
@@ -123,26 +178,28 @@ export default function Page({ params }: PageProps) {
               label: quarter.name,
             }))}
             {...form.getInputProps('recordedQuarterId')}
-          />
-          <DateTimePicker
-            placeholder="시간"
-            locale="ko"
-            valueFormat="YYYY.MM.DD A HH:mm"
-            defaultValue={new Date()}
-            rightSection={<Icon source={ClockIcon} size="sm" color="gray" />}
-            {...form.getInputProps('recordedAt')}
+            disabled={!edit}
           />
           <Text size="sm" c="dimmed" ta="center" mt="xs">
-            현재 시간에 맞춰 자동적으로 표시되며, 수정할 수 있습니다.
+            타임라인 생성 시 저장된 시간은 수정할 수 없습니다.
           </Text>
         </Flex>
 
         {timeline.recordInfo.recordType === 'SCORE' && (
-          <ScoreRecord form={form} />
+          <ScoreRecord form={form} edit={edit} />
         )}
         {timeline.recordInfo.recordType === 'REPLACEMENT' && (
-          <ReplacementRecord form={form} />
+          <ReplacementRecord form={form} edit={edit} />
         )}
+
+        <Button
+          fullWidth
+          bg={theme.colors.white}
+          c={theme.colors.indicatorRed[3]}
+          onClick={handleDelete}
+        >
+          타임라인 삭제
+        </Button>
       </form>
     </Layout>
   );
