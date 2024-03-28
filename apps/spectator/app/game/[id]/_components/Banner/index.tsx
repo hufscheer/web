@@ -21,7 +21,7 @@ export default function Banner({ gameId }: BannerProps) {
           <span className={styles.badge}>{gameDetail.gameQuarter}</span>
           <span className={styles.round}>{gameDetail.gameName}</span>
           <time className={styles.time}>
-            {formatTime(gameDetail.startTime, 'MM.DD. hh:mm')}
+            {formatTime(gameDetail.startTime, 'MM.DD. HH:mm')}
           </time>
         </div>
         <span className={styles.score}>{secondTeam.score}</span>
