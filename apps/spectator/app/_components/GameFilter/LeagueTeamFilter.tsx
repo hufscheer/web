@@ -4,7 +4,7 @@ import { CaretDownIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { clsx } from 'clsx';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { MouseEvent, forwardRef, useRef, useState } from 'react';
+import { MouseEvent, forwardRef, useEffect, useRef, useState } from 'react';
 
 import useLeagueTeams from '@/queries/useLeagueTeams';
 
@@ -15,6 +15,23 @@ export default function LeagueTeamFilter({ leagueId }: { leagueId: number }) {
 
   const scrollRef = useRef<HTMLUListElement>(null);
   const itemRef = useRef<HTMLLIElement>(null);
+  const prevScrollLeftRef = useRef(0);
+
+  const toggleExpand = () => {
+    if (!isExpanded && scrollRef.current) {
+      prevScrollLeftRef.current = scrollRef.current.scrollLeft;
+    }
+    setIsExpanded(!isExpanded);
+  };
+
+  useEffect(() => {
+    if (!isExpanded && scrollRef.current) {
+      scrollRef.current.scrollTo({
+        left: prevScrollLeftRef.current,
+        behavior: 'instant',
+      });
+    }
+  }, [isExpanded]);
 
   const scrollToCenter = (itemElement: HTMLButtonElement) => {
     if (!itemElement || !scrollRef.current) return;
@@ -67,10 +84,7 @@ export default function LeagueTeamFilter({ leagueId }: { leagueId: number }) {
 
   return (
     <div className={styles.leagueTeam.wrapper}>
-      <button
-        className={clsx(styles.expandable.button)}
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
+      <button className={clsx(styles.expandable.button)} onClick={toggleExpand}>
         <Icon
           source={CaretDownIcon}
           className={clsx(

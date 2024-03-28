@@ -95,6 +95,7 @@ export const leagueTeam = styleVariants({
     '::-webkit-scrollbar': {
       display: 'none',
     },
+    overscrollBehavior: 'none',
     gap: theme.spaces.xs,
   },
   listExpanded: {
