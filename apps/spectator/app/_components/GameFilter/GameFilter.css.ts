@@ -89,19 +89,18 @@ export const leagueTeam = styleVariants({
   list: {
     display: 'flex',
     flexWrap: 'nowrap',
-    overflow: 'hidden',
+    overflowY: 'scroll',
+    msOverflowStyle: 'none',
+    scrollbarWidth: 'none',
+    '::-webkit-scrollbar': {
+      display: 'none',
+    },
     gap: theme.spaces.xs,
   },
-  listExpand: {
+  listExpanded: {
     flexWrap: 'wrap',
   },
   itemExpanded: [leagueTeamItemBase],
-  itemFlicking: [
-    leagueTeamItemBase,
-    {
-      marginRight: theme.spaces.xs,
-    },
-  ],
   itemFocused: {
     borderColor: theme.colors.primary[3],
     backgroundColor: theme.colors.primary[3],

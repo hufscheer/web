@@ -1,11 +1,10 @@
 'use client';
 
-import Flicking from '@egjs/react-flicking';
 import { CaretDownIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { clsx } from 'clsx';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { MouseEvent, forwardRef, useRef, useState } from 'react';
 
 import useLeagueTeams from '@/queries/useLeagueTeams';
 
@@ -13,6 +12,26 @@ import * as styles from './GameFilter.css';
 
 export default function LeagueTeamFilter({ leagueId }: { leagueId: number }) {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const scrollRef = useRef<HTMLUListElement>(null);
+  const itemRef = useRef<HTMLLIElement>(null);
+
+  const scrollToCenter = (itemElement: HTMLButtonElement) => {
+    if (!itemElement || !scrollRef.current) return;
+
+    const containerWidth =
+      scrollRef.current.parentElement?.clientWidth ??
+      scrollRef.current.clientWidth;
+    const itemWidth = itemElement.offsetWidth;
+    const itemLeft = itemElement.offsetLeft;
+
+    const scrollCoordinate = itemLeft - containerWidth / 2 + itemWidth / 2;
+
+    scrollRef.current.scrollTo({
+      left: scrollCoordinate,
+      behavior: 'smooth',
+    });
+  };
 
   const pathname = usePathname();
   const router = useRouter();
@@ -23,7 +42,10 @@ export default function LeagueTeamFilter({ leagueId }: { leagueId: number }) {
 
   if (!leagueTeams || !leagueTeams.length) return;
 
-  const handleRouter = (selectedTeamId: number) => {
+  const handleRouter = (
+    event: MouseEvent<HTMLButtonElement>,
+    selectedTeamId: number,
+  ) => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
     const teamIdParams = current.get('leagueTeam') || null;
     const teamIds = teamIdParams?.split(',').map(Number) || [];
@@ -32,6 +54,8 @@ export default function LeagueTeamFilter({ leagueId }: { leagueId: number }) {
     const updatedTeamIds = hasTeamId
       ? teamIds.filter(id => id !== selectedTeamId)
       : [...teamIds, selectedTeamId].sort((a, b) => a - b);
+
+    if (!hasTeamId) scrollToCenter(event.currentTarget);
 
     if (!updatedTeamIds.length) current.delete('leagueTeam');
     else current.set('leagueTeam', updatedTeamIds.join(','));
@@ -56,62 +80,60 @@ export default function LeagueTeamFilter({ leagueId }: { leagueId: number }) {
         />
       </button>
 
-      {isExpanded ? (
-        <ul
-          className={clsx(styles.leagueTeam.list, styles.leagueTeam.listExpand)}
-        >
-          {leagueTeams.map(team => {
-            const isSelected = selectedLeagueTeam.includes(
-              team.leagueTeamId.toString(),
-            );
+      <ul
+        ref={scrollRef}
+        className={clsx(
+          styles.leagueTeam.list,
+          isExpanded && styles.leagueTeam.listExpanded,
+        )}
+      >
+        {leagueTeams.map(team => {
+          const isSelected = selectedLeagueTeam.includes(
+            team.leagueTeamId.toString(),
+          );
 
-            return (
-              <li key={team.leagueTeamId}>
-                <button
-                  onClick={() => handleRouter(team.leagueTeamId)}
-                  className={clsx(
-                    styles.leagueTeam.itemExpanded,
-                    isSelected && styles.leagueTeam.itemFocused,
-                  )}
-                >
-                  {team.teamName}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      ) : (
-        <Flicking
-          viewportTag="div"
-          cameraTag="ul"
-          align="center"
-          duration={500}
-          autoResize={true}
-          bound={true}
-          hideBeforeInit={true}
-          className={clsx(styles.leagueTeam.list)}
-        >
-          {leagueTeams.map(team => {
-            const isSelected = selectedLeagueTeam.includes(
-              team.leagueTeamId.toString(),
-            );
-
-            return (
-              <li key={team.leagueTeamId}>
-                <button
-                  onClick={() => handleRouter(team.leagueTeamId)}
-                  className={clsx(
-                    styles.leagueTeam.itemFlicking,
-                    isSelected && styles.leagueTeam.itemFocused,
-                  )}
-                >
-                  {team.teamName}
-                </button>
-              </li>
-            );
-          })}
-        </Flicking>
-      )}
+          return (
+            <Item
+              key={team.leagueTeamId}
+              team={team}
+              isSelected={isSelected}
+              handleRouter={handleRouter}
+              ref={itemRef}
+            />
+          );
+        })}
+      </ul>
     </div>
   );
 }
+
+type ItemProps = {
+  isSelected: boolean;
+  handleRouter: (
+    e: MouseEvent<HTMLButtonElement>,
+    selectedTeamId: number,
+  ) => void;
+  team: {
+    leagueTeamId: number;
+    teamName: string;
+  };
+};
+
+const Item = forwardRef<HTMLLIElement, ItemProps>(function Item(
+  { team: { leagueTeamId, teamName }, isSelected, handleRouter },
+  ref,
+) {
+  return (
+    <li ref={ref}>
+      <button
+        onClick={e => handleRouter(e, leagueTeamId)}
+        className={clsx(
+          styles.leagueTeam.itemExpanded,
+          isSelected && styles.leagueTeam.itemFocused,
+        )}
+      >
+        {teamName}
+      </button>
+    </li>
+  );
+});
