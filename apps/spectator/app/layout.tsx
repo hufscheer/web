@@ -6,9 +6,8 @@ import { ReactNode } from 'react';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 
-import GoogleAnalytics from './GoogleAnalytics';
 import * as styles from './layout.css';
-import ReactQueryProvider from './ReactQueryProvider';
+import Providers from './providers';
 
 import 'dayjs/locale/ko';
 import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
@@ -37,13 +36,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className={styles.body}>
-        <ReactQueryProvider>
+        <Providers>
           <Header />
           <main>{children}</main>
           <Footer />
-        </ReactQueryProvider>
+        </Providers>
       </body>
-      <GoogleAnalytics />
     </html>
   );
 }

@@ -11,6 +11,7 @@ export const yearList = style({
 
 export const yearName = style({
   marginBottom: theme.spaces.xs,
+  paddingRight: rem(2),
 
   fontSize: theme.textVariants.default.fontSize,
   fontWeight: theme.textVariants.lg.fontWeight,
