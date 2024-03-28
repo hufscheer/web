@@ -17,6 +17,8 @@ type CheerTeamProps = (GameCheerType & GameTeamType) & {
   fullCheerCount: number;
 };
 
+const MAX_COUNT = 500;
+
 export default function CheerTeamBox({
   gameId,
   direction,
@@ -50,6 +52,12 @@ export default function CheerTeamBox({
   const handleCheerClick = () => {
     setCount(prev => {
       const nextCount = prev + 1;
+
+      if (nextCount - cheerCount > MAX_COUNT) {
+        alert('잠시 쉬었다가 다시 응원해주세요!');
+
+        return prev;
+      }
 
       debouncedMutateCheerCount();
 
