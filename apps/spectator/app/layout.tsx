@@ -1,5 +1,6 @@
 import '@hcc/styles/dist/globals.css';
 
+import { Analytics } from '@vercel/analytics/react';
 import { Metadata, Viewport } from 'next';
 import { ReactNode } from 'react';
 
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <main>{children}</main>
           <Footer />
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
