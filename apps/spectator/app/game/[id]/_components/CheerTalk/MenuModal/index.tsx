@@ -1,8 +1,8 @@
-import { track } from '@amplitude/analytics-browser';
 import { ExclamationCircleFillIcon } from '@hcc/icons';
 import { Icon, Modal } from '@hcc/ui';
 import { ReactNode } from 'react';
 
+import useTracker from '@/hooks/useTracker';
 import useReportCheerTalkMutation from '@/queries/useReportCheerTalkMutation/query';
 
 import * as styles from './MenuModal.css';
@@ -20,6 +20,7 @@ const CheerTalkMenuModal = ({
   className,
   children,
 }: CheerTalkMenuModalProps) => {
+  const { tracker } = useTracker();
   const { mutate, isSuccess } = useReportCheerTalkMutation();
 
   const handleReportButton = async (payload: { cheerTalkId: number }) => {
@@ -29,7 +30,7 @@ const CheerTalkMenuModal = ({
       return;
     }
 
-    track(`report cheerTalk | "${content}"`, { clickEvent: 'report' });
+    tracker(`report cheerTalk | "${content}"`, { clickEvent: 'report' });
 
     mutate(payload);
   };

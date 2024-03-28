@@ -1,13 +1,15 @@
-import { track } from '@amplitude/analytics-browser';
 import { ChatIcon } from '@hcc/icons';
 import { Icon, Tooltip } from '@hcc/ui';
 import { useEffect, useState, ComponentProps } from 'react';
+
+import useTracker from '@/hooks/useTracker';
 
 import * as styles from './EntryButton.css';
 
 const TOOLTIP_KEY = 'cheertalk';
 
 export default function CheerTalkEntryButton(props: ComponentProps<'button'>) {
+  const { tracker } = useTracker();
   const [isCheerTalkTooltipVisible, setIsCheerTalkTooltipVisible] =
     useState(true);
 
@@ -18,7 +20,7 @@ export default function CheerTalkEntryButton(props: ComponentProps<'button'>) {
   }, []);
 
   const handleButtonClick = () => {
-    track('open cheerTalk', { clickEvent: 'cheerTalk' });
+    tracker('open cheerTalk', { clickEvent: 'cheerTalk' });
 
     setIsCheerTalkTooltipVisible(false);
     window.localStorage.setItem(TOOLTIP_KEY, String(false));
