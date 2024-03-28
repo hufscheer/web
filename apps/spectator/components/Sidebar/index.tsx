@@ -1,10 +1,11 @@
 'use client';
 
-import { track } from '@amplitude/analytics-browser';
 import { HamburgerIcon } from '@hcc/icons';
 import { theme } from '@hcc/styles';
 import { Icon, Modal } from '@hcc/ui';
 import { useRef } from 'react';
+
+import useTracker from '@/hooks/useTracker';
 
 import * as styles from './Sidebar.css';
 import AsyncBoundary from '../AsyncBoundary';
@@ -12,6 +13,7 @@ import LeagueList from '../LeagueList';
 import LeagueListSkeleton from '../LeagueList/Skeleton';
 
 export default function Sidebar() {
+  const { tracker } = useTracker();
   const ref = useRef<HTMLButtonElement>(null);
   const handleClose = () => {
     ref.current?.click();
@@ -21,7 +23,7 @@ export default function Sidebar() {
     <Modal>
       <Modal.Trigger
         className={styles.openIconButton}
-        onClick={() => track('open sidebar', { clickEvent: 'sidebar' })}
+        onClick={() => tracker('sidebar', { clickEvent: 'open sidebar' })}
       >
         <Icon
           source={HamburgerIcon}

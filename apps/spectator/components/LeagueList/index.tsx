@@ -1,8 +1,8 @@
-import { track } from '@amplitude/analytics-browser';
 import { Accordion } from '@hcc/ui';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 
+import useTracker from '@/hooks/useTracker';
 import useLeagueArchives from '@/queries/useLeagueArchives';
 
 import * as styles from './LeagueList.css';
@@ -19,10 +19,11 @@ type LeagueListProps = {
 };
 
 export default function LeagueList({ handleClose }: LeagueListProps) {
+  const { tracker } = useTracker();
   const { data: leagues } = useLeagueArchives<typeof YEARS_LIST>(YEARS_LIST);
 
   const handleClickLeague = (year: number, leagueId: number, name: string) => {
-    track(`leagueList | ${year}년도 ${name}(${leagueId})`, {
+    tracker(`leagueList | ${year}년도 ${name}(${leagueId})`, {
       clickEvent: `Select Archived League`,
     });
 

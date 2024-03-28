@@ -1,8 +1,8 @@
-import { track } from '@amplitude/analytics-browser';
 import { Modal } from '@hcc/ui';
 import { useMemo, useState } from 'react';
 
 import useSocket from '@/hooks/useSocket';
+import useTracker from '@/hooks/useTracker';
 import useCheerTalkById from '@/queries/useCheerTalkById';
 import { useGameTeamInfo } from '@/queries/useGameTeamInfo';
 import { GameCheerTalkType, GameCheerTalkWithTeamInfo } from '@/types/game';
@@ -23,6 +23,7 @@ export default function CheerTalk({
   gameId,
   defaultState,
 }: CheerTalkItemProps) {
+  const { tracker } = useTracker();
   const [socketTalkList, setSocketTalkList] = useState<
     GameCheerTalkWithTeamInfo[]
   >([]);
@@ -51,7 +52,7 @@ export default function CheerTalk({
 
   return (
     <Modal defaultState={defaultState}>
-      <Modal.Trigger as="span" onClick={() => track('onAir CheerTalk Modal')}>
+      <Modal.Trigger as="span" onClick={() => tracker('onAir CheerTalk Modal')}>
         <CheerTalkOnAir
           cheerTalk={
             !socketTalkList.length ? cheerTalkList.pages : socketTalkList

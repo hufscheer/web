@@ -1,11 +1,11 @@
 'use client';
 
-import { track } from '@amplitude/analytics-browser';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 import Image from 'next/image';
 import { useState } from 'react';
 
 import { useDebounce } from '@/hooks/useDebounce';
+import useTracker from '@/hooks/useTracker';
 import useCheerMutation from '@/queries/useCheerMutation';
 import { GameCheerType, GameTeamType, TeamDirection } from '@/types/game';
 
@@ -26,6 +26,7 @@ export default function CheerTeamBox({
   gameTeamId,
   gameTeamName,
 }: CheerTeamProps) {
+  const { tracker } = useTracker();
   const [count, setCount] = useState(cheerCount);
   const { mutate } = useCheerMutation();
 
@@ -33,7 +34,7 @@ export default function CheerTeamBox({
     () => {
       if (count === cheerCount) return;
 
-      track(`cheerVS | ${gameTeamName}(${gameId}) - ${count - cheerCount}`, {
+      tracker(`cheerVS | ${gameTeamName}(${gameId}) - ${count - cheerCount}`, {
         clickEvent: `team (${direction})`,
       });
 
