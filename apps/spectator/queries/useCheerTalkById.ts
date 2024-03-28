@@ -28,9 +28,6 @@ export default function useCheerTalkById(gameId: string) {
     }),
 
     // refetch options
-    refetchOnReconnect: true,
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
     staleTime: 1000,
   });
 
