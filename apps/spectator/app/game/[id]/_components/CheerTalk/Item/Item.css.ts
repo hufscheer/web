@@ -9,8 +9,11 @@ const itemBase = style({
 });
 
 export const itemWrapper = styleVariants({
-  left: [itemBase],
-  right: [itemBase, { flexDirection: 'row-reverse' }],
+  left: [itemBase, { paddingRight: theme.spaces.lg }],
+  right: [
+    itemBase,
+    { flexDirection: 'row-reverse', paddingLeft: theme.spaces.lg },
+  ],
 });
 
 export const clickable = style({
