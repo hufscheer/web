@@ -1,5 +1,6 @@
 'use client';
 
+import Flicking from '@egjs/react-flicking';
 import { CaretDownIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { clsx } from 'clsx';
@@ -55,32 +56,62 @@ export default function LeagueTeamFilter({ leagueId }: { leagueId: number }) {
         />
       </button>
 
-      <ul
-        className={clsx(
-          styles.leagueTeam.list,
-          isExpanded && styles.leagueTeam.listExpand,
-        )}
-      >
-        {leagueTeams.map(team => {
-          const isSelected = selectedLeagueTeam.includes(
-            team.leagueTeamId.toString(),
-          );
+      {isExpanded ? (
+        <ul
+          className={clsx(styles.leagueTeam.list, styles.leagueTeam.listExpand)}
+        >
+          {leagueTeams.map(team => {
+            const isSelected = selectedLeagueTeam.includes(
+              team.leagueTeamId.toString(),
+            );
 
-          return (
-            <li key={team.leagueTeamId}>
-              <button
-                onClick={() => handleRouter(team.leagueTeamId)}
-                className={clsx(
-                  styles.leagueTeam.item,
-                  isSelected && styles.leagueTeam.itemFocused,
-                )}
-              >
-                {team.teamName}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+            return (
+              <li key={team.leagueTeamId}>
+                <button
+                  onClick={() => handleRouter(team.leagueTeamId)}
+                  className={clsx(
+                    styles.leagueTeam.itemExpanded,
+                    isSelected && styles.leagueTeam.itemFocused,
+                  )}
+                >
+                  {team.teamName}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <Flicking
+          viewportTag="div"
+          cameraTag="ul"
+          align="center"
+          duration={500}
+          autoResize={true}
+          bound={true}
+          hideBeforeInit={true}
+          className={clsx(styles.leagueTeam.list)}
+        >
+          {leagueTeams.map(team => {
+            const isSelected = selectedLeagueTeam.includes(
+              team.leagueTeamId.toString(),
+            );
+
+            return (
+              <li key={team.leagueTeamId}>
+                <button
+                  onClick={() => handleRouter(team.leagueTeamId)}
+                  className={clsx(
+                    styles.leagueTeam.itemFlicking,
+                    isSelected && styles.leagueTeam.itemFocused,
+                  )}
+                >
+                  {team.teamName}
+                </button>
+              </li>
+            );
+          })}
+        </Flicking>
+      )}
     </div>
   );
 }
