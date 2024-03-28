@@ -23,7 +23,7 @@ export default function AmplitudeContextProvider({
   useEffect(() => {
     init(AMPLITUDE_API_KEY, undefined, {
       defaultTracking: {
-        sessions: true,
+        pageViews: false,
       },
     });
   }, []);
