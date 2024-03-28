@@ -1,3 +1,4 @@
+import { track } from '@amplitude/analytics-browser';
 import { Modal } from '@hcc/ui';
 import { useMemo, useState } from 'react';
 
@@ -50,7 +51,7 @@ export default function CheerTalk({
 
   return (
     <Modal defaultState={defaultState}>
-      <Modal.Trigger as="span">
+      <Modal.Trigger as="span" onClick={() => track('onAir CheerTalk Modal')}>
         <CheerTalkOnAir
           cheerTalk={
             !socketTalkList.length ? cheerTalkList.pages : socketTalkList

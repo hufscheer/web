@@ -1,3 +1,4 @@
+import { track } from '@amplitude/analytics-browser';
 import { Accordion } from '@hcc/ui';
 import dayjs from 'dayjs';
 import Link from 'next/link';
@@ -20,6 +21,14 @@ type LeagueListProps = {
 export default function LeagueList({ handleClose }: LeagueListProps) {
   const { data: leagues } = useLeagueArchives<typeof YEARS_LIST>(YEARS_LIST);
 
+  const handleClickLeague = (year: number, leagueId: number, name: string) => {
+    track(`leagueList | ${year}년도 ${name}(${leagueId})`, {
+      clickEvent: `Select Archived League`,
+    });
+
+    handleClose();
+  };
+
   return (
     <>
       {YEARS_LIST.map(year => (
@@ -38,7 +47,9 @@ export default function LeagueList({ handleClose }: LeagueListProps) {
                         pathname: '/',
                         query: { year, league: league.leagueId },
                       }}
-                      onClick={handleClose}
+                      onClick={() =>
+                        handleClickLeague(year, league.leagueId, league.name)
+                      }
                     >
                       {league.name}
                     </Link>

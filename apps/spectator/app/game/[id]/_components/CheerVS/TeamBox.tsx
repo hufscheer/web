@@ -1,5 +1,6 @@
 'use client';
 
+import { track } from '@amplitude/analytics-browser';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -31,6 +32,10 @@ export default function CheerTeamBox({
   const debouncedMutateCheerCount = useDebounce(
     () => {
       if (count === cheerCount) return;
+
+      track(`cheerVS | ${gameTeamName}(${gameId}) - ${count - cheerCount}`, {
+        clickEvent: `team (${direction})`,
+      });
 
       mutate(
         { cheerCount: count - cheerCount, gameId, gameTeamId },

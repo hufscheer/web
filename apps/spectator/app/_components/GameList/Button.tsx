@@ -1,3 +1,4 @@
+import { track } from '@amplitude/analytics-browser';
 import Link from 'next/link';
 
 import { GAME_STATE, TABS_CONFIG } from '@/constants/configs';
@@ -21,6 +22,7 @@ export default function GameButton({ id, state, hasVideo }: GameButtonProps) {
       {state === GAME_STATE.PLAYING && (
         <Link
           href={{ pathname: `/game/${id}`, query: { cheer: 'open' } }}
+          onClick={() => track(`gameList | cheer button ${id}`)}
           className={styles.gameButtonArea.cheer}
         >
           응원
@@ -32,6 +34,7 @@ export default function GameButton({ id, state, hasVideo }: GameButtonProps) {
             pathname: `/game/${id}`,
             query: { tab: TABS_CONFIG.HIGHLIGHT },
           }}
+          onClick={() => track(`gameList | video button ${id}`)}
           className={styles.gameButtonArea.record}
         >
           영상
@@ -43,6 +46,7 @@ export default function GameButton({ id, state, hasVideo }: GameButtonProps) {
           pathname: `/game/${id}`,
           query: { tab: TABS_CONFIG.TIMELINE },
         }}
+        onClick={() => track(`gameList | timeline card ${id}`)}
         className={styles.gameButtonArea.record}
       >
         기록

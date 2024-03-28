@@ -1,3 +1,4 @@
+import { track } from '@amplitude/analytics-browser';
 import { ExclamationCircleFillIcon } from '@hcc/icons';
 import { Icon, Modal } from '@hcc/ui';
 import { ReactNode } from 'react';
@@ -27,6 +28,8 @@ const CheerTalkMenuModal = ({
 
       return;
     }
+
+    track(`report cheerTalk | "${content}"`, { clickEvent: 'report' });
 
     mutate(payload);
   };

@@ -1,3 +1,4 @@
+import { track } from '@amplitude/analytics-browser';
 import { ChatIcon } from '@hcc/icons';
 import { Icon, Tooltip } from '@hcc/ui';
 import { useEffect, useState, ComponentProps } from 'react';
@@ -17,6 +18,8 @@ export default function CheerTalkEntryButton(props: ComponentProps<'button'>) {
   }, []);
 
   const handleButtonClick = () => {
+    track('open cheerTalk', { clickEvent: 'cheerTalk' });
+
     setIsCheerTalkTooltipVisible(false);
     window.localStorage.setItem(TOOLTIP_KEY, String(false));
   };
