@@ -3,7 +3,6 @@ import { Select, Text } from '@mantine/core';
 import { UseFormReturnType } from '@mantine/form';
 
 import useGameLineupQuery from '@/hooks/queries/useGameLineupQuery';
-import useLineupPlayerQuery from '@/hooks/queries/useLineupPlayerQuery';
 
 import { TForm } from '../../page';
 
@@ -16,19 +15,14 @@ export default function ReplacementRecord({
   form,
   edit = true,
 }: ReplacementRecordProps) {
-  const { data: players } = useLineupPlayerQuery(form.values.gameTeamId);
   const { data: lineups } = useGameLineupQuery(form.values.gameTeamId);
-
-  const benchPlayers = players?.filter(player =>
-    lineups?.findIndex(lineup => lineup.leagueTeamPlayerId !== player.id),
-  );
 
   return (
     <>
       <Text mb={rem(8)}>교체 투입 선수 정보</Text>
       <Select
         placeholder="선수"
-        data={benchPlayers?.map(player => ({
+        data={lineups?.map(player => ({
           value: String(player.id),
           label: player.name,
         }))}
