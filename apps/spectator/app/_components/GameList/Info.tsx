@@ -1,3 +1,4 @@
+import { track } from '@amplitude/analytics-browser';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -17,7 +18,11 @@ export default function GameInfo({ gameTeams, gameId, state }: GameInfoProps) {
   const IMAGE_SIZE = 36;
 
   return (
-    <Link href={`/game/${gameId}`} className={styles.gameInfoArea}>
+    <Link
+      href={`/game/${gameId}`}
+      className={styles.gameInfoArea}
+      onClick={() => track(`gameList | ${gameId} ${state} game card`)}
+    >
       <div className={styles.gameInfoRow.root}>
         <div className={styles.gameInfoRow.team}>
           <Image

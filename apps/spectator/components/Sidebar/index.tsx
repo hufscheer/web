@@ -1,5 +1,6 @@
 'use client';
 
+import { track } from '@amplitude/analytics-browser';
 import { HamburgerIcon } from '@hcc/icons';
 import { theme } from '@hcc/styles';
 import { Icon, Modal } from '@hcc/ui';
@@ -18,7 +19,10 @@ export default function Sidebar() {
 
   return (
     <Modal>
-      <Modal.Trigger className={styles.openIconButton}>
+      <Modal.Trigger
+        className={styles.openIconButton}
+        onClick={() => track('open sidebar', { clickEvent: 'sidebar' })}
+      >
         <Icon
           source={HamburgerIcon}
           aria-label="메뉴 열기"
