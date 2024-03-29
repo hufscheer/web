@@ -26,6 +26,9 @@ export default function useCheerTalkById(gameId: string) {
       ),
       pageParams: [...data.pageParams].reverse(),
     }),
+
+    // refetch options
+    staleTime: 1000,
   });
 
   if (query.data.pageParams.length === 0) throw query.error;
