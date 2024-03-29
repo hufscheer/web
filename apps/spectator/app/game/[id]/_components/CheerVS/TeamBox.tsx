@@ -34,8 +34,8 @@ export default function CheerTeamBox({
     () => {
       if (count === cheerCount) return;
 
-      tracker(`cheerVS | ${gameTeamName}(${gameId}) - ${count - cheerCount}`, {
-        clickEvent: `team (${direction})`,
+      tracker(`cheerVS ${gameTeamName}(${gameId})`, {
+        clickEvent: `${count - cheerCount}`,
       });
 
       mutate(

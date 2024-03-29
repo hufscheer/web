@@ -20,7 +20,7 @@ export default function CheerTalkEntryButton(props: ComponentProps<'button'>) {
   }, []);
 
   const handleButtonClick = () => {
-    tracker('open cheerTalk', { clickEvent: 'cheerTalk' });
+    tracker('cheerTalk', { clickEvent: 'open cheerTalk' });
 
     setIsCheerTalkTooltipVisible(false);
     window.localStorage.setItem(TOOLTIP_KEY, String(false));
