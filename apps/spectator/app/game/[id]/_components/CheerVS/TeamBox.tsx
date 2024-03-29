@@ -44,7 +44,7 @@ export default function CheerTeamBox({
       );
     },
     1000,
-    [cheerCount, gameId, gameTeamId, mutate],
+    [gameId, gameTeamId, mutate],
   );
 
   const handleCheerClick = () => {
