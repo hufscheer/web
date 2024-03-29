@@ -9,15 +9,10 @@ const itemBase = style({
 });
 
 export const itemWrapper = styleVariants({
-  left: [
-    itemBase,
-    {
-      paddingRight: theme.spaces.xl,
-    },
-  ],
+  left: [itemBase, { paddingRight: theme.spaces.lg }],
   right: [
     itemBase,
-    { flexDirection: 'row-reverse', paddingLeft: theme.spaces.xl },
+    { flexDirection: 'row-reverse', paddingLeft: theme.spaces.lg },
   ],
 });
 
@@ -30,6 +25,7 @@ const infoBase = style({
   display: 'flex',
   alignItems: 'center',
   color: theme.colors.gray[4],
+  width: 'max-content',
   gap: rem(2),
 });
 

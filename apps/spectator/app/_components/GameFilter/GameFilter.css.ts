@@ -67,6 +67,18 @@ export const divider = style({
   bottom: 0,
 });
 
+const leagueTeamItemBase = style({
+  paddingBlock: theme.spaces.xs,
+  paddingInline: theme.spaces.sm,
+  whiteSpace: 'nowrap',
+  border: `${rem(1)} solid ${theme.colors.gray[2]}`,
+  borderRadius: rem(16),
+  backgroundColor: theme.colors.white,
+  ...theme.textVariants.xs,
+  color: theme.colors.gray[4],
+  fontWeight: 'bold',
+});
+
 export const leagueTeam = styleVariants({
   wrapper: {
     paddingBlock: theme.spaces.sm,
@@ -77,23 +89,19 @@ export const leagueTeam = styleVariants({
   list: {
     display: 'flex',
     flexWrap: 'nowrap',
-    overflow: 'hidden',
+    overflowY: 'scroll',
+    msOverflowStyle: 'none',
+    scrollbarWidth: 'none',
+    '::-webkit-scrollbar': {
+      display: 'none',
+    },
+    overscrollBehavior: 'none',
     gap: theme.spaces.xs,
   },
-  listExpand: {
+  listExpanded: {
     flexWrap: 'wrap',
   },
-  item: {
-    paddingBlock: theme.spaces.xs,
-    paddingInline: theme.spaces.sm,
-    whiteSpace: 'nowrap',
-    border: `${rem(1)} solid ${theme.colors.gray[2]}`,
-    borderRadius: rem(16),
-    backgroundColor: theme.colors.white,
-    ...theme.textVariants.xs,
-    color: theme.colors.gray[4],
-    fontWeight: 'bold',
-  },
+  itemExpanded: [leagueTeamItemBase],
   itemFocused: {
     borderColor: theme.colors.primary[3],
     backgroundColor: theme.colors.primary[3],
