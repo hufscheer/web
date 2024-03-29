@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useCallback, useState } from 'react';
+import { createContext, useCallback, useEffect, useState } from 'react';
 
 import ModalClose from './Close';
 import ModalContent from './Content';
@@ -27,6 +27,11 @@ const Modal = ({ defaultState, children }: ModalProps) => {
   const [open, setOpen] = useState(!!defaultState);
   const onOpenChange = useCallback((open: boolean) => setOpen(open), []);
   const onOpenToggle = useCallback(() => setOpen(prev => !prev), []);
+
+  useEffect(() => {
+    if (open) document.body.style.overflow = 'hidden';
+    else document.body.style.overflow = '';
+  }, [open]);
 
   return (
     <ModalContext.Provider value={{ open, onOpenChange, onOpenToggle }}>

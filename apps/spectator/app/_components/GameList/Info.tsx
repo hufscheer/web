@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import useTracker from '@/hooks/useTracker';
 import { GameListType, GameState } from '@/types/game';
 
 import * as styles from './GameList.css';
@@ -12,12 +13,18 @@ type GameInfoProps = {
 };
 
 export default function GameInfo({ gameTeams, gameId, state }: GameInfoProps) {
+  const { tracker } = useTracker();
+
   // todo: fisished 상태일 때 경기 승패를 score 색상으로 표시
   const [firstTeam, secondTeam] = gameTeams;
   const IMAGE_SIZE = 36;
 
   return (
-    <Link href={`/game/${gameId}`} className={styles.gameInfoArea}>
+    <Link
+      href={`/game/${gameId}`}
+      className={styles.gameInfoArea}
+      onClick={() => tracker(`gameList | ${gameId} ${state} game card`)}
+    >
       <div className={styles.gameInfoRow.root}>
         <div className={styles.gameInfoRow.team}>
           <Image

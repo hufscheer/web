@@ -28,6 +28,7 @@ const panelItemBase = style({
   paddingBlock: rem(12),
   color: theme.colors.gray[4],
   borderBlock: `1px solid ${theme.colors.gray[2]}`,
+  backgroundColor: theme.colors.white,
 });
 
 export const panel = styleVariants({

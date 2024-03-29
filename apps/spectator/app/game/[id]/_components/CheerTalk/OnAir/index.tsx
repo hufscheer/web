@@ -23,7 +23,7 @@ export default function CheerTalkOnAir({ cheerTalk }: CheerTalkInRealProps) {
   const variants = {
     initial: {
       opacity: 0,
-      y: 300,
+      y: 20,
     },
     enter: {
       opacity: 1,

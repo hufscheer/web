@@ -4,6 +4,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import React, { ReactNode, useState } from 'react';
 
+import AmplitudeContextProvider from '@/contexts/AmplitudeContext';
+
 type ProviderProps = {
   children: ReactNode;
 };
@@ -24,9 +26,14 @@ export default function Provider({ children }: ProviderProps) {
   );
 
   return (
-    <QueryClientProvider client={queryClient}>
-      {children}
-      <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
-    </QueryClientProvider>
+    <AmplitudeContextProvider>
+      <QueryClientProvider client={queryClient}>
+        {children}
+        <ReactQueryDevtools
+          initialIsOpen={false}
+          buttonPosition="bottom-left"
+        />
+      </QueryClientProvider>
+    </AmplitudeContextProvider>
   );
 }
