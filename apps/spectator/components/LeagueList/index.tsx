@@ -23,8 +23,8 @@ export default function LeagueList({ handleClose }: LeagueListProps) {
   const { data: leagues } = useLeagueArchives<typeof YEARS_LIST>(YEARS_LIST);
 
   const handleClickLeague = (year: number, leagueId: number, name: string) => {
-    tracker(`leagueList | ${year}년도 ${name}(${leagueId})`, {
-      clickEvent: `Select Archived League`,
+    tracker(`leagueList`, {
+      clickEvent: `Selected ${year}년도 ${name}(${leagueId})`,
     });
 
     handleClose();

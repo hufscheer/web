@@ -23,7 +23,9 @@ export default function GameInfo({ gameTeams, gameId, state }: GameInfoProps) {
     <Link
       href={`/game/${gameId}`}
       className={styles.gameInfoArea}
-      onClick={() => tracker(`gameList | ${gameId} ${state} game card`)}
+      onClick={() =>
+        tracker(`gameList`, { clickEvent: `${gameId} ${state} game card` })
+      }
     >
       <div className={styles.gameInfoRow.root}>
         <div className={styles.gameInfoRow.team}>

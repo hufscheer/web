@@ -30,7 +30,7 @@ const CheerTalkMenuModal = ({
       return;
     }
 
-    tracker(`report cheerTalk | "${content}"`, { clickEvent: 'report' });
+    tracker(`report`, { clickEvent: `report cheerTalk | "${content}"` });
 
     mutate(payload);
   };

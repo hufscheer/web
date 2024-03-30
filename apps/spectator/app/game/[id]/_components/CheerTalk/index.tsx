@@ -52,7 +52,12 @@ export default function CheerTalk({
 
   return (
     <Modal defaultState={defaultState}>
-      <Modal.Trigger as="span" onClick={() => tracker('onAir CheerTalk Modal')}>
+      <Modal.Trigger
+        as="span"
+        onClick={() =>
+          tracker('onAir', { clickEvent: 'onAir CheerTalk Modal' })
+        }
+      >
         <CheerTalkOnAir
           cheerTalk={
             !socketTalkList.length ? cheerTalkList.pages : socketTalkList
