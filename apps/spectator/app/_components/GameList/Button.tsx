@@ -23,7 +23,9 @@ export default function GameButton({ id, state, hasVideo }: GameButtonProps) {
       {state === GAME_STATE.PLAYING && (
         <Link
           href={{ pathname: `/game/${id}`, query: { cheer: 'open' } }}
-          onClick={() => tracker(`gameList | cheer button ${id}`)}
+          onClick={() =>
+            tracker(`gameList`, { clickEvent: `cheer button ${id}` })
+          }
           className={styles.gameButtonArea.cheer}
         >
           응원
@@ -35,7 +37,11 @@ export default function GameButton({ id, state, hasVideo }: GameButtonProps) {
             pathname: `/game/${id}`,
             query: { tab: TABS_CONFIG.HIGHLIGHT },
           }}
-          onClick={() => tracker(`gameList | video button ${id}`)}
+          onClick={() =>
+            tracker(`gameList`, {
+              clickEvent: `highlight button ${id}`,
+            })
+          }
           className={styles.gameButtonArea.record}
         >
           영상
@@ -47,7 +53,9 @@ export default function GameButton({ id, state, hasVideo }: GameButtonProps) {
           pathname: `/game/${id}`,
           query: { tab: TABS_CONFIG.TIMELINE },
         }}
-        onClick={() => tracker(`gameList | timeline card ${id}`)}
+        onClick={() =>
+          tracker(`gameList`, { clickEvent: `timeline button ${id}` })
+        }
         className={styles.gameButtonArea.record}
       >
         기록

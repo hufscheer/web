@@ -19,6 +19,5 @@ export default function useCheerMutation() {
         queryKey: ['game-cheer', variables.gameId],
       });
     },
-    retry: 1,
   });
 }
