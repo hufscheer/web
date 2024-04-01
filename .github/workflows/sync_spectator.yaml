@@ -35,7 +35,7 @@ jobs:
       - name: Gather changed files
         id: gather_files
         run: |
-          git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }} > changed_files.txt
+          git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} > changed_files.txt
 
       - name: Create new branch in target repository
         run: |
