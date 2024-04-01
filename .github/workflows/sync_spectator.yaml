@@ -32,7 +32,7 @@ jobs:
         run: |
           git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} > changed_files.txt
 
-      - name: Debug: Check if changed_files.txt is created
+      - name: Check if changed_files.txt is created
         run: ls -l changed_files.txt 
 
       - name: Checkout target repository
