@@ -2,7 +2,7 @@ name: Sync Changes On Spectator
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, reopened]
     paths:
       - 'apps/spectator/**'
       - 'packages/**'
@@ -32,7 +32,7 @@ jobs:
       - name: Gather changed files
         id: gather_files
         run: |
-          git diff --name-only ${{ github.event.before }} ${{ github.sha }} > changed_files.txt
+          git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }} > changed_files.txt
 
       - name: Create new branch in target repository
         run: |
