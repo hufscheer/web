@@ -33,7 +33,7 @@ jobs:
           git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} > changed_files.txt
 
       - name: Check if changed_files.txt is created
-        run: ls -l changed_files.txt
+        run: ls
 
       - name: Dump changed files
         run: cat changed_files.txt
