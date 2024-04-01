@@ -41,12 +41,12 @@ jobs:
           repository: ${{ secrets.DEPLOY_TARGET_REPO_URL }}
           token: ${{ secrets.DEPLOY_TARGET_REPO_ACCESS_TOKEN }}
           ref: refs/heads/main  # Change this to the default branch of target repository
+      
+      - name: Copy changed_files.txt to target repository
+        run: cp changed_files.txt $GITHUB_WORKSPACE/changed_files.txtß
 
       - name: Dump changed files
         run: cat changed_files.txt
-      
-      - name: Copy changed_files.txt to target repository
-        run: cp changed_files.txt $GITHUB_WORKSPACE/changed_files.txt
 
       - name: Create new branch in target repository
         run: |
