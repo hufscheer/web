@@ -47,7 +47,9 @@ jobs:
           git config --local user.email ${{ secrets.USER_EMAIL}}
           git config --local user.name ${{ secrets.USER_NAME }}
           git checkout -b ${{ steps.get_branch.outputs.branch }}
-          git add (find ./ -name "changed_files.txt")
+          while IFS= read -r file; do
+            git add "$file"
+          done < changed_files.txt
           git commit -m "Sync changes from PR #${{ github.event.number }}"
           git push origin ${{ steps.get_branch.outputs.branch }}
 
