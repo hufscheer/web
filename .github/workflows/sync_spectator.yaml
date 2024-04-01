@@ -31,7 +31,6 @@ jobs:
         id: gather_files
         run: |
           git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} > changed_files.txt
-          echo "::set-output name=files::changed_files.txt"
 
       - name: Check if changed_files.txt is created
         run: ls -l changed_files.txt 
@@ -48,9 +47,10 @@ jobs:
           git config --local user.email ${{ secrets.USER_EMAIL}}
           git config --local user.name ${{ secrets.USER_NAME }}
           git checkout -b ${{ steps.get_branch.outputs.branch }}
+          ls -l changed_files.txt 
           while IFS= read -r file; do
             git add "$file"
-          done < ${{ steps.gather_files.outputs.files }}
+          done < changed_files.txt
           git commit -m "Sync changes from PR #${{ github.event.number }}"
           git push origin ${{ steps.get_branch.outputs.branch }}
 
