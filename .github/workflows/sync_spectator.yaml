@@ -22,13 +22,6 @@ jobs:
         id: get_branch
         run: echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/})"
 
-      - name: Checkout target repository
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ secrets.DEPLOY_TARGET_REPO_URL }}
-          token: ${{ secrets.DEPLOY_TARGET_REPO_ACCESS_TOKEN }}
-          ref: refs/heads/main  # Change this to the default branch of target repository
-
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -38,6 +31,13 @@ jobs:
         id: gather_files
         run: |
           git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} > changed_files.txt
+
+      - name: Checkout target repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.DEPLOY_TARGET_REPO_URL }}
+          token: ${{ secrets.DEPLOY_TARGET_REPO_ACCESS_TOKEN }}
+          ref: refs/heads/main  # Change this to the default branch of target repository
 
       - name: Create new branch in target repository
         run: |
