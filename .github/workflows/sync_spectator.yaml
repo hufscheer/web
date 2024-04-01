@@ -33,7 +33,7 @@ jobs:
           git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} > changed_files.txt
 
       - name: Check if changed_files.txt is created
-        run: ls
+        run: ls -l changed_files.txt
 
       - name: Dump changed files
         run: cat changed_files.txt
@@ -46,7 +46,7 @@ jobs:
           ref: refs/heads/main  # Change this to the default branch of target repository
       
       - name: Check if changed_files.txt is created
-        run: ls -l changed_files.txt
+        run: ls
 
       - name: Copy changed_files.txt to target repository
         run: cp changed_files.txt $GITHUB_WORKSPACE/changed_files.txt
