@@ -43,7 +43,7 @@ jobs:
           ref: refs/heads/main  # Change this to the default branch of target repository
       
       - name: Copy changed_files.txt to target repository
-        run: cp changed_files.txt $GITHUB_WORKSPACE/changed_files.txtß
+        run: cp changed_files.txt $GITHUB_WORKSPACE/changed_files.txt
 
       - name: Dump changed files
         run: cat changed_files.txt
