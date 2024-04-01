@@ -32,9 +32,6 @@ jobs:
         run: |
           git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} > changed_files.txt
 
-      - name: Copy changed_files.txt to target repository
-        run: cp changed_files.txt $GITHUB_WORKSPACE/changed_files.txt
-
       - name: Dump changed files
         run: cat changed_files.txt
 
