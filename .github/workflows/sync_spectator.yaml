@@ -32,12 +32,18 @@ jobs:
         run: |
           git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} > changed_files.txt
 
+      - name: Check $GITHUB_WORKSPACE
+        run: echo "$GITHUB_WORKSPACE"
+
       - name: Checkout target repository
         uses: actions/checkout@v4
         with:
           repository: ${{ secrets.DEPLOY_TARGET_REPO_URL }}
           token: ${{ secrets.DEPLOY_TARGET_REPO_ACCESS_TOKEN }}
           ref: refs/heads/main  # Change this to the default branch of target repository
+
+      - name: Check $GITHUB_WORKSPACE
+        run: echo "$GITHUB_WORKSPACE"
       
       - name: Copy changed_files.txt to target repository
         run: cp changed_files.txt $GITHUB_WORKSPACE/changed_files.txt
