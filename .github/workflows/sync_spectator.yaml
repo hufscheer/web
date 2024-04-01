@@ -32,22 +32,21 @@ jobs:
         run: |
           git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} > changed_files.txt
 
-      - name: Check if changed_files.txt is created
-        run: ls -l changed_files.txt 
-
       - name: Checkout target repository
         uses: actions/checkout@v4
         with:
           repository: ${{ secrets.DEPLOY_TARGET_REPO_URL }}
           token: ${{ secrets.DEPLOY_TARGET_REPO_ACCESS_TOKEN }}
           ref: refs/heads/main  # Change this to the default branch of target repository
+      
+      - name: Copy changed_files.txt to target repository
+        run: cp changed_files.txt $GITHUB_WORKSPACE/changed_files.txt
 
       - name: Create new branch in target repository
         run: |
           git config --local user.email ${{ secrets.USER_EMAIL}}
           git config --local user.name ${{ secrets.USER_NAME }}
           git checkout -b ${{ steps.get_branch.outputs.branch }}
-          ls -l changed_files.txt 
           while IFS= read -r file; do
             git add "$file"
           done < changed_files.txt
