@@ -3,9 +3,7 @@ name: Sync Changes On Spectator
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-    paths:
-      - 'apps/spectator/**'
-      - 'packages/**'
+    
   push:
     branches:
       - ci/sync-spectator
