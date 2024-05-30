@@ -57,7 +57,7 @@ export default function CardList({ type, caption }: CardListProps) {
           const { cheerTalkId, reportId, content } = reportInfo;
 
           return (
-            <div key={reportId} className={styles.wrapper}>
+            <div key={cheerTalkId} className={styles.wrapper}>
               <Card.Root paddingVertical="sm">
                 <div className={styles.card.container}>
                   <Card.Content>
