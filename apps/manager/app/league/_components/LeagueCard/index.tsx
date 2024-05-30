@@ -33,12 +33,14 @@ export default function LeagueCard({ state, edit }: LeagueCardProps) {
     );
   };
 
+  if (!leagues) return null;
+
   return (
     <>
       <Title order={2} className={styles.title}>
         {stateMap[state]}
       </Title>
-      {!leagues?.[state] ? (
+      {leagues[state].length == 0 ? (
         <Box>{stateMap[state]} 경기가 없습니다.</Box>
       ) : (
         <Flex direction="column" gap="xs">
