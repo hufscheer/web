@@ -26,16 +26,14 @@ export default function Page() {
 
   return (
     <Layout navigationTitle="대회 관리" navigationMenu={<RightButton />}>
-      {edit && (
-        <AddButton
-          component={Link}
-          href={{
-            pathname: `${pathname}/register`,
-          }}
-        >
-          신규 대회 추가
-        </AddButton>
-      )}
+      <AddButton
+        component={Link}
+        href={{
+          pathname: `${pathname}/register`,
+        }}
+      >
+        신규 대회 추가
+      </AddButton>
       <Flex direction="column" gap="xs">
         <LeagueCard state="playing" edit={edit} />
       </Flex>
