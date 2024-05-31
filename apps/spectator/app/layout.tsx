@@ -36,11 +36,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <title>훕치치!</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className={styles.body}>
+      <body>
         <Providers>
-          <Header />
-          <main>{children}</main>
-          <Footer />
+          <main className={styles.body}>
+            <Header />
+            {children}
+            <Footer />
+          </main>
         </Providers>
         <Analytics />
       </body>

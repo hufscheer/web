@@ -1,5 +1,12 @@
 import { ExclamationCircleFillIcon } from '@hcc/icons';
-import { Icon, Modal } from '@hcc/ui';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogOverlay,
+  DialogTrigger,
+  Icon,
+} from '@hcc/ui';
 import { ReactNode } from 'react';
 
 import useTracker from '@/hooks/useTracker';
@@ -36,13 +43,14 @@ const CheerTalkMenuModal = ({
   };
 
   return (
-    <Modal>
-      <Modal.Trigger className={className} aria-label="응원톡 모달 열기">
+    <Dialog>
+      <DialogOverlay />
+      <DialogTrigger className={className} aria-label="응원톡 모달 열기">
         {children}
-      </Modal.Trigger>
-      <Modal.Content key="cheer-talk-menu" className={styles.container}>
+      </DialogTrigger>
+      <DialogContent key="cheer-talk-menu" className={styles.container}>
         <p className={styles.content}>{content}</p>
-        <Modal.Close
+        <DialogClose
           className={styles.menuBlock}
           onClick={() => handleReportButton({ cheerTalkId })}
         >
@@ -52,9 +60,9 @@ const CheerTalkMenuModal = ({
             className={styles.menuIcon}
             aria-label="응원톡 신고"
           />
-        </Modal.Close>
-      </Modal.Content>
-    </Modal>
+        </DialogClose>
+      </DialogContent>
+    </Dialog>
   );
 };
 

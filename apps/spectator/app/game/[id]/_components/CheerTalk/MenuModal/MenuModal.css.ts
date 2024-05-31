@@ -9,6 +9,8 @@ export const container = style({
   maxWidth: calc.divide(theme.sizes.appWidth, 2),
   marginInline: 'auto',
   paddingInline: theme.spaces.default,
+
+  borderRadius: rem(8),
 });
 
 export const content = style({
