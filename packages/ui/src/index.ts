@@ -8,3 +8,4 @@ export { default as Tabs } from './tabs';
 export { default as Tooltip } from './tooltip';
 
 export * from './toast';
+export * from './spinner';
