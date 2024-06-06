@@ -3,7 +3,7 @@ import { Icon, Toast, ToastAction, Toaster, useToast } from '@hcc/ui';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
-  title: '@hcc/NewToast',
+  title: '@hcc/Toast',
   parameters: {
     layout: 'centered',
   },
