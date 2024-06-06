@@ -96,7 +96,7 @@ export default function CheerTalkList({
   return (
     <div className={styles.list.container}>
       <ul ref={scrollRef} className={styles.list.content}>
-        {isFetchingNextPage && <Spinner />}
+        {hasNextPage && <Spinner />}
         <li ref={ref} />
         {/* HTTP */}
         {cheerTalkList.map(talk => (
