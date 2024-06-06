@@ -1,7 +1,7 @@
 'use client';
 
 import { CaretDownIcon, ChatIcon, TrophyIcon } from '@hcc/icons';
-import { Icon } from '@hcc/ui';
+import { Icon, Spinner } from '@hcc/ui';
 import { Flex, Title } from '@mantine/core';
 import Link from 'next/link';
 import { Suspense } from 'react';
@@ -18,7 +18,7 @@ export default function Page() {
 
   return (
     <Layout navigationVisible={false}>
-      <Suspense fallback={<div>로딩</div>}>
+      <Suspense fallback={<Spinner />}>
         <PlayingCard leagues={leagues?.playing} />
       </Suspense>
 

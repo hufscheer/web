@@ -55,7 +55,7 @@ export const item = styleVariants({
   inactive: [panelItemBase],
 });
 
-export const loader = style({
+export const spinner = style({
   height: rem(30),
   padding: 0,
 });
