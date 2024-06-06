@@ -52,16 +52,15 @@ export const toastBase = style({
   alignItems: 'center',
   justifyContent: 'space-between',
   overflow: 'hidden',
-  borderRadius: rem(8), // rounded-md
+  borderRadius: rem(8),
   border: '1px solid',
-  padding: rem(12), // p-6
-  paddingRight: rem(14), // pr-8
+  padding: rem(12),
+  paddingRight: rem(14),
   boxShadow:
     '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)', // shadow-lg
-  transition: 'all 0.3s ease', // transition-all
+  transition: 'all 0.3s ease',
 });
 
-// Base styles
 export const toast = style([
   toastBase,
   {
@@ -89,10 +88,10 @@ export const toast = style([
   },
 ]);
 
-// Variant styles
 export const variants = styleVariants({
   default: [
     {
+      // 디자인 시스템 확정 시 HEX CODE를 전부 변수로 변경
       color: '#5F6A75',
       borderColor: '#EEEEEF',
       backgroundColor: `${theme.colors.white}`,
@@ -110,30 +109,30 @@ export const variants = styleVariants({
 
 export const action = style({
   display: 'inline-flex',
-  height: rem(8), // h-8
-  flexShrink: 0, // shrink-0
+  height: rem(8),
+  flexShrink: 0,
   alignItems: 'center',
   justifyContent: 'center',
-  borderRadius: rem(8), // rounded-md
-  border: '1px solid transparent', // border
-  backgroundColor: 'transparent', // bg-transparent
-  paddingInline: rem(3), // px-3
-  fontSize: rem(14), // text-sm
-  fontWeight: 500, // font-medium
-  transition: 'color 0.2s ease, background-color 0.2s ease', // transition-colors
+  borderRadius: rem(8),
+  border: '1px solid transparent',
+  backgroundColor: 'transparent',
+  paddingInline: rem(3),
+  fontSize: rem(14),
+  fontWeight: 500,
+  transition: 'color 0.2s ease, background-color 0.2s ease',
   cursor: 'pointer',
 
   selectors: {
     '&:hover': {
-      backgroundColor: theme.colors.gray[1], // hover:bg-secondary
+      backgroundColor: theme.colors.gray[1],
     },
     '&:focus': {
-      outline: 'none', // focus:outline-none
-      boxShadow: theme.shadows.base, // focus:ring-2, focus:ring-ring, focus:ring-offset-2
+      outline: 'none',
+      boxShadow: theme.shadows.base,
     },
     '&:disabled': {
-      pointerEvents: 'none', // disabled:pointer-events-none
-      opacity: 0.5, // disabled:opacity-50
+      pointerEvents: 'none',
+      opacity: 0.5,
     },
   },
 });
@@ -141,25 +140,25 @@ export const action = style({
 export const close = style({
   position: 'absolute',
   display: 'flex',
-  right: rem(4), // right-4
-  top: rem(4), // top-4
-  borderRadius: rem(8), // rounded-md
-  padding: rem(4), // p-1
-  color: theme.colors.gray[4], // text-foreground/50
+  right: rem(4),
+  top: rem(4),
+  borderRadius: rem(8),
+  padding: rem(4),
+  color: theme.colors.gray[4],
   backgroundColor: 'transparent',
   border: 'none',
-  opacity: 0, // opacity-0
-  transition: 'opacity 0.2s ease', // transition-opacity
+  opacity: 0,
+  transition: 'opacity 0.2s ease',
   cursor: 'pointer',
 
   selectors: {
     '&:hover': {
-      color: theme.colors.gray[6], // hover:text-foreground
+      color: theme.colors.gray[6],
     },
     '&:focus': {
-      opacity: 1, // focus:opacity-100
-      outline: 'none', // focus:outline-none
-      boxShadow: theme.shadows.base, // focus:ring-2
+      opacity: 1,
+      outline: 'none',
+      boxShadow: theme.shadows.base,
     },
     [`${toast}:hover &`]: {
       opacity: 1,
