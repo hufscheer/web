@@ -5,5 +5,6 @@ export { default as Input } from './input';
 export { default as Modal } from './modal';
 export { default as Skeleton } from './skeleton';
 export { default as Tabs } from './tabs';
-export { default as Toast } from './toast';
 export { default as Tooltip } from './tooltip';
+
+export * from './toast';
