@@ -1,4 +1,0 @@
-export const TOAST = {
-  DURATION: 2000,
-  OPACITY_DURATION: 400,
-};

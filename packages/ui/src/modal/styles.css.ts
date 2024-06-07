@@ -9,7 +9,7 @@ export const backdrop = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  zIndex: 2048,
+  zIndex: 50,
 });
 
 export const close = style({

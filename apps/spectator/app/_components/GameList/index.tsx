@@ -1,10 +1,10 @@
 'use client';
 
+import { Spinner } from '@hcc/ui';
 import { useSearchParams } from 'next/navigation';
 import { Fragment } from 'react';
 
 import AsyncBoundary from '@/components/AsyncBoundary';
-import Loader from '@/components/Loader';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { useGameList } from '@/queries/useGameList';
 import useLeagueDetailQuery from '@/queries/useLeagueDetail';
@@ -54,7 +54,7 @@ export default function GameList({ state, initialLeagueId }: GameListProps) {
               {gameList.data.map(game => (
                 <AsyncBoundary
                   errorFallback={GameCard.ErrorFallback}
-                  loadingFallback={<Loader />}
+                  loadingFallback={<Spinner />}
                   key={game.id}
                 >
                   <GameCard info={game} state={state} {...rest} />
