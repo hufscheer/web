@@ -50,16 +50,19 @@ const CheerTalkMenuModal = ({
       </DialogTrigger>
       <DialogContent key="cheer-talk-menu" className={styles.container}>
         <p className={styles.content}>{content}</p>
-        <DialogClose
-          className={styles.menuBlock}
-          onClick={() => handleReportButton({ cheerTalkId })}
-        >
-          신고하기
-          <Icon
-            source={ExclamationCircleFillIcon}
-            className={styles.menuIcon}
-            aria-label="응원톡 신고"
-          />
+        <DialogClose className={styles.menuClose} />
+        <DialogClose asChild>
+          <button
+            className={styles.menuBlock}
+            onClick={() => handleReportButton({ cheerTalkId })}
+          >
+            신고하기
+            <Icon
+              source={ExclamationCircleFillIcon}
+              className={styles.menuIcon}
+              aria-label="응원톡 신고"
+            />
+          </button>
         </DialogClose>
       </DialogContent>
     </Dialog>
