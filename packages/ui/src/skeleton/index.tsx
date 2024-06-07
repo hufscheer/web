@@ -1,15 +1,14 @@
-import { theme } from '@hcc/styles';
 import { clsx } from 'clsx';
 import { ComponentProps } from 'react';
 
 import * as styles from './styles.css';
 
 const radiusStyle = {
-  xs: theme.spaces.xs,
-  sm: theme.spaces.sm,
-  md: theme.spaces.default,
-  lg: theme.spaces.lg,
-  xl: theme.spaces.xl,
+  xs: 8,
+  sm: 12,
+  md: 16,
+  lg: 24,
+  xl: 32,
 };
 
 type Radius = 'xs' | 'sm' | 'md' | 'lg' | 'xl';

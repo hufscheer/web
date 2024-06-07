@@ -3,15 +3,16 @@ import { clsx } from 'clsx';
 import * as styles from './styles.css';
 
 type SpinnerProps = {
+  size: 'sm' | 'md' | 'lg';
   className?: string;
 };
 
-export function Spinner({ className }: SpinnerProps) {
+export function Spinner({ size, className }: SpinnerProps) {
   return (
     <div className={clsx(styles.wrapper, className)}>
       <svg
         aria-hidden="true"
-        className={styles.spinner}
+        className={styles.spinner({ size })}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

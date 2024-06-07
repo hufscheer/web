@@ -1,5 +1,6 @@
 import { theme } from '@hcc/styles';
 import { keyframes, style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
 
 const spin = keyframes({
   from: { transform: 'rotate(0deg)' },
@@ -14,11 +15,32 @@ export const wrapper = style({
   width: '100%',
 });
 
-export const spinner = style({
-  width: '2rem',
-  height: '2rem',
-  color: theme.colors.gray[2],
-  fill: theme.colors.primary[3],
-  willChange: 'transform',
-  animation: `${spin} 1s linear infinite`,
+export const spinner = recipe({
+  base: {
+    width: '2rem',
+    height: '2rem',
+    color: theme.colors.gray[2],
+    fill: theme.colors.primary[3],
+    willChange: 'transform',
+    animation: `${spin} 1s linear infinite`,
+  },
+  variants: {
+    size: {
+      sm: {
+        width: '1rem',
+        height: '1rem',
+      },
+      md: {
+        width: '2rem',
+        height: '2rem',
+      },
+      lg: {
+        width: '3rem',
+        height: '3rem',
+      },
+    },
+  },
+  defaultVariants: {
+    size: 'md',
+  },
 });
