@@ -6,7 +6,7 @@ export default function Loading() {
   // You can add any UI inside Loading, including a Skeleton.
   return (
     <Layout>
-      <Spinner />
+      <Spinner size="md" />
     </Layout>
   );
 }

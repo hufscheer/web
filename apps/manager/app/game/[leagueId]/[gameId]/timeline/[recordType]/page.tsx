@@ -107,7 +107,7 @@ export default function Page({ params }: PageProps) {
       },
       {
         onSuccess: () => {
-          router.push(`/game/${leagueId}/${gameId}/timeline`);
+          router.replace(`/game/${leagueId}/${gameId}`);
         },
       },
     );
