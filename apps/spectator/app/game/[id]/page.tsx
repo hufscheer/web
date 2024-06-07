@@ -1,12 +1,11 @@
 'use client';
 
-import { Tabs } from '@hcc/ui';
+import { Spinner, Tabs } from '@hcc/ui';
 
 import Live from '@/app/_components/Live';
 import CheerTalk from '@/app/game/[id]/_components/CheerTalk';
 import AsyncBoundary from '@/components/AsyncBoundary';
 import { FallbackProps } from '@/components/ErrorBoundary';
-import Loader from '@/components/Loader';
 import { TABS_CONFIG } from '@/constants/configs';
 
 import Banner from './_components/Banner';
@@ -79,7 +78,7 @@ export default function Page({ params }: { params: { id: string } }) {
 
         <AsyncBoundary
           errorFallback={CheerTalkFallback}
-          loadingFallback={<Loader className={styles.loader} />}
+          loadingFallback={<Spinner className={styles.spinner} />}
         >
           <CheerTalk gameId={params.id} defaultState={cheerState} />
         </AsyncBoundary>
@@ -104,7 +103,7 @@ export default function Page({ params }: { params: { id: string } }) {
           <Tabs.Content key={tab.key} value={tab.key}>
             <AsyncBoundary
               errorFallback={(props: FallbackProps) => tab.errorUI(props)}
-              loadingFallback={<Loader />}
+              loadingFallback={<Spinner />}
             >
               {tab.renderer(params.id)}
             </AsyncBoundary>

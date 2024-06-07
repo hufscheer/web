@@ -1,17 +1,18 @@
 import { clsx } from 'clsx';
 
-import { loader } from './Loader.css';
+import * as styles from './styles.css';
 
-type LoaderProps = {
+type SpinnerProps = {
+  size: 'sm' | 'md' | 'lg';
   className?: string;
 };
 
-export default function Loader({ className }: LoaderProps) {
+export function Spinner({ size, className }: SpinnerProps) {
   return (
-    <div role="status" className={clsx(loader.wrapper, className)}>
+    <div className={clsx(styles.wrapper, className)}>
       <svg
         aria-hidden="true"
-        className={loader.svg}
+        className={styles.spinner({ size })}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
