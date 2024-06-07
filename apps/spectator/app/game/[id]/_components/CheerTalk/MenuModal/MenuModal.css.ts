@@ -26,16 +26,30 @@ export const content = style({
 export const menuBlock = style({
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between',
+  justifyContent: 'flex-start',
+  gap: theme.spaces.xs,
   padding: theme.spaces.default,
   marginTop: theme.spaces.xxs,
   borderRadius: rem(10),
   backgroundColor: 'white',
   ...theme.textVariants.sm,
+
+  transition: 'background-color 0.2s',
+
+  selectors: {
+    '&:hover': {
+      backgroundColor: theme.colors.gray[2],
+    },
+  },
 });
 
 export const menuIcon = style({
   width: rem(16),
   height: rem(16),
   color: theme.colors.gray[5],
+});
+
+export const menuClose = style({
+  top: rem(8),
+  right: rem(8),
 });
