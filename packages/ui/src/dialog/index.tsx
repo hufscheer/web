@@ -91,13 +91,13 @@ DialogDescription.displayName = DialogPrimitive.Description.displayName;
 const DialogClose = forwardRef<
   ElementRef<typeof DialogPrimitive.Close>,
   ComponentPropsWithoutRef<typeof DialogPrimitive.Close>
->(({ className, ...props }, ref) => (
+>(({ className, children, ...props }, ref) => (
   <DialogPrimitive.DialogClose
-    className={clsx(styles.close, className)}
+    className={clsx(children || styles.close, className)}
     {...props}
     ref={ref}
   >
-    {<Icon source={CrossIcon} size="xs" />}
+    {children || <Icon source={CrossIcon} size="xs" />}
   </DialogPrimitive.DialogClose>
 ));
 
