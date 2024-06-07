@@ -1,5 +1,4 @@
-import { rem, theme } from '@hcc/styles';
-import { breakpoint } from '@hcc/styles/dist/responsive.css';
+import { theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 
 export const sidebar = style({
@@ -18,10 +17,6 @@ export const sidebar = style({
 
   backgroundColor: theme.colors.white,
   borderRadius: 0,
-
-  ...breakpoint('tablet', {
-    paddingRight: rem(32),
-  }),
 });
 
 export const sidebarHeader = style({
