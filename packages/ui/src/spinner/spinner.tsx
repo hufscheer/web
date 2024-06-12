@@ -3,11 +3,11 @@ import { clsx } from 'clsx';
 import * as styles from './styles.css';
 
 type SpinnerProps = {
-  size: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg';
   className?: string;
 };
 
-export function Spinner({ size, className }: SpinnerProps) {
+export function Spinner({ size = 'md', className }: SpinnerProps) {
   return (
     <div className={clsx(styles.wrapper, className)}>
       <svg
