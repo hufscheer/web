@@ -1,10 +1,11 @@
 'use client';
 
+import { useConveyer } from '@egjs/react-conveyer';
 import { CaretDownIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { clsx } from 'clsx';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { MouseEvent, forwardRef, useEffect, useRef, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 
 import useLeagueTeams from '@/queries/useLeagueTeams';
 
@@ -13,9 +14,15 @@ import * as styles from './GameFilter.css';
 export default function LeagueTeamFilter({ leagueId }: { leagueId: number }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const scrollRef = useRef<HTMLUListElement>(null);
-  const itemRef = useRef<HTMLLIElement>(null);
+  const scrollRef = useRef<HTMLUListElement | null>(null);
   const prevScrollLeftRef = useRef(0);
+
+  useConveyer(scrollRef, {
+    horizontal: true,
+    useDrag: true,
+    useSideWheel: true,
+    preventClickOnDrag: true,
+  });
 
   const toggleExpand = () => {
     if (!isExpanded && scrollRef.current) {
@@ -94,53 +101,21 @@ export default function LeagueTeamFilter({ leagueId }: { leagueId: number }) {
           isExpanded && styles.leagueTeam.listExpanded,
         )}
       >
-        {leagueTeams.map(team => {
-          const isSelected = selectedLeagueTeam.includes(
-            team.leagueTeamId.toString(),
-          );
-
-          return (
-            <Item
-              key={team.leagueTeamId}
-              team={team}
-              isSelected={isSelected}
-              handleRouter={handleRouter}
-              ref={itemRef}
-            />
-          );
-        })}
+        {leagueTeams.map(team => (
+          <li key={team.leagueTeamId}>
+            <button
+              onClick={e => handleRouter(e, team.leagueTeamId)}
+              className={clsx(
+                styles.leagueTeam.itemExpanded,
+                selectedLeagueTeam.includes(team.leagueTeamId.toString()) &&
+                  styles.leagueTeam.itemFocused,
+              )}
+            >
+              {team.teamName}
+            </button>
+          </li>
+        ))}
       </ul>
     </div>
   );
 }
-
-type ItemProps = {
-  isSelected: boolean;
-  handleRouter: (
-    e: MouseEvent<HTMLButtonElement>,
-    selectedTeamId: number,
-  ) => void;
-  team: {
-    leagueTeamId: number;
-    teamName: string;
-  };
-};
-
-const Item = forwardRef<HTMLLIElement, ItemProps>(function Item(
-  { team: { leagueTeamId, teamName }, isSelected, handleRouter },
-  ref,
-) {
-  return (
-    <li ref={ref}>
-      <button
-        onClick={e => handleRouter(e, leagueTeamId)}
-        className={clsx(
-          styles.leagueTeam.itemExpanded,
-          isSelected && styles.leagueTeam.itemFocused,
-        )}
-      >
-        {teamName}
-      </button>
-    </li>
-  );
-});

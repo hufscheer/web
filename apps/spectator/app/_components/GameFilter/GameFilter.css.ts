@@ -6,6 +6,7 @@ export const wrapper = style({
   width: '100%',
   overflow: 'hidden',
   backgroundColor: theme.colors.gray[1],
+  zIndex: 1,
 });
 
 export const filterItemBase = style({
@@ -89,7 +90,7 @@ export const leagueTeam = styleVariants({
   list: {
     display: 'flex',
     flexWrap: 'nowrap',
-    overflowY: 'scroll',
+    overflowX: 'scroll',
     msOverflowStyle: 'none',
     scrollbarWidth: 'none',
     '::-webkit-scrollbar': {
