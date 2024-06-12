@@ -141,6 +141,9 @@ importers:
       '@amplitude/analytics-browser':
         specifier: ^2.6.1
         version: 2.6.1
+      '@egjs/react-conveyer':
+        specifier: ^1.7.1
+        version: 1.7.1
       '@egjs/react-flicking':
         specifier: ^3.8.3
         version: 3.8.3
@@ -1744,6 +1747,12 @@ packages:
   '@cfcs/core@0.0.24':
     resolution: {integrity: sha512-feB38qu+eDk0Pggh/yR7gjaNmvUYA2uCxHP3Pz2MLE4LZ/9jPdtu8bzCSI47yTEhWyZCF5Pk698hdz8IN2mTjA==}
 
+  '@cfcs/core@0.1.0':
+    resolution: {integrity: sha512-kvYX0RpL45XTHJ5sW7teNbKeAa7pK3nNqaJPoFfZDPTIBJOkTtRD3QhkBG+O3Hu69a8xeMoPvF6y/RtJ6JUOdA==}
+
+  '@cfcs/react@0.1.0':
+    resolution: {integrity: sha512-3IaDaE1Qn0iLZ1ZqD0cqoiX0Kjzp6/VB56409A963lQ5kK6ONNa3cNbCBqFZccCfPSnyzeSdvPlg75Af3W4raA==}
+
   '@colors/colors@1.5.0':
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
     engines: {node: '>=0.1.90'}
@@ -1831,6 +1840,9 @@ packages:
   '@egjs/axes@2.8.0':
     resolution: {integrity: sha512-WPMIM/ExZBS8guD3oeNr6YGDn2xSnj0YUZHWvY/NWvTQIs7A2O7WxJivYgzcg7r2q0RYtzrdpHn+982iaKCLSw==}
 
+  '@egjs/axes@3.9.0':
+    resolution: {integrity: sha512-V+HxHxEGmlu/0yJ9kqlj2doiJt1yVeROTy/0Qf+IaJ9hMabjzUgfYffGR+3atcRpejjGbcpAIiBrGbAkDVaLjg==}
+
   '@egjs/children-differ@1.0.1':
     resolution: {integrity: sha512-DRvyqMf+CPCOzAopQKHtW+X8iN6Hy6SFol+/7zCUiE5y4P/OB8JP8FtU4NxtZwtafvSL4faD5KoQYPj3JHzPFQ==}
 
@@ -1839,6 +1851,9 @@ packages:
 
   '@egjs/component@3.0.5':
     resolution: {integrity: sha512-cLcGizTrrUNA2EYE3MBmEDt2tQv1joVP1Q3oDisZ5nw0MZDx2kcgEXM+/kZpfa/PAkFvYVhRUZwytIQWoN3V/w==}
+
+  '@egjs/conveyer@1.7.1':
+    resolution: {integrity: sha512-09437dICKxuRV/Q/ZpHyzekz8NCBXB5t7KAhmK7BBxwLH0DKrlMWagBiTdeMhgnq4vVpn5CcHvCO9y9SeHbGqQ==}
 
   '@egjs/flicking@3.9.3':
     resolution: {integrity: sha512-KGOSSeGDA9+0m24F3/hC+nc77/kRPuIVM3prTRcPB5jzhWcxJHpP9nyxJvitFJ+Ge4sPbZQxzLzUErgz9rrfWQ==}
@@ -1852,6 +1867,9 @@ packages:
 
   '@egjs/list-differ@1.0.1':
     resolution: {integrity: sha512-OTFTDQcWS+1ZREOdCWuk5hCBgYO4OsD30lXcOCyVOAjXMhgL5rBRDnt/otb6Nz8CzU0L/igdcaQBDLWc4t9gvg==}
+
+  '@egjs/react-conveyer@1.7.1':
+    resolution: {integrity: sha512-V53KUNbrAmL4jOE3Ny3utxPBvgmXOT14K1S3WF721ZU8KaSEVvpQnudBvnbHLpVROzVw3a9VWDQ9mA/zfOCBBw==}
 
   '@egjs/react-flicking@3.8.3':
     resolution: {integrity: sha512-DMvd8ckXD2FxHHneOV5nmowFzq5o5a32585iFAwBaG32H+rpK+UBeR3sqzPNuITysRYmLEOpGhNBa6Afi/Ed/w==}
@@ -9946,6 +9964,14 @@ snapshots:
     dependencies:
       '@egjs/component': 3.0.5
 
+  '@cfcs/core@0.1.0':
+    dependencies:
+      '@egjs/component': 3.0.5
+
+  '@cfcs/react@0.1.0':
+    dependencies:
+      '@cfcs/core': 0.1.0
+
   '@colors/colors@1.5.0':
     optional: true
 
@@ -10076,6 +10102,12 @@ snapshots:
       '@egjs/component': 2.2.2
       '@egjs/hammerjs': 2.0.17
 
+  '@egjs/axes@3.9.0':
+    dependencies:
+      '@cfcs/core': 0.1.0
+      '@egjs/agent': 2.4.3
+      '@egjs/component': 3.0.5
+
   '@egjs/children-differ@1.0.1':
     dependencies:
       '@egjs/list-differ': 1.0.1
@@ -10083,6 +10115,13 @@ snapshots:
   '@egjs/component@2.2.2': {}
 
   '@egjs/component@3.0.5': {}
+
+  '@egjs/conveyer@1.7.1':
+    dependencies:
+      '@cfcs/core': 0.1.0
+      '@egjs/axes': 3.9.0
+      '@egjs/children-differ': 1.0.1
+      '@egjs/component': 3.0.5
 
   '@egjs/flicking@3.9.3':
     dependencies:
@@ -10101,6 +10140,11 @@ snapshots:
       '@egjs/component': 3.0.5
 
   '@egjs/list-differ@1.0.1': {}
+
+  '@egjs/react-conveyer@1.7.1':
+    dependencies:
+      '@cfcs/react': 0.1.0
+      '@egjs/conveyer': 1.7.1
 
   '@egjs/react-flicking@3.8.3':
     dependencies:
