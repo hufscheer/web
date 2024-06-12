@@ -36,17 +36,10 @@ export default function LeagueTeamFilter({ leagueId }: { leagueId: number }) {
   const scrollToCenter = (itemElement: HTMLButtonElement) => {
     if (!itemElement || !scrollRef.current) return;
 
-    const containerWidth =
-      scrollRef.current.parentElement?.clientWidth ??
-      scrollRef.current.clientWidth;
-    const itemWidth = itemElement.offsetWidth;
-    const itemLeft = itemElement.offsetLeft;
-
-    const scrollCoordinate = itemLeft - containerWidth / 2 + itemWidth / 2;
-
-    scrollRef.current.scrollTo({
-      left: scrollCoordinate,
+    itemElement.scrollIntoView({
       behavior: 'smooth',
+      block: 'center',
+      inline: 'center',
     });
   };
 
