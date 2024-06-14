@@ -28,7 +28,6 @@ const meta = {
       options: ['primary', 'secondary', 'gray', 'error', 'success'],
     },
   },
-  tags: ['autodocs'],
 } satisfies Meta<typeof Icon>;
 
 export default meta;

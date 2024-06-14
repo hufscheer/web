@@ -7,7 +7,6 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
-  tags: ['autodocs'],
   argTypes: {
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
   },
