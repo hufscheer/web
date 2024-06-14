@@ -2,6 +2,7 @@ import * as React from 'react';
 import type { Preview } from '@storybook/react';
 
 import '@hcc/styles/dist/globals.css';
+import '@hcc/styles/dist/reset.css';
 
 const preview: Preview = {
   parameters: {
