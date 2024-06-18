@@ -1,3 +1,5 @@
+'use client';
+
 import { Slot } from '@radix-ui/react-slot';
 import { clsx } from 'clsx';
 import {
@@ -56,13 +58,13 @@ interface FormLabelProps extends ComponentPropsWithoutRef<'label'> {}
 
 const FormLabel = forwardRef<HTMLLabelElement, FormLabelProps>(
   ({ className, children, ...props }, ref) => {
-    const { formItemId, isDirty } = useFormField();
+    const { formItemId, isDirty, value } = useFormField();
 
     return (
       <label
         ref={ref}
         htmlFor={formItemId}
-        data-dirty={isDirty ? 'filled' : 'empty'}
+        data-dirty={value || isDirty ? 'filled' : 'empty'}
         className={clsx(styles.label, className)}
         {...props}
       >

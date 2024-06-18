@@ -32,19 +32,19 @@ globalStyle(`${label}[data-dirty="filled"]+input`, {
   paddingBottom: rem(4),
 });
 
-globalStyle(`${label}:has(+ ${control}:focus) + ${control}`, {
-  paddingTop: rem(28),
-  paddingBottom: rem(4),
-});
-
 globalStyle(
-  `${control}:focus+${label}, ${label}[data-dirty="filled"], input:focus+${label}`,
+  `${label}:has(+ ${control}:focus) + ${control}:where(input), ${label}:has(+ ${control}:where(button)) + ${control}:where(button) span`,
   {
-    transform: 'scale(.85) translateY(-.5rem) translateX(.25rem)',
+    paddingTop: rem(28),
+    paddingBottom: rem(4),
   },
 );
 
-globalStyle(`${label}:has(+ ${control}:focus)`, {
+globalStyle(`${label}[data-dirty="filled"], input:focus+${label}`, {
+  transform: 'scale(.85) translateY(-.5rem) translateX(.25rem)',
+});
+
+globalStyle(`${label}:has(+ ${control}:where(button[data-state="open"]))`, {
   transform: 'scale(.85) translateY(-.5rem) translateX(.25rem)',
 });
 
