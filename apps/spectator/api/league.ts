@@ -46,9 +46,13 @@ export const getSports = async (leagueId: number) => {
   return data;
 };
 
-export const getLeagueTeams = async (leagueId: number) => {
+export const getLeagueTeams = async (
+  leagueId: number,
+  round: number | undefined,
+) => {
   const { data } = await instance.get<LeagueTeamType[]>(
     `/leagues/${leagueId}/teams`,
+    { params: { round } },
   );
 
   return data;
