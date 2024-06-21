@@ -1,3 +1,4 @@
+import * as React from 'react';
 import type { Preview } from '@storybook/react';
 
 import '@hcc/styles/dist/globals.css';
@@ -12,6 +13,13 @@ const preview: Preview = {
       },
     },
   },
+  decorators: [
+    Story => (
+      <div style={{ width: '393px' }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default preview;

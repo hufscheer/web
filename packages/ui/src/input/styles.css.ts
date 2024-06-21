@@ -1,19 +1,22 @@
+import { rem } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 
-export const inputStyle = style({
-  padding: '8px 12px',
-  fontSize: '16px',
-  border: '1px solid #ccc',
-  borderRadius: '4px',
-  boxSizing: 'border-box',
-  transition: 'border-color 0.3s',
+export const input = style({
+  display: 'flex',
+  width: '100%',
+  height: rem(60),
 
-  ':hover': {
-    borderColor: 'blue',
-  },
+  border: '1px solid #F3F3F5',
+  borderRadius: rem(8),
 
-  ':focus': {
-    borderColor: 'green',
-    outline: 'none',
+  backgroundColor: '#fff',
+
+  paddingInline: rem(18),
+  paddingBlock: rem(22),
+
+  selectors: {
+    '&::placeholder': {
+      color: '#79828C',
+    },
   },
 });
