@@ -6,9 +6,12 @@ export { default as Skeleton } from './skeleton';
 export { default as Tabs } from './tabs';
 export { default as Tooltip } from './tooltip';
 
+export * from './calendar';
+export * from './date-picker';
 export * from './dialog';
 export * from './form';
 export * from './input';
+export * from './popover';
 export * from './select';
 export * from './spinner';
 export * from './toast';
