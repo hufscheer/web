@@ -29,8 +29,11 @@ export default async function Page({ searchParams }: PageProps) {
     leagues.find(league => league.isInProgress) || leagues?.[0];
   const initialLeagueId = Number(searchParams.league) || inProgress?.leagueId;
 
-  await useLeagueDetailPrefetch(initialLeagueId);
-  await useLeagueTeamsPrefetch(initialLeagueId);
+  const leagueDetail = await useLeagueDetailPrefetch(initialLeagueId);
+  const currentRound =
+    Number(searchParams.round) || leagueDetail.inProgressRound;
+
+  await useLeagueTeamsPrefetch(initialLeagueId, currentRound);
   await useSportsPrefetch(initialLeagueId);
 
   return (
@@ -39,7 +42,9 @@ export default async function Page({ searchParams }: PageProps) {
         <LeagueFilter year={year} />
         {initialLeagueId && <SportFilter leagueId={initialLeagueId} />}
         {initialLeagueId && <RoundFilter initialLeagueId={initialLeagueId} />}
-        {initialLeagueId && <LeagueTeamFilter leagueId={initialLeagueId} />}
+        {initialLeagueId && (
+          <LeagueTeamFilter leagueId={initialLeagueId} round={currentRound} />
+        )}
       </HydrationBoundary>
 
       {GAMES.map(game => (

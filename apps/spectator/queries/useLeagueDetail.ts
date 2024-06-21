@@ -18,7 +18,7 @@ export default function useLeagueDetailQuery(leagueId: number) {
 export async function useLeagueDetailPrefetch(leagueId: number) {
   const queryClient = getQueryClient();
 
-  await queryClient.prefetchQuery({
+  return await queryClient.fetchQuery({
     queryKey: [LEAGUE_DETAIL_QUERY_KEY, { leagueId }],
     queryFn: () => getLeagueDetail(leagueId),
   });

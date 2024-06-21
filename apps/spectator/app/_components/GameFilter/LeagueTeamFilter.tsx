@@ -11,7 +11,15 @@ import useLeagueTeams from '@/queries/useLeagueTeams';
 
 import * as styles from './GameFilter.css';
 
-export default function LeagueTeamFilter({ leagueId }: { leagueId: number }) {
+type LeagueTeamFilterProps = {
+  leagueId: number;
+  round: number;
+};
+
+export default function LeagueTeamFilter({
+  leagueId,
+  round,
+}: LeagueTeamFilterProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const scrollRef = useRef<HTMLUListElement | null>(null);
@@ -54,7 +62,7 @@ export default function LeagueTeamFilter({ leagueId }: { leagueId: number }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const { leagueTeams } = useLeagueTeams(leagueId);
+  const { leagueTeams } = useLeagueTeams(leagueId, round);
   const selectedLeagueTeam = searchParams.get('leagueTeam')?.split(',') || [];
 
   if (!leagueTeams || !leagueTeams.length) return;
