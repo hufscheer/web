@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Preview } from '@storybook/react';
 
-import '@hcc/styles/dist/globals.css';
+import '../src/styles/globals.css';
 
 const preview: Preview = {
   parameters: {
