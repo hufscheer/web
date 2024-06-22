@@ -1,10 +1,16 @@
+import { CalendarIcon } from '@hcc/icons';
 import {
+  Calendar,
   Form,
   FormControl,
   FormField,
   FormLabel,
   FormMessage,
+  Icon,
   Input,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
   Select,
   SelectContent,
   SelectGroup,
@@ -17,6 +23,7 @@ import {
 } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { Meta, StoryObj } from '@storybook/react';
+import { ComponentProps, forwardRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -266,6 +273,8 @@ const managerFormSchema = z.object({
   TEAM_NAME: z.string().min(1, { message: '팀명을 입력해주세요.' }),
   PLAYER: z.string().min(1, { message: '선수를 선택해주세요.' }),
   QUARTER: z.string().min(1, { message: '쿼터를 선택해주세요.' }),
+  START_DATE: z.coerce.date({ message: '날짜를 선택해주세요.' }),
+  // START_DATE: z.string().date().min(1, { message: '날짜를 선택해주세요.' }),
 });
 
 const managerFormValues = {
@@ -278,20 +287,24 @@ type ManagerFormSchema = z.infer<typeof managerFormSchema>;
 
 export const ManagerForm: Story = {
   render: () => {
+    const [date, setDate] = useState<Date>();
     const methods = useForm<ManagerFormSchema>({
       resolver: zodResolver(managerFormSchema),
       defaultValues: managerFormValues,
       mode: 'onSubmit',
     });
 
-    const handleChange = (target: keyof ManagerFormSchema, value: string) => {
+    const handleChange = (
+      target: keyof ManagerFormSchema,
+      value: string | Date,
+    ) => {
       methods.setValue(target, value, { shouldDirty: true });
     };
 
     const onSubmit = (data: ManagerFormSchema) => {
       toast({
         title: '입력한 값은',
-        description: `팀명: ${data.TEAM_NAME}, 선수: ${data.PLAYER}, 쿼터: ${data.QUARTER}입니다.`,
+        description: `팀명: ${data.TEAM_NAME}, 선수: ${data.PLAYER}, 쿼터: ${data.QUARTER}, 날짜: ${data.START_DATE}입니다.`,
       });
     };
 
@@ -363,6 +376,28 @@ export const ManagerForm: Story = {
               <FormMessage />
             </FormField>
 
+            <FormField name="START_DATE">
+              <FormLabel>시작일</FormLabel>
+              <Popover>
+                <FormControl>
+                  <PopoverTrigger asChild>
+                    <Button>
+                      <span>{date ? date.toLocaleDateString() : ''}</span>
+                      <Icon source={CalendarIcon} width="24" height="24" />
+                    </Button>
+                  </PopoverTrigger>
+                </FormControl>
+                <PopoverContent>
+                  <Calendar
+                    onChange={value => {
+                      handleChange('START_DATE', value as Date);
+                      setDate(value as Date);
+                    }}
+                  />
+                </PopoverContent>
+              </Popover>
+            </FormField>
+
             <button
               style={{
                 width: '100%',
@@ -386,3 +421,26 @@ export const ManagerForm: Story = {
     );
   },
 };
+
+const Button = forwardRef<HTMLButtonElement, ComponentProps<'button'>>(
+  (props, ref) => {
+    return (
+      <button
+        ref={ref}
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          height: 60,
+          width: '100%',
+          border: '1px solid #F3F3F5',
+          borderRadius: 8,
+          backgroundColor: '#fff',
+          paddingInline: 18,
+          outline: 'none',
+        }}
+        {...props}
+      />
+    );
+  },
+);
