@@ -12,7 +12,6 @@ export const input = style({
   backgroundColor: '#fff',
 
   paddingInline: rem(18),
-  paddingBlock: rem(22),
 
   selectors: {
     '&::placeholder': {
