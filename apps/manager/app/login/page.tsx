@@ -65,6 +65,7 @@ export default function Login() {
   const handleError = () => {
     toast({
       title: '아이디 또는 비밀번호 오류',
+      variant: 'destructive',
     });
   };
 
