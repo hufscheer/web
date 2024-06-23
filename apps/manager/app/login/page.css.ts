@@ -38,3 +38,7 @@ export const form = style({
   paddingBottom: rem(45),
   gap: rem(16),
 });
+
+export const submitButton = style({
+  marginTop: rem(8),
+});

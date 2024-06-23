@@ -1,6 +1,5 @@
 'use client';
 
-import { rem } from '@hcc/styles';
 import {
   Button,
   Form,
@@ -99,7 +98,7 @@ export default function Login() {
               </FormControl>
             </FormField>
 
-            <Button style={{ marginTop: rem(8) }}>로그인</Button>
+            <Button className={styles.submitButton}>로그인</Button>
           </form>
         </Form>
       </div>

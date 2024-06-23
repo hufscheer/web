@@ -17,7 +17,10 @@ interface ButtonProps
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ asChild = false, colorScheme = 'default', children, ...props }, ref) => {
+  (
+    { asChild = false, colorScheme = 'default', className, children, ...props },
+    ref,
+  ) => {
     const Comp = asChild ? Slot : 'button';
 
     return (
@@ -26,6 +29,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={clsx(
           styles.buttonBase,
           styles.buttonColorScheme[colorScheme],
+          className,
         )}
         {...props}
       >

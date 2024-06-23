@@ -14,7 +14,6 @@ export const buttonBase = style({
   border: 'none',
   borderRadius: rem(8),
   transition: 'background-color 0.2s ease-in-out',
-  gap: rem(5),
 });
 
 export const buttonColorScheme = {
