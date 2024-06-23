@@ -8,6 +8,8 @@ import {
   FormField,
   FormLabel,
   Input,
+  Toaster,
+  useToast,
 } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -21,6 +23,7 @@ import * as styles from './page.css';
 
 export default function Login() {
   const router = useRouter();
+  const { toast } = useToast();
 
   const loginFormSchema = z.object({
     email: z
@@ -59,13 +62,16 @@ export default function Login() {
     );
   };
 
-  const handleError = (errors: unknown) => {
-    alert('아이디와 비밀번호를 확인해주세요');
-    console.error(errors);
+  const handleError = () => {
+    toast({
+      title: '아이디 또는 비밀번호 오류',
+    });
   };
 
   return (
     <Layout headerVisible={false} navigationVisible={false}>
+      <Toaster />
+
       <div className={styles.loginLayout}>
         <div className={styles.header}>
           <p className={styles.branding}>
