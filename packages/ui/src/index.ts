@@ -5,8 +5,8 @@ export { default as Modal } from './modal';
 export { default as Skeleton } from './skeleton';
 export { default as Tabs } from './tabs';
 export { default as Tooltip } from './tooltip';
-export { default as Button } from './button';
 
+export * from './button';
 export * from './calendar';
 export * from './dialog';
 export * from './form';

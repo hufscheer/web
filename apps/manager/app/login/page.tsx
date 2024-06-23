@@ -8,7 +8,6 @@ import {
   FormField,
   FormLabel,
   Input,
-  Toaster,
   useToast,
 } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -71,8 +70,6 @@ export default function Login() {
 
   return (
     <Layout headerVisible={false} navigationVisible={false}>
-      <Toaster />
-
       <div className={styles.loginLayout}>
         <div className={styles.header}>
           <p className={styles.branding}>

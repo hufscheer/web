@@ -17,8 +17,8 @@ export const buttonBase = style({
   gap: rem(5),
 });
 
-export const buttonVariants = {
-  normal: style({
+export const buttonColorScheme = {
+  default: style({
     color: theme.colors.white,
     backgroundColor: theme.colors.black900,
     ':hover': {

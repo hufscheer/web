@@ -1,16 +1,17 @@
 'use client';
 
+import { MantineProvider } from '@mantine/core';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ReactNode, useState } from 'react';
+
+import { mantineTheme } from '@/styles/theme';
 
 type ReactQueryProviderProps = {
   children: ReactNode;
 };
 
-export default function ReactQueryProvider({
-  children,
-}: ReactQueryProviderProps) {
+export default function Providers({ children }: ReactQueryProviderProps) {
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -27,8 +28,10 @@ export default function ReactQueryProvider({
 
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
-      <ReactQueryDevtools initialIsOpen={false} />
+      <MantineProvider theme={mantineTheme}>
+        {children}
+        <ReactQueryDevtools initialIsOpen={false} />
+      </MantineProvider>
     </QueryClientProvider>
   );
 }
