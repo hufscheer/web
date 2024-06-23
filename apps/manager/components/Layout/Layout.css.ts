@@ -1,4 +1,4 @@
-import { theme } from '@hcc/styles';
+import { rem, theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 
 export const wrapper = style({
@@ -8,12 +8,12 @@ export const wrapper = style({
   height: '100dvh',
   margin: 'auto',
 
-  backgroundColor: theme.colors.gray[1],
+  backgroundColor: theme.colors.white,
 });
 
 export const main = style({
   display: 'flex',
   flex: 1,
   flexDirection: 'column',
-  paddingInline: theme.spaces.default,
+  paddingInline: rem(21),
 });

@@ -1,58 +1,99 @@
 'use client';
 
-import { Button, TextInput } from '@mantine/core';
-import { useForm } from '@mantine/form';
+import {
+  Button,
+  Form,
+  FormControl,
+  FormField,
+  FormLabel,
+  FormMessage,
+  Input,
+} from '@hcc/ui';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 import Layout from '@/components/Layout';
 import useLoginMutation from '@/hooks/mutations/useLoginMutation';
 
+import * as styles from './page.css';
+
 export default function Login() {
   const router = useRouter();
 
-  const form = useForm({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validate: {
-      email: value => (value.includes('@') ? null : 'Invalid email'),
-      password: value => (value.length >= 4 ? null : 'Password is too short'),
-    },
-    validateInputOnChange: true,
+  const loginFormSchema = z.object({
+    email: z
+      .string()
+      .email({ message: '아이디는 이메일 형식으로 입력해주세요.' }),
+    password: z
+      .string()
+      .min(8, { message: '비밀번호는 8글자 이상이어야 합니다.' })
+      .regex(/^(?=.*[a-zA-Z])(?=.*[!@#$%^&*])/, {
+        message: '영문자 혹은 특수문자를 포함해야 합니다.',
+      }),
+  });
+
+  const loginValues = {
+    email: '',
+    password: '',
+  };
+
+  type LoginFormSchema = z.infer<typeof loginFormSchema>;
+
+  const methods = useForm<LoginFormSchema>({
+    resolver: zodResolver(loginFormSchema),
+    defaultValues: loginValues,
+    mode: 'onSubmit',
   });
 
   const { mutate: mutateLogin } = useLoginMutation();
-  const handleSubmit = (values: typeof form.values) => {
-    mutateLogin(values, {
-      onSuccess: () => {
-        router.replace('/');
+  const onSubmit = ({ email, password }: LoginFormSchema) => {
+    mutateLogin(
+      { email, password },
+      {
+        onSuccess: () => {
+          router.replace('/');
+        },
       },
-    });
+    );
   };
 
   return (
     <Layout headerVisible={false} navigationVisible={false}>
-      <form onSubmit={form.onSubmit(handleSubmit)}>
-        <TextInput
-          withAsterisk
-          label="Email"
-          placeholder="이메일을 입력해주세요."
-          {...form.getInputProps('email')}
-        />
+      <div className={styles.header}>
+        <p className={styles.branding}>
+          Hufscheers
+          <br />
+          manager
+        </p>
+        <span className={styles.tag}>매니저 용</span>
+      </div>
 
-        <TextInput
-          type="password"
-          withAsterisk
-          label="Password"
-          placeholder="비밀번호을 입력해주세요."
-          {...form.getInputProps('password')}
-        />
+      <Form {...methods}>
+        <form
+          onSubmit={methods.handleSubmit(onSubmit)}
+          style={{ display: 'flex', flexDirection: 'column', gap: 16 }}
+        >
+          <FormField name="email">
+            <FormLabel>아이디</FormLabel>
+            <FormControl>
+              <Input />
+            </FormControl>
+            <FormMessage />
+          </FormField>
 
-        <Button mt="md" fullWidth type="submit">
-          로그인
-        </Button>
-      </form>
+          <FormField name="password">
+            <FormLabel>비밀번호</FormLabel>
+            <FormControl>
+              <Input />
+            </FormControl>
+            <FormMessage />
+          </FormField>
+
+          <Button>로그인</Button>
+        </form>
+      </Form>
     </Layout>
   );
 }
