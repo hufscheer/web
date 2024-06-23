@@ -1,12 +1,12 @@
 'use client';
 
+import { rem } from '@hcc/styles';
 import {
   Button,
   Form,
   FormControl,
   FormField,
   FormLabel,
-  FormMessage,
   Input,
 } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -30,7 +30,7 @@ export default function Login() {
       .string()
       .min(8, { message: '비밀번호는 8글자 이상이어야 합니다.' })
       .regex(/^(?=.*[a-zA-Z])(?=.*[!@#$%^&*])/, {
-        message: '영문자 혹은 특수문자를 포함해야 합니다.',
+        message: '비밀번호는 영문자와 특수문자를 포함해야 합니다.',
       }),
   });
 
@@ -59,41 +59,46 @@ export default function Login() {
     );
   };
 
+  const handleError = (errors: unknown) => {
+    alert('아이디와 비밀번호를 확인해주세요');
+    console.error(errors);
+  };
+
   return (
     <Layout headerVisible={false} navigationVisible={false}>
-      <div className={styles.header}>
-        <p className={styles.branding}>
-          Hufscheers
-          <br />
-          manager
-        </p>
-        <span className={styles.tag}>매니저 용</span>
+      <div className={styles.loginLayout}>
+        <div className={styles.header}>
+          <p className={styles.branding}>
+            Hufscheers
+            <br />
+            manager
+          </p>
+          <span className={styles.tag}>매니저 용</span>
+        </div>
+
+        <Form {...methods}>
+          <form
+            className={styles.form}
+            onSubmit={methods.handleSubmit(onSubmit, handleError)}
+          >
+            <FormField name="email">
+              <FormLabel>아이디</FormLabel>
+              <FormControl>
+                <Input type="email" />
+              </FormControl>
+            </FormField>
+
+            <FormField name="password">
+              <FormLabel>비밀번호</FormLabel>
+              <FormControl>
+                <Input type="password" />
+              </FormControl>
+            </FormField>
+
+            <Button style={{ marginTop: rem(8) }}>로그인</Button>
+          </form>
+        </Form>
       </div>
-
-      <Form {...methods}>
-        <form
-          onSubmit={methods.handleSubmit(onSubmit)}
-          style={{ display: 'flex', flexDirection: 'column', gap: 16 }}
-        >
-          <FormField name="email">
-            <FormLabel>아이디</FormLabel>
-            <FormControl>
-              <Input />
-            </FormControl>
-            <FormMessage />
-          </FormField>
-
-          <FormField name="password">
-            <FormLabel>비밀번호</FormLabel>
-            <FormControl>
-              <Input />
-            </FormControl>
-            <FormMessage />
-          </FormField>
-
-          <Button>로그인</Button>
-        </form>
-      </Form>
     </Layout>
   );
 }
