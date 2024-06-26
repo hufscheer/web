@@ -4,10 +4,10 @@ import * as React from 'react';
 
 import * as styles from './styles.css';
 
-export type ButtonColorSchemeType = 'primary' | 'secondary';
+type ButtonColorSchemes = 'primary' | 'secondary';
 
 interface BaseButtonProps {
-  colorScheme?: ButtonColorSchemeType;
+  colorScheme?: ButtonColorSchemes;
 }
 
 interface ButtonProps
@@ -16,7 +16,7 @@ interface ButtonProps
   asChild?: boolean;
 }
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     { asChild = false, colorScheme = 'primary', className, children, ...props },
     ref,
@@ -40,3 +40,5 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 Button.displayName = 'Button';
+
+export { Button, type ButtonColorSchemes };
