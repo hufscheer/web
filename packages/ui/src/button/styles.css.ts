@@ -17,7 +17,7 @@ export const buttonBase = style({
 });
 
 export const buttonColorScheme = {
-  default: style({
+  primary: style({
     color: theme.colors.white,
     backgroundColor: theme.colors.black900,
     ':hover': {
@@ -31,7 +31,7 @@ export const buttonColorScheme = {
       },
     },
   }),
-  gray: style({
+  secondary: style({
     color: theme.colors.white,
     backgroundColor: theme.colors.black25,
     ':hover': {
