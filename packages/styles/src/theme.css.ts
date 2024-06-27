@@ -58,6 +58,28 @@ export const theme = createGlobalTheme(':root', {
     },
     black: '#14191F',
     white: '#FFFFFF',
+
+    // black
+    black25: '#F5F5F7',
+    black50: '#EBECEE',
+    black100: '#C1C5CA',
+    black200: '#A3A9B0',
+    black300: '#79828C',
+    black400: '#5F6A75',
+    black500: '#374553',
+    black700: '#27313B',
+    black800: '#1E262E',
+    black900: '#141B21',
+
+    // accent
+    accent: {
+      captain: '#F87904',
+      green: '#1ADA3B',
+      alert: '#FC5555',
+      alertLight: '#FFF2F1',
+      primary: '#007AFF',
+      primaryLight: '#F2F8FF',
+    },
   },
 
   shadows: {

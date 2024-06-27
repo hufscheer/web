@@ -1,58 +1,85 @@
 'use client';
 
-import { Button, TextInput } from '@mantine/core';
-import { useForm } from '@mantine/form';
+import {
+  Button,
+  Form,
+  FormControl,
+  FormField,
+  FormLabel,
+  Input,
+  useToast,
+} from '@hcc/ui';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 
+import {
+  loginFormSchema,
+  LoginFormSchema,
+  defaultLoginValue,
+} from '@/app/login/form';
 import Layout from '@/components/Layout';
 import useLoginMutation from '@/hooks/mutations/useLoginMutation';
 
+import * as styles from './page.css';
+
 export default function Login() {
   const router = useRouter();
+  const { toast } = useToast();
 
-  const form = useForm({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validate: {
-      email: value => (value.includes('@') ? null : 'Invalid email'),
-      password: value => (value.length >= 4 ? null : 'Password is too short'),
-    },
-    validateInputOnChange: true,
+  const methods = useForm<LoginFormSchema>({
+    resolver: zodResolver(loginFormSchema),
+    defaultValues: defaultLoginValue,
+    mode: 'onSubmit',
   });
 
   const { mutate: mutateLogin } = useLoginMutation();
-  const handleSubmit = (values: typeof form.values) => {
-    mutateLogin(values, {
-      onSuccess: () => {
-        router.replace('/');
-      },
+  const onSubmit = ({ email, password }: LoginFormSchema) => {
+    mutateLogin({ email, password }, { onSuccess: () => router.replace('/') });
+  };
+
+  const handleError = () => {
+    toast({
+      title: '아이디 또는 비밀번호 오류',
+      variant: 'destructive',
     });
   };
 
   return (
     <Layout headerVisible={false} navigationVisible={false}>
-      <form onSubmit={form.onSubmit(handleSubmit)}>
-        <TextInput
-          withAsterisk
-          label="Email"
-          placeholder="이메일을 입력해주세요."
-          {...form.getInputProps('email')}
-        />
+      <div className={styles.loginLayout}>
+        <div className={styles.header}>
+          <p className={styles.branding}>
+            Hufscheers
+            <br />
+            manager
+          </p>
+          <span className={styles.tag}>매니저 용</span>
+        </div>
 
-        <TextInput
-          type="password"
-          withAsterisk
-          label="Password"
-          placeholder="비밀번호을 입력해주세요."
-          {...form.getInputProps('password')}
-        />
+        <Form {...methods}>
+          <form
+            className={styles.form}
+            onSubmit={methods.handleSubmit(onSubmit, handleError)}
+          >
+            <FormField name="email">
+              <FormLabel>아이디</FormLabel>
+              <FormControl>
+                <Input type="email" />
+              </FormControl>
+            </FormField>
 
-        <Button mt="md" fullWidth type="submit">
-          로그인
-        </Button>
-      </form>
+            <FormField name="password">
+              <FormLabel>비밀번호</FormLabel>
+              <FormControl>
+                <Input type="password" />
+              </FormControl>
+            </FormField>
+
+            <Button className={styles.submitButton}>로그인</Button>
+          </form>
+        </Form>
+      </div>
     </Layout>
   );
 }

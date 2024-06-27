@@ -54,7 +54,7 @@ export const toastBase = style({
   overflow: 'hidden',
   borderRadius: rem(8),
   border: '1px solid',
-  padding: rem(12),
+  padding: rem(15),
   paddingRight: rem(14),
   boxShadow:
     '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)', // shadow-lg
@@ -99,10 +99,9 @@ export const variants = styleVariants({
   ],
   destructive: [
     {
-      // 디자인 시스템 확정 시 HEX CODE를 전부 변수로 변경
-      color: '#FC5555',
-      borderColor: '#FFEBEB',
-      backgroundColor: '#FFF6F6',
+      color: theme.colors.white,
+      borderColor: theme.colors.black500,
+      backgroundColor: theme.colors.black500,
     },
   ],
 });

@@ -1,9 +1,7 @@
-import { ScrollArea } from '@mantine/core';
 import { ReactNode } from 'react';
 
 import Navigation from '@/components/Layout/Navigation';
 
-import Footer from './Footer';
 import Header from './Header';
 import * as styles from './Layout.css';
 
@@ -13,7 +11,6 @@ type LayoutProps = {
   navigationVisible?: boolean;
   navigationTitle?: string;
   navigationMenu?: ReactNode;
-  footerVisible?: boolean;
 };
 
 export default function Layout({
@@ -22,7 +19,6 @@ export default function Layout({
   navigationVisible = true,
   navigationTitle,
   navigationMenu,
-  footerVisible = true,
 }: LayoutProps) {
   return (
     <div className={styles.wrapper}>
@@ -33,15 +29,7 @@ export default function Layout({
           navigationMenu={navigationMenu}
         />
       )}
-      <ScrollArea
-        scrollbars="y"
-        component="main"
-        py="sm"
-        className={styles.main}
-      >
-        {children}
-      </ScrollArea>
-      {footerVisible && <Footer />}
+      <main className={styles.main}>{children}</main>
     </div>
   );
 }
