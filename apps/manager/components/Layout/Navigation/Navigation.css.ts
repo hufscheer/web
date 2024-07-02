@@ -19,7 +19,7 @@ export const container = style({
   alignItems: 'center',
   justifyContent: 'center',
   width: '100%',
-  maxWidth: `calc(${theme.sizes.appWidth} + ${rem(42)})`,
+  maxWidth: theme.sizes.appWidth,
   height: '100%',
 });
 

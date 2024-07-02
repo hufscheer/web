@@ -18,7 +18,7 @@ export const container = style({
   justifyContent: 'space-between',
   alignItems: 'center',
   width: '100%',
-  maxWidth: `calc(${theme.sizes.appWidth} + ${rem(42)})`,
+  maxWidth: theme.sizes.appWidth,
   paddingInline: rem(21),
   marginInline: 'auto',
 });
