@@ -1,9 +1,9 @@
 import { rem } from '@hcc/styles';
-import { ComponentPropsWithRef } from 'react';
+import { ComponentProps } from 'react';
 
 import * as styles from './Divider.css';
 
-interface DividerProps extends ComponentPropsWithRef<'hr'> {
+interface DividerProps extends ComponentProps<'hr'> {
   height?: number;
 }
 
