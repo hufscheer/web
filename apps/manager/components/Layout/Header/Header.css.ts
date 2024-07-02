@@ -19,7 +19,7 @@ export const container = style({
   alignItems: 'center',
   width: '100%',
   maxWidth: theme.sizes.appWidth,
-  paddingInline: rem(21),
+  paddingInline: theme.sizes.appInlinePadding,
   marginInline: 'auto',
 });
 

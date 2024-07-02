@@ -25,7 +25,7 @@ export const container = style({
 
 export const backButton = style({
   position: 'absolute',
-  left: rem(21),
+  left: theme.sizes.appInlinePadding,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -39,5 +39,5 @@ export const title = style({
 
 export const menuContainer = style({
   position: 'absolute',
-  right: rem(21),
+  right: theme.sizes.appInlinePadding,
 });

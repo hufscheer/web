@@ -148,5 +148,6 @@ export const theme = createGlobalTheme(':root', {
 
   sizes: {
     appWidth: rem(480),
+    appInlinePadding: rem(21),
   },
 });
