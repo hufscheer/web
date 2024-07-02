@@ -15,5 +15,8 @@ export const main = style({
   display: 'flex',
   flex: 1,
   flexDirection: 'column',
-  paddingInline: rem(21),
+});
+
+export const mainWithPaddingTop = style({
+  paddingTop: rem(69),
 });
