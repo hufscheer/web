@@ -8,11 +8,11 @@ import { ReactNode, useState } from 'react';
 import useScreenSize from '@/hooks/useScreenSize';
 import { mantineTheme } from '@/styles/theme';
 
-type ReactQueryProviderProps = {
+type ProviderProps = {
   children: ReactNode;
 };
 
-export default function Providers({ children }: ReactQueryProviderProps) {
+export default function Providers({ children }: ProviderProps) {
   useScreenSize();
 
   const [queryClient] = useState(
