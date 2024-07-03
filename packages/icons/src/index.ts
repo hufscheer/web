@@ -1,5 +1,6 @@
 export { ReactComponent as ArrowClockwiseIcon } from './svg/arrow-clockwise.svg';
 export { ReactComponent as ArrowDownIcon } from './svg/arrow-down.svg';
+export { ReactComponent as ArrowLeftIcon } from './svg/arrow-left.svg';
 export { ReactComponent as BackgroundLogoIcon } from './svg/background-logo.svg';
 export { ReactComponent as CalendarIcon } from './svg/calendar.svg';
 export { ReactComponent as CaretDownIcon } from './svg/caret-down.svg';

@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import { ReactNode } from 'react';
 
 import Navigation from '@/components/Layout/Navigation';
@@ -15,7 +16,7 @@ type LayoutProps = {
 
 export default function Layout({
   children,
-  headerVisible = true,
+  headerVisible = false,
   navigationVisible = true,
   navigationTitle,
   navigationMenu,
@@ -29,7 +30,13 @@ export default function Layout({
           navigationMenu={navigationMenu}
         />
       )}
-      <main className={styles.main}>{children}</main>
+      <main
+        className={clsx(styles.main, {
+          [styles.mainWithPaddingTop]: headerVisible || navigationVisible,
+        })}
+      >
+        {children}
+      </main>
     </div>
   );
 }

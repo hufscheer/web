@@ -5,13 +5,16 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ReactNode, useState } from 'react';
 
+import useScreenSize from '@/hooks/useScreenSize';
 import { mantineTheme } from '@/styles/theme';
 
-type ReactQueryProviderProps = {
+type ProviderProps = {
   children: ReactNode;
 };
 
-export default function Providers({ children }: ReactQueryProviderProps) {
+export default function Providers({ children }: ProviderProps) {
+  useScreenSize();
+
   const [queryClient] = useState(
     () =>
       new QueryClient({

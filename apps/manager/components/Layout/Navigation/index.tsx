@@ -1,6 +1,6 @@
 'use client';
 
-import { CaretDownIcon } from '@hcc/icons';
+import { ArrowLeftIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
@@ -19,13 +19,15 @@ export default function Navigation({
 
   return (
     <nav className={styles.wrapper}>
-      <button className={styles.backButton} onClick={() => router.back()}>
-        <Icon source={CaretDownIcon} style={{ transform: 'rotate(90deg)' }} />
-      </button>
-      {navigationTitle && <p className={styles.title}>{navigationTitle}</p>}
-      {navigationMenu && (
-        <span className={styles.menuContainer}>{navigationMenu}</span>
-      )}
+      <div className={styles.container}>
+        <button className={styles.backButton} onClick={() => router.back()}>
+          <Icon source={ArrowLeftIcon} size={14} />
+        </button>
+        {navigationTitle && <p className={styles.title}>{navigationTitle}</p>}
+        {navigationMenu && (
+          <span className={styles.menuContainer}>{navigationMenu}</span>
+        )}
+      </div>
     </nav>
   );
 }

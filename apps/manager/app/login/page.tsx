@@ -12,16 +12,23 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import {
-  loginFormSchema,
-  LoginFormSchema,
-  defaultLoginValue,
-} from '@/app/login/form';
 import Layout from '@/components/Layout';
 import useLoginMutation from '@/hooks/mutations/useLoginMutation';
 
 import * as styles from './page.css';
+
+const loginFormSchema = z.object({
+  email: z
+    .string()
+    .email({ message: '아이디는 이메일 형식으로 입력해주세요.' }),
+  password: z
+    .string()
+    .min(8, { message: '비밀번호는 8글자 이상이어야 합니다.' }),
+});
+
+type LoginFormSchema = z.infer<typeof loginFormSchema>;
 
 export default function Login() {
   const router = useRouter();
@@ -29,7 +36,7 @@ export default function Login() {
 
   const methods = useForm<LoginFormSchema>({
     resolver: zodResolver(loginFormSchema),
-    defaultValues: defaultLoginValue,
+    defaultValues: { email: '', password: '' },
     mode: 'onSubmit',
   });
 

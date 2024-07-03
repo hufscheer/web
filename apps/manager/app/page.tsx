@@ -17,7 +17,7 @@ export default function Page() {
   const { data: leagues } = useLeagueQuery();
 
   return (
-    <Layout navigationVisible={false}>
+    <Layout headerVisible={true} navigationVisible={false}>
       <Suspense fallback={<Spinner />}>
         <PlayingCard leagues={leagues?.playing} />
       </Suspense>

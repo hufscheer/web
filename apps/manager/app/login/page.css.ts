@@ -4,6 +4,7 @@ import { style } from '@vanilla-extract/css';
 export const loginLayout = style({
   display: 'flex',
   height: '100%',
+  paddingInline: theme.sizes.appInlinePadding,
   flexDirection: 'column',
   justifyContent: 'space-between',
 });
