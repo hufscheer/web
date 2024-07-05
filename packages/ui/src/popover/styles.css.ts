@@ -31,7 +31,8 @@ const backgroundColor = '#FFFFFF';
 
 export const content = style({
   zIndex: 50,
-  width: rem(320),
+  minWidth: rem(300),
+  maxWidth: rem(438),
   borderRadius: rem(8),
   border: `1px solid ${theme.colors.black25}`,
   backgroundColor: backgroundColor,
