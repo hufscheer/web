@@ -3,10 +3,22 @@ import { globalStyle, style } from '@vanilla-extract/css';
 
 const errorColor = '#FC5555';
 
-export const formField = style({
+export const formItem = style({
   position: 'relative',
   width: '100%',
+  marginTop: rem(8),
+
+  selectors: {
+    '&:first-of-type': {
+      marginTop: 0,
+    },
+  },
 });
+
+// export const formField = style({
+//   position: 'relative',
+//   width: '100%',
+// });
 
 export const control = style({});
 
@@ -40,12 +52,25 @@ globalStyle(
   },
 );
 
-globalStyle(`${label}[data-dirty="filled"], input:focus+${label}`, {
-  transform: 'scale(.85) translateY(-.5rem) translateX(.25rem)',
-});
+globalStyle(
+  `${label}[data-dirty="filled"], input:focus+${label}, ${label}:has(+ input:focus)`,
+  {
+    transform: 'scale(.85) translateY(-.5rem) translateX(.25rem)',
+  },
+);
 
 globalStyle(`${label}:has(+ ${control}:where(button[data-state="open"]))`, {
   transform: 'scale(.85) translateY(-.5rem) translateX(.25rem)',
+});
+
+// input[type='date']::-webkit-datetime-edit
+globalStyle(`${label}:has(+ ${control}:has(input[type="date"]))`, {
+  transform: 'scale(.85) translateY(-.5rem) translateX(.25rem)',
+});
+
+globalStyle(`${control} input::-webkit-datetime-edit`, {
+  paddingTop: rem(28),
+  paddingBottom: rem(4),
 });
 
 export const errorBorder = style({

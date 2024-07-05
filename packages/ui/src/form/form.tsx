@@ -3,18 +3,23 @@
 import { Slot } from '@radix-ui/react-slot';
 import { clsx } from 'clsx';
 import {
-  ComponentProps,
   ComponentPropsWithoutRef,
-  HTMLAttributes,
-  ReactNode,
+  ElementRef,
   createContext,
   forwardRef,
+  useContext,
   useId,
 } from 'react';
-import { FieldPath, FieldValues, FormProvider } from 'react-hook-form';
+import {
+  Controller,
+  ControllerProps,
+  FieldPath,
+  FieldValues,
+  FormProvider,
+  useFormContext,
+} from 'react-hook-form';
 
 import * as styles from './styles.css';
-import { useFormField } from './useFormField';
 
 const Form = FormProvider;
 
@@ -22,88 +27,121 @@ type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > = {
-  id: string;
   name: TName;
 };
 
-export const FormFieldContext = createContext<FormFieldContextValue>(
+const FormFieldContext = createContext<FormFieldContextValue>(
   {} as FormFieldContextValue,
 );
-
-interface FormFieldProps<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> {
-  name: TName;
-  children: ReactNode;
-}
 
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
-  name,
-  children,
-}: FormFieldProps<TFieldValues, TName>) => {
-  const id = useId();
-
+  ...props
+}: ControllerProps<TFieldValues, TName>) => {
   return (
-    <FormFieldContext.Provider value={{ name, id }}>
-      <div className={styles.formField}>{children}</div>
+    <FormFieldContext.Provider value={{ name: props.name }}>
+      <Controller {...props} />
     </FormFieldContext.Provider>
   );
 };
 
+const useFormField = () => {
+  const fieldContext = useContext(FormFieldContext);
+  const itemContext = useContext(FormItemContext);
+  const { getFieldState, formState, getValues } = useFormContext();
+
+  const fieldState = getFieldState(fieldContext.name, formState);
+
+  if (!fieldContext) {
+    throw new Error('useFormField should be used within <FormField>');
+  }
+
+  const { id } = itemContext;
+
+  return {
+    id,
+    name: fieldContext.name,
+    value: getValues(fieldContext.name),
+    formItemId: `${id}-form-item`,
+    formDescriptionId: `${id}-form-item-description`,
+    formMessageId: `${id}-form-item-message`,
+    ...fieldState,
+  };
+};
+
+type FormItemContextValue = {
+  id: string;
+};
+
+const FormItemContext = createContext<FormItemContextValue>(
+  {} as FormItemContextValue,
+);
+
+const FormItem = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div'>>(
+  ({ className, ...props }, ref) => {
+    const id = useId();
+
+    return (
+      <FormItemContext.Provider value={{ id }}>
+        <div
+          ref={ref}
+          className={clsx(styles.formItem, className)}
+          {...props}
+        />
+      </FormItemContext.Provider>
+    );
+  },
+);
+FormItem.displayName = 'FormItem';
+
 interface FormLabelProps extends ComponentPropsWithoutRef<'label'> {}
 
 const FormLabel = forwardRef<HTMLLabelElement, FormLabelProps>(
-  ({ className, children, ...props }, ref) => {
-    const { formItemId, isDirty, value } = useFormField();
+  ({ className, ...props }, ref) => {
+    const { formItemId, value, isDirty } = useFormField();
 
     return (
       <label
         ref={ref}
-        htmlFor={formItemId}
-        data-dirty={value || isDirty ? 'filled' : 'empty'}
         className={clsx(styles.label, className)}
+        data-dirty={value || isDirty ? 'filled' : 'empty'}
+        htmlFor={formItemId}
         {...props}
-      >
-        {children}
-      </label>
+      />
     );
   },
 );
 FormLabel.displayName = 'FormLabel';
 
-const FormControl = ({ className, ...props }: ComponentProps<typeof Slot>) => {
-  const {
-    register,
-    name,
-    error,
-    formItemId,
-    formDescriptionId,
-    formMessageId,
-  } = useFormField();
+const FormControl = forwardRef<
+  ElementRef<typeof Slot>,
+  ComponentPropsWithoutRef<typeof Slot>
+>(({ ...props }, ref) => {
+  const { error, formItemId, formDescriptionId, formMessageId } =
+    useFormField();
 
   return (
     <Slot
-      {...register(name)}
+      ref={ref}
       id={formItemId}
       aria-describedby={
         !error
           ? `${formDescriptionId}`
           : `${formDescriptionId} ${formMessageId}`
       }
-      className={clsx(styles.control, error && styles.errorBorder, className)}
       aria-invalid={!!error}
+      className={styles.control}
       {...props}
     />
   );
-};
+});
+FormControl.displayName = 'FormControl';
 
 const FormMessage = forwardRef<
   HTMLParagraphElement,
-  HTMLAttributes<HTMLParagraphElement>
+  ComponentPropsWithoutRef<'p'>
 >(({ className, children, ...props }, ref) => {
   const { error, formMessageId } = useFormField();
   const body = error ? String(error?.message) : children;
@@ -125,4 +163,12 @@ const FormMessage = forwardRef<
 });
 FormMessage.displayName = 'FormMessage';
 
-export { Form, FormLabel, FormControl, FormMessage, FormField };
+export {
+  useFormField,
+  Form,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+  FormField,
+};
