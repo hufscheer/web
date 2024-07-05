@@ -1,4 +1,4 @@
-import { rem } from '@hcc/styles';
+import { rem, theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 
 export const input = style({
@@ -16,6 +16,11 @@ export const input = style({
   selectors: {
     '&::placeholder': {
       color: '#79828C',
+    },
+
+    '&:focus': {
+      outline: 'none',
+      boxShadow: `0px 0px 0px 2px #fff, 0px 0px 0px 5px ${theme.colors.accent.primary}`,
     },
   },
 });
