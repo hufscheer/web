@@ -31,9 +31,9 @@ const backgroundColor = '#FFFFFF';
 
 export const content = style({
   zIndex: 50,
-  width: rem(300),
+  width: rem(320),
   borderRadius: rem(8),
-  // border: '1px solid gray',
+  border: `1px solid ${theme.colors.black25}`,
   backgroundColor: backgroundColor,
   padding: rem(16),
   color: color,
