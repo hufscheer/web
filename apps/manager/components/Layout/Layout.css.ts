@@ -15,8 +15,10 @@ export const main = style({
   display: 'flex',
   flex: 1,
   flexDirection: 'column',
+
+  padding: theme.sizes.appInlinePadding,
 });
 
 export const mainWithPaddingTop = style({
-  paddingTop: rem(69),
+  marginTop: rem(69),
 });
