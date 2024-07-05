@@ -1,4 +1,4 @@
-import { rem } from '@hcc/styles';
+import { rem, theme } from '@hcc/styles';
 import { globalStyle } from '@vanilla-extract/css';
 
 const cellSize = 36;
@@ -10,8 +10,50 @@ const backgroundColor = '#FFFFFF';
 const hoverBackgroundColor = '#e6e6e6';
 const neighboringBackgroundColor = '#ebecee';
 
+globalStyle('.react-calendar--doubleView', {
+  width: rem(cellSize * 14),
+});
+
+globalStyle(
+  '.react-calendar, .react-calendar *, .react-calendar *:before, .react-calendar *:after',
+  {
+    WebkitBoxSizing: 'border-box',
+    boxSizing: 'border-box',
+    MozBoxSizing: 'border-box',
+  },
+);
+
+globalStyle('.react-calendar button', {
+  margin: 0,
+  border: 0,
+  outline: 'none',
+});
+
+globalStyle('.react-calendar button:enabled:hover', {
+  cursor: 'pointer',
+});
+
+globalStyle('.react-calendar__navigation button:disabled', {
+  backgroundColor: theme.colors.black50,
+});
+
+globalStyle('.react-calendar__month-view__weekdays', {
+  textAlign: 'center',
+  textTransform: 'uppercase',
+  font: 'inherit',
+  fontSize: rem(13),
+  width: rem(cellSize * 7),
+  padding: 0,
+});
+
+globalStyle('.react-calendar__tile:disabled', {
+  backgroundColor: theme.colors.black100,
+  color: theme.colors.white,
+});
+
 globalStyle('.react-calendar', {
   width: 'min-content',
+  backgroundColor: theme.colors.white,
   padding: rem(12),
   border: 'none',
 });
@@ -21,8 +63,9 @@ globalStyle('.react-calendar__navigation', {
   justifyContent: 'space-between',
   alignItems: 'center',
 
+  width: rem(cellSize * 7),
   height: 'fit-content',
-  marginInline: rem(4),
+  marginBottom: rem(12),
 });
 
 globalStyle(
@@ -49,6 +92,10 @@ globalStyle('.react-calendar__navigation__arrow', {
 
 globalStyle('.react-calendar__navigation button', {
   minWidth: 0,
+});
+
+globalStyle('.react-calendar__viewContainer', {
+  width: rem(cellSize * 7),
 });
 
 globalStyle('.react-calendar__month-view__weekdays', {
@@ -79,6 +126,24 @@ globalStyle('.react-calendar__tile', {
   flex: '0 0 auto ',
   transition: 'background-color 0.1s ease-in-out, color 0.1s ease-in-out',
   borderRadius: 4,
+  textAlign: 'center',
+  lineHeight: 1,
+  fontSize: rem(13),
+});
+
+globalStyle(
+  '.react-calendar__tile:enabled:hover, .react-calendar__tile:enabled:focus',
+  {
+    backgroundColor: theme.colors.black50,
+  },
+);
+
+globalStyle('.react-calendar__month-view__weekNumbers', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  font: 'inherit',
+  fontSize: rem(13),
 });
 
 globalStyle(
