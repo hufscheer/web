@@ -1,4 +1,4 @@
-import { rem } from '@hcc/styles';
+import { rem, theme } from '@hcc/styles';
 import { globalStyle, keyframes, style } from '@vanilla-extract/css';
 
 export const trigger = style({
@@ -19,7 +19,7 @@ export const trigger = style({
   selectors: {
     '&:focus': {
       outline: 'none',
-      boxShadow: '0px 0px 0px 2px #fff, 0px 0px 0px 5px #79828c',
+      boxShadow: `0px 0px 0px 2px #fff, 0px 0px 0px 5px ${theme.colors.accent.primary}`,
     },
 
     '&::placeholder': {
