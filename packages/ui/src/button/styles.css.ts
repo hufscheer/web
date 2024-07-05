@@ -7,11 +7,12 @@ export const buttonBase = style({
   justifyContent: 'center',
   height: rem(60),
   paddingBlock: rem(22),
+  paddingInline: 18,
   fontSize: rem(16),
   fontWeight: '600',
   outline: 'none',
   cursor: 'pointer',
-  border: 'none',
+  border: '1px solid transparent',
   borderRadius: rem(8),
   transition: 'background-color 0.2s ease-in-out',
 });
@@ -32,17 +33,54 @@ export const buttonColorScheme = {
     },
   }),
   secondary: style({
-    color: theme.colors.white,
+    color: theme.colors.black900,
     backgroundColor: theme.colors.black25,
     ':hover': {
-      color: theme.colors.white,
       backgroundColor: theme.colors.black50,
     },
     selectors: {
       '&[aria-invalid="true"]': {
-        color: theme.colors.white,
         backgroundColor: theme.colors.black100,
+        color: theme.colors.white,
       },
     },
+  }),
+  outline: style({
+    border: `1px solid ${theme.colors.black25}`,
+    backgroundColor: theme.colors.white,
+    color: theme.colors.black900,
+    fontWeight: '400',
+
+    selectors: {
+      '&:focus-visible': {
+        outline: 'none',
+        boxShadow: `0px 0px 0px 2px #fff, 0px 0px 0px 5px ${theme.colors.accent.primary}`,
+      },
+    },
+  }),
+};
+
+export const fullWidth = style({
+  width: '100%',
+});
+
+export const justify = {
+  start: style({
+    justifyContent: 'flex-start',
+  }),
+  end: style({
+    justifyContent: 'flex-end',
+  }),
+  center: style({
+    justifyContent: 'center',
+  }),
+  between: style({
+    justifyContent: 'space-between',
+  }),
+  around: style({
+    justifyContent: 'space-around',
+  }),
+  evenly: style({
+    justifyContent: 'space-evenly',
   }),
 };

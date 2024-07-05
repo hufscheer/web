@@ -4,10 +4,13 @@ import * as React from 'react';
 
 import * as styles from './styles.css';
 
-type ButtonColorSchemes = 'primary' | 'secondary';
+type ButtonColorSchemes = keyof typeof styles.buttonColorScheme;
+type ButtonAlignment = keyof typeof styles.justify;
 
 interface BaseButtonProps {
   colorScheme?: ButtonColorSchemes;
+  fullWidth?: boolean;
+  justify?: ButtonAlignment;
 }
 
 interface ButtonProps
@@ -18,7 +21,15 @@ interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { asChild = false, colorScheme = 'primary', className, children, ...props },
+    {
+      asChild = false,
+      colorScheme = 'primary',
+      justify = 'center',
+      fullWidth,
+      className,
+      children,
+      ...props
+    },
     ref,
   ) => {
     const Comp = asChild ? Slot : 'button';
@@ -29,6 +40,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={clsx(
           styles.buttonBase,
           styles.buttonColorScheme[colorScheme],
+          styles.justify[justify],
+          fullWidth && styles.fullWidth,
           className,
         )}
         {...props}
