@@ -23,11 +23,13 @@ import {
   toast,
 } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
+import dayjs from 'dayjs';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import Layout from '@/components/Layout';
 
+import 'dayjs/locale/ko';
 import * as styles from './styles.css';
 
 const formSchema = z.object({
@@ -93,7 +95,7 @@ export default function Page() {
                         >
                           <span>
                             {field.value
-                              ? new Date(field.value).toLocaleDateString()
+                              ? dayjs(field.value).format('YYYY. MM. DD')
                               : ''}
                           </span>
                           <Icon source={CalendarIcon} />
@@ -128,7 +130,7 @@ export default function Page() {
                         >
                           <span>
                             {field.value
-                              ? new Date(field.value).toLocaleDateString()
+                              ? dayjs(field.value).format('YYYY. MM. DD')
                               : ''}
                           </span>
                           <Icon source={CalendarIcon} />
@@ -138,7 +140,9 @@ export default function Page() {
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         defaultValue={field.value}
-                        onChange={field.onChange}
+                        onChange={value =>
+                          field.onChange(dayjs(value as Date).toDate())
+                        }
                       />
                     </PopoverContent>
                   </Popover>
