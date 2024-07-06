@@ -5,6 +5,7 @@ import {
   Form,
   FormControl,
   FormField,
+  FormItem,
   FormLabel,
   Input,
   useToast,
@@ -42,7 +43,10 @@ export default function Login() {
 
   const { mutate: mutateLogin } = useLoginMutation();
   const onSubmit = ({ email, password }: LoginFormSchema) => {
-    mutateLogin({ email, password }, { onSuccess: () => router.replace('/') });
+    mutateLogin(
+      { email, password },
+      { onSuccess: () => router.replace('/'), onError: handleError },
+    );
   };
 
   const handleError = () => {
@@ -69,19 +73,31 @@ export default function Login() {
             className={styles.form}
             onSubmit={methods.handleSubmit(onSubmit, handleError)}
           >
-            <FormField name="email">
-              <FormLabel>아이디</FormLabel>
-              <FormControl>
-                <Input type="email" />
-              </FormControl>
-            </FormField>
+            <FormField
+              control={methods.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>아이디</FormLabel>
+                  <FormControl>
+                    <Input type="email" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
 
-            <FormField name="password">
-              <FormLabel>비밀번호</FormLabel>
-              <FormControl>
-                <Input type="password" />
-              </FormControl>
-            </FormField>
+            <FormField
+              control={methods.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>비밀번호</FormLabel>
+                  <FormControl>
+                    <Input type="password" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
 
             <Button className={styles.submitButton}>로그인</Button>
           </form>

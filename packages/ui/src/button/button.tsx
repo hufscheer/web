@@ -1,24 +1,27 @@
 import { Slot } from '@radix-ui/react-slot';
+import { RecipeVariants } from '@vanilla-extract/recipes';
 import { clsx } from 'clsx';
-import * as React from 'react';
+import { ComponentPropsWithoutRef, forwardRef } from 'react';
 
 import * as styles from './styles.css';
 
-type ButtonColorSchemes = 'primary' | 'secondary';
-
-interface BaseButtonProps {
-  colorScheme?: ButtonColorSchemes;
-}
-
-interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    BaseButtonProps {
+type ButtonVariants = RecipeVariants<typeof styles.buttonVariants>;
+type ButtonProps = {
   asChild?: boolean;
-}
+} & ComponentPropsWithoutRef<'button'> &
+  ButtonVariants;
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { asChild = false, colorScheme = 'primary', className, children, ...props },
+    {
+      asChild = false,
+      colorScheme = 'primary',
+      justify = 'center',
+      fullWidth,
+      className,
+      children,
+      ...props
+    },
     ref,
   ) => {
     const Comp = asChild ? Slot : 'button';
@@ -27,8 +30,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         ref={ref}
         className={clsx(
-          styles.buttonBase,
-          styles.buttonColorScheme[colorScheme],
+          styles.buttonVariants({ colorScheme, fullWidth, justify }),
           className,
         )}
         {...props}
@@ -41,4 +43,4 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
 Button.displayName = 'Button';
 
-export { Button, type ButtonColorSchemes };
+export { Button };

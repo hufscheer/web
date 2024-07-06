@@ -18,5 +18,5 @@ export const main = style({
 });
 
 export const mainWithPaddingTop = style({
-  paddingTop: rem(69),
+  marginTop: rem(69),
 });
