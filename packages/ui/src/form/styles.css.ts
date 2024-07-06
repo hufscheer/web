@@ -15,11 +15,6 @@ export const formItem = style({
   },
 });
 
-// export const formField = style({
-//   position: 'relative',
-//   width: '100%',
-// });
-
 export const control = style({});
 
 export const label = style({
@@ -39,7 +34,7 @@ export const label = style({
     'border-color .15s ease-in-out, box-shadow .15s ease-in-out, transform .15s ease-in-out',
 });
 
-globalStyle(`${label}[data-dirty="filled"]+input`, {
+globalStyle(`${label}[data-dirty="filled"]+input, ${control}:where(input)`, {
   paddingTop: rem(28),
   paddingBottom: rem(4),
 });
@@ -58,6 +53,10 @@ globalStyle(
     transform: 'scale(.85) translateY(-.5rem) translateX(.25rem)',
   },
 );
+
+globalStyle(`${label}:has(+ div > input:focus)`, {
+  transform: 'scale(.85) translateY(-.5rem) translateX(.25rem)',
+});
 
 globalStyle(`${label}:has(+ ${control}:where(button[data-state="open"]))`, {
   transform: 'scale(.85) translateY(-.5rem) translateX(.25rem)',

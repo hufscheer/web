@@ -52,9 +52,18 @@ export const buttonColorScheme = {
     fontWeight: '400',
 
     selectors: {
-      '&:focus-visible': {
-        outline: 'none',
-        boxShadow: `0px 0px 0px 2px #fff, 0px 0px 0px 5px ${theme.colors.accent.primary}`,
+      '&:focus::after': {
+        content: '',
+        position: 'absolute',
+        top: -1,
+        right: -1,
+        bottom: -1,
+        left: -1,
+        height: 'inherit',
+        border: `2px solid ${theme.colors.accent.primary}`,
+        transition: 'all .2s cubic-bezier(.4,0,.2,1)',
+        zIndex: 2,
+        borderRadius: rem(8),
       },
     },
   }),
