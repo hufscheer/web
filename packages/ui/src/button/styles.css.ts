@@ -1,5 +1,6 @@
 import { rem, theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
 
 export const buttonBase = style({
   display: 'flex',
@@ -49,7 +50,6 @@ export const buttonColorScheme = {
     border: `1px solid ${theme.colors.black25}`,
     backgroundColor: theme.colors.white,
     color: theme.colors.black900,
-    fontWeight: '400',
 
     selectors: {
       '&:focus::after': {
@@ -69,27 +69,39 @@ export const buttonColorScheme = {
   }),
 };
 
-export const fullWidth = style({
-  width: '100%',
+export const buttonVariants = recipe({
+  base: buttonBase,
+  variants: {
+    colorScheme: buttonColorScheme,
+    fullWidth: {
+      true: {
+        width: '100%',
+      },
+    },
+    justify: {
+      start: {
+        justifyContent: 'flex-start',
+      },
+      end: {
+        justifyContent: 'flex-end',
+      },
+      center: {
+        justifyContent: 'center',
+      },
+      between: {
+        justifyContent: 'space-between',
+      },
+      around: {
+        justifyContent: 'space-around',
+      },
+      evenly: {
+        justifyContent: 'space-evenly',
+      },
+    },
+  },
+  defaultVariants: {
+    colorScheme: 'primary',
+    fullWidth: false,
+    justify: 'center',
+  },
 });
-
-export const justify = {
-  start: style({
-    justifyContent: 'flex-start',
-  }),
-  end: style({
-    justifyContent: 'flex-end',
-  }),
-  center: style({
-    justifyContent: 'center',
-  }),
-  between: style({
-    justifyContent: 'space-between',
-  }),
-  around: style({
-    justifyContent: 'space-around',
-  }),
-  evenly: style({
-    justifyContent: 'space-evenly',
-  }),
-};
