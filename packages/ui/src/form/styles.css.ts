@@ -25,6 +25,7 @@ export const label = style({
   lineHeight: 1,
   border: '1px solid transparent',
   color: '#79828C',
+  fontWeight: 500,
   paddingInline: rem(18),
   paddingBlock: rem(22),
   position: 'absolute',
@@ -70,6 +71,10 @@ globalStyle(`${label}:has(+ ${control}:has(input[type="date"]))`, {
 globalStyle(`${control} input::-webkit-datetime-edit`, {
   paddingTop: rem(28),
   paddingBottom: rem(4),
+});
+
+globalStyle(`${control} > span, input`, {
+  fontWeight: 500,
 });
 
 export const errorBorder = style({
