@@ -2,7 +2,7 @@ import instance from '@/api';
 import { AuthPayload, AuthType } from '@/types/auth';
 
 export const postLogin = async (body: AuthPayload) => {
-  const { data } = await instance.post<AuthType>('/manager/login', body);
+  const { data } = await instance.post<AuthType>('/accounts/login/', body);
 
   return data;
 };
