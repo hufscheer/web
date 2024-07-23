@@ -8,7 +8,9 @@ const base = style({
   padding: rem(6),
   fontSize: rem(12),
   fontWeight: 600,
+  lineHeight: '100%',
   borderRadius: rem(8),
+  userSelect: 'none',
 });
 
 const colorScheme = {
