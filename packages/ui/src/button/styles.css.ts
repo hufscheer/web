@@ -46,6 +46,21 @@ export const buttonColorScheme = {
       },
     },
   }),
+  accentPrimary: style({
+    color: theme.colors.accent.primary,
+    backgroundColor: theme.colors.accent.primaryLight,
+    ':hover': {
+      color: theme.colors.accent.primary,
+      backgroundColor: theme.colors.accent.primaryLight,
+    },
+    selectors: {
+      '&[aria-invalid="true"]': {
+        color: theme.colors.accent.primary,
+        backgroundColor: theme.colors.accent.primaryLight,
+      },
+    },
+  }),
+
   outline: style({
     border: `1px solid ${theme.colors.black25}`,
     backgroundColor: theme.colors.white,
