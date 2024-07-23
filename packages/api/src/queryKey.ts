@@ -44,7 +44,7 @@ const gameQueryKeys = {
       if (league_team_id)
         params.append('league_team_id', String(league_team_id));
       if (round) params.append('round', String(round));
-      return fetcher.get<GameType>(`/games`, { params });
+      return fetcher.get<GameType[]>(`/games`, { params });
     },
   }),
 };
