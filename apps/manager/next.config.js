@@ -17,13 +17,15 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'hufscheer-images.s3.ap-northeast-2.amazonaws.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'hufscheer-server.s3.ap-northeast-2.amazonaws.com',
-        port: '',
       },
       {
         protocol: 'https',
         hostname: 'github.com',
-        port: '',
       },
     ],
   },

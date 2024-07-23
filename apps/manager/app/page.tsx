@@ -35,10 +35,8 @@ export default function Page() {
       <Divider height={6} />
 
       <Suspense fallback={<Spinner />}>
-        {leagues && <MatchOverview status="finished" leagues={leagues} />}
+        {leagues && <MatchOverview state="finished" leagues={leagues} />}
       </Suspense>
-
-      <Divider height={6} />
     </Layout>
   );
 }
