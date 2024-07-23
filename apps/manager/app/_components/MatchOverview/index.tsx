@@ -64,10 +64,16 @@ const MatchOverview = ({ state, leagues }: MatchOverviewProps) => {
                 </Card.Content>
                 <Card.Footer>
                   <Button colorScheme="secondary" size="xs" asChild fullWidth>
-                    <Link href={`/game/${game.id}`}>타임라인 수정</Link>
+                    <Link
+                      href={`/league/${league.leagueId}/${game.id}/timeline`}
+                    >
+                      타임라인 수정
+                    </Link>
                   </Button>
                   <Button colorScheme="secondary" size="xs" asChild fullWidth>
-                    <Link href={`/game/${game.id}`}>경기 관리</Link>
+                    <Link href={`/league/${league.leagueId}/${game.id}`}>
+                      경기 관리
+                    </Link>
                   </Button>
                 </Card.Footer>
               </Card.Root>
