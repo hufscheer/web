@@ -1,5 +1,6 @@
 'use client';
 
+import { useLoginMutation } from '@hcc/api';
 import {
   Button,
   Form,
@@ -16,7 +17,6 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import Layout from '@/components/Layout';
-import useLoginMutation from '@/hooks/mutations/useLoginMutation';
 
 import * as styles from './page.css';
 
@@ -26,7 +26,7 @@ const loginFormSchema = z.object({
     .email({ message: '아이디는 이메일 형식으로 입력해주세요.' }),
   password: z
     .string()
-    .min(8, { message: '비밀번호는 8글자 이상이어야 합니다.' }),
+    .min(4, { message: '비밀번호는 8글자 이상이어야 합니다.' }),
 });
 
 type LoginFormSchema = z.infer<typeof loginFormSchema>;

@@ -3,8 +3,6 @@ const withVanillaExtract = createVanillaExtractPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  trailingSlash: true,
-
   experimental: {
     optimizePackageImports: [
       '@mantine/core',
@@ -33,16 +31,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/api/games/',
-        destination: `https://api.hufstreaming.site/games`,
-      },
-      {
-        source: '/api/games/:path*/timeline/',
-        destination: `https://api.hufstreaming.site/games/:path*/timeline`,
-      },
-      {
-        source: '/api/:path*/',
-        destination: `https://backoffice.hufstreaming.site/:path*/`,
+        source: '/api/:path*',
+        destination: `https://api.hufstreaming.site/:path*`,
       },
     ];
   },
