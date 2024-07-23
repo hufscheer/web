@@ -18,6 +18,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       colorScheme = 'primary',
       justify = 'center',
       fullWidth,
+      size = 'md',
       className,
       children,
       ...props
@@ -30,7 +31,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         ref={ref}
         className={clsx(
-          styles.buttonVariants({ colorScheme, fullWidth, justify }),
+          styles.buttonVariants({ colorScheme, fullWidth, justify, size }),
           className,
         )}
         {...props}

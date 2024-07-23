@@ -99,7 +99,9 @@ export default function Login() {
               )}
             />
 
-            <Button className={styles.submitButton}>로그인</Button>
+            <Button className={styles.submitButton} size="lg">
+              로그인
+            </Button>
           </form>
         </Form>
       </div>
