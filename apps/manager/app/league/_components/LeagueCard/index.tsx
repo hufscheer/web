@@ -1,112 +1,73 @@
-import { CaretDownIcon, SubtractIcon } from '@hcc/icons';
-import { Icon, Modal } from '@hcc/ui';
-import { Box, Flex, Title } from '@mantine/core';
+import { LeagueDetailType, stateMap, StateType } from '@hcc/api';
+import { Button, Tag } from '@hcc/ui';
 import Link from 'next/link';
+import { Fragment } from 'react';
 
 import Card from '@/components/Card';
-import useDeleteLeagueMutation from '@/hooks/mutations/useDeleteLeagueMutation';
-import useLeagueQuery from '@/hooks/queries/useLeagueQuery';
-import { StateType, stateMap } from '@/types/game';
+import Divider from '@/components/Divider';
 import { formatTime } from '@/utils/time';
 
 import * as styles from './LeagueCard.css';
 
 type LeagueCardProps = {
-  state: StateType;
-  edit: boolean;
+  leagues: LeagueDetailType[];
 };
 
-const alertMessage =
-  '삭제된 대회는 이후 복구할 수 없습니다.\n삭제하시겠습니까?';
-
-export default function LeagueCard({ state, edit }: LeagueCardProps) {
-  const { data: leagues, refetch } = useLeagueQuery();
-
-  const { mutate: mutateDeleteLeague } = useDeleteLeagueMutation();
-
-  const handleDelete = async (leagueId: number) => {
-    mutateDeleteLeague(
-      { leagueId },
-      {
-        onSuccess: () => refetch(),
-      },
-    );
-  };
-
-  if (!leagues) return null;
-
+const LeagueCard = ({ leagues }: LeagueCardProps) => {
   return (
     <>
-      <Title order={2} className={styles.title}>
-        {stateMap[state]}
-      </Title>
-      {leagues[state].length == 0 ? (
-        <Box>{stateMap[state]} 경기가 없습니다.</Box>
-      ) : (
-        <Flex direction="column" gap="xs">
-          {leagues[state].map(league => (
-            <Card.Root key={league.leagueId}>
-              {edit ? (
-                <Card.Content>
-                  <div className={styles.content}>
-                    <Card.Title text="semibold">{league.name}</Card.Title>
-                    <Card.SubContent>
-                      {formatTime(league.startAt, 'YYYY.MM.DD')}-
-                      {formatTime(league.endAt, 'YYYY.MM.DD')}
-                    </Card.SubContent>
-                  </div>
+      {leagues?.map(({ leagueId, league }, index) => {
+        const state: StateType = league.isInProgress
+          ? 'playing'
+          : league.maxRound === league.inProgressRound
+            ? 'scheduled'
+            : 'finished';
 
-                  <Modal>
-                    <Modal.Trigger>
-                      <Icon source={SubtractIcon} color="error" />
-                    </Modal.Trigger>
-                    <Modal.Content
-                      key="report-menu"
-                      className={styles.modalContainer}
-                    >
-                      <div className={styles.modalContent}>
-                        <p className={styles.leagueName}>{league.name}</p>
-                        <p className={styles.leagueDate}>
-                          {formatTime(league.startAt, 'YYYY.MM.DD')}-
-                          {formatTime(league.endAt, 'YYYY.MM.DD')}
-                        </p>
-                      </div>
-                      <div className={styles.alert}>
-                        <p>{alertMessage}</p>
-                        <div className={styles.menuContainer}>
-                          <Modal.Close
-                            className={styles.positiveMenu}
-                            onClick={() => handleDelete(league.leagueId)}
-                          >
-                            예
-                          </Modal.Close>
-                          <Modal.Close className={styles.negativeMenu}>
-                            아니오
-                          </Modal.Close>
-                        </div>
-                      </div>
-                    </Modal.Content>
-                  </Modal>
-                </Card.Content>
-              ) : (
-                <Card.Content
-                  component={Link}
-                  href={`/league/${league.leagueId}`}
+        return (
+          <Fragment key={leagueId}>
+            <Card.Root>
+              <div className={styles.leagueHeader}>
+                <Tag
+                  colorScheme={state === 'playing' ? 'primary' : 'secondary'}
                 >
-                  <div className={styles.content}>
-                    <Card.Title text="semibold">{league.name}</Card.Title>
-                    <Card.SubContent>
-                      {formatTime(league.startAt, 'YYYY.MM.DD')}-
-                      {formatTime(league.endAt, 'YYYY.MM.DD')}
-                    </Card.SubContent>
-                  </div>
-                  <Icon source={CaretDownIcon} className={styles.caret} />
-                </Card.Content>
-              )}
+                  {stateMap[state]}
+                </Tag>
+                <h3 className={styles.leagueName}>{league.name}</h3>
+              </div>
+
+              <hr className={styles.divider} />
+
+              <Card.Content gap={10}>
+                <p className={styles.leagueDetailText}>
+                  <strong>라운드</strong>&nbsp;{league.maxRound}
+                </p>
+                <p className={styles.leagueDetailText}>
+                  <strong>기간</strong>&nbsp;
+                  {formatTime(league.startAt, 'YYYY.MM.DD.')} ~&nbsp;
+                  {formatTime(league.endAt, 'YYYY.MM.DD.')}
+                </p>
+              </Card.Content>
+
+              <Card.Footer>
+                <Button colorScheme="secondary" size="xs" asChild fullWidth>
+                  <Link href={`/league/${leagueId}/manage-team`}>
+                    참가 팀 관리
+                  </Link>
+                </Button>
+                <Button colorScheme="secondary" size="xs" asChild fullWidth>
+                  <Link href={`/league/${leagueId}/manage`}>
+                    기본 정보 수정
+                  </Link>
+                </Button>
+              </Card.Footer>
             </Card.Root>
-          ))}
-        </Flex>
-      )}
+
+            {leagues?.length - 1 !== index && <Divider />}
+          </Fragment>
+        );
+      })}
     </>
   );
-}
+};
+
+export default LeagueCard;
