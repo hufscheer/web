@@ -58,11 +58,12 @@ type CardGameScoreProps = {
 
 const CardGameScore = forwardRef<HTMLDivElement, CardGameScoreProps>(
   function CardGameScore(
-    { gameTeamName, logoImageUrl, win = true, score, ...props },
+    { gameTeamId, gameTeamName, logoImageUrl, win = true, score, ...props },
     ref,
   ) {
     return (
       <div
+        key={gameTeamId}
         ref={ref}
         {...props}
         className={styles.gameScoreContainer}
@@ -73,8 +74,8 @@ const CardGameScore = forwardRef<HTMLDivElement, CardGameScoreProps>(
             <Image
               src={logoImageUrl}
               alt={`${gameTeamName} 로고`}
-              fill
-              sizes={22}
+              width={22}
+              height={22}
               priority={true}
             />
           </span>
