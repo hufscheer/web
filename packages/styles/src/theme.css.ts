@@ -80,6 +80,12 @@ export const theme = createGlobalTheme(':root', {
       primary: '#007AFF',
       primaryLight: '#F2F8FF',
     },
+
+    // br
+    br100: '#F3F3F5',
+    br200: '#F3F3F5',
+    brFill: '#F3F3F5',
+    tips: '#FBFBFC',
   },
 
   shadows: {

@@ -10,3 +10,8 @@ export type LeagueType = {
 export type LeagueListType = Omit<LeagueType, 'startAt' | 'endAt'> & {
   leagueId: number;
 };
+
+export type LeagueDetailType = {
+  leagueId: number;
+  league: LeagueType;
+};
