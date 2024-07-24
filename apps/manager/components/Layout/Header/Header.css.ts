@@ -12,7 +12,7 @@ export const wrapper = style({
   height: rem(69),
   backgroundColor: theme.colors.white,
   borderBottom: `${rem(1)} solid ${theme.colors.black25}`,
-  zIndex: 1024,
+  zIndex: theme.zIndices.header,
 });
 
 export const container = style({

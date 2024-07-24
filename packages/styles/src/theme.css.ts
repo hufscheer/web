@@ -197,4 +197,15 @@ export const theme = createGlobalTheme(':root', {
       justifyContent: 'center',
     },
   },
+
+  zIndices: {
+    header: '100',
+    navigation: '200',
+    modal: '1000',
+    toast: '1100',
+    dropdown: '1200',
+    tooltip: '1300',
+    popover: '1400',
+    modalOverlay: '1500',
+  },
 });
