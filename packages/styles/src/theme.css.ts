@@ -150,4 +150,56 @@ export const theme = createGlobalTheme(':root', {
     appWidth: rem(480),
     appInlinePadding: rem(21),
   },
+
+  layouts: {
+    center: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    centerX: {
+      display: 'flex',
+      justifyContent: 'center',
+    },
+    centerY: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+    rowBetween: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    column: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    columnCenter: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    columnCenterX: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    columnCenterY: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+    },
+  },
+
+  zIndices: {
+    header: '100',
+    navigation: '200',
+    modal: '1000',
+    toast: '1100',
+    dropdown: '1200',
+    tooltip: '1300',
+    popover: '1400',
+    modalOverlay: '1500',
+  },
 });

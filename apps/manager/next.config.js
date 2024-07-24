@@ -3,8 +3,6 @@ const withVanillaExtract = createVanillaExtractPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  trailingSlash: true,
-
   experimental: {
     optimizePackageImports: [
       '@mantine/core',
@@ -19,13 +17,15 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'hufscheer-images.s3.ap-northeast-2.amazonaws.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'hufscheer-server.s3.ap-northeast-2.amazonaws.com',
-        port: '',
       },
       {
         protocol: 'https',
         hostname: 'github.com',
-        port: '',
       },
     ],
   },
@@ -33,16 +33,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/api/games/',
-        destination: `https://api.hufstreaming.site/games`,
-      },
-      {
-        source: '/api/games/:path*/timeline/',
-        destination: `https://api.hufstreaming.site/games/:path*/timeline`,
-      },
-      {
-        source: '/api/:path*/',
-        destination: `https://backoffice.hufstreaming.site/:path*/`,
+        source: '/api/:path*',
+        destination: `https://api.hufstreaming.site/:path*`,
       },
     ];
   },

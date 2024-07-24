@@ -15,6 +15,7 @@
   "dependencies": {
     "@hcc/icons": "workspace:^",
     "@hcc/styles": "workspace:*",
+    "@hcc/api": "workspace:*",
     "@hcc/ui": "workspace:*",
     "@hookform/resolvers": "^3.6.0",
     "@mantine/core": "^7.6.1",

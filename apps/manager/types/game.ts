@@ -12,7 +12,7 @@ export type GameInfoType = {
 
 export const stateMap = {
   playing: '진행 중',
-  scheduled: '예정',
+  scheduled: '시작 전',
   finished: '종료',
 } as const;
 

@@ -6,7 +6,6 @@ const errorColor = '#FC5555';
 export const formItem = style({
   position: 'relative',
   width: '100%',
-  marginTop: rem(8),
 
   selectors: {
     '&:first-of-type': {

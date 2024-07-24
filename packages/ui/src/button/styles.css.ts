@@ -6,11 +6,9 @@ export const buttonBase = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  height: rem(60),
-  paddingBlock: rem(22),
-  paddingInline: 18,
   fontSize: rem(16),
-  fontWeight: '600',
+  fontWeight: '500',
+  lineHeight: '100%',
   outline: 'none',
   cursor: 'pointer',
   border: '1px solid transparent',
@@ -46,6 +44,21 @@ export const buttonColorScheme = {
       },
     },
   }),
+  accentPrimary: style({
+    color: theme.colors.accent.primary,
+    backgroundColor: theme.colors.accent.primaryLight,
+    ':hover': {
+      color: theme.colors.accent.primary,
+      backgroundColor: theme.colors.accent.primaryLight,
+    },
+    selectors: {
+      '&[aria-invalid="true"]': {
+        color: theme.colors.accent.primary,
+        backgroundColor: theme.colors.accent.primaryLight,
+      },
+    },
+  }),
+
   outline: style({
     border: `1px solid ${theme.colors.black25}`,
     backgroundColor: theme.colors.white,
@@ -73,35 +86,26 @@ export const buttonVariants = recipe({
   base: buttonBase,
   variants: {
     colorScheme: buttonColorScheme,
-    fullWidth: {
-      true: {
-        width: '100%',
-      },
-    },
+    fullWidth: { true: { width: '100%' } },
     justify: {
-      start: {
-        justifyContent: 'flex-start',
-      },
-      end: {
-        justifyContent: 'flex-end',
-      },
-      center: {
-        justifyContent: 'center',
-      },
-      between: {
-        justifyContent: 'space-between',
-      },
-      around: {
-        justifyContent: 'space-around',
-      },
-      evenly: {
-        justifyContent: 'space-evenly',
-      },
+      start: { justifyContent: 'flex-start' },
+      end: { justifyContent: 'flex-end' },
+      center: { justifyContent: 'center' },
+      between: { justifyContent: 'space-between' },
+      around: { justifyContent: 'space-around' },
+      evenly: { justifyContent: 'space-evenly' },
+    },
+    size: {
+      xs: { height: rem(40), fontSize: rem(14) },
+      sm: { height: rem(50) },
+      md: { height: rem(56) },
+      lg: { height: rem(60) },
     },
   },
   defaultVariants: {
     colorScheme: 'primary',
     fullWidth: false,
     justify: 'center',
+    size: 'md',
   },
 });

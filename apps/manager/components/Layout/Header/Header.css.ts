@@ -3,6 +3,7 @@ import { style } from '@vanilla-extract/css';
 
 export const wrapper = style({
   position: 'fixed',
+  top: 0,
   left: 0,
   display: 'flex',
   alignItems: 'center',
@@ -11,6 +12,7 @@ export const wrapper = style({
   height: rem(69),
   backgroundColor: theme.colors.white,
   borderBottom: `${rem(1)} solid ${theme.colors.black25}`,
+  zIndex: theme.zIndices.header,
 });
 
 export const container = style({

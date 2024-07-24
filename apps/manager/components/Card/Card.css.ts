@@ -2,78 +2,60 @@ import { rem, theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-export const root = recipe({
+export const root = style({
+  ...theme.layouts.column,
+  padding: theme.sizes.appInlinePadding,
+  backgroundColor: theme.colors.white,
+});
+
+export const headContainer = style({
+  ...theme.layouts.rowBetween,
+  color: theme.colors.black300,
+  fontSize: rem(14),
+  fontWeight: 500,
+});
+
+export const contentContainer = style({
+  ...theme.layouts.column,
+});
+
+export const gameScoreContainer = style({
+  ...theme.layouts.rowBetween,
+});
+
+export const gameTeamContainer = style({
+  ...theme.layouts.centerY,
+  color: theme.colors.black900,
+  fontSize: rem(14),
+  fontWeight: 500,
+  gap: rem(10),
+});
+
+export const gameTeamLogo = style({
+  position: 'relative',
+  width: rem(22),
+  height: rem(22),
+  borderRadius: '50%',
+  overflow: 'hidden',
+});
+
+export const gameScore = recipe({
   base: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: theme.spaces.xs,
-
-    paddingInline: theme.spaces.default,
-    borderRadius: rem(12),
-
-    backgroundColor: theme.colors.white,
-
-    boxShadow: theme.shadows.base,
+    color: theme.colors.black900,
+    fontSize: rem(14),
+    fontWeight: 500,
   },
   variants: {
-    paddingVertical: {
-      sm: {
-        paddingBlock: theme.spaces.sm,
-      },
-      md: {
-        paddingBlock: theme.spaces.default,
-      },
+    win: {
+      true: { color: theme.colors.black900 },
+      false: { color: theme.colors.black300 },
     },
   },
 });
 
-export const content = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: theme.spaces.default,
-
+export const footerContainer = style({
+  ...theme.layouts.rowBetween,
   width: '100%',
-});
-
-export const inner = style({
-  display: 'flex',
-  alignItems: 'center',
-  flex: 1,
-});
-
-export const action = style({
-  display: 'flex',
-  alignItems: 'center',
-});
-
-export const title = recipe({
-  base: { ...theme.textVariants.default },
-  variants: {
-    text: {
-      bold: {
-        fontWeight: theme.textVariants.lg.fontWeight,
-      },
-      normal: {
-        fontWeight: theme.textVariants.sm.fontWeight,
-      },
-      semibold: {
-        fontWeight: 600,
-      },
-    },
-  },
-});
-
-export const subContent = style({
-  color: theme.colors.gray[4],
-  ...theme.textVariants.xs,
-});
-
-export const footer = style({
-  display: 'grid',
-  gridAutoFlow: 'column',
+  marginTop: theme.spaces.default,
   gap: theme.spaces.xs,
-
-  width: '100%',
-  paddingTop: theme.spaces.xs,
 });
