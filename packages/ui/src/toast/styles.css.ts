@@ -6,7 +6,7 @@ export const container = style({
   position: 'fixed',
   bottom: 0,
   left: '50%',
-  zIndex: 100,
+  zIndex: theme.zIndices.toast,
   display: 'flex',
   maxWidth: '420px',
   maxHeight: '100vh',

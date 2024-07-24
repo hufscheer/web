@@ -30,7 +30,7 @@ const color = '#141B21';
 const backgroundColor = '#FFFFFF';
 
 export const content = style({
-  zIndex: 50,
+  zIndex: theme.zIndices.popover,
   minWidth: rem(300),
   maxWidth: rem(438),
   borderRadius: rem(8),
