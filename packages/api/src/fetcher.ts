@@ -1,6 +1,13 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-const baseURL: string = import.meta.env.VITE_BASE_API_URL;
+const host =
+  typeof window !== 'undefined' ? window.location.hostname : 'localhost';
+const port = typeof window !== 'undefined' ? window.location.port : '3000';
+const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
+
+const baseURL = port
+  ? `${protocol}://${host}:${port}/api`
+  : `${protocol}://${host}/api`;
 
 export const instance = axios.create({
   baseURL,

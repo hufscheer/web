@@ -13,6 +13,7 @@ export default function Page({ params }: PageProps) {
   return (
     <Layout navigationTitle="대회 내 경기 관리" navigationMenu="경기 생성">
       <LeagueOverview leagueId={leagueId} />
+
       <Divider height={11} />
     </Layout>
   );

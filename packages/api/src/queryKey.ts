@@ -1,5 +1,11 @@
 import { fetcher } from './fetcher';
-import { GameType, LeagueListType, LeagueType, StateType } from './types';
+import {
+  GameType,
+  LeagueDetailType,
+  LeagueListType,
+  LeagueType,
+  StateType,
+} from './types';
 
 const leagueQueryKeys = {
   league: (leagueId: string) => ({
@@ -13,6 +19,16 @@ const leagueQueryKeys = {
       const params = new URLSearchParams();
       if (year) params.append('year', year);
       return fetcher.get<LeagueListType[]>(`/leagues`, { params });
+    },
+  }),
+
+  leaguesDetail: (leagueId: string) => ({
+    queryKey: ['leaguesDetail', { leagueId }],
+    queryFn: async () => {
+      const data: LeagueType = await fetcher.get<LeagueType>(
+        `/leagues/${leagueId}`,
+      );
+      return { leagueId: Number(leagueId), league: data } as LeagueDetailType;
     },
   }),
 };
