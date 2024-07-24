@@ -23,13 +23,13 @@ import {
   toast,
 } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
-import dayjs from 'dayjs';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import Layout from '@/components/Layout';
+import Tip from '@/components/Tip';
+import { formatTime } from '@/utils/time';
 
-import 'dayjs/locale/ko';
 import * as styles from './page.css';
 
 const formSchema = z.object({
@@ -98,7 +98,7 @@ export default function Page() {
                         >
                           <span>
                             {field.value
-                              ? dayjs(field.value).format('YYYY. MM. DD')
+                              ? formatTime(field.value, 'YYYY년 MM월 DD일')
                               : ''}
                           </span>
                           <Icon source={CalendarIcon} />
@@ -133,7 +133,7 @@ export default function Page() {
                         >
                           <span>
                             {field.value
-                              ? dayjs(field.value).format('YYYY. MM. DD')
+                              ? formatTime(field.value, 'YYYY년 MM월 DD일')
                               : ''}
                           </span>
                           <Icon source={CalendarIcon} />
@@ -143,9 +143,7 @@ export default function Page() {
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         defaultValue={field.value}
-                        onChange={value =>
-                          field.onChange(dayjs(value as Date).toDate())
-                        }
+                        onChange={field.onChange}
                       />
                     </PopoverContent>
                   </Popover>
@@ -190,17 +188,10 @@ export default function Page() {
         </Form>
       </section>
 
-      <div className={styles.tipBox}>
-        <div className={styles.tipInner}>
-          <div className={styles.tipTitle}>
-            🙌🏻 새로운 대회에 팀을 추가하는 방법
-          </div>
-          <p className={styles.tipDescription}>
-            신규 대회를 만든 뒤 참가 팀 관리 탭에서 팀 생성과 편집을 할 수
-            있어요.
-          </p>
-        </div>
-      </div>
+      <Tip
+        title="🙌🏻 새로운 대회에 팀을 추가하는 방법"
+        description="신규 대회를 만든 뒤 참가 팀 관리 탭에서 팀 생성과 편집을 할 수 있어요."
+      />
     </Layout>
   );
 }
