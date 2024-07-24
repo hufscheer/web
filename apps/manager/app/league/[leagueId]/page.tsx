@@ -1,29 +1,19 @@
-'use client';
-
-import { Flex } from '@mantine/core';
-import { useParams, usePathname } from 'next/navigation';
-
+import Divider from '@/components/Divider';
 import Layout from '@/components/Layout';
-import useLeagueDetailQuery from '@/hooks/queries/useLeagueDetailQuery';
 
-import LeagueMenuCard from './_components/LeagueMenuCard';
+import LeagueOverview from './_components/LeagueOverview';
 
-export default function LeagueInfoMap() {
-  const pathname = usePathname();
-  const params = useParams();
+type PageProps = {
+  params: { leagueId: string };
+};
 
-  const leagueId = Number(params.leagueId as string);
-  const { data: league } = useLeagueDetailQuery(leagueId);
-
-  if (!league) return null;
+export default function Page({ params }: PageProps) {
+  const leagueId: string = params.leagueId;
 
   return (
-    <Layout navigationTitle={league.name}>
-      <Flex direction="column" gap="xs">
-        <LeagueMenuCard href={`${pathname}/detail`} title="대회 정보 관리" />
-        <LeagueMenuCard href={`${pathname}/team`} title="대회 팀 관리" />
-        <LeagueMenuCard href={`${pathname}/game`} title="대회 경기 관리" />
-      </Flex>
+    <Layout navigationTitle="대회 내 경기 관리" navigationMenu="경기 생성">
+      <LeagueOverview leagueId={leagueId} />
+      <Divider height={11} />
     </Layout>
   );
 }

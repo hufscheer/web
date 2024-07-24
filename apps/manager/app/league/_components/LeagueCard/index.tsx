@@ -38,10 +38,10 @@ const LeagueCard = ({ leagues }: LeagueCardProps) => {
               <hr className={styles.divider} />
 
               <Card.Content gap={10}>
-                <p className={styles.leagueDetailText}>
+                <p className={styles.leagueDescription}>
                   <strong>라운드</strong>&nbsp;{league.maxRound}
                 </p>
-                <p className={styles.leagueDetailText}>
+                <p className={styles.leagueDescription}>
                   <strong>기간</strong>&nbsp;
                   {formatTime(league.startAt, 'YYYY.MM.DD.')} ~&nbsp;
                   {formatTime(league.endAt, 'YYYY.MM.DD.')}

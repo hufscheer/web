@@ -8,13 +8,10 @@ import { ReactNode } from 'react';
 import * as styles from './Navigation.css';
 
 type NavigationProps = {
-  navigationTitle?: string;
-  navigationMenu?: ReactNode;
+  title?: string;
+  menu?: ReactNode;
 };
-export default function Navigation({
-  navigationTitle,
-  navigationMenu,
-}: NavigationProps) {
+export default function Navigation({ title, menu }: NavigationProps) {
   const router = useRouter();
 
   return (
@@ -23,10 +20,8 @@ export default function Navigation({
         <button className={styles.backButton} onClick={() => router.back()}>
           <Icon source={ArrowLeftIcon} size={14} />
         </button>
-        {navigationTitle && <p className={styles.title}>{navigationTitle}</p>}
-        {navigationMenu && (
-          <span className={styles.menuContainer}>{navigationMenu}</span>
-        )}
+        {title && <p className={styles.title}>{title}</p>}
+        {menu && <button className={styles.menuContainer}>{menu}</button>}
       </div>
     </nav>
   );
