@@ -30,7 +30,7 @@ import { z } from 'zod';
 import Layout from '@/components/Layout';
 
 import 'dayjs/locale/ko';
-import * as styles from './styles.css';
+import * as styles from './page.css';
 
 const formSchema = z.object({
   leagueName: z.string().min(1, { message: '대회명을 입력해주세요' }),
@@ -64,7 +64,10 @@ export default function Page() {
     <Layout navigationTitle="신규 대회 만들기">
       <section className={styles.layout}>
         <Form {...methods}>
-          <form onSubmit={methods.handleSubmit(onSubmit)} style={{ flex: 1 }}>
+          <form
+            className={styles.form}
+            onSubmit={methods.handleSubmit(onSubmit)}
+          >
             <FormField
               control={methods.control}
               name="leagueName"
@@ -180,23 +183,24 @@ export default function Page() {
               )}
             />
 
-            <Button fullWidth className={styles.button}>
+            <Button className={styles.button} fullWidth>
               대회 만들기
             </Button>
           </form>
         </Form>
+      </section>
 
-        <div className={styles.tipBox}>
+      <div className={styles.tipBox}>
+        <div className={styles.tipInner}>
           <div className={styles.tipTitle}>
-            <span className={styles.emoji}>🙌🏻</span>
-            <span>새로운 대회에 팀을 추가하는 방법</span>
+            🙌🏻 새로운 대회에 팀을 추가하는 방법
           </div>
           <p className={styles.tipDescription}>
-            신규 대회를 만든 뒤 참가 팀 관리 탭에서 팀 생성과 <br /> 편집을 할
-            수 있어요.
+            신규 대회를 만든 뒤 참가 팀 관리 탭에서 팀 생성과 편집을 할 수
+            있어요.
           </p>
         </div>
-      </section>
+      </div>
     </Layout>
   );
 }
