@@ -1,5 +1,5 @@
 import { CheerTalkType } from '@hcc/api';
-import { Button } from '@hcc/ui';
+import { Button, useToast } from '@hcc/ui';
 
 import * as styles from './CheerTalkList.css';
 import CheerTalkCard from '../CheerTalkCard';
@@ -33,12 +33,26 @@ type CheerTalkListProps = {
 };
 
 const CheerTalkList = ({ type }: CheerTalkListProps) => {
+  const { toast } = useToast();
+
+  const handleCheerTalk = (cheerTalkId: number) => {
+    toast({
+      title: `${cheerTalkId} 응원톡을 가렸어요`,
+      variant: 'destructive',
+    });
+  };
+
   return (
     <>
       {cheerTalks.map((cheerTalk, index) => (
         <div key={cheerTalk.cheerTalkId} className={styles.cardContainer}>
           <CheerTalkCard cheerTalk={cheerTalk} />
-          <Button colorScheme="alert" size="xs" fullWidth>
+          <Button
+            colorScheme="alert"
+            size="xs"
+            fullWidth
+            onClick={() => handleCheerTalk(cheerTalk.cheerTalkId)}
+          >
             채팅 가리기
           </Button>
 
