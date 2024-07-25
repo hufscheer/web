@@ -1,6 +1,7 @@
 import { fetcher } from './fetcher';
 import {
   GameType,
+  GameWithLeagueListType,
   LeagueDetailType,
   LeagueListType,
   LeagueType,
@@ -61,6 +62,17 @@ const gameQueryKeys = {
         params.append('league_team_id', String(league_team_id));
       if (round) params.append('round', String(round));
       return fetcher.get<GameType[]>(`/games`, { params });
+    },
+  }),
+
+  gamesByLeagueList: (league: LeagueListType, state: StateType) => ({
+    queryKey: ['gamesByLeagueList', { league, state }],
+    queryFn: async () => {
+      const params = new URLSearchParams();
+      params.append('league_id', String(league.leagueId));
+      params.append('state', state);
+      const data = await fetcher.get<GameType[]>(`/games`, { params });
+      return { games: data, league } as GameWithLeagueListType;
     },
   }),
 };

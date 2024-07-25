@@ -1,3 +1,5 @@
+import { LeagueListType } from './league';
+
 export const stateMap = {
   playing: '진행 중',
   scheduled: '시작 전',
@@ -22,4 +24,9 @@ export type GameType = {
   videoId?: string;
   gameTeams: GameTeamType[];
   sportsName: string;
+};
+
+export type GameWithLeagueListType = {
+  games: GameType[];
+  league: LeagueListType;
 };
