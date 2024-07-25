@@ -1,14 +1,14 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { createContext, useState } from 'react';
+import { createContext, ReactNode, useState } from 'react';
 
 import TabsContent from './Content';
 import TabsList from './List';
 import * as styles from './Tabs.css';
 import TabsTrigger from './Trigger';
 
-type TabsContextType = {
+export type TabsContextType = {
   value: string;
   setValue: (value: string) => void;
 };
@@ -21,7 +21,7 @@ export const TabsContext = createContext<TabsContextType>({
 type TabsProps = {
   defaultValue: string;
   className?: string;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 const Tabs = ({ defaultValue, className, children }: TabsProps) => {
