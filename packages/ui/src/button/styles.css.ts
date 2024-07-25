@@ -58,6 +58,20 @@ export const buttonColorScheme = {
       },
     },
   }),
+  alert: style({
+    color: theme.colors.accent.alert,
+    backgroundColor: theme.colors.accent.alertLight,
+    ':hover': {
+      color: theme.colors.accent.alert,
+      backgroundColor: theme.colors.accent.alertLight,
+    },
+    selectors: {
+      '&[aria-invalid="true"]': {
+        color: theme.colors.accent.alert,
+        backgroundColor: theme.colors.accent.alertLight,
+      },
+    },
+  }),
 
   outline: style({
     border: `1px solid ${theme.colors.black25}`,

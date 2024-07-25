@@ -3,6 +3,7 @@ import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 export const tab = style({
+  height: '100%',
   marginTop: rem(16),
   paddingInline: theme.sizes.appInlinePadding,
 });
@@ -16,7 +17,7 @@ export const tabListContainer = style({
   backgroundColor: theme.colors.black25,
 });
 
-export const activeTabIndicator = style({
+export const tabIndicator = style({
   position: 'absolute',
   top: 0,
   left: 0,
@@ -35,6 +36,7 @@ export const tabButton = recipe({
     fontWeight: 500,
     textAlign: 'center',
     zIndex: theme.zIndices.tab,
+    transition: 'color 0.2s',
   },
   variants: {
     state: {
@@ -45,4 +47,9 @@ export const tabButton = recipe({
   defaultVariants: {
     state: 'inactive',
   },
+});
+
+export const tabContent = style({
+  flex: 1,
+  overflowY: 'auto',
 });

@@ -5,18 +5,19 @@ import Link from 'next/link';
 
 import Layout from '@/components/Layout';
 
+import CheerTalkList from './_components/CheerTalkList';
 import * as styles from './page.css';
 
 const tabs = [
   {
     key: 'all',
     label: '전체 응원톡',
-    renderer: () => <>전체 응원톡</>,
+    renderer: () => <CheerTalkList type="all" />,
   },
   {
     key: 'reported',
     label: '신고된 응원톡',
-    renderer: () => <>신고된 응원톡</>,
+    renderer: () => <CheerTalkList type="reported" />,
   },
 ];
 
@@ -31,7 +32,7 @@ export default function Page() {
           {({ value }) => (
             <div className={styles.tabListContainer}>
               <motion.span
-                className={styles.activeTabIndicator}
+                className={styles.tabIndicator}
                 initial={{ x: 0 }}
                 animate={{ x: value === 'all' ? 0 : 'calc(100% + 6px)' }}
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
@@ -51,7 +52,11 @@ export default function Page() {
         </Tabs.List>
 
         {tabs.map(tab => (
-          <Tabs.Content key={tab.key} value={tab.key}>
+          <Tabs.Content
+            key={tab.key}
+            value={tab.key}
+            className={styles.tabContent}
+          >
             {tab.renderer()}
           </Tabs.Content>
         ))}
