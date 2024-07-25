@@ -1,6 +1,7 @@
 import Divider from '@/components/Divider';
 import Layout from '@/components/Layout';
 
+import GameCard from './_components/GameCard';
 import LeagueOverview from './_components/LeagueOverview';
 
 type PageProps = {
@@ -15,6 +16,14 @@ export default function Page({ params }: PageProps) {
       <LeagueOverview leagueId={leagueId} />
 
       <Divider height={11} />
+
+      <GameCard leagueId={leagueId} state="playing" />
+
+      <Divider height={2} />
+      <GameCard leagueId={leagueId} state="scheduled" />
+
+      <Divider height={2} />
+      <GameCard leagueId={leagueId} state="finished" />
     </Layout>
   );
 }

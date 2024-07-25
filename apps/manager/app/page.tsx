@@ -1,6 +1,5 @@
 'use client';
 
-import { useLeagues } from '@hcc/api';
 import { MessageIcon, RewardIcon } from '@hcc/icons';
 import { Button, Icon, Spinner } from '@hcc/ui';
 import Link from 'next/link';
@@ -13,8 +12,6 @@ import MatchOverview from './_components/MatchOverview';
 import * as styles from './page.css';
 
 export default function Page() {
-  const { data: leagues } = useLeagues('2024');
-
   return (
     <Layout headerVisible={true} navigationVisible={false}>
       <nav className={styles.navigation}>
@@ -35,7 +32,7 @@ export default function Page() {
       <Divider height={6} />
 
       <Suspense fallback={<Spinner />}>
-        {leagues && <MatchOverview state="finished" leagues={leagues} />}
+        <MatchOverview state="finished" />
       </Suspense>
     </Layout>
   );
