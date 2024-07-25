@@ -199,6 +199,7 @@ export const theme = createGlobalTheme(':root', {
   },
 
   zIndices: {
+    tab: '10',
     header: '100',
     navigation: '200',
     modal: '1000',
