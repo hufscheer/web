@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import Divider from '@/components/Divider';
 import Layout from '@/components/Layout';
 
@@ -12,7 +14,12 @@ export default function Page({ params }: PageProps) {
   const leagueId: string = params.leagueId;
 
   return (
-    <Layout navigationTitle="대회 내 경기 관리" navigationMenu="경기 생성">
+    <Layout
+      navigationTitle="대회 내 경기 관리"
+      navigationMenu={
+        <Link href={`/league/${leagueId}/register-game`}>경기 생성</Link>
+      }
+    >
       <LeagueOverview leagueId={leagueId} />
 
       <Divider height={11} />

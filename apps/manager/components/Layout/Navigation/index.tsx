@@ -21,7 +21,7 @@ export default function Navigation({ title, menu }: NavigationProps) {
           <Icon source={ArrowLeftIcon} size={14} />
         </button>
         {title && <p className={styles.title}>{title}</p>}
-        {menu && <button className={styles.menuContainer}>{menu}</button>}
+        {menu && <span className={styles.menuContainer}>{menu}</span>}
       </div>
     </nav>
   );
