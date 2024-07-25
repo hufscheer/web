@@ -15,3 +15,11 @@ export const noGamesMessage = style({
   fontWeight: 500,
   textAlign: 'center',
 });
+
+export const gameDivider = style({
+  width: `calc(100% - ${theme.sizes.appInlinePadding} * 2)`,
+  height: rem(1),
+  marginInline: theme.sizes.appInlinePadding,
+  border: 0,
+  backgroundColor: theme.colors.black25,
+});
