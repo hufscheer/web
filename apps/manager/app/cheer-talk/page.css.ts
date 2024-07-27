@@ -5,6 +5,9 @@ import { recipe } from '@vanilla-extract/recipes';
 export const tab = style({
   height: '100%',
   marginTop: rem(16),
+});
+
+export const tabList = style({
   paddingInline: theme.sizes.appInlinePadding,
 });
 

@@ -18,7 +18,7 @@ export const overlay = style({
   bottom: 0,
   left: 0,
   zIndex: 50,
-  backgroundColor: 'rgba(0, 0, 0, 0.8)',
+  backgroundColor: 'rgba(0, 0, 0, 0.3)',
   inset: 0,
 
   selectors: {
@@ -35,15 +35,15 @@ export const content = style({
   position: 'fixed',
   left: '50%',
   top: '50%',
-  zIndex: 50,
+  zIndex: theme.zIndices.modal,
   display: 'grid',
-  gap: rem(16),
-  maxWidth: rem(420),
+  maxWidth: rem(327),
   width: '100%',
   transform: 'translate(-50%, -50%)',
-  border: `1px solid ${theme.colors.gray[6]}`,
+  border: 0,
+  borderRadius: rem(8),
   backgroundColor: theme.colors.white,
-  padding: rem(24),
+  padding: rem(22),
   boxShadow: theme.shadows.base,
 
   selectors: {
@@ -59,7 +59,6 @@ export const content = style({
 export const header = style({
   display: 'flex',
   flexDirection: 'column',
-  marginTop: rem(6),
   textAlign: 'left',
 });
 
@@ -67,22 +66,25 @@ export const footer = style({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'flex-end',
-  gap: rem(8),
+  marginTop: rem(26),
+  gap: rem(10),
 });
 
 export const title = style({
-  fontSize: rem(20),
-  fontWeight: 600,
-  lineHeight: 1.2,
-  color: theme.colors.gray[6],
   margin: 0,
+  color: theme.colors.black900,
+  fontSize: rem(18),
+  fontWeight: 600,
+  lineHeight: '140%',
 });
 
 export const description = style({
-  fontSize: rem(14),
-  color: theme.colors.gray[4],
   margin: 0,
-  marginTop: rem(6),
+  marginTop: rem(8),
+  color: theme.colors.black300,
+  fontSize: rem(16),
+  fontWeight: 500,
+  lineHeight: '140%',
 });
 
 export const close = style({

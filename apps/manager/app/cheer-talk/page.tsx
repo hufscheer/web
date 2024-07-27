@@ -12,12 +12,12 @@ const tabs = [
   {
     key: 'all',
     label: '전체 응원톡',
-    renderer: () => <CheerTalkList type="all" />,
+    renderer: () => <CheerTalkList type="allHideFeature" />,
   },
   {
     key: 'reported',
     label: '신고된 응원톡',
-    renderer: () => <CheerTalkList type="reported" />,
+    renderer: () => <CheerTalkList type="reportedHideFeature" />,
   },
 ];
 
@@ -28,7 +28,7 @@ export default function Page() {
       navigationMenu={<Link href={`/cheer-talk/blocked`}>가려진 목록</Link>}
     >
       <Tabs className={styles.tab} defaultValue="all">
-        <Tabs.List>
+        <Tabs.List className={styles.tabList}>
           {({ value }) => (
             <div className={styles.tabListContainer}>
               <motion.span

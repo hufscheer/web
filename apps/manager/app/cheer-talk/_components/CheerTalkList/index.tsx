@@ -1,45 +1,32 @@
-import { CheerTalkType } from '@hcc/api';
+'use client';
 import { Button, useToast } from '@hcc/ui';
+import { useState } from 'react';
+
+import AlertDialog from '@/components/AlertDialog';
 
 import * as styles from './CheerTalkList.css';
+import { config, cheerTalks } from './constants';
+import { CheerTalkFeatureKeys } from './types';
 import CheerTalkCard from '../CheerTalkCard';
 
-const cheerTalks: CheerTalkType[] = [
-  {
-    cheerTalkId: 1,
-    content: '와 진짜 존123@나 못하네',
-    gameTeamId: 1,
-    createdAt: new Date('2024-01-21T11:46:00'),
-    isBlocked: false,
-  },
-  {
-    cheerTalkId: 2,
-    content: '국내야구갤러리 일동은 경영학과 김민재 학우를 응원합니다',
-    gameTeamId: 1,
-    createdAt: new Date('2024-01-21T11:46:00'),
-    isBlocked: false,
-  },
-  {
-    cheerTalkId: 3,
-    content: '파이팅',
-    gameTeamId: 2,
-    createdAt: new Date('2024-01-21T11:46:00'),
-    isBlocked: false,
-  },
-];
-
 type CheerTalkListProps = {
-  type: 'all' | 'reported';
+  type: CheerTalkFeatureKeys;
 };
 
 const CheerTalkList = ({ type }: CheerTalkListProps) => {
+  const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
 
   const handleCheerTalk = (cheerTalkId: number) => {
-    toast({
-      title: `${cheerTalkId} 응원톡을 가렸어요`,
-      variant: 'destructive',
-    });
+    if (config[type].showDialog) {
+      alert(cheerTalkId);
+      setIsOpen(true);
+    } else {
+      toast({
+        title: config[type].toastMessage,
+        variant: 'destructive',
+      });
+    }
   };
 
   return (
@@ -48,12 +35,12 @@ const CheerTalkList = ({ type }: CheerTalkListProps) => {
         <div key={cheerTalk.cheerTalkId} className={styles.cardContainer}>
           <CheerTalkCard cheerTalk={cheerTalk} />
           <Button
-            colorScheme="alert"
+            colorScheme={config[type].buttonColorScheme}
             size="xs"
             fullWidth
             onClick={() => handleCheerTalk(cheerTalk.cheerTalkId)}
           >
-            채팅 가리기
+            {config[type].buttonText}
           </Button>
 
           {cheerTalks.length - 1 !== index && (
@@ -63,6 +50,12 @@ const CheerTalkList = ({ type }: CheerTalkListProps) => {
       ))}
 
       <p>{type}</p>
+      <AlertDialog
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        title="해당 채팅 가리기를 해제 할게요"
+        description="보류 해제 시 채팅이 응원톡에 노출됩니다. "
+      />
     </>
   );
 };

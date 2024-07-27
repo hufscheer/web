@@ -11,6 +11,8 @@ type ButtonProps = {
 } & ComponentPropsWithoutRef<'button'> &
   ButtonVariants;
 
+type ButtonColorSchemeType = keyof typeof styles.buttonColorScheme;
+
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
@@ -44,4 +46,4 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
 Button.displayName = 'Button';
 
-export { Button };
+export { Button, type ButtonColorSchemeType };

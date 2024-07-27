@@ -6,7 +6,7 @@ export const buttonBase = style({
   ...theme.layouts.center,
   paddingInline: rem(18),
   fontSize: rem(16),
-  fontWeight: '500',
+  fontWeight: 500,
   lineHeight: '100%',
   outline: 'none',
   cursor: 'pointer',
