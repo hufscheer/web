@@ -30,3 +30,12 @@ export type GameWithLeagueListType = {
   games: GameType[];
   league: LeagueListType;
 };
+
+export type GamesParams = {
+  league_id: string;
+  state: StateType;
+  cursor?: number;
+  size?: number;
+  league_team_id?: number;
+  round?: number;
+};
