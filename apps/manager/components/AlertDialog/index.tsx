@@ -1,47 +1,71 @@
 import {
   Button,
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogOverlay,
   DialogTitle,
+  DialogTrigger,
 } from '@hcc/ui';
+import { ReactNode } from 'react';
 
 type AlertDialogProps = {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
   title: string;
   description: string;
+  primaryActionLabel: string;
+  secondaryActionLabel?: string;
+  onPrimaryAction?: () => void;
+  onSecondaryAction?: () => void;
+  children: ReactNode;
 };
 
 const AlertDialog = ({
-  isOpen,
-  setIsOpen,
   title,
   description,
+  primaryActionLabel,
+  secondaryActionLabel,
+  onPrimaryAction,
+  onSecondaryAction,
+  children,
 }: AlertDialogProps) => {
   return (
-    <Dialog open={isOpen}>
+    <Dialog>
       <DialogOverlay />
-      <DialogContent style={{ maxWidth: 380 }}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button
-            colorScheme="secondary"
-            size="sm"
-            fullWidth
-            onClick={() => setIsOpen(false)}
-          >
-            취소
-          </Button>
-          <Button size="sm" fullWidth onClick={() => setIsOpen(false)}>
-            해제
-          </Button>
+          {secondaryActionLabel && (
+            <DialogClose asChild>
+              <Button
+                colorScheme="secondary"
+                size="sm"
+                fullWidth
+                onClick={() => {
+                  if (onSecondaryAction) onSecondaryAction();
+                }}
+              >
+                {secondaryActionLabel}
+              </Button>
+            </DialogClose>
+          )}
+          <DialogClose asChild>
+            <Button
+              size="sm"
+              fullWidth
+              onClick={() => {
+                if (onPrimaryAction) onPrimaryAction();
+              }}
+            >
+              {primaryActionLabel}
+            </Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
