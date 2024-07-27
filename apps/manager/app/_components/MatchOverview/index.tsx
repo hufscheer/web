@@ -1,9 +1,4 @@
-import {
-  LeagueListType,
-  useGamesByLeagueList,
-  StateType,
-  stateMap,
-} from '@hcc/api';
+import { useGamesByLeagueList, StateType, stateMap } from '@hcc/api';
 import { ChevronRightIcon } from '@hcc/icons';
 import { Button, Icon, Tag } from '@hcc/ui';
 import Link from 'next/link';
@@ -17,11 +12,10 @@ import * as styles from './MatchOverview.css';
 
 type MatchOverviewProps = {
   state: StateType;
-  leagues: LeagueListType[];
 };
 
-const MatchOverview = ({ state, leagues }: MatchOverviewProps) => {
-  const { data } = useGamesByLeagueList(leagues, state);
+const MatchOverview = ({ state }: MatchOverviewProps) => {
+  const { data } = useGamesByLeagueList('2024', state);
 
   return (
     <>

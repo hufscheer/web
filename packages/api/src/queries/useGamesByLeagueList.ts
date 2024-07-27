@@ -1,23 +1,16 @@
 import { useSuspenseQueries } from '@tanstack/react-query';
 
 import { queryKeys } from '../queryKey';
-import { GameType, LeagueListType, StateType } from '../types';
+import { StateType } from '../types';
 
-type GameWithLeagueListType = {
-  games: GameType[];
-  league: LeagueListType;
-};
+import { useLeagues } from './index';
 
-const useGamesByLeagueList = (leagues: LeagueListType[], state: StateType) => {
-  const options = leagues.map(league => {
-    const queryConfig = queryKeys.games(league.leagueId.toString(), state);
-    return {
-      queryKey: queryConfig.queryKey,
-      queryFn: async () => {
-        const data = await queryConfig.queryFn();
-        return { games: data, league } as GameWithLeagueListType;
-      },
-    };
+const useGamesByLeagueList = (year: string, state: StateType) => {
+  const { data: leagues } = useLeagues(year);
+  const leagueList = leagues ?? [];
+
+  const options = leagueList.map(league => {
+    return queryKeys.gamesByLeagueList(league, state);
   });
 
   return useSuspenseQueries({
