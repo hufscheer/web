@@ -5,19 +5,20 @@ import Link from 'next/link';
 
 import Layout from '@/components/Layout';
 
-import CheerTalkList from './_components/CheerTalkList';
+import AllCheerTalk from './_components/AllCheerTalk';
+import ReportedCheerTalk from './_components/ReportedCheerTalk';
 import * as styles from './page.css';
 
 const tabs = [
   {
     key: 'all',
     label: '전체 응원톡',
-    renderer: () => <CheerTalkList type="allHideFeature" />,
+    renderer: () => <AllCheerTalk />,
   },
   {
     key: 'reported',
     label: '신고된 응원톡',
-    renderer: () => <CheerTalkList type="reportedHideFeature" />,
+    renderer: () => <ReportedCheerTalk />,
   },
 ];
 

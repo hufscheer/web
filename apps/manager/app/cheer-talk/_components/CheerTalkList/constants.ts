@@ -1,28 +1,5 @@
 import { CheerTalkType } from '@hcc/api';
 
-import { CheerTalkConfigType } from './types';
-
-export const config: CheerTalkConfigType = {
-  allHideFeature: {
-    buttonText: '채팅 가리기',
-    buttonColorScheme: 'alert',
-    toastMessage: `응원톡을 가렸어요`,
-    showDialog: false,
-  },
-  reportedHideFeature: {
-    buttonText: '채팅 가리기',
-    buttonColorScheme: 'alert',
-    toastMessage: `응원톡을 가렸어요`,
-    showDialog: false,
-  },
-  blockedUnhideFeature: {
-    buttonText: '가리기 해제',
-    buttonColorScheme: 'accentPrimary',
-    toastMessage: `응원톡을 복구했어요`,
-    showDialog: true,
-  },
-};
-
 export const cheerTalks: CheerTalkType[] = [
   {
     cheerTalkId: 1,
