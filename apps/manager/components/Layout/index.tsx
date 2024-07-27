@@ -14,22 +14,21 @@ type LayoutProps = {
   navigationMenu?: ReactNode;
 };
 
-export default function Layout({
+const Layout = ({
   children,
   headerVisible = false,
   navigationVisible = true,
   navigationTitle,
   navigationMenu,
-}: LayoutProps) {
+}: LayoutProps) => {
   return (
     <div className={styles.wrapper}>
       {headerVisible && <Header />}
+
       {navigationVisible && (
-        <Navigation
-          navigationTitle={navigationTitle}
-          navigationMenu={navigationMenu}
-        />
+        <Navigation title={navigationTitle} menu={navigationMenu} />
       )}
+
       <main
         className={clsx(styles.main, {
           [styles.mainWithPaddingTop]: headerVisible || navigationVisible,
@@ -39,4 +38,6 @@ export default function Layout({
       </main>
     </div>
   );
-}
+};
+
+export default Layout;

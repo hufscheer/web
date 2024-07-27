@@ -41,4 +41,8 @@ export const title = style({
 export const menuContainer = style({
   position: 'absolute',
   right: theme.sizes.appInlinePadding,
+  color: theme.colors.black300,
+  fontSize: rem(18),
+  fontWeight: 500,
+  lineHeight: '100%',
 });

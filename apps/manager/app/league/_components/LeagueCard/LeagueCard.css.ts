@@ -20,13 +20,13 @@ export const divider = style({
   backgroundColor: theme.colors.brFill,
 });
 
-export const leagueDetailText = style({
+export const leagueDescription = style({
   color: theme.colors.black300,
   fontSize: rem(14),
   fontWeight: 500,
   lineHeight: '100%',
 });
 
-globalStyle(`${leagueDetailText} strong`, {
+globalStyle(`${leagueDescription} strong`, {
   fontWeight: 700,
 });

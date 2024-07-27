@@ -1,4 +1,4 @@
-import { LeagueDetailType, stateMap, StateType } from '@hcc/api';
+import { stateMap, StateType, useLeaguesDetail } from '@hcc/api';
 import { Button, Tag } from '@hcc/ui';
 import Link from 'next/link';
 import { Fragment } from 'react';
@@ -9,11 +9,9 @@ import { formatTime } from '@/utils/time';
 
 import * as styles from './LeagueCard.css';
 
-type LeagueCardProps = {
-  leagues: LeagueDetailType[];
-};
+const LeagueCard = () => {
+  const { data: leagues } = useLeaguesDetail('2024');
 
-const LeagueCard = ({ leagues }: LeagueCardProps) => {
   return (
     <>
       {leagues?.map(({ leagueId, league }, index) => {
@@ -38,10 +36,10 @@ const LeagueCard = ({ leagues }: LeagueCardProps) => {
               <hr className={styles.divider} />
 
               <Card.Content gap={10}>
-                <p className={styles.leagueDetailText}>
+                <p className={styles.leagueDescription}>
                   <strong>라운드</strong>&nbsp;{league.maxRound}
                 </p>
-                <p className={styles.leagueDetailText}>
+                <p className={styles.leagueDescription}>
                   <strong>기간</strong>&nbsp;
                   {formatTime(league.startAt, 'YYYY.MM.DD.')} ~&nbsp;
                   {formatTime(league.endAt, 'YYYY.MM.DD.')}
