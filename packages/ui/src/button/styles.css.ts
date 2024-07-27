@@ -3,9 +3,8 @@ import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 export const buttonBase = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  ...theme.layouts.center,
+  paddingInline: rem(18),
   fontSize: rem(16),
   fontWeight: '500',
   lineHeight: '100%',
