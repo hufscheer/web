@@ -11,6 +11,7 @@ export const wrapper = style({
   height: rem(69),
   backgroundColor: theme.colors.white,
   borderBottom: `${rem(1)} solid ${theme.colors.black25}`,
+  zIndex: theme.zIndices.navigation,
 });
 
 export const container = style({
