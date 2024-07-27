@@ -6,6 +6,8 @@ const activeColor = '#141B21';
 const neighboringColor = '#c1c5ca';
 const weekendColor = '#FC5555';
 const weekendNeighboringColor = '#fc555580';
+const saturdayColor = '#007AFF';
+const saturdayNeighboringColor = '#badeff';
 const backgroundColor = '#FFFFFF';
 const hoverBackgroundColor = '#e6e6e6';
 const neighboringBackgroundColor = '#ebecee';
@@ -71,6 +73,7 @@ globalStyle('.react-calendar__navigation', {
 globalStyle(
   '.react-calendar__navigation__label, .react-calendar__navigation button:disabled',
   {
+    fontWeight: 500,
     textAlign: 'center',
     backgroundColor: 'transparent',
     pointerEvents: 'none',
@@ -194,4 +197,15 @@ globalStyle(
   {
     color: weekendNeighboringColor,
   },
+);
+
+globalStyle('.react-calendar__month-view__weekdays__weekday:nth-of-type(7)', {
+  color: saturdayColor,
+});
+
+globalStyle('.react-calendar__tile--saturday', { color: saturdayColor });
+
+globalStyle(
+  '.react-calendar__month-view__days__day--neighboringMonth.react-calendar__tile--saturday',
+  { color: saturdayNeighboringColor },
 );

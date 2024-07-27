@@ -23,14 +23,14 @@ import {
   toast,
 } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
-import dayjs from 'dayjs';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import Layout from '@/components/Layout';
+import Tip from '@/components/Tip';
+import { formatTime } from '@/utils/time';
 
-import 'dayjs/locale/ko';
-import * as styles from './styles.css';
+import * as styles from './page.css';
 
 const formSchema = z.object({
   leagueName: z.string().min(1, { message: '대회명을 입력해주세요' }),
@@ -64,7 +64,10 @@ export default function Page() {
     <Layout navigationTitle="신규 대회 만들기">
       <section className={styles.layout}>
         <Form {...methods}>
-          <form onSubmit={methods.handleSubmit(onSubmit)} style={{ flex: 1 }}>
+          <form
+            className={styles.form}
+            onSubmit={methods.handleSubmit(onSubmit)}
+          >
             <FormField
               control={methods.control}
               name="leagueName"
@@ -95,7 +98,7 @@ export default function Page() {
                         >
                           <span>
                             {field.value
-                              ? dayjs(field.value).format('YYYY. MM. DD')
+                              ? formatTime(field.value, 'YYYY년 MM월 DD일')
                               : ''}
                           </span>
                           <Icon source={CalendarIcon} />
@@ -130,7 +133,7 @@ export default function Page() {
                         >
                           <span>
                             {field.value
-                              ? dayjs(field.value).format('YYYY. MM. DD')
+                              ? formatTime(field.value, 'YYYY년 MM월 DD일')
                               : ''}
                           </span>
                           <Icon source={CalendarIcon} />
@@ -140,9 +143,7 @@ export default function Page() {
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         defaultValue={field.value}
-                        onChange={value =>
-                          field.onChange(dayjs(value as Date).toDate())
-                        }
+                        onChange={field.onChange}
                       />
                     </PopoverContent>
                   </Popover>
@@ -180,23 +181,17 @@ export default function Page() {
               )}
             />
 
-            <Button fullWidth className={styles.button}>
+            <Button className={styles.button} fullWidth>
               대회 만들기
             </Button>
           </form>
         </Form>
-
-        <div className={styles.tipBox}>
-          <div className={styles.tipTitle}>
-            <span className={styles.emoji}>🙌🏻</span>
-            <span>새로운 대회에 팀을 추가하는 방법</span>
-          </div>
-          <p className={styles.tipDescription}>
-            신규 대회를 만든 뒤 참가 팀 관리 탭에서 팀 생성과 <br /> 편집을 할
-            수 있어요.
-          </p>
-        </div>
       </section>
+
+      <Tip
+        title="🙌🏻 새로운 대회에 팀을 추가하는 방법"
+        description="신규 대회를 만든 뒤 참가 팀 관리 탭에서 팀 생성과 편집을 할 수 있어요."
+      />
     </Layout>
   );
 }
