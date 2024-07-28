@@ -1,13 +1,11 @@
 'use client';
 import Link from 'next/link';
 
-import Layout from '@/components/Layout';
-
 import * as styles from './not-found.css';
 
 export default function NotFoundPage() {
   return (
-    <Layout navigationVisible={false}>
+    <>
       <p className={styles.branding}>
         Hufscheers
         <br />
@@ -26,6 +24,6 @@ export default function NotFoundPage() {
           홈으로 돌아가기
         </Link>
       </div>
-    </Layout>
+    </>
   );
 }
