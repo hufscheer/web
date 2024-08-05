@@ -6,6 +6,7 @@ export { default as Skeleton } from './skeleton';
 export { default as Tabs } from './tabs';
 export { default as Tooltip } from './tooltip';
 
+export * from './bottom-sheet';
 export * from './button';
 export * from './calendar';
 export * from './dialog';
