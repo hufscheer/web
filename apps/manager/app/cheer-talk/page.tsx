@@ -11,12 +11,12 @@ import * as styles from './page.css';
 
 const tabs = [
   {
-    key: 'all',
+    key: 'ALL',
     label: '전체 응원톡',
     renderer: () => <AllCheerTalk />,
   },
   {
-    key: 'reported',
+    key: 'REPORTED',
     label: '신고된 응원톡',
     renderer: () => <ReportedCheerTalk />,
   },
