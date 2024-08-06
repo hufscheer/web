@@ -33,6 +33,7 @@ export default function Page({ params }: PageProps) {
       title: '대회 정보 수정 메시지',
       description: JSON.stringify(data),
     });
+    // TODO: API 호출 구현 필요
   };
 
   useEffect(() => {

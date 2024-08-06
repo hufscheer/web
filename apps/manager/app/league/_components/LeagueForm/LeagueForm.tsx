@@ -125,10 +125,9 @@ export const LeagueForm = ({
                 <FormLabel>진행 방식</FormLabel>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue />
+                    <SelectValue>{field.value}강</SelectValue>
                   </SelectTrigger>
                 </FormControl>
-
                 <SelectContent>
                   <SelectItem value="32">32강</SelectItem>
                   <SelectItem value="16">16강</SelectItem>

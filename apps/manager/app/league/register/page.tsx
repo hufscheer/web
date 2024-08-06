@@ -24,6 +24,7 @@ export default function Page() {
       title: '테스트용 대회 생성 메시지',
       description: JSON.stringify(data),
     });
+    // TODO: API 호출 구현 필요
   };
 
   return (
