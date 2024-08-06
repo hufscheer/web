@@ -6,7 +6,7 @@ export const buttonBase = style({
   ...theme.layouts.center,
   paddingInline: rem(18),
   fontSize: rem(16),
-  fontWeight: '500',
+  fontWeight: 500,
   lineHeight: '100%',
   outline: 'none',
   cursor: 'pointer',
@@ -54,6 +54,20 @@ export const buttonColorScheme = {
       '&[aria-invalid="true"]': {
         color: theme.colors.accent.primary,
         backgroundColor: theme.colors.accent.primaryLight,
+      },
+    },
+  }),
+  alert: style({
+    color: theme.colors.accent.alert,
+    backgroundColor: theme.colors.accent.alertLight,
+    ':hover': {
+      color: theme.colors.accent.alert,
+      backgroundColor: theme.colors.accent.alertLight,
+    },
+    selectors: {
+      '&[aria-invalid="true"]': {
+        color: theme.colors.accent.alert,
+        backgroundColor: theme.colors.accent.alertLight,
       },
     },
   }),
