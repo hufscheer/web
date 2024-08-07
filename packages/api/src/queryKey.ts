@@ -5,6 +5,7 @@ import {
   GameWithLeagueListType,
   LeagueDetailType,
   LeagueListType,
+  LeagueTeamType,
   LeagueType,
   StateType,
 } from './types';
@@ -34,6 +35,18 @@ const leagueQueryKeys = {
         leagueId: Number(leagueId),
         league: data,
       } satisfies LeagueDetailType;
+    },
+  }),
+
+  leagueTeams: (leagueId: string, descriptionOfRound?: string) => ({
+    queryKey: ['leagueTeams', { leagueId, descriptionOfRound }],
+    queryFn: () => {
+      const params = new URLSearchParams();
+      if (descriptionOfRound)
+        params.append('descriptionOfRound', descriptionOfRound);
+      return fetcher.get<LeagueTeamType[]>(`/leagues/${leagueId}/teams`, {
+        params,
+      });
     },
   }),
 };

@@ -15,3 +15,9 @@ export type LeagueDetailType = {
   leagueId: number;
   league: LeagueType;
 };
+
+export type LeagueTeamType = {
+  leagueTeamId: number;
+  teamName: string;
+  logoImageUrl: string;
+};

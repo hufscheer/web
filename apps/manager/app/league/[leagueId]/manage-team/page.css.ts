@@ -3,8 +3,8 @@ import { style } from '@vanilla-extract/css';
 
 export const list = style({
   ...theme.layouts.column,
-  marginTop: theme.sizes.appInlinePadding,
   paddingInline: theme.sizes.appInlinePadding,
+  marginTop: theme.sizes.appInlinePadding,
   listStyle: 'none',
   gap: rem(12),
 });
@@ -27,6 +27,7 @@ export const logoContainer = style({
   position: 'relative',
   borderRadius: rem(8),
   backgroundColor: theme.colors.black50,
+  overflow: 'hidden',
 });
 
 export const content = style({
@@ -36,7 +37,7 @@ export const content = style({
 export const title = style({
   color: theme.colors.black900,
   fontSize: rem(16),
-  fontWeight: '500',
+  fontWeight: 500,
   lineHeight: '100%',
 });
 
@@ -44,13 +45,13 @@ export const description = style({
   marginTop: rem(4),
   color: theme.colors.black300,
   fontSize: rem(12),
-  fontWeight: '500',
+  fontWeight: 500,
   lineHeight: '100%',
 });
 
 export const button = style({
   marginTop: rem(18),
   marginInline: theme.sizes.appInlinePadding,
-  fontWeight: '600',
+  fontWeight: 600,
   gap: rem(5),
 });
