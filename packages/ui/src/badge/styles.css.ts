@@ -23,7 +23,7 @@ export const badgeColorScheme = {
     backgroundColor: theme.colors.black100,
   }),
   accentPrimary: style({
-    backgroundColor: theme.colors.accent.primaryLight,
+    backgroundColor: theme.colors.accent.primary,
   }),
   alert: style({
     backgroundColor: theme.colors.accent.alert,
