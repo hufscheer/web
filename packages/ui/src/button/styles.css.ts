@@ -6,7 +6,6 @@ export const buttonBase = style({
   ...theme.layouts.center,
   paddingInline: rem(18),
   fontSize: rem(16),
-  fontWeight: 500,
   lineHeight: '100%',
   outline: 'none',
   cursor: 'pointer',
@@ -114,11 +113,18 @@ export const buttonVariants = recipe({
       md: { height: rem(56) },
       lg: { height: rem(60) },
     },
+    fontWeight: {
+      normal: { fontWeight: 400 },
+      medium: { fontWeight: 500 },
+      semibold: { fontWeight: 600 },
+      bold: { fontWeight: 700 },
+    },
   },
   defaultVariants: {
     colorScheme: 'primary',
     fullWidth: false,
     justify: 'center',
     size: 'md',
+    fontWeight: 'medium',
   },
 });
