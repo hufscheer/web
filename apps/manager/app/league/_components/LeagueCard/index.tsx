@@ -48,9 +48,7 @@ const LeagueCard = () => {
 
               <Card.Footer>
                 <Button colorScheme="secondary" size="xs" asChild fullWidth>
-                  <Link href={`/league/${leagueId}/manage-team`}>
-                    참가 팀 관리
-                  </Link>
+                  <Link href={`/league/${leagueId}/team`}>참가 팀 관리</Link>
                 </Button>
                 <Button colorScheme="secondary" size="xs" asChild fullWidth>
                   <Link href={`/league/${leagueId}/manage`}>
