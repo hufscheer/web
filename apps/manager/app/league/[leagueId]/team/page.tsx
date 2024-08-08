@@ -1,6 +1,6 @@
 'use client';
 import { useLeagueTeams } from '@hcc/api';
-import { AddIcon, ChevronRightIcon } from '@hcc/icons';
+import { AddIcon, ChevronForwardIcon } from '@hcc/icons';
 import { Button, Icon } from '@hcc/ui';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -39,11 +39,16 @@ export default function Page({ params }: PageProps) {
               </span>
               <span className={styles.content}>
                 <h4 className={styles.title}>{team.teamName}</h4>
-                <p className={styles.description}>00명</p>
+                <p className={styles.description}>
+                  {team.sizeOfLeagueTeamPlayers}명
+                </p>
               </span>
             </span>
-            <Link href={`/league/${leagueId}/team/${team.leagueTeamId}`}>
-              <Icon source={ChevronRightIcon} color="black" height={12} />
+            <Link
+              className={styles.teamLink}
+              href={`/league/${leagueId}/team/${team.leagueTeamId}`}
+            >
+              <Icon source={ChevronForwardIcon} color="black" size="md" />
             </Link>
           </li>
         ))}

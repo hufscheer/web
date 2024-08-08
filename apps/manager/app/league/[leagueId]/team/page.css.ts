@@ -49,6 +49,10 @@ export const description = style({
   lineHeight: '100%',
 });
 
+export const teamLink = style({
+  ...theme.layouts.center,
+});
+
 export const button = style({
   marginTop: rem(18),
   marginInline: theme.sizes.appInlinePadding,

@@ -20,4 +20,5 @@ export type LeagueTeamType = {
   leagueTeamId: number;
   teamName: string;
   logoImageUrl: string;
+  sizeOfLeagueTeamPlayers: number;
 };

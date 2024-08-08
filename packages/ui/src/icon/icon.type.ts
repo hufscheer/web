@@ -7,4 +7,5 @@ export type IconColor =
   | 'error'
   | 'success'
   | 'white'
-  | 'black';
+  | 'black'
+  | 'alert';
