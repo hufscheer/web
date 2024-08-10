@@ -70,7 +70,7 @@ export default function Page({ params }: PageProps) {
     };
 
     createLeagueTeamMutation(
-      { leagueId, team },
+      { leagueId, ...team },
       {
         onSuccess: () => {
           toast({
