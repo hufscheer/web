@@ -7,7 +7,7 @@ import { theme } from './theme.css';
 
 globalStyle('body', {
   fontFamily: theme.fonts.body,
-  background: theme.colors.white,
+  background: theme.colors.black25,
   paddingBottom: 'env(safe-area-inset-bottom)',
   overflowX: 'hidden',
 });

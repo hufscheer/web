@@ -1,4 +1,5 @@
 'use client';
+
 import { useLeagueTeams } from '@hcc/api';
 import { AddIcon, ChevronForwardIcon } from '@hcc/icons';
 import { Button, Icon } from '@hcc/ui';
@@ -13,10 +14,6 @@ type PageProps = {
   params: { leagueId: string };
 };
 
-const EditButton = () => {
-  return <button>편집</button>;
-};
-
 export default function Page({ params }: PageProps) {
   const leagueId: string = params.leagueId;
 
@@ -24,7 +21,7 @@ export default function Page({ params }: PageProps) {
   if (!leagueTeams) return null;
 
   return (
-    <Layout navigationTitle="대회 내 경기 관리" navigationMenu={<EditButton />}>
+    <Layout navigationTitle="대회 내 경기 관리">
       <ul className={styles.list}>
         {leagueTeams.map(team => (
           <li key={team.teamName} className={styles.item}>

@@ -9,7 +9,12 @@ type Request = {
 const postUploadImage = async ({ url, file }: Request) => {
   const arrayBuffer = await file.arrayBuffer();
 
-  return axios.post<void>(url, arrayBuffer, {
+  const requestUrl: string = url.replace(
+    'https://hufscheer-images.s3.ap-northeast-2.amazonaws.com',
+    '/api/images',
+  );
+
+  return axios.put<void>(requestUrl, arrayBuffer, {
     headers: {
       'Content-Type': file.type,
       'Content-Length': arrayBuffer.byteLength.toString(),

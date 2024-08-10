@@ -105,7 +105,19 @@ export const TeamForm = ({ methods }: TeamFormProps) => {
           />
         </div>
 
-        <h3 className={styles.formTitle}>선수</h3>
+        <div>
+          <h3 className={styles.formTitle}>선수</h3>
+          <Button
+            type="button"
+            className={styles.playerAddButton}
+            colorScheme="secondary"
+            fontWeight="semibold"
+            onClick={handleAddPlayer}
+          >
+            <Icon source={AddIcon} size="md" color="black" />
+            선수 추가
+          </Button>
+        </div>
         {fields.length > 0 && (
           <ul className={styles.playerList}>
             {fields.map((field, index) => (
@@ -143,17 +155,6 @@ export const TeamForm = ({ methods }: TeamFormProps) => {
             ))}
           </ul>
         )}
-
-        <Button
-          type="button"
-          className={styles.playerAddButton}
-          colorScheme="secondary"
-          fontWeight="semibold"
-          onClick={handleAddPlayer}
-        >
-          <Icon source={AddIcon} size="md" color="black" />
-          선수 추가
-        </Button>
       </form>
     </Form>
   );

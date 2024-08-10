@@ -44,10 +44,16 @@ export default function Page({ params }: PageProps) {
     let imageUrl: string;
 
     if (data.logo instanceof File) {
-      const extension: string = data.logo.name.split('.').pop() || '';
-      imageUrl = await generatePresignedUrlMutation({ extension });
+      const extension = data.logo.name.split('.').pop() || '';
 
-      await uploadImageMutation({ url: imageUrl, file: data.logo });
+      const url: URL = new URL(
+        await generatePresignedUrlMutation({ extension }),
+      );
+
+      const uploadUrl: string = '/api/images/' + url.pathname + url.search;
+      await uploadImageMutation({ url: uploadUrl, file: data.logo });
+
+      imageUrl = url.origin + url.pathname;
     } else {
       imageUrl = data.logo;
     }

@@ -49,6 +49,8 @@ export const logo = style({
   height: rem(88),
 });
 
+export const playerTitleContainer = style({});
+
 export const playerList = style({
   ...theme.layouts.column,
   listStyle: 'none',

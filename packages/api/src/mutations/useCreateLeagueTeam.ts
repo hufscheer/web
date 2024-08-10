@@ -1,6 +1,7 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { fetcher } from '../fetcher';
+import { queryKeys } from '../queryKey';
 import { TeamCreateType } from '../types';
 
 type Request = {
@@ -9,9 +10,19 @@ type Request = {
 };
 
 const postCreateLeagueTeam = ({ leagueId, team }: Request) =>
-  fetcher.post<void>(`/leagues/${leagueId}/teams`, { team });
+  fetcher.post<void>(`/leagues/${leagueId}/teams`, { ...team });
 
-const useCreateLeagueTeam = () =>
-  useMutation({ mutationFn: postCreateLeagueTeam });
+const useCreateLeagueTeam = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: postCreateLeagueTeam,
+    onSuccess: async (_, variables) => {
+      await queryClient.invalidateQueries({
+        queryKey: queryKeys.leagueTeams(variables.leagueId).queryKey,
+      });
+    },
+  });
+};
 
 export default useCreateLeagueTeam;

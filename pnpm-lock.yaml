@@ -50,30 +50,6 @@ importers:
       '@hookform/resolvers':
         specifier: ^3.6.0
         version: 3.9.0(react-hook-form@7.52.1(react@18.3.1))
-      '@mantine/core':
-        specifier: ^7.6.1
-        version: 7.11.2(@mantine/hooks@7.11.2(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@mantine/dates':
-        specifier: ^7.6.1
-        version: 7.11.2(@mantine/core@7.11.2(@mantine/hooks@7.11.2(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.11.2(react@18.3.1))(dayjs@1.11.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@mantine/dropzone':
-        specifier: ^7.6.1
-        version: 7.11.2(@mantine/core@7.11.2(@mantine/hooks@7.11.2(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.11.2(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@mantine/form':
-        specifier: ^7.6.1
-        version: 7.11.2(react@18.3.1)
-      '@mantine/hooks':
-        specifier: ^7.6.1
-        version: 7.11.2(react@18.3.1)
-      '@mantine/vanilla-extract':
-        specifier: ^7.6.1
-        version: 7.11.2(@mantine/core@7.11.2(@mantine/hooks@7.11.2(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
-      '@tanstack/react-query':
-        specifier: ^5.17.19
-        version: 5.51.11(react@18.3.1)
-      '@tanstack/react-query-devtools':
-        specifier: ^5.17.21
-        version: 5.51.11(@tanstack/react-query@5.51.11(react@18.3.1))(react@18.3.1)
       '@vanilla-extract/css':
         specifier: ^1.14.0
         version: 1.15.3
@@ -83,9 +59,6 @@ importers:
       '@vanilla-extract/recipes':
         specifier: ^0.5.1
         version: 0.5.3(@vanilla-extract/css@1.15.3)
-      axios:
-        specifier: ^1.6.5
-        version: 1.7.2
       clsx:
         specifier: ^2.1.0
         version: 2.1.1
@@ -134,19 +107,10 @@ importers:
         version: 18.3.0
       '@vanilla-extract/next-plugin':
         specifier: ^2.3.6
-        version: 2.4.3(@types/node@20.14.12)(next@14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(sugarss@4.0.1)(terser@5.31.3)(webpack@5.93.0)
+        version: 2.4.3(@types/node@20.14.12)(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(sugarss@4.0.1)(terser@5.31.3)(webpack@5.93.0)
       eslint:
         specifier: ^8.56.0
         version: 8.57.0
-      postcss:
-        specifier: ^8.4.35
-        version: 8.4.39
-      postcss-preset-mantine:
-        specifier: ^1.13.0
-        version: 1.17.0(postcss@8.4.39)
-      postcss-simple-vars:
-        specifier: ^7.0.1
-        version: 7.0.1(postcss@8.4.39)
       typescript:
         specifier: ^5.3.3
         version: 5.5.4
@@ -191,7 +155,7 @@ importers:
         version: 2.1.1
       '@vercel/analytics':
         specifier: ^1.1.2
-        version: 1.3.1(next@14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+        version: 1.3.1(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       axios:
         specifier: ^1.6.5
         version: 1.7.2
@@ -237,7 +201,7 @@ importers:
         version: 18.3.0
       '@vanilla-extract/next-plugin':
         specifier: ^2.3.6
-        version: 2.4.3(@types/node@20.14.12)(next@14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(sugarss@4.0.1)(terser@5.31.3)(webpack@5.93.0)
+        version: 2.4.3(@types/node@20.14.12)(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(sugarss@4.0.1)(terser@5.31.3)(webpack@5.93.0)
       clsx:
         specifier: ^2.1.0
         version: 2.1.1
@@ -328,7 +292,7 @@ importers:
         version: 5.5.4
       vite:
         specifier: ^5.0.10
-        version: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)
+        version: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
 
   packages/api:
     dependencies:
@@ -371,7 +335,7 @@ importers:
         version: 5.5.4
       vite:
         specifier: ^5.3.4
-        version: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)
+        version: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
       vite-plugin-dts:
         specifier: 4.0.0-beta.1
         version: 4.0.0-beta.1(@types/node@20.14.12)(rollup@4.19.0)(typescript@5.5.4)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3))
@@ -1907,12 +1871,6 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
 
-  '@floating-ui/react@0.26.20':
-    resolution: {integrity: sha512-RixKJJG92fcIsVoqrFr4Onpzh7hlOx4U7NV4aLhMLmtvjZ5oTB/WzXaANYUZATKqXvvW7t9sCxtzejip26N5Ag==}
-    peerDependencies:
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-
   '@floating-ui/utils@0.2.5':
     resolution: {integrity: sha512-sTcG+QZ6fdEUObICavU+aB3Mp8HY4n14wYHdxK4fXjPmv3PXZZeY5RaguJmGyeH/CJQhX3fqKUtS4qc1LoHwhQ==}
 
@@ -1997,45 +1955,6 @@ packages:
 
   '@juggle/resize-observer@3.4.0':
     resolution: {integrity: sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA==}
-
-  '@mantine/core@7.11.2':
-    resolution: {integrity: sha512-T64RjdgY8UPAv249miW1lQyPPot1JbCcKKsAZMNQHgcttcxLhrFpKVvglc4/48hdSoxI4LYJPNvqp7zciZmucQ==}
-    peerDependencies:
-      '@mantine/hooks': 7.11.2
-      react: ^18.2.0
-      react-dom: ^18.2.0
-
-  '@mantine/dates@7.11.2':
-    resolution: {integrity: sha512-BEZs949EvfIG1fRNsEpcB0YqSe53z/KObwHyBwiqFjFHJ2eFPVMpxw6Rpy1Bud0/FZRV+QBokebxaf6+2tbCCw==}
-    peerDependencies:
-      '@mantine/core': 7.11.2
-      '@mantine/hooks': 7.11.2
-      dayjs: '>=1.0.0'
-      react: ^18.2.0
-      react-dom: ^18.2.0
-
-  '@mantine/dropzone@7.11.2':
-    resolution: {integrity: sha512-/X29ym1uM1ca7ZMLVSSxm9KBbDNIpXBwZbzNIpopH0hxjbo2bSpPTbNUVB3EjRAVWDx9RGlyNxQV2jkhCos7QQ==}
-    peerDependencies:
-      '@mantine/core': 7.11.2
-      '@mantine/hooks': 7.11.2
-      react: ^18.2.0
-      react-dom: ^18.2.0
-
-  '@mantine/form@7.11.2':
-    resolution: {integrity: sha512-NRY4HDgcArDEP+wUaHITnoVh0Ce3rM3Blo9fLNj2VYO8k7AfuSWp+fQdqrjDI0k9wGU3YEj4/dbwOjKbtXEhxw==}
-    peerDependencies:
-      react: ^18.2.0
-
-  '@mantine/hooks@7.11.2':
-    resolution: {integrity: sha512-jhyVe/sbDEG2U8rr2lMecUPgQxcfr5hh9HazqGfkS7ZRIMDO7uJ947yAcTMGGkp5Lxtt5TBFt1Cb6tiB2/1agg==}
-    peerDependencies:
-      react: ^18.2.0
-
-  '@mantine/vanilla-extract@7.11.2':
-    resolution: {integrity: sha512-DE+7HYFOwAR/tpp8wn58L/Z3F3VVzum4i5sLar7a1WudlM5qFjnRT/WFrBPSMCFwpC6zcfjoEj8TzOZ/TEZr+A==}
-    peerDependencies:
-      '@mantine/core': 7.11.2
 
   '@mdx-js/react@2.3.0':
     resolution: {integrity: sha512-zQH//gdOmuu7nt2oJR29vFhDv88oGPmVw6BggmrHeMI+xgEkp1B2dX9/bMBSYtK0dyLX/aOmesKS09g222K1/g==}
@@ -4098,10 +4017,6 @@ packages:
   camel-case@3.0.0:
     resolution: {integrity: sha512-+MbKztAYHXPr1jNTSKQF52VpcFjwY5RkR7fxksV8Doo4KAYc5Fl4UJRgthBbTmEx8C54DqahhbLJkDwjI3PI/w==}
 
-  camelcase-css@2.0.1:
-    resolution: {integrity: sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==}
-    engines: {node: '>= 6'}
-
   camelcase-keys@6.2.2:
     resolution: {integrity: sha512-YrwaA0vEKazPBkn0ipTiMpSajYDSe+KjQfrjhcBMxJt/znbvlHd8Pw/Vamaz5EB4Wfhs3SUR3Z9mwRu/P3s3Yg==}
     engines: {node: '>=8'}
@@ -5853,10 +5768,6 @@ packages:
     resolution: {integrity: sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==}
     engines: {node: '>=6'}
 
-  klona@2.0.6:
-    resolution: {integrity: sha512-dhG34DXATL5hSxJbIexCft8FChFXtmskoZYnoPWjXQuebWYCNkVeV3KkGegCK9CP1oswI/vQibS2GY7Em/sJJA==}
-    engines: {node: '>= 8'}
-
   kolorist@1.8.0:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
 
@@ -6559,12 +6470,6 @@ packages:
     resolution: {integrity: sha512-d7Uw+eZoloe0EHDIYoe+bQ5WXnGMOpmiZFTuMWCwpjzzkL2nTjcKiAk4hh8TjnGye2TwWOk3UXucZ+3rbmBa8Q==}
     engines: {node: '>= 0.4'}
 
-  postcss-js@4.0.1:
-    resolution: {integrity: sha512-dDLF8pEO191hJMtlHFPRa8xsizHaM82MLfNkUHdUtVEV3tgTp5oj+8qbEqYM57SLfc74KSbw//4SeJma2LRVIw==}
-    engines: {node: ^12 || ^14 || >= 16}
-    peerDependencies:
-      postcss: ^8.4.21
-
   postcss-load-config@4.0.2:
     resolution: {integrity: sha512-bSVhyJGL00wMVoPUzAVAnbEoWyqRxkjv64tUl427SKnPrENtq6hJwUojroMz2VB+Q1edmi4IfrAPpami5VVgMQ==}
     engines: {node: '>= 14'}
@@ -6576,33 +6481,6 @@ packages:
         optional: true
       ts-node:
         optional: true
-
-  postcss-mixins@9.0.4:
-    resolution: {integrity: sha512-XVq5jwQJDRu5M1XGkdpgASqLk37OqkH4JCFDXl/Dn7janOJjCTEKL+36cnRVy7bMtoBzALfO7bV7nTIsFnUWLA==}
-    engines: {node: '>=14.0'}
-    peerDependencies:
-      postcss: ^8.2.14
-
-  postcss-nested@6.2.0:
-    resolution: {integrity: sha512-HQbt28KulC5AJzG+cZtj9kvKB93CFCdLvog1WFLf1D+xmMvPGlBstkpTEZfK5+AN9hfJocyBFCNiqyS48bpgzQ==}
-    engines: {node: '>=12.0'}
-    peerDependencies:
-      postcss: ^8.2.14
-
-  postcss-preset-mantine@1.17.0:
-    resolution: {integrity: sha512-ji1PMDBUf2Vsx/HE5faMSs1+ff6qE6YRulTr4Ja+6HD3gop8rSMTCYdpN7KrdsEg079kfBKkO/PaKhG9uR0zwQ==}
-    peerDependencies:
-      postcss: '>=8.0.0'
-
-  postcss-selector-parser@6.1.1:
-    resolution: {integrity: sha512-b4dlw/9V8A71rLIDsSwVmak9z2DuBUB7CA1/wSdelNEzqsjoSPeADTWNO09lpH49Diy3/JIZ2bSPB1dI3LJCHg==}
-    engines: {node: '>=4'}
-
-  postcss-simple-vars@7.0.1:
-    resolution: {integrity: sha512-5GLLXaS8qmzHMOjVxqkk1TZPf1jMqesiI7qLhnlyERalG0sMbHIbJqrcnrpmZdKCLglHnRHoEBB61RtGTsj++A==}
-    engines: {node: '>=14.0'}
-    peerDependencies:
-      postcss: ^8.2.1
 
   postcss@8.4.31:
     resolution: {integrity: sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==}
@@ -6767,12 +6645,6 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  react-dropzone-esm@15.0.1:
-    resolution: {integrity: sha512-RdeGpqwHnoV/IlDFpQji7t7pTtlC2O1i/Br0LWkRZ9hYtLyce814S71h5NolnCZXsIN5wrZId6+8eQj2EBnEzg==}
-    engines: {node: '>= 10.13'}
-    peerDependencies:
-      react: '>= 16.8 || 18.0.0'
-
   react-element-to-jsx-string@15.0.0:
     resolution: {integrity: sha512-UDg4lXB6BzlobN60P8fHWVPX3Kyw8ORrTeBtClmIlGdkOOE+GYQSFvmEU5iLLpwp/6v42DINwNcwOhOLfQ//FQ==}
     peerDependencies:
@@ -6797,28 +6669,12 @@ packages:
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
 
-  react-number-format@5.4.0:
-    resolution: {integrity: sha512-NWdICrqLhI7rAS8yUeLVd6Wr4cN7UjJ9IBTS0f/a9i7UB4x4Ti70kGnksBtZ7o4Z7YRbvCMMR/jQmkoOBa/4fg==}
-    peerDependencies:
-      react: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
-
   react-refresh@0.14.2:
     resolution: {integrity: sha512-jCvmsr+1IUSMUyzOkRcvnVbX3ZYC6g9TDrDbFuFmRDq7PD4yaGbLKNQL6k2jnArV8hjYxh7hVhAZB6s9HDGpZA==}
     engines: {node: '>=0.10.0'}
 
   react-remove-scroll-bar@2.3.6:
     resolution: {integrity: sha512-DtSYaao4mBmX+HDo5YWYdBWQwYIQQshUV/dVxFxK+KM26Wjwp1gZ6rv6OC3oujI6Bfu6Xyg3TwK533AQutsn/g==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      '@types/react': ^16.8.0 || ^17.0.0 || ^18.0.0
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-
-  react-remove-scroll@2.5.10:
-    resolution: {integrity: sha512-m3zvBRANPBw3qxVVjEIPEQinkcwlFZ4qyomuWVpNJdv4c6MvHfXV0C3L9Jx5rr3HeBHKNRX+1jreB5QloDIJjA==}
     engines: {node: '>=10'}
     peerDependencies:
       '@types/react': ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -6856,12 +6712,6 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
-
-  react-textarea-autosize@8.5.3:
-    resolution: {integrity: sha512-XT1024o2pqCuZSuBt9FwHlaDeNtVrtCXu0Rnz88t1jUGheCLa3PhjE1GH8Ctm2axEtvdCl5SUHYschyQ0L5QHQ==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
 
   react@18.2.0:
     resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}
@@ -7397,9 +7247,6 @@ packages:
     resolution: {integrity: sha512-7gr8p9TQP6RAHusBOSLs46F4564ZrjV8xFmw5zCmgmhGUcw2hxsShhJ6CEiHQMgPDwAQ1fWHPM0ypc4RMAig4A==}
     engines: {node: ^14.18.0 || >=16.0.0}
 
-  tabbable@6.2.0:
-    resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
-
   tapable@2.2.1:
     resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
     engines: {node: '>=6'}
@@ -7625,10 +7472,6 @@ packages:
     resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
     engines: {node: '>=12.20'}
 
-  type-fest@4.23.0:
-    resolution: {integrity: sha512-ZiBujro2ohr5+Z/hZWHESLz3g08BBdrdLMieYFULJO+tWc437sn8kQsWLJoZErY8alNhxre9K4p3GURAG11n+w==}
-    engines: {node: '>=16'}
-
   type-is@1.6.18:
     resolution: {integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==}
     engines: {node: '>= 0.6'}
@@ -7748,29 +7591,6 @@ packages:
     engines: {node: '>=10'}
     peerDependencies:
       '@types/react': ^16.8.0 || ^17.0.0 || ^18.0.0
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-
-  use-composed-ref@1.3.0:
-    resolution: {integrity: sha512-GLMG0Jc/jiKov/3Ulid1wbv3r54K9HlMW29IWcDFPEqFkSO2nS0MuefWgMJpeHQ9YJeXDL3ZUF+P3jdXlZX/cQ==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-
-  use-isomorphic-layout-effect@1.1.2:
-    resolution: {integrity: sha512-49L8yCO3iGT/ZF9QttjwLF/ZD9Iwto5LnH5LmEdk/6cFmXddqi2ulF0edxTwjj+7mqvpVVGQWvbXZdn32wRSHA==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-
-  use-latest@1.2.1:
-    resolution: {integrity: sha512-xA+AVm/Wlg3e2P/JiItTziwS7FK92LWrDB0p+hgXloIMuVCeJJ8v6f0eeHyPZaJrM+usM1FkFfbNCrJGs8A/zw==}
-    peerDependencies:
-      '@types/react': '*'
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     peerDependenciesMeta:
       '@types/react':
@@ -9438,14 +9258,6 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@floating-ui/react@0.26.20(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@floating-ui/react-dom': 2.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@floating-ui/utils': 0.2.5
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      tabbable: 6.2.0
-
   '@floating-ui/utils@0.2.5': {}
 
   '@hookform/resolvers@3.9.0(react-hook-form@7.52.1(react@18.2.0))':
@@ -9534,7 +9346,7 @@ snapshots:
       glob-promise: 4.2.2(glob@7.2.3)
       magic-string: 0.27.0
       react-docgen-typescript: 2.2.2(typescript@5.5.4)
-      vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)
+      vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
     optionalDependencies:
       typescript: 5.5.4
 
@@ -9566,51 +9378,6 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.5.0
 
   '@juggle/resize-observer@3.4.0': {}
-
-  '@mantine/core@7.11.2(@mantine/hooks@7.11.2(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@floating-ui/react': 0.26.20(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@mantine/hooks': 7.11.2(react@18.3.1)
-      clsx: 2.1.1
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      react-number-format: 5.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-remove-scroll: 2.5.10(@types/react@18.3.3)(react@18.3.1)
-      react-textarea-autosize: 8.5.3(@types/react@18.3.3)(react@18.3.1)
-      type-fest: 4.23.0
-    transitivePeerDependencies:
-      - '@types/react'
-
-  '@mantine/dates@7.11.2(@mantine/core@7.11.2(@mantine/hooks@7.11.2(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.11.2(react@18.3.1))(dayjs@1.11.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@mantine/core': 7.11.2(@mantine/hooks@7.11.2(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@mantine/hooks': 7.11.2(react@18.3.1)
-      clsx: 2.1.1
-      dayjs: 1.11.12
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-
-  '@mantine/dropzone@7.11.2(@mantine/core@7.11.2(@mantine/hooks@7.11.2(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.11.2(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@mantine/core': 7.11.2(@mantine/hooks@7.11.2(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@mantine/hooks': 7.11.2(react@18.3.1)
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      react-dropzone-esm: 15.0.1(react@18.3.1)
-
-  '@mantine/form@7.11.2(react@18.3.1)':
-    dependencies:
-      fast-deep-equal: 3.1.3
-      klona: 2.0.6
-      react: 18.3.1
-
-  '@mantine/hooks@7.11.2(react@18.3.1)':
-    dependencies:
-      react: 18.3.1
-
-  '@mantine/vanilla-extract@7.11.2(@mantine/core@7.11.2(@mantine/hooks@7.11.2(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))':
-    dependencies:
-      '@mantine/core': 7.11.2(@mantine/hooks@7.11.2(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
   '@mdx-js/react@2.3.0(react@18.2.0)':
     dependencies:
@@ -10710,7 +10477,7 @@ snapshots:
       fs-extra: 11.2.0
       magic-string: 0.30.10
       rollup: 3.29.4
-      vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)
+      vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
     optionalDependencies:
       typescript: 5.5.4
     transitivePeerDependencies:
@@ -11020,7 +10787,7 @@ snapshots:
       react: 18.2.0
       react-docgen: 7.0.3
       react-dom: 18.2.0(react@18.2.0)
-      vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)
+      vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
     transitivePeerDependencies:
       - '@preact/preset-vite'
       - encoding
@@ -11714,8 +11481,8 @@ snapshots:
       lodash: 4.17.21
       mlly: 1.7.1
       outdent: 0.8.0
-      vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)
-      vite-node: 1.6.0(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)
+      vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
+      vite-node: 1.6.0(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -11739,8 +11506,8 @@ snapshots:
       find-up: 5.0.0
       javascript-stringify: 2.1.0
       mlly: 1.7.1
-      vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)
-      vite-node: 1.6.0(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)
+      vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
+      vite-node: 1.6.0(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -11752,7 +11519,7 @@ snapshots:
       - supports-color
       - terser
 
-  '@vanilla-extract/next-plugin@2.4.3(@types/node@20.14.12)(next@14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(sugarss@4.0.1)(terser@5.31.3)(webpack@5.93.0)':
+  '@vanilla-extract/next-plugin@2.4.3(@types/node@20.14.12)(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(sugarss@4.0.1)(terser@5.31.3)(webpack@5.93.0)':
     dependencies:
       '@vanilla-extract/webpack-plugin': 2.3.11(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)(webpack@5.93.0)
       next: 14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -11780,7 +11547,7 @@ snapshots:
       outdent: 0.8.0
       postcss: 8.4.39
       postcss-load-config: 4.0.2(postcss@8.4.39)(ts-node@10.9.2(@types/node@20.14.12)(typescript@5.5.4))
-      vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)
+      vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -11811,7 +11578,7 @@ snapshots:
       - supports-color
       - terser
 
-  '@vercel/analytics@1.3.1(next@14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)':
+  '@vercel/analytics@1.3.1(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)':
     dependencies:
       server-only: 0.0.1
     optionalDependencies:
@@ -11857,7 +11624,7 @@ snapshots:
       '@babel/plugin-transform-react-jsx-source': 7.24.7(@babel/core@7.24.9)
       magic-string: 0.27.0
       react-refresh: 0.14.2
-      vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)
+      vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
     transitivePeerDependencies:
       - supports-color
 
@@ -11868,7 +11635,7 @@ snapshots:
       '@babel/plugin-transform-react-jsx-source': 7.24.7(@babel/core@7.24.9)
       '@types/babel__core': 7.20.5
       react-refresh: 0.14.2
-      vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)
+      vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
     transitivePeerDependencies:
       - supports-color
 
@@ -12438,8 +12205,6 @@ snapshots:
     dependencies:
       no-case: 2.3.2
       upper-case: 1.1.3
-
-  camelcase-css@2.0.1: {}
 
   camelcase-keys@6.2.2:
     dependencies:
@@ -14525,8 +14290,6 @@ snapshots:
 
   kleur@3.0.3: {}
 
-  klona@2.0.6: {}
-
   kolorist@1.8.0: {}
 
   language-subtag-registry@0.3.23: {}
@@ -15223,11 +14986,6 @@ snapshots:
 
   possible-typed-array-names@1.0.0: {}
 
-  postcss-js@4.0.1(postcss@8.4.39):
-    dependencies:
-      camelcase-css: 2.0.1
-      postcss: 8.4.39
-
   postcss-load-config@4.0.2(postcss@8.4.39)(ts-node@10.9.2(@types/node@20.14.12)(typescript@5.5.4)):
     dependencies:
       lilconfig: 3.1.2
@@ -15235,34 +14993,6 @@ snapshots:
     optionalDependencies:
       postcss: 8.4.39
       ts-node: 10.9.2(@types/node@20.14.12)(typescript@5.5.4)
-
-  postcss-mixins@9.0.4(postcss@8.4.39):
-    dependencies:
-      fast-glob: 3.3.2
-      postcss: 8.4.39
-      postcss-js: 4.0.1(postcss@8.4.39)
-      postcss-simple-vars: 7.0.1(postcss@8.4.39)
-      sugarss: 4.0.1(postcss@8.4.39)
-
-  postcss-nested@6.2.0(postcss@8.4.39):
-    dependencies:
-      postcss: 8.4.39
-      postcss-selector-parser: 6.1.1
-
-  postcss-preset-mantine@1.17.0(postcss@8.4.39):
-    dependencies:
-      postcss: 8.4.39
-      postcss-mixins: 9.0.4(postcss@8.4.39)
-      postcss-nested: 6.2.0(postcss@8.4.39)
-
-  postcss-selector-parser@6.1.1:
-    dependencies:
-      cssesc: 3.0.0
-      util-deprecate: 1.0.2
-
-  postcss-simple-vars@7.0.1(postcss@8.4.39):
-    dependencies:
-      postcss: 8.4.39
 
   postcss@8.4.31:
     dependencies:
@@ -15462,11 +15192,6 @@ snapshots:
       react: 18.3.1
       scheduler: 0.23.2
 
-  react-dropzone-esm@15.0.1(react@18.3.1):
-    dependencies:
-      prop-types: 15.8.1
-      react: 18.3.1
-
   react-element-to-jsx-string@15.0.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@base2/pretty-print-object': 1.0.1
@@ -15491,12 +15216,6 @@ snapshots:
 
   react-is@18.3.1: {}
 
-  react-number-format@5.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
-    dependencies:
-      prop-types: 15.8.1
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-
   react-refresh@0.14.2: {}
 
   react-remove-scroll-bar@2.3.6(@types/react@18.3.3)(react@18.2.0):
@@ -15512,17 +15231,6 @@ snapshots:
       react: 18.3.1
       react-style-singleton: 2.2.1(@types/react@18.3.3)(react@18.3.1)
       tslib: 2.6.3
-    optionalDependencies:
-      '@types/react': 18.3.3
-
-  react-remove-scroll@2.5.10(@types/react@18.3.3)(react@18.3.1):
-    dependencies:
-      react: 18.3.1
-      react-remove-scroll-bar: 2.3.6(@types/react@18.3.3)(react@18.3.1)
-      react-style-singleton: 2.2.1(@types/react@18.3.3)(react@18.3.1)
-      tslib: 2.6.3
-      use-callback-ref: 1.3.2(@types/react@18.3.3)(react@18.3.1)
-      use-sidecar: 1.1.2(@types/react@18.3.3)(react@18.3.1)
     optionalDependencies:
       '@types/react': 18.3.3
 
@@ -15565,15 +15273,6 @@ snapshots:
       tslib: 2.6.3
     optionalDependencies:
       '@types/react': 18.3.3
-
-  react-textarea-autosize@8.5.3(@types/react@18.3.3)(react@18.3.1):
-    dependencies:
-      '@babel/runtime': 7.24.8
-      react: 18.3.1
-      use-composed-ref: 1.3.0(react@18.3.1)
-      use-latest: 1.2.1(@types/react@18.3.3)(react@18.3.1)
-    transitivePeerDependencies:
-      - '@types/react'
 
   react@18.2.0:
     dependencies:
@@ -16153,6 +15852,7 @@ snapshots:
   sugarss@4.0.1(postcss@8.4.39):
     dependencies:
       postcss: 8.4.39
+    optional: true
 
   supports-color@5.5.0:
     dependencies:
@@ -16191,8 +15891,6 @@ snapshots:
     dependencies:
       '@pkgr/core': 0.1.1
       tslib: 2.6.3
-
-  tabbable@6.2.0: {}
 
   tapable@2.2.1: {}
 
@@ -16398,8 +16096,6 @@ snapshots:
 
   type-fest@2.19.0: {}
 
-  type-fest@4.23.0: {}
-
   type-is@1.6.18:
     dependencies:
       media-typer: 0.3.0
@@ -16535,23 +16231,6 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.3
 
-  use-composed-ref@1.3.0(react@18.3.1):
-    dependencies:
-      react: 18.3.1
-
-  use-isomorphic-layout-effect@1.1.2(@types/react@18.3.3)(react@18.3.1):
-    dependencies:
-      react: 18.3.1
-    optionalDependencies:
-      '@types/react': 18.3.3
-
-  use-latest@1.2.1(@types/react@18.3.3)(react@18.3.1):
-    dependencies:
-      react: 18.3.1
-      use-isomorphic-layout-effect: 1.1.2(@types/react@18.3.3)(react@18.3.1)
-    optionalDependencies:
-      '@types/react': 18.3.3
-
   use-resize-observer@9.1.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@juggle/resize-observer': 3.4.0
@@ -16608,13 +16287,13 @@ snapshots:
       - '@types/react'
       - '@types/react-dom'
 
-  vite-node@1.6.0(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3):
+  vite-node@1.6.0(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3):
     dependencies:
       cac: 6.7.14
       debug: 4.3.5
       pathe: 1.1.2
       picocolors: 1.0.1
-      vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)
+      vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -16639,13 +16318,13 @@ snapshots:
       typescript: 5.5.4
       vue-tsc: 2.0.19(typescript@5.5.4)
     optionalDependencies:
-      vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)
+      vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
     transitivePeerDependencies:
       - '@types/node'
       - rollup
       - supports-color
 
-  vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3):
+  vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.39
