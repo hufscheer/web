@@ -56,5 +56,6 @@ export const teamLink = style({
 export const button = style({
   marginTop: rem(18),
   marginInline: theme.sizes.appInlinePadding,
+  marginBottom: theme.sizes.appInlinePadding,
   gap: rem(4),
 });

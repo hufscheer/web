@@ -28,14 +28,14 @@ export default function Page() {
       navigationTitle="응원톡 관리"
       navigationMenu={<Link href={`/cheer-talk/blocked`}>가려진 목록</Link>}
     >
-      <Tabs className={styles.tab} defaultValue="all">
+      <Tabs className={styles.tab} defaultValue="ALL">
         <Tabs.List className={styles.tabList}>
           {({ value }) => (
             <div className={styles.tabListContainer}>
               <motion.span
                 className={styles.tabIndicator}
                 initial={{ x: 0 }}
-                animate={{ x: value === 'all' ? 0 : 'calc(100% + 6px)' }}
+                animate={{ x: value === 'ALL' ? 0 : 'calc(100% + 6px)' }}
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
               />
 

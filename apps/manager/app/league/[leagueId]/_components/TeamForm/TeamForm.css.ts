@@ -60,6 +60,14 @@ export const playerItem = style({
   gap: rem(8),
 });
 
+export const playerNameInput = style({
+  flex: 0.7,
+});
+
+export const playerNumberInput = style({
+  flex: 0.3,
+});
+
 export const playerAddButton = style({
   ...theme.layouts.center,
   gap: rem(4),
