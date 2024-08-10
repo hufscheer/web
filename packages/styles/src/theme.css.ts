@@ -60,16 +60,16 @@ export const theme = createGlobalTheme(':root', {
     white: '#FFFFFF',
 
     // black
-    black25: '#FAFAFA',
-    black50: '#EBECEE',
-    black100: '#C1C5CA',
-    black200: '#A3A9B0',
-    black300: '#79828C',
-    black400: '#5F6A75',
-    black500: '#374553',
-    black700: '#27313B',
-    black800: '#1E262E',
-    black900: '#141B21',
+    black25: 'var(--hcc-colors-black-25)',
+    black50: 'var(--hcc-colors-black-50)',
+    black100: 'var(--hcc-colors-black-100)',
+    black200: 'var(--hcc-colors-black-200)',
+    black300: 'var(--hcc-colors-black-300)',
+    black400: 'var(--hcc-colors-black-400)',
+    black500: 'var(--hcc-colors-black-500)',
+    black700: 'var(--hcc-colors-black-700)',
+    black800: 'var(--hcc-colors-black-800)',
+    black900: 'var(--hcc-colors-black-900)',
 
     // accent
     accent: {

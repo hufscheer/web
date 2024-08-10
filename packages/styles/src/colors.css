@@ -1,0 +1,29 @@
+:root {
+    --hcc-colors-white: #FFFFFF;
+    --hcc-colors-black: #000000;
+
+    --hcc-colors-border: #F3F3F5;
+    --hcc-colors-tips: #FBFBFC;
+
+    --hcc-colors-black-25: #FAFAFA;
+    --hcc-colors-black-50: #EBECEE;
+    --hcc-colors-black-100: #C1C5CA;
+    --hcc-colors-black-200: #A3A9B0;
+    --hcc-colors-black-300: #79828C;
+    --hcc-colors-black-400: #5F6A75;
+    --hcc-colors-black-500: #374553;
+    --hcc-colors-black-700: #27313B;
+    --hcc-colors-black-800: #1E262E;
+    --hcc-colors-black-900: #141B21;
+
+    --hcc-colors-blue: #007AFF;
+    --hcc-colors-red: #FC5555;
+}
+
+.manager {
+    --hcc-colors-primary: var(--hcc-colors-black-900);
+}
+
+.spectator {
+    --hcc-colors-primary: var(--hcc-colors-blue);
+}
