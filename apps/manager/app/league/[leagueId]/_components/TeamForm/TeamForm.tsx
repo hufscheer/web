@@ -107,18 +107,19 @@ export const TeamForm = ({ methods, submitText, onSubmit }: TeamFormProps) => {
           />
         </div>
 
-        <div>
+        <div className={styles.playerTitleContainer}>
           <h3 className={styles.formTitle}>선수</h3>
-          <Button
-            type="button"
-            className={styles.playerAddButton}
+          <Badge
+            className={styles.playerAddBadge}
             colorScheme="secondary"
-            fontWeight="semibold"
-            onClick={handleAddPlayer}
+            color="black"
+            asChild
           >
-            <Icon source={AddIcon} size="md" color="black" />
-            선수 추가
-          </Button>
+            <button type="button" onClick={handleAddPlayer}>
+              <Icon source={AddIcon} size="xs" color="black" />
+              선수 추가
+            </button>
+          </Badge>
         </div>
         {fields.length > 0 && (
           <ul className={styles.playerList}>
@@ -157,7 +158,7 @@ export const TeamForm = ({ methods, submitText, onSubmit }: TeamFormProps) => {
             ))}
           </ul>
         )}
-        <Button className={styles.button} type="submit" fullWidth>
+        <Button type="submit" fullWidth>
           {submitText}
         </Button>
       </form>

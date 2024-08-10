@@ -49,7 +49,13 @@ export const logo = style({
   height: rem(88),
 });
 
-export const playerTitleContainer = style({});
+export const playerTitleContainer = style({
+  ...theme.layouts.rowBetween,
+});
+
+export const playerAddBadge = style({
+  border: `${rem(1)} solid ${theme.colors.black50}`,
+});
 
 export const playerList = style({
   ...theme.layouts.column,
@@ -68,13 +74,4 @@ export const playerNameInput = style({
 
 export const playerNumberInput = style({
   flex: 0.3,
-});
-
-export const playerAddButton = style({
-  ...theme.layouts.center,
-  gap: rem(4),
-});
-
-export const button = style({
-  marginTop: rem(6),
 });
