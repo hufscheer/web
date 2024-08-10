@@ -1,11 +1,7 @@
-import '@mantine/core/styles.css';
-import '@mantine/dates/styles.css';
-import '@mantine/dropzone/styles.css';
 import '@hcc/styles/dist/globals.css';
 import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
 
 import { Toaster } from '@hcc/ui';
-import { ColorSchemeScript } from '@mantine/core';
 import { extend } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Metadata, Viewport } from 'next';
@@ -28,7 +24,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#C5C8CE',
+  themeColor: '#FFFFFF',
 };
 
 export default function RootLayout({ children }: RootLayoutProps) {
@@ -37,7 +33,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <head>
         <title>훕치치 매니저</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <ColorSchemeScript />
       </head>
       <body>
         <Providers>

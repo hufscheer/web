@@ -1,38 +1,66 @@
 'use client';
 
-import { Button } from '@mantine/core';
+import { useLeagueTeams } from '@hcc/api';
+import { AddIcon, ChevronForwardIcon } from '@hcc/icons';
+import { Button, Icon } from '@hcc/ui';
+import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useState } from 'react';
 
-import AddButton from '@/components/AddButton';
 import Layout from '@/components/Layout';
 
-export default function Page() {
-  const [edit, setEdit] = useState(false);
-  const pathname = usePathname();
+import * as styles from './page.css';
 
-  const handleClickMenuButton = () => {
-    setEdit(prev => !prev);
-  };
+type PageProps = {
+  params: { leagueId: string };
+};
+
+export default function Page({ params }: PageProps) {
+  const leagueId: string = params.leagueId;
+
+  const { data: leagueTeams } = useLeagueTeams(leagueId);
+  if (!leagueTeams) return null;
 
   return (
-    <Layout
-      navigationTitle="대회 팀 관리"
-      navigationMenu={
-        <Button variant="subtle" onClick={handleClickMenuButton}>
-          {edit ? '완료' : '편집'}
-        </Button>
-      }
-    >
-      <AddButton
-        component={Link}
-        href={{
-          pathname: `${pathname}register`,
-        }}
+    <Layout navigationTitle="대회 내 경기 관리">
+      <ul className={styles.list}>
+        {leagueTeams.map(team => (
+          <li key={team.teamName} className={styles.item}>
+            <span className={styles.teamContainer}>
+              <span className={styles.logoContainer}>
+                <Image
+                  src={team.logoImageUrl}
+                  alt={team.teamName}
+                  width={32}
+                  height={32}
+                />
+              </span>
+              <span className={styles.content}>
+                <h4 className={styles.title}>{team.teamName}</h4>
+                <p className={styles.description}>
+                  {team.sizeOfLeagueTeamPlayers}명
+                </p>
+              </span>
+            </span>
+            <Link
+              className={styles.teamLink}
+              href={`/league/${leagueId}/team/${team.leagueTeamId}`}
+            >
+              <Icon source={ChevronForwardIcon} color="black" size="md" />
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <Button
+        className={styles.button}
+        colorScheme="secondary"
+        fontWeight="semibold"
+        asChild
       >
-        신규 대회 팀 추가
-      </AddButton>
+        <Link href={`/league/${leagueId}/register-team`}>
+          <Icon source={AddIcon} size="md" color="black" />
+          새로운 팀 추가
+        </Link>
+      </Button>
     </Layout>
   );
 }

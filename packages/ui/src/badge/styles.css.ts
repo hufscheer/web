@@ -20,7 +20,7 @@ export const badgeColorScheme = {
     backgroundColor: theme.colors.black900,
   }),
   secondary: style({
-    backgroundColor: theme.colors.black100,
+    backgroundColor: theme.colors.black25,
   }),
   accentPrimary: style({
     backgroundColor: theme.colors.accent.primary,
@@ -30,12 +30,23 @@ export const badgeColorScheme = {
   }),
 };
 
+export const color = {
+  black: {
+    color: theme.colors.black,
+  },
+  white: {
+    color: theme.colors.white,
+  },
+};
+
 export const badgeVariants = recipe({
   base: badgeBase,
   variants: {
     colorScheme: badgeColorScheme,
+    color: color,
   },
   defaultVariants: {
     colorScheme: 'primary',
+    color: 'white',
   },
 });

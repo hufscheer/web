@@ -3,15 +3,7 @@ const withVanillaExtract = createVanillaExtractPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    optimizePackageImports: [
-      '@mantine/core',
-      '@mantine/hooks',
-      '@mantine/dates',
-      '@mantine/dropzone',
-      '@mantine/form',
-    ],
-  },
+  experimental: {},
 
   images: {
     remotePatterns: [
@@ -36,6 +28,10 @@ const nextConfig = {
 
   async rewrites() {
     return [
+      {
+        source: '/api/images/:path*',
+        destination: `https://hufscheer-images.s3.ap-northeast-2.amazonaws.com/:path*`,
+      },
       {
         source: '/api/:path*',
         destination: `https://api.hufstreaming.site/:path*`,

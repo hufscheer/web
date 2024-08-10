@@ -1,6 +1,6 @@
 'use client';
 
-import { MessageIcon, RewardIcon } from '@hcc/icons';
+import { RewardedAdsIcon, SmsIcon } from '@hcc/icons';
 import { Button, Icon, Spinner } from '@hcc/ui';
 import Link from 'next/link';
 import { Suspense } from 'react';
@@ -17,13 +17,13 @@ export default function Page() {
       <nav className={styles.navigation}>
         <Button colorScheme="accentPrimary" asChild fullWidth>
           <Link href={`/league`}>
-            <Icon source={RewardIcon} size={20} />
+            <Icon source={RewardedAdsIcon} size={20} />
             <span className={styles.navigationText}>대회 관리</span>
           </Link>
         </Button>
         <Button colorScheme="accentPrimary" asChild fullWidth>
           <Link href={`/cheer-talk`}>
-            <Icon source={MessageIcon} size={20} />
+            <Icon source={SmsIcon} size={20} />
             <span className={styles.navigationText}>응원톡 관리</span>
           </Link>
         </Button>

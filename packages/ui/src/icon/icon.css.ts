@@ -14,6 +14,7 @@ export const icon = recipe({
       success: { color: theme.colors.indicatorBlue[3] },
       white: { color: theme.colors.white },
       black: { color: theme.colors.black },
+      alert: { color: theme.colors.accent.alert },
     },
   },
 });

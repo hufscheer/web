@@ -2,26 +2,22 @@ import { rem, theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 
 export const wrapper = style({
+  ...theme.layouts.center,
   position: 'fixed',
   left: 0,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
   width: '100%',
-  height: rem(69),
-  backgroundColor: theme.colors.white,
+  backgroundColor: theme.colors.black25,
   borderBottom: `${rem(1)} solid ${theme.colors.black25}`,
   zIndex: theme.zIndices.navigation,
 });
 
 export const container = style({
+  ...theme.layouts.center,
   position: 'relative',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
   width: '100%',
+  height: rem(69),
   maxWidth: theme.sizes.appWidth,
-  height: '100%',
+  backgroundColor: theme.colors.white,
 });
 
 export const backButton = style({

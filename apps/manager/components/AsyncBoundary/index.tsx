@@ -1,4 +1,4 @@
-import { QueryErrorResetBoundary } from '@tanstack/react-query';
+import { QueryErrorResetBoundary } from '@hcc/api';
 import { ReactNode, Suspense } from 'react';
 
 import ErrorBoundary, { FallbackProps } from '../ErrorBoundary';

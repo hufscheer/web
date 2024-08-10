@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowLeftIcon } from '@hcc/icons';
+import { ArrowBackIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
@@ -18,7 +18,7 @@ export default function Navigation({ title, menu }: NavigationProps) {
     <nav className={styles.wrapper}>
       <div className={styles.container}>
         <button className={styles.backButton} onClick={() => router.back()}>
-          <Icon source={ArrowLeftIcon} size={14} />
+          <Icon source={ArrowBackIcon} size="md" />
         </button>
         {title && <p className={styles.title}>{title}</p>}
         {menu && <span className={styles.menuContainer}>{menu}</span>}
