@@ -74,3 +74,7 @@ export const playerAddButton = style({
   ...theme.layouts.center,
   gap: rem(4),
 });
+
+export const button = style({
+  marginTop: rem(6),
+});

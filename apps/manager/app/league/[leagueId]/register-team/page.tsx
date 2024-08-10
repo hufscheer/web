@@ -50,8 +50,10 @@ export default function Page({ params }: PageProps) {
         await generatePresignedUrlMutation({ extension }),
       );
 
-      const uploadUrl: string = '/api/images/' + url.pathname + url.search;
-      await uploadImageMutation({ url: uploadUrl, file: data.logo });
+      await uploadImageMutation({
+        url: url.pathname + url.search,
+        file: data.logo,
+      });
 
       imageUrl = url.origin + url.pathname;
     } else {
@@ -87,21 +89,9 @@ export default function Page({ params }: PageProps) {
     );
   };
 
-  const onError = () => {
-    toast({
-      title: '모든 정보를 입력해주세요',
-      variant: 'destructive',
-    });
-  };
-
   return (
-    <Layout
-      navigationTitle="새로운 팀 추가"
-      navigationMenu={
-        <button onClick={methods.handleSubmit(onSubmit, onError)}>저장</button>
-      }
-    >
-      <TeamForm methods={methods} />
+    <Layout navigationTitle="새로운 팀 추가">
+      <TeamForm methods={methods} submitText="저장" onSubmit={onSubmit} />
     </Layout>
   );
 }

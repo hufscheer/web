@@ -60,7 +60,7 @@ export const theme = createGlobalTheme(':root', {
     white: '#FFFFFF',
 
     // black
-    black25: '#F5F5F7',
+    black25: '#FAFAFA',
     black50: '#EBECEE',
     black100: '#C1C5CA',
     black200: '#A3A9B0',

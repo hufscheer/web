@@ -17,16 +17,18 @@ import {
   Input,
   Uploader,
 } from '@hcc/ui';
-import { useFieldArray, UseFormReturn } from 'react-hook-form';
+import { SubmitHandler, useFieldArray, UseFormReturn } from 'react-hook-form';
 
 import * as styles from './TeamForm.css';
 import { TeamFormSchema } from './types';
 
 type TeamFormProps = {
   methods: UseFormReturn<TeamFormSchema>;
+  submitText: string;
+  onSubmit: SubmitHandler<TeamFormSchema>;
 };
 
-export const TeamForm = ({ methods }: TeamFormProps) => {
+export const TeamForm = ({ methods, submitText, onSubmit }: TeamFormProps) => {
   const { fields, append, remove } = useFieldArray({
     control: methods.control,
     name: 'players',
@@ -42,7 +44,7 @@ export const TeamForm = ({ methods }: TeamFormProps) => {
 
   return (
     <Form {...methods}>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={methods.handleSubmit(onSubmit)}>
         <h3 className={styles.formTitle}>팀 정보</h3>
         <div className={styles.innerFormContainer}>
           <FormField
@@ -155,6 +157,9 @@ export const TeamForm = ({ methods }: TeamFormProps) => {
             ))}
           </ul>
         )}
+        <Button className={styles.button} type="submit" fullWidth>
+          {submitText}
+        </Button>
       </form>
     </Form>
   );

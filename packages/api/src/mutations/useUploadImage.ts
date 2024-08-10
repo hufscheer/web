@@ -15,6 +15,7 @@ const postUploadImage = async ({ url, file }: Request) => {
   );
 
   return axios.put<void>(requestUrl, arrayBuffer, {
+    baseURL: '/api/images',
     headers: {
       'Content-Type': file.type,
       'Content-Length': arrayBuffer.byteLength.toString(),

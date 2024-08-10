@@ -2,27 +2,24 @@ import { rem, theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 
 export const wrapper = style({
+  ...theme.layouts.center,
   position: 'fixed',
   top: 0,
   left: 0,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
   width: '100%',
-  height: rem(69),
-  backgroundColor: theme.colors.white,
+  backgroundColor: theme.colors.black25,
   borderBottom: `${rem(1)} solid ${theme.colors.black25}`,
   zIndex: theme.zIndices.header,
 });
 
 export const container = style({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
+  ...theme.layouts.rowBetween,
   width: '100%',
   maxWidth: theme.sizes.appWidth,
+  height: rem(69),
   paddingInline: theme.sizes.appInlinePadding,
   marginInline: 'auto',
+  backgroundColor: theme.colors.white,
 });
 
 export const logoLink = style({
