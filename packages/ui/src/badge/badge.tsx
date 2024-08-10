@@ -13,7 +13,14 @@ type BadgeProps = {
 
 const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
   (
-    { asChild = false, colorScheme = 'primary', className, children, ...props },
+    {
+      asChild = false,
+      colorScheme = 'primary',
+      color = 'white',
+      className,
+      children,
+      ...props
+    },
     ref,
   ) => {
     const Comp = asChild ? Slot : 'span';
@@ -21,7 +28,10 @@ const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
     return (
       <Comp
         ref={ref}
-        className={clsx(styles.badgeVariants({ colorScheme }), className)}
+        className={clsx(
+          styles.badgeVariants({ colorScheme, color }),
+          className,
+        )}
         {...props}
       >
         {children}
