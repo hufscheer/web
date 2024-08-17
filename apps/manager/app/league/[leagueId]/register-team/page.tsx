@@ -8,6 +8,7 @@ import {
 } from '@hcc/api';
 import { useToast } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 import Layout from '@/components/Layout';
@@ -25,6 +26,7 @@ type PageProps = {
 
 export default function Page({ params }: PageProps) {
   const leagueId: string = params.leagueId;
+  const router = useRouter();
 
   const { toast } = useToast();
 
@@ -70,7 +72,7 @@ export default function Page({ params }: PageProps) {
     };
 
     createLeagueTeamMutation(
-      { leagueId, team },
+      { leagueId, ...team },
       {
         onSuccess: () => {
           toast({
@@ -78,6 +80,7 @@ export default function Page({ params }: PageProps) {
             variant: 'destructive',
           });
           methods.reset();
+          router.back();
         },
         onError: () => {
           toast({

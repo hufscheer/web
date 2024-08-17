@@ -11,7 +11,7 @@ type Request = TeamCreateType & {
 const postCreateLeagueTeam = (request: Request) => {
   const { leagueId, ...rest } = request;
   return fetcher.post<void>(`/leagues/${leagueId}/teams`, {
-    rest,
+    ...rest,
   });
 };
 
