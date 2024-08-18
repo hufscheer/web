@@ -4,13 +4,13 @@ import { style } from '@vanilla-extract/css';
 export const stateContainer = style({
   paddingBlock: rem(16),
   paddingInline: theme.sizes.appInlinePadding,
-  color: theme.colors.black800,
+  color: theme.colors.gray800,
   fontWeight: 600,
 });
 
 export const noGamesMessage = style({
   paddingBlock: rem(24),
-  color: theme.colors.black300,
+  color: theme.colors.gray300,
   fontSize: rem(14),
   fontWeight: 500,
   textAlign: 'center',
@@ -21,5 +21,5 @@ export const gameDivider = style({
   height: rem(1),
   marginInline: theme.sizes.appInlinePadding,
   border: 0,
-  backgroundColor: theme.colors.black25,
+  backgroundColor: theme.colors.gray25,
 });

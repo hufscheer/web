@@ -6,8 +6,8 @@ import localFont from 'next/font/local';
 import { ReactNode } from 'react';
 
 import Providers from './Providers';
-import '@hcc/styles/src/colors.css';
 import '@hcc/styles/dist/globals.css';
+import '@hcc/styles/colors.css';
 
 extend(customParseFormat);
 
@@ -36,7 +36,7 @@ const pretendard = localFont({
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="ko">
+    <html lang="ko" data-hcc="manager">
       <head>
         <title>훕치치 매니저</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />

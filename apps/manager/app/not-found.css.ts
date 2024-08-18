@@ -7,7 +7,7 @@ export const branding = style({
   left: '50%',
   transform: 'translateX(-50%)',
 
-  color: theme.colors.black900,
+  color: theme.colors.gray900,
   fontSize: rem(20),
   fontWeight: 600,
   lineHeight: '110%',
@@ -26,14 +26,14 @@ export const errorContainer = style({
 });
 
 export const errorCode = style({
-  color: theme.colors.black900,
+  color: theme.colors.gray900,
   fontSize: rem(96),
   fontWeight: 300,
   lineHeight: '100%',
 });
 
 export const errorMessage = style({
-  color: theme.colors.black400,
+  color: theme.colors.gray400,
   fontWeight: 500,
   lineHeight: '100%',
 });

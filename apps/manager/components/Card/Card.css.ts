@@ -10,7 +10,7 @@ export const root = style({
 
 export const headContainer = style({
   ...theme.layouts.rowBetween,
-  color: theme.colors.black300,
+  color: theme.colors.gray300,
   fontSize: rem(14),
   fontWeight: 500,
 });
@@ -25,7 +25,7 @@ export const gameScoreContainer = style({
 
 export const gameTeamContainer = style({
   ...theme.layouts.centerY,
-  color: theme.colors.black900,
+  color: theme.colors.gray900,
   fontSize: rem(14),
   fontWeight: 500,
   gap: rem(10),
@@ -41,14 +41,14 @@ export const gameTeamLogo = style({
 
 export const gameScore = recipe({
   base: {
-    color: theme.colors.black900,
+    color: theme.colors.gray900,
     fontSize: rem(14),
     fontWeight: 500,
   },
   variants: {
     win: {
-      true: { color: theme.colors.black900 },
-      false: { color: theme.colors.black300 },
+      true: { color: theme.colors.gray900 },
+      false: { color: theme.colors.gray300 },
     },
   },
 });

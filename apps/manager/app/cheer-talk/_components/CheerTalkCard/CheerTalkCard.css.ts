@@ -12,14 +12,14 @@ export const card = style({
 });
 
 export const time = style({
-  color: theme.colors.black300,
+  color: theme.colors.gray300,
   fontSize: rem(12),
   fontWeight: 500,
   lineHeight: '100%',
 });
 
 export const content = style({
-  color: theme.colors.black900,
+  color: theme.colors.gray900,
   fontSize: rem(16),
   fontWeight: 500,
   lineHeight: '140%',

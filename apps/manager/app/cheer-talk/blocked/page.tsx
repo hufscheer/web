@@ -24,7 +24,7 @@ export default function Page() {
           })
         }
       >
-        <Button colorScheme="accentPrimary" size="xs" fullWidth>
+        <Button colorScheme="primary" size="xs" fullWidth>
           가리기 해제
         </Button>
       </AlertDialog>

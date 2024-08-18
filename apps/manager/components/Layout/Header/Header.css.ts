@@ -7,8 +7,8 @@ export const wrapper = style({
   top: 0,
   left: 0,
   width: '100%',
-  backgroundColor: theme.colors.black25,
-  borderBottom: `${rem(1)} solid ${theme.colors.black25}`,
+  backgroundColor: theme.colors.gray25,
+  borderBottom: `${rem(1)} solid ${theme.colors.gray25}`,
   zIndex: theme.zIndices.header,
 });
 
@@ -31,5 +31,5 @@ export const logoLink = style({
 export const logoSubtitle = style({
   fontSize: rem(18),
   fontWeight: '600',
-  color: theme.colors.black900,
+  color: theme.colors.gray900,
 });

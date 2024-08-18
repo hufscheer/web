@@ -6,5 +6,5 @@ export const divider = style({
   height: rem(1),
   marginLeft: 'calc((var(--vw, 1vw) * -50) + 50%)',
   border: 'none',
-  backgroundColor: theme.colors.black25,
+  backgroundColor: theme.colors.gray25,
 });

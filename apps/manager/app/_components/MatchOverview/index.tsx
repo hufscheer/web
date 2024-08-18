@@ -43,7 +43,7 @@ const MatchOverview = ({ state }: MatchOverviewProps) => {
             <Fragment key={game.id}>
               <Card.Root>
                 <Card.Head>
-                  <Tag>{game.gameQuarter}</Tag>
+                  <Tag colorScheme="alert">{game.gameQuarter}</Tag>
                   {formatTime(game.startTime, 'YYYY.MM.DD. (ddd) HH:mm')}
                 </Card.Head>
                 <Card.Content marginTop={16} gap={8}>

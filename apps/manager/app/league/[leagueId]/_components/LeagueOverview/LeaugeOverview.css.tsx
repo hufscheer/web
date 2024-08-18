@@ -12,19 +12,19 @@ export const headContainer = style({
 });
 
 export const title = style({
-  color: theme.colors.black800,
+  color: theme.colors.gray800,
   fontSize: rem(20),
   fontWeight: 600,
   lineHeight: '100%',
 });
 
 export const manageLink = style({
-  color: theme.colors.black300,
+  color: theme.colors.gray300,
   fontWeight: 500,
 });
 
 export const description = style({
-  color: theme.colors.black300,
+  color: theme.colors.gray300,
   fontSize: rem(14),
   fontWeight: 500,
   lineHeight: '100%',

@@ -28,6 +28,6 @@ export const title = style({
 
 export const description = style({
   fontSize: rem(14),
-  color: theme.colors.black300,
+  color: theme.colors.gray300,
   wordBreak: 'keep-all',
 });
