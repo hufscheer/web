@@ -1,6 +1,17 @@
 import { rem, theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 
+export const layout = style({
+  ...theme.layouts.columnCenterX,
+
+  width: '100%',
+  maxWidth: theme.sizes.appWidth,
+  marginInline: 'auto',
+  height: '100vh',
+  overflow: 'hidden',
+  backgroundColor: theme.colors.white,
+});
+
 export const branding = style({
   position: 'absolute',
   top: rem(22),
@@ -43,8 +54,15 @@ export const homeLinkContainer = style({
   left: 0,
   bottom: rem(30),
   width: '100%',
-  paddingInline: theme.sizes.appInlinePadding,
   paddingBottom: 'env(safe-area-inset-bottom)',
+});
+
+export const homeLinkWrapper = style({
+  ...theme.layouts.center,
+  width: '100%',
+  maxWidth: theme.sizes.appWidth,
+  paddingInline: theme.sizes.appInlinePadding,
+  marginInline: 'auto',
 });
 
 export const homeLink = style({
@@ -52,12 +70,10 @@ export const homeLink = style({
 
   width: '100%',
   height: rem(60),
-  maxWidth: theme.sizes.appWidth,
-  marginInline: 'auto',
 
   color: theme.colors.white,
   fontWeight: 500,
   lineHeight: '100%',
   borderRadius: rem(8),
-  backgroundColor: theme.colors.accent.primary,
+  backgroundColor: theme.colors.blue600,
 });

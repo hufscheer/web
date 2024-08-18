@@ -15,15 +15,15 @@ export default function Page() {
   return (
     <Layout headerVisible={true} navigationVisible={false}>
       <nav className={styles.navigation}>
-        <Button asChild fullWidth>
+        <Button colorScheme="blue" asChild fullWidth>
           <Link href={`/league`}>
-            <Icon source={RewardedAdsIcon} size={20} />
+            <Icon source={RewardedAdsIcon} color="blue" size={20} />
             <span className={styles.navigationText}>대회 관리</span>
           </Link>
         </Button>
-        <Button asChild fullWidth>
+        <Button colorScheme="blue" asChild fullWidth>
           <Link href={`/cheer-talk`}>
-            <Icon source={SmsIcon} size={20} />
+            <Icon source={SmsIcon} color="blue" size={20} />
             <span className={styles.navigationText}>응원톡 관리</span>
           </Link>
         </Button>

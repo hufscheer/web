@@ -72,7 +72,7 @@ export const footer = style({
 
 export const title = style({
   margin: 0,
-  color: theme.colors.black900,
+  color: theme.colors.gray900,
   fontSize: rem(18),
   fontWeight: 600,
   lineHeight: '140%',
@@ -81,7 +81,7 @@ export const title = style({
 export const description = style({
   margin: 0,
   marginTop: rem(8),
-  color: theme.colors.black300,
+  color: theme.colors.gray300,
   fontSize: rem(16),
   fontWeight: 500,
   lineHeight: '140%',

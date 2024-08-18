@@ -87,7 +87,7 @@ const BottomSheetDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Description
     ref={ref}
-    className={clsx(styles.decription, className)}
+    className={clsx(styles.description, className)}
     {...props}
   />
 ));

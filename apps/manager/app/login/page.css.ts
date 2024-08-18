@@ -26,7 +26,7 @@ export const tag = style({
   height: 'fit-content',
   paddingBlock: rem(6),
   paddingInline: theme.spaces.xs,
-  color: '#007AFF',
+  color: theme.colors.blue600,
   fontSize: rem(14),
   fontWeight: '600',
   borderRadius: rem(8),

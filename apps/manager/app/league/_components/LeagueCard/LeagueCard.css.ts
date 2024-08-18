@@ -7,7 +7,7 @@ export const leagueHeader = style({
 
 export const leagueName = style({
   marginLeft: rem(8),
-  color: theme.colors.black800,
+  color: theme.colors.gray800,
   fontSize: rem(16),
   fontWeight: 600,
 });
@@ -17,11 +17,11 @@ export const divider = style({
   width: '100%',
   marginBlock: rem(18),
   border: 0,
-  backgroundColor: theme.colors.brFill,
+  backgroundColor: theme.colors.border,
 });
 
 export const leagueDescription = style({
-  color: theme.colors.black300,
+  color: theme.colors.gray300,
   fontSize: rem(14),
   fontWeight: 500,
   lineHeight: '100%',

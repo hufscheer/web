@@ -36,7 +36,7 @@ globalStyle('.react-calendar button:enabled:hover', {
 });
 
 globalStyle('.react-calendar__navigation button:disabled', {
-  backgroundColor: theme.colors.black50,
+  backgroundColor: theme.colors.gray50,
 });
 
 globalStyle('.react-calendar__month-view__weekdays', {
@@ -49,7 +49,7 @@ globalStyle('.react-calendar__month-view__weekdays', {
 });
 
 globalStyle('.react-calendar__tile:disabled', {
-  backgroundColor: theme.colors.black100,
+  backgroundColor: theme.colors.gray100,
   color: theme.colors.white,
 });
 
@@ -137,7 +137,7 @@ globalStyle('.react-calendar__tile', {
 globalStyle(
   '.react-calendar__tile:enabled:hover, .react-calendar__tile:enabled:focus',
   {
-    backgroundColor: theme.colors.black50,
+    backgroundColor: theme.colors.gray50,
   },
 );
 

@@ -34,7 +34,7 @@ export const content = style({
   minWidth: rem(300),
   maxWidth: rem(438),
   borderRadius: rem(8),
-  border: `1px solid ${theme.colors.black25}`,
+  border: `1px solid ${theme.colors.gray25}`,
   backgroundColor: backgroundColor,
   padding: rem(16),
   color: color,

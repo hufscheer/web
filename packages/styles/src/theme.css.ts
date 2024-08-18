@@ -11,6 +11,8 @@ export const theme = createGlobalTheme(':root', {
       '4': '#2735BD',
       '5': '#121E8A',
       '6': '#050D57',
+      normal: 'var(--hcc-colors-primary)',
+      light: 'var(--hcc-colors-primary-light)',
     },
     secondary: {
       '1': '#F9FBFD',
@@ -56,36 +58,42 @@ export const theme = createGlobalTheme(':root', {
       secondary: '#F7F8F9',
       light: '#D5D5DC',
     },
-    black: '#14191F',
-    white: '#FFFFFF',
+    black: 'var(--hcc-colors-black)',
+    white: 'var(--hcc-colors-white)',
 
-    // black
-    black25: 'var(--hcc-colors-black-25)',
-    black50: 'var(--hcc-colors-black-50)',
-    black100: 'var(--hcc-colors-black-100)',
-    black200: 'var(--hcc-colors-black-200)',
-    black300: 'var(--hcc-colors-black-300)',
-    black400: 'var(--hcc-colors-black-400)',
-    black500: 'var(--hcc-colors-black-500)',
-    black700: 'var(--hcc-colors-black-700)',
-    black800: 'var(--hcc-colors-black-800)',
-    black900: 'var(--hcc-colors-black-900)',
+    // gray
+    gray25: 'var(--hcc-colors-gray-25)',
+    gray50: 'var(--hcc-colors-gray-50)',
+    gray100: 'var(--hcc-colors-gray-100)',
+    gray200: 'var(--hcc-colors-gray-200)',
+    gray300: 'var(--hcc-colors-gray-300)',
+    gray400: 'var(--hcc-colors-gray-400)',
+    gray500: 'var(--hcc-colors-gray-500)',
+    gray700: 'var(--hcc-colors-gray-700)',
+    gray800: 'var(--hcc-colors-gray-800)',
+    gray900: 'var(--hcc-colors-gray-900)',
 
-    // accent
-    accent: {
-      captain: '#F87904',
-      green: '#1ADA3B',
-      alert: '#FC5555',
-      alertLight: '#FFF2F1',
-      primary: '#007AFF',
-      primaryLight: '#F2F8FF',
+    // blue
+    blue200: 'var(--hcc-colors-blue-200)',
+    blue600: 'var(--hcc-colors-blue-600)',
+
+    // red
+    red200: 'var(--hcc-colors-red-200)',
+    red500: 'var(--hcc-colors-red-500)',
+    red600: 'var(--hcc-colors-red-600)',
+
+    // green
+    green600: 'var(--hcc-colors-green-600)',
+
+    // alert
+    alert: {
+      normal: 'var(--hcc-colors-alert)',
+      light: 'var(--hcc-colors-alert-light)',
     },
 
-    // br
-    br100: '#F3F3F5',
-    br200: '#F3F3F5',
-    brFill: '#F3F3F5',
-    tips: '#FBFBFC',
+    // other
+    border: 'var(--hcc-colors-border)',
+    tip: 'var(--hcc-colors-tip)',
   },
 
   shadows: {

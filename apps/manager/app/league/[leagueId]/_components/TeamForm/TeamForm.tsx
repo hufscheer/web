@@ -77,7 +77,7 @@ export const TeamForm = ({ methods, submitText, onSubmit }: TeamFormProps) => {
                       </span>
                     )}
                   </Uploader>
-                  <Badge colorScheme="alert" asChild>
+                  <Badge colorScheme="red" asChild>
                     <button type="button" onClick={handleImageRemove}>
                       <Icon
                         source={DeleteForeverOutlineIcon}
@@ -152,7 +152,7 @@ export const TeamForm = ({ methods, submitText, onSubmit }: TeamFormProps) => {
                   )}
                 />
                 <button type="button" onClick={() => remove(index)}>
-                  <Icon source={CancelIcon} size="md" color="alert" />
+                  <Icon source={CancelIcon} size="md" color="red" />
                 </button>
               </li>
             ))}

@@ -34,7 +34,7 @@ export const bar = style({
   height: rem(6),
   width: rem(100),
   borderRadius: 9999,
-  backgroundColor: theme.colors.black50,
+  backgroundColor: theme.colors.gray50,
 });
 
 export const header = style({
@@ -53,14 +53,14 @@ export const footer = style({
 });
 
 export const title = style({
-  color: theme.colors.black900,
+  color: theme.colors.gray900,
   fontSize: rem(24),
   fontWeight: 600,
   lineHeight: 1,
   letterSpacing: rem(-0.5),
 });
 
-export const decription = style({
-  color: theme.colors.black400,
+export const description = style({
+  color: theme.colors.gray400,
   fontSize: rem(16),
 });

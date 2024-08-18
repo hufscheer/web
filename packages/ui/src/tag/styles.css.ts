@@ -15,12 +15,20 @@ const base = style({
 
 const colorScheme = {
   primary: {
-    color: theme.colors.white,
-    backgroundColor: theme.colors.accent.alert,
+    color: 'var(--hcc-tag-primary-color)',
+    backgroundColor: 'var(--hcc-tag-primary-background)',
   },
   secondary: {
-    color: theme.colors.black400,
-    backgroundColor: '#F3F3F5',
+    color: 'var(--hcc-tag-secondary-color)',
+    backgroundColor: 'var(--hcc-tag-secondary-background)',
+  },
+  blue: {
+    color: 'var(--hcc-tag-blue-color)',
+    backgroundColor: 'var(--hcc-tag-blue-background)',
+  },
+  red: {
+    color: 'var(--hcc-tag-red-color)',
+    backgroundColor: 'var(--hcc-tag-red-background)',
   },
 };
 

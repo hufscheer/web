@@ -24,7 +24,7 @@
     --hcc-colors-green-600: #1ADA3B;
 
     --hcc-colors-border: #F3F3F5;
-    --hcc-colors-tips: #FBFBFC;
+    --hcc-colors-tip: #FBFBFC;
 
     --hcc-colors-primary: var(--hcc-colors-blue-600);
     --hcc-colors-primary-light: var(--hcc-colors-blue-200);
@@ -50,19 +50,28 @@
     --hcc-button-secondary-invalid-color: var(--hcc-colors-white);
     --hcc-button-secondary-invalid-background: var(--hcc-colors-gray-100);
 
-    --hcc-button-alert-color: var(--hcc-colors-alert);
-    --hcc-button-alert-background: var(--hcc-colors-alert-light);
-    --hcc-button-alert-hover-color: var(--hcc-colors-alert);
-    --hcc-button-alert-hover-background: var(--hcc-colors-alert-light);
-    --hcc-button-alert-invalid-color: var(--hcc-colors-alert);
-    --hcc-button-alert-invalid-background: var(--hcc-colors-alert-light);
+    --hcc-button-blue-color: var(--hcc-colors-blue-600);
+    --hcc-button-blue-background: var(--hcc-colors-blue-200);
+    --hcc-button-blue-hover-color: var(--hcc-colors-blue-600);
+    --hcc-button-blue-hover-background: var(--hcc-colors-blue-200);
+    --hcc-button-blue-invalid-color: var(--hcc-colors-blue-600);
+    --hcc-button-blue-invalid-background: var(--hcc-colors-blue-200);
+
+    --hcc-button-red-color: var(--hcc-colors-red-600);
+    --hcc-button-red-background: var(--hcc-colors-red-200);
+    --hcc-button-red-hover-color: var(--hcc-colors-red-600);
+    --hcc-button-red-hover-background: var(--hcc-colors-red-200);
+    --hcc-button-red-invalid-color: var(--hcc-colors-red-600);
+    --hcc-button-red-invalid-background: var(--hcc-colors-red-200);
 
     --hcc-tag-primary-color: var(--hcc-colors-white);
     --hcc-tag-primary-background: var(--hcc-colors-primary);
     --hcc-tag-secondary-color: var(--hcc-colors-gray-400);
     --hcc-tag-secondary-background: var(--hcc-colors-border);
-    --hcc-tag-alert-color: var(--hcc-colors-white);
-    --hcc-tag-alert-background: var(--hcc-colors-alert);
+    --hcc-tag-blue-color: var(--hcc-colors-white);
+    --hcc-tag-blue-background: var(--hcc-colors-blue-600);
+    --hcc-tag-red-color: var(--hcc-colors-white);
+    --hcc-tag-red-background: var(--hcc-colors-red-600);
 }
 
 :root[data-hcc="manager"] {

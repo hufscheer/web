@@ -5,7 +5,7 @@ import { ComponentPropsWithoutRef, forwardRef } from 'react';
 
 import * as styles from './styles.css';
 
-type ButtonVariants = RecipeVariants<typeof styles.buttonVariants>;
+type ButtonVariants = RecipeVariants<typeof styles.variants>;
 type ButtonProps = {
   asChild?: boolean;
 } & ComponentPropsWithoutRef<'button'> &
@@ -32,7 +32,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         ref={ref}
         className={clsx(
-          styles.buttonVariants({
+          styles.variants({
             colorScheme,
             fullWidth,
             justify,
