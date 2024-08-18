@@ -21,7 +21,7 @@ export default function Page({ params }: PageProps) {
   if (!leagueTeams) return null;
 
   return (
-    <Layout navigationTitle="대회 내 경기 관리">
+    <Layout navigationTitle="참가 팀 관리">
       <ul className={styles.list}>
         {leagueTeams.map(team => (
           <li key={team.teamName} className={styles.item}>
