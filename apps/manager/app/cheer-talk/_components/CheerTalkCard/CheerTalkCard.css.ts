@@ -7,7 +7,7 @@ export const card = style({
   maxWidth: rem(267),
   padding: rem(10),
   borderRadius: rem(8),
-  backgroundColor: theme.colors.tips,
+  backgroundColor: theme.colors.tip,
   gap: rem(4),
 });
 

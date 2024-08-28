@@ -6,7 +6,7 @@ export const root = style({
   bottom: 0,
   left: 0,
   width: 'calc(var(--vw, 1vw) * 100)',
-  backgroundColor: theme.colors.tips,
+  backgroundColor: theme.colors.tip,
 });
 
 export const innerContainer = style({

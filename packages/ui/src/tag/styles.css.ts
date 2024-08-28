@@ -14,22 +14,22 @@ const base = style({
 });
 
 const colorScheme = {
-  primary: {
-    color: 'var(--hcc-tag-primary-color)',
-    backgroundColor: 'var(--hcc-tag-primary-background)',
-  },
-  secondary: {
-    color: 'var(--hcc-tag-secondary-color)',
-    backgroundColor: 'var(--hcc-tag-secondary-background)',
-  },
-  blue: {
-    color: 'var(--hcc-tag-blue-color)',
-    backgroundColor: 'var(--hcc-tag-blue-background)',
-  },
-  red: {
-    color: 'var(--hcc-tag-red-color)',
-    backgroundColor: 'var(--hcc-tag-red-background)',
-  },
+  primary: style({
+    color: theme.colors.white,
+    backgroundColor: theme.colors.primary.normal,
+  }),
+  secondary: style({
+    color: theme.colors.gray400,
+    backgroundColor: theme.colors.border,
+  }),
+  blue: style({
+    color: theme.colors.white,
+    backgroundColor: theme.colors.blue600,
+  }),
+  red: style({
+    color: theme.colors.white,
+    backgroundColor: theme.colors.red600,
+  }),
 };
 
 export const variants = recipe({

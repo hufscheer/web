@@ -14,14 +14,6 @@ export const theme = createGlobalTheme(':root', {
       normal: 'var(--hcc-colors-primary)',
       light: 'var(--hcc-colors-primary-light)',
     },
-    secondary: {
-      '1': '#F9FBFD',
-      '2': '#D3E2F6',
-      '3': '#A9B9CD',
-      '4': '#8291A5',
-      '5': '#5E6B7C',
-      '6': '#3C4653',
-    },
     indicatorBlue: {
       '1': '#EFF6FF',
       '2': '#BEDDFF',
@@ -38,13 +30,15 @@ export const theme = createGlobalTheme(':root', {
       '5': '#99130B',
       '6': '#660600',
     },
-    indicatorGreen: {
-      '1': '#E9FFF7',
-      '2': '#A9FFE1',
-      '3': '#68FFCC',
-      '4': '#23E2A1',
-      '5': '#069E6A',
-      '6': '#005A3B',
+    secondary: {
+      '1': '#F9FBFD',
+      '2': '#D3E2F6',
+      '3': '#A9B9CD',
+      '4': '#8291A5',
+      '5': '#5E6B7C',
+      '6': '#3C4653',
+      normal: 'var(--hcc-colors-secondary)',
+      light: 'var(--hcc-colors-secondary-light)',
     },
     gray: {
       '1': '#F7F8F9',

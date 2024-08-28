@@ -9,7 +9,7 @@ const ReportedCheerTalk = () => {
   const ActionButton = (cheerTalkId: number) => {
     return (
       <Button
-        colorScheme="alert"
+        colorScheme="red"
         size="xs"
         fullWidth
         onClick={() =>

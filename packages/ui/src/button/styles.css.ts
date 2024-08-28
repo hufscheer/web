@@ -2,6 +2,15 @@ import { rem, theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
+const colors = {
+  primaryColor: 'var(--hcc-button-primary-color)',
+  primaryBackground: 'var(--hcc-button-primary-background)',
+  primaryHoverColor: 'var(--hcc-button-primary-hover-color)',
+  primaryHoverBackground: 'var(--hcc-button-primary-hover-background)',
+  primaryInvalidColor: 'var(--hcc-button-primary-invalid-color)',
+  primaryInvalidBackground: 'var(--hcc-button-primary-invalid-background)',
+};
+
 export const base = style({
   ...theme.layouts.center,
   paddingInline: rem(18),
@@ -16,58 +25,58 @@ export const base = style({
 
 export const colorScheme = {
   primary: style({
-    color: 'var(--hcc-button-primary-color)',
-    backgroundColor: 'var(--hcc-button-primary-background)',
+    color: colors.primaryColor,
+    backgroundColor: colors.primaryBackground,
     ':hover': {
-      color: 'var(--hcc-button-primary-hover-color)',
-      backgroundColor: 'var(--hcc-button-primary-hover-background)',
+      color: colors.primaryHoverColor,
+      backgroundColor: colors.primaryHoverBackground,
     },
     selectors: {
       '&[aria-invalid="true"]': {
-        color: 'var(--hcc-button-primary-invalid-color)',
-        backgroundColor: 'var(--hcc-button-primary-invalid-background)',
+        color: colors.primaryInvalidColor,
+        backgroundColor: colors.primaryInvalidBackground,
       },
     },
   }),
   secondary: style({
-    color: 'var(--hcc-button-secondary-color)',
-    backgroundColor: 'var(--hcc-button-secondary-background)',
+    color: theme.colors.secondary.normal,
+    backgroundColor: theme.colors.secondary.light,
     ':hover': {
-      color: 'var(--hcc-button-secondary-hover-color)',
-      backgroundColor: 'var(--hcc-button-secondary-hover-background)',
+      color: theme.colors.secondary.normal,
+      backgroundColor: theme.colors.gray50,
     },
     selectors: {
       '&[aria-invalid="true"]': {
-        color: 'var(--hcc-button-secondary-invalid-color)',
-        backgroundColor: 'var(--hcc-button-secondary-invalid-background)',
+        color: theme.colors.white,
+        backgroundColor: theme.colors.gray100,
       },
     },
   }),
   blue: style({
-    color: 'var(--hcc-button-blue-color)',
-    backgroundColor: 'var(--hcc-button-blue-background)',
+    color: theme.colors.blue600,
+    backgroundColor: theme.colors.blue200,
     ':hover': {
-      color: 'var(--hcc-button-blue-hover-color)',
-      backgroundColor: 'var(--hcc-button-blue-hover-background)',
+      color: theme.colors.blue600,
+      backgroundColor: theme.colors.blue200,
     },
     selectors: {
       '&[aria-invalid="true"]': {
-        color: 'var(--hcc-button-blue-invalid-color)',
-        backgroundColor: 'var(--hcc-button-blue-invalid-background)',
+        color: theme.colors.blue600,
+        backgroundColor: theme.colors.blue200,
       },
     },
   }),
   red: style({
-    color: 'var(--hcc-button-red-color)',
-    backgroundColor: 'var(--hcc-button-red-background)',
+    color: theme.colors.red600,
+    backgroundColor: theme.colors.red200,
     ':hover': {
-      color: 'var(--hcc-button-red-hover-color)',
-      backgroundColor: 'var(--hcc-button-red-hover-background)',
+      color: theme.colors.red600,
+      backgroundColor: theme.colors.red200,
     },
     selectors: {
       '&[aria-invalid="true"]': {
-        color: 'var(--hcc-button-red-invalid-color)',
-        backgroundColor: 'var(--hcc-button-red-invalid-background)',
+        color: theme.colors.red600,
+        backgroundColor: theme.colors.red200,
       },
     },
   }),
