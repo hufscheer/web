@@ -5,7 +5,7 @@ import * as styles from './not-found.css';
 
 export default function NotFoundPage() {
   return (
-    <>
+    <div className={styles.layout}>
       <p className={styles.branding}>
         Hufscheers
         <br />
@@ -20,10 +20,12 @@ export default function NotFoundPage() {
       </div>
 
       <div className={styles.homeLinkContainer}>
-        <Link className={styles.homeLink} href="/">
-          홈으로 돌아가기
-        </Link>
+        <div className={styles.homeLinkWrapper}>
+          <Link className={styles.homeLink} href="/">
+            홈으로 돌아가기
+          </Link>
+        </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -91,8 +91,8 @@ export const toast = style([
 export const variants = styleVariants({
   default: [
     {
-      // 디자인 시스템 확정 시 HEX CODE를 전부 변수로 변경
-      color: '#5F6A75',
+      // todo: 디자인 시스템 확정 시 HEX CODE를 전부 변수로 변경
+      color: theme.colors.gray400,
       borderColor: '#EEEEEF',
       backgroundColor: `${theme.colors.white}`,
     },
@@ -100,8 +100,8 @@ export const variants = styleVariants({
   destructive: [
     {
       color: theme.colors.white,
-      borderColor: theme.colors.black500,
-      backgroundColor: theme.colors.black500,
+      borderColor: theme.colors.gray500,
+      backgroundColor: theme.colors.gray500,
     },
   ],
 });
@@ -123,7 +123,7 @@ export const action = style({
 
   selectors: {
     '&:hover': {
-      backgroundColor: theme.colors.gray[1],
+      backgroundColor: theme.colors.gray25,
     },
     '&:focus': {
       outline: 'none',
@@ -143,7 +143,7 @@ export const close = style({
   top: rem(4),
   borderRadius: rem(8),
   padding: rem(4),
-  color: theme.colors.gray[4],
+  color: theme.colors.gray400,
   backgroundColor: 'transparent',
   border: 'none',
   opacity: 0,
@@ -152,7 +152,7 @@ export const close = style({
 
   selectors: {
     '&:hover': {
-      color: theme.colors.gray[6],
+      color: theme.colors.gray900,
     },
     '&:focus': {
       opacity: 1,

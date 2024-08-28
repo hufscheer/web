@@ -9,7 +9,7 @@ export const tooltipContainer = style({
 export const tooltipContent = style({
   position: 'absolute',
   backgroundColor: theme.colors.white,
-  color: theme.colors.gray[5],
+  color: theme.colors.gray500,
   borderRadius: '4px',
   padding: '8px',
   zIndex: theme.zIndices.tooltip,

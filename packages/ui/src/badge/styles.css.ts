@@ -17,16 +17,16 @@ export const badgeBase = style({
 
 export const badgeColorScheme = {
   primary: style({
-    backgroundColor: theme.colors.black900,
+    backgroundColor: theme.colors.primary.normal,
   }),
   secondary: style({
-    backgroundColor: theme.colors.black25,
+    backgroundColor: theme.colors.gray25,
   }),
-  accentPrimary: style({
-    backgroundColor: theme.colors.accent.primary,
+  blue: style({
+    backgroundColor: theme.colors.blue600,
   }),
-  alert: style({
-    backgroundColor: theme.colors.accent.alert,
+  red: style({
+    backgroundColor: theme.colors.red600,
   }),
 };
 

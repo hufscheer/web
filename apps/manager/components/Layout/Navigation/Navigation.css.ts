@@ -6,8 +6,8 @@ export const wrapper = style({
   position: 'fixed',
   left: 0,
   width: '100%',
-  backgroundColor: theme.colors.black25,
-  borderBottom: `${rem(1)} solid ${theme.colors.black25}`,
+  backgroundColor: theme.colors.gray25,
+  borderBottom: `${rem(1)} solid ${theme.colors.gray25}`,
   zIndex: theme.zIndices.navigation,
 });
 
@@ -29,7 +29,7 @@ export const backButton = style({
 });
 
 export const title = style({
-  color: theme.colors.black900,
+  color: theme.colors.gray900,
   fontSize: rem(18),
   fontWeight: '600',
 });
@@ -37,7 +37,7 @@ export const title = style({
 export const menuContainer = style({
   position: 'absolute',
   right: theme.sizes.appInlinePadding,
-  color: theme.colors.black300,
+  color: theme.colors.gray300,
   fontSize: rem(18),
   fontWeight: 500,
   lineHeight: '100%',

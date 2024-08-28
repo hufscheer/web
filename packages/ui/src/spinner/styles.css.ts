@@ -19,8 +19,8 @@ export const spinner = recipe({
   base: {
     width: '2rem',
     height: '2rem',
-    color: theme.colors.gray[2],
-    fill: theme.colors.primary[3],
+    color: theme.colors.gray50,
+    fill: theme.colors.primary.normal,
     willChange: 'transform',
     animation: `${spin} 1s linear infinite`,
   },

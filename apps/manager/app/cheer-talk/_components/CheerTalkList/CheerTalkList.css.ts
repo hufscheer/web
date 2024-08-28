@@ -12,5 +12,5 @@ export const cardDivider = style({
   width: '100%',
   height: rem(1),
   border: 0,
-  backgroundColor: theme.colors.black25,
+  backgroundColor: theme.colors.gray25,
 });

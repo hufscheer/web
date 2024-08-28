@@ -14,14 +14,22 @@ const base = style({
 });
 
 const colorScheme = {
-  primary: {
+  primary: style({
     color: theme.colors.white,
-    backgroundColor: theme.colors.accent.alert,
-  },
-  secondary: {
-    color: theme.colors.black400,
-    backgroundColor: '#F3F3F5',
-  },
+    backgroundColor: theme.colors.primary.normal,
+  }),
+  secondary: style({
+    color: theme.colors.gray400,
+    backgroundColor: theme.colors.border,
+  }),
+  blue: style({
+    color: theme.colors.white,
+    backgroundColor: theme.colors.blue600,
+  }),
+  red: style({
+    color: theme.colors.white,
+    backgroundColor: theme.colors.red600,
+  }),
 };
 
 export const variants = recipe({

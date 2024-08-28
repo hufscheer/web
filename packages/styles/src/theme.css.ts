@@ -11,14 +11,8 @@ export const theme = createGlobalTheme(':root', {
       '4': '#2735BD',
       '5': '#121E8A',
       '6': '#050D57',
-    },
-    secondary: {
-      '1': '#F9FBFD',
-      '2': '#D3E2F6',
-      '3': '#A9B9CD',
-      '4': '#8291A5',
-      '5': '#5E6B7C',
-      '6': '#3C4653',
+      normal: 'var(--hcc-colors-primary)',
+      light: 'var(--hcc-colors-primary-light)',
     },
     indicatorBlue: {
       '1': '#EFF6FF',
@@ -36,13 +30,15 @@ export const theme = createGlobalTheme(':root', {
       '5': '#99130B',
       '6': '#660600',
     },
-    indicatorGreen: {
-      '1': '#E9FFF7',
-      '2': '#A9FFE1',
-      '3': '#68FFCC',
-      '4': '#23E2A1',
-      '5': '#069E6A',
-      '6': '#005A3B',
+    secondary: {
+      '1': '#F9FBFD',
+      '2': '#D3E2F6',
+      '3': '#A9B9CD',
+      '4': '#8291A5',
+      '5': '#5E6B7C',
+      '6': '#3C4653',
+      normal: 'var(--hcc-colors-secondary)',
+      light: 'var(--hcc-colors-secondary-light)',
     },
     gray: {
       '1': '#F7F8F9',
@@ -56,36 +52,42 @@ export const theme = createGlobalTheme(':root', {
       secondary: '#F7F8F9',
       light: '#D5D5DC',
     },
-    black: '#14191F',
-    white: '#FFFFFF',
+    black: 'var(--hcc-colors-black)',
+    white: 'var(--hcc-colors-white)',
 
-    // black
-    black25: '#FAFAFA',
-    black50: '#EBECEE',
-    black100: '#C1C5CA',
-    black200: '#A3A9B0',
-    black300: '#79828C',
-    black400: '#5F6A75',
-    black500: '#374553',
-    black700: '#27313B',
-    black800: '#1E262E',
-    black900: '#141B21',
+    // gray
+    gray25: 'var(--hcc-colors-gray-25)',
+    gray50: 'var(--hcc-colors-gray-50)',
+    gray100: 'var(--hcc-colors-gray-100)',
+    gray200: 'var(--hcc-colors-gray-200)',
+    gray300: 'var(--hcc-colors-gray-300)',
+    gray400: 'var(--hcc-colors-gray-400)',
+    gray500: 'var(--hcc-colors-gray-500)',
+    gray700: 'var(--hcc-colors-gray-700)',
+    gray800: 'var(--hcc-colors-gray-800)',
+    gray900: 'var(--hcc-colors-gray-900)',
 
-    // accent
-    accent: {
-      captain: '#F87904',
-      green: '#1ADA3B',
-      alert: '#FC5555',
-      alertLight: '#FFF2F1',
-      primary: '#007AFF',
-      primaryLight: '#F2F8FF',
+    // blue
+    blue200: 'var(--hcc-colors-blue-200)',
+    blue600: 'var(--hcc-colors-blue-600)',
+
+    // red
+    red200: 'var(--hcc-colors-red-200)',
+    red500: 'var(--hcc-colors-red-500)',
+    red600: 'var(--hcc-colors-red-600)',
+
+    // green
+    green600: 'var(--hcc-colors-green-600)',
+
+    // alert
+    alert: {
+      normal: 'var(--hcc-colors-alert)',
+      light: 'var(--hcc-colors-alert-light)',
     },
 
-    // br
-    br100: '#F3F3F5',
-    br200: '#F3F3F5',
-    brFill: '#F3F3F5',
-    tips: '#FBFBFC',
+    // other
+    border: 'var(--hcc-colors-border)',
+    tip: 'var(--hcc-colors-tip)',
   },
 
   shadows: {

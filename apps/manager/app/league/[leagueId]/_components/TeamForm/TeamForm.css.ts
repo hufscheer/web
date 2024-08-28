@@ -24,7 +24,7 @@ export const logoInputItem = style({
   alignItems: 'start',
   paddingBlock: rem(16),
   paddingInline: rem(18),
-  border: `${rem(1)} solid ${theme.colors.black25}`,
+  border: `${rem(1)} solid ${theme.colors.gray25}`,
   borderRadius: rem(8),
 });
 
@@ -35,7 +35,7 @@ export const logoContainer = style({
   height: rem(88),
   cursor: 'pointer',
   borderRadius: rem(8),
-  backgroundColor: theme.colors.black25,
+  backgroundColor: theme.colors.gray25,
   overflow: 'hidden',
 });
 
@@ -54,7 +54,7 @@ export const playerTitleContainer = style({
 });
 
 export const playerAddBadge = style({
-  border: `${rem(1)} solid ${theme.colors.black50}`,
+  border: `${rem(1)} solid ${theme.colors.gray50}`,
 });
 
 export const playerList = style({

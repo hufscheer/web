@@ -13,7 +13,7 @@ export const item = style({
   ...theme.layouts.rowBetween,
   paddingBlock: rem(14),
   paddingInline: rem(18),
-  border: `${rem(1)} solid ${theme.colors.black25}`,
+  border: `${rem(1)} solid ${theme.colors.gray25}`,
   borderRadius: rem(8),
 });
 
@@ -26,7 +26,7 @@ export const logoContainer = style({
   ...theme.layouts.center,
   position: 'relative',
   borderRadius: rem(8),
-  backgroundColor: theme.colors.black50,
+  backgroundColor: theme.colors.gray50,
   overflow: 'hidden',
 });
 
@@ -35,7 +35,7 @@ export const content = style({
 });
 
 export const title = style({
-  color: theme.colors.black900,
+  color: theme.colors.gray900,
   fontSize: rem(16),
   fontWeight: 500,
   lineHeight: '100%',
@@ -43,7 +43,7 @@ export const title = style({
 
 export const description = style({
   marginTop: rem(4),
-  color: theme.colors.black300,
+  color: theme.colors.gray300,
   fontSize: rem(12),
   fontWeight: 500,
   lineHeight: '100%',

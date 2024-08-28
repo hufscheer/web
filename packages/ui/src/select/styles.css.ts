@@ -11,10 +11,10 @@ export const trigger = style({
   height: rem(60),
   width: '100%',
 
-  border: '1px solid #F3F3F5',
+  border: `1px solid ${theme.colors.gray25}`,
   borderRadius: rem(8),
 
-  backgroundColor: '#fff',
+  backgroundColor: theme.colors.white,
 
   paddingInline: rem(18),
 
@@ -27,14 +27,14 @@ export const trigger = style({
       bottom: -1,
       left: -1,
       height: 'inherit',
-      border: `2px solid ${theme.colors.accent.primary}`,
+      border: `2px solid ${theme.colors.blue600}`,
       transition: 'all .2s cubic-bezier(.4,0,.2,1)',
       zIndex: 2,
       borderRadius: rem(8),
     },
 
     '&::placeholder': {
-      color: '#79828C',
+      color: theme.colors.gray300,
     },
 
     '&:disabled': {
@@ -56,7 +56,7 @@ export const caret = style({
   justifyContent: 'center',
   width: rem(24),
   height: rem(24),
-  color: '#79828C',
+  color: theme.colors.gray300,
 });
 
 export const animateIn = keyframes({
@@ -90,10 +90,10 @@ export const content = style({
   minWidth: rem(125),
   overflow: 'hidden',
   borderRadius: rem(8),
-  border: '1px solid #F3F3F5',
-  backgroundColor: '#fff',
-  color: '#141B21',
-  boxShadow: '0 0 0 1px #F3F3F5',
+  border: `1px solid ${theme.colors.gray25}`,
+  backgroundColor: theme.colors.white,
+  color: theme.colors.gray900,
+  boxShadow: `0 0 0 1px ${theme.colors.gray25}`,
   transition: 'transform .15s ease-in-out, opacity .15s ease-in-out',
   transformOrigin: 'center top',
   transform: 'scale(0.95)',
@@ -127,12 +127,7 @@ export const itemBase = style({
   paddingRight: rem(48),
 });
 
-export const label = style([
-  itemBase,
-  {
-    fontWeight: 600,
-  },
-]);
+export const label = style([itemBase, { fontWeight: 600 }]);
 
 export const item = style([
   itemBase,
@@ -144,13 +139,13 @@ export const item = style([
     userSelect: 'none',
     alignItems: 'center',
     borderRadius: rem(4),
-    color: '#141B21',
-    backgroundColor: '#fff',
+    color: theme.colors.gray900,
+    backgroundColor: theme.colors.white,
     outline: 'none',
 
     selectors: {
       '&:focus': {
-        backgroundColor: '#F3F3F5',
+        backgroundColor: theme.colors.border,
       },
 
       '&[data-disabled]': {
@@ -170,12 +165,12 @@ export const checkmark = style({
   alignItems: 'center',
   width: rem(24),
   height: rem(24),
-  color: '#141B21',
+  color: theme.colors.gray900,
 });
 
 export const separator = style({
   marginInline: rem(-4),
   marginBlock: rem(4),
   height: 1,
-  backgroundColor: '#F3F3F5',
+  backgroundColor: theme.colors.border,
 });

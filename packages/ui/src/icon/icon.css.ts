@@ -1,20 +1,22 @@
 import { theme } from '@hcc/styles';
+import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
+const base = style({
+  color: theme.colors.gray900,
+});
+
+const color = {
+  primary: style({ color: theme.colors.primary.normal }),
+  secondary: style({ color: theme.colors.secondary.normal }),
+  black: style({ color: theme.colors.black }),
+  blue: style({ color: theme.colors.blue600 }),
+  gray: style({ color: theme.colors.gray200 }),
+  red: style({ color: theme.colors.red600 }),
+  white: style({ color: theme.colors.white }),
+};
+
 export const icon = recipe({
-  base: {
-    color: theme.colors.gray[6],
-  },
-  variants: {
-    color: {
-      primary: { color: theme.colors.primary[3] },
-      secondary: { color: theme.colors.secondary[3] },
-      gray: { color: theme.colors.gray[3] },
-      error: { color: theme.colors.indicatorRed[3] },
-      success: { color: theme.colors.indicatorBlue[3] },
-      white: { color: theme.colors.white },
-      black: { color: theme.colors.black },
-      alert: { color: theme.colors.accent.alert },
-    },
-  },
+  base,
+  variants: { color },
 });

@@ -13,7 +13,7 @@ export const wrapper = style({
       bottom: -1,
       left: -1,
       height: 'inherit',
-      border: `2px solid ${theme.colors.accent.primary}`,
+      border: `2px solid ${theme.colors.blue600}`,
       transition: 'all .2s cubic-bezier(.4,0,.2,1)',
       zIndex: 2,
       borderRadius: rem(8),
@@ -26,16 +26,17 @@ export const input = style({
   width: '100%',
   height: rem(60),
 
-  border: '1px solid #F3F3F5',
+  border: `1px solid ${theme.colors.gray25}`,
   borderRadius: rem(8),
 
-  backgroundColor: '#fff',
+  backgroundColor: theme.colors.white,
 
   paddingInline: rem(18),
+  outline: 'none',
 
   selectors: {
     '&::placeholder': {
-      color: '#79828C',
+      color: theme.colors.gray300,
     },
   },
 });

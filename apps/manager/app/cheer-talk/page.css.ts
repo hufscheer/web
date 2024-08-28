@@ -17,7 +17,7 @@ export const tabListContainer = style({
   width: '100%',
   height: rem(35),
   borderRadius: rem(8),
-  backgroundColor: theme.colors.black25,
+  backgroundColor: theme.colors.gray25,
 });
 
 export const tabIndicator = style({
@@ -43,8 +43,8 @@ export const tabButton = recipe({
   },
   variants: {
     state: {
-      active: { color: theme.colors.black900 },
-      inactive: { color: theme.colors.black100 },
+      active: { color: theme.colors.gray900 },
+      inactive: { color: theme.colors.gray100 },
     },
   },
   defaultVariants: {

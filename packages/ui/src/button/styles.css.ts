@@ -2,7 +2,16 @@ import { rem, theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-export const buttonBase = style({
+const colors = {
+  primaryColor: 'var(--hcc-button-primary-color)',
+  primaryBackground: 'var(--hcc-button-primary-background)',
+  primaryHoverColor: 'var(--hcc-button-primary-hover-color)',
+  primaryHoverBackground: 'var(--hcc-button-primary-hover-background)',
+  primaryInvalidColor: 'var(--hcc-button-primary-invalid-color)',
+  primaryInvalidBackground: 'var(--hcc-button-primary-invalid-background)',
+};
+
+export const base = style({
   ...theme.layouts.center,
   paddingInline: rem(18),
   fontSize: rem(16),
@@ -14,67 +23,68 @@ export const buttonBase = style({
   transition: 'background-color 0.2s ease-in-out',
 });
 
-export const buttonColorScheme = {
+export const colorScheme = {
   primary: style({
-    color: theme.colors.white,
-    backgroundColor: theme.colors.black900,
+    color: colors.primaryColor,
+    backgroundColor: colors.primaryBackground,
     ':hover': {
-      color: theme.colors.white,
-      backgroundColor: theme.colors.black700,
+      color: colors.primaryHoverColor,
+      backgroundColor: colors.primaryHoverBackground,
     },
     selectors: {
       '&[aria-invalid="true"]': {
-        color: theme.colors.white,
-        backgroundColor: theme.colors.black100,
+        color: colors.primaryInvalidColor,
+        backgroundColor: colors.primaryInvalidBackground,
       },
     },
   }),
   secondary: style({
-    color: theme.colors.black900,
-    backgroundColor: theme.colors.black25,
+    color: theme.colors.secondary.normal,
+    backgroundColor: theme.colors.secondary.light,
     ':hover': {
-      backgroundColor: theme.colors.black50,
+      color: theme.colors.secondary.normal,
+      backgroundColor: theme.colors.gray50,
     },
     selectors: {
       '&[aria-invalid="true"]': {
-        backgroundColor: theme.colors.black100,
         color: theme.colors.white,
+        backgroundColor: theme.colors.gray100,
       },
     },
   }),
-  accentPrimary: style({
-    color: theme.colors.accent.primary,
-    backgroundColor: theme.colors.accent.primaryLight,
+  blue: style({
+    color: theme.colors.blue600,
+    backgroundColor: theme.colors.blue200,
     ':hover': {
-      color: theme.colors.accent.primary,
-      backgroundColor: theme.colors.accent.primaryLight,
+      color: theme.colors.blue600,
+      backgroundColor: theme.colors.blue200,
     },
     selectors: {
       '&[aria-invalid="true"]': {
-        color: theme.colors.accent.primary,
-        backgroundColor: theme.colors.accent.primaryLight,
+        color: theme.colors.blue600,
+        backgroundColor: theme.colors.blue200,
       },
     },
   }),
-  alert: style({
-    color: theme.colors.accent.alert,
-    backgroundColor: theme.colors.accent.alertLight,
+  red: style({
+    color: theme.colors.red600,
+    backgroundColor: theme.colors.red200,
     ':hover': {
-      color: theme.colors.accent.alert,
-      backgroundColor: theme.colors.accent.alertLight,
+      color: theme.colors.red600,
+      backgroundColor: theme.colors.red200,
     },
     selectors: {
       '&[aria-invalid="true"]': {
-        color: theme.colors.accent.alert,
-        backgroundColor: theme.colors.accent.alertLight,
+        color: theme.colors.red600,
+        backgroundColor: theme.colors.red200,
       },
     },
   }),
 
   outline: style({
-    border: `1px solid ${theme.colors.black25}`,
+    border: `1px solid ${theme.colors.gray25}`,
     backgroundColor: theme.colors.white,
-    color: theme.colors.black900,
+    color: theme.colors.gray900,
 
     selectors: {
       '&:focus::after': {
@@ -85,7 +95,7 @@ export const buttonColorScheme = {
         bottom: -1,
         left: -1,
         height: 'inherit',
-        border: `2px solid ${theme.colors.accent.primary}`,
+        border: `2px solid ${theme.colors.blue600}`,
         transition: 'all .2s cubic-bezier(.4,0,.2,1)',
         zIndex: 2,
         borderRadius: rem(8),
@@ -94,10 +104,10 @@ export const buttonColorScheme = {
   }),
 };
 
-export const buttonVariants = recipe({
-  base: buttonBase,
+export const variants = recipe({
+  base: base,
   variants: {
-    colorScheme: buttonColorScheme,
+    colorScheme: colorScheme,
     fullWidth: { true: { width: '100%' } },
     justify: {
       start: { justifyContent: 'flex-start' },

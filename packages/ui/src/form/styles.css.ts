@@ -1,7 +1,5 @@
-import { rem } from '@hcc/styles';
+import { rem, theme } from '@hcc/styles';
 import { globalStyle, style } from '@vanilla-extract/css';
-
-const errorColor = '#FC5555';
 
 export const formItem = style({
   position: 'relative',
@@ -23,7 +21,7 @@ export const label = style({
   height: '100%',
   lineHeight: 1,
   border: '1px solid transparent',
-  color: '#79828C',
+  color: theme.colors.gray300,
   fontWeight: 500,
   paddingInline: rem(18),
   paddingBlock: rem(22),
@@ -77,11 +75,11 @@ globalStyle(`${control} > span, input`, {
 });
 
 export const errorBorder = style({
-  borderColor: errorColor,
+  borderColor: theme.colors.alert.normal,
 });
 
 export const errorMessage = style({
-  color: errorColor,
+  color: theme.colors.alert.normal,
   fontSize: rem(14),
   marginTop: rem(8),
 });

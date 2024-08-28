@@ -1,0 +1,56 @@
+:root {
+    /* colors */
+    --hcc-colors-white: #FFFFFF;
+    --hcc-colors-black: #000000;
+
+    --hcc-colors-gray-25: #FAFAFA;
+    --hcc-colors-gray-50: #EBECEE;
+    --hcc-colors-gray-100: #C1C5CA;
+    --hcc-colors-gray-200: #A3A9B0;
+    --hcc-colors-gray-300: #79828C;
+    --hcc-colors-gray-400: #5F6A75;
+    --hcc-colors-gray-500: #374553;
+    --hcc-colors-gray-700: #27313B;
+    --hcc-colors-gray-800: #1E262E;
+    --hcc-colors-gray-900: #141B21;
+
+    --hcc-colors-blue-200: #F2F8FF;
+    --hcc-colors-blue-600: #007AFF;
+
+    --hcc-colors-red-200: #FFF2F1;
+    --hcc-colors-red-500: #F87904;
+    --hcc-colors-red-600: #FC5555;
+
+    --hcc-colors-green-600: #1ADA3B;
+
+    --hcc-colors-border: #F3F3F5;
+    --hcc-colors-tip: #FBFBFC;
+
+    --hcc-colors-primary: var(--hcc-colors-blue-600);
+    --hcc-colors-primary-light: var(--hcc-colors-blue-200);
+
+    --hcc-colors-secondary: var(--hcc-colors-gray-900);
+    --hcc-colors-secondary-light: var(--hcc-colors-gray-25);
+
+    --hcc-colors-alert: var(--hcc-colors-red-600);
+    --hcc-colors-alert-light: var(--hcc-colors-red-200);
+
+    /* components */
+    --hcc-button-primary-color: var(--hcc-colors-primary);
+    --hcc-button-primary-background: var(--hcc-colors-primary-light);
+    --hcc-button-primary-hover-color: var(--hcc-colors-primary);
+    --hcc-button-primary-hover-background: var(--hcc-colors-primary-light);
+    --hcc-button-primary-invalid-color: var(--hcc-colors-primary);
+    --hcc-button-primary-invalid-background: var(--hcc-colors-primary-light);
+}
+
+:root[data-hcc="manager"] {
+    --hcc-colors-primary: var(--hcc-colors-gray-900);
+
+    --hcc-button-primary-color: var(--hcc-colors-white);
+    --hcc-button-primary-background: var(--hcc-colors-gray-900);
+    --hcc-button-primary-hover-color: var(--hcc-colors-white);
+    --hcc-button-primary-hover-background: var(--hcc-colors-gray-700);
+    --hcc-button-primary-invalid-color: var(--hcc-colors-white);
+    --hcc-button-primary-invalid-background: var(--hcc-colors-gray-100);
+}
