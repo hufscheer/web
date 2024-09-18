@@ -9,7 +9,7 @@ import {
 import { useToast } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { ComponentProps, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import AlertDialog from '@/components/AlertDialog';
@@ -27,15 +27,16 @@ type PageProps = {
   params: { leagueId: string; teamId: string };
 };
 
-const DeleteButton = ({ ...props }: ComponentProps<'button'>) => {
+const DeleteButton = ({ onAction }: { onAction: () => void }) => {
   return (
     <AlertDialog
       title="삭제한 팀은 다시 복구할 수 없어요"
       description="정말 삭제할까요?"
       primaryActionLabel="삭제"
       secondaryActionLabel="취소"
+      onPrimaryAction={onAction}
     >
-      <button {...props}>팀 삭제</button>
+      <button>팀 삭제</button>
     </AlertDialog>
   );
 };
@@ -132,7 +133,7 @@ export default function Page({ params }: PageProps) {
   return (
     <Layout
       navigationTitle="참가 팀 정보 수정"
-      navigationMenu={<DeleteButton onClick={handleDelete} />}
+      navigationMenu={<DeleteButton onAction={handleDelete} />}
     >
       <TeamForm methods={methods} submitText="수정" onSubmit={onSubmit} />
     </Layout>
