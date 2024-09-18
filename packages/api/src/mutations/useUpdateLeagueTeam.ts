@@ -2,20 +2,25 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { fetcher } from '../fetcher';
 import { queryKeys } from '../queryKey';
+import { TeamUpdateType } from '../types';
 
-type Request = {
+type Request = TeamUpdateType & {
   leagueId: string;
   teamId: string;
 };
 
-const deleteLeagueTeam = ({ leagueId, teamId }: Request) =>
-  fetcher.delete<void>(`/leagues/${leagueId}/teams/${teamId}`);
+const putUpdateLeagueTeam = (request: Request) => {
+  const { leagueId, teamId, ...rest } = request;
+  return fetcher.put<void>(`/leagues/${leagueId}/teams/${teamId}`, {
+    ...rest,
+  });
+};
 
-const useDeleteLeagueTeam = () => {
+const useUpdateLeagueTeam = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: deleteLeagueTeam,
+    mutationFn: putUpdateLeagueTeam,
     onSuccess: async (_, variables) => {
       await queryClient.invalidateQueries({
         queryKey: [
@@ -27,4 +32,4 @@ const useDeleteLeagueTeam = () => {
   });
 };
 
-export default useDeleteLeagueTeam;
+export default useUpdateLeagueTeam;

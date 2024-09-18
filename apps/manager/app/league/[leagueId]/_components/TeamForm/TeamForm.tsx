@@ -39,7 +39,7 @@ export const TeamForm = ({ methods, submitText, onSubmit }: TeamFormProps) => {
   };
 
   const handleAddPlayer = () => {
-    append({ name: '', number: '0' });
+    append({ name: '', number: '0', type: 'NEW' });
   };
 
   return (
@@ -62,18 +62,17 @@ export const TeamForm = ({ methods, submitText, onSubmit }: TeamFormProps) => {
                           width={40}
                           height={40}
                         />
-                        {field.value && (
-                          <span
-                            className={styles.logo}
-                            style={{
-                              backgroundImage: `url(${
-                                typeof field.value === 'string'
-                                  ? field.value
-                                  : src
-                              })`,
-                            }}
-                          />
-                        )}
+
+                        <span
+                          className={styles.logo}
+                          style={{
+                            backgroundImage: `url(${
+                              typeof field.value === 'string'
+                                ? `"${field.value}"`
+                                : src
+                            })`,
+                          }}
+                        />
                       </span>
                     )}
                   </Uploader>

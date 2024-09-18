@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const teamPlayerSchema = z.object({
+  id: z.number().optional(),
   name: z.string().min(1, { message: '플레이어 이름을 입력해주세요' }),
   number: z
     .string()
@@ -11,6 +12,7 @@ export const teamPlayerSchema = z.object({
     .refine(val => Number(val) >= 0, {
       message: '플레이어 번호는 0 이상이어야 합니다.',
     }),
+  type: z.enum(['NEW', 'EXISTING']).default('NEW'),
 });
 
 export const teamFormSchema = z.object({
