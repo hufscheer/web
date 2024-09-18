@@ -1,10 +1,15 @@
 'use client';
 
-import { TeamPlayerType, useLeagueTeam, useUpdateLeagueTeam } from '@hcc/api';
+import {
+  TeamPlayerType,
+  useDeleteLeagueTeam,
+  useLeagueTeam,
+  useUpdateLeagueTeam,
+} from '@hcc/api';
 import { useToast } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { ComponentProps, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import AlertDialog from '@/components/AlertDialog';
@@ -22,7 +27,7 @@ type PageProps = {
   params: { leagueId: string; teamId: string };
 };
 
-const DeleteButton = () => {
+const DeleteButton = ({ ...props }: ComponentProps<'button'>) => {
   return (
     <AlertDialog
       title="삭제한 팀은 다시 복구할 수 없어요"
@@ -30,7 +35,7 @@ const DeleteButton = () => {
       primaryActionLabel="삭제"
       secondaryActionLabel="취소"
     >
-      <button>팀 삭제</button>
+      <button {...props}>팀 삭제</button>
     </AlertDialog>
   );
 };
@@ -107,10 +112,27 @@ export default function Page({ params }: PageProps) {
     );
   };
 
+  const { mutate: deleteLeagueTeamMutation } = useDeleteLeagueTeam();
+
+  const handleDelete = () => {
+    deleteLeagueTeamMutation(
+      { leagueId, teamId },
+      {
+        onSuccess: () => {
+          toast({ title: '팀이 삭제되었습니다', variant: 'destructive' });
+          router.back();
+        },
+        onError: () => {
+          toast({ title: '팀 삭제에 실패했습니다', variant: 'destructive' });
+        },
+      },
+    );
+  };
+
   return (
     <Layout
       navigationTitle="참가 팀 정보 수정"
-      navigationMenu={<DeleteButton />}
+      navigationMenu={<DeleteButton onClick={handleDelete} />}
     >
       <TeamForm methods={methods} submitText="수정" onSubmit={onSubmit} />
     </Layout>
