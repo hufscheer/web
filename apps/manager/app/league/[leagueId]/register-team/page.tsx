@@ -1,17 +1,13 @@
 'use client';
 
-import {
-  useGeneratePresignedUrl,
-  useUploadImage,
-  useCreateLeagueTeam,
-  TeamCreateType,
-} from '@hcc/api';
+import { useCreateLeagueTeam, TeamCreateType } from '@hcc/api';
 import { useToast } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 import Layout from '@/components/Layout';
+import { useImageUpload } from '@/hooks/useImageUpload';
 
 import {
   teamDefaultValues,
@@ -29,38 +25,19 @@ export default function Page({ params }: PageProps) {
   const router = useRouter();
 
   const { toast } = useToast();
+  const { uploadImage } = useImageUpload();
 
   const methods = useForm<TeamFormSchema>({
     resolver: zodResolver(teamFormSchema),
     defaultValues: teamDefaultValues,
   });
 
-  const { mutateAsync: generatePresignedUrlMutation } =
-    useGeneratePresignedUrl();
-
-  const { mutateAsync: uploadImageMutation } = useUploadImage();
-
   const { mutate: createLeagueTeamMutation } = useCreateLeagueTeam();
 
   const onSubmit = async (data: TeamFormSchema) => {
     let imageUrl: string;
-
-    if (data.logo instanceof File) {
-      const extension = data.logo.name.split('.').pop() || '';
-
-      const url: URL = new URL(
-        await generatePresignedUrlMutation({ extension }),
-      );
-
-      await uploadImageMutation({
-        url: url.pathname + url.search,
-        file: data.logo,
-      });
-
-      imageUrl = url.origin + url.pathname;
-    } else {
-      imageUrl = data.logo;
-    }
+    if (data.logo instanceof File) imageUrl = await uploadImage(data.logo);
+    else imageUrl = data.logo;
 
     const team: TeamCreateType = {
       name: data.name.trim(),
@@ -75,18 +52,12 @@ export default function Page({ params }: PageProps) {
       { leagueId, ...team },
       {
         onSuccess: () => {
-          toast({
-            title: '팀이 추가되었습니다',
-            variant: 'destructive',
-          });
+          toast({ title: '팀이 추가되었습니다', variant: 'destructive' });
           methods.reset();
           router.back();
         },
         onError: () => {
-          toast({
-            title: '팀 추가에 실패했습니다',
-            variant: 'destructive',
-          });
+          toast({ title: '팀 추가에 실패했습니다', variant: 'destructive' });
         },
       },
     );
