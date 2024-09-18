@@ -5,8 +5,10 @@ import {
   GameWithLeagueListType,
   LeagueDetailType,
   LeagueListType,
+  LeagueTeamType,
   LeagueType,
   StateType,
+  TeamPlayerType,
   TeamType,
 } from './types';
 
@@ -48,6 +50,18 @@ const leagueQueryKeys = {
         params,
       });
     },
+  }),
+
+  leagueTeam: (leagueTeamId: string) => ({
+    queryKey: ['leagueTeam', { leagueTeamId }],
+    queryFn: () =>
+      fetcher.get<LeagueTeamType>(`/leagues/teams/${leagueTeamId}`),
+  }),
+
+  leagueTeamPlayers: (leagueTeamId: string) => ({
+    queryKey: ['leagueTeamPlayers', { leagueTeamId }],
+    queryFn: () =>
+      fetcher.get<TeamPlayerType[]>(`/leagues/teams/${leagueTeamId}/players`),
   }),
 };
 

@@ -6,12 +6,28 @@ export type TeamType = {
 };
 
 export type TeamPlayerType = {
+  id: number;
   name: string;
   number: number;
+  description?: string;
 };
+
+export type TeamPlayerCreateType = Pick<TeamPlayerType, 'name' | 'number'>;
 
 export type TeamCreateType = {
   name: string;
   logoImageUrl: string;
-  players: TeamPlayerType[];
+  players: TeamPlayerCreateType[];
+};
+
+export type LeagueTeamType = Pick<TeamType, 'teamName' | 'logoImageUrl'> & {
+  leagueTeamPlayers: TeamPlayerType[];
+};
+
+export type TeamUpdateType = {
+  name: string;
+  logoImageUrl: string;
+  newPlayers: TeamPlayerCreateType[];
+  updatedPlayers: TeamPlayerType[];
+  deletedPlayerIds: number[];
 };
