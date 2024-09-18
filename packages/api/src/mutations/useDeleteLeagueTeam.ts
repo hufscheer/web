@@ -5,19 +5,23 @@ import { queryKeys } from '../queryKey';
 
 type Request = {
   leagueId: string;
+  teamId: string;
 };
 
-const deleteCreateLeagueTeam = ({ leagueId }: Request) =>
-  fetcher.delete<void>(`/leagues/${leagueId}/teams`);
+const deleteLeagueTeam = ({ leagueId, teamId }: Request) =>
+  fetcher.delete<void>(`/leagues/${leagueId}/teams/${teamId}`);
 
 const useDeleteLeagueTeam = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: deleteCreateLeagueTeam,
+    mutationFn: deleteLeagueTeam,
     onSuccess: async (_, variables) => {
       await queryClient.invalidateQueries({
-        queryKey: queryKeys.leagueTeams(variables.leagueId).queryKey,
+        queryKey: [
+          queryKeys.leagueTeam(variables.teamId).queryKey,
+          queryKeys.leagueTeams(variables.leagueId).queryKey,
+        ],
       });
     },
   });
