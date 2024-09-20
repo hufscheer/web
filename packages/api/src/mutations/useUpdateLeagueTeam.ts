@@ -11,7 +11,7 @@ type Request = TeamUpdateType & {
 
 const putUpdateLeagueTeam = (request: Request) => {
   const { leagueId, teamId, ...rest } = request;
-  return fetcher.put<void>(`/leagues/${leagueId}/teams/${teamId}`, {
+  return fetcher.patch<void>(`/leagues/${leagueId}/teams/${teamId}`, {
     ...rest,
   });
 };
