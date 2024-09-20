@@ -5,7 +5,12 @@ import { StateType } from '../types';
 
 import { useLeagues } from './index';
 
-const useGamesByLeagueList = (year: string, state: StateType) => {
+type GamesByLeagueListPayload = {
+  year?: string;
+  state: StateType;
+};
+
+const useGamesByLeagueList = ({ year, state }: GamesByLeagueListPayload) => {
   const { data: leagues } = useLeagues(year);
   const leagueList = leagues ?? [];
 

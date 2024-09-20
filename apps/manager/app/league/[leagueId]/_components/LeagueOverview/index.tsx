@@ -1,6 +1,8 @@
 'use client';
 import { useLeague } from '@hcc/api';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 import Card from '@/components/Card';
 import { formatTime } from '@/utils/time';
@@ -12,7 +14,13 @@ type LeagueOverviewProps = {
 };
 
 const LeagueOverview = ({ leagueId }: LeagueOverviewProps) => {
-  const { data: league } = useLeague(leagueId);
+  const { data: league, isLoading, error } = useLeague(leagueId);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading && error) router.replace('/');
+  }, [isLoading, error, router]);
 
   if (!league) return null;
 
