@@ -16,17 +16,17 @@ const LeagueCard = () => {
     <>
       {leagues?.map(({ leagueId, league }, index) => {
         const state: StateType = league.isInProgress
-          ? 'playing'
+          ? 'PLAYING'
           : league.maxRound === league.inProgressRound
-            ? 'scheduled'
-            : 'finished';
+            ? 'SCHEDULED'
+            : 'FINISHED';
 
         return (
           <Fragment key={leagueId}>
             <Card.Root>
               <div className={styles.leagueHeader}>
                 <Tag
-                  colorScheme={state === 'playing' ? 'primary' : 'secondary'}
+                  colorScheme={state === 'PLAYING' ? 'primary' : 'secondary'}
                 >
                   {stateMap[state]}
                 </Tag>

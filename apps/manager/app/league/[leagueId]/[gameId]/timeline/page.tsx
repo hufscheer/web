@@ -47,6 +47,14 @@ export default function Page({ params }: PageProps) {
             </Fragment>
           );
         })}
+        {game.state === 'FINISHED' && (
+          <>
+            <TextRecord>경기가 종료되었습니다.</TextRecord>
+            <TextRecord>
+              경기 결과 - {game.gameTeams[0].score}:{game.gameTeams[1].score}
+            </TextRecord>
+          </>
+        )}
       </div>
       <TimelineMenu />
     </Layout>

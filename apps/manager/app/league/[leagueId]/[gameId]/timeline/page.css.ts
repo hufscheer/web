@@ -6,4 +6,5 @@ export const timeline = style({
   paddingTop: rem(56 + 12),
   paddingBottom: rem(84 + 12),
   gap: rem(12),
+  backgroundColor: theme.colors.white,
 });

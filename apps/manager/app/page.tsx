@@ -32,7 +32,7 @@ export default function Page() {
       <Divider height={6} />
 
       <Suspense fallback={<Spinner />}>
-        <MatchOverview state="finished" />
+        <MatchOverview state="FINISHED" />
       </Suspense>
     </Layout>
   );
