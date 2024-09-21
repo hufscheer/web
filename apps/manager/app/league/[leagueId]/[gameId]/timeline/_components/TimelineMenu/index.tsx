@@ -1,9 +1,9 @@
 import { AddCircleIcon, SettingsIcon, TradeIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 
-import * as styles from './TimelineController.css';
+import * as styles from './TimelineMenu.css';
 
-const TimelineController = () => {
+const TimelineMenu = () => {
   return (
     <div className={styles.root}>
       <div className={styles.container}>
@@ -24,4 +24,4 @@ const TimelineController = () => {
   );
 };
 
-export default TimelineController;
+export default TimelineMenu;

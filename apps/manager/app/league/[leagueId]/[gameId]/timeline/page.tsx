@@ -1,10 +1,13 @@
 'use client';
 import { useTimeline } from '@hcc/api';
+import { Fragment } from 'react';
 
+import { TextRecord } from '@/app/league/[leagueId]/[gameId]/timeline/_components/Record';
 import Layout from '@/components/Layout';
 
 import GameScoreBanner from './_components/GameScoreBanner';
-import TimelineController from './_components/TimelineController';
+import TimelineMenu from './_components/TimelineMenu';
+import * as styles from './page.css';
 
 type PageProps = {
   params: { leagueId: string; gameId: string };
@@ -20,25 +23,22 @@ export default function Page({ params }: PageProps) {
   return (
     <Layout navigationTitle="타임라인 수정">
       <GameScoreBanner gameId={gameId} />
-
-      <div style={{ flex: '1', height: '100%', overflowY: 'auto' }}>
+      <div className={styles.timeline}>
         {timelines.map(timeline => {
           return (
-            <>
-              {timeline.gameQuarter}
-              {timeline.records.map(record => {
-                return (
-                  <p key={record.recordId}>
-                    {record.playerName}({record.teamName})
-                  </p>
-                );
-              })}
-            </>
+            <Fragment key={timeline.gameQuarter}>
+              <TextRecord showDividerLine={true}>
+                {timeline.gameQuarter}이 시작되었습니다.
+              </TextRecord>
+
+              {timeline.records.map(record => (
+                <div key={record.recordId}>{record.playerName}</div>
+              ))}
+            </Fragment>
           );
         })}
       </div>
-
-      <TimelineController />
+      <TimelineMenu />
     </Layout>
   );
 }
