@@ -1,20 +1,16 @@
-import { GameTeamType, useGame } from '@hcc/api';
+import { GameTeamType, GameType } from '@hcc/api';
 import { clsx } from 'clsx';
 import Image from 'next/image';
 
 import * as styles from './GameScoreBanner.css';
 
 type GameScoreBannerProps = {
-  gameId: string;
+  game: GameType;
 };
 
-const GameScoreBanner = ({ gameId }: GameScoreBannerProps) => {
-  const { data: game } = useGame(gameId);
-
-  const home: GameTeamType | undefined = game?.gameTeams[0];
-  const away: GameTeamType | undefined = game?.gameTeams[1];
-
-  if (!home || !away) return null;
+const GameScoreBanner = ({ game }: GameScoreBannerProps) => {
+  const home: GameTeamType = game.gameTeams[0];
+  const away: GameTeamType = game.gameTeams[1];
 
   const homeIsWinner = home.score > away.score;
   const awayIsWinner = away.score > home.score;

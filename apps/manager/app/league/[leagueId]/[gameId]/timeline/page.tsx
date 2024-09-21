@@ -1,8 +1,11 @@
 'use client';
-import { useTimeline } from '@hcc/api';
+import { useGame, useTimeline } from '@hcc/api';
 import { Fragment } from 'react';
 
-import { TextRecord } from '@/app/league/[leagueId]/[gameId]/timeline/_components/Record';
+import {
+  EventRecord,
+  TextRecord,
+} from '@/app/league/[leagueId]/[gameId]/timeline/_components/Record';
 import Layout from '@/components/Layout';
 
 import GameScoreBanner from './_components/GameScoreBanner';
@@ -16,13 +19,16 @@ type PageProps = {
 export default function Page({ params }: PageProps) {
   const gameId: string = params.gameId;
 
+  const { data: game } = useGame(gameId);
   const { data: timelines } = useTimeline(gameId);
 
-  if (!timelines) return null;
+  if (!game || !timelines) return null;
+
+  const homeTeamId: number = game.gameTeams[0].gameTeamId;
 
   return (
     <Layout navigationTitle="타임라인 수정">
-      <GameScoreBanner gameId={gameId} />
+      <GameScoreBanner game={game} />
       <div className={styles.timeline}>
         {timelines.map(timeline => {
           return (
@@ -32,7 +38,11 @@ export default function Page({ params }: PageProps) {
               </TextRecord>
 
               {timeline.records.map(record => (
-                <div key={record.recordId}>{record.playerName}</div>
+                <EventRecord
+                  key={record.recordId}
+                  record={record}
+                  homeTeamId={homeTeamId}
+                />
               ))}
             </Fragment>
           );

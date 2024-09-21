@@ -1,3 +1,4 @@
+import EventRecord from './EventRecord';
 import TextRecord from './TextRecord';
 
-export { TextRecord };
+export { EventRecord, TextRecord };

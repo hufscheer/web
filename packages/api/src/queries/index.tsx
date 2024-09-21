@@ -7,6 +7,7 @@ import useLeaguesDetail from './useLeaguesDetail';
 import useLeagueTeam from './useLeagueTeam';
 import useLeagueTeamPlayers from './useLeagueTeamPlayers';
 import useLeagueTeams from './useLeagueTeams';
+import useTimeline from './useTimeline';
 
 export {
   useGame,
@@ -18,4 +19,5 @@ export {
   useLeagueTeam,
   useLeagueTeamPlayers,
   useLeagueTeams,
+  useTimeline,
 };
