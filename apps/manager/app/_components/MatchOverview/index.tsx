@@ -15,7 +15,7 @@ type MatchOverviewProps = {
 };
 
 const MatchOverview = ({ state }: MatchOverviewProps) => {
-  const { data } = useGamesByLeagueList('2024', state);
+  const { data } = useGamesByLeagueList({ state });
 
   return (
     <>

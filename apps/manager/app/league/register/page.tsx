@@ -1,10 +1,13 @@
 'use client';
+import { useCreateLeague } from '@hcc/api';
 import { toast } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 import Layout from '@/components/Layout';
 import Tip from '@/components/Tip';
+import { formatTime } from '@/utils/time';
 
 import {
   leagueDefaultValues,
@@ -14,17 +17,37 @@ import {
 } from '../_components/LeagueForm';
 
 export default function Page() {
+  const router = useRouter();
+
   const methods = useForm<LeagueFormSchema>({
     resolver: zodResolver(leagueFormSchema),
     defaultValues: leagueDefaultValues,
   });
 
+  const { mutate: createLeagueMutation } = useCreateLeague();
+
   const onSubmit = (data: LeagueFormSchema) => {
-    toast({
-      title: '테스트용 대회 생성 메시지',
-      description: JSON.stringify(data),
-    });
-    // TODO: API 호출 구현 필요
+    const { leagueName, round, startDate, endDate } = data;
+    createLeagueMutation(
+      {
+        name: leagueName,
+        maxRound: Number(round),
+        startAt: formatTime(startDate, 'YYYY-MM-DDTHH:mm:ss'),
+        endAt: formatTime(endDate, 'YYYY-MM-DDTHH:mm:ss'),
+      },
+      {
+        onSuccess: () => {
+          toast({ title: '대회가 생성되었습니다', variant: 'destructive' });
+          router.back();
+        },
+        onError: () => {
+          toast({
+            title: '대회 생성에 실패했습니다',
+            variant: 'destructive',
+          });
+        },
+      },
+    );
   };
 
   return (
