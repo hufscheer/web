@@ -10,7 +10,7 @@ import { formatTime } from '@/utils/time';
 import * as styles from './LeagueCard.css';
 
 const LeagueCard = () => {
-  const { data: leagues } = useLeaguesDetail('2024');
+  const { data: leagues } = useLeaguesDetail();
 
   return (
     <>

@@ -31,4 +31,6 @@ export const fetcher = {
     request<T>(instance.put<T>(pathname, data, config)),
   delete: <T>(pathname: string, config?: AxiosRequestConfig) =>
     request<T>(instance.delete<T>(pathname, config)),
+  patch: <T>(pathname: string, data?: unknown, config?: AxiosRequestConfig) =>
+    request<T>(instance.patch<T>(pathname, data, config)),
 };

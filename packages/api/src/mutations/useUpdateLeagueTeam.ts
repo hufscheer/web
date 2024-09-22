@@ -11,7 +11,7 @@ type Request = TeamUpdateType & {
 
 const putUpdateLeagueTeam = (request: Request) => {
   const { leagueId, teamId, ...rest } = request;
-  return fetcher.put<void>(`/leagues/${leagueId}/teams/${teamId}`, {
+  return fetcher.patch<void>(`/leagues/${leagueId}/teams/${teamId}`, {
     ...rest,
   });
 };
@@ -22,12 +22,12 @@ const useUpdateLeagueTeam = () => {
   return useMutation({
     mutationFn: putUpdateLeagueTeam,
     onSuccess: async (_, variables) => {
-      await queryClient.invalidateQueries({
-        queryKey: [
-          queryKeys.leagueTeam(variables.teamId).queryKey,
-          queryKeys.leagueTeams(variables.leagueId).queryKey,
-        ],
-      });
+      await queryClient.invalidateQueries(
+        queryKeys.leagueTeam(variables.teamId),
+      );
+      await queryClient.invalidateQueries(
+        queryKeys.leagueTeams(variables.leagueId),
+      );
     },
   });
 };

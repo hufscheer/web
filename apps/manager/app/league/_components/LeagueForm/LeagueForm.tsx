@@ -124,7 +124,7 @@ export const LeagueForm = ({
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormLabel>진행 방식</FormLabel>
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger type="button">
                     <SelectValue>{field.value}강</SelectValue>
                   </SelectTrigger>
                 </FormControl>
