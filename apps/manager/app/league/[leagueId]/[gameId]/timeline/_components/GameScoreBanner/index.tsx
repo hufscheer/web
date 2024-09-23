@@ -60,11 +60,12 @@ const GameScoreBanner = ({ game }: GameScoreBannerProps) => {
           </div>
         </div>
 
-        <div className={clsx(styles.inner, styles.psContainer)}>
-          <p className={clsx({ [styles.losingScore]: !homeIsWinner })}>(1</p>
-          <span className={styles.colon}>:</span>
-          <p className={clsx({ [styles.losingScore]: !awayIsWinner })}>3)</p>
-        </div>
+        {/* PS */}
+        {/*<div className={clsx(styles.inner, styles.psContainer)}>*/}
+        {/*  <p className={clsx({ [styles.losingScore]: !homeIsWinner })}>(1</p>*/}
+        {/*  <span className={styles.colon}>:</span>*/}
+        {/*  <p className={clsx({ [styles.losingScore]: !awayIsWinner })}>3)</p>*/}
+        {/*</div>*/}
       </div>
     </div>
   );

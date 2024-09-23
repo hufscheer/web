@@ -8,8 +8,8 @@ import {
 } from '@/app/league/[leagueId]/[gameId]/timeline/_components/Record';
 import Layout from '@/components/Layout';
 
+import BottomMenu from './_components/BottomMenu';
 import GameScoreBanner from './_components/GameScoreBanner';
-import TimelineMenu from './_components/TimelineMenu';
 import * as styles from './page.css';
 
 type PageProps = {
@@ -50,13 +50,13 @@ export default function Page({ params }: PageProps) {
         {game.state === 'FINISHED' && (
           <>
             <TextRecord>경기가 종료되었습니다.</TextRecord>
-            <TextRecord>
+            <TextRecord className={styles.summaryRecord}>
               경기 결과 - {game.gameTeams[0].score}:{game.gameTeams[1].score}
             </TextRecord>
           </>
         )}
       </div>
-      <TimelineMenu />
+      <BottomMenu />
     </Layout>
   );
 }

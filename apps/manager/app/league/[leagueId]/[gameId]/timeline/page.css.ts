@@ -8,3 +8,7 @@ export const timeline = style({
   gap: rem(12),
   backgroundColor: theme.colors.white,
 });
+
+export const summaryRecord = style({
+  paddingTop: 0,
+});

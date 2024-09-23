@@ -1,19 +1,26 @@
 import { clsx } from 'clsx';
-import { ReactNode } from 'react';
+import { ComponentProps, ReactNode } from 'react';
 
 import * as styles from './Record.css';
 
-type TextRecordProps = {
+type TextRecordProps = ComponentProps<'div'> & {
   showDividerLine?: boolean;
+  className?: string;
   children: ReactNode;
 };
 
-const TextRecord = ({ showDividerLine = false, children }: TextRecordProps) => {
+const TextRecord = ({
+  showDividerLine = false,
+  className,
+  children,
+  ...props
+}: TextRecordProps) => {
   return (
     <div
-      className={clsx(styles.textRecordContainer, {
+      className={clsx(styles.textRecordContainer, className, {
         [styles.textRecordCenter]: !showDividerLine,
       })}
+      {...props}
     >
       {showDividerLine && <div className={styles.textRecordDivider} />}
       <p className={styles.textRecordText}>{children}</p>
