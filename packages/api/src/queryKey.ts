@@ -9,6 +9,7 @@ import {
   LeagueType,
   StateType,
   TeamPlayerType,
+  TeamDetailType,
   TeamType,
 } from './types';
 
@@ -62,6 +63,12 @@ const leagueQueryKeys = {
     queryKey: ['leagueTeamPlayers', { leagueTeamId }],
     queryFn: () =>
       fetcher.get<TeamPlayerType[]>(`/leagues/teams/${leagueTeamId}/players`),
+  }),
+
+  leagueTeamDetail: (leagueTeamId: string) => ({
+    queryKey: ['leagueTeamDetail', { leagueTeamId }],
+    queryFn: () =>
+      fetcher.get<TeamDetailType>(`/leagues/teams/${leagueTeamId}`),
   }),
 };
 

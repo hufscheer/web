@@ -24,13 +24,13 @@ export default function Page({ params }: PageProps) {
 
       <Divider height={11} />
 
-      <GameCard leagueId={leagueId} state="playing" />
+      <GameCard leagueId={leagueId} state="PLAYING" />
 
       <Divider height={2} />
-      <GameCard leagueId={leagueId} state="scheduled" />
+      <GameCard leagueId={leagueId} state="SCHEDULED" />
 
       <Divider height={2} />
-      <GameCard leagueId={leagueId} state="finished" />
+      <GameCard leagueId={leagueId} state="FINISHED" />
     </Layout>
   );
 }

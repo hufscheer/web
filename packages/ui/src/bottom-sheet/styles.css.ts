@@ -14,7 +14,6 @@ export const overlay = style({
 export const content = style({
   display: 'flex',
   flexDirection: 'column',
-  height: 'auto',
 
   position: 'fixed',
   bottom: 0,
@@ -29,6 +28,7 @@ export const content = style({
 });
 
 export const bar = style({
+  flexShrink: 0,
   margin: '0 auto',
   marginTop: rem(16),
   height: rem(6),

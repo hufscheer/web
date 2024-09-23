@@ -1,12 +1,26 @@
 import { LeagueListType } from './league';
 
 export const stateMap = {
-  playing: '진행 중',
-  scheduled: '시작 전',
-  finished: '종료',
+  PLAYING: '진행 중',
+  SCHEDULED: '시작 전',
+  FINISHED: '종료',
 } as const;
 
 export type StateType = keyof typeof stateMap;
+
+export type RoundType = 32 | 16 | 8 | 4;
+export type LegacyRoundType = `${RoundType}강` | '결승';
+
+export type CreateGameType = {
+  name: string;
+  round: LegacyRoundType;
+  quarter: number;
+  state: StateType;
+  startDate: Date;
+  idOfTeam1: number;
+  idOfTeam2: number;
+  videoId: string | null;
+};
 
 export type GameTeamType = {
   gameTeamId: number;

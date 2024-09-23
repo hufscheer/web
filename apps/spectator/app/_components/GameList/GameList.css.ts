@@ -40,9 +40,9 @@ const cardBase = style({
 });
 
 export const cardRoot = styleVariants({
-  playing: [cardBase],
-  scheduled: [cardBase],
-  finished: [
+  PLAYING: [cardBase],
+  SCHEDULED: [cardBase],
+  FINISHED: [
     cardBase,
     {
       filter: 'opacity(0.6)',
@@ -74,21 +74,21 @@ const timeStampBase = style({
 });
 
 export const timeStamp = styleVariants({
-  playing: [
+  PLAYING: [
     timeStampBase,
     {
       color: theme.colors.white,
       backgroundColor: theme.colors.indicatorRed[3],
     },
   ],
-  scheduled: [
+  SCHEDULED: [
     timeStampBase,
     {
       color: theme.colors.primary[3],
       backgroundColor: theme.colors.primary[1],
     },
   ],
-  finished: [
+  FINISHED: [
     timeStampBase,
     {
       color: theme.colors.gray[4],

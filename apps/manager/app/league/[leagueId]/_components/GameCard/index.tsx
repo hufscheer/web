@@ -32,7 +32,7 @@ const GameCard = ({ leagueId, state }: GameCardProps) => {
             <Card.Root>
               <Card.Head>
                 <Tag
-                  colorScheme={state === 'playing' ? 'primary' : 'secondary'}
+                  colorScheme={state === 'PLAYING' ? 'primary' : 'secondary'}
                 >
                   {stateMap[state]}
                 </Tag>
