@@ -56,6 +56,10 @@ globalStyle(`${label}:has(+ div > input:focus)`, {
   transform: 'scale(.85) translateY(-.5rem) translateX(.25rem)',
 });
 
+globalStyle(`${label}:has(+ div > input[type="time"])`, {
+  transform: 'scale(.85) translateY(-.5rem) translateX(.25rem)',
+});
+
 globalStyle(`${label}:has(+ ${control}:where(button[data-state="open"]))`, {
   transform: 'scale(.85) translateY(-.5rem) translateX(.25rem)',
 });

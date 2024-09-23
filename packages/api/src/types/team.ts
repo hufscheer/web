@@ -31,3 +31,9 @@ export type TeamUpdateType = {
   updatedPlayers: TeamPlayerType[];
   deletedPlayerIds: number[];
 };
+
+export type TeamDetailType = {
+  logoImageUrl: string;
+  teamName: string;
+  leagueTeamPlayers: (TeamPlayerType & { id: number })[];
+};

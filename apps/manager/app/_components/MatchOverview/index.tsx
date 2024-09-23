@@ -23,7 +23,7 @@ const MatchOverview = ({ state }: MatchOverviewProps) => {
         <Fragment key={league.leagueId}>
           <div className={styles.leagueContainer}>
             <span className={styles.leagueContent}>
-              <Tag colorScheme={state === 'playing' ? 'primary' : 'secondary'}>
+              <Tag colorScheme={state === 'PLAYING' ? 'primary' : 'secondary'}>
                 {stateMap[state]}
               </Tag>
               <h3 className={styles.leagueName}>{league.name}</h3>
