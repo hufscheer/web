@@ -8,7 +8,7 @@ export const icon = style({
   transform: 'translate(0, -50%)',
   cursor: 'inherit',
 
-  color: theme.colors.black100,
+  color: theme.colors.gray100,
   strokeWidth: 1,
 });
 
@@ -27,7 +27,7 @@ export const wrapper = style({
       bottom: -1,
       left: -1,
       height: 'inherit',
-      border: `2px solid ${theme.colors.accent.primary}`,
+      border: `2px solid ${theme.colors.primary.normal}`,
       transition: 'all .2s cubic-bezier(.4,0,.2,1)',
       zIndex: 2,
       borderRadius: rem(8),

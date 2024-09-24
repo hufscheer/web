@@ -15,7 +15,7 @@ const LineupBadge = forwardRef<ElementRef<typeof Badge>, LineupBadgeProps>(
       return (
         <Badge
           className={styles.badge}
-          colorScheme="accentPrimary"
+          colorScheme="primary"
           ref={ref}
           onClick={e => e.stopPropagation()}
         >
