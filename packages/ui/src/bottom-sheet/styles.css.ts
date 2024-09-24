@@ -35,6 +35,7 @@ export const inner = style({
 });
 
 export const bar = style({
+  flexShrink: 0,
   margin: '0 auto',
   marginTop: rem(10),
   height: rem(5),

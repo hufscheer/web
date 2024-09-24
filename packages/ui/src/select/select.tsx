@@ -16,17 +16,21 @@ const SelectValue = SelectPrimitive.Value;
 
 const SelectTrigger = forwardRef<
   ElementRef<typeof SelectPrimitive.Trigger>,
-  ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
+  ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & {
+    caret?: boolean;
+  }
+>(({ caret = true, className, children, ...props }, ref) => (
   <SelectPrimitive.Trigger
     ref={ref}
     className={clsx(styles.trigger, className)}
     {...props}
   >
     {children}
-    <SelectPrimitive.Icon asChild>
-      <Icon source={CaretDownIcon} width={24} height={24} color="gray" />
-    </SelectPrimitive.Icon>
+    {caret && (
+      <SelectPrimitive.Icon asChild>
+        <Icon source={CaretDownIcon} width={24} height={24} color="gray" />
+      </SelectPrimitive.Icon>
+    )}
   </SelectPrimitive.Trigger>
 ));
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;

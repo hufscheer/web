@@ -1,3 +1,4 @@
+import useCreateGame from './useCreateGames';
 import useCreateLeague from './useCreateLeague';
 import useCreateLeagueTeam from './useCreateLeagueTeam';
 import useDeleteLeague from './useDeleteLeague';
@@ -18,4 +19,5 @@ export {
   useUpdateLeague,
   useUpdateLeagueTeam,
   useUploadImage,
+  useCreateGame,
 };

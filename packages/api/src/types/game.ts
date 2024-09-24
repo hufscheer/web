@@ -8,6 +8,20 @@ export const stateMap = {
 
 export type StateType = keyof typeof stateMap;
 
+export type RoundType = 32 | 16 | 8 | 4;
+export type LegacyRoundType = `${RoundType}강` | '결승';
+
+export type CreateGameType = {
+  name: string;
+  round: LegacyRoundType;
+  quarter: number;
+  state: StateType;
+  startDate: Date;
+  idOfTeam1: number;
+  idOfTeam2: number;
+  videoId: string | null;
+};
+
 export type GameTeamType = {
   gameTeamId: number;
   gameTeamName: string;

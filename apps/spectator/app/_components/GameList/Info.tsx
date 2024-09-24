@@ -62,7 +62,7 @@ export default function GameInfo({ gameTeams, gameId, state }: GameInfoProps) {
 }
 
 function GameScore({ score, state }: { score: number; state: GameState }) {
-  if (state === 'scheduled') return null;
+  if (state === 'SCHEDULED') return null;
 
   return <span className={styles.gameInfoRow.score}>{score}</span>;
 }
