@@ -37,15 +37,15 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import Layout from '@/components/Layout';
-import { formatTime } from '@/utils/time';
-
-import TimeInput from './_components/time-input';
+import TimeInput from '@/components/TimeInput';
 import {
   getStateByQuarter,
   QUARTER_ID,
   QUARTER_KEY,
   QUARTERS_DB,
-} from './_constants';
+} from '@/constants/games';
+import { formatTime } from '@/utils/time';
+
 import * as styles from './styles.css';
 
 const registerGameFormSchema = z.object({

@@ -60,3 +60,23 @@ export type TimelineType = {
   gameQuarter: string;
   records: TimelineRecordType[];
 };
+
+export type CommonCreateType = {
+  recordedQuarterId: number;
+  recordedAt: number;
+};
+
+export type ProgressCreateType = CommonCreateType & {
+  gameProgressType: string;
+};
+
+export type ReplacementCreateType = CommonCreateType & {
+  gameTeamId: number;
+  originLineupPlayerId: number;
+  replacementLineupPlayerId: number;
+};
+
+export type ScoreCreateType = CommonCreateType & {
+  gameTeamId: number;
+  scoreLineupPlayerId: number;
+};

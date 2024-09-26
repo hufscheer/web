@@ -1,15 +1,13 @@
 'use client';
-import { useGame, useTimeline } from '@hcc/api';
+import { useGame, useTimeline, TimelineRecordType } from '@hcc/api';
 import { Fragment } from 'react';
 
-import {
-  EventRecord,
-  TextRecord,
-} from '@/app/league/[leagueId]/[gameId]/timeline/_components/Record';
 import Layout from '@/components/Layout';
 
 import BottomMenu from './_components/BottomMenu';
 import GameScoreBanner from './_components/GameScoreBanner';
+import { EventRecord, TextRecord } from './_components/Record';
+import RecordDeleteMenu from './_components/RecordDeleteMenu';
 import * as styles from './page.css';
 
 type PageProps = {
@@ -26,27 +24,17 @@ export default function Page({ params }: PageProps) {
 
   const homeTeamId: number = game.gameTeams[0].gameTeamId;
 
-  return (
-    <Layout navigationTitle="타임라인 수정">
-      <GameScoreBanner game={game} />
-      <div className={styles.timeline}>
-        {timelines.map(timeline => {
-          return (
-            <Fragment key={timeline.gameQuarter}>
-              <TextRecord showDividerLine={true}>
-                {timeline.gameQuarter}이 시작되었습니다.
-              </TextRecord>
+  const lastRecord: TimelineRecordType | undefined =
+    timelines?.[0]?.records?.[0] ?? undefined;
 
-              {timeline.records.map(record => (
-                <EventRecord
-                  key={record.recordId}
-                  record={record}
-                  homeTeamId={homeTeamId}
-                />
-              ))}
-            </Fragment>
-          );
-        })}
+  return (
+    <Layout
+      navigationTitle="타임라인 수정"
+      navigationMenu={<RecordDeleteMenu gameId={gameId} record={lastRecord} />}
+    >
+      <GameScoreBanner game={game} />
+
+      <div className={styles.timeline}>
         {game.state === 'FINISHED' && (
           <>
             <TextRecord>경기가 종료되었습니다.</TextRecord>
@@ -55,8 +43,25 @@ export default function Page({ params }: PageProps) {
             </TextRecord>
           </>
         )}
+        {timelines.map(timeline => {
+          return (
+            <Fragment key={timeline.gameQuarter}>
+              {timeline.records.map(record => (
+                <EventRecord
+                  key={record.recordId}
+                  record={record}
+                  homeTeamId={homeTeamId}
+                />
+              ))}
+              <TextRecord showDividerLine={true}>
+                {timeline.gameQuarter}이 시작되었습니다.
+              </TextRecord>
+            </Fragment>
+          );
+        })}
       </div>
-      <BottomMenu />
+
+      <BottomMenu gameId={gameId} />
     </Layout>
   );
 }

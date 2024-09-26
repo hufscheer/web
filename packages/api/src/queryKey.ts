@@ -11,6 +11,7 @@ import {
   TeamPlayerType,
   TeamDetailType,
   TeamType,
+  LineupType,
 } from './types';
 import { TimelineType } from './types/timeline';
 
@@ -103,6 +104,16 @@ const gameQueryKeys = {
       const data = await fetcher.get<GameType[]>(`/games`, { params });
       return { games: data, league } satisfies GameWithLeagueListType;
     },
+  }),
+
+  lineup: (gameId: string) => ({
+    queryKey: ['gameLineup', { gameId }],
+    queryFn: () => fetcher.get<LineupType[]>(`/games/${gameId}/lineup`),
+  }),
+
+  lineupPlaying: (gameId: string) => ({
+    queryKey: ['gameLineupPlaying', { gameId }],
+    queryFn: () => fetcher.get<LineupType[]>(`/games/${gameId}/lineup/playing`),
   }),
 };
 

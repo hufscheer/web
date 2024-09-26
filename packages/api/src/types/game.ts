@@ -54,3 +54,18 @@ export type GamesParams = {
   league_team_id?: number;
   round?: number;
 };
+
+export type GameTeamPlayerType = {
+  id: number;
+  playerName: string;
+  description?: string;
+  number: number;
+  isCaptain: boolean;
+  state: string;
+};
+
+export type LineupType = {
+  gameTeamId: number;
+  teamName: string;
+  gameTeamPlayers: GameTeamPlayerType[];
+};

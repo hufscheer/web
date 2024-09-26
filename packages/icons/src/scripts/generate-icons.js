@@ -17,6 +17,6 @@ const iconNames = iconFileNames.map(iconFileName => {
 });
 
 writeFileSync(
-  resolve(__dirname, '../../src/index.ts'),
+  resolve(__dirname, '../../src/games.ts'),
   iconNames.join('\n') + '\n',
 );

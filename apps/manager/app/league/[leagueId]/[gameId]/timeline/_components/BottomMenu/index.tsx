@@ -1,45 +1,32 @@
-import { AddCircleIcon, SettingsIcon, TradeIcon } from '@hcc/icons';
-import {
-  BottomSheet,
-  BottomSheetContent,
-  BottomSheetDescription,
-  BottomSheetHeader,
-  BottomSheetTitle,
-  BottomSheetTrigger,
-  Icon,
-} from '@hcc/ui';
+import { AddCircleIcon, TradeIcon } from '@hcc/icons';
+import { Icon } from '@hcc/ui';
 
 import * as styles from './TimelineMenu.css';
+import { ScoreForm, ReplacementForm } from '../Form';
+import FormBottomSheet from '../FormBottomSheet';
 
-const BottomMenu = () => {
+type BottomMenuProps = {
+  gameId: string;
+};
+
+const BottomMenu = ({ gameId }: BottomMenuProps) => {
   return (
     <div className={styles.root}>
       <div className={styles.container}>
-        <BottomSheet>
-          <BottomSheetTrigger asChild>
-            <button className={styles.controlButton}>
-              <Icon source={AddCircleIcon} color="blue" />
-              득점 추가
-            </button>
-          </BottomSheetTrigger>
-          <BottomSheetContent>
-            <BottomSheetHeader>
-              <BottomSheetTitle>득점 추가</BottomSheetTitle>
-            </BottomSheetHeader>
-            <BottomSheetDescription>
-              <p>상황</p>
-              <p>득점 상세 정보</p>
-            </BottomSheetDescription>
-          </BottomSheetContent>
-        </BottomSheet>
-        <button className={styles.controlButton}>
-          <Icon source={TradeIcon} />
-          교체 추가
-        </button>
-        <button className={styles.controlButton}>
-          <Icon source={SettingsIcon} color="secondary" />
-          상태 변경
-        </button>
+        <FormBottomSheet
+          title="득점 추가"
+          icon={<Icon source={AddCircleIcon} color="blue" />}
+          form={<ScoreForm gameId={gameId} />}
+        />
+        <FormBottomSheet
+          title="교체 추가"
+          icon={<Icon source={TradeIcon} />}
+          form={<ReplacementForm gameId={gameId} />}
+        />
+        {/*<FormBottomSheet*/}
+        {/*  title="상태 변경"*/}
+        {/*  icon={<Icon source={SettingsIcon} color="secondary" />}*/}
+        {/*/>*/}
       </div>
     </div>
   );

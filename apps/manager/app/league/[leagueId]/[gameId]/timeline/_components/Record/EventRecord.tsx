@@ -1,9 +1,12 @@
 import { TimelineRecordType } from '@hcc/api';
-import { SoccerIcon, TradeHorizontalIcon } from '@hcc/icons';
-import { Icon } from '@hcc/ui';
 import { clsx } from 'clsx';
 
 import * as styles from './Record.css';
+import {
+  getRecordIcon,
+  getRecordSubtitle,
+  getRecordTitle,
+} from '../../_utils/record';
 
 type EventRecordProps = {
   record: TimelineRecordType;
@@ -13,34 +16,6 @@ type EventRecordProps = {
 const EventRecord = ({ record, homeTeamId }: EventRecordProps) => {
   const isAway = record.gameTeamId !== homeTeamId;
 
-  const getIcon = () => {
-    switch (record.type) {
-      case 'SCORE':
-        return <Icon source={SoccerIcon} size={16} />;
-      case 'REPLACEMENT':
-        return <Icon source={TradeHorizontalIcon} size={16} />;
-      default:
-        return null;
-    }
-  };
-
-  const getTitle = () => {
-    if (record.type === 'REPLACEMENT') {
-      return `${record.replacementRecord.replacedPlayerName} IN`;
-    }
-    return record.playerName;
-  };
-
-  const getSubtitle = () => {
-    if (record.type === 'SCORE') {
-      return '득점';
-    }
-    if (record.type === 'REPLACEMENT') {
-      return `${record.playerName} OUT`;
-    }
-    return '';
-  };
-
   return (
     <div
       className={clsx(styles.eventRecordContainer, {
@@ -49,10 +24,12 @@ const EventRecord = ({ record, homeTeamId }: EventRecordProps) => {
     >
       <div className={styles.eventRecordLine} />
       <p className={styles.eventRecordTime}>{record.recordedAt}&apos;</p>
-      {getIcon()}
+      {getRecordIcon(record)}
       <div className={styles.eventDescriptionContainer}>
-        <p className={styles.eventDescriptionTitle}>{getTitle()}</p>
-        <p className={styles.eventDescriptionSubtitle}>{getSubtitle()}</p>
+        <p className={styles.eventDescriptionTitle}>{getRecordTitle(record)}</p>
+        <p className={styles.eventDescriptionSubtitle}>
+          {getRecordSubtitle(record)}
+        </p>
       </div>
     </div>
   );

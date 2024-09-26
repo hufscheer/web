@@ -1,4 +1,6 @@
 import useGame from './useGame';
+import useGameLineup from './useGameLineup';
+import useGameLineupPlaying from './useGameLineupPlaying';
 import useGames from './useGames';
 import useGamesByLeagueList from './useGamesByLeagueList';
 import useLeague from './useLeague';
@@ -12,6 +14,8 @@ import useTimeline from './useTimeline';
 
 export {
   useGame,
+  useGameLineup,
+  useGameLineupPlaying,
   useGames,
   useGamesByLeagueList,
   useLeague,

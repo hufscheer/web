@@ -85,7 +85,7 @@ export const animateOut = keyframes({
 
 export const content = style({
   position: 'relative',
-  zIndex: 50,
+  zIndex: theme.zIndices.popover,
   maxHeight: rem(380),
   minWidth: rem(125),
   overflow: 'hidden',
