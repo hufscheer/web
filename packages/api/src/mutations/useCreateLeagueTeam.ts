@@ -21,9 +21,9 @@ const useCreateLeagueTeam = () => {
   return useMutation({
     mutationFn: postCreateLeagueTeam,
     onSuccess: async (_, variables) => {
-      await queryClient.invalidateQueries({
-        queryKey: queryKeys.leagueTeams(variables.leagueId).queryKey,
-      });
+      await queryClient.invalidateQueries(
+        queryKeys.leagueTeams(variables.leagueId),
+      );
     },
   });
 };

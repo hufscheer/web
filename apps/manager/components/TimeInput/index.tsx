@@ -3,7 +3,7 @@ import { Icon } from '@hcc/ui';
 import { clsx } from 'clsx';
 import { ComponentProps, forwardRef, useImperativeHandle, useRef } from 'react';
 
-import * as styles from './styles.css';
+import * as styles from './TimeInput.css';
 
 type TimeInputProps = ComponentProps<'input'>;
 

@@ -38,6 +38,7 @@ export type GameType = {
   videoId?: string;
   gameTeams: GameTeamType[];
   sportsName: string;
+  state: StateType;
 };
 
 export type GameWithLeagueListType = {
@@ -52,4 +53,19 @@ export type GamesParams = {
   size?: number;
   league_team_id?: number;
   round?: number;
+};
+
+export type GameTeamPlayerType = {
+  id: number;
+  playerName: string;
+  description?: string;
+  number: number;
+  isCaptain: boolean;
+  state: string;
+};
+
+export type LineupType = {
+  gameTeamId: number;
+  teamName: string;
+  gameTeamPlayers: GameTeamPlayerType[];
 };

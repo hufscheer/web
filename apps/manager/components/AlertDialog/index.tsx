@@ -12,11 +12,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@hcc/ui';
-import { ReactNode } from 'react';
+import { isValidElement, ReactNode } from 'react';
 
 type AlertDialogProps = {
   title: string;
-  description: string;
+  description: ReactNode;
   primaryActionLabel: string;
   secondaryActionLabel?: string;
   onPrimaryAction?: () => void;
@@ -40,7 +40,14 @@ const AlertDialog = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
+          {isValidElement(description) ? (
+            <>
+              <DialogDescription />
+              {description}
+            </>
+          ) : (
+            <DialogDescription>{description}</DialogDescription>
+          )}
         </DialogHeader>
         <DialogFooter>
           {secondaryActionLabel && (

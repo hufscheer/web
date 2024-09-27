@@ -46,8 +46,10 @@ const BottomSheetContent = React.forwardRef<
       className={clsx(styles.content, className)}
       {...props}
     >
-      <div className={styles.bar} />
-      {children}
+      <div className={styles.inner}>
+        <div className={styles.bar} />
+        {children}
+      </div>
     </DrawerPrimitive.Content>
   </BottomSheetPortal>
 ));

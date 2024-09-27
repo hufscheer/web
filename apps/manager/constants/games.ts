@@ -1,26 +1,26 @@
-const ROUND = [
-  { value: '16', label: '16강' },
-  { value: '8', label: '8강' },
-  { value: '4', label: '4강' },
-  { value: '2', label: '결승' },
-];
+import { StateType } from '@hcc/api';
 
-const SPORTS = [{ value: '4', label: '축구' }];
+export const QUARTERS_DB = {
+  '경기 전': '경기전',
+  전반전: '전반전',
+  후반전: '후반전',
+  승부차기: '승부차기',
+  '경기 후': '경기후',
+} as const;
 
-const STATE = [
-  { value: 'SCHEDULED', label: '예정' },
-  { value: 'PLAYING', label: '진행중' },
-  { value: 'FINISHED', label: '종료' },
-];
+export const QUARTER_ID: Record<QUARTER_KEY, number> = {
+  전반전: 4,
+  후반전: 5,
+  경기전: 6,
+  승부차기: 7,
+  경기후: 8,
+} as const;
 
-const QUARTER = [
-  { value: '전반전', label: '전반전' },
-  { value: '후반전', label: '후반전' },
-];
+export type QUARTER_KEY = (typeof QUARTERS_DB)[keyof typeof QUARTERS_DB];
 
-export const GAMES = {
-  ROUND,
-  SPORTS,
-  STATE,
-  QUARTER,
+export const getStateByQuarter = (quarter: QUARTER_KEY): StateType => {
+  if (quarter === '경기전') return 'SCHEDULED';
+  if (quarter === '경기후') return 'FINISHED';
+
+  return 'PLAYING';
 };

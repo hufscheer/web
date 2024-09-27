@@ -41,26 +41,26 @@ export const headerInfo = style({
 export const title = style({
   fontSize: rem(24),
   fontWeight: 600,
-  color: theme.colors.black900,
+  color: theme.colors.gray900,
 
   marginBottom: rem(8),
 });
 
 export const description = style({
   fontSize: rem(16),
-  color: theme.colors.black400,
+  color: theme.colors.gray400,
 });
 
 export const editButton = style({
-  color: theme.colors.black300,
+  color: theme.colors.gray300,
   fontSize: rem(18),
 
   ':hover': {
-    color: theme.colors.black500,
+    color: theme.colors.gray500,
   },
 
   ':focus-visible': {
-    color: theme.colors.black500,
+    color: theme.colors.gray500,
   },
 });
 
@@ -75,7 +75,7 @@ export const division = style({
 
   fontSize: rem(16),
   fontWeight: 500,
-  color: theme.colors.black900,
+  color: theme.colors.gray900,
 });
 
 export const playerList = style({
@@ -103,10 +103,10 @@ export const card = style({
   gap: rem(10),
 
   height: '100%',
-  color: theme.colors.black900,
+  color: theme.colors.gray900,
   paddingInline: rem(18),
   borderRadius: rem(8),
-  border: `1px solid ${theme.colors.black25}`,
+  border: `1px solid ${theme.colors.gray25}`,
   backgroundColor: theme.colors.white,
 });
 
@@ -116,15 +116,15 @@ export const backNumber = style({
   alignItems: 'center',
 
   height: '100%',
-  color: theme.colors.black900,
+  color: theme.colors.gray900,
   paddingInline: rem(18),
   borderRadius: rem(8),
-  border: `1px solid ${theme.colors.black25}`,
+  border: `1px solid ${theme.colors.gray25}`,
   backgroundColor: theme.colors.white,
 });
 
 export const divider = style({
-  backgroundColor: theme.colors.black25,
+  backgroundColor: theme.colors.gray25,
   width: '100%',
   padding: 0,
 });

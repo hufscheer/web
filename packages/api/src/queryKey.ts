@@ -11,7 +11,9 @@ import {
   TeamPlayerType,
   TeamDetailType,
   TeamType,
+  LineupType,
 } from './types';
+import { TimelineType } from './types/timeline';
 
 const leagueQueryKeys = {
   league: (leagueId: string) => ({
@@ -103,6 +105,27 @@ const gameQueryKeys = {
       return { games: data, league } satisfies GameWithLeagueListType;
     },
   }),
+
+  lineup: (gameId: string) => ({
+    queryKey: ['gameLineup', { gameId }],
+    queryFn: () => fetcher.get<LineupType[]>(`/games/${gameId}/lineup`),
+  }),
+
+  lineupPlaying: (gameId: string) => ({
+    queryKey: ['gameLineupPlaying', { gameId }],
+    queryFn: () => fetcher.get<LineupType[]>(`/games/${gameId}/lineup/playing`),
+  }),
 };
 
-export const queryKeys = { ...leagueQueryKeys, ...gameQueryKeys };
+const timelineQueryKeys = {
+  timeline: (gameId: string) => ({
+    queryKey: ['timeline', { gameId }],
+    queryFn: () => fetcher.get<TimelineType[]>(`/games/${gameId}/timeline`),
+  }),
+};
+
+export const queryKeys = {
+  ...leagueQueryKeys,
+  ...gameQueryKeys,
+  ...timelineQueryKeys,
+};

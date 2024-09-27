@@ -8,40 +8,48 @@ export const overlay = style({
   right: 0,
   bottom: 0,
   background: 'rgba(0, 0, 0, 0.5)',
-  zIndex: 10,
+  zIndex: theme.zIndices.overlay,
 });
 
 export const content = style({
-  display: 'flex',
-  flexDirection: 'column',
+  ...theme.layouts.column,
+  height: 'auto',
 
   position: 'fixed',
   bottom: 0,
   left: 0,
   right: 0,
   marginTop: rem(100),
-  zIndex: 15,
+  zIndex: theme.zIndices.modal,
   backgroundColor: theme.colors.white,
   borderTopLeftRadius: rem(12),
   borderTopRightRadius: rem(12),
   border: `1px solid transparent`,
 });
 
+export const inner = style({
+  ...theme.layouts.column,
+  width: '100%',
+  maxWidth: theme.sizes.appWidth,
+  marginInline: 'auto',
+});
+
 export const bar = style({
   flexShrink: 0,
   margin: '0 auto',
-  marginTop: rem(16),
-  height: rem(6),
-  width: rem(100),
-  borderRadius: 9999,
+  marginTop: rem(10),
+  height: rem(5),
+  width: rem(64),
+  borderRadius: rem(10),
   backgroundColor: theme.colors.gray50,
 });
 
 export const header = style({
   display: 'grid',
   gap: rem(6),
-  padding: rem(16),
-  textAlign: 'center',
+  paddingTop: rem(33),
+  paddingInline: theme.sizes.appInlinePadding,
+  paddingBottom: rem(16),
 });
 
 export const footer = style({
