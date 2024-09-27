@@ -12,7 +12,7 @@ import { readdirSync } from 'fs';
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
 
 export default defineConfig({
-  input: 'src/games.ts',
+  input: 'src/index.ts',
   output: {
     dir: 'dist',
     format: 'esm',
