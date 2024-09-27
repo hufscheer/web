@@ -1,6 +1,7 @@
 import useCreateGame from './useCreateGames';
 import useCreateLeague from './useCreateLeague';
 import useCreateLeagueTeam from './useCreateLeagueTeam';
+import useCreatePkTimeline from './useCreatePkTimeline';
 import useCreateProgressTimeline from './useCreateProgressTimeline';
 import useCreateReplacementTimeline from './useCreateReplacementTimeline';
 import useCreateScoreTimeline from './useCreateScoreTimeline';
@@ -17,6 +18,7 @@ export {
   useCreateGame,
   useCreateLeague,
   useCreateLeagueTeam,
+  useCreatePkTimeline,
   useCreateProgressTimeline,
   useCreateReplacementTimeline,
   useCreateScoreTimeline,

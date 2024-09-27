@@ -28,3 +28,14 @@ export type ReplacementFormSchema = z.infer<typeof replacementFormSchema>;
 export const replacementDefaultValues = Object.fromEntries(
   Object.keys(replacementFormSchema.shape).map(key => [key, '']),
 );
+
+export const progressFormSchema = z.object({
+  recordedQuarterId: z.string({ message: '쿼터 ID를 입력해주세요' }),
+  recordedAt: z.string({ message: '기록된 시간을 입력해주세요' }),
+});
+
+export type ProgressFormSchema = z.infer<typeof progressFormSchema>;
+
+export const progressDefaultValues = Object.fromEntries(
+  Object.keys(replacementFormSchema.shape).map(key => [key, '']),
+);

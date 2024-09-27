@@ -80,3 +80,9 @@ export type ScoreCreateType = CommonCreateType & {
   gameTeamId: number;
   scoreLineupPlayerId: number;
 };
+
+export type PkCreateType = CommonCreateType & {
+  gameTeamId: number;
+  scorerId: number;
+  isSuccess: boolean;
+};

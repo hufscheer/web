@@ -112,6 +112,7 @@ const ScoreForm = ({ gameId, onClose }: ScoreFormProps) => {
               </FormItem>
             )}
           />
+
           <FormField
             control={methods.control}
             name="gameTeamId"
@@ -175,12 +176,13 @@ const ScoreForm = ({ gameId, onClose }: ScoreFormProps) => {
               </FormItem>
             )}
           />
+
           <FormField
             control={methods.control}
             name="recordedAt"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>시작 시간</FormLabel>
+                <FormLabel>시간</FormLabel>
                 <FormControl>
                   <TimeInput type="number" {...field} />
                 </FormControl>

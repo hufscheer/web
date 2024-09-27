@@ -1,8 +1,8 @@
-import { AddCircleIcon, TradeIcon } from '@hcc/icons';
+import { AddCircleIcon, SettingsIcon, TradeIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 
 import * as styles from './TimelineMenu.css';
-import { ScoreForm, ReplacementForm } from '../Form';
+import { ScoreForm, ReplacementForm, ProgressForm } from '../Form';
 import FormBottomSheet from '../FormBottomSheet';
 
 type BottomMenuProps = {
@@ -23,10 +23,11 @@ const BottomMenu = ({ gameId }: BottomMenuProps) => {
           icon={<Icon source={TradeIcon} />}
           form={<ReplacementForm gameId={gameId} />}
         />
-        {/*<FormBottomSheet*/}
-        {/*  title="상태 변경"*/}
-        {/*  icon={<Icon source={SettingsIcon} color="secondary" />}*/}
-        {/*/>*/}
+        <FormBottomSheet
+          title="상태 변경"
+          icon={<Icon source={SettingsIcon} color="secondary" />}
+          form={<ProgressForm gameId={gameId} />}
+        />
       </div>
     </div>
   );
