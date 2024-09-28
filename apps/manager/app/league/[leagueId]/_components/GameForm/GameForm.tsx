@@ -28,11 +28,15 @@ import { formatTime } from '@/utils/time';
 
 import * as styles from './GameForm.css';
 import { GameFormSchema } from './types';
-import { LineupCreateSheet } from '../../_components/LineupSheet';
+import {
+  LineupCreateSheet,
+  LineupUpdateSheet,
+} from '../../_components/LineupSheet';
 import LineupBadge from '../LineupBadge';
 
 type GameFormProps = {
   leagueId: string;
+  gameId?: string;
   methods: UseFormReturn<GameFormSchema>;
   submitText: string;
   onSubmit: SubmitHandler<GameFormSchema>;
@@ -41,6 +45,7 @@ type GameFormProps = {
 
 export const GameForm = ({
   leagueId,
+  gameId,
   methods,
   submitText,
   onSubmit,
@@ -71,10 +76,7 @@ export const GameForm = ({
             name="round"
             render={({ field }) => (
               <FormItem>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+                <Select onValueChange={field.onChange} value={field.value}>
                   <FormLabel>라운드</FormLabel>
                   <FormControl>
                     <SelectTrigger>
@@ -99,10 +101,7 @@ export const GameForm = ({
             name="quarter"
             render={({ field }) => (
               <FormItem>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+                <Select onValueChange={field.onChange} value={field.value}>
                   <FormLabel>쿼터</FormLabel>
                   <FormControl>
                     <SelectTrigger>
@@ -213,12 +212,18 @@ export const GameForm = ({
                       methods={methods}
                       fieldName="playersOfTeam1"
                     >
-                      <button className={styles.badge}>
+                      <button className={styles.badge} type="button">
                         <LineupBadge
                           checked={methods.watch('playersOfTeam1').length > 0}
                         />
                       </button>
                     </LineupCreateSheet>
+                  ) : gameId ? (
+                    <LineupUpdateSheet gameId={gameId} teamId={field.value}>
+                      <button className={styles.badge} type="button">
+                        <LineupBadge checked={true} />
+                      </button>
+                    </LineupUpdateSheet>
                   ) : null)}
               </FormItem>
             )}
@@ -267,12 +272,18 @@ export const GameForm = ({
                       methods={methods}
                       fieldName="playersOfTeam2"
                     >
-                      <button className={styles.badge}>
+                      <button className={styles.badge} type="button">
                         <LineupBadge
                           checked={methods.watch('playersOfTeam2').length > 0}
                         />
                       </button>
                     </LineupCreateSheet>
+                  ) : gameId ? (
+                    <LineupUpdateSheet gameId={gameId} teamId={field.value}>
+                      <button className={styles.badge} type="button">
+                        <LineupBadge checked={true} />
+                      </button>
+                    </LineupUpdateSheet>
                   ) : null)}
               </FormItem>
             )}

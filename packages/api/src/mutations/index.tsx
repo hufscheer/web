@@ -10,8 +10,10 @@ import useDeleteLeagueTeam from './useDeleteLeagueTeam';
 import useDeleteTimeline from './useDeleteTimeline';
 import useGeneratePresignedUrl from './useGeneratePresignedUrl';
 import useLoginMutation from './useManagerLogin';
+import useUpdateCandidateLineup from './useUpdateCandidateLineup';
 import useUpdateLeague from './useUpdateLeague';
 import useUpdateLeagueTeam from './useUpdateLeagueTeam';
+import useUpdateStarterLineup from './useUpdateStarterLineup';
 import useUploadImage from './useUploadImage';
 
 export {
@@ -27,7 +29,9 @@ export {
   useDeleteTimeline,
   useGeneratePresignedUrl,
   useLoginMutation,
+  useUpdateCandidateLineup,
   useUpdateLeague,
   useUpdateLeagueTeam,
+  useUpdateStarterLineup,
   useUploadImage,
 };

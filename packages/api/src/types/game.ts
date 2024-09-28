@@ -39,6 +39,7 @@ export type GameType = {
   gameTeams: GameTeamType[];
   sportsName: string;
   state: StateType;
+  isPkTaken: boolean;
 };
 
 export type GameWithLeagueListType = {

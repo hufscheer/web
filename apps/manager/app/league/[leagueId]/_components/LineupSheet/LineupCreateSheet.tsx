@@ -22,7 +22,7 @@ import Divider from '@/components/Divider';
 import * as styles from './styles.css';
 import { GameFormSchema } from '../../_components/GameForm';
 
-type LineupSheetProps = {
+type LineupCreateSheetProps = {
   methods: UseFormReturn<GameFormSchema>;
   teamId: string;
   fieldName: 'playersOfTeam1' | 'playersOfTeam2';
@@ -34,7 +34,7 @@ export const LineupCreateSheet = ({
   teamId,
   fieldName,
   children,
-}: LineupSheetProps) => {
+}: LineupCreateSheetProps) => {
   const { toast } = useToast();
   const [open, setOpen] = useState<boolean>(false);
   const { data: teamDetail } = useLeagueTeamDetail(teamId);
