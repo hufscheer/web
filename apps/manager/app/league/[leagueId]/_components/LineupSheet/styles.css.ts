@@ -1,41 +1,21 @@
 import { rem, theme } from '@hcc/styles';
-import { breakpoint } from '@hcc/styles/dist/responsive.css';
 import { style } from '@vanilla-extract/css';
-
-export const scrollArea = style({
-  height: '9999px',
-});
 
 export const content = style({
   width: '100%',
-  height: 'calc(100dvh - 15%)',
-  margin: '0 auto',
-
-  ...breakpoint('tablet', {
-    width: theme.sizes.appWidth,
-  }),
-});
-
-export const innerContent = style({
-  width: `min(${theme.sizes.appWidth}, 100%)`,
-  height: '100%',
-  margin: '0 auto',
+  height: 'calc(100dvh - 15%) !important',
+  marginTop: '0 !important',
 });
 
 export const header = style({
-  display: 'flex',
-  justifyContent: 'space-between',
+  ...theme.layouts.rowBetween,
   alignItems: 'start',
-  flexDirection: 'row',
-
   width: '100%',
   paddingTop: rem(32),
 });
 
 export const headerInfo = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'start',
+  ...theme.layouts.column,
 });
 
 export const title = style({
@@ -54,37 +34,42 @@ export const description = style({
 export const editButton = style({
   color: theme.colors.gray300,
   fontSize: rem(18),
+  transition: 'color 0.2s',
 
-  ':hover': {
-    color: theme.colors.gray500,
-  },
-
-  ':focus-visible': {
-    color: theme.colors.gray500,
-  },
+  ':hover': { color: theme.colors.gray500 },
+  ':focus-visible': { color: theme.colors.gray500 },
 });
 
-export const block = style({
-  width: theme.sizes.appWidth,
+export const section = style({
+  width: '100%',
+  maxWidth: theme.sizes.appWidth,
+  height: 'calc(100dvh - 15% - 111px) !important',
   paddingInline: theme.sizes.appInlinePadding,
+  overflowY: 'auto',
+  overflowX: 'hidden',
 });
 
 export const division = style({
-  marginTop: rem(24),
-  marginBottom: rem(16),
+  ...theme.layouts.rowBetween,
+  marginTop: rem(26),
+  marginBottom: rem(18),
 
   fontSize: rem(16),
   fontWeight: 500,
   color: theme.colors.gray900,
 });
 
+export const selectAllButton = style({
+  color: theme.colors.gray300,
+});
+
 export const playerList = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: rem(16),
+  ...theme.layouts.column,
+  gap: rem(12),
 
   width: '100%',
   marginBottom: rem(24),
+  listStyle: 'none',
 });
 
 export const playerItem = style({
@@ -98,12 +83,13 @@ export const playerItem = style({
 });
 
 export const card = style({
-  display: 'flex',
-  alignItems: 'center',
+  ...theme.layouts.centerY,
   gap: rem(10),
 
   height: '100%',
   color: theme.colors.gray900,
+  fontSize: rem(16),
+  fontWeight: 500,
   paddingInline: rem(18),
   borderRadius: rem(8),
   border: `1px solid ${theme.colors.gray25}`,
@@ -111,20 +97,13 @@ export const card = style({
 });
 
 export const backNumber = style({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-
+  ...theme.layouts.center,
   height: '100%',
   color: theme.colors.gray900,
+  fontSize: rem(16),
+  fontWeight: 500,
   paddingInline: rem(18),
   borderRadius: rem(8),
   border: `1px solid ${theme.colors.gray25}`,
   backgroundColor: theme.colors.white,
-});
-
-export const divider = style({
-  backgroundColor: theme.colors.gray25,
-  width: '100%',
-  padding: 0,
 });

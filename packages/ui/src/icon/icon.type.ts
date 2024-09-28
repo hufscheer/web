@@ -5,6 +5,9 @@ export type IconColor =
   | 'secondary'
   | 'black'
   | 'blue'
+  | 'lightgray'
   | 'gray'
+  | 'green'
   | 'red'
+  | 'orange'
   | 'white';

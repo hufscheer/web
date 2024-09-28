@@ -13,23 +13,14 @@ const LineupBadge = forwardRef<ElementRef<typeof Badge>, LineupBadgeProps>(
   ({ checked = false }, ref) => {
     if (checked)
       return (
-        <Badge
-          className={styles.badge}
-          colorScheme="primary"
-          ref={ref}
-          onClick={e => e.stopPropagation()}
-        >
+        <Badge className={styles.badge} colorScheme="blue" ref={ref}>
           <Icon source={CheckIcon} color="white" width="16" height="16" />
           라인업
         </Badge>
       );
 
     return (
-      <Badge
-        className={clsx(styles.badge, styles.modifyBadge)}
-        ref={ref}
-        onClick={e => e.stopPropagation()}
-      >
+      <Badge className={clsx(styles.badge, styles.modifyBadge)} ref={ref}>
         <Icon source={AddIcon} color="white" width="16" height="16" />
         라인업 수정
       </Badge>

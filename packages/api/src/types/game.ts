@@ -14,9 +14,9 @@ export type LegacyRoundType = `${RoundType}강` | '결승';
 export type CreateGameType = {
   name: string;
   round: LegacyRoundType;
-  quarter: number;
+  quarter: string;
   state: StateType;
-  startDate: Date;
+  startTime: string;
   idOfTeam1: number;
   idOfTeam2: number;
   videoId: string | null;

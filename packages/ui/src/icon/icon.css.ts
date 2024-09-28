@@ -11,7 +11,10 @@ const color = {
   secondary: style({ color: theme.colors.secondary.normal }),
   black: style({ color: theme.colors.black }),
   blue: style({ color: theme.colors.blue600 }),
-  gray: style({ color: theme.colors.gray200 }),
+  lightgray: style({ color: theme.colors.gray100 }),
+  gray: style({ color: theme.colors.gray400 }),
+  green: style({ color: theme.colors.green600 }),
+  orange: style({ color: theme.colors.orange600 }),
   red: style({ color: theme.colors.red600 }),
   white: style({ color: theme.colors.white }),
 };
