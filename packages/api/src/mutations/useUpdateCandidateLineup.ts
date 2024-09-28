@@ -8,9 +8,9 @@ type Request = {
   lineupPlayerId: number;
 };
 
-const postUpdateCandidateLineup = (request: Request) => {
+const putUpdateCandidateLineup = (request: Request) => {
   const { gameId, lineupPlayerId } = request;
-  return fetcher.post<void>(
+  return fetcher.put<void>(
     `/games/${gameId}/lineup-players/${lineupPlayerId}/candidate`,
   );
 };
@@ -19,7 +19,7 @@ const useUpdateCandidateLineup = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: postUpdateCandidateLineup,
+    mutationFn: putUpdateCandidateLineup,
     onSuccess: async (_, variables) => {
       await queryClient.invalidateQueries(queryKeys.lineup(variables.gameId));
       await queryClient.invalidateQueries(

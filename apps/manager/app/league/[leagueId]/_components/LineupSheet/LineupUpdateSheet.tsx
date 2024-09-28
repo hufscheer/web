@@ -27,12 +27,12 @@ export const LineupUpdateSheet = ({
     lineupPlayingList?.find(lineup => lineup.gameTeamId === Number(teamId))
       ?.gameTeamPlayers || [];
 
-  const remainLineup: GameTeamPlayerType[] =
+  const candidateLineup: GameTeamPlayerType[] =
     currentLineup?.gameTeamPlayers.filter(
       player => !currentPlayingLineup.some(p => p.id === player.id),
     ) || [];
 
-  alert(JSON.stringify(remainLineup));
+  JSON.stringify(candidateLineup);
 
   return <>{children}</>;
 };

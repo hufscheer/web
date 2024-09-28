@@ -1,11 +1,12 @@
 'use client';
-import { useGame } from '@hcc/api';
+import { LegacyRoundType, useGame, useUpdateGame } from '@hcc/api';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import AlertDialog from '@/components/AlertDialog';
 import Layout from '@/components/Layout';
+import { getStateByQuarter, QUARTER_KEY } from '@/constants/games';
 import { formatTime } from '@/utils/time';
 
 import {
@@ -34,7 +35,10 @@ const DeleteButton = ({ onAction }: { onAction: () => void }) => {
 };
 
 export default function Page({ params }: PageProps) {
-  const { data: game } = useGame(params.gameId);
+  const leagueId = params.leagueId;
+  const gameId = params.gameId;
+
+  const { data: game } = useGame(gameId);
 
   const methods = useForm<GameFormSchema>({
     resolver: zodResolver(gameFormSchema),
@@ -59,8 +63,29 @@ export default function Page({ params }: PageProps) {
     }
   }, [game, methods]);
 
+  const { mutate: updateGameMutation } = useUpdateGame();
   const onSubmit = (data: GameFormSchema) => {
-    alert(data);
+    const quarter = data.quarter as QUARTER_KEY;
+    updateGameMutation(
+      {
+        leagueId,
+        gameId,
+        name: data.name,
+        round: data.round as LegacyRoundType,
+        quarter: quarter,
+        state: getStateByQuarter(quarter),
+        startTime: `${formatTime(data.startDate, 'YYYY-MM-DD')}T${data.startTime}:00`,
+        videoId: data.videoId,
+      },
+      {
+        onSuccess: () => {
+          alert('경기 정보가 수정되었습니다.');
+        },
+        onError: () => {
+          alert('경기 정보 수정에 실패했습니다.');
+        },
+      },
+    );
   };
 
   const handleDelete = () => {};
@@ -71,8 +96,8 @@ export default function Page({ params }: PageProps) {
       navigationMenu={<DeleteButton onAction={handleDelete} />}
     >
       <GameForm
-        leagueId={params.leagueId}
-        gameId={params.gameId}
+        leagueId={leagueId}
+        gameId={gameId}
         methods={methods}
         submitText="수정 완료"
         onSubmit={onSubmit}

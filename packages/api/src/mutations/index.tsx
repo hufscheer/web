@@ -1,4 +1,4 @@
-import useCreateGame from './useCreateGames';
+import useCreateGame from './useCreateGame';
 import useCreateLeague from './useCreateLeague';
 import useCreateLeagueTeam from './useCreateLeagueTeam';
 import useCreatePkTimeline from './useCreatePkTimeline';
@@ -11,6 +11,7 @@ import useDeleteTimeline from './useDeleteTimeline';
 import useGeneratePresignedUrl from './useGeneratePresignedUrl';
 import useLoginMutation from './useManagerLogin';
 import useUpdateCandidateLineup from './useUpdateCandidateLineup';
+import useUpdateGame from './useUpdateGame';
 import useUpdateLeague from './useUpdateLeague';
 import useUpdateLeagueTeam from './useUpdateLeagueTeam';
 import useUpdateStarterLineup from './useUpdateStarterLineup';
@@ -30,6 +31,7 @@ export {
   useGeneratePresignedUrl,
   useLoginMutation,
   useUpdateCandidateLineup,
+  useUpdateGame,
   useUpdateLeague,
   useUpdateLeagueTeam,
   useUpdateStarterLineup,

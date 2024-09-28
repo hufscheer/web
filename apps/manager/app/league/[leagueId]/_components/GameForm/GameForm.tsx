@@ -214,7 +214,9 @@ export const GameForm = ({
                     >
                       <button className={styles.badge} type="button">
                         <LineupBadge
-                          checked={methods.watch('playersOfTeam1').length > 0}
+                          checked={
+                            (methods.watch('playersOfTeam1') ?? []).length > 0
+                          }
                         />
                       </button>
                     </LineupCreateSheet>
@@ -274,7 +276,9 @@ export const GameForm = ({
                     >
                       <button className={styles.badge} type="button">
                         <LineupBadge
-                          checked={methods.watch('playersOfTeam2').length > 0}
+                          checked={
+                            (methods.watch('playersOfTeam2') ?? []).length > 0
+                          }
                         />
                       </button>
                     </LineupCreateSheet>
@@ -306,7 +310,9 @@ export const GameForm = ({
           />
         </section>
 
-        <Button type="submit">{submitText}</Button>
+        <Button type="submit" fontWeight="semibold" fullWidth>
+          {submitText}
+        </Button>
       </form>
     </Form>
   );

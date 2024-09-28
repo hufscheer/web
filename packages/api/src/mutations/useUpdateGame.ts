@@ -2,24 +2,23 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { fetcher } from '../fetcher';
 import { queryKeys } from '../queryKey';
+import { CreateGameType } from '../types';
 
 type Request = {
+  leagueId: string;
   gameId: string;
-  lineupPlayerId: number;
+} & Omit<CreateGameType, 'idOfTeam1' | 'idOfTeam2'>;
+
+const putUpdateGame = (request: Request) => {
+  const { leagueId, gameId, ...rest } = request;
+  return fetcher.put<void>(`/leagues/${leagueId}/${gameId}`, { ...rest });
 };
 
-const putUpdateStarterLineup = (request: Request) => {
-  const { gameId, lineupPlayerId } = request;
-  return fetcher.put<void>(
-    `/games/${gameId}/lineup-players/${lineupPlayerId}/starter`,
-  );
-};
-
-const useUpdateStarterLineup = () => {
+const useUpdateCandidateLineup = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: putUpdateStarterLineup,
+    mutationFn: putUpdateGame,
     onSuccess: async (_, variables) => {
       await queryClient.invalidateQueries(queryKeys.lineup(variables.gameId));
       await queryClient.invalidateQueries(
@@ -29,4 +28,4 @@ const useUpdateStarterLineup = () => {
   });
 };
 
-export default useUpdateStarterLineup;
+export default useUpdateCandidateLineup;

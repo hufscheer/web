@@ -15,8 +15,8 @@ export const gameFormSchema = z.object({
   idOfTeam1: z.string().min(1, { message: '홈팀을 입력해주세요.' }),
   idOfTeam2: z.string().min(1, { message: '원정팀을 입력해주세요.' }),
   videoId: z.string().nullable(),
-  playersOfTeam1: z.array(playerSchema),
-  playersOfTeam2: z.array(playerSchema),
+  playersOfTeam1: z.array(playerSchema).optional(),
+  playersOfTeam2: z.array(playerSchema).optional(),
 });
 
 export type GameFormSchema = z.infer<typeof gameFormSchema>;
