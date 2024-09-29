@@ -1,3 +1,5 @@
+import { GameType, StateValueType } from './game';
+
 export type LeagueType = {
   name: string;
   startAt: string;
@@ -25,5 +27,22 @@ export type LeagueUpdateType = Omit<
   LeagueType,
   'inProgressRound' | 'isInProgress' | 'maxRound'
 > & {
+  maxRound: string;
+};
+
+export type ManagerLeagueType = {
+  id: number;
+  name: string;
+  state: StateValueType;
+  inProgressGames: Pick<GameType, 'id' | 'state' | 'startTime' | 'gameTeams'>[];
+};
+
+export type ManagerManageLeagueType = Omit<
+  LeagueType,
+  'inProgressRound' | 'isInProgress' | 'maxRound'
+> & {
+  id: number;
+  leagueProgress: StateValueType;
+  sizeOfLeagueTeams: number;
   maxRound: string;
 };

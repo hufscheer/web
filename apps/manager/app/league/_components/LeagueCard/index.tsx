@@ -1,5 +1,6 @@
-import { stateMap, StateType, useLeaguesDetail } from '@hcc/api';
-import { Button, Tag } from '@hcc/ui';
+import { useLeaguesManageOnManager } from '@hcc/api';
+import { ChevronRightIcon } from '@hcc/icons';
+import { Button, Icon, Tag } from '@hcc/ui';
 import Link from 'next/link';
 import { Fragment } from 'react';
 
@@ -10,32 +11,41 @@ import { formatTime } from '@/utils/time';
 import * as styles from './LeagueCard.css';
 
 const LeagueCard = () => {
-  const { data: leagues } = useLeaguesDetail();
+  const { data: leagues } = useLeaguesManageOnManager();
+
+  if (!leagues) return null;
 
   return (
     <>
-      {leagues?.map(({ leagueId, league }, index) => {
-        const state: StateType = league.isInProgress
-          ? 'PLAYING'
-          : league.maxRound === league.inProgressRound
-            ? 'SCHEDULED'
-            : 'FINISHED';
-
+      {leagues.map((league, index) => {
         return (
-          <Fragment key={leagueId}>
+          <Fragment key={league.id}>
             <Card.Root>
               <div className={styles.leagueHeader}>
-                <Tag
-                  colorScheme={state === 'PLAYING' ? 'primary' : 'secondary'}
+                <div className={styles.leagueTitle}>
+                  <Tag
+                    colorScheme={
+                      league.leagueProgress === '진행 중' ? 'red' : 'secondary'
+                    }
+                  >
+                    {league.leagueProgress}
+                  </Tag>
+                  <h3 className={styles.leagueName}>{league.name}</h3>
+                </div>
+                <Link
+                  className={styles.leagueLink}
+                  href={`/league/${league.id}`}
                 >
-                  {stateMap[state]}
-                </Tag>
-                <h3 className={styles.leagueName}>{league.name}</h3>
+                  <Icon source={ChevronRightIcon} size={12} />
+                </Link>
               </div>
 
               <hr className={styles.divider} />
 
               <Card.Content gap={10}>
+                <p className={styles.leagueDescription}>
+                  <strong>참여</strong>&nbsp;{league.sizeOfLeagueTeams}개 팀
+                </p>
                 <p className={styles.leagueDescription}>
                   <strong>라운드</strong>&nbsp;{league.maxRound}
                 </p>
@@ -48,17 +58,17 @@ const LeagueCard = () => {
 
               <Card.Footer>
                 <Button colorScheme="secondary" size="xs" asChild fullWidth>
-                  <Link href={`/league/${leagueId}/team`}>참가 팀 관리</Link>
+                  <Link href={`/league/${league.id}/team`}>참가 팀 관리</Link>
                 </Button>
                 <Button colorScheme="secondary" size="xs" asChild fullWidth>
-                  <Link href={`/league/${leagueId}/manage`}>
-                    기본 정보 수정
+                  <Link href={`/league/${league.id}/cheer-talk`}>
+                    응원톡 관리
                   </Link>
                 </Button>
               </Card.Footer>
             </Card.Root>
 
-            {leagues?.length - 1 !== index && <Divider />}
+            {leagues.length - 1 !== index && <Divider />}
           </Fragment>
         );
       })}

@@ -24,3 +24,12 @@ export const leagueLink = style({
   fontSize: rem(16),
   gap: rem(8),
 });
+
+export const emptyMessage = style({
+  paddingBlock: rem(26),
+  paddingInline: rem(39),
+  color: theme.colors.gray300,
+  fontSize: rem(16),
+  fontWeight: 500,
+  lineHeight: '100%',
+});

@@ -2,7 +2,17 @@ import { rem, theme } from '@hcc/styles';
 import { globalStyle, style } from '@vanilla-extract/css';
 
 export const leagueHeader = style({
+  ...theme.layouts.rowBetween,
+});
+
+export const leagueTitle = style({
   ...theme.layouts.centerY,
+});
+
+export const leagueLink = style({
+  ...theme.layouts.center,
+  width: rem(24),
+  height: rem(24),
 });
 
 export const leagueName = style({
