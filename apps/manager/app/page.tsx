@@ -1,9 +1,8 @@
 'use client';
 
 import { RewardedAdsIcon, SmsIcon } from '@hcc/icons';
-import { Button, Icon, Spinner } from '@hcc/ui';
+import { Button, Icon } from '@hcc/ui';
 import Link from 'next/link';
-import { Suspense } from 'react';
 
 import Divider from '@/components/Divider';
 import Layout from '@/components/Layout';
@@ -31,9 +30,7 @@ export default function Page() {
 
       <Divider height={6} />
 
-      <Suspense fallback={<Spinner />}>
-        <MatchOverview state="FINISHED" />
-      </Suspense>
+      <MatchOverview />
     </Layout>
   );
 }

@@ -6,6 +6,8 @@ import useGamesByLeagueList from './useGamesByLeagueList';
 import useLeague from './useLeague';
 import useLeagues from './useLeagues';
 import useLeaguesDetail from './useLeaguesDetail';
+import useLeaguesManageOnManager from './useLeaguesManageOnManager';
+import useLeaguesOnManager from './useLeaguesOnManager';
 import useLeagueTeam from './useLeagueTeam';
 import useLeagueTeamDetail from './useLeagueTeamDetail';
 import useLeagueTeamPlayers from './useLeagueTeamPlayers';
@@ -21,6 +23,8 @@ export {
   useLeague,
   useLeagues,
   useLeaguesDetail,
+  useLeaguesManageOnManager,
+  useLeaguesOnManager,
   useLeagueTeam,
   useLeagueTeamPlayers,
   useLeagueTeams,

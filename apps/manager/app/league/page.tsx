@@ -1,6 +1,5 @@
 'use client';
 import Link from 'next/link';
-import { Suspense } from 'react';
 
 import Divider from '@/components/Divider';
 import Layout from '@/components/Layout';
@@ -15,9 +14,7 @@ export default function Page() {
     >
       <Divider height={5} />
 
-      <Suspense>
-        <LeagueCard />
-      </Suspense>
+      <LeagueCard />
     </Layout>
   );
 }

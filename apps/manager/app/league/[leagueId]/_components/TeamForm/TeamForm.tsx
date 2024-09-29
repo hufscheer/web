@@ -19,7 +19,7 @@ import {
 } from '@hcc/ui';
 import { SubmitHandler, useFieldArray, UseFormReturn } from 'react-hook-form';
 
-import * as styles from './TeamForm.css';
+import * as styles from './styles.css';
 import { TeamFormSchema } from './types';
 
 type TeamFormProps = {

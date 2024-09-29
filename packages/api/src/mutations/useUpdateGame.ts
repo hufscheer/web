@@ -14,18 +14,23 @@ const putUpdateGame = (request: Request) => {
   return fetcher.put<void>(`/leagues/${leagueId}/${gameId}`, { ...rest });
 };
 
-const useUpdateCandidateLineup = () => {
+const useUpdateGame = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: putUpdateGame,
     onSuccess: async (_, variables) => {
-      await queryClient.invalidateQueries(queryKeys.lineup(variables.gameId));
-      await queryClient.invalidateQueries(
-        queryKeys.lineupPlaying(variables.gameId),
-      );
+      await Promise.all([
+        queryClient.invalidateQueries(queryKeys.lineup(variables.gameId)),
+        queryClient.invalidateQueries(
+          queryKeys.lineupPlaying(variables.gameId),
+        ),
+        queryClient.invalidateQueries(queryKeys.game(variables.gameId)),
+        queryClient.invalidateQueries(queryKeys.leaguesOnManager()),
+        queryClient.invalidateQueries(queryKeys.leaguesManageOnManager()),
+      ]);
     },
   });
 };
 
-export default useUpdateCandidateLineup;
+export default useUpdateGame;

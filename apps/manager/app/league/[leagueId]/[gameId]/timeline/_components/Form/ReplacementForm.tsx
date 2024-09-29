@@ -26,7 +26,7 @@ import { useForm } from 'react-hook-form';
 import TimeInput from '@/components/TimeInput';
 import { QUARTER_ID, QUARTER_KEY, QUARTERS_DB } from '@/constants/games';
 
-import * as styles from './Form.css';
+import * as styles from './styles.css';
 import {
   replacementDefaultValues,
   replacementFormSchema,
