@@ -90,9 +90,10 @@ const leagueQueryKeys = {
 };
 
 const gameQueryKeys = {
-  game: (gameId: string) => ({
+  game: (gameId?: string) => ({
     queryKey: ['game', { gameId }],
     queryFn: () => fetcher.get<GameType>(`/games/${gameId}`),
+    enabled: !!gameId,
   }),
 
   games: (params: GamesParams) => ({

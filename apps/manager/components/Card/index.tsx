@@ -53,12 +53,22 @@ const CardContent = forwardRef<HTMLDivElement, CardContentProps>(
 
 type CardGameScoreProps = {
   win?: boolean;
+  isPkTaken: boolean;
 } & GameTeamType &
   ComponentPropsWithoutRef<'div'>;
 
 const CardGameScore = forwardRef<HTMLDivElement, CardGameScoreProps>(
   function CardGameScore(
-    { gameTeamId, gameTeamName, logoImageUrl, win = true, score, ...props },
+    {
+      gameTeamId,
+      gameTeamName,
+      logoImageUrl,
+      win = true,
+      score,
+      isPkTaken,
+      pkScore,
+      ...props
+    },
     ref,
   ) {
     return (
@@ -67,7 +77,6 @@ const CardGameScore = forwardRef<HTMLDivElement, CardGameScoreProps>(
         ref={ref}
         {...props}
         className={styles.gameScoreContainer}
-        {...props}
       >
         <span className={styles.gameTeamContainer}>
           <span className={styles.gameTeamLogo}>
@@ -81,7 +90,10 @@ const CardGameScore = forwardRef<HTMLDivElement, CardGameScoreProps>(
           </span>
           <p>{gameTeamName}</p>
         </span>
-        <p className={styles.gameScore({ win })}>{score}</p>
+        <p className={styles.gameScore({ win })}>
+          {score}
+          {isPkTaken && ` (${pkScore})`}
+        </p>
       </div>
     );
   },
