@@ -27,6 +27,7 @@ export type GameTeamType = {
   gameTeamName: string;
   logoImageUrl: string;
   score: number;
+  pkScore: number;
 };
 
 export type GameType = {
@@ -34,7 +35,7 @@ export type GameType = {
   startTime: Date;
   gameQuarter: string;
   gameName: string;
-  round: number;
+  round: string;
   videoId?: string;
   gameTeams: GameTeamType[];
   sportsName: string;

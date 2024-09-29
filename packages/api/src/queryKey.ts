@@ -12,8 +12,8 @@ import {
   TeamDetailType,
   TeamType,
   LineupType,
+  TimelineType,
 } from './types';
-import { TimelineType } from './types/timeline';
 
 const leagueQueryKeys = {
   league: (leagueId: string) => ({
@@ -75,9 +75,10 @@ const leagueQueryKeys = {
 };
 
 const gameQueryKeys = {
-  game: (gameId: string) => ({
+  game: (gameId?: string) => ({
     queryKey: ['game', { gameId }],
     queryFn: () => fetcher.get<GameType>(`/games/${gameId}`),
+    enabled: !!gameId,
   }),
 
   games: (params: GamesParams) => ({

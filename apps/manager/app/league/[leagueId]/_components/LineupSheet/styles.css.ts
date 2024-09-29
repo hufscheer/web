@@ -1,6 +1,12 @@
 import { rem, theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 
+export const triggerBadgeContainer = style({
+  position: 'absolute',
+  right: rem(18),
+  top: rem(16),
+});
+
 export const content = style({
   width: '100%',
   height: 'calc(100dvh - 15%) !important',

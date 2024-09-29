@@ -19,8 +19,18 @@ export const title = style({
   fontWeight: 600,
 });
 
-export const badge = style({
-  position: 'absolute',
-  right: rem(18),
-  top: rem(16),
+export const selectItem = style({
+  ...theme.layouts.rowBetween,
+  position: 'relative',
+  height: rem(60),
+  width: '100%',
+  paddingTop: rem(28),
+  paddingBottom: rem(4),
+  paddingInline: rem(18),
+  lineHeight: '100%',
+  fontSize: rem(16),
+  fontWeight: 500,
+  border: `1px solid ${theme.colors.gray25}`,
+  borderRadius: rem(8),
+  backgroundColor: theme.colors.white,
 });

@@ -1,5 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
-import { LegacyRoundType, useGame, useUpdateGame } from '@hcc/api';
+import {
+  LegacyRoundType,
+  useDeleteGame,
+  useGame,
+  useUpdateGame,
+} from '@hcc/api';
+import { useToast } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -38,6 +45,8 @@ export default function Page({ params }: PageProps) {
   const leagueId = params.leagueId;
   const gameId = params.gameId;
 
+  const { toast } = useToast();
+
   const { data: game } = useGame(gameId);
 
   const methods = useForm<GameFormSchema>({
@@ -52,7 +61,9 @@ export default function Page({ params }: PageProps) {
         round:
           game.round.toString() === 'FINAL'
             ? '결승'
-            : game.round.toString().replace('ROUND_', '') + '강',
+            : game.round.toString() === 'SEMI_FINAL'
+              ? '4강'
+              : game.round.toString().replace('ROUND_', '') + '강',
         quarter: game.gameQuarter,
         startDate: new Date(formatTime(new Date(game.startTime), 'YYYY-MM-DD')),
         startTime: formatTime(new Date(game.startTime), 'HH:mm'),
@@ -79,16 +90,35 @@ export default function Page({ params }: PageProps) {
       },
       {
         onSuccess: () => {
-          alert('경기 정보가 수정되었습니다.');
+          toast({
+            title: '경기 정보가 수정되었습니다.',
+            variant: 'destructive',
+          });
         },
         onError: () => {
-          alert('경기 정보 수정에 실패했습니다.');
+          toast({
+            title: '경기 정보 수정에 실패했습니다.',
+            variant: 'destructive',
+          });
         },
       },
     );
   };
 
-  const handleDelete = () => {};
+  const { mutate: deleteGame } = useDeleteGame();
+  const handleDelete = () => {
+    deleteGame(
+      { leagueId, gameId },
+      {
+        onSuccess: () => {
+          toast({ title: '경기가 삭제되었습니다.', variant: 'destructive' });
+        },
+        onError: () => {
+          toast({ title: '경기 삭제에 실패했습니다.', variant: 'destructive' });
+        },
+      },
+    );
+  };
 
   return (
     <Layout

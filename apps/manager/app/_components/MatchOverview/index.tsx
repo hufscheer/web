@@ -8,7 +8,7 @@ import Card from '@/components/Card';
 import Divider from '@/components/Divider';
 import { formatTime } from '@/utils/time';
 
-import * as styles from './MatchOverview.css';
+import * as styles from './styles.css';
 
 type MatchOverviewProps = {
   state: StateType;
@@ -50,10 +50,12 @@ const MatchOverview = ({ state }: MatchOverviewProps) => {
                   <Card.GameScore
                     {...game.gameTeams[0]}
                     win={game.gameTeams[0].score > game.gameTeams[1].score}
+                    isPkTaken={game.isPkTaken}
                   />
                   <Card.GameScore
                     {...game.gameTeams[1]}
                     win={game.gameTeams[0].score < game.gameTeams[1].score}
+                    isPkTaken={game.isPkTaken}
                   />
                 </Card.Content>
                 <Card.Footer>

@@ -1,4 +1,4 @@
-import { useLeagueTeams } from '@hcc/api';
+import { useGame, useLeagueTeams } from '@hcc/api';
 import { CalendarIcon } from '@hcc/icons';
 import {
   Button,
@@ -26,13 +26,9 @@ import TimeInput from '@/components/TimeInput';
 import { QUARTERS_DB } from '@/constants/games';
 import { formatTime } from '@/utils/time';
 
-import * as styles from './GameForm.css';
+import * as styles from './styles.css';
 import { GameFormSchema } from './types';
-import {
-  LineupCreateSheet,
-  LineupUpdateSheet,
-} from '../../_components/LineupSheet';
-import LineupBadge from '../LineupBadge';
+import LineupSheet from '../LineupSheet';
 
 type GameFormProps = {
   leagueId: string;
@@ -52,6 +48,29 @@ export const GameForm = ({
   type,
 }: GameFormProps) => {
   const { data: teams } = useLeagueTeams(leagueId);
+  const { data: game } = useGame(gameId);
+
+  const getTeamName = (teamId: string) => {
+    return type === 'CREATE'
+      ? teams?.find(t => t.leagueTeamId.toString() === teamId)?.teamName
+      : game?.gameTeams.find(t => t.gameTeamId.toString() === teamId)
+          ?.gameTeamName;
+  };
+
+  const getTeamList = (): { id: number; name: string }[] => {
+    if (type === 'CREATE') {
+      return teams?.map(t => ({ id: t.leagueTeamId, name: t.teamName })) || [];
+    }
+    if (type === 'UPDATE') {
+      return (
+        game?.gameTeams.map(t => ({
+          id: t.gameTeamId,
+          name: t.gameTeamName,
+        })) || []
+      );
+    }
+    return [];
+  };
 
   return (
     <Form {...methods}>
@@ -76,11 +95,14 @@ export const GameForm = ({
             name="round"
             render={({ field }) => (
               <FormItem>
-                <Select onValueChange={field.onChange} value={field.value}>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormLabel>라운드</FormLabel>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue>{field.value}</SelectValue>
+                      <span>{field.value}</span>
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -101,7 +123,10 @@ export const GameForm = ({
             name="quarter"
             render={({ field }) => (
               <FormItem>
-                <Select onValueChange={field.onChange} value={field.value}>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormLabel>쿼터</FormLabel>
                   <FormControl>
                     <SelectTrigger>
@@ -175,7 +200,7 @@ export const GameForm = ({
             render={({ field }) => (
               <FormItem>
                 <Select
-                  value={field.value}
+                  defaultValue={field.value}
                   onValueChange={value => {
                     field.onChange(value);
                     methods.setValue('playersOfTeam1', []);
@@ -183,50 +208,28 @@ export const GameForm = ({
                 >
                   <FormLabel>팀 선택 1</FormLabel>
                   <FormControl>
-                    <SelectTrigger caret={false}>
-                      <SelectValue>
-                        {
-                          teams?.find(
-                            t => t.leagueTeamId.toString() === field.value,
-                          )?.teamName
-                        }
-                      </SelectValue>
-                    </SelectTrigger>
+                    {type === 'CREATE' ? (
+                      <SelectTrigger caret={false}>
+                        <SelectValue>{getTeamName(field.value)}</SelectValue>
+                      </SelectTrigger>
+                    ) : (
+                      <div className={styles.selectItem}>
+                        {getTeamName(field.value)}
+                      </div>
+                    )}
                   </FormControl>
                   <SelectContent>
-                    {teams?.map(team => (
-                      <SelectItem
-                        key={team.leagueTeamId}
-                        value={team.leagueTeamId.toString()}
-                      >
-                        {team.teamName}
+                    {getTeamList().map(team => (
+                      <SelectItem key={team.id} value={team.id.toString()}>
+                        {team.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
-                {field.value &&
-                  (type === 'CREATE' ? (
-                    <LineupCreateSheet
-                      teamId={field.value}
-                      methods={methods}
-                      fieldName="playersOfTeam1"
-                    >
-                      <button className={styles.badge} type="button">
-                        <LineupBadge
-                          checked={
-                            (methods.watch('playersOfTeam1') ?? []).length > 0
-                          }
-                        />
-                      </button>
-                    </LineupCreateSheet>
-                  ) : gameId ? (
-                    <LineupUpdateSheet gameId={gameId} teamId={field.value}>
-                      <button className={styles.badge} type="button">
-                        <LineupBadge checked={true} />
-                      </button>
-                    </LineupUpdateSheet>
-                  ) : null)}
+                {field.value && type === 'UPDATE' && gameId && (
+                  <LineupSheet gameId={gameId} teamId={field.value} />
+                )}
               </FormItem>
             )}
           />
@@ -237,7 +240,7 @@ export const GameForm = ({
             render={({ field }) => (
               <FormItem>
                 <Select
-                  value={field.value}
+                  defaultValue={field.value}
                   onValueChange={value => {
                     field.onChange(value);
                     methods.setValue('playersOfTeam2', []);
@@ -245,50 +248,28 @@ export const GameForm = ({
                 >
                   <FormLabel>팀 선택 2</FormLabel>
                   <FormControl>
-                    <SelectTrigger caret={false}>
-                      <SelectValue>
-                        {
-                          teams?.find(
-                            t => t.leagueTeamId.toString() === field.value,
-                          )?.teamName
-                        }
-                      </SelectValue>
-                    </SelectTrigger>
+                    {type === 'CREATE' ? (
+                      <SelectTrigger caret={false}>
+                        <SelectValue>{getTeamName(field.value)}</SelectValue>
+                      </SelectTrigger>
+                    ) : (
+                      <div className={styles.selectItem}>
+                        {getTeamName(field.value)}
+                      </div>
+                    )}
                   </FormControl>
                   <SelectContent>
-                    {teams?.map(team => (
-                      <SelectItem
-                        key={team.leagueTeamId}
-                        value={team.leagueTeamId.toString()}
-                      >
-                        {team.teamName}
+                    {getTeamList().map(team => (
+                      <SelectItem key={team.id} value={team.id.toString()}>
+                        {team.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
-                {field.value &&
-                  (type === 'CREATE' ? (
-                    <LineupCreateSheet
-                      teamId={field.value}
-                      methods={methods}
-                      fieldName="playersOfTeam2"
-                    >
-                      <button className={styles.badge} type="button">
-                        <LineupBadge
-                          checked={
-                            (methods.watch('playersOfTeam2') ?? []).length > 0
-                          }
-                        />
-                      </button>
-                    </LineupCreateSheet>
-                  ) : gameId ? (
-                    <LineupUpdateSheet gameId={gameId} teamId={field.value}>
-                      <button className={styles.badge} type="button">
-                        <LineupBadge checked={true} />
-                      </button>
-                    </LineupUpdateSheet>
-                  ) : null)}
+                {field.value && type === 'UPDATE' && gameId && (
+                  <LineupSheet gameId={gameId} teamId={field.value} />
+                )}
               </FormItem>
             )}
           />

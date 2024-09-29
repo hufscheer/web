@@ -8,18 +8,17 @@ type Request = {
   lineupPlayerId: number;
 };
 
-const putUpdateCandidateLineup = (request: Request) => {
-  const { gameId, lineupPlayerId } = request;
-  return fetcher.put<void>(
+const patchUpdateLineupCandidate = ({ gameId, lineupPlayerId }: Request) => {
+  return fetcher.patch<void>(
     `/games/${gameId}/lineup-players/${lineupPlayerId}/candidate`,
   );
 };
 
-const useUpdateCandidateLineup = () => {
+const useUpdateLineupCandidate = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: putUpdateCandidateLineup,
+    mutationFn: patchUpdateLineupCandidate,
     onSuccess: async (_, variables) => {
       await queryClient.invalidateQueries(queryKeys.lineup(variables.gameId));
       await queryClient.invalidateQueries(
@@ -29,4 +28,4 @@ const useUpdateCandidateLineup = () => {
   });
 };
 
-export default useUpdateCandidateLineup;
+export default useUpdateLineupCandidate;

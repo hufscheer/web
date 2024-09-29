@@ -6,6 +6,7 @@ export const stateContainer = style({
   paddingInline: theme.sizes.appInlinePadding,
   color: theme.colors.gray800,
   fontWeight: 600,
+  backgroundColor: theme.colors.white,
 });
 
 export const noGamesMessage = style({
@@ -14,6 +15,7 @@ export const noGamesMessage = style({
   fontSize: rem(14),
   fontWeight: 500,
   textAlign: 'center',
+  backgroundColor: theme.colors.white,
 });
 
 export const gameDivider = style({

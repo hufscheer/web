@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query';
 
 import { fetcher } from '../fetcher';
+import { queryKeys } from '../queryKey';
 import { CreateGameType } from '../types';
 
 type LeagueId = { leagueId: string };
@@ -28,9 +29,26 @@ const useCreateGame = ({ leagueId, ...options }: UseCreateGameRequest) => {
   return useMutation({
     mutationFn: postCreateGame,
     onSuccess: async (data, variables, context) => {
-      await queryClient.invalidateQueries({
-        queryKey: ['gamesByLeagueList', { leagueId, state: variables.state }],
-      });
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: [
+            'gamesByLeagueList',
+            { leagueId: leagueId, state: variables.state },
+          ],
+        }),
+        queryClient.invalidateQueries(
+          queryKeys.games({
+            league_id: variables.leagueId,
+            state: 'SCHEDULED',
+          }),
+        ),
+        queryClient.invalidateQueries(
+          queryKeys.games({ league_id: leagueId, state: 'PLAYING' }),
+        ),
+        queryClient.invalidateQueries(
+          queryKeys.games({ league_id: leagueId, state: 'FINISHED' }),
+        ),
+      ]);
 
       if (options.onSuccess) options.onSuccess(data, variables, context);
     },
