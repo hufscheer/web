@@ -201,10 +201,7 @@ export const GameForm = ({
               <FormItem>
                 <Select
                   defaultValue={field.value}
-                  onValueChange={value => {
-                    field.onChange(value);
-                    methods.setValue('playersOfTeam1', []);
-                  }}
+                  onValueChange={field.onChange}
                 >
                   <FormLabel>팀 선택 1</FormLabel>
                   <FormControl>
@@ -241,10 +238,7 @@ export const GameForm = ({
               <FormItem>
                 <Select
                   defaultValue={field.value}
-                  onValueChange={value => {
-                    field.onChange(value);
-                    methods.setValue('playersOfTeam2', []);
-                  }}
+                  onValueChange={field.onChange}
                 >
                   <FormLabel>팀 선택 2</FormLabel>
                   <FormControl>
