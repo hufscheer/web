@@ -47,12 +47,12 @@ const MatchOverview = () => {
                   <Card.GameScore
                     {...game.gameTeams[0]}
                     win={game.gameTeams[0].score > game.gameTeams[1].score}
-                    isPkTaken={game.isPkTaken}
+                    isPkTaken={game.isPkTaken ?? false}
                   />
                   <Card.GameScore
                     {...game.gameTeams[1]}
                     win={game.gameTeams[0].score < game.gameTeams[1].score}
-                    isPkTaken={game.isPkTaken}
+                    isPkTaken={game.isPkTaken ?? false}
                   />
                 </Card.Content>
                 <Card.Footer>

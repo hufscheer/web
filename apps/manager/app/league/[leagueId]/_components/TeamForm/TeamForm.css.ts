@@ -5,6 +5,7 @@ export const form = style({
   ...theme.layouts.column,
   padding: theme.sizes.appInlinePadding,
   gap: rem(18),
+  backgroundColor: theme.colors.white,
 });
 
 export const formTitle = style({

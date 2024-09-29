@@ -21,18 +21,8 @@ const useDeleteGame = () => {
       await Promise.all([
         queryClient.invalidateQueries(queryKeys.league(variables.leagueId)),
         queryClient.invalidateQueries(queryKeys.game(variables.gameId)),
-        queryClient.invalidateQueries(
-          queryKeys.games({
-            league_id: variables.leagueId,
-            state: 'SCHEDULED',
-          }),
-        ),
-        queryClient.invalidateQueries(
-          queryKeys.games({ league_id: variables.leagueId, state: 'PLAYING' }),
-        ),
-        queryClient.invalidateQueries(
-          queryKeys.games({ league_id: variables.leagueId, state: 'FINISHED' }),
-        ),
+        queryClient.invalidateQueries(queryKeys.leaguesOnManager()),
+        queryClient.invalidateQueries(queryKeys.leaguesManageOnManager()),
       ]);
     },
   });

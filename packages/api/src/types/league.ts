@@ -34,7 +34,10 @@ export type ManagerLeagueType = {
   id: number;
   name: string;
   state: StateValueType;
-  inProgressGames: Pick<GameType, 'id' | 'state' | 'startTime' | 'gameTeams'>[];
+  inProgressGames: Pick<
+    GameType,
+    'id' | 'state' | 'startTime' | 'gameTeams' | 'isPkTaken'
+  >[];
 };
 
 export type ManagerManageLeagueType = Omit<

@@ -36,18 +36,8 @@ const useCreateGame = ({ leagueId, ...options }: UseCreateGameRequest) => {
             { leagueId: leagueId, state: variables.state },
           ],
         }),
-        queryClient.invalidateQueries(
-          queryKeys.games({
-            league_id: variables.leagueId,
-            state: 'SCHEDULED',
-          }),
-        ),
-        queryClient.invalidateQueries(
-          queryKeys.games({ league_id: leagueId, state: 'PLAYING' }),
-        ),
-        queryClient.invalidateQueries(
-          queryKeys.games({ league_id: leagueId, state: 'FINISHED' }),
-        ),
+        queryClient.invalidateQueries(queryKeys.leaguesOnManager()),
+        queryClient.invalidateQueries(queryKeys.leaguesManageOnManager()),
       ]);
 
       if (options.onSuccess) options.onSuccess(data, variables, context);

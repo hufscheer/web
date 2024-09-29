@@ -207,7 +207,7 @@ export const GameForm = ({
                   <FormControl>
                     {type === 'CREATE' ? (
                       <SelectTrigger caret={false}>
-                        <SelectValue>{getTeamName(field.value)}</SelectValue>
+                        <span>{getTeamName(field.value)}</span>
                       </SelectTrigger>
                     ) : (
                       <div className={styles.selectItem}>
@@ -244,7 +244,7 @@ export const GameForm = ({
                   <FormControl>
                     {type === 'CREATE' ? (
                       <SelectTrigger caret={false}>
-                        <SelectValue>{getTeamName(field.value)}</SelectValue>
+                        <span>{getTeamName(field.value)}</span>
                       </SelectTrigger>
                     ) : (
                       <div className={styles.selectItem}>
