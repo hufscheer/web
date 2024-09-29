@@ -32,9 +32,15 @@ export const RecordType = {
   SCORE: 'SCORE',
   REPLACEMENT: 'REPLACEMENT',
   PROGRESS: 'PROGRESS',
+  PK: 'PK',
 } as const;
 
 export type RecordType = (typeof RecordType)[keyof typeof RecordType];
+
+export type PkRecordType = {
+  pkRecordId: number;
+  isSuccess: boolean;
+};
 
 export type TimelineRecordType =
   | (CommonTimelineRecordFields & {
@@ -42,20 +48,29 @@ export type TimelineRecordType =
       scoreRecord: ScoreRecordType[];
       replacementRecord: undefined;
       progressRecord: undefined;
+      pkRecord: undefined;
     })
   | (CommonTimelineRecordFields & {
       type: typeof RecordType.REPLACEMENT;
       scoreRecord: undefined;
       replacementRecord: ReplacementRecordType;
       progressRecord: undefined;
+      pkRecord: undefined;
     })
   | (CommonTimelineRecordFields & {
       type: typeof RecordType.PROGRESS;
       scoreRecord: undefined;
       replacementRecord: undefined;
       progressRecord: ProgressRecordType;
+      pkRecord: undefined;
+    })
+  | (CommonTimelineRecordFields & {
+      type: typeof RecordType.PK;
+      scoreRecord: undefined;
+      replacementRecord: undefined;
+      progressRecord: undefined;
+      pkRecord: PkRecordType;
     });
-
 export type TimelineType = {
   gameQuarter: string;
   records: TimelineRecordType[];
