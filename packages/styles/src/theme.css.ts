@@ -73,8 +73,10 @@ export const theme = createGlobalTheme(':root', {
 
     // red
     red200: 'var(--hcc-colors-red-200)',
-    red500: 'var(--hcc-colors-red-500)',
     red600: 'var(--hcc-colors-red-600)',
+
+    // orange
+    orange600: 'var(--hcc-colors-orange-600)',
 
     // green
     green600: 'var(--hcc-colors-green-600)',

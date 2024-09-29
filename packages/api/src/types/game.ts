@@ -14,9 +14,9 @@ export type LegacyRoundType = `${RoundType}강` | '결승';
 export type CreateGameType = {
   name: string;
   round: LegacyRoundType;
-  quarter: number;
+  quarter: string;
   state: StateType;
-  startDate: Date;
+  startTime: string;
   idOfTeam1: number;
   idOfTeam2: number;
   videoId: string | null;
@@ -27,6 +27,7 @@ export type GameTeamType = {
   gameTeamName: string;
   logoImageUrl: string;
   score: number;
+  pkScore: number;
 };
 
 export type GameType = {
@@ -34,11 +35,12 @@ export type GameType = {
   startTime: Date;
   gameQuarter: string;
   gameName: string;
-  round: number;
+  round: string;
   videoId?: string;
   gameTeams: GameTeamType[];
   sportsName: string;
   state: StateType;
+  isPkTaken: boolean;
 };
 
 export type GameWithLeagueListType = {
