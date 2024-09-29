@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import Card from '@/components/Card';
 import { formatTime } from '@/utils/time';
 
-import * as styles from './LeaugeOverview.css';
+import * as styles from './styles.css';
 
 type LeagueOverviewProps = {
   leagueId: string;

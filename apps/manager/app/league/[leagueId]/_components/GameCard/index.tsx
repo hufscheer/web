@@ -16,7 +16,7 @@ type GameCardProps = {
 };
 
 const GameCard = ({ leagueId, state }: GameCardProps) => {
-  const { data: games } = useGames({ league_id: leagueId, state });
+  const { data: games } = useGames({ league_id: leagueId, state, size: 100 });
 
   if (!games) return null;
 

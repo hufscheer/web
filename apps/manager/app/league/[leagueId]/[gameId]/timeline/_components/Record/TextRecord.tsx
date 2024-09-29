@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { ComponentProps, ReactNode } from 'react';
 
-import * as styles from './Record.css';
+import * as styles from './styles.css';
 
 type TextRecordProps = ComponentProps<'div'> & {
   showDividerLine?: boolean;

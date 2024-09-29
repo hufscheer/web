@@ -7,6 +7,7 @@ export const stateMap = {
 } as const;
 
 export type StateType = keyof typeof stateMap;
+export type StateValueType = (typeof stateMap)[keyof typeof stateMap];
 
 export type RoundType = 32 | 16 | 8 | 4;
 export type LegacyRoundType = `${RoundType}강` | '결승';

@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import AlertDialog from '@/components/AlertDialog';
 
-import * as styles from './RecordDeleteMenu.css';
+import * as styles from './styles.css';
 import { getRecordSubtitle, getRecordTitle } from '../../_utils/record';
 
 type RecordDeleteMenuProps = {

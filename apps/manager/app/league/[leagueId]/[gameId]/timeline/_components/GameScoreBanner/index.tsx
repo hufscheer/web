@@ -2,7 +2,7 @@ import { GameTeamType, GameType } from '@hcc/api';
 import { clsx } from 'clsx';
 import Image from 'next/image';
 
-import * as styles from './GameScoreBanner.css';
+import * as styles from './styles.css';
 
 type GameScoreBannerProps = {
   game: GameType;

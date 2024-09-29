@@ -7,6 +7,7 @@ import {
 } from '@hcc/api';
 import { useToast } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -44,6 +45,7 @@ export default function Page({ params }: PageProps) {
   const leagueId = params.leagueId;
   const gameId = params.gameId;
 
+  const router = useRouter();
   const { toast } = useToast();
 
   const { data: game } = useGame(gameId);
@@ -93,6 +95,7 @@ export default function Page({ params }: PageProps) {
             title: '경기 정보가 수정되었습니다.',
             variant: 'destructive',
           });
+          router.back();
         },
         onError: () => {
           toast({

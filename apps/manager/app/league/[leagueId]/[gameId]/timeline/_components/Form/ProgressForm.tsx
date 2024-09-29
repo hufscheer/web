@@ -23,7 +23,7 @@ import {
   QUARTERS_DB,
 } from '@/constants/games';
 
-import * as styles from './Form.css';
+import * as styles from './styles.css';
 import {
   progressDefaultValues,
   progressFormSchema,

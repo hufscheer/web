@@ -13,7 +13,22 @@ import {
   TeamType,
   LineupType,
   TimelineType,
+  ManagerLeagueType,
+  ManagerManageLeagueType,
 } from './types';
+
+const managerQueryKeys = {
+  leaguesOnManager: () => ({
+    queryKey: ['leaguesOnManager'],
+    queryFn: () => fetcher.get<ManagerLeagueType[]>(`/leagues/manager`),
+  }),
+
+  leaguesManageOnManager: () => ({
+    queryKey: ['leaguesManageOnManager'],
+    queryFn: () =>
+      fetcher.get<ManagerManageLeagueType[]>(`/leagues/manager/manage`),
+  }),
+};
 
 const leagueQueryKeys = {
   league: (leagueId: string) => ({
@@ -126,6 +141,7 @@ const timelineQueryKeys = {
 };
 
 export const queryKeys = {
+  ...managerQueryKeys,
   ...leagueQueryKeys,
   ...gameQueryKeys,
   ...timelineQueryKeys,
