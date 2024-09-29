@@ -8,7 +8,7 @@ import Card from '@/components/Card';
 import Divider from '@/components/Divider';
 import { formatTime } from '@/utils/time';
 
-import * as styles from './LeagueCard.css';
+import * as styles from './styles.css';
 
 const LeagueCard = () => {
   const { data: leagues } = useLeaguesManageOnManager();

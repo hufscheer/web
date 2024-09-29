@@ -8,7 +8,7 @@ import {
 } from '@hcc/ui';
 import { cloneElement, ReactElement, ReactNode, useState } from 'react';
 
-import * as styles from './FormBottomSheet.css';
+import * as styles from './styles.css';
 
 type FormBottomSheetProps = {
   title: string;

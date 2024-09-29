@@ -1,7 +1,7 @@
 import { TimelineRecordType } from '@hcc/api';
 import { clsx } from 'clsx';
 
-import * as styles from './Record.css';
+import * as styles from './styles.css';
 import {
   getRecordIcon,
   getRecordSubtitle,

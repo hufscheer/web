@@ -23,7 +23,7 @@ import { SubmitHandler, UseFormReturn } from 'react-hook-form';
 
 import { formatTime } from '@/utils/time';
 
-import * as styles from './LeagueForm.css';
+import * as styles from './styles.css';
 import { LeagueFormSchema } from './types';
 
 type LeagueFormProps = {
