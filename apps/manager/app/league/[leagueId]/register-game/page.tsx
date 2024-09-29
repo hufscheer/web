@@ -34,6 +34,11 @@ export default function Page({ params }: PageProps) {
   const { mutateAsync: createGameMutation } = useCreateGame({ leagueId });
 
   const onSubmit = async (data: GameFormSchema) => {
+    if (data.idOfTeam1 === data.idOfTeam2) {
+      toast({ title: '팀1과 팀2가 같을 수 없습니다', variant: 'destructive' });
+      return;
+    }
+
     const quarter = data.quarter as QUARTER_KEY;
     await createGameMutation(
       {
