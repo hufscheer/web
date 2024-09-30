@@ -26,11 +26,11 @@ const nextConfig = {
     return [
       {
         source: '/api/images/:path*',
-        destination: `${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}:path*`,
+        destination: `https://hufscheer-images.s3.ap-northeast-2.amazonaws.com/:path*`,
       },
       {
         source: '/api/:path*',
-        destination: `${process.env.NEXT_PUBLIC_API_BASE_URL}:path*`,
+        destination: `https://api.hufstreaming.site/:path*`,
       },
     ];
   },
