@@ -36,9 +36,14 @@ import {
 type ReplacementFormProps = {
   gameId: string;
   onClose?: () => void;
+  quarter?: string;
 };
 
-const ReplacementForm = ({ gameId, onClose }: ReplacementFormProps) => {
+const ReplacementForm = ({
+  gameId,
+  onClose,
+  quarter,
+}: ReplacementFormProps) => {
   const { data: game } = useGame(gameId);
   const teams: GameTeamType[] = game?.gameTeams ?? [];
 
@@ -90,6 +95,13 @@ const ReplacementForm = ({ gameId, onClose }: ReplacementFormProps) => {
     methods.setValue('originLineupPlayerId', '');
     methods.setValue('replacementLineupPlayerId', '');
   }, [gameTeamId, methods]);
+
+  if (!quarter)
+    return (
+      <p className={styles.emptyQuarterMessage}>
+        상태 변경을 통해 쿼터 상태를 지정해주세요.
+      </p>
+    );
 
   return (
     <Form {...methods}>

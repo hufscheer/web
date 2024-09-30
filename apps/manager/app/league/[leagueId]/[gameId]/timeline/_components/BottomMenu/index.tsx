@@ -24,13 +24,13 @@ const BottomMenu = ({ gameId, quarter }: BottomMenuProps) => {
           <FormBottomSheet
             title="득점 추가"
             icon={<Icon source={AddCircleIcon} color="blue" />}
-            form={<ScoreForm gameId={gameId} />}
+            form={<ScoreForm gameId={gameId} quarter={quarter} />}
           />
         )}
         <FormBottomSheet
           title="교체 추가"
           icon={<Icon source={TradeIcon} />}
-          form={<ReplacementForm gameId={gameId} />}
+          form={<ReplacementForm gameId={gameId} quarter={quarter} />}
         />
         <FormBottomSheet
           title="상태 변경"

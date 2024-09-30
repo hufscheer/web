@@ -37,7 +37,7 @@ export default function Page({ params }: PageProps) {
   const lastRecord: TimelineRecordType | undefined =
     sortedTimelines?.[0]?.records?.[0] ?? undefined;
 
-  const currentQuarter = sortedTimelines[0].gameQuarter;
+  const currentQuarter = sortedTimelines[0]?.gameQuarter ?? undefined;
 
   return (
     <Layout
@@ -64,7 +64,7 @@ export default function Page({ params }: PageProps) {
                 if (record.type === 'GAME_PROGRESS') {
                   return (
                     <TextRecord key={record.recordId} showDividerLine={true}>
-                      {timeline.gameQuarter}이&nbsp;
+                      {timeline.gameQuarter}이(가)&nbsp;
                       {getProgressSemantics(
                         record.progressRecord.gameProgressType,
                       )}

@@ -35,9 +35,10 @@ import {
 type ScoreFormProps = {
   gameId: string;
   onClose?: () => void;
+  quarter?: string;
 };
 
-const ScoreForm = ({ gameId, onClose }: ScoreFormProps) => {
+const ScoreForm = ({ gameId, onClose, quarter }: ScoreFormProps) => {
   const { data: game } = useGame(gameId);
   const teams: GameTeamType[] = game?.gameTeams ?? [];
 
@@ -82,6 +83,13 @@ const ScoreForm = ({ gameId, onClose }: ScoreFormProps) => {
   useEffect(() => {
     methods.setValue('scoreLineupPlayerId', '');
   }, [gameTeamId, methods]);
+
+  if (!quarter)
+    return (
+      <p className={styles.emptyQuarterMessage}>
+        상태 변경을 통해 쿼터 상태를 지정해주세요.
+      </p>
+    );
 
   return (
     <Form {...methods}>
