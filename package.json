@@ -7,6 +7,8 @@
     "dev:manager": "turbo dev --filter manager",
     "dev:spectator": "turbo dev --filter spectator",
     "deploy:storybook": "turbo run deploy --filter story",
+    "build:manager": "turbo build --filter manager",
+    "build:spectator": "turbo build --filter spectator",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky install"
