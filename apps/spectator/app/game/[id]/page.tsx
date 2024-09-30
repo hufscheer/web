@@ -1,6 +1,7 @@
 'use client';
 
 import { Spinner, Tabs } from '@hcc/ui';
+import { Fragment } from 'react';
 
 import Live from '@/app/_components/Live';
 import CheerTalk from '@/app/game/[id]/_components/CheerTalk';
@@ -71,7 +72,10 @@ export default function Page({ params }: { params: { id: string } }) {
       <section className={styles.cheerTalk.section}>
         <div className={styles.cheerTalk.header}>
           <h2 className={styles.cheerTalk.title}>실시간 응원톡</h2>
-          <AsyncBoundary errorFallback={() => <></>} loadingFallback={<></>}>
+          <AsyncBoundary
+            errorFallback={() => <Fragment></Fragment>}
+            loadingFallback={<Fragment></Fragment>}
+          >
             <Live gameId={params.id} />
           </AsyncBoundary>
         </div>

@@ -1,5 +1,9 @@
 'use client';
 
+import {
+  QueryClientProvider as HccQueryClientProvider,
+  ReactQueryDevtools as HccReactQueryDevtools,
+} from '@hcc/api';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import React, { ReactNode, useState } from 'react';
@@ -27,13 +31,16 @@ export default function Provider({ children }: ProviderProps) {
 
   return (
     <AmplitudeContextProvider>
-      <QueryClientProvider client={queryClient}>
-        {children}
-        <ReactQueryDevtools
-          initialIsOpen={false}
-          buttonPosition="bottom-left"
-        />
-      </QueryClientProvider>
+      <HccQueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+          {children}
+          <ReactQueryDevtools
+            initialIsOpen={false}
+            buttonPosition="bottom-left"
+          />
+        </QueryClientProvider>
+        <HccReactQueryDevtools />
+      </HccQueryClientProvider>
     </AmplitudeContextProvider>
   );
 }

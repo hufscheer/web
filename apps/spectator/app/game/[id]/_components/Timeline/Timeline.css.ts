@@ -2,82 +2,112 @@ import { rem, theme } from '@hcc/styles';
 import { style, styleVariants } from '@vanilla-extract/css';
 
 export const root = style({
+  position: 'relative',
+
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spaces.default,
 
-  paddingInline: theme.spaces.default,
-});
-
-export const title = style({
-  ...theme.textVariants.default,
-  fontWeight: 700,
   marginTop: theme.spaces.default,
 });
 
-export const timeline = style({
-  display: 'grid',
-  gridTemplateColumns: 'auto 1fr',
-  alignItems: 'center',
-  gap: theme.spaces.lg,
+// Timeline Separator
+export const textRecordContainer = style({
+  ...theme.layouts.rowBetween,
+  paddingBlock: rem(8),
+  paddingInline: rem(16),
+  gap: rem(10),
 });
 
-export const rightSide = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: theme.spaces.xs,
+export const textRecordCenter = style({ ...theme.layouts.center });
 
-  paddingBlock: theme.spaces.sm,
-
-  borderBottom: `1px solid ${theme.colors.gray[2]}`,
+export const textRecordDivider = style({
+  flex: 1,
+  height: '1px',
+  width: '100%',
+  backgroundColor: theme.colors.gray50,
 });
 
-export const timestampBase = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+export const textRecordText = style({
+  color: theme.colors.gray400,
+  fontSize: rem(12),
+  fontWeight: 500,
+  textAlign: 'center',
+});
 
-  width: rem(32),
-  height: rem(32),
+// Event Record
+export const eventRecordContainer = style({
+  position: 'relative',
+  ...theme.layouts.centerY,
+  gap: rem(16),
+  paddingBlock: rem(8),
+});
+
+export const eventRecordAwayContainer = style({
+  flexDirection: 'row-reverse',
+});
+
+export const eventRecordTime = style({
+  ...theme.layouts.center,
+  width: rem(40),
+  height: rem(40),
+  color: theme.colors.gray400,
+  fontSize: rem(16),
+  fontWeight: 500,
+  lineHeight: '100%',
+  border: `1px solid ${theme.colors.gray25}`,
   borderRadius: '50%',
-  border: `1px solid ${theme.colors.gray[3]}`,
-  padding: rem(4),
-  ...theme.textVariants.xs,
 });
 
-export const timestamp = styleVariants({
-  left: [
-    timestampBase,
-    {
-      backgroundColor: theme.colors.indicatorBlue[3],
-      color: theme.colors.white,
-    },
-  ],
-  right: [
-    timestampBase,
-    {
-      backgroundColor: theme.colors.indicatorRed[3],
-      color: theme.colors.white,
-    },
-  ],
+export const eventRecordLine = style({
+  height: '100%',
+  width: rem(3),
+  backgroundColor: theme.colors.gray900,
 });
 
-export const content = styleVariants({
-  wrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spaces.xxs,
-  },
-  title: {
-    fontSize: theme.textVariants.sm.fontSize,
-  },
-  descriptionArea: {
-    fontSize: theme.textVariants.xs.fontSize,
-  },
-  scoreArea: {
-    marginInline: theme.spaces.xxs,
-  },
+export const eventDescriptionContainer = style({
+  ...theme.layouts.column,
+  gap: rem(4),
 });
+
+export const eventDescriptionTitle = style({
+  color: theme.colors.gray900,
+  fontSize: rem(14),
+  fontWeight: 500,
+  lineHeight: '100%',
+});
+
+export const eventDescriptionSubtitle = style({
+  color: theme.colors.gray400,
+  fontSize: rem(12),
+  fontWeight: 500,
+  lineHeight: '100%',
+  letterSpacing: rem(-0.17),
+});
+
+const sectionBarStyle = style({
+  position: 'absolute',
+  width: rem(3),
+  backgroundColor: theme.colors.gray900,
+  height: '100%',
+
+  top: 0,
+});
+
+export const sectionBar = {
+  home: [
+    sectionBarStyle,
+    {
+      right: 0,
+    },
+  ],
+  away: [
+    sectionBarStyle,
+    {
+      left: 0,
+    },
+  ],
+};
 
 export const errorFallback = styleVariants({
   wrapper: {

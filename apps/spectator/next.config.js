@@ -21,6 +21,19 @@ const nextConfig = {
       },
     ],
   },
+
+  async rewrites() {
+    return [
+      {
+        source: '/api/images/:path*',
+        destination: `${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}:path*`,
+      },
+      {
+        source: '/api/:path*',
+        destination: `${process.env.NEXT_PUBLIC_API_BASE_URL}:path*`,
+      },
+    ];
+  },
 };
 
 module.exports = withVanillaExtract(nextConfig);
