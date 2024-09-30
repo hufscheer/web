@@ -66,7 +66,7 @@ const LineupSheet = ({ gameId, teamId }: LineupUpdateSheetProps) => {
   const handleChangeCaptain = (playerId: number, isCaptain: boolean) => {
     if (isCaptain) {
       updateLineupCaptainRevoke(
-        { gameId, gameTeamId: teamId, lineupPlayerId: playerId },
+        { gameId, lineupPlayerId: playerId },
         {
           onSuccess: () =>
             toast({ title: '라인업 수정 완료', variant: 'destructive' }),
@@ -74,7 +74,7 @@ const LineupSheet = ({ gameId, teamId }: LineupUpdateSheetProps) => {
       );
     } else {
       updateLineupCaptainRegister(
-        { gameId, gameTeamId: teamId, lineupPlayerId: playerId },
+        { gameId, lineupPlayerId: playerId },
         {
           onSuccess: () =>
             toast({ title: '라인업 수정 완료', variant: 'destructive' }),

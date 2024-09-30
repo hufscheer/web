@@ -21,8 +21,12 @@ const useCreateScoreTimeline = () => {
   return useMutation({
     mutationFn: postCreateScoreTimeline,
     onSuccess: async (_, variables) => {
-      await queryClient.invalidateQueries(queryKeys.timeline(variables.gameId));
-      await queryClient.invalidateQueries(queryKeys.game(variables.gameId));
+      await Promise.all([
+        queryClient.invalidateQueries(queryKeys.timeline(variables.gameId)),
+        queryClient.invalidateQueries(queryKeys.game(variables.gameId)),
+        queryClient.invalidateQueries(queryKeys.leaguesOnManager()),
+        queryClient.invalidateQueries(queryKeys.leaguesManageOnManager()),
+      ]);
     },
   });
 };
