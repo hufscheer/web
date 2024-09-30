@@ -1,9 +1,8 @@
 import {
   GameTeamType,
-  useCreateReplacementTimeline,
   useGame,
-  useGameLineup,
   useGameLineupPlaying,
+  useCreatePkTimeline,
 } from '@hcc/api';
 import {
   Button,
@@ -20,57 +19,46 @@ import {
   SelectValue,
 } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
-import TimeInput from '@/components/TimeInput';
-import { QUARTER_ID, QUARTER_KEY, QUARTERS_DB } from '@/constants/games';
-
 import * as styles from './styles.css';
-import {
-  replacementDefaultValues,
-  replacementFormSchema,
-  ReplacementFormSchema,
-} from '../../_types';
+import { pkDefaultValues, pkFormSchema, PkFormSchema } from '../../_types';
 
-type ReplacementFormProps = {
+type PkFormProps = {
   gameId: string;
   onClose?: () => void;
-  quarter?: string;
 };
 
-const ReplacementForm = ({
-  gameId,
-  onClose,
-  quarter,
-}: ReplacementFormProps) => {
+const PkForm = ({ gameId, onClose }: PkFormProps) => {
   const { data: game } = useGame(gameId);
   const teams: GameTeamType[] = game?.gameTeams ?? [];
 
-  const { data: lineupPlayers } = useGameLineup(gameId);
   const { data: lineupPlayingPlayers } = useGameLineupPlaying(gameId);
 
-  const methods = useForm<ReplacementFormSchema>({
-    resolver: zodResolver(replacementFormSchema),
-    defaultValues: replacementDefaultValues,
+  const methods = useForm<PkFormSchema>({
+    resolver: zodResolver(pkFormSchema),
+    defaultValues: pkDefaultValues,
   });
 
-  const { mutate: createReplacementTimelineMutation } =
-    useCreateReplacementTimeline();
-  const onSubmit = (data: ReplacementFormSchema) => {
-    createReplacementTimelineMutation(
+  const { mutate: createPkTimeline } = useCreatePkTimeline();
+  const onSubmit = (data: PkFormSchema) => {
+    createPkTimeline(
       {
         gameId,
-        recordedAt: Number(data.recordedAt),
-        recordedQuarterId: QUARTER_ID[data.recordedQuarterId as QUARTER_KEY],
+        recordedAt: 0,
+        recordedQuarterId: 7,
         gameTeamId: Number(data.gameTeamId),
-        originLineupPlayerId: Number(data.originLineupPlayerId),
-        replacementLineupPlayerId: Number(data.replacementLineupPlayerId),
+        scorerId: Number(data.scorerId),
+        isSuccess: Boolean(Number(data.isSuccess)),
       },
       {
         onSuccess: () => {
           methods.reset();
           if (onClose) onClose();
+        },
+        onError: () => {
+          alert('error');
         },
       },
     );
@@ -79,29 +67,11 @@ const ReplacementForm = ({
   const gameTeamId = methods.watch('gameTeamId');
   const players = useMemo(() => {
     return (
-      lineupPlayers?.find(lineup => lineup.gameTeamId.toString() === gameTeamId)
-        ?.gameTeamPlayers ?? []
-    );
-  }, [lineupPlayers, gameTeamId]);
-  const playingPlayers = useMemo(() => {
-    return (
       lineupPlayingPlayers?.find(
         lineup => lineup.gameTeamId.toString() === gameTeamId,
       )?.gameTeamPlayers ?? []
     );
   }, [lineupPlayingPlayers, gameTeamId]);
-
-  useEffect(() => {
-    methods.setValue('originLineupPlayerId', '');
-    methods.setValue('replacementLineupPlayerId', '');
-  }, [gameTeamId, methods]);
-
-  if (!quarter)
-    return (
-      <p className={styles.emptyQuarterMessage}>
-        상태 변경을 통해 쿼터 상태를 지정해주세요.
-      </p>
-    );
 
   return (
     <Form {...methods}>
@@ -110,35 +80,16 @@ const ReplacementForm = ({
         <section className={styles.section}>
           <FormField
             control={methods.control}
-            name="recordedQuarterId"
-            render={({ field }) => (
-              <FormItem>
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <FormLabel>쿼터</FormLabel>
-                  <FormControl>
-                    <SelectTrigger type="button">
-                      <SelectValue>{field.value}</SelectValue>
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {Object.entries(QUARTERS_DB).map(([quarter, value]) => (
-                      <SelectItem key={quarter} value={value}>
-                        {quarter}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={methods.control}
             name="gameTeamId"
             render={({ field }) => (
               <FormItem>
-                <Select onValueChange={field.onChange} value={field.value}>
+                <Select
+                  onValueChange={value => {
+                    field.onChange(value);
+                    methods.setValue('scorerId', '');
+                  }}
+                  value={field.value}
+                >
                   <FormLabel>팀 명</FormLabel>
                   <FormControl>
                     <SelectTrigger type="button">
@@ -166,15 +117,15 @@ const ReplacementForm = ({
           />
         </section>
 
-        <h4 className={styles.sectionTitle}>교체 상세 정보</h4>
+        <h4 className={styles.sectionTitle}>득점 상세 정보</h4>
         <section className={styles.section}>
           <FormField
             control={methods.control}
-            name="replacementLineupPlayerId"
+            name="scorerId"
             render={({ field }) => (
               <FormItem>
                 <Select onValueChange={field.onChange} value={field.value}>
-                  <FormLabel>교체 투입 선수</FormLabel>
+                  <FormLabel>선수</FormLabel>
                   <FormControl>
                     <SelectTrigger type="button">
                       <SelectValue>
@@ -196,45 +147,32 @@ const ReplacementForm = ({
               </FormItem>
             )}
           />
+        </section>
 
+        <section className={styles.section}>
           <FormField
             control={methods.control}
-            name="originLineupPlayerId"
+            name="isSuccess"
             render={({ field }) => (
               <FormItem>
                 <Select onValueChange={field.onChange} value={field.value}>
-                  <FormLabel>교체 아웃 선수</FormLabel>
+                  <FormLabel>상태</FormLabel>
                   <FormControl>
                     <SelectTrigger type="button">
                       <SelectValue>
-                        {playingPlayers.find(
-                          player => player.id.toString() === field.value,
-                        )?.playerName ?? '선수 선택'}
+                        {field.value === '1' ? '성공' : '실패'}
                       </SelectValue>
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {playingPlayers.map(player => (
-                      <SelectItem key={player.id} value={player.id.toString()}>
-                        {player.playerName}
-                      </SelectItem>
-                    ))}
+                    <SelectItem key={1} value="1">
+                      성공
+                    </SelectItem>
+                    <SelectItem key={0} value="0">
+                      실축
+                    </SelectItem>
                   </SelectContent>
                 </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={methods.control}
-            name="recordedAt"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>시간</FormLabel>
-                <FormControl>
-                  <TimeInput type="number" {...field} />
-                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -249,4 +187,4 @@ const ReplacementForm = ({
   );
 };
 
-export default ReplacementForm;
+export default PkForm;

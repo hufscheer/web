@@ -17,7 +17,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
 import {
-  getStateByQuarter,
+  getProgressTypeByQuarter,
   QUARTER_ID,
   QUARTER_KEY,
   QUARTERS_DB,
@@ -49,7 +49,7 @@ const ProgressForm = ({ gameId, onClose }: ProgressFormProps) => {
         gameId,
         recordedAt: Number(data.recordedAt),
         recordedQuarterId: QUARTER_ID[data.recordedQuarterId as QUARTER_KEY],
-        gameProgressType: getStateByQuarter(
+        gameProgressType: getProgressTypeByQuarter(
           data.recordedQuarterId as QUARTER_KEY,
         ),
       },

@@ -1,8 +1,14 @@
 'use client';
-import { useGame, useTimeline, TimelineRecordType } from '@hcc/api';
+import {
+  TimelineRecordType,
+  TimelineType,
+  useGame,
+  useTimeline,
+} from '@hcc/api';
 import { Fragment } from 'react';
 
 import Layout from '@/components/Layout';
+import { getProgressSemantics } from '@/constants/games';
 
 import BottomMenu from './_components/BottomMenu';
 import GameScoreBanner from './_components/GameScoreBanner';
@@ -24,8 +30,14 @@ export default function Page({ params }: PageProps) {
 
   const homeTeamId: number = game.gameTeams[0].gameTeamId;
 
+  const sortedTimelines: TimelineType[] = timelines.map(timeline => ({
+    ...timeline,
+    records: timeline.records.sort((a, b) => b.recordId - a.recordId),
+  }));
   const lastRecord: TimelineRecordType | undefined =
-    timelines?.[0]?.records?.[0] ?? undefined;
+    sortedTimelines?.[0]?.records?.[0] ?? undefined;
+
+  const currentQuarter = sortedTimelines[0]?.gameQuarter ?? undefined;
 
   return (
     <Layout
@@ -40,28 +52,40 @@ export default function Page({ params }: PageProps) {
             <TextRecord>경기가 종료되었습니다.</TextRecord>
             <TextRecord className={styles.summaryRecord}>
               경기 결과 - {game.gameTeams[0].score}:{game.gameTeams[1].score}
+              {game.isPkTaken &&
+                ` (${game.gameTeams[0].pkScore}:${game.gameTeams[1].pkScore})`}
             </TextRecord>
           </>
         )}
-        {timelines.map(timeline => {
+        {sortedTimelines.map(timeline => {
           return (
             <Fragment key={timeline.gameQuarter}>
-              {timeline.records.map(record => (
-                <EventRecord
-                  key={record.recordId}
-                  record={record}
-                  homeTeamId={homeTeamId}
-                />
-              ))}
-              <TextRecord showDividerLine={true}>
-                {timeline.gameQuarter}이 시작되었습니다.
-              </TextRecord>
+              {timeline.records.map(record => {
+                if (record.type === 'GAME_PROGRESS') {
+                  return (
+                    <TextRecord key={record.recordId} showDividerLine={true}>
+                      {timeline.gameQuarter}이(가)&nbsp;
+                      {getProgressSemantics(
+                        record.progressRecord.gameProgressType,
+                      )}
+                      되었습니다.
+                    </TextRecord>
+                  );
+                }
+                return (
+                  <EventRecord
+                    key={record.recordId}
+                    record={record}
+                    homeTeamId={homeTeamId}
+                  />
+                );
+              })}
             </Fragment>
           );
         })}
       </div>
 
-      <BottomMenu gameId={gameId} />
+      <BottomMenu gameId={gameId} quarter={currentQuarter} />
     </Layout>
   );
 }

@@ -13,6 +13,13 @@ export const recordContainer = style({
   backgroundColor: theme.colors.background.secondary,
 });
 
+export const recordText = style({
+  color: theme.colors.gray900,
+  fontSize: rem(14),
+  fontWeight: 500,
+  lineHeight: '100%',
+});
+
 export const recordTeamContainer = style({
   ...theme.layouts.centerY,
   gap: rem(4),

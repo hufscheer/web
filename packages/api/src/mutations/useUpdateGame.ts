@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { fetcher } from '../fetcher';
 import { queryKeys } from '../queryKey';
-import { CreateGameType } from '../types';
+import { CreateGameType, stateMap, StateType } from '../types';
 
 type Request = {
   leagueId: string;
@@ -20,14 +20,18 @@ const useUpdateGame = () => {
   return useMutation({
     mutationFn: putUpdateGame,
     onSuccess: async (_, variables) => {
+      const { leagueId, gameId } = variables;
+      const states: StateType[] = Object.keys(stateMap) as StateType[];
+
       await Promise.all([
-        queryClient.invalidateQueries(queryKeys.lineup(variables.gameId)),
-        queryClient.invalidateQueries(
-          queryKeys.lineupPlaying(variables.gameId),
+        queryClient.invalidateQueries(queryKeys.lineup(gameId)),
+        queryClient.invalidateQueries(queryKeys.lineupPlaying(gameId)),
+        queryClient.invalidateQueries(queryKeys.game(gameId)),
+        ...states.map((state: StateType) =>
+          queryClient.invalidateQueries(
+            queryKeys.games({ league_id: leagueId, state, size: 100 }),
+          ),
         ),
-        queryClient.invalidateQueries(queryKeys.game(variables.gameId)),
-        queryClient.invalidateQueries(queryKeys.leaguesOnManager()),
-        queryClient.invalidateQueries(queryKeys.leaguesManageOnManager()),
       ]);
     },
   });

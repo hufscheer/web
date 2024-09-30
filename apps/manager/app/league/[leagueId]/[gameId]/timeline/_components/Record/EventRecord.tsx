@@ -23,7 +23,9 @@ const EventRecord = ({ record, homeTeamId }: EventRecordProps) => {
       })}
     >
       <div className={styles.eventRecordLine} />
-      <p className={styles.eventRecordTime}>{record.recordedAt}&apos;</p>
+      <p className={styles.eventRecordTime}>
+        {record.type === 'PK' ? 'P.S' : `${record.recordedAt}'`}
+      </p>
       {getRecordIcon(record)}
       <div className={styles.eventDescriptionContainer}>
         <p className={styles.eventDescriptionTitle}>{getRecordTitle(record)}</p>

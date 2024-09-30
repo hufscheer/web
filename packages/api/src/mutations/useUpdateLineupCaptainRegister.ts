@@ -5,17 +5,15 @@ import { queryKeys } from '../queryKey';
 
 type Request = {
   gameId: string;
-  gameTeamId: string;
   lineupPlayerId: number;
 };
 
 const patchUpdateLineupCaptainRegister = ({
   gameId,
-  gameTeamId,
   lineupPlayerId,
 }: Request) => {
   return fetcher.patch<void>(
-    `/games/${gameId}/${gameTeamId}/lineup-players/${lineupPlayerId}/captain/register`,
+    `/games/${gameId}/lineup-players/${lineupPlayerId}/captain/register`,
   );
 };
 

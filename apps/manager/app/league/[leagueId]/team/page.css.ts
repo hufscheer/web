@@ -53,6 +53,15 @@ export const teamLink = style({
   ...theme.layouts.center,
 });
 
+export const emptyMessage = style({
+  paddingBottom: rem(14),
+  color: theme.colors.gray300,
+  fontSize: rem(16),
+  fontWeight: 500,
+  textAlign: 'center',
+  lineHeight: '100%',
+});
+
 export const button = style({
   marginTop: rem(18),
   marginInline: theme.sizes.appInlinePadding,

@@ -39,3 +39,15 @@ export type ProgressFormSchema = z.infer<typeof progressFormSchema>;
 export const progressDefaultValues = Object.fromEntries(
   Object.keys(replacementFormSchema.shape).map(key => [key, '']),
 );
+
+export const pkFormSchema = z.object({
+  gameTeamId: z.string({ message: '팀 ID를 입력해주세요' }),
+  scorerId: z.string({ message: '득점 선수 ID를 입력해주세요' }),
+  isSuccess: z.string({ message: '득점 여부를 입력해주세요' }),
+});
+
+export type PkFormSchema = z.infer<typeof pkFormSchema>;
+
+export const pkDefaultValues = Object.fromEntries(
+  Object.keys(pkFormSchema.shape).map(key => [key, '']),
+);
