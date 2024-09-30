@@ -19,7 +19,7 @@ export default function Header() {
           source={HccIcon}
           size={58}
           height={41}
-          color="primary"
+          color="black"
           aria-label="훕치치"
         />
       </Link>
