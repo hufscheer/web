@@ -29,13 +29,15 @@ export default function Page({ params }: PageProps) {
   if (!game || !timelines) return null;
 
   const homeTeamId: number = game.gameTeams[0].gameTeamId;
+
   const sortedTimelines: TimelineType[] = timelines.map(timeline => ({
     ...timeline,
     records: timeline.records.sort((a, b) => b.recordId - a.recordId),
   }));
-
   const lastRecord: TimelineRecordType | undefined =
-    timelines?.[0]?.records?.[0] ?? undefined;
+    sortedTimelines?.[0]?.records?.[0] ?? undefined;
+
+  const currentQuarter = sortedTimelines[0].gameQuarter;
 
   return (
     <Layout
@@ -50,6 +52,8 @@ export default function Page({ params }: PageProps) {
             <TextRecord>경기가 종료되었습니다.</TextRecord>
             <TextRecord className={styles.summaryRecord}>
               경기 결과 - {game.gameTeams[0].score}:{game.gameTeams[1].score}
+              {game.isPkTaken &&
+                ` (${game.gameTeams[0].pkScore}:${game.gameTeams[1].pkScore})`}
             </TextRecord>
           </>
         )}
@@ -81,7 +85,7 @@ export default function Page({ params }: PageProps) {
         })}
       </div>
 
-      <BottomMenu gameId={gameId} />
+      <BottomMenu gameId={gameId} quarter={currentQuarter} />
     </Layout>
   );
 }
