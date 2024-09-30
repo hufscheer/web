@@ -19,3 +19,9 @@ globalStyle('.eg-flick-camera', {
   position: 'relative',
   display: 'flex',
 });
+
+globalStyle('ul', {
+  listStyle: 'none',
+  padding: 0,
+  margin: 0,
+});

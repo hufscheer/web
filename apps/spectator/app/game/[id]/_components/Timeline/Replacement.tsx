@@ -1,6 +1,5 @@
 import { SwitchIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
-import Image from 'next/image';
 
 import { GenericRecordType } from '@/types/game';
 
@@ -10,7 +9,6 @@ export default function ReplacementTimeline({
   recordedAt,
   playerName,
   replacementRecord,
-  teamImageUrl,
   teamName,
 }: GenericRecordType<'REPLACEMENT'>) {
   return (
@@ -24,13 +22,6 @@ export default function ReplacementTimeline({
             {playerName} out {replacementRecord?.replacedPlayerName} in
           </span>
         </div>
-        <Image
-          src={teamImageUrl}
-          alt={`${teamName} 로고`}
-          width={16}
-          height={16}
-          loading="lazy"
-        />
       </div>
     </li>
   );
