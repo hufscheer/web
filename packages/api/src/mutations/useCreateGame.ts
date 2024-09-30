@@ -6,7 +6,7 @@ import {
 
 import { fetcher } from '../fetcher';
 import { queryKeys } from '../queryKey';
-import { CreateGameType } from '../types';
+import { CreateGameType, stateMap, StateType } from '../types';
 
 type LeagueId = { leagueId: string };
 type Request = CreateGameType & LeagueId;
@@ -29,6 +29,8 @@ const useCreateGame = ({ leagueId, ...options }: UseCreateGameRequest) => {
   return useMutation({
     mutationFn: postCreateGame,
     onSuccess: async (data, variables, context) => {
+      const states: StateType[] = Object.keys(stateMap) as StateType[];
+
       await Promise.all([
         queryClient.invalidateQueries({
           queryKey: [
@@ -36,8 +38,11 @@ const useCreateGame = ({ leagueId, ...options }: UseCreateGameRequest) => {
             { leagueId: leagueId, state: variables.state },
           ],
         }),
-        queryClient.invalidateQueries(queryKeys.leaguesOnManager()),
-        queryClient.invalidateQueries(queryKeys.leaguesManageOnManager()),
+        ...states.map((state: StateType) =>
+          queryClient.invalidateQueries(
+            queryKeys.games({ league_id: leagueId, state, size: 100 }),
+          ),
+        ),
       ]);
 
       if (options.onSuccess) options.onSuccess(data, variables, context);

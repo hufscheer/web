@@ -50,6 +50,10 @@ export default function Page({ params }: PageProps) {
           </li>
         ))}
       </ul>
+      {leagueTeams.length === 0 && (
+        <p className={styles.emptyMessage}>대회에 참가할 팀을 등록해보세요.</p>
+      )}
+
       <Button
         className={styles.button}
         colorScheme="secondary"

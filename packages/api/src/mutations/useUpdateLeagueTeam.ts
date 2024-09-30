@@ -22,12 +22,14 @@ const useUpdateLeagueTeam = () => {
   return useMutation({
     mutationFn: putUpdateLeagueTeam,
     onSuccess: async (_, variables) => {
-      await queryClient.invalidateQueries(
-        queryKeys.leagueTeam(variables.teamId),
-      );
-      await queryClient.invalidateQueries(
-        queryKeys.leagueTeams(variables.leagueId),
-      );
+      await Promise.all([
+        queryClient.invalidateQueries(queryKeys.leagueTeam(variables.teamId)),
+        queryClient.invalidateQueries(
+          queryKeys.leagueTeams(variables.leagueId),
+        ),
+        queryClient.invalidateQueries(queryKeys.leaguesOnManager()),
+        queryClient.invalidateQueries(queryKeys.leaguesManageOnManager()),
+      ]);
     },
   });
 };

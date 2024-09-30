@@ -16,7 +16,7 @@ const RecordDeleteMenu = ({ gameId, record }: RecordDeleteMenuProps) => {
 
   if (!record) return null;
 
-  const RecordItem = () => {
+  const EventRecordItem = () => {
     return (
       <span className={styles.recordContainer}>
         <div className={styles.recordTeamContainer}>
@@ -38,6 +38,16 @@ const RecordDeleteMenu = ({ gameId, record }: RecordDeleteMenuProps) => {
     );
   };
 
+  const TextRecordItem = () => {
+    return (
+      <span className={styles.recordContainer}>
+        <p className={styles.recordText}>
+          {record.progressRecord?.gameProgressType}
+        </p>
+      </span>
+    );
+  };
+
   const handleDelete = () => {
     deleteTimelineMutation({ gameId, timelineId: record.recordId.toString() });
   };
@@ -45,7 +55,13 @@ const RecordDeleteMenu = ({ gameId, record }: RecordDeleteMenuProps) => {
   return (
     <AlertDialog
       title="이 타임라인을 삭제할게요"
-      description={<RecordItem />}
+      description={
+        record.type === 'GAME_PROGRESS' ? (
+          <TextRecordItem />
+        ) : (
+          <EventRecordItem />
+        )
+      }
       primaryActionLabel="삭제"
       secondaryActionLabel="취소"
       onPrimaryAction={handleDelete}

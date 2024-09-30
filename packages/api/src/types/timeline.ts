@@ -1,3 +1,12 @@
+export const PROGRESS_TYPE = {
+  GAME_START: 'GAME_START',
+  QUARTER_START: 'QUARTER_START',
+  QUARTER_END: 'QUARTER_END',
+  GAME_END: 'GAME_END',
+} as const;
+
+export type ProgressType = (typeof PROGRESS_TYPE)[keyof typeof PROGRESS_TYPE];
+
 type ScoreSnapshotType = {
   teamName: string;
   teamImageUrl: string;
@@ -16,7 +25,7 @@ export type ReplacementRecordType = {
 };
 
 export type ProgressRecordType = {
-  gameProgressType: string;
+  gameProgressType: ProgressType;
 };
 
 type CommonTimelineRecordFields = {
@@ -31,7 +40,7 @@ type CommonTimelineRecordFields = {
 export const RecordType = {
   SCORE: 'SCORE',
   REPLACEMENT: 'REPLACEMENT',
-  PROGRESS: 'PROGRESS',
+  PROGRESS: 'GAME_PROGRESS',
   PK: 'PK',
 } as const;
 
@@ -71,6 +80,7 @@ export type TimelineRecordType =
       progressRecord: undefined;
       pkRecord: PkRecordType;
     });
+
 export type TimelineType = {
   gameQuarter: string;
   records: TimelineRecordType[];

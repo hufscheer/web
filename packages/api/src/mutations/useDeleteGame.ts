@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { fetcher } from '../fetcher';
 import { queryKeys } from '../queryKey';
+import { stateMap, StateType } from '../types';
 
 type Request = {
   leagueId: string;
@@ -18,11 +19,17 @@ const useDeleteGame = () => {
   return useMutation({
     mutationFn: deleteGame,
     onSuccess: async (_, variables) => {
+      const { leagueId, gameId } = variables;
+      const states: StateType[] = Object.keys(stateMap) as StateType[];
+
       await Promise.all([
-        queryClient.invalidateQueries(queryKeys.league(variables.leagueId)),
-        queryClient.invalidateQueries(queryKeys.game(variables.gameId)),
-        queryClient.invalidateQueries(queryKeys.leaguesOnManager()),
-        queryClient.invalidateQueries(queryKeys.leaguesManageOnManager()),
+        queryClient.invalidateQueries(queryKeys.league(leagueId)),
+        queryClient.invalidateQueries(queryKeys.game(gameId)),
+        ...states.map((state: StateType) =>
+          queryClient.invalidateQueries(
+            queryKeys.games({ league_id: leagueId, state, size: 100 }),
+          ),
+        ),
       ]);
     },
   });
