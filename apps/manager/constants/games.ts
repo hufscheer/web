@@ -2,11 +2,11 @@ import { StateType } from '@hcc/api';
 import { ProgressType } from '@hcc/api/src';
 
 export const QUARTERS_DB = {
-  '경기 전': '경기전',
+  경기전: '경기 전',
   전반전: '전반전',
   후반전: '후반전',
   승부차기: '승부차기',
-  '경기 후': '경기후',
+  경기후: '경기 종료',
 } as const;
 
 export const QUARTER_ID: Record<QUARTER_KEY, number> = {
@@ -17,7 +17,7 @@ export const QUARTER_ID: Record<QUARTER_KEY, number> = {
   경기후: 8,
 } as const;
 
-export type QUARTER_KEY = (typeof QUARTERS_DB)[keyof typeof QUARTERS_DB];
+export type QUARTER_KEY = keyof typeof QUARTERS_DB;
 
 export const getStateByQuarter = (quarter: QUARTER_KEY): StateType => {
   if (quarter === '경기전') return 'SCHEDULED';

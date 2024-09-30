@@ -48,14 +48,14 @@ export default function Page({ params }: PageProps) {
 
       <div className={styles.timeline}>
         {game.state === 'FINISHED' && (
-          <>
+          <Fragment>
             <TextRecord>경기가 종료되었습니다.</TextRecord>
             <TextRecord className={styles.summaryRecord}>
               경기 결과 - {game.gameTeams[0].score}:{game.gameTeams[1].score}
               {game.isPkTaken &&
                 ` (${game.gameTeams[0].pkScore}:${game.gameTeams[1].pkScore})`}
             </TextRecord>
-          </>
+          </Fragment>
         )}
         {sortedTimelines.map(timeline => {
           return (

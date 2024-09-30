@@ -23,7 +23,7 @@ import {
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
 
 import TimeInput from '@/components/TimeInput';
-import { QUARTERS_DB } from '@/constants/games';
+import { QUARTER_KEY, QUARTERS_DB } from '@/constants/games';
 import { formatTime } from '@/utils/time';
 
 import * as styles from './styles.css';
@@ -130,13 +130,15 @@ export const GameForm = ({
                   <FormLabel>쿼터</FormLabel>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue>{field.value}</SelectValue>
+                      <SelectValue>
+                        {QUARTERS_DB[field.value as QUARTER_KEY]}
+                      </SelectValue>
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
                     {Object.entries(QUARTERS_DB).map(([quarter, value]) => (
-                      <SelectItem key={quarter} value={value}>
-                        {quarter}
+                      <SelectItem key={quarter} value={quarter}>
+                        {value}
                       </SelectItem>
                     ))}
                   </SelectContent>

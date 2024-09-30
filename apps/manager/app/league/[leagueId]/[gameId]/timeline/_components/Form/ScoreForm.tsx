@@ -105,13 +105,15 @@ const ScoreForm = ({ gameId, onClose, quarter }: ScoreFormProps) => {
                   <FormLabel>쿼터</FormLabel>
                   <FormControl>
                     <SelectTrigger type="button">
-                      <SelectValue>{field.value}</SelectValue>
+                      <SelectValue>
+                        {QUARTERS_DB[field.value as QUARTER_KEY]}
+                      </SelectValue>
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
                     {Object.entries(QUARTERS_DB).map(([quarter, value]) => (
-                      <SelectItem key={quarter} value={value}>
-                        {quarter}
+                      <SelectItem key={quarter} value={quarter}>
+                        {value}
                       </SelectItem>
                     ))}
                   </SelectContent>
