@@ -12,6 +12,8 @@ export const form = style({
 export const radioBox = style({
   display: 'flex',
   gap: rem(4),
+  outline: 'none',
+  border: 'none',
 });
 
 export const radioField = style({
@@ -19,16 +21,17 @@ export const radioField = style({
   alignItems: 'center',
   gap: rem(4),
   cursor: 'pointer',
+  border: 'none',
   ...theme.textVariants.sm,
 });
 
 export const radioInput = style({
   width: rem(12),
   height: rem(12),
+  outline: 'none',
   border: 'none',
   borderRadius: '50%',
   backgroundColor: theme.colors.gray[2],
-  boxShadow: `0 0 0 ${rem(1)} ${theme.colors.gray[3]}`,
   selectors: {
     '&:checked': {
       border: `${rem(2)} solid ${theme.colors.gray[2]}`,
@@ -55,6 +58,10 @@ export const cheerTalkInput = style({
   color: theme.colors.gray[4],
   ...theme.textVariants.default,
   transform: 'scale(0.9)',
+  backgroundColor: 'transparent',
+  border: 'none',
+  outline: 'none',
+  boxShadow: 'none',
 });
 
 export const cheerTalkSendButton = style({

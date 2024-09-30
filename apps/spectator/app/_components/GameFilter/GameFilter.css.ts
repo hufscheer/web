@@ -93,11 +93,10 @@ export const leagueTeam = styleVariants({
     overflowX: 'scroll',
     msOverflowStyle: 'none',
     scrollbarWidth: 'none',
-    '::-webkit-scrollbar': {
-      display: 'none',
-    },
     overscrollBehavior: 'none',
     gap: theme.spaces.xs,
+    listStyle: 'none',
+    '::-webkit-scrollbar': { display: 'none' },
   },
   listExpanded: {
     flexWrap: 'wrap',

@@ -12,7 +12,7 @@ export const useGameTeamInfo = (
 
     return {
       direction: (['left', 'right'] as const)[order],
-      logoImageUrl: gameDetail.gameTeams[order].logoImageUrl,
+      logoImageUrl: gameDetail.gameTeams[order]?.logoImageUrl || '',
     };
   };
 

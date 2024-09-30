@@ -12,6 +12,7 @@ import Providers from './providers';
 
 import 'dayjs/locale/ko';
 import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
+import '@hcc/styles/colors.css';
 
 interface RootLayoutProps {
   children: ReactNode;

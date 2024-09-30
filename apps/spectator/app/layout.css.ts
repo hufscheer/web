@@ -8,4 +8,5 @@ export const root = style({
 export const body = style({
   margin: 'auto',
   maxWidth: theme.sizes.appWidth,
+  backgroundColor: theme.colors.white,
 });

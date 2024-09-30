@@ -1,6 +1,5 @@
 import { SoccerIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
-import Image from 'next/image';
 
 import { GenericRecordType } from '@/types/game';
 
@@ -9,8 +8,6 @@ import * as styles from './Timeline.css';
 export default function ScoreTimeline({
   recordedAt,
   direction,
-  teamImageUrl,
-  teamName,
   scoreRecord,
   playerName,
 }: GenericRecordType<'SCORE'>) {
@@ -29,13 +26,6 @@ export default function ScoreTimeline({
             {scoreRecord?.snapshot[1].teamName}
           </div>
         </div>
-        <Image
-          src={teamImageUrl}
-          alt={`${teamName} 로고`}
-          width={16}
-          height={16}
-          loading="lazy"
-        />
       </div>
     </li>
   );
