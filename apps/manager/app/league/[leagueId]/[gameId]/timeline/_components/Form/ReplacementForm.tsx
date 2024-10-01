@@ -18,6 +18,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  useToast,
 } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useMemo } from 'react';
@@ -44,6 +45,7 @@ const ReplacementForm = ({
   onClose,
   quarter,
 }: ReplacementFormProps) => {
+  const { toast } = useToast();
   const { data: game } = useGame(gameId);
   const teams: GameTeamType[] = game?.gameTeams ?? [];
 
@@ -59,7 +61,11 @@ const ReplacementForm = ({
     useCreateReplacementTimeline();
 
   const onSubmit = (data: ReplacementFormSchema) => {
-    if (isPending) return;
+    if (isPending)
+      return toast({
+        title: '선수를 교체 중입니다. 잠시만 기다려주세요.',
+        variant: 'destructive',
+      });
 
     createReplacementTimelineMutation(
       {

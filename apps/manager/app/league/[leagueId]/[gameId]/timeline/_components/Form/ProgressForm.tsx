@@ -12,6 +12,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  useToast,
 } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -36,6 +37,7 @@ type ProgressFormProps = {
 };
 
 const ProgressForm = ({ gameId, onClose }: ProgressFormProps) => {
+  const { toast } = useToast();
   const methods = useForm<ProgressFormSchema>({
     resolver: zodResolver(progressFormSchema),
     defaultValues: progressDefaultValues,
@@ -45,7 +47,11 @@ const ProgressForm = ({ gameId, onClose }: ProgressFormProps) => {
     useCreateProgressTimeline();
 
   const onSubmit = (data: ProgressFormSchema) => {
-    if (isPending) return;
+    if (isPending)
+      return toast({
+        title: '경기 상태를 변경 중입니다. 잠시만 기다려주세요.',
+        variant: 'destructive',
+      });
 
     createProgressTimelineMutation(
       {

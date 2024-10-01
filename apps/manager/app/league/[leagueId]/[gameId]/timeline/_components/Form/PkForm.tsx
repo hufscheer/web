@@ -17,6 +17,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  useToast,
 } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMemo } from 'react';
@@ -32,6 +33,7 @@ type PkFormProps = {
 
 const PkForm = ({ gameId, onClose }: PkFormProps) => {
   const { data: game } = useGame(gameId);
+  const { toast } = useToast();
   const teams: GameTeamType[] = game?.gameTeams ?? [];
 
   const { data: lineupPlayingPlayers } = useGameLineupPlaying(gameId);
@@ -43,7 +45,11 @@ const PkForm = ({ gameId, onClose }: PkFormProps) => {
 
   const { mutate: createPkTimeline, isPending } = useCreatePkTimeline();
   const onSubmit = (data: PkFormSchema) => {
-    if (isPending) return;
+    if (isPending)
+      return toast({
+        title: '승부차기 결과를 등록 중입니다. 잠시만 기다려주세요.',
+        variant: 'destructive',
+      });
 
     createPkTimeline(
       {
