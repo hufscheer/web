@@ -1,50 +1,55 @@
 import { rem, theme } from '@hcc/styles';
 import { style, styleVariants } from '@vanilla-extract/css';
 
-export const lineup = styleVariants({
-  root: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-    justifyContent: 'center',
-    paddingBlock: theme.spaces.default,
-  },
-  split: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spaces.lg,
-    paddingInline: rem(20),
-    selectors: {
-      '&:first-of-type': {
-        borderRight: `1px solid ${theme.colors.gray[3]}`,
-      },
-    },
-  },
-  itemsWrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spaces.xs,
+export const lineup = style({
+  // display: 'flex',
+  // justifyContent: 'center',
+  display: 'grid',
+  gridTemplateColumns: '1fr 1px 1fr',
+  paddingBlock: theme.spaces.default,
+  paddingInline: rem(60),
+  marginTop: rem(20),
 
-    height: '100%',
-  },
+  gap: rem(36),
+});
+
+export const split = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spaces.lg,
+});
+
+export const divider = style({
+  flexShrink: 0,
+
+  width: 1,
+  backgroundColor: theme.colors.gray50,
+});
+
+export const itemsWrapper = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spaces.default,
+});
+
+const teamBase = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spaces.xs,
+
+  height: rem(39),
 });
 
 export const team = styleVariants({
-  root: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: theme.spaces.xs,
-  },
-  name: {
-    ...theme.textVariants.default,
-    fontWeight: 'bold',
-  },
+  left: [teamBase],
+  right: [teamBase, { justifyContent: 'flex-end' }],
 });
 
-const color = {
-  blue: theme.colors.indicatorBlue[3],
-  red: theme.colors.indicatorRed[3],
-};
+export const teamName = style({
+  ...theme.textVariants.default,
+  fontWeight: 'bold',
+  textWrap: 'pretty',
+});
 
 const playerBase = style({
   ...theme.textVariants.sm,
@@ -52,6 +57,19 @@ const playerBase = style({
   whiteSpace: 'nowrap',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
+});
+
+const playerItemBase = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spaces.default,
+
+  height: rem(32),
+});
+
+export const playerItem = styleVariants({
+  left: [playerItemBase],
+  right: [playerItemBase, { flexDirection: 'row-reverse' }],
 });
 
 export const player = styleVariants({
@@ -62,7 +80,6 @@ export const player = styleVariants({
     alignItems: 'center',
     gap: theme.spaces.default,
 
-    paddingInline: theme.spaces.sm,
     height: rem(32),
   },
   wrapper: {
@@ -88,19 +105,26 @@ const backNumberBase = style({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+
+  width: rem(26),
+  aspectRatio: '1/1',
+  borderRadius: rem(8),
+  fontSizeAdjust: 'from-font',
 });
 
 export const backNumber = styleVariants({
   left: [
     backNumberBase,
     {
-      color: color.blue,
+      color: theme.colors.gray900,
+      backgroundColor: 'rgba(0, 47, 60, 8%)',
     },
   ],
   right: [
     backNumberBase,
     {
-      color: color.red,
+      color: 'rgba(156, 23, 20)',
+      backgroundColor: 'rgba(156, 23, 20, 8%)',
     },
   ],
 });
@@ -115,8 +139,8 @@ const captainBase = style({
 });
 
 export const captain = styleVariants({
-  left: [captainBase, { backgroundColor: color.blue }],
-  right: [captainBase, { backgroundColor: color.red }],
+  left: [captainBase, { backgroundColor: theme.colors.gray800 }],
+  right: [captainBase, { backgroundColor: theme.colors.green600 }],
 });
 
 export const errorFallback = styleVariants({
