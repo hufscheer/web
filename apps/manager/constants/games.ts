@@ -7,6 +7,7 @@ export const QUARTERS_DB = {
   후반전: '후반전',
   승부차기: '승부차기',
   경기후: '경기 종료',
+  연장전: '연장전',
 } as const;
 
 export const QUARTER_ID: Record<QUARTER_KEY, number> = {
@@ -15,6 +16,7 @@ export const QUARTER_ID: Record<QUARTER_KEY, number> = {
   경기전: 6,
   승부차기: 7,
   경기후: 8,
+  연장전: 9,
 } as const;
 
 export type QUARTER_KEY = keyof typeof QUARTERS_DB;
