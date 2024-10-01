@@ -12,6 +12,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  Spinner,
   useToast,
 } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -104,8 +105,13 @@ const ProgressForm = ({ gameId, onClose }: ProgressFormProps) => {
           />
         </section>
 
-        <Button type="submit" fontWeight="semibold" fullWidth>
-          타임라인 등록
+        <Button
+          disabled={isPending}
+          type="submit"
+          fontWeight="semibold"
+          fullWidth
+        >
+          {isPending ? <Spinner /> : '타임라인 등록'}
         </Button>
       </form>
     </Form>

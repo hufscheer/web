@@ -17,6 +17,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  Spinner,
   useToast,
 } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -43,7 +44,7 @@ const PkForm = ({ gameId, onClose }: PkFormProps) => {
     defaultValues: pkDefaultValues,
   });
 
-  const { mutate: createPkTimeline, isPending } = useCreatePkTimeline();
+  const { mutate: createPkTimeline, isPending = true } = useCreatePkTimeline();
   const onSubmit = (data: PkFormSchema) => {
     if (isPending)
       return toast({
@@ -187,8 +188,13 @@ const PkForm = ({ gameId, onClose }: PkFormProps) => {
           />
         </section>
 
-        <Button type="submit" fontWeight="semibold" fullWidth>
-          타임라인 등록
+        <Button
+          type="submit"
+          fontWeight="semibold"
+          fullWidth
+          disabled={isPending}
+        >
+          {isPending ? <Spinner /> : '타임라인 등록'}
         </Button>
       </form>
     </Form>

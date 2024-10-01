@@ -30,6 +30,7 @@ export const content = style({
 export const inner = style({
   ...theme.layouts.column,
   width: '100%',
+  height: '100%',
   maxWidth: theme.sizes.appWidth,
   marginInline: 'auto',
 });

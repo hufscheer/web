@@ -21,6 +21,11 @@ export const base = style({
   border: '1px solid transparent',
   borderRadius: rem(8),
   transition: 'background-color 0.2s ease-in-out',
+
+  ':disabled': {
+    pointerEvents: 'none',
+    opacity: 0.8,
+  },
 });
 
 export const colorScheme = {
