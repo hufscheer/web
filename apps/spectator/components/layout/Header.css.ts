@@ -1,17 +1,20 @@
-import { theme } from '@hcc/styles';
+import { rem, theme } from '@hcc/styles';
 import { styleVariants } from '@vanilla-extract/css';
 
 export const header = styleVariants({
   wrapper: {
     display: 'flex',
     position: 'relative',
-    paddingInline: theme.spaces.default,
-    paddingBlock: theme.spaces.sm,
+    paddingInline: rem(21),
+    paddingBlock: rem(10),
     justifyContent: 'space-between',
     alignItems: 'center',
+    borderBottom: `1px solid ${theme.colors.gray25}`,
   },
-  logoContent: {
+  logoLink: {
     display: 'flex',
+    width: 'fit-content',
     alignItems: 'center',
+    flexGrow: 0,
   },
 });
