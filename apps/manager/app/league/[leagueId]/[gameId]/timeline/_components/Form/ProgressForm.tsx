@@ -12,6 +12,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  Spinner,
+  useToast,
 } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -36,14 +38,22 @@ type ProgressFormProps = {
 };
 
 const ProgressForm = ({ gameId, onClose }: ProgressFormProps) => {
+  const { toast } = useToast();
   const methods = useForm<ProgressFormSchema>({
     resolver: zodResolver(progressFormSchema),
     defaultValues: progressDefaultValues,
   });
 
-  const { mutate: createProgressTimelineMutation } =
+  const { mutate: createProgressTimelineMutation, isPending } =
     useCreateProgressTimeline();
+
   const onSubmit = (data: ProgressFormSchema) => {
+    if (isPending)
+      return toast({
+        title: '경기 상태를 변경 중입니다. 잠시만 기다려주세요.',
+        variant: 'destructive',
+      });
+
     createProgressTimelineMutation(
       {
         gameId,
@@ -95,8 +105,13 @@ const ProgressForm = ({ gameId, onClose }: ProgressFormProps) => {
           />
         </section>
 
-        <Button type="submit" fontWeight="semibold" fullWidth>
-          타임라인 등록
+        <Button
+          disabled={isPending}
+          type="submit"
+          fontWeight="semibold"
+          fullWidth
+        >
+          {isPending ? <Spinner /> : '타임라인 등록'}
         </Button>
       </form>
     </Form>

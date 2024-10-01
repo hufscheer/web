@@ -17,6 +17,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  Spinner,
+  useToast,
 } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMemo } from 'react';
@@ -32,6 +34,7 @@ type PkFormProps = {
 
 const PkForm = ({ gameId, onClose }: PkFormProps) => {
   const { data: game } = useGame(gameId);
+  const { toast } = useToast();
   const teams: GameTeamType[] = game?.gameTeams ?? [];
 
   const { data: lineupPlayingPlayers } = useGameLineupPlaying(gameId);
@@ -41,8 +44,14 @@ const PkForm = ({ gameId, onClose }: PkFormProps) => {
     defaultValues: pkDefaultValues,
   });
 
-  const { mutate: createPkTimeline } = useCreatePkTimeline();
+  const { mutate: createPkTimeline, isPending = true } = useCreatePkTimeline();
   const onSubmit = (data: PkFormSchema) => {
+    if (isPending)
+      return toast({
+        title: '승부차기 결과를 등록 중입니다. 잠시만 기다려주세요.',
+        variant: 'destructive',
+      });
+
     createPkTimeline(
       {
         gameId,
@@ -179,8 +188,13 @@ const PkForm = ({ gameId, onClose }: PkFormProps) => {
           />
         </section>
 
-        <Button type="submit" fontWeight="semibold" fullWidth>
-          타임라인 등록
+        <Button
+          type="submit"
+          fontWeight="semibold"
+          fullWidth
+          disabled={isPending}
+        >
+          {isPending ? <Spinner /> : '타임라인 등록'}
         </Button>
       </form>
     </Form>

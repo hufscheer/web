@@ -60,11 +60,22 @@ const LineupSheet = ({ gameId, teamId }: LineupUpdateSheetProps) => {
       player => !currentPlayingLineup.some(p => p.id === player.id),
     ) || [];
 
-  const { mutate: updateLineupCaptainRegister } =
-    useUpdateLineupCaptainRegister();
-  const { mutate: updateLineupCaptainRevoke } = useUpdateLineupCaptainRevoke();
+  const {
+    mutate: updateLineupCaptainRegister,
+    isPending: isCaptainRegisterPending,
+  } = useUpdateLineupCaptainRegister();
+  const {
+    mutate: updateLineupCaptainRevoke,
+    isPending: isCaptainRevokePending,
+  } = useUpdateLineupCaptainRevoke();
   const handleChangeCaptain = (playerId: number, isCaptain: boolean) => {
     if (isCaptain) {
+      if (isCaptainRevokePending)
+        return toast({
+          title: '주장 해제 중입니다. 잠시만 기다려주세요.',
+          variant: 'destructive',
+        });
+
       updateLineupCaptainRevoke(
         { gameId, lineupPlayerId: playerId },
         {
@@ -73,6 +84,12 @@ const LineupSheet = ({ gameId, teamId }: LineupUpdateSheetProps) => {
         },
       );
     } else {
+      if (isCaptainRegisterPending)
+        return toast({
+          title: '주장 등록 중입니다. 잠시만 기다려주세요.',
+          variant: 'destructive',
+        });
+
       updateLineupCaptainRegister(
         { gameId, lineupPlayerId: playerId },
         {
@@ -88,8 +105,15 @@ const LineupSheet = ({ gameId, teamId }: LineupUpdateSheetProps) => {
     }
   };
 
-  const { mutate: updateLineupStarter } = useUpdateLineupStarter();
+  const { mutate: updateLineupStarter, isPending: isLineupStarterPending } =
+    useUpdateLineupStarter();
   const handleChangePlaying = (playerId: number) => {
+    if (isLineupStarterPending)
+      return toast({
+        title: '선발 등록 중입니다. 잠시만 기다려주세요.',
+        variant: 'destructive',
+      });
+
     updateLineupStarter(
       { gameId, lineupPlayerId: playerId },
       {
@@ -99,8 +123,15 @@ const LineupSheet = ({ gameId, teamId }: LineupUpdateSheetProps) => {
     );
   };
 
-  const { mutate: updateLineupCandidate } = useUpdateLineupCandidate();
+  const { mutate: updateLineupCandidate, isPending: isLineupCandidatePending } =
+    useUpdateLineupCandidate();
   const handleChangeCandidate = (playerId: number) => {
+    if (isLineupCandidatePending)
+      return toast({
+        title: '선발 해제 중입니다. 잠시만 기다려주세요.',
+        variant: 'destructive',
+      });
+
     updateLineupCandidate(
       { gameId, lineupPlayerId: playerId },
       {

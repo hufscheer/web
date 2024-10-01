@@ -17,6 +17,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  Spinner,
+  useToast,
 } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useMemo } from 'react';
@@ -39,6 +41,7 @@ type ScoreFormProps = {
 };
 
 const ScoreForm = ({ gameId, onClose, quarter }: ScoreFormProps) => {
+  const { toast } = useToast();
   const { data: game } = useGame(gameId);
   const teams: GameTeamType[] = game?.gameTeams ?? [];
 
@@ -49,8 +52,16 @@ const ScoreForm = ({ gameId, onClose, quarter }: ScoreFormProps) => {
     defaultValues: scoreDefaultValues,
   });
 
-  const { mutate: createScoreTimelineMutation } = useCreateScoreTimeline();
+  const { mutate: createScoreTimelineMutation, isPending } =
+    useCreateScoreTimeline();
+
   const onSubmit = (data: ScoreFormSchema) => {
+    if (isPending)
+      return toast({
+        title: '득점 정보를 추가 중입니다. 잠시만 기다려주세요.',
+        variant: 'destructive',
+      });
+
     createScoreTimelineMutation(
       {
         gameId,
@@ -202,8 +213,13 @@ const ScoreForm = ({ gameId, onClose, quarter }: ScoreFormProps) => {
           />
         </section>
 
-        <Button type="submit" fontWeight="semibold" fullWidth>
-          타임라인 등록
+        <Button
+          disabled={isPending}
+          type="submit"
+          fontWeight="semibold"
+          fullWidth
+        >
+          {isPending ? <Spinner /> : '타임라인 등록'}
         </Button>
       </form>
     </Form>
