@@ -9,7 +9,6 @@ export const header = styleVariants({
     paddingBlock: theme.spaces.sm,
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: theme.colors.gray[1],
   },
   logoContent: {
     display: 'flex',
