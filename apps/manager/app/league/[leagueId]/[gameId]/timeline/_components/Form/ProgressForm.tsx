@@ -41,9 +41,12 @@ const ProgressForm = ({ gameId, onClose }: ProgressFormProps) => {
     defaultValues: progressDefaultValues,
   });
 
-  const { mutate: createProgressTimelineMutation } =
+  const { mutate: createProgressTimelineMutation, isPending } =
     useCreateProgressTimeline();
+
   const onSubmit = (data: ProgressFormSchema) => {
+    if (isPending) return;
+
     createProgressTimelineMutation(
       {
         gameId,

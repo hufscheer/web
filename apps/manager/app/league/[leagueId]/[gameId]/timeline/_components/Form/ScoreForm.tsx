@@ -49,8 +49,12 @@ const ScoreForm = ({ gameId, onClose, quarter }: ScoreFormProps) => {
     defaultValues: scoreDefaultValues,
   });
 
-  const { mutate: createScoreTimelineMutation } = useCreateScoreTimeline();
+  const { mutate: createScoreTimelineMutation, isPending } =
+    useCreateScoreTimeline();
+
   const onSubmit = (data: ScoreFormSchema) => {
+    if (isPending) return;
+
     createScoreTimelineMutation(
       {
         gameId,

@@ -41,8 +41,10 @@ const PkForm = ({ gameId, onClose }: PkFormProps) => {
     defaultValues: pkDefaultValues,
   });
 
-  const { mutate: createPkTimeline } = useCreatePkTimeline();
+  const { mutate: createPkTimeline, isPending } = useCreatePkTimeline();
   const onSubmit = (data: PkFormSchema) => {
+    if (isPending) return;
+
     createPkTimeline(
       {
         gameId,

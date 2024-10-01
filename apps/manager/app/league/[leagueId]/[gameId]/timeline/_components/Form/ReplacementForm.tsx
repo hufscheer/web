@@ -55,9 +55,12 @@ const ReplacementForm = ({
     defaultValues: replacementDefaultValues,
   });
 
-  const { mutate: createReplacementTimelineMutation } =
+  const { mutate: createReplacementTimelineMutation, isPending } =
     useCreateReplacementTimeline();
+
   const onSubmit = (data: ReplacementFormSchema) => {
+    if (isPending) return;
+
     createReplacementTimelineMutation(
       {
         gameId,
