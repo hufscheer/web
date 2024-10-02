@@ -38,7 +38,6 @@ export const cheerTeam = styleVariants({
       width: calc.subtract(cheerWidth, theme.spaces.xxs),
 
       backgroundColor: '#002843',
-      // backgroundColor: theme.colors.indicatorBlue[3],
 
       selectors: {
         '&:active': {
@@ -55,7 +54,6 @@ export const cheerTeam = styleVariants({
       width: calc.subtract(cheerWidth, theme.spaces.xxs),
 
       backgroundColor: '#9C1714',
-      // backgroundColor: theme.colors.indicatorRed[3],
 
       selectors: {
         '&:active': {
@@ -113,7 +111,7 @@ export const skeleton = styleVariants({
     {
       height: '100%',
       width: '100%',
-      backgroundColor: theme.colors.gray[2],
+      backgroundColor: theme.colors.gray100,
     },
   ],
   empty: [

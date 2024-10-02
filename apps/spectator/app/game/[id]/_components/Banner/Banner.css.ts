@@ -98,7 +98,7 @@ export const time = style({
   flexDirection: 'column',
   alignItems: 'center',
 
-  color: theme.colors.gray[4],
+  color: theme.colors.gray300,
   whiteSpace: 'nowrap',
 });
 
@@ -122,7 +122,7 @@ export const skeleton = styleVariants({
 
       height: '100%',
       width: '60%',
-      backgroundColor: theme.colors.gray[2],
+      backgroundColor: theme.colors.gray100,
       borderRadius: rem(8),
     },
   ],
@@ -136,7 +136,7 @@ export const skeleton = styleVariants({
   line: [
     skeletonAnimation,
     {
-      backgroundColor: theme.colors.gray[2],
+      backgroundColor: theme.colors.gray100,
       borderRadius: rem(8),
     },
   ],
@@ -151,7 +151,7 @@ export const errorFallback = styleVariants({
     minHeight: rem(95),
   },
   message: {
-    color: theme.colors.gray[5],
+    color: theme.colors.gray500,
     ...theme.textVariants.sm,
 
     fontWeight: 500,
