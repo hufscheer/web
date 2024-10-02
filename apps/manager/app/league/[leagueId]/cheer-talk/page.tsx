@@ -22,11 +22,19 @@ const tabs = [
   },
 ];
 
-export default function Page() {
+type PageProps = {
+  params: { leagueId: string };
+};
+
+export default function Page({ params }: PageProps) {
   return (
     <Layout
       navigationTitle="응원톡 관리"
-      navigationMenu={<Link href={`/cheer-talk/blocked`}>가려진 목록</Link>}
+      navigationMenu={
+        <Link href={`/league/${params.leagueId}/cheer-talk/blocked`}>
+          가려진 목록
+        </Link>
+      }
     >
       <Tabs className={styles.tab} defaultValue="ALL">
         <Tabs.List className={styles.tabList}>
