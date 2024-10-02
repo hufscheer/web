@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 import Navigation from '@/components/Layout/Navigation';
 
 import Header from './Header';
-import * as styles from './Layout.css';
+import * as styles from './styles.css';
 
 type LayoutProps = {
   children: ReactNode;
@@ -23,7 +23,7 @@ const Layout = ({
 }: LayoutProps) => {
   return (
     <div className={styles.wrapper}>
-      {headerVisible && <Header />}
+      {headerVisible && <Header menu={navigationMenu} />}
 
       {navigationVisible && (
         <Navigation title={navigationTitle} menu={navigationMenu} />

@@ -33,3 +33,10 @@ export const logoSubtitle = style({
   fontWeight: '600',
   color: theme.colors.gray900,
 });
+
+export const menuContainer = style({
+  color: theme.colors.blue600,
+  fontSize: rem(18),
+  fontWeight: 500,
+  lineHeight: '100%',
+});

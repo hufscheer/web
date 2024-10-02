@@ -3,10 +3,15 @@
 import { HccIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import Link from 'next/link';
+import { ReactNode } from 'react';
 
-import * as styles from './Header.css';
+import * as styles from './styles.css';
 
-export default function Header() {
+type HeaderProps = {
+  menu?: ReactNode;
+};
+
+export default function Header({ menu }: HeaderProps) {
   return (
     <header className={styles.wrapper}>
       <div className={styles.container}>
@@ -24,6 +29,7 @@ export default function Header() {
           />
           <p className={styles.logoSubtitle}>매니저</p>
         </Link>
+        {menu && <span className={styles.menuContainer}>{menu}</span>}
       </div>
     </header>
   );
