@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+
 import { GamePlayerType, TeamDirection } from '@/types/game';
 
 import LineupCaptain from './Captain';
@@ -10,17 +12,21 @@ type PlayerProps = {
 
 export default function LineupPlayerList({ lineup, direction }: PlayerProps) {
   return (
-    <ul className={styles.lineup.itemsWrapper}>
+    <ul className={styles.itemsWrapper}>
       {lineup.map(player => (
         <li
           key={player.playerName + player.number}
-          className={styles.player.root}
+          className={styles.playerItem[direction]}
         >
-          <span className={styles.backNumber[direction]}>{player.number}</span>
-          <div className={styles.player.wrapper}>
-            <span className={styles.player.name}>{player.playerName}</span>
-            <span className={styles.player.caption}>선수</span>
-          </div>
+          <Fragment>
+            <span className={styles.backNumber[direction]}>
+              {player.number}
+            </span>
+            <div className={styles.player.wrapper}>
+              <span className={styles.player.name}>{player.playerName}</span>
+            </div>
+            {player.isCaptain && <div>C</div>}
+          </Fragment>
 
           <LineupCaptain isCaptain={player.isCaptain} direction={direction} />
         </li>

@@ -36,6 +36,7 @@ export { ReactComponent as HoldIcon } from './svg/hold.svg';
 export { ReactComponent as ImageIcon } from './svg/image.svg';
 export { ReactComponent as KeyboardArrowDownIcon } from './svg/keyboard_arrow_down.svg';
 export { ReactComponent as MenuIcon } from './svg/menu.svg';
+export { ReactComponent as NewHccIcon } from './svg/new_hcc.svg';
 export { ReactComponent as PaperIcon } from './svg/paper.svg';
 export { ReactComponent as PencilIcon } from './svg/pencil.svg';
 export { ReactComponent as PeopleIcon } from './svg/people.svg';

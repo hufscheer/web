@@ -9,20 +9,20 @@ export const root = style({
   justifyContent: 'space-between',
   alignItems: 'center',
   padding: theme.spaces.sm,
+  marginInline: rem(20),
 });
 
 export const box = style({
   display: 'flex',
   alignItems: 'center',
-  gap: theme.spaces.sm,
+  gap: rem(10),
 
   maxWidth: '65%',
   minWidth: '35%',
 
-  paddingBlock: theme.spaces.xs,
-  paddingInline: theme.spaces.default,
+  padding: rem(10),
 
-  borderRadius: 10,
+  borderRadius: rem(12),
   color: theme.colors.white,
 
   transition: 'width 0.5s ease-in-out, background-color 0.1s ease-in-out',
@@ -37,7 +37,7 @@ export const cheerTeam = styleVariants({
     {
       width: calc.subtract(cheerWidth, theme.spaces.xxs),
 
-      backgroundColor: theme.colors.indicatorBlue[3],
+      backgroundColor: '#002843',
 
       selectors: {
         '&:active': {
@@ -53,7 +53,7 @@ export const cheerTeam = styleVariants({
 
       width: calc.subtract(cheerWidth, theme.spaces.xxs),
 
-      backgroundColor: theme.colors.indicatorRed[3],
+      backgroundColor: '#9C1714',
 
       selectors: {
         '&:active': {
@@ -64,9 +64,13 @@ export const cheerTeam = styleVariants({
   ],
 });
 
+export const countNumber = style({
+  fontSize: rem(16),
+});
+
 export const empty = style({
   position: 'relative',
-  width: 8,
+  width: rem(4),
 
   zIndex: 10,
 });
@@ -80,20 +84,24 @@ export const vs = style({
   paddingInline: theme.spaces.xs,
   paddingBlock: theme.spaces.xxs,
 
-  borderRadius: 8,
+  border: '0.4px solid rgba(255, 255, 255, 10)',
+  borderRadius: rem(10),
 
-  backgroundColor: theme.colors.white,
-  color: theme.colors.gray[4],
+  backgroundColor: 'rgba(102, 102, 102, 90%)',
+  color: theme.colors.white,
+  boxShadow:
+    'inset -3px -3px 7px #ffffff73, inset 3px 3px 5px rgba(94, 104, 121, .288)',
 
   fontSize: theme.textVariants.sm.fontSize,
   fontWeight: 'bold',
+  verticalAlign: 'baseline',
 });
 
 export const skeleton = styleVariants({
   root: [
     root,
     {
-      height: rem(90),
+      height: rem(80),
       gap: theme.spaces.xxs,
     },
   ],
@@ -103,7 +111,7 @@ export const skeleton = styleVariants({
     {
       height: '100%',
       width: '100%',
-      backgroundColor: theme.colors.gray[2],
+      backgroundColor: theme.colors.gray100,
     },
   ],
   empty: [
