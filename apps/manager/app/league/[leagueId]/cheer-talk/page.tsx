@@ -1,32 +1,79 @@
 'use client';
-import { Tabs } from '@hcc/ui';
+import { useLeagueCheerTalk, useLeagueCheerTalkReported } from '@hcc/api';
+import { Button, Tabs, toast } from '@hcc/ui';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 import Layout from '@/components/Layout';
 
-import AllCheerTalk from './_components/AllCheerTalk';
-import ReportedCheerTalk from './_components/ReportedCheerTalk';
+import CheerTalkList from './_components/CheerTalkList';
 import * as styles from './page.css';
-
-const tabs = [
-  {
-    key: 'ALL',
-    label: '전체 응원톡',
-    renderer: () => <AllCheerTalk />,
-  },
-  {
-    key: 'REPORTED',
-    label: '신고된 응원톡',
-    renderer: () => <ReportedCheerTalk />,
-  },
-];
 
 type PageProps = {
   params: { leagueId: string };
 };
 
 export default function Page({ params }: PageProps) {
+  const BlockButton = (cheerTalkId: number) => {
+    return (
+      <Button
+        colorScheme="red"
+        size="xs"
+        fullWidth
+        onClick={() =>
+          toast({
+            title: `${cheerTalkId} 응원톡을 가렸어요`,
+            variant: 'destructive',
+          })
+        }
+      >
+        채팅 가리기
+      </Button>
+    );
+  };
+
+  const AllCheerTalkContent = () => {
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+      useLeagueCheerTalk(params.leagueId);
+    return (
+      <CheerTalkList
+        cheerTalks={data.pages}
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+        ActionButton={BlockButton}
+      />
+    );
+  };
+
+  const ReportedCheerTalkContent = () => {
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+      useLeagueCheerTalkReported(params.leagueId);
+    return (
+      <CheerTalkList
+        cheerTalks={data.pages}
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+        ActionButton={BlockButton}
+      />
+    );
+  };
+
+  const tabs = [
+    {
+      key: 'ALL',
+      label: '전체 응원톡',
+      renderer: () => <AllCheerTalkContent />,
+    },
+    {
+      key: 'REPORTED',
+      label: '신고된 응원톡',
+      renderer: () => <ReportedCheerTalkContent />,
+    },
+  ];
+
   return (
     <Layout
       navigationTitle="응원톡 관리"
@@ -60,15 +107,17 @@ export default function Page({ params }: PageProps) {
           )}
         </Tabs.List>
 
-        {tabs.map(tab => (
-          <Tabs.Content
-            key={tab.key}
-            value={tab.key}
-            className={styles.tabContent}
-          >
-            {tab.renderer()}
-          </Tabs.Content>
-        ))}
+        <Suspense fallback={<></>}>
+          {tabs.map(tab => (
+            <Tabs.Content
+              key={tab.key}
+              value={tab.key}
+              className={styles.tabContent}
+            >
+              {tab.renderer()}
+            </Tabs.Content>
+          ))}
+        </Suspense>
       </Tabs>
     </Layout>
   );

@@ -55,4 +55,5 @@ export const tabButton = recipe({
 export const tabContent = style({
   flex: 1,
   overflowY: 'auto',
+  backgroundColor: theme.colors.white,
 });
