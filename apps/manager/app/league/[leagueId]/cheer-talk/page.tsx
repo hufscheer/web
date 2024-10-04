@@ -1,5 +1,9 @@
 'use client';
-import { useLeagueCheerTalk, useLeagueCheerTalkReported } from '@hcc/api';
+import {
+  useLeagueCheerTalk,
+  useLeagueCheerTalkReported,
+  useUpdateCheerTalkBlock,
+} from '@hcc/api';
 import { Button, Tabs, toast } from '@hcc/ui';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -15,18 +19,24 @@ type PageProps = {
 };
 
 export default function Page({ params }: PageProps) {
+  const { mutate: updateCheerTalkBlock } = useUpdateCheerTalkBlock();
+
   const BlockButton = (cheerTalkId: number) => {
     return (
       <Button
         colorScheme="red"
         size="xs"
         fullWidth
-        onClick={() =>
-          toast({
-            title: `${cheerTalkId} 응원톡을 가렸어요`,
-            variant: 'destructive',
-          })
-        }
+        onClick={() => {
+          updateCheerTalkBlock(
+            { leagueId: params.leagueId, cheerTalkId: cheerTalkId.toString() },
+            {
+              onSuccess: () => {
+                toast({ title: `응원톡을 가렸어요`, variant: 'destructive' });
+              },
+            },
+          );
+        }}
       >
         채팅 가리기
       </Button>

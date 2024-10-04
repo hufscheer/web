@@ -28,7 +28,7 @@ const CheerTalkList = ({
       entries => {
         if (entries[0].isIntersecting) fetchNextPage();
       },
-      { rootMargin: '100px' },
+      { rootMargin: '56px' },
     );
 
     if (observerRef.current) {

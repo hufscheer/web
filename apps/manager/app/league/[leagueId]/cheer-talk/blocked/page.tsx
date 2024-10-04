@@ -1,14 +1,21 @@
 'use client';
+import { useLeagueCheerTalkBlocked, useUpdateCheerTalkUnblock } from '@hcc/api';
 import { Button, useToast } from '@hcc/ui';
 
 import AlertDialog from '@/components/AlertDialog';
 import Layout from '@/components/Layout';
 
 import CheerTalkList from '../_components/CheerTalkList';
-import { cheerTalks } from '../_components/CheerTalkList/constants';
 
-export default function Page() {
+type PageProps = {
+  params: { leagueId: string };
+};
+
+export default function Page({ params }: PageProps) {
   const { toast } = useToast();
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useLeagueCheerTalkBlocked(params.leagueId);
+  const { mutate: updateCheerTalkUnblock } = useUpdateCheerTalkUnblock();
 
   const ActionButton = (cheerTalkId: number) => {
     return (
@@ -17,14 +24,17 @@ export default function Page() {
         description="가리기 해제 시 채팅이 응원톡에 노출됩니다."
         primaryActionLabel="해제"
         secondaryActionLabel="취소"
-        onPrimaryAction={() =>
-          toast({
-            title: `${cheerTalkId} 응원톡을 복구했어요`,
-            variant: 'destructive',
-          })
-        }
+        onPrimaryAction={() => {
+          updateCheerTalkUnblock(
+            { leagueId: params.leagueId, cheerTalkId: cheerTalkId.toString() },
+            {
+              onSuccess: () =>
+                toast({ title: '응원톡을 복구했어요', variant: 'destructive' }),
+            },
+          );
+        }}
       >
-        <Button colorScheme="primary" size="xs" fullWidth>
+        <Button colorScheme="blue" size="xs" fullWidth>
           가리기 해제
         </Button>
       </AlertDialog>
@@ -33,7 +43,13 @@ export default function Page() {
 
   return (
     <Layout navigationTitle="가린 응원톡 관리">
-      <CheerTalkList cheerTalks={cheerTalks} ActionButton={ActionButton} />
+      <CheerTalkList
+        cheerTalks={data.pages}
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+        ActionButton={ActionButton}
+      />
     </Layout>
   );
 }
