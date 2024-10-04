@@ -1,6 +1,7 @@
 'use client';
 import { useLeagueCheerTalkBlocked, useUpdateCheerTalkUnblock } from '@hcc/api';
 import { Button, useToast } from '@hcc/ui';
+import { Suspense } from 'react';
 
 import AlertDialog from '@/components/AlertDialog';
 import Layout from '@/components/Layout';
@@ -13,8 +14,6 @@ type PageProps = {
 
 export default function Page({ params }: PageProps) {
   const { toast } = useToast();
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useLeagueCheerTalkBlocked(params.leagueId);
   const { mutate: updateCheerTalkUnblock } = useUpdateCheerTalkUnblock();
 
   const ActionButton = (cheerTalkId: number) => {
@@ -26,7 +25,7 @@ export default function Page({ params }: PageProps) {
         secondaryActionLabel="취소"
         onPrimaryAction={() => {
           updateCheerTalkUnblock(
-            { leagueId: params.leagueId, cheerTalkId: cheerTalkId.toString() },
+            { leagueId: params.leagueId, cheerTalkId },
             {
               onSuccess: () =>
                 toast({ title: '응원톡을 복구했어요', variant: 'destructive' }),
@@ -41,8 +40,11 @@ export default function Page({ params }: PageProps) {
     );
   };
 
-  return (
-    <Layout navigationTitle="가린 응원톡 관리">
+  const BlockedCheerTalkList = () => {
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+      useLeagueCheerTalkBlocked(params.leagueId);
+
+    return (
       <CheerTalkList
         cheerTalks={data.pages}
         fetchNextPage={fetchNextPage}
@@ -50,6 +52,14 @@ export default function Page({ params }: PageProps) {
         isFetchingNextPage={isFetchingNextPage}
         ActionButton={ActionButton}
       />
+    );
+  };
+
+  return (
+    <Layout navigationTitle="가린 응원톡 관리">
+      <Suspense fallback={null}>
+        <BlockedCheerTalkList />
+      </Suspense>
     </Layout>
   );
 }

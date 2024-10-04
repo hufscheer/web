@@ -19,8 +19,9 @@ type PageProps = {
 };
 
 export default function Page({ params }: PageProps) {
-  const { mutate: updateCheerTalkBlock } = useUpdateCheerTalkBlock();
+  const leagueId: string = params.leagueId;
 
+  const { mutate: updateCheerTalkBlock } = useUpdateCheerTalkBlock();
   const BlockButton = (cheerTalkId: number) => {
     return (
       <Button
@@ -29,7 +30,7 @@ export default function Page({ params }: PageProps) {
         fullWidth
         onClick={() => {
           updateCheerTalkBlock(
-            { leagueId: params.leagueId, cheerTalkId: cheerTalkId.toString() },
+            { leagueId, cheerTalkId },
             {
               onSuccess: () => {
                 toast({ title: `응원톡을 가렸어요`, variant: 'destructive' });
@@ -45,7 +46,7 @@ export default function Page({ params }: PageProps) {
 
   const AllCheerTalkContent = () => {
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-      useLeagueCheerTalk(params.leagueId);
+      useLeagueCheerTalk(leagueId);
     return (
       <CheerTalkList
         cheerTalks={data.pages}
@@ -59,7 +60,7 @@ export default function Page({ params }: PageProps) {
 
   const ReportedCheerTalkContent = () => {
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-      useLeagueCheerTalkReported(params.leagueId);
+      useLeagueCheerTalkReported(leagueId);
     return (
       <CheerTalkList
         cheerTalks={data.pages}
@@ -88,9 +89,7 @@ export default function Page({ params }: PageProps) {
     <Layout
       navigationTitle="응원톡 관리"
       navigationMenu={
-        <Link href={`/league/${params.leagueId}/cheer-talk/blocked`}>
-          가려진 목록
-        </Link>
+        <Link href={`/league/${leagueId}/cheer-talk/blocked`}>가려진 목록</Link>
       }
     >
       <Tabs className={styles.tab} defaultValue="ALL">
@@ -117,7 +116,7 @@ export default function Page({ params }: PageProps) {
           )}
         </Tabs.List>
 
-        <Suspense fallback={<></>}>
+        <Suspense fallback={null}>
           {tabs.map(tab => (
             <Tabs.Content
               key={tab.key}
