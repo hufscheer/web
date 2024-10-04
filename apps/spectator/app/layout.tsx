@@ -1,18 +1,16 @@
-import '@hcc/styles/dist/globals.css';
-
+import { Toaster } from '@hcc/ui';
 import { Analytics } from '@vercel/analytics/react';
+import { extend } from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Metadata, Viewport } from 'next';
+import localFont from 'next/font/local';
 import { ReactNode } from 'react';
 
-import Footer from '@/components/layout/Footer';
-import Header from '@/components/layout/Header';
-
-import * as styles from './layout.css';
-import Providers from './providers';
-
-import 'dayjs/locale/ko';
-import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
+import Providers from './Providers';
+import '@hcc/styles/dist/globals.css';
 import '@hcc/styles/colors.css';
+
+extend(customParseFormat);
 
 interface RootLayoutProps {
   children: ReactNode;
@@ -20,30 +18,34 @@ interface RootLayoutProps {
 
 export const metadata: Metadata = {
   title: '훕치치!',
-  description: '한국외대 스포츠 플랫폼',
+  description: '한국외대 스포츠 플랫폼 훕치치',
   icons: {
     icon: '/icon_hufscheer.svg',
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#F7F8F9',
+  themeColor: '#FFFFFF',
 };
+
+const pretendard = localFont({
+  src: './_fonts/PretendardVariable.woff2',
+  display: 'swap',
+  weight: '45 920',
+  preload: true,
+});
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="ko" className={styles.root}>
+    <html lang="ko">
       <head>
         <title>훕치치!</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body>
+      <body className={pretendard.className}>
         <Providers>
-          <main className={styles.body}>
-            <Header />
-            {children}
-            <Footer />
-          </main>
+          <Toaster />
+          {children}
         </Providers>
         <Analytics />
       </body>
