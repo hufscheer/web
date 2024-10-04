@@ -5,7 +5,7 @@ import { queryKeys } from '../queryKey';
 
 type Request = {
   leagueId: string;
-  cheerTalkId: string;
+  cheerTalkId: string | number;
 };
 
 const patchCheerTalkBlock = ({ leagueId, cheerTalkId }: Request) => {
