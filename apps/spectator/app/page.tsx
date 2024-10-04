@@ -1,8 +1,9 @@
 import { Skeleton } from '@hcc/ui';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { Fragment, ReactElement } from 'react';
+import { ReactElement } from 'react';
 
+import Layout from '@/components/Layout';
 import { GAME_STATE } from '@/constants/configs';
 import { useLeaguesPrefetch } from '@/queries/useLeague';
 import { useLeagueDetailPrefetch } from '@/queries/useLeagueDetail';
@@ -37,7 +38,7 @@ export default async function Page({ searchParams }: PageProps) {
   await useSportsPrefetch(initialLeagueId);
 
   return (
-    <Fragment>
+    <Layout arrowVisible={false}>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <LeagueFilter year={year} />
         {initialLeagueId && <SportFilter leagueId={initialLeagueId} />}
@@ -54,7 +55,7 @@ export default async function Page({ searchParams }: PageProps) {
           initialLeagueId={initialLeagueId.toString()}
         />
       ))}
-    </Fragment>
+    </Layout>
   );
 }
 
