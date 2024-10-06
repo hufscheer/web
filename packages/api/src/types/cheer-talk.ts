@@ -5,3 +5,16 @@ export type CheerTalkType = {
   createdAt: Date;
   isBlocked: boolean;
 };
+
+export type CheerTalkPayload = {
+  cursor?: number | string;
+  size?: number;
+};
+
+export type LeagueCheerTalkPayload = CheerTalkPayload & {
+  leagueId: string;
+};
+
+export type GameCheerTalkPayload = CheerTalkPayload & {
+  gameId: string;
+};

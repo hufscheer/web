@@ -15,6 +15,9 @@ import {
   TimelineType,
   ManagerLeagueType,
   ManagerManageLeagueType,
+  CheerTalkType,
+  LeagueCheerTalkPayload,
+  GameCheerTalkPayload,
 } from './types';
 
 const managerQueryKeys = {
@@ -140,9 +143,66 @@ const timelineQueryKeys = {
   }),
 };
 
+const cheerTalkQueryKeys = {
+  gameCheerTalks: (payload: GameCheerTalkPayload) => ({
+    queryKey: ['cheerTalks', payload],
+    queryFn: () => {
+      const { gameId, cursor, size = 20 } = payload;
+      const params = new URLSearchParams();
+      params.append('cursor', String(cursor));
+      params.append('size', String(size));
+      return fetcher.get<CheerTalkType[]>(`/games/${gameId}/cheer-talks`, {
+        params,
+      });
+    },
+  }),
+
+  leagueCheerTalks: (payload: LeagueCheerTalkPayload) => ({
+    queryKey: ['leagueCheerTalks', payload],
+    queryFn: () => {
+      const { leagueId, cursor, size = 20 } = payload;
+      const params = new URLSearchParams();
+      params.append('cursor', String(cursor));
+      params.append('size', String(size));
+      return fetcher.get<CheerTalkType[]>(`/leagues/${leagueId}/cheer-talks`, {
+        params,
+      });
+    },
+  }),
+
+  leagueCheerTalksBlocked: (payload: LeagueCheerTalkPayload) => ({
+    queryKey: ['leagueCheerTalksBlocked', payload],
+    queryFn: () => {
+      const { leagueId, cursor, size = 20 } = payload;
+      const params = new URLSearchParams();
+      params.append('cursor', String(cursor));
+      params.append('size', String(size));
+      return fetcher.get<CheerTalkType[]>(
+        `/leagues/${leagueId}/cheer-talks/blocked`,
+        { params },
+      );
+    },
+  }),
+
+  leagueCheerTalksReported: (payload: LeagueCheerTalkPayload) => ({
+    queryKey: ['leagueCheerTalksReported', { payload }],
+    queryFn: () => {
+      const { leagueId, cursor, size = 20 } = payload;
+      const params = new URLSearchParams();
+      params.append('cursor', String(cursor));
+      params.append('size', String(size));
+      return fetcher.get<CheerTalkType[]>(
+        `/leagues/${leagueId}/cheer-talks/reported`,
+        { params },
+      );
+    },
+  }),
+};
+
 export const queryKeys = {
   ...managerQueryKeys,
   ...leagueQueryKeys,
   ...gameQueryKeys,
   ...timelineQueryKeys,
+  ...cheerTalkQueryKeys,
 };
