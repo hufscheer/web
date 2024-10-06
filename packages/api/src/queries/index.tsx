@@ -4,6 +4,9 @@ import useGameLineupPlaying from './useGameLineupPlaying';
 import useGames from './useGames';
 import useGamesByLeagueList from './useGamesByLeagueList';
 import useLeague from './useLeague';
+import useLeagueCheerTalk from './useLeagueCheerTalk';
+import useLeagueCheerTalkBlocked from './useLeagueCheerTalkBlocked';
+import useLeagueCheerTalkReported from './useLeagueCheerTalkReported';
 import useLeagues from './useLeagues';
 import useLeaguesDetail from './useLeaguesDetail';
 import useLeaguesManageOnManager from './useLeaguesManageOnManager';
@@ -21,6 +24,9 @@ export {
   useGames,
   useGamesByLeagueList,
   useLeague,
+  useLeagueCheerTalk,
+  useLeagueCheerTalkBlocked,
+  useLeagueCheerTalkReported,
   useLeagues,
   useLeaguesDetail,
   useLeaguesManageOnManager,

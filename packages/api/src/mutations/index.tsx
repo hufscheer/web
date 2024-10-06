@@ -11,6 +11,8 @@ import useDeleteLeagueTeam from './useDeleteLeagueTeam';
 import useDeleteTimeline from './useDeleteTimeline';
 import useGeneratePresignedUrl from './useGeneratePresignedUrl';
 import useLoginMutation from './useManagerLogin';
+import useUpdateCheerTalkBlock from './useUpdateCheerTalkBlock';
+import useUpdateCheerTalkUnblock from './useUpdateCheerTalkUnblock';
 import useUpdateGame from './useUpdateGame';
 import useUpdateLeague from './useUpdateLeague';
 import useUpdateLeagueTeam from './useUpdateLeagueTeam';
@@ -34,6 +36,8 @@ export {
   useDeleteTimeline,
   useGeneratePresignedUrl,
   useLoginMutation,
+  useUpdateCheerTalkBlock,
+  useUpdateCheerTalkUnblock,
   useUpdateGame,
   useUpdateLeague,
   useUpdateLeagueTeam,

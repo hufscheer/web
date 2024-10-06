@@ -4,7 +4,8 @@ import { recipe } from '@vanilla-extract/recipes';
 
 export const tab = style({
   height: '100%',
-  marginTop: rem(16),
+  paddingBlock: rem(16),
+  backgroundColor: theme.colors.white,
 });
 
 export const tabList = style({

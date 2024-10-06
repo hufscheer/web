@@ -3,7 +3,7 @@ import { rem } from '@hcc/styles';
 import Image from 'next/image';
 import { ComponentPropsWithoutRef, forwardRef, ReactNode } from 'react';
 
-import * as styles from './Card.css';
+import * as styles from './styles.css';
 
 type CardProps = {
   children: ReactNode;
