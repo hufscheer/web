@@ -1,59 +1,70 @@
 import { rem, theme } from '@hcc/styles';
-import { style, styleVariants } from '@vanilla-extract/css';
+import { globalStyle, style, styleVariants } from '@vanilla-extract/css';
 
 export const wrapper = style({
   position: 'relative',
   width: '100%',
   overflow: 'hidden',
-  backgroundColor: theme.colors.gray[1],
-  zIndex: 1,
+  backgroundColor: theme.colors.white,
+  zIndex: theme.zIndices.tab,
 });
 
-export const filterItemBase = style({
+export const leagueWrapper = style([wrapper, { paddingTop: rem(12) }]);
+
+globalStyle(`${leagueWrapper} ul`, { gap: rem(12) });
+
+export const roundWrapper = style([wrapper, { paddingTop: rem(4) }]);
+
+export const filter = style({
+  ...theme.layouts.columnCenterX,
   display: 'inline-flex',
-  paddingBlock: rem(10),
-  paddingInline: rem(14),
-  color: theme.colors.gray[5],
-  fontWeight: theme.textVariants.sm.fontWeight,
+});
+
+export const roundFilter = style([filter, { minWidth: rem(70) }]);
+
+export const filterLink = style({
+  paddingTop: rem(14),
+  paddingInline: rem(6),
+  color: theme.colors.gray300,
+  fontWeight: 600,
+  fontSize: rem(14),
+  letterSpacing: rem(-0.1),
   whiteSpace: 'nowrap',
 });
 
-export const leagueFilterItem = style([
-  filterItemBase,
-  {
-    ...theme.textVariants.default,
-  },
+export const roundFilterLink = style([
+  filterLink,
+  { paddingTop: rem(12), fontSize: rem(12) },
 ]);
 
-export const sportFilterItem = style([
-  filterItemBase,
-  {
-    ...theme.textVariants.sm,
-  },
-]);
-
-export const roundFilterItem = style([
-  filterItemBase,
-  {
-    paddingBlock: rem(9),
-    borderBlock: `${rem(1)} solid transparent`,
-    ...theme.textVariants.sm,
-  },
-]);
-
-export const focused = style({
-  fontWeight: '700',
-  color: theme.colors.primary[3],
+export const filterFocused = style({
+  color: theme.colors.gray900,
   transition: 'color 200ms',
 });
 
 export const roundFilterFocused = style([
-  focused,
-  {
-    borderBottom: `${rem(1)} solid ${theme.colors.primary[3]}`,
-    transition: 'color, border-color 200ms',
-  },
+  filterFocused,
+  { color: theme.colors.gray400 },
 ]);
+
+export const filterLine = style({
+  height: rem(2),
+  width: '100%',
+  marginTop: rem(12),
+  borderTopLeftRadius: rem(2),
+  borderTopRightRadius: rem(2),
+  backgroundColor: 'transparent',
+  transition: 'background-color 200ms',
+  zIndex: theme.zIndices.tab,
+});
+
+export const filterLineFocused = style({
+  backgroundColor: theme.colors.gray900,
+});
+
+export const roundFilterLineFocused = style({
+  backgroundColor: theme.colors.gray400,
+});
 
 export const roundFilterDisabled = style({
   color: theme.colors.gray[3],
@@ -64,7 +75,7 @@ export const divider = style({
   position: 'absolute',
   width: '100%',
   height: rem(1),
-  backgroundColor: theme.colors.gray[2],
+  backgroundColor: theme.colors.gray25,
   bottom: 0,
 });
 

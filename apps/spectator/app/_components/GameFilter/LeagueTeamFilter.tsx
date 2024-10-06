@@ -9,7 +9,7 @@ import { MouseEvent, useEffect, useRef, useState } from 'react';
 
 import useLeagueTeams from '@/queries/useLeagueTeams';
 
-import * as styles from './GameFilter.css';
+import * as styles from './styles.css';
 
 type LeagueTeamFilterProps = {
   leagueId: number;

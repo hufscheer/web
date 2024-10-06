@@ -104,7 +104,7 @@ importers:
         version: 18.3.0
       '@vanilla-extract/next-plugin':
         specifier: ^2.3.6
-        version: 2.4.3(@types/node@20.14.12)(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)(webpack@5.93.0)
+        version: 2.4.3(@types/node@20.14.12)(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(sugarss@4.0.1)(terser@5.31.3)(webpack@5.93.0)
       eslint:
         specifier: ^8.56.0
         version: 8.57.0
@@ -155,7 +155,7 @@ importers:
         version: 2.1.1
       '@vercel/analytics':
         specifier: ^1.1.2
-        version: 1.3.1(next@14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+        version: 1.3.1(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       axios:
         specifier: ^1.6.5
         version: 1.7.2
@@ -201,7 +201,7 @@ importers:
         version: 18.3.0
       '@vanilla-extract/next-plugin':
         specifier: ^2.3.6
-        version: 2.4.3(@types/node@20.14.12)(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)(webpack@5.93.0)
+        version: 2.4.3(@types/node@20.14.12)(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(sugarss@4.0.1)(terser@5.31.3)(webpack@5.93.0)
       clsx:
         specifier: ^2.1.0
         version: 2.1.1
@@ -338,7 +338,7 @@ importers:
         version: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
       vite-plugin-dts:
         specifier: 4.0.0-beta.1
-        version: 4.0.0-beta.1(@types/node@20.14.12)(rollup@4.19.0)(typescript@5.5.4)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3))
+        version: 4.0.0-beta.1(@types/node@20.14.12)(rollup@4.19.0)(typescript@5.5.4)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3))
 
   packages/eslint-config:
     devDependencies:
@@ -11499,7 +11499,7 @@ snapshots:
       - supports-color
       - terser
 
-  '@vanilla-extract/integration@7.1.7(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)':
+  '@vanilla-extract/integration@7.1.7(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)':
     dependencies:
       '@babel/core': 7.24.9
       '@babel/plugin-syntax-typescript': 7.24.7(@babel/core@7.24.9)
@@ -11524,9 +11524,9 @@ snapshots:
       - supports-color
       - terser
 
-  '@vanilla-extract/next-plugin@2.4.3(@types/node@20.14.12)(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)(webpack@5.93.0)':
+  '@vanilla-extract/next-plugin@2.4.3(@types/node@20.14.12)(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(sugarss@4.0.1)(terser@5.31.3)(webpack@5.93.0)':
     dependencies:
-      '@vanilla-extract/webpack-plugin': 2.3.11(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)(webpack@5.93.0)
+      '@vanilla-extract/webpack-plugin': 2.3.11(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)(webpack@5.93.0)
       next: 14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     transitivePeerDependencies:
       - '@types/node'
@@ -11565,9 +11565,9 @@ snapshots:
       - terser
       - ts-node
 
-  '@vanilla-extract/webpack-plugin@2.3.11(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)(webpack@5.93.0)':
+  '@vanilla-extract/webpack-plugin@2.3.11(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)(webpack@5.93.0)':
     dependencies:
-      '@vanilla-extract/integration': 7.1.7(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
+      '@vanilla-extract/integration': 7.1.7(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)
       debug: 4.3.5
       loader-utils: 2.0.4
       picocolors: 1.0.1
@@ -11583,7 +11583,7 @@ snapshots:
       - supports-color
       - terser
 
-  '@vercel/analytics@1.3.1(next@14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)':
+  '@vercel/analytics@1.3.1(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)':
     dependencies:
       server-only: 0.0.1
     optionalDependencies:
@@ -16339,7 +16339,7 @@ snapshots:
       - supports-color
       - terser
 
-  vite-plugin-dts@4.0.0-beta.1(@types/node@20.14.12)(rollup@4.19.0)(typescript@5.5.4)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)):
+  vite-plugin-dts@4.0.0-beta.1(@types/node@20.14.12)(rollup@4.19.0)(typescript@5.5.4)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)):
     dependencies:
       '@microsoft/api-extractor': 7.47.2(@types/node@20.14.12)
       '@rollup/pluginutils': 5.1.0(rollup@4.19.0)
