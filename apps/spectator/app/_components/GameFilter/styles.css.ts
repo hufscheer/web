@@ -26,7 +26,7 @@ export const filterLink = style({
   paddingTop: rem(14),
   paddingInline: rem(6),
   color: theme.colors.gray300,
-  fontWeight: 600,
+  fontWeight: 500,
   fontSize: rem(14),
   letterSpacing: rem(-0.1),
   whiteSpace: 'nowrap',
@@ -39,6 +39,7 @@ export const roundFilterLink = style([
 
 export const filterFocused = style({
   color: theme.colors.gray900,
+  fontWeight: 600,
   transition: 'color 200ms',
 });
 
@@ -58,6 +59,8 @@ export const filterLine = style({
   zIndex: theme.zIndices.tab,
 });
 
+export const roundFilterLine = style([filterLine, { marginTop: rem(10) }]);
+
 export const filterLineFocused = style({
   backgroundColor: theme.colors.gray900,
 });
@@ -67,7 +70,7 @@ export const roundFilterLineFocused = style({
 });
 
 export const roundFilterDisabled = style({
-  color: theme.colors.gray[3],
+  color: theme.colors.gray100,
   pointerEvents: 'none',
 });
 
@@ -79,24 +82,31 @@ export const divider = style({
   bottom: 0,
 });
 
-const leagueTeamItemBase = style({
-  paddingBlock: theme.spaces.xs,
-  paddingInline: theme.spaces.sm,
+const teamItem = style({
+  paddingBlock: rem(6),
+  paddingInline: theme.spaces.xs,
+  color: theme.colors.gray200,
+  fontSize: rem(14),
+  fontWeight: 500,
+  letterSpacing: rem(-0.1),
   whiteSpace: 'nowrap',
-  border: `${rem(1)} solid ${theme.colors.gray[2]}`,
-  borderRadius: rem(16),
-  backgroundColor: theme.colors.white,
-  ...theme.textVariants.xs,
-  color: theme.colors.gray[4],
-  fontWeight: 'bold',
+  borderRadius: rem(8),
+  backgroundColor: theme.colors.gray25,
+});
+
+export const teamWrapper = style({
+  paddingTop: rem(23),
+  paddingInline: theme.sizes.appInlinePadding,
+  justifyContent: 'start',
+  background: theme.colors.white,
 });
 
 export const leagueTeam = styleVariants({
   wrapper: {
     paddingBlock: theme.spaces.sm,
-    paddingInline: rem(10),
+    paddingInline: theme.sizes.appInlinePadding,
     justifyContent: 'start',
-    background: `linear-gradient(${theme.colors.gray[1]}, ${theme.colors.white})`,
+    background: theme.colors.white,
   },
   list: {
     display: 'flex',
@@ -112,11 +122,10 @@ export const leagueTeam = styleVariants({
   listExpanded: {
     flexWrap: 'wrap',
   },
-  itemExpanded: [leagueTeamItemBase],
+  itemExpanded: [teamItem],
   itemFocused: {
-    borderColor: theme.colors.primary[3],
-    backgroundColor: theme.colors.primary[3],
-    color: theme.colors.white,
+    backgroundColor: theme.colors.blue200,
+    color: theme.colors.blue600,
   },
 });
 

@@ -8,7 +8,8 @@ export const root = style({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  padding: theme.spaces.sm,
+  paddingTop: theme.spaces.lg,
+  paddingBottom: rem(22),
   marginInline: rem(20),
 });
 
@@ -92,8 +93,8 @@ export const vs = style({
   boxShadow:
     'inset -3px -3px 7px #ffffff73, inset 3px 3px 5px rgba(94, 104, 121, .288)',
 
-  fontSize: theme.textVariants.sm.fontSize,
-  fontWeight: 'bold',
+  fontSize: rem(12),
+  fontWeight: 600,
   verticalAlign: 'baseline',
 });
 

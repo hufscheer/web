@@ -12,10 +12,30 @@ import { useLeagueTeamsPrefetch } from '@/queries/useLeagueTeams';
 import { GameState } from '@/types/game';
 
 import LeagueFilter from './_components/GameFilter/LeagueFilter';
-import LeagueTeamFilter from './_components/GameFilter/LeagueTeamFilter';
 import RoundFilter from './_components/GameFilter/RoundFilter';
+import TeamFilter from './_components/GameFilter/TeamFilter';
 import GameList from './_components/GameList';
 import getQueryClient from './getQueryClient';
+
+type Games = {
+  key: GameState;
+  loadingFallback: ReactElement;
+};
+
+const GAMES: Games[] = [
+  {
+    key: GAME_STATE.PLAYING,
+    loadingFallback: <Skeleton />,
+  },
+  {
+    key: GAME_STATE.SCHEDULED,
+    loadingFallback: <Skeleton />,
+  },
+  {
+    key: GAME_STATE.FINISHED,
+    loadingFallback: <Skeleton />,
+  },
+];
 
 type PageProps = {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -41,7 +61,7 @@ export default async function Page({ searchParams }: PageProps) {
         <LeagueFilter year={year} />
         {initialLeagueId && <RoundFilter initialLeagueId={initialLeagueId} />}
         {initialLeagueId && (
-          <LeagueTeamFilter leagueId={initialLeagueId} round={currentRound} />
+          <TeamFilter leagueId={initialLeagueId} round={currentRound} />
         )}
       </HydrationBoundary>
 
@@ -55,23 +75,3 @@ export default async function Page({ searchParams }: PageProps) {
     </Layout>
   );
 }
-
-type Games = {
-  key: GameState;
-  loadingFallback: ReactElement;
-};
-
-const GAMES: Games[] = [
-  {
-    key: GAME_STATE.PLAYING,
-    loadingFallback: <Skeleton />,
-  },
-  {
-    key: GAME_STATE.SCHEDULED,
-    loadingFallback: <Skeleton />,
-  },
-  {
-    key: GAME_STATE.FINISHED,
-    loadingFallback: <Skeleton />,
-  },
-];

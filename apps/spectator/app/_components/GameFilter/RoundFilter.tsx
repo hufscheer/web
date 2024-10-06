@@ -54,7 +54,7 @@ export default function RoundFilter({ initialLeagueId }: RoundFilterProps) {
               {roundValue > 2 ? `${roundValue}강` : `결승`}
             </Link>
             <div
-              className={clsx(styles.filterLine, {
+              className={clsx(styles.roundFilterLine, {
                 [styles.roundFilterLineFocused]: roundValue === currentRound,
               })}
             />

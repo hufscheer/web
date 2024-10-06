@@ -35,6 +35,7 @@ export const panel = styleVariants({
   wrapper: {
     position: 'relative',
     marginTop: theme.spaces.xs,
+    backgroundColor: theme.colors.white,
   },
   menu: {
     display: 'grid',

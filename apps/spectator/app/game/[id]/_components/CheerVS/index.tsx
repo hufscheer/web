@@ -1,6 +1,6 @@
 import { useCheerVSById } from '@/queries/useCheerVSById';
 
-import * as styles from './CheerVS.css';
+import * as styles from './styles.css';
 import CheerTeamBox from './TeamBox';
 
 type CheerVSProps = {

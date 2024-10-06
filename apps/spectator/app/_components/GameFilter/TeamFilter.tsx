@@ -1,5 +1,4 @@
 'use client';
-
 import { useConveyer } from '@egjs/react-conveyer';
 import { CaretDownIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
@@ -16,10 +15,7 @@ type LeagueTeamFilterProps = {
   round: number;
 };
 
-export default function LeagueTeamFilter({
-  leagueId,
-  round,
-}: LeagueTeamFilterProps) {
+export default function TeamFilter({ leagueId, round }: LeagueTeamFilterProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const scrollRef = useRef<HTMLUListElement | null>(null);
@@ -91,7 +87,7 @@ export default function LeagueTeamFilter({
   };
 
   return (
-    <div className={styles.leagueTeam.wrapper}>
+    <div className={styles.teamWrapper}>
       <button className={clsx(styles.expandable.button)} onClick={toggleExpand}>
         <Icon
           source={CaretDownIcon}

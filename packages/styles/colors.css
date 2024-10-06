@@ -25,6 +25,7 @@
     --hcc-colors-green-600: #1ADA3B;
 
     --hcc-colors-border: #F3F3F5;
+    --hcc-colors-border-25: #F5F5F7;
     --hcc-colors-tip: #FBFBFC;
 
     --hcc-colors-primary: var(--hcc-colors-blue-600);
