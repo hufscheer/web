@@ -30,7 +30,7 @@ const nextConfig = {
       },
       {
         source: '/api/:path*',
-        destination: `https://api.hufstreaming.site/:path*`,
+        destination: `https://api.hufscheer.com/:path*`,
       },
     ];
   },
