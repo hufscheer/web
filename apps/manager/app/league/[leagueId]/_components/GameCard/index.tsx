@@ -31,11 +31,14 @@ const GameCard = ({ leagueId, state }: GameCardProps) => {
           <Fragment key={game.id}>
             <Card.Root>
               <Card.Head>
-                <Tag
-                  colorScheme={state === 'PLAYING' ? 'primary' : 'secondary'}
-                >
-                  {stateMap[state]}
-                </Tag>
+                <span className={styles.titleContainer}>
+                  <Tag
+                    colorScheme={state === 'PLAYING' ? 'primary' : 'secondary'}
+                  >
+                    {stateMap[state]}
+                  </Tag>
+                  <p>{game.gameName}</p>
+                </span>
                 {formatTime(game.startTime, 'YYYY.MM.DD. (ddd) HH:mm')}
               </Card.Head>
               <Card.Content marginTop={16} gap={8}>
