@@ -1,10 +1,5 @@
 'use client';
-import {
-  LegacyRoundType,
-  useDeleteGame,
-  useGame,
-  useUpdateGame,
-} from '@hcc/api';
+import { useDeleteGame, useGame, useUpdateGame } from '@hcc/api';
 import { useToast } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -59,12 +54,7 @@ export default function Page({ params }: PageProps) {
     if (game) {
       methods.reset({
         name: game.gameName,
-        round:
-          game.round.toString() === 'FINAL'
-            ? '결승'
-            : game.round.toString() === 'SEMI_FINAL'
-              ? '4강'
-              : game.round.toString().replace('ROUND_', '') + '강',
+        round: game.round.toString(),
         quarter: game.gameQuarter,
         startDate: new Date(formatTime(new Date(game.startTime), 'YYYY-MM-DD')),
         startTime: formatTime(new Date(game.startTime), 'HH:mm'),
@@ -83,7 +73,7 @@ export default function Page({ params }: PageProps) {
         leagueId,
         gameId,
         name: data.name,
-        round: data.round as LegacyRoundType,
+        round: Number(data.round),
         quarter: quarter,
         state: getStateByQuarter(quarter),
         startTime: `${formatTime(data.startDate, 'YYYY-MM-DD')}T${data.startTime}:00`,

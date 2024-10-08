@@ -102,15 +102,18 @@ export const GameForm = ({
                   <FormLabel>라운드</FormLabel>
                   <FormControl>
                     <SelectTrigger>
-                      <span>{field.value}</span>
+                      <span>
+                        {field.value &&
+                          (field.value === '2' ? '결승' : `${field.value}강`)}
+                      </span>
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="32강">32강</SelectItem>
-                    <SelectItem value="16강">16강</SelectItem>
-                    <SelectItem value="8강">8강</SelectItem>
-                    <SelectItem value="4강">4강</SelectItem>
-                    <SelectItem value="결승">결승</SelectItem>
+                    <SelectItem value="32">32강</SelectItem>
+                    <SelectItem value="16">16강</SelectItem>
+                    <SelectItem value="8">8강</SelectItem>
+                    <SelectItem value="4">4강</SelectItem>
+                    <SelectItem value="2">결승</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />

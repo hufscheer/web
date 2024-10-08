@@ -55,17 +55,20 @@ export default function Page({ params }: PageProps) {
       {
         leagueId,
         name: leagueName,
-        maxRound: `${round}강`,
+        maxRound: round,
         startAt: formatTime(startDate, 'YYYY-MM-DDTHH:mm:ss'),
         endAt: formatTime(endDate, 'YYYY-MM-DDTHH:mm:ss'),
       },
       {
         onSuccess: () => {
-          toast({ title: '팀 정보가 수정되었습니다', variant: 'destructive' });
+          toast({
+            title: '대회 정보가 수정되었습니다',
+            variant: 'destructive',
+          });
         },
         onError: () => {
           toast({
-            title: '팀 정보 수정에 실패했습니다',
+            title: '대회 정보 수정에 실패했습니다',
             variant: 'destructive',
           });
         },
