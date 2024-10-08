@@ -29,7 +29,7 @@ const LeagueOverview = ({ leagueId }: LeagueOverviewProps) => {
       <div className={styles.headContainer}>
         <h3 className={styles.title}>{league.name}</h3>
         <Link className={styles.manageLink} href={`/league/${leagueId}/manage`}>
-          상세 정보
+          편집
         </Link>
       </div>
       <Card.Content marginTop={12} gap={10}>
