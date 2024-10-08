@@ -5,6 +5,7 @@ import useGameById from '@/queries/useGameById';
 import { formatTime } from '@/utils/time';
 
 import * as styles from './Banner.css';
+import { badgeActive } from './Banner.css';
 import BannerTeam from './Team';
 
 type BannerProps = {
@@ -15,23 +16,29 @@ const sofia = Sofia_Sans({ subsets: ['latin'] });
 
 export default function Banner({ gameId }: BannerProps) {
   const { gameDetail } = useGameById(gameId);
-  const [firstTeam, secondTeam] = gameDetail.gameTeams;
+  const [homeTeam, awayTeam] = gameDetail.gameTeams;
 
   return (
     <div className={styles.root}>
-      <BannerTeam team={firstTeam} />
+      <BannerTeam team={homeTeam} />
       <div className={styles.gameInfo}>
-        <span className={styles.badge}>{gameDetail.gameQuarter}</span>
+        <span
+          className={clsx(styles.badge, {
+            [badgeActive]: gameDetail.state === 'PLAYING',
+          })}
+        >
+          {gameDetail.gameQuarter}
+        </span>
         <div className={styles.scoreBoard}>
           <span className={clsx(styles.score, sofia.className)}>
-            {firstTeam.score}
+            {homeTeam.score}
           </span>
           <div className={styles.colon}>
             <span className={styles.dots} />
             <span className={styles.dots} />
           </div>
           <span className={clsx(styles.score, sofia.className)}>
-            {secondTeam.score}
+            {awayTeam.score}
           </span>
         </div>
 
@@ -40,7 +47,7 @@ export default function Banner({ gameId }: BannerProps) {
           <time>{formatTime(gameDetail.startTime, 'HH:mm')}</time>
         </div>
       </div>
-      <BannerTeam team={secondTeam} />
+      <BannerTeam team={awayTeam} />
     </div>
   );
 }
