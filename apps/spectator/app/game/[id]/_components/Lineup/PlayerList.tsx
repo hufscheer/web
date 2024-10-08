@@ -25,9 +25,7 @@ export default function LineupPlayerList({ lineup, direction }: PlayerProps) {
             {player.playerName}
           </span>
           {player.isCaptain && (
-            <span>
-              <Icon source={CaptainIcon} color="orange" size="xs" />
-            </span>
+            <Icon source={CaptainIcon} color="orange" size="xs" />
           )}
         </li>
       ))}
