@@ -111,6 +111,7 @@ export const candidateButton = style({
   color: theme.colors.gray900,
   fontSize: rem(14),
   fontWeight: 600,
+  borderRadius: rem(8),
   backgroundColor: theme.colors.gray25,
 });
 
