@@ -12,12 +12,13 @@ type GameInfoProps = {
   state: GameState;
 };
 
+const IMAGE_SIZE = 26;
+
 export default function GameInfo({ gameTeams, gameId, state }: GameInfoProps) {
   const { tracker } = useTracker();
 
   // todo: fisished 상태일 때 경기 승패를 score 색상으로 표시
   const [firstTeam, secondTeam] = gameTeams;
-  const IMAGE_SIZE = 26;
 
   return (
     <Link
