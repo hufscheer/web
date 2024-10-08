@@ -142,8 +142,8 @@ export const GameForm = ({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {Object.entries(QUARTERS_DB).map(([value]) => (
-                      <SelectItem key={value} value={value}>
+                    {Object.entries(QUARTERS_DB).map(([quarter, value]) => (
+                      <SelectItem key={quarter} value={quarter}>
                         {value}
                       </SelectItem>
                     ))}
