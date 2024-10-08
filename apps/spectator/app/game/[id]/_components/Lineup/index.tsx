@@ -2,8 +2,8 @@ import Image from 'next/image';
 
 import { useGameLineupById } from '@/queries/useGameLineupById';
 
-import * as styles from './Lineup.css';
 import LineupPlayerList from './PlayerList';
+import * as styles from './styles.css';
 
 type LineupProps = {
   gameId: string;
@@ -28,7 +28,7 @@ export default function Lineup({ gameId }: LineupProps) {
         </div>
 
         <LineupPlayerList
-          lineup={firstTeam.gameTeamPlayers}
+          lineup={firstTeam.starterPlayers}
           direction={firstTeam.direction}
         />
       </div>
@@ -50,7 +50,7 @@ export default function Lineup({ gameId }: LineupProps) {
         </div>
 
         <LineupPlayerList
-          lineup={secondTeam.gameTeamPlayers}
+          lineup={secondTeam.starterPlayers}
           direction={secondTeam.direction}
         />
       </div>
