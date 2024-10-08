@@ -70,3 +70,9 @@ export type LineupType = {
   starterPlayers: GameTeamPlayerType[];
   candidatePlayers: GameTeamPlayerType[];
 };
+
+export type PlayingLineupType = {
+  gameTeamId: number;
+  teamName: string;
+  gameTeamPlayers: GameTeamPlayerType[];
+};

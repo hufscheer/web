@@ -1,6 +1,6 @@
 'use client';
 
-import { LegacyRoundType, useCreateGame } from '@hcc/api';
+import { useCreateGame } from '@hcc/api';
 import { useToast } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -44,7 +44,7 @@ export default function Page({ params }: PageProps) {
       {
         leagueId,
         name: data.name,
-        round: data.round as LegacyRoundType,
+        round: Number(data.round),
         quarter: quarter,
         state: getStateByQuarter(quarter),
         startTime: `${formatTime(data.startDate, 'YYYY-MM-DD')}T${data.startTime}:00`,

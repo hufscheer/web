@@ -1,4 +1,4 @@
-import { useGame, useLeagueTeams } from '@hcc/api';
+import { useGame, useLeague, useLeagueTeams } from '@hcc/api';
 import { CalendarIcon } from '@hcc/icons';
 import {
   Button,
@@ -23,7 +23,7 @@ import {
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
 
 import TimeInput from '@/components/TimeInput';
-import { QUARTER_KEY, QUARTERS_DB } from '@/constants/games';
+import { QUARTERS_DB } from '@/constants/games';
 import { formatTime } from '@/utils/time';
 
 import * as styles from './styles.css';
@@ -47,6 +47,7 @@ export const GameForm = ({
   onSubmit,
   type,
 }: GameFormProps) => {
+  const { data: league } = useLeague(leagueId);
   const { data: teams } = useLeagueTeams(leagueId);
   const { data: game } = useGame(gameId);
 
@@ -109,11 +110,19 @@ export const GameForm = ({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="32">32강</SelectItem>
-                    <SelectItem value="16">16강</SelectItem>
-                    <SelectItem value="8">8강</SelectItem>
-                    <SelectItem value="4">4강</SelectItem>
-                    <SelectItem value="2">결승</SelectItem>
+                    {[
+                      { value: '32', label: '32강', round: 32 },
+                      { value: '16', label: '16강', round: 16 },
+                      { value: '8', label: '8강', round: 8 },
+                      { value: '4', label: '4강', round: 4 },
+                      { value: '2', label: '결승', round: 2 },
+                    ]
+                      .filter(item => league?.maxRound >= item.round)
+                      .map(item => (
+                        <SelectItem key={item.value} value={item.value}>
+                          {item.label}
+                        </SelectItem>
+                      ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -133,14 +142,12 @@ export const GameForm = ({
                   <FormLabel>쿼터</FormLabel>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue>
-                        {QUARTERS_DB[field.value as QUARTER_KEY]}
-                      </SelectValue>
+                      <SelectValue>{field.value}</SelectValue>
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {Object.entries(QUARTERS_DB).map(([quarter, value]) => (
-                      <SelectItem key={quarter} value={quarter}>
+                    {Object.entries(QUARTERS_DB).map(([value]) => (
+                      <SelectItem key={value} value={value}>
                         {value}
                       </SelectItem>
                     ))}

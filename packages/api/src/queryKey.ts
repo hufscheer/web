@@ -18,6 +18,7 @@ import {
   CheerTalkType,
   LeagueCheerTalkPayload,
   GameCheerTalkPayload,
+  PlayingLineupType,
 } from './types';
 
 const managerQueryKeys = {
@@ -132,7 +133,8 @@ const gameQueryKeys = {
 
   lineupPlaying: (gameId: string) => ({
     queryKey: ['gameLineupPlaying', { gameId }],
-    queryFn: () => fetcher.get<LineupType[]>(`/games/${gameId}/lineup/playing`),
+    queryFn: () =>
+      fetcher.get<PlayingLineupType[]>(`/games/${gameId}/lineup/playing`),
   }),
 };
 
