@@ -1,20 +1,25 @@
 import { rem, theme } from '@hcc/styles';
 import { style, styleVariants } from '@vanilla-extract/css';
 
-export const lineup = style({
+export const container = style({
   display: 'grid',
   gridTemplateColumns: '1fr 1px 1fr',
-  paddingBlock: theme.spaces.default,
   paddingInline: rem(56),
-  marginTop: rem(20),
+});
 
+export const starterContainer = style({
+  paddingTop: theme.spaces.default,
+  marginTop: rem(20),
   gap: rem(36),
 });
 
-export const split = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: theme.spaces.lg,
+export const candidateContainer = style({
+  paddingBottom: theme.sizes.appInlinePadding,
+});
+
+export const teamContainer = style({
+  ...theme.layouts.column,
+  gap: rem(26),
 });
 
 export const divider = style({
@@ -31,7 +36,7 @@ export const itemsWrapper = style({
 });
 
 const teamBase = style({
-  display: 'flex',
+  ...theme.layouts.centerY,
   gap: rem(6),
 });
 
@@ -48,13 +53,9 @@ export const teamName = style({
   wordBreak: 'keep-all',
 });
 
-const playerItemBase = style({
-  ...theme.layouts.centerY,
-});
-
 export const playerItem = styleVariants({
-  left: [playerItemBase],
-  right: [playerItemBase, { flexDirection: 'row-reverse' }],
+  left: [{ ...theme.layouts.centerY }],
+  right: [{ ...theme.layouts.centerY }, { flexDirection: 'row-reverse' }],
 });
 
 export const playerNameBase = style({
@@ -99,6 +100,18 @@ export const backNumber = styleVariants({
       backgroundColor: 'rgba(156, 23, 20, 8%)',
     },
   ],
+});
+
+export const candidateButton = style({
+  ...theme.layouts.center,
+  width: `calc(100% - 2 * ${theme.sizes.appInlinePadding})`,
+  height: rem(56),
+  marginBlock: rem(26),
+  marginInline: theme.sizes.appInlinePadding,
+  color: theme.colors.gray900,
+  fontSize: rem(14),
+  fontWeight: 600,
+  backgroundColor: theme.colors.gray25,
 });
 
 export const errorFallback = styleVariants({

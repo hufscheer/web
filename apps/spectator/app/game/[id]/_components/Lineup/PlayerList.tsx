@@ -6,16 +6,16 @@ import { GamePlayerType, TeamDirection } from '@/types/game';
 import * as styles from './styles.css';
 
 type PlayerProps = {
-  lineup: GamePlayerType[];
+  players: GamePlayerType[];
   direction: TeamDirection;
 };
 
-export default function LineupPlayerList({ lineup, direction }: PlayerProps) {
-  if (!lineup.length) return null;
+export default function LineupPlayerList({ players, direction }: PlayerProps) {
+  if (!players.length) return null;
 
   return (
     <ul className={styles.itemsWrapper}>
-      {lineup.map(player => (
+      {players.map(player => (
         <li
           key={player.playerName + player.number}
           className={styles.playerItem[direction]}
