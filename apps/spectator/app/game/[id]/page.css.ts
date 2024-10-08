@@ -9,6 +9,8 @@ export const cheerTalk = styleVariants({
     paddingTop: theme.spaces.default,
     paddingInline: theme.sizes.appInlinePadding,
     paddingBottom: rem(26),
+
+    borderTop: `${rem(1)} solid ${theme.colors.border}`,
   },
 
   header: {
@@ -24,19 +26,27 @@ export const cheerTalk = styleVariants({
   },
 });
 
+export const cheerTalkDivider = style({
+  width: '100%',
+  height: rem(6),
+  borderBlock: `${rem(1)} solid ${theme.colors.border}`,
+  backgroundColor: theme.colors.gray25,
+});
+
 const panelItemBase = style({
-  ...theme.textVariants.default,
   textAlign: 'center',
   paddingBlock: rem(12),
-  color: theme.colors.gray[4],
-  borderBlock: `1px solid ${theme.colors.gray[2]}`,
+  color: theme.colors.gray300,
+  fontSize: rem(14),
+  fontWeight: 500,
+  borderBottom: `${rem(1)} solid ${theme.colors.border25}`,
   backgroundColor: theme.colors.white,
+  transition: 'color 0.2s, border-color 0.2s',
 });
 
 export const panel = styleVariants({
   wrapper: {
     position: 'relative',
-    marginTop: theme.spaces.xs,
     backgroundColor: theme.colors.white,
   },
   menu: {
@@ -50,9 +60,9 @@ export const item = styleVariants({
   active: [
     panelItemBase,
     {
-      background: theme.colors.primary[1],
-      color: theme.colors.primary[3],
-      borderBottom: `1px solid ${theme.colors.primary[3]}`,
+      color: theme.colors.gray900,
+      fontWeight: 600,
+      borderBottom: `${rem(1)} solid ${theme.colors.gray900}`,
     },
   ],
   inactive: [panelItemBase],
