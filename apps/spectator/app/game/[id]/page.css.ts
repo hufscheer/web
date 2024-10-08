@@ -3,11 +3,12 @@ import { style, styleVariants } from '@vanilla-extract/css';
 
 export const cheerTalk = styleVariants({
   section: {
-    display: 'flex',
-    flexDirection: 'column',
+    ...theme.layouts.column,
     gap: theme.spaces.xs,
 
-    padding: theme.spaces.default,
+    paddingTop: theme.spaces.default,
+    paddingInline: theme.sizes.appInlinePadding,
+    paddingBottom: rem(26),
   },
 
   header: {
@@ -17,7 +18,8 @@ export const cheerTalk = styleVariants({
   },
 
   title: {
-    ...theme.textVariants.lg,
+    color: theme.colors.gray900,
+    fontSize: rem(16),
     fontWeight: 'bold',
   },
 });

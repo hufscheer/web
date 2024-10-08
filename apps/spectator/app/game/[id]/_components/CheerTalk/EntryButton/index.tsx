@@ -29,7 +29,7 @@ export default function CheerTalkEntryButton(props: ComponentProps<'button'>) {
   return (
     <div className={styles.entryContainer}>
       <Tooltip
-        content="당신의 팀을 응원하는 톡을 남겨보세요!"
+        content="응원톡에 들어가 여러분의 팀을 응원해보세요! 🙌"
         position="top"
         isVisible={isCheerTalkTooltipVisible}
         arrowPosition="rightEnd"

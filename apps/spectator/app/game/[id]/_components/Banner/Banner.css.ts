@@ -32,11 +32,11 @@ export const logo = style({
 });
 
 export const teamName = style({
-  fontWeight: 'bold',
+  fontWeight: 500,
   whiteSpace: 'nowrap',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
-  maxWidth: rem(60),
+  maxWidth: rem(66),
 });
 
 export const gameInfo = style({
