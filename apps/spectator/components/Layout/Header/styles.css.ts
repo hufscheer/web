@@ -10,6 +10,7 @@ export const root = style({
 });
 
 export const container = style({
+  position: 'relative',
   ...theme.layouts.rowBetween,
   height: '100%',
   width: '100%',
@@ -18,6 +19,16 @@ export const container = style({
   marginInline: 'auto',
   borderBottom: `1px solid ${theme.colors.gray25}`,
   backgroundColor: theme.colors.white,
+});
+
+export const homeLink = style({
+  ...theme.layouts.center,
+  position: 'absolute',
+  left: '50%',
+  top: '50%',
+  width: 'fit-content',
+  flexGrow: 0,
+  transform: 'translate(-50%, -50%)',
 });
 
 export const linkButton = style({
