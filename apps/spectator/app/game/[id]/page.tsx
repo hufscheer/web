@@ -7,6 +7,7 @@ import Live from '@/app/_components/Live';
 import CheerTalk from '@/app/game/[id]/_components/CheerTalk';
 import AsyncBoundary from '@/components/AsyncBoundary';
 import { FallbackProps } from '@/components/ErrorBoundary';
+import Layout from '@/components/Layout';
 import { TABS_CONFIG } from '@/constants/configs';
 
 import Banner from './_components/Banner';
@@ -54,7 +55,7 @@ export default function Page({ params }: { params: { id: string } }) {
   const cheerState = !!useQueryValidator('cheer', ['open']);
 
   return (
-    <section>
+    <Layout>
       <AsyncBoundary
         errorFallback={() => <BannerFallback />}
         loadingFallback={<BannerSkeleton />}
@@ -114,6 +115,6 @@ export default function Page({ params }: { params: { id: string } }) {
           </Tabs.Content>
         ))}
       </Tabs>
-    </section>
+    </Layout>
   );
 }

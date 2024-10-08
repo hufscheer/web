@@ -89,6 +89,7 @@ export const theme = createGlobalTheme(':root', {
 
     // other
     border: 'var(--hcc-colors-border)',
+    border25: 'var(--hcc-colors-border-25)',
     tip: 'var(--hcc-colors-tip)',
   },
 

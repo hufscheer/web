@@ -1,5 +1,10 @@
 export { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-export { QueryErrorResetBoundary } from '@tanstack/react-query';
+export {
+  QueryClient,
+  QueryErrorResetBoundary,
+  HydrationBoundary,
+  dehydrate,
+} from '@tanstack/react-query';
 
 export { QueryClientProvider } from './QueryClientProvider';
 export * from './mutations';

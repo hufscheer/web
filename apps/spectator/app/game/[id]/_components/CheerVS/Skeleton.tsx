@@ -1,4 +1,4 @@
-import * as styles from './CheerVS.css';
+import * as styles from './styles.css';
 
 export default function CheerVSSkeleton() {
   return (

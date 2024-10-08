@@ -8,7 +8,7 @@ import { useRef } from 'react';
 
 import useLeague from '@/queries/useLeague';
 
-import * as styles from './GameFilter.css';
+import * as styles from './styles.css';
 
 export default function LeagueFilter({ year }: { year: number }) {
   const flickingRef = useRef<Flicking | null>(null);
@@ -24,7 +24,7 @@ export default function LeagueFilter({ year }: { year: number }) {
     (leagues.find(league => league.isInProgress) || leagues[0]).leagueId;
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.leagueWrapper}>
       <Flicking
         ref={flickingRef}
         viewportTag="div"
@@ -33,16 +33,14 @@ export default function LeagueFilter({ year }: { year: number }) {
         duration={500}
         autoResize={true}
         bound={true}
+        gap={12}
       >
         {leagues.map(league => (
-          <li
-            key={league.leagueId}
-            className={clsx(
-              styles.leagueFilterItem,
-              league.leagueId === selectedLeague && styles.focused,
-            )}
-          >
+          <li key={league.leagueId} className={styles.filter}>
             <Link
+              className={clsx(styles.filterLink, {
+                [styles.filterFocused]: league.leagueId === selectedLeague,
+              })}
               href={{
                 href: pathname,
                 query: { year, league: league.leagueId },
@@ -50,6 +48,11 @@ export default function LeagueFilter({ year }: { year: number }) {
             >
               {league.name}
             </Link>
+            <div
+              className={clsx(styles.filterLine, {
+                [styles.filterLineFocused]: league.leagueId === selectedLeague,
+              })}
+            />
           </li>
         ))}
       </Flicking>

@@ -9,7 +9,7 @@ import useTracker from '@/hooks/useTracker';
 import useCheerMutation from '@/queries/useCheerMutation';
 import { GameCheerType, GameTeamType, TeamDirection } from '@/types/game';
 
-import * as styles from './CheerVS.css';
+import * as styles from './styles.css';
 
 type CheerTeamProps = (GameCheerType & GameTeamType) & {
   gameId: string;
