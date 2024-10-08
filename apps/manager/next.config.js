@@ -14,6 +14,10 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'images.hufscheer.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'hufstreaming.s3.ap-northeast-2.amazonaws.com',
       },
       {
@@ -39,7 +43,7 @@ const nextConfig = {
       },
       {
         source: '/api/:path*',
-        destination: `https://api.hufstreaming.site/:path*`,
+        destination: `https://api.hufscheer.com/:path*`,
       },
     ];
   },
