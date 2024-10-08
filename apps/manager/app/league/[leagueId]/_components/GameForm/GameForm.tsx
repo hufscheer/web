@@ -73,6 +73,8 @@ export const GameForm = ({
     return [];
   };
 
+  if (!league || !teams) return null;
+
   return (
     <Form {...methods}>
       <form className={styles.form} onSubmit={methods.handleSubmit(onSubmit)}>
@@ -117,7 +119,7 @@ export const GameForm = ({
                       { value: '4', label: '4강', round: 4 },
                       { value: '2', label: '결승', round: 2 },
                     ]
-                      .filter(item => league?.maxRound >= item.round)
+                      .filter(item => league.maxRound >= item.round)
                       .map(item => (
                         <SelectItem key={item.value} value={item.value}>
                           {item.label}
