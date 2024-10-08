@@ -1,4 +1,4 @@
-import { useGame, useLeague, useLeagueTeams } from '@hcc/api';
+import { useGame, useLeague, useLeagueTeams, ROUND_OPTIONS } from '@hcc/api';
 import { CalendarIcon } from '@hcc/icons';
 import {
   Button,
@@ -112,19 +112,13 @@ export const GameForm = ({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {[
-                      { value: '32', label: '32강', round: 32 },
-                      { value: '16', label: '16강', round: 16 },
-                      { value: '8', label: '8강', round: 8 },
-                      { value: '4', label: '4강', round: 4 },
-                      { value: '2', label: '결승', round: 2 },
-                    ]
-                      .filter(item => league.maxRound >= item.round)
-                      .map(item => (
-                        <SelectItem key={item.value} value={item.value}>
-                          {item.label}
-                        </SelectItem>
-                      ))}
+                    {ROUND_OPTIONS.filter(
+                      item => league.maxRound >= item.round,
+                    ).map(item => (
+                      <SelectItem key={item.value} value={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
