@@ -1,4 +1,4 @@
-import { useGame, useLeagueTeams } from '@hcc/api';
+import { useGame, useLeague, useLeagueTeams, ROUND_OPTIONS } from '@hcc/api';
 import { CalendarIcon } from '@hcc/icons';
 import {
   Button,
@@ -23,7 +23,7 @@ import {
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
 
 import TimeInput from '@/components/TimeInput';
-import { QUARTER_KEY, QUARTERS_DB } from '@/constants/games';
+import { QUARTERS_DB } from '@/constants/games';
 import { formatTime } from '@/utils/time';
 
 import * as styles from './styles.css';
@@ -47,6 +47,7 @@ export const GameForm = ({
   onSubmit,
   type,
 }: GameFormProps) => {
+  const { data: league } = useLeague(leagueId);
   const { data: teams } = useLeagueTeams(leagueId);
   const { data: game } = useGame(gameId);
 
@@ -71,6 +72,8 @@ export const GameForm = ({
     }
     return [];
   };
+
+  if (!league || !teams) return null;
 
   return (
     <Form {...methods}>
@@ -102,15 +105,20 @@ export const GameForm = ({
                   <FormLabel>라운드</FormLabel>
                   <FormControl>
                     <SelectTrigger>
-                      <span>{field.value}</span>
+                      <span>
+                        {field.value &&
+                          (field.value === '2' ? '결승' : `${field.value}강`)}
+                      </span>
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="32강">32강</SelectItem>
-                    <SelectItem value="16강">16강</SelectItem>
-                    <SelectItem value="8강">8강</SelectItem>
-                    <SelectItem value="4강">4강</SelectItem>
-                    <SelectItem value="결승">결승</SelectItem>
+                    {ROUND_OPTIONS.filter(
+                      item => league.maxRound >= item.round,
+                    ).map(item => (
+                      <SelectItem key={item.value} value={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -130,9 +138,7 @@ export const GameForm = ({
                   <FormLabel>쿼터</FormLabel>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue>
-                        {QUARTERS_DB[field.value as QUARTER_KEY]}
-                      </SelectValue>
+                      <SelectValue>{field.value}</SelectValue>
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>

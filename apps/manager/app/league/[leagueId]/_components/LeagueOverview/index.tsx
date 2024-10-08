@@ -34,7 +34,7 @@ const LeagueOverview = ({ leagueId }: LeagueOverviewProps) => {
       </div>
       <Card.Content marginTop={12} gap={10}>
         <p className={styles.description}>
-          <strong>라운드</strong>&nbsp;{league.maxRound}
+          <strong>라운드</strong>&nbsp;{league.maxRound}강
         </p>
         <p className={styles.description}>
           <strong>기간</strong>&nbsp;

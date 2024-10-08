@@ -1,6 +1,5 @@
 import {
   useGameLineup,
-  useGameLineupPlaying,
   GameTeamPlayerType,
   useUpdateLineupStarter,
   useUpdateLineupCandidate,
@@ -41,24 +40,18 @@ const LineupSheet = ({ gameId, teamId }: LineupUpdateSheetProps) => {
 
   const { data: game } = useGame(gameId);
   const { data: lineupList } = useGameLineup(gameId);
-  const { data: lineupPlayingList } = useGameLineupPlaying(gameId);
 
   const teamName: string =
     game?.gameTeams.find(gameTeam => gameTeam.gameTeamId === Number(teamId))
       ?.gameTeamName || '';
 
-  const currentLineup = lineupList?.find(
-    lineup => lineup.gameTeamId === Number(teamId),
-  );
-
   const currentPlayingLineup: GameTeamPlayerType[] =
-    lineupPlayingList?.find(lineup => lineup.gameTeamId === Number(teamId))
-      ?.gameTeamPlayers || [];
+    lineupList?.find(lineup => lineup.gameTeamId === Number(teamId))
+      ?.starterPlayers || [];
 
   const candidateLineup: GameTeamPlayerType[] =
-    currentLineup?.gameTeamPlayers.filter(
-      player => !currentPlayingLineup.some(p => p.id === player.id),
-    ) || [];
+    lineupList?.find(lineup => lineup.gameTeamId === Number(teamId))
+      ?.candidatePlayers || [];
 
   const {
     mutate: updateLineupCaptainRegister,

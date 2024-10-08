@@ -9,12 +9,9 @@ export const stateMap = {
 export type StateType = keyof typeof stateMap;
 export type StateValueType = (typeof stateMap)[keyof typeof stateMap];
 
-export type RoundType = 32 | 16 | 8 | 4;
-export type LegacyRoundType = `${RoundType}강` | '결승';
-
 export type CreateGameType = {
   name: string;
-  round: LegacyRoundType;
+  round: number;
   quarter: string;
   state: StateType;
   startTime: string;
@@ -36,7 +33,7 @@ export type GameType = {
   startTime: Date;
   gameQuarter: string;
   gameName: string;
-  round: string;
+  round: number;
   videoId?: string;
   gameTeams: GameTeamType[];
   sportsName: string;
@@ -64,10 +61,17 @@ export type GameTeamPlayerType = {
   description?: string;
   number: number;
   isCaptain: boolean;
-  state: string;
+  state: 'STARTER' | 'CANDIDATE';
 };
 
 export type LineupType = {
+  gameTeamId: number;
+  teamName: string;
+  starterPlayers: GameTeamPlayerType[];
+  candidatePlayers: GameTeamPlayerType[];
+};
+
+export type PlayingLineupType = {
   gameTeamId: number;
   teamName: string;
   gameTeamPlayers: GameTeamPlayerType[];

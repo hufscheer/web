@@ -3,7 +3,6 @@ import {
   useCreateReplacementTimeline,
   useGame,
   useGameLineup,
-  useGameLineupPlaying,
 } from '@hcc/api';
 import {
   Button,
@@ -51,7 +50,6 @@ const ReplacementForm = ({
   const teams: GameTeamType[] = game?.gameTeams ?? [];
 
   const { data: lineupPlayers } = useGameLineup(gameId);
-  const { data: lineupPlayingPlayers } = useGameLineupPlaying(gameId);
 
   const methods = useForm<ReplacementFormSchema>({
     resolver: zodResolver(replacementFormSchema),
@@ -90,16 +88,16 @@ const ReplacementForm = ({
   const players = useMemo(() => {
     return (
       lineupPlayers?.find(lineup => lineup.gameTeamId.toString() === gameTeamId)
-        ?.gameTeamPlayers ?? []
+        ?.candidatePlayers ?? []
     );
   }, [lineupPlayers, gameTeamId]);
+
   const playingPlayers = useMemo(() => {
     return (
-      lineupPlayingPlayers?.find(
-        lineup => lineup.gameTeamId.toString() === gameTeamId,
-      )?.gameTeamPlayers ?? []
+      lineupPlayers?.find(lineup => lineup.gameTeamId.toString() === gameTeamId)
+        ?.starterPlayers ?? []
     );
-  }, [lineupPlayingPlayers, gameTeamId]);
+  }, [lineupPlayers, gameTeamId]);
 
   useEffect(() => {
     methods.setValue('originLineupPlayerId', '');
