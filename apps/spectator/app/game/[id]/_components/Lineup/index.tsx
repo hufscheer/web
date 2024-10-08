@@ -28,7 +28,7 @@ export default function Lineup({ gameId }: LineupProps) {
               height={28}
               loading="lazy"
             />
-            <span className={styles.teamName}>{homeTeam.teamName}</span>
+            <span className={styles.teamName.left}>{homeTeam.teamName}</span>
           </div>
 
           <PlayerList
@@ -41,9 +41,7 @@ export default function Lineup({ gameId }: LineupProps) {
 
         <div className={styles.teamContainer}>
           <div className={styles.team.right}>
-            <span className={styles.teamName} style={{ textAlign: 'end' }}>
-              {awayTeam.teamName}
-            </span>
+            <span className={styles.teamName.right}>{awayTeam.teamName}</span>
             <Image
               src={awayTeam.logoImageUrl}
               alt={`${awayTeam.teamName} logo image`}

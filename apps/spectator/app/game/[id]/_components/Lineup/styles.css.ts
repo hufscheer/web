@@ -45,12 +45,17 @@ export const team = styleVariants({
   right: [teamBase, { justifyContent: 'flex-end' }],
 });
 
-export const teamName = style({
+export const teamNameBase = style({
   color: theme.colors.gray900,
   fontSize: rem(14),
   fontWeight: 600,
   textWrap: 'pretty',
   wordBreak: 'keep-all',
+});
+
+export const teamName = styleVariants({
+  left: [teamNameBase],
+  right: [teamNameBase, { textAlign: 'end' }],
 });
 
 export const playerItem = styleVariants({
