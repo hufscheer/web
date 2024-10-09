@@ -1,5 +1,5 @@
 import { rem, theme } from '@hcc/styles';
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 
 export const stateContainer = style({
   paddingBlock: rem(16),
@@ -16,6 +16,17 @@ export const noGamesMessage = style({
   fontWeight: 500,
   textAlign: 'center',
   backgroundColor: theme.colors.white,
+});
+
+export const titleContainer = style({
+  ...theme.layouts.centerY,
+  gap: theme.spaces.xs,
+});
+
+globalStyle(`${titleContainer} > p`, {
+  color: theme.colors.gray400,
+  fontSize: rem(14),
+  fontWeight: 500,
 });
 
 export const gameDivider = style({
