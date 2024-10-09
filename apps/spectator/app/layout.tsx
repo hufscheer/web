@@ -1,11 +1,13 @@
 import { Toaster } from '@hcc/ui';
 import { Analytics } from '@vercel/analytics/react';
+import { clsx } from 'clsx';
 import { extend } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import { ReactNode } from 'react';
 
+import * as styles from './layout.css';
 import Providers from './Providers';
 import '@hcc/styles/dist/globals.css';
 import '@hcc/styles/colors.css';
@@ -42,7 +44,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <title>훕치치!</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className={pretendard.className}>
+      <body className={clsx(pretendard.className, styles.body)}>
         <Providers>
           <Toaster />
           {children}
