@@ -124,15 +124,28 @@ export const gameButtonArea = styleVariants({
     justifyContent: 'center',
     alignItems: 'center',
     gap: theme.spaces.sm,
+
+    transition: 'background-color 0.12s ease',
   },
   cheer: [
     buttonBase,
     {
-      color: theme.colors.primary[3],
-      border: `1px solid ${theme.colors.primary[3]}`,
+      color: theme.colors.blue600,
+      border: `1px solid ${theme.colors.blue200}`,
+
+      ':hover': {
+        backgroundColor: theme.colors.blue200,
+      },
     },
   ],
-  record: [buttonBase],
+  record: [
+    buttonBase,
+    {
+      ':hover': {
+        backgroundColor: theme.colors.gray25,
+      },
+    },
+  ],
 });
 
 export const errorFallback = styleVariants({
