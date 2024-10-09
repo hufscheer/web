@@ -1,22 +1,25 @@
 import { rem, theme } from '@hcc/styles';
 import { style, styleVariants } from '@vanilla-extract/css';
 
-export const lineup = style({
-  // display: 'flex',
-  // justifyContent: 'center',
+export const container = style({
   display: 'grid',
   gridTemplateColumns: '1fr 1px 1fr',
-  paddingBlock: theme.spaces.default,
-  paddingInline: rem(60),
-  marginTop: rem(20),
+  paddingInline: rem(56),
+});
 
+export const starterContainer = style({
+  paddingTop: theme.spaces.default,
+  marginTop: rem(20),
   gap: rem(36),
 });
 
-export const split = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: theme.spaces.lg,
+export const candidateContainer = style({
+  paddingBottom: theme.sizes.appInlinePadding,
+});
+
+export const teamContainer = style({
+  ...theme.layouts.column,
+  gap: rem(26),
 });
 
 export const divider = style({
@@ -33,11 +36,8 @@ export const itemsWrapper = style({
 });
 
 const teamBase = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: theme.spaces.xs,
-
-  height: rem(39),
+  ...theme.layouts.centerY,
+  gap: rem(6),
 });
 
 export const team = styleVariants({
@@ -45,66 +45,42 @@ export const team = styleVariants({
   right: [teamBase, { justifyContent: 'flex-end' }],
 });
 
-export const teamName = style({
-  ...theme.textVariants.default,
-  fontWeight: 'bold',
+export const teamNameBase = style({
+  color: theme.colors.gray900,
+  fontSize: rem(14),
+  fontWeight: 600,
   textWrap: 'pretty',
+  wordBreak: 'keep-all',
 });
 
-const playerBase = style({
-  ...theme.textVariants.sm,
-  color: theme.colors.gray[6],
-  whiteSpace: 'nowrap',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-});
-
-const playerItemBase = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: theme.spaces.default,
-
-  height: rem(32),
+export const teamName = styleVariants({
+  left: [teamNameBase],
+  right: [teamNameBase, { textAlign: 'end' }],
 });
 
 export const playerItem = styleVariants({
-  left: [playerItemBase],
-  right: [playerItemBase, { flexDirection: 'row-reverse' }],
+  left: [{ ...theme.layouts.centerY }],
+  right: [{ ...theme.layouts.centerY }, { flexDirection: 'row-reverse' }],
 });
 
-export const player = styleVariants({
-  root: {
-    display: 'grid',
-    gridTemplateColumns: 'auto 1fr auto',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: theme.spaces.default,
+export const playerNameBase = style({
+  color: theme.colors.gray900,
+  fontSize: rem(14),
+  fontWeight: 500,
+  lineHeight: '100%',
+});
 
-    height: rem(32),
-  },
-  wrapper: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  caption: [playerBase],
-  name: [
-    playerBase,
-    {
-      fontWeight: 600,
-      marginRight: theme.spaces.xxs,
-
-      maxWidth: rem(64),
-    },
-  ],
+export const playerName = styleVariants({
+  left: [playerNameBase, { marginRight: theme.spaces.xxs }],
+  right: [playerNameBase, { marginLeft: theme.spaces.xxs }],
 });
 
 const backNumberBase = style({
-  ...theme.textVariants.default,
+  ...theme.layouts.center,
   backgroundColor: theme.colors.white,
 
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
+  fontSize: rem(12),
+  fontWeight: 600,
 
   width: rem(26),
   aspectRatio: '1/1',
@@ -116,6 +92,7 @@ export const backNumber = styleVariants({
   left: [
     backNumberBase,
     {
+      marginRight: theme.spaces.xs,
       color: theme.colors.gray900,
       backgroundColor: 'rgba(0, 47, 60, 8%)',
     },
@@ -123,24 +100,24 @@ export const backNumber = styleVariants({
   right: [
     backNumberBase,
     {
+      marginLeft: theme.spaces.xs,
       color: 'rgba(156, 23, 20)',
       backgroundColor: 'rgba(156, 23, 20, 8%)',
     },
   ],
 });
 
-const captainBase = style({
-  borderRadius: rem(4),
-  padding: theme.spaces.xxs,
-
-  fontSize: theme.textVariants.xxs.fontSize,
-  fontWeight: 700,
-  color: theme.colors.white,
-});
-
-export const captain = styleVariants({
-  left: [captainBase, { backgroundColor: theme.colors.gray800 }],
-  right: [captainBase, { backgroundColor: theme.colors.green600 }],
+export const candidateButton = style({
+  ...theme.layouts.center,
+  width: `calc(100% - 2 * ${theme.sizes.appInlinePadding})`,
+  height: rem(56),
+  marginBlock: rem(26),
+  marginInline: theme.sizes.appInlinePadding,
+  color: theme.colors.gray900,
+  fontSize: rem(14),
+  fontWeight: 600,
+  borderRadius: rem(8),
+  backgroundColor: theme.colors.gray25,
 });
 
 export const errorFallback = styleVariants({

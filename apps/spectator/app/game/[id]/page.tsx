@@ -89,6 +89,8 @@ export default function Page({ params }: { params: { id: string } }) {
         </AsyncBoundary>
       </section>
 
+      <div className={styles.cheerTalkDivider} />
+
       <Tabs
         defaultValue={tabState || 'lineup'}
         className={styles.panel.wrapper}

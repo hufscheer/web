@@ -1,34 +1,32 @@
-import { Fragment } from 'react';
+import { CaptainIcon } from '@hcc/icons';
+import { Icon } from '@hcc/ui';
 
 import { GamePlayerType, TeamDirection } from '@/types/game';
 
-import LineupCaptain from './Captain';
-import * as styles from './Lineup.css';
+import * as styles from './styles.css';
 
 type PlayerProps = {
-  lineup: GamePlayerType[];
+  players: GamePlayerType[];
   direction: TeamDirection;
 };
 
-export default function LineupPlayerList({ lineup, direction }: PlayerProps) {
+export default function LineupPlayerList({ players, direction }: PlayerProps) {
+  if (!players.length) return null;
+
   return (
     <ul className={styles.itemsWrapper}>
-      {lineup.map(player => (
+      {players.map(player => (
         <li
           key={player.playerName + player.number}
           className={styles.playerItem[direction]}
         >
-          <Fragment>
-            <span className={styles.backNumber[direction]}>
-              {player.number}
-            </span>
-            <div className={styles.player.wrapper}>
-              <span className={styles.player.name}>{player.playerName}</span>
-            </div>
-            {player.isCaptain && <div>C</div>}
-          </Fragment>
-
-          <LineupCaptain isCaptain={player.isCaptain} direction={direction} />
+          <span className={styles.backNumber[direction]}>{player.number}</span>
+          <span className={styles.playerName[direction]}>
+            {player.playerName}
+          </span>
+          {player.isCaptain && (
+            <Icon source={CaptainIcon} color="orange" size="xs" />
+          )}
         </li>
       ))}
     </ul>

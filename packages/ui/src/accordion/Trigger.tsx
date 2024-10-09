@@ -1,4 +1,4 @@
-import { CaretDownIcon } from '@hcc/icons';
+import { KeyboardArrowDownIcon } from '@hcc/icons';
 import { clsx } from 'clsx';
 import { ElementType, forwardRef } from 'react';
 
@@ -38,7 +38,7 @@ const Trigger: ContentType = forwardRef(function AccordionTrigger<
     >
       {children}
       <Icon
-        source={CaretDownIcon}
+        source={KeyboardArrowDownIcon}
         size="sm"
         className={styles.caret({ open })}
       />

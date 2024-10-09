@@ -32,11 +32,11 @@ export const logo = style({
 });
 
 export const teamName = style({
-  fontWeight: 'bold',
+  fontWeight: 500,
   whiteSpace: 'nowrap',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
-  maxWidth: rem(60),
+  maxWidth: rem(66),
 });
 
 export const gameInfo = style({
@@ -83,10 +83,17 @@ export const badge = style({
   paddingInline: theme.spaces.xs,
   borderRadius: 8,
 
+  color: theme.colors.gray400,
+  fontSize: rem(12),
+  fontWeight: 600,
+  lineHeight: '100%',
+  whiteSpace: 'nowrap',
+  backgroundColor: theme.colors.gray25,
+});
+
+export const badgeActive = style({
   color: theme.colors.white,
   backgroundColor: theme.colors.alert.normal,
-
-  whiteSpace: 'nowrap',
 });
 
 export const round = style({

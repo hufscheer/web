@@ -28,11 +28,7 @@ const Header = ({ arrowVisible }: HeaderProps) => {
         ) : (
           <span />
         )}
-        <Link
-          href="/"
-          aria-label="홈페이지로 이동"
-          className={styles.linkButton}
-        >
+        <Link className={styles.homeLink} href="/" aria-label="홈페이지로 이동">
           <Icon
             width="71.5"
             height="21"
