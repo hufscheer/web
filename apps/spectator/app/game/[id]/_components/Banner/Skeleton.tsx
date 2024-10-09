@@ -3,7 +3,10 @@ import * as styles from './Banner.css';
 export default function BannerSkeleton() {
   return (
     <div className={styles.skeleton.root}>
-      <div className={styles.skeleton.box} />
+      <div className={styles.skeleton.imageBox}>
+        <div className={styles.skeleton.image} />
+        <div className={styles.skeleton.teamName} />
+      </div>
       <div className={styles.skeleton.center}>
         <div
           className={styles.skeleton.line}
@@ -18,7 +21,10 @@ export default function BannerSkeleton() {
           style={{ width: '85%', height: '12px' }}
         />
       </div>
-      <div className={styles.skeleton.box} />
+      <div className={styles.skeleton.imageBox}>
+        <div className={styles.skeleton.image} />
+        <div className={styles.skeleton.teamName} />
+      </div>
     </div>
   );
 }
