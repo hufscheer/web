@@ -102,7 +102,6 @@ export const skeleton = styleVariants({
   root: [
     root,
     {
-      height: rem(80),
       gap: theme.spaces.xxs,
     },
   ],
@@ -110,9 +109,10 @@ export const skeleton = styleVariants({
     box,
     skeletonAnimation,
     {
-      height: '100%',
+      height: rem(56),
       width: '100%',
-      backgroundColor: theme.colors.gray100,
+      backgroundColor: theme.colors.gray25,
+      border: `1px solid ${theme.colors.gray50}`,
     },
   ],
   empty: [

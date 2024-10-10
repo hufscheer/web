@@ -111,28 +111,41 @@ export const time = style({
 
 export const skeleton = styleVariants({
   root: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1.5fr 1fr',
+    display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: rem(20),
 
-    width: '100%',
-    minHeight: rem(95),
-    padding: `${theme.spaces.sm} ${theme.spaces.default}`,
-    backgroundColor: theme.colors.background.secondary,
+    margin: `${rem(34)} ${rem(36)} 0`,
+
+    ...theme.textVariants.xs,
+
+    minHeight: rem(105),
+    paddingInline: theme.spaces.default,
   },
-  box: [
+  imageBox: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    gap: theme.spaces.xs,
+
+    flexShrink: 0,
+  },
+  image: [
     skeletonAnimation,
     {
-      justifySelf: 'center',
-
-      height: '100%',
-      width: '60%',
-      backgroundColor: theme.colors.gray100,
-      borderRadius: rem(8),
+      width: rem(66),
+      height: rem(66),
+      border: `1px solid ${theme.colors.gray50}`,
+      borderRadius: '50%',
+      backgroundColor: theme.colors.gray25,
     },
   ],
+  teamName: {
+    width: rem(66),
+    height: rem(14.5),
+    borderRadius: 8,
+    backgroundColor: theme.colors.gray25,
+  },
   center: {
     display: 'flex',
     flexDirection: 'column',

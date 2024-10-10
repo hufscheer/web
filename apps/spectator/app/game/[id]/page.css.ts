@@ -69,6 +69,6 @@ export const item = styleVariants({
 });
 
 export const spinner = style({
-  height: rem(30),
+  height: rem(33),
   padding: 0,
 });

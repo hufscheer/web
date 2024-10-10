@@ -19,6 +19,7 @@ export const container = style({
   marginInline: 'auto',
   borderBottom: `1px solid ${theme.colors.gray25}`,
   backgroundColor: theme.colors.white,
+  borderInline: `1px solid ${theme.colors.gray25}`,
 });
 
 export const homeLink = style({
