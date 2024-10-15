@@ -14,7 +14,8 @@ type PageProps = {
 
 export default function Page({ params }: PageProps) {
   const { toast } = useToast();
-  const { mutate: updateCheerTalkUnblock } = useUpdateCheerTalkUnblock();
+  const { mutate: updateCheerTalkUnblock, isPending } =
+    useUpdateCheerTalkUnblock();
 
   const ActionButton = (cheerTalkId: number) => {
     return (
@@ -24,6 +25,8 @@ export default function Page({ params }: PageProps) {
         primaryActionLabel="해제"
         secondaryActionLabel="취소"
         onPrimaryAction={() => {
+          if (isPending) return;
+
           updateCheerTalkUnblock(
             { leagueId: params.leagueId, cheerTalkId },
             {

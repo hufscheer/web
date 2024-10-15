@@ -65,10 +65,12 @@ export default function Page({ params }: PageProps) {
     }
   }, [game, methods]);
 
-  const { mutate: updateGameMutation } = useUpdateGame();
+  const { mutate: updateGame, isPending } = useUpdateGame();
   const onSubmit = (data: GameFormSchema) => {
+    if (isPending) return;
+
     const quarter = data.quarter as QUARTER_KEY;
-    updateGameMutation(
+    updateGame(
       {
         leagueId,
         gameId,

@@ -32,9 +32,10 @@ export default function Page({ params }: PageProps) {
     defaultValues: teamDefaultValues,
   });
 
-  const { mutate: createLeagueTeamMutation } = useCreateLeagueTeam();
+  const { mutate: createLeagueTeam, isPending } = useCreateLeagueTeam();
 
   const onSubmit = async (data: TeamFormSchema) => {
+    if (isPending) return;
     let imageUrl: string;
     if (data.logo instanceof File) imageUrl = await uploadImage(data.logo);
     else imageUrl = data.logo;
@@ -48,7 +49,7 @@ export default function Page({ params }: PageProps) {
       })),
     };
 
-    createLeagueTeamMutation(
+    createLeagueTeam(
       { leagueId, ...team },
       {
         onSuccess: () => {

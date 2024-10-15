@@ -31,9 +31,13 @@ export default function Page({ params }: PageProps) {
     defaultValues: gameDefaultValues,
   });
 
-  const { mutateAsync: createGameMutation } = useCreateGame({ leagueId });
+  const { mutateAsync: createGameMutation, isPending } = useCreateGame({
+    leagueId,
+  });
 
   const onSubmit = async (data: GameFormSchema) => {
+    if (isPending) return;
+
     if (data.idOfTeam1 === data.idOfTeam2) {
       toast({ title: '팀1과 팀2가 같을 수 없습니다', variant: 'destructive' });
       return;
