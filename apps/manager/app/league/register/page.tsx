@@ -33,7 +33,7 @@ export default function Page() {
         name: leagueName,
         maxRound: Number(round),
         startAt: formatTime(startDate, 'YYYY-MM-DDTHH:mm:ss'),
-        endAt: formatTime(endDate, 'YYYY-MM-DDTHH:mm:ss'),
+        endAt: formatTime(endDate, 'YYYY-MM-DDT23:59:59'),
       },
       {
         onSuccess: () => {

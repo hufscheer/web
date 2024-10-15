@@ -125,7 +125,9 @@ export const LeagueForm = ({
                 <FormLabel>진행 방식</FormLabel>
                 <FormControl>
                   <SelectTrigger type="button">
-                    <SelectValue>{field.value}강</SelectValue>
+                    <SelectValue>
+                      {Number(field.value) > 2 ? `${field.value}강` : `결승`}
+                    </SelectValue>
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
