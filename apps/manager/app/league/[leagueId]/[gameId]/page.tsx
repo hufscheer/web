@@ -106,6 +106,7 @@ export default function Page({ params }: PageProps) {
       {
         onSuccess: () => {
           toast({ title: '경기가 삭제되었습니다.', variant: 'destructive' });
+          router.replace(`/league/${leagueId}`);
         },
         onError: () => {
           toast({ title: '경기 삭제에 실패했습니다.', variant: 'destructive' });
