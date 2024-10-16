@@ -6,13 +6,12 @@ import {
   useLeagueTeam,
   useUpdateLeagueTeam,
 } from '@hcc/api';
-import { useToast } from '@hcc/ui';
+import { AlertDialog, useToast } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import AlertDialog from '@/components/AlertDialog';
 import Layout from '@/components/Layout';
 import { useImageUpload } from '@/hooks/useImageUpload';
 

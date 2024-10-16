@@ -18,3 +18,4 @@ export * from './spinner';
 export * from './toast';
 export * from './tag';
 export * from './badge';
+export * from './alert-dialog';

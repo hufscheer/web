@@ -1,4 +1,4 @@
-'use client';
+import { isValidElement, ReactNode } from 'react';
 
 import {
   Button,
@@ -11,10 +11,9 @@ import {
   DialogOverlay,
   DialogTitle,
   DialogTrigger,
-} from '@hcc/ui';
-import { isValidElement, ReactNode } from 'react';
+} from '..';
 
-type AlertDialogProps = {
+export type AlertDialogProps = {
   title: string;
   description: ReactNode;
   primaryActionLabel: string;
@@ -24,7 +23,7 @@ type AlertDialogProps = {
   children: ReactNode;
 };
 
-const AlertDialog = ({
+export const AlertDialog = ({
   title,
   description,
   primaryActionLabel,
@@ -80,5 +79,3 @@ const AlertDialog = ({
     </Dialog>
   );
 };
-
-export default AlertDialog;

@@ -1,7 +1,6 @@
 import { TimelineRecordType, useDeleteTimeline } from '@hcc/api';
+import { AlertDialog } from '@hcc/ui';
 import Image from 'next/image';
-
-import AlertDialog from '@/components/AlertDialog';
 
 import * as styles from './styles.css';
 import { getRecordSubtitle, getRecordTitle } from '../../_utils/record';
