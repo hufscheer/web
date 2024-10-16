@@ -17,8 +17,12 @@ const useDeleteLeague = () => {
   return useMutation({
     mutationFn: deleteLeague,
     onSuccess: async (_, variables) => {
-      await queryClient.invalidateQueries(queryKeys.leagues());
-      await queryClient.invalidateQueries(queryKeys.league(variables.leagueId));
+      await Promise.all([
+        queryClient.invalidateQueries(queryKeys.leagues()),
+        queryClient.invalidateQueries(queryKeys.leaguesOnManager()),
+        queryClient.invalidateQueries(queryKeys.leaguesManageOnManager()),
+        queryClient.invalidateQueries(queryKeys.league(variables.leagueId)),
+      ]);
     },
   });
 };
