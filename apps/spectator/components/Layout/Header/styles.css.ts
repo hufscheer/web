@@ -2,10 +2,12 @@ import { rem, theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 
 export const root = style({
-  position: 'fixed',
+  position: 'sticky',
+  top: 0,
   left: 0,
   width: '100%',
   height: rem(44),
+  padding: 0,
   zIndex: theme.zIndices.header,
 });
 
@@ -19,7 +21,6 @@ export const container = style({
   marginInline: 'auto',
   borderBottom: `1px solid ${theme.colors.gray25}`,
   backgroundColor: theme.colors.white,
-  borderInline: `1px solid ${theme.colors.gray25}`,
 });
 
 export const homeLink = style({
