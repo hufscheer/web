@@ -126,7 +126,11 @@ export const LeagueForm = ({
                 <FormControl>
                   <SelectTrigger type="button">
                     <SelectValue>
-                      {Number(field.value) > 2 ? `${field.value}강` : `결승`}
+                      {field.value === '-'
+                        ? '-'
+                        : Number(field.value) > 2
+                          ? `${field.value}강`
+                          : `결승`}
                     </SelectValue>
                   </SelectTrigger>
                 </FormControl>
