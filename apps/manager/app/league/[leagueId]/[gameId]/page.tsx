@@ -1,12 +1,11 @@
 'use client';
 import { useDeleteGame, useGame, useUpdateGame } from '@hcc/api';
-import { useToast } from '@hcc/ui';
+import { AlertDialog, useToast } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import AlertDialog from '@/components/AlertDialog';
 import Layout from '@/components/Layout';
 import { getStateByQuarter, QUARTER_KEY } from '@/constants/games';
 import { formatTime } from '@/utils/time';

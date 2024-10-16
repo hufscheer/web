@@ -1,9 +1,8 @@
 'use client';
 import { useLeagueCheerTalkBlocked, useUpdateCheerTalkUnblock } from '@hcc/api';
-import { Button, useToast } from '@hcc/ui';
+import { AlertDialog, Button, useToast } from '@hcc/ui';
 import { Suspense } from 'react';
 
-import AlertDialog from '@/components/AlertDialog';
 import Layout from '@/components/Layout';
 
 import CheerTalkList from '../_components/CheerTalkList';

@@ -1,6 +1,6 @@
 'use client';
 import { useDeleteLeague, useLeague, useUpdateLeague } from '@hcc/api';
-import { toast } from '@hcc/ui';
+import { AlertDialog, toast } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -12,7 +12,6 @@ import {
   leagueFormSchema,
   LeagueFormSchema,
 } from '@/app/league/_components/LeagueForm';
-import AlertDialog from '@/components/AlertDialog';
 import Layout from '@/components/Layout';
 import Tip from '@/components/Tip';
 import { formatTime } from '@/utils/time';
