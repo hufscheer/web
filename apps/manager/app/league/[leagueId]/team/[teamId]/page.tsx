@@ -71,14 +71,16 @@ export default function Page({ params }: PageProps) {
     }
   }, [methods, team]);
 
-  const { mutate: updateLeagueTeamMutation } = useUpdateLeagueTeam();
+  const { mutate: updateLeagueTeam, isPending } = useUpdateLeagueTeam();
 
   const onSubmit = async (data: TeamFormSchema) => {
+    if (isPending) return;
+
     let imageUrl: string;
     if (data.logo instanceof File) imageUrl = await uploadImage(data.logo);
     else imageUrl = data.logo;
 
-    updateLeagueTeamMutation(
+    updateLeagueTeam(
       {
         leagueId,
         teamId,

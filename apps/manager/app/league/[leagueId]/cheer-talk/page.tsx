@@ -21,7 +21,7 @@ type PageProps = {
 export default function Page({ params }: PageProps) {
   const leagueId: string = params.leagueId;
 
-  const { mutate: updateCheerTalkBlock } = useUpdateCheerTalkBlock();
+  const { mutate: updateCheerTalkBlock, isPending } = useUpdateCheerTalkBlock();
   const BlockButton = (cheerTalkId: number) => {
     return (
       <Button
@@ -29,6 +29,8 @@ export default function Page({ params }: PageProps) {
         size="xs"
         fullWidth
         onClick={() => {
+          if (isPending) return;
+
           updateCheerTalkBlock(
             { leagueId, cheerTalkId },
             {

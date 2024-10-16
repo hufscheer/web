@@ -16,7 +16,7 @@ export type GameFormSchema = z.infer<typeof gameFormSchema>;
 export const gameDefaultValues = {
   name: '',
   round: '',
-  quarter: '경기 전',
+  quarter: '경기전',
   startDate: new Date(),
   startTime: '',
   idOfTeam1: '',

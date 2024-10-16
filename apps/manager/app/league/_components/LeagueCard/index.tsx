@@ -47,7 +47,7 @@ const LeagueCard = () => {
                   <strong>참여</strong>&nbsp;{league.sizeOfLeagueTeams}개 팀
                 </p>
                 <p className={styles.leagueDescription}>
-                  <strong>라운드</strong>&nbsp;{league.maxRound}
+                  <strong>라운드</strong>&nbsp;{league.maxRound}강
                 </p>
                 <p className={styles.leagueDescription}>
                   <strong>기간</strong>&nbsp;

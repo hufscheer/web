@@ -32,9 +32,18 @@ export default function Page({ params }: PageProps) {
     defaultValues: teamDefaultValues,
   });
 
-  const { mutate: createLeagueTeamMutation } = useCreateLeagueTeam();
+  const { mutate: createLeagueTeam, isPending } = useCreateLeagueTeam();
 
   const onSubmit = async (data: TeamFormSchema) => {
+    if (isPending) return;
+
+    if (data.players.length < 1) {
+      return toast({
+        title: '선수를 최소 1명 이상 등록해주세요',
+        variant: 'destructive',
+      });
+    }
+
     let imageUrl: string;
     if (data.logo instanceof File) imageUrl = await uploadImage(data.logo);
     else imageUrl = data.logo;
@@ -48,7 +57,7 @@ export default function Page({ params }: PageProps) {
       })),
     };
 
-    createLeagueTeamMutation(
+    createLeagueTeam(
       { leagueId, ...team },
       {
         onSuccess: () => {

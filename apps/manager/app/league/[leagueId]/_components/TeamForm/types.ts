@@ -25,9 +25,7 @@ export const teamFormSchema = z.object({
       { message: '로고를 추가해주세요' },
     ),
   name: z.string().min(1, { message: '팀명을 입력해주세요' }),
-  players: z
-    .array(teamPlayerSchema)
-    .nonempty({ message: '플레이어를 추가해주세요' }),
+  players: z.array(teamPlayerSchema),
 });
 
 export type TeamFormSchema = z.infer<typeof teamFormSchema>;

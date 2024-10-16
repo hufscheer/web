@@ -31,18 +31,16 @@ export const getStateByQuarter = (quarter: QUARTER_KEY): StateType => {
 export const getProgressTypeByQuarter = (
   quarter: QUARTER_KEY,
 ): ProgressType => {
-  switch (quarter) {
-    case '전반전':
-      return 'QUARTER_START';
-    case '후반전':
-      return 'QUARTER_START';
-    case '승부차기':
-      return 'QUARTER_START';
-    case '경기 종료':
-      return 'GAME_END';
-    default:
-      return 'GAME_END';
-  }
+  const progressMap: Record<QUARTER_KEY, ProgressType> = {
+    전반전: 'QUARTER_START',
+    후반전: 'QUARTER_START',
+    연장전: 'QUARTER_START',
+    승부차기: 'QUARTER_START',
+    '경기 종료': 'GAME_END',
+    경기전: 'GAME_END',
+  };
+
+  return progressMap[quarter] || 'GAME_END';
 };
 
 export const getProgressSemantics = (progressType: ProgressType): string => {

@@ -47,11 +47,13 @@ export default function Page({ params }: PageProps) {
     defaultValues: leagueDefaultValues,
   });
 
-  const { mutate: updateLeagueMutation } = useUpdateLeague();
+  const { mutate: updateLeague, isPending } = useUpdateLeague();
 
   const onSubmit = (data: LeagueFormSchema) => {
+    if (isPending) return;
+
     const { leagueName, round, startDate, endDate } = data;
-    updateLeagueMutation(
+    updateLeague(
       {
         leagueId,
         name: leagueName,
