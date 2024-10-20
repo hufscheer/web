@@ -24,16 +24,18 @@ export default function Page() {
     defaultValues: leagueDefaultValues,
   });
 
-  const { mutate: createLeagueMutation } = useCreateLeague();
+  const { mutate: createLeague, isPending } = useCreateLeague();
 
   const onSubmit = (data: LeagueFormSchema) => {
+    if (isPending) return;
+
     const { leagueName, round, startDate, endDate } = data;
-    createLeagueMutation(
+    createLeague(
       {
         name: leagueName,
         maxRound: Number(round),
         startAt: formatTime(startDate, 'YYYY-MM-DDTHH:mm:ss'),
-        endAt: formatTime(endDate, 'YYYY-MM-DDTHH:mm:ss'),
+        endAt: formatTime(endDate, 'YYYY-MM-DDT23:59:59'),
       },
       {
         onSuccess: () => {
