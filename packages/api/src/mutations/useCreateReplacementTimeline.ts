@@ -26,6 +26,10 @@ const useCreateReplacementTimeline = () => {
         queryClient.invalidateQueries(queryKeys.game(variables.gameId)),
         queryClient.invalidateQueries(queryKeys.leaguesOnManager()),
         queryClient.invalidateQueries(queryKeys.leaguesManageOnManager()),
+        queryClient.invalidateQueries(queryKeys.lineup(variables.gameId)),
+        queryClient.invalidateQueries(
+          queryKeys.lineupPlaying(variables.gameId),
+        ),
       ]);
     },
   });
