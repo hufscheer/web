@@ -11,7 +11,7 @@ permissions: write-all
 jobs:
   sync-fork-repo:
     runs-on: ubuntu-latest
-    if: github.repository == 'goorm-dev/gds'
+    if: github.repository == 'hufscheer/web'
     steps:
       - uses: actions/checkout@v3
         with:
