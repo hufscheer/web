@@ -1,75 +1,32 @@
-name: Sync Changes On Spectator
+name: 'Sync Spectator'
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    
+  workflow_dispatch:
   push:
     branches:
-      - ci/sync-spectator
+      - '*'
+
+permissions: write-all
 
 jobs:
-  sync_changes:
+  sync-fork-repo:
     runs-on: ubuntu-latest
-
+    if: github.repository == 'goorm-dev/gds'
     steps:
-      - name: Checkout current repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
         with:
+          ref: ${{ github.head_ref }}
           fetch-depth: 0
-
-      - name: Get current branch name
-        id: get_branch
-        run: echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/})"
-
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-
-      - name: Gather changed files
-        id: gather_files
+          token: ${{ secrets.HCC_GITHUB_KEY }}
+      - name: Commit files
         run: |
-          git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} > changed_files.txt
-
-      - name: Check if changed_files.txt is created
-        run: ls -l changed_files.txt
-
-      - name: Dump changed files
-        run: cat changed_files.txt
-
-      - name: Checkout target repository
-        uses: actions/checkout@v4
+          git config user.email "hufscheercheer@gmail.com"
+          git config user.name "hufscheer"
+          git commit --amend --author="hufscheer <hufscheercheer@gmail.com>" --no-edit
+      - name: Push changes
+        uses: ad-m/github-push-action@master
         with:
-          repository: ${{ secrets.DEPLOY_TARGET_REPO_URL }}
-          token: ${{ secrets.DEPLOY_TARGET_REPO_ACCESS_TOKEN }}
-          ref: refs/heads/main  # Change this to the default branch of target repository
-      
-      - name: Check if changed_files.txt is created
-        run: ls
-
-      - name: Copy changed_files.txt to target repository
-        run: cp changed_files.txt $GITHUB_WORKSPACE/changed_files.txt
-
-      - name: Dump changed files
-        run: cat changed_files.txt
-
-      - name: Create new branch in target repository
-        run: |
-          git config --local user.email ${{ secrets.USER_EMAIL}}
-          git config --local user.name ${{ secrets.USER_NAME }}
-          git checkout -b ${{ steps.get_branch.outputs.branch }}
-          while IFS= read -r file; do
-            git add "$file"
-          done < changed_files.txt
-          git commit -m "Sync changes from PR #${{ github.event.number }}"
-          git push origin ${{ steps.get_branch.outputs.branch }}
-
-      - name: Create Pull Request in target repository
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.DEPLOY_TARGET_REPO_ACCESS_TOKEN }}
-          branch: ${{ steps.get_branch.outputs.branch }}
-          title: Sync changes from PR #${{ github.event.number }}
-          body: |
-            This Pull Request is automatically generated to sync changes from PR #${{ github.event.number }} in the source repository.
+          github_token: ${{ secrets.HCC_GITHUB_KEY }}
+          repository: hufscheer-saas/hufscheer-web
+          force: true
+          branch: ${{ github.ref }}
