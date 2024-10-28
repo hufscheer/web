@@ -1,0 +1,34 @@
+{
+  "name": "@hcc/api",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.51.11",
+    "@tanstack/react-query-devtools": "^5.51.11",
+    "axios": "^1.7.2"
+  },
+  "devDependencies": {
+    "@hcc/eslint-config": "workspace:*",
+    "@hcc/typescript-config": "workspace:*",
+    "@types/node": "^20.10.6",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.5.4",
+    "vite": "^5.3.4",
+    "vite-plugin-dts": "4.0.0-beta.1"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

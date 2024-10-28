@@ -1,12 +1,13 @@
 'use client';
 
-import { Tabs } from '@hcc/ui';
+import { Spinner, Tabs } from '@hcc/ui';
+import { Fragment } from 'react';
 
 import Live from '@/app/_components/Live';
 import CheerTalk from '@/app/game/[id]/_components/CheerTalk';
 import AsyncBoundary from '@/components/AsyncBoundary';
 import { FallbackProps } from '@/components/ErrorBoundary';
-import Loader from '@/components/Loader';
+import Layout from '@/components/Layout';
 import { TABS_CONFIG } from '@/constants/configs';
 
 import Banner from './_components/Banner';
@@ -54,7 +55,7 @@ export default function Page({ params }: { params: { id: string } }) {
   const cheerState = !!useQueryValidator('cheer', ['open']);
 
   return (
-    <section>
+    <Layout>
       <AsyncBoundary
         errorFallback={() => <BannerFallback />}
         loadingFallback={<BannerSkeleton />}
@@ -72,18 +73,23 @@ export default function Page({ params }: { params: { id: string } }) {
       <section className={styles.cheerTalk.section}>
         <div className={styles.cheerTalk.header}>
           <h2 className={styles.cheerTalk.title}>실시간 응원톡</h2>
-          <AsyncBoundary errorFallback={() => <></>} loadingFallback={<></>}>
+          <AsyncBoundary
+            errorFallback={() => <Fragment></Fragment>}
+            loadingFallback={<Fragment></Fragment>}
+          >
             <Live gameId={params.id} />
           </AsyncBoundary>
         </div>
 
         <AsyncBoundary
           errorFallback={CheerTalkFallback}
-          loadingFallback={<Loader className={styles.loader} />}
+          loadingFallback={<Spinner className={styles.spinner} />}
         >
           <CheerTalk gameId={params.id} defaultState={cheerState} />
         </AsyncBoundary>
       </section>
+
+      <div className={styles.cheerTalkDivider} />
 
       <Tabs
         defaultValue={tabState || 'lineup'}
@@ -104,13 +110,13 @@ export default function Page({ params }: { params: { id: string } }) {
           <Tabs.Content key={tab.key} value={tab.key}>
             <AsyncBoundary
               errorFallback={(props: FallbackProps) => tab.errorUI(props)}
-              loadingFallback={<Loader />}
+              loadingFallback={<Spinner />}
             >
               {tab.renderer(params.id)}
             </AsyncBoundary>
           </Tabs.Content>
         ))}
       </Tabs>
-    </section>
+    </Layout>
   );
 }

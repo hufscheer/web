@@ -5,7 +5,7 @@ import { AxiosError } from 'axios';
 import { FallbackProps } from '@/components/ErrorBoundary';
 import { NotFoundError } from '@/services/errors';
 
-import * as styles from './Lineup.css';
+import * as styles from './styles.css';
 
 export default function LineupFallback({
   error,

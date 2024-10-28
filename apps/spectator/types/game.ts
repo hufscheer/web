@@ -77,7 +77,8 @@ export type GameTimelineType = {
 export type GameLineupType = {
   gameTeamId: number;
   teamName: string;
-  gameTeamPlayers: GamePlayerType[];
+  starterPlayers: GamePlayerType[];
+  candidatePlayers: GamePlayerType[];
 };
 
 export type GamePlayerType = {

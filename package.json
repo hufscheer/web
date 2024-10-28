@@ -7,6 +7,8 @@
     "dev:manager": "turbo dev --filter manager",
     "dev:spectator": "turbo dev --filter spectator",
     "deploy:storybook": "turbo run deploy --filter story",
+    "build:manager": "turbo build --filter manager",
+    "build:spectator": "turbo build --filter spectator",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky install"
@@ -21,7 +23,7 @@
     "prettier": "^3.1.1",
     "turbo": "^1.12.2"
   },
-  "packageManager": "pnpm@8.9.0",
+  "packageManager": "pnpm@9.2.0",
   "engines": {
     "node": ">=18"
   }

@@ -7,9 +7,9 @@ export default function middleware(req: NextRequest) {
   const accessToken = getTokenFromCookies(req);
   const pathUrl = req.nextUrl.pathname;
 
-  if (!accessToken && pathUrl === '/login/') return NextResponse.next();
+  if (!accessToken && pathUrl === '/login') return NextResponse.next();
 
-  if (!accessToken && pathUrl !== '/login/') {
+  if (!accessToken && pathUrl !== '/login') {
     const url = req.nextUrl.clone();
     url.pathname = '/login';
 

@@ -9,7 +9,7 @@ import useTracker from '@/hooks/useTracker';
 import useCheerMutation from '@/queries/useCheerMutation';
 import { GameCheerType, GameTeamType, TeamDirection } from '@/types/game';
 
-import * as styles from './CheerVS.css';
+import * as styles from './styles.css';
 
 type CheerTeamProps = (GameCheerType & GameTeamType) & {
   gameId: string;
@@ -74,13 +74,15 @@ export default function CheerTeamBox({
       onClick={handleCheerClick}
     >
       <Image
-        width={50}
-        height={50}
+        width={36}
+        height={36}
         src={logoImageUrl}
         alt={`${gameTeamName} 로고`}
         loading="lazy"
       />
-      <span>{count}</span>
+      <span className={styles.countNumber}>
+        {count.toLocaleString('ko-KR')}
+      </span>
     </button>
   );
 }

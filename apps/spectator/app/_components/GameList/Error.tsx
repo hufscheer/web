@@ -1,7 +1,7 @@
 import { WhistlingIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 
-import { errorFallback } from './GameList.css';
+import { errorFallback } from './styles.css';
 
 function GameListErrorFallback({ message }: { message: string }) {
   return (

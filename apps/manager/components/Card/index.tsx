@@ -1,83 +1,108 @@
-import { Flex, FlexProps, createPolymorphicComponent } from '@mantine/core';
-import { ComponentPropsWithoutRef, forwardRef } from 'react';
+import { GameTeamType } from '@hcc/api';
+import { rem } from '@hcc/styles';
+import Image from 'next/image';
+import { ComponentPropsWithoutRef, forwardRef, ReactNode } from 'react';
 
-import * as styles from './Card.css';
+import * as styles from './styles.css';
 
-interface CardProps extends ComponentPropsWithoutRef<'div'> {
-  paddingVertical?: 'sm' | 'md';
-  children: React.ReactNode;
-}
+type CardProps = {
+  children: ReactNode;
+} & ComponentPropsWithoutRef<'div'>;
 
 const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
-  { paddingVertical = 'md', children, ...props },
+  { children, ...props },
   ref,
 ) {
   return (
-    <div ref={ref} className={styles.root({ paddingVertical })} {...props}>
+    <div ref={ref} className={styles.root} {...props}>
       {children}
     </div>
   );
 });
 
-interface CardContentProps extends FlexProps {}
+const CardHead = forwardRef<
+  HTMLHeadingElement,
+  ComponentPropsWithoutRef<'div'>
+>(function CardHead({ children, ...props }, ref) {
+  return (
+    <div ref={ref} {...props} className={styles.headContainer}>
+      {children}
+    </div>
+  );
+});
 
-const CardContent = createPolymorphicComponent<'div', CardContentProps>(
-  forwardRef<HTMLDivElement, CardContentProps>(function CardContent(
-    { children, ...props },
+type CardContentProps = {
+  marginTop?: number;
+  gap?: number;
+} & ComponentPropsWithoutRef<'div'>;
+
+const CardContent = forwardRef<HTMLDivElement, CardContentProps>(
+  function CardContent({ children, marginTop = 0, gap = 0, ...props }, ref) {
+    return (
+      <div
+        ref={ref}
+        className={styles.contentContainer}
+        style={{ marginTop: rem(marginTop), gap: rem(gap) }}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  },
+);
+
+type CardGameScoreProps = {
+  win?: boolean;
+  isPkTaken: boolean;
+} & GameTeamType &
+  ComponentPropsWithoutRef<'div'>;
+
+const CardGameScore = forwardRef<HTMLDivElement, CardGameScoreProps>(
+  function CardGameScore(
+    {
+      gameTeamId,
+      gameTeamName,
+      logoImageUrl,
+      win = true,
+      score,
+      isPkTaken,
+      pkScore,
+      ...props
+    },
     ref,
   ) {
     return (
-      <Flex ref={ref} className={styles.content} {...props}>
-        {children}
-      </Flex>
-    );
-  }),
-);
-
-interface CardActionProps extends ComponentPropsWithoutRef<'button'> {}
-
-const CardAction = forwardRef<HTMLButtonElement, CardActionProps>(
-  function CardAction({ children, ...props }, ref) {
-    return (
-      <button ref={ref} className={styles.action} {...props}>
-        {children}
-      </button>
-    );
-  },
-);
-
-interface CardTitleProps extends ComponentPropsWithoutRef<'h3'> {
-  text?: 'bold' | 'semibold' | 'normal';
-}
-
-const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(
-  function CardTitle({ children, text = 'normal', ...props }, ref) {
-    return (
-      <h3 ref={ref} {...props} className={styles.title({ text })}>
-        {children}
-      </h3>
+      <div
+        key={gameTeamId}
+        ref={ref}
+        {...props}
+        className={styles.gameScoreContainer}
+      >
+        <span className={styles.gameTeamContainer}>
+          <span className={styles.gameTeamLogo}>
+            <Image
+              src={logoImageUrl}
+              alt={`${gameTeamName} 로고`}
+              width={22}
+              height={22}
+              priority={true}
+            />
+          </span>
+          <p>{gameTeamName}</p>
+        </span>
+        <p className={styles.gameScore({ win })}>
+          {score}
+          {isPkTaken && ` (${pkScore})`}
+        </p>
+      </div>
     );
   },
 );
 
-interface CardSubContentProps extends ComponentPropsWithoutRef<'span'> {}
-
-const CardSubContent = forwardRef<HTMLSpanElement, CardSubContentProps>(
-  function CardSubContent({ children, ...props }, ref) {
-    return (
-      <span ref={ref} {...props} className={styles.subContent}>
-        {children}
-      </span>
-    );
-  },
-);
-
-interface CardFooterProps extends ComponentPropsWithoutRef<'div'> {}
-
-const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
+const CardFooter = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div'>>(
   function CardFooter({ children, ...props }, ref) {
     return (
-      <div ref={ref} {...props} className={styles.footer}>
+      <div ref={ref} {...props} className={styles.footerContainer}>
         {children}
       </div>
     );
@@ -88,10 +113,9 @@ export default Object.assign(
   {},
   {
     Root: Card,
+    Head: CardHead,
     Content: CardContent,
-    Action: CardAction,
-    Title: CardTitle,
-    SubContent: CardSubContent,
+    GameScore: CardGameScore,
     Footer: CardFooter,
   },
 );

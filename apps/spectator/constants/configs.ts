@@ -5,13 +5,13 @@ export const TABS_CONFIG = {
 } as const;
 
 export const GAME_STATE = {
-  SCHEDULED: 'scheduled',
-  PLAYING: 'playing',
-  FINISHED: 'finished',
+  SCHEDULED: 'SCHEDULED',
+  PLAYING: 'PLAYING',
+  FINISHED: 'FINISHED',
 } as const;
 
 export const GAME_STATE_KR = {
-  scheduled: '예정',
-  playing: '진행 중',
-  finished: '종료',
+  SCHEDULED: '예정',
+  PLAYING: '진행 중',
+  FINISHED: '종료',
 } as const;

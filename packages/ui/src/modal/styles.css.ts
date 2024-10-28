@@ -1,3 +1,4 @@
+import { theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 
 export const backdrop = style({
@@ -9,7 +10,7 @@ export const backdrop = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  zIndex: 2048,
+  zIndex: theme.zIndices.overlay,
 });
 
 export const close = style({

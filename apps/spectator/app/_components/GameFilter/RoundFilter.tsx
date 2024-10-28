@@ -7,11 +7,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 
 import useLeagueDetailQuery from '@/queries/useLeagueDetail';
 
-import * as styles from './GameFilter.css';
-
-function formatRoundLabel(round: number): string {
-  return round > 2 ? `${round}강` : `결승`;
-}
+import * as styles from './styles.css';
 
 type RoundFilterProps = {
   initialLeagueId: number;
@@ -35,7 +31,7 @@ export default function RoundFilter({ initialLeagueId }: RoundFilterProps) {
   );
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.roundWrapper}>
       <Flicking
         viewportTag="div"
         cameraTag="ul"
@@ -43,21 +39,25 @@ export default function RoundFilter({ initialLeagueId }: RoundFilterProps) {
         duration={500}
         autoResize={true}
         bound={true}
+        gap={0}
       >
         {rounds.map(roundValue => (
-          <li
-            key={roundValue}
-            className={clsx(styles.roundFilterItem, {
-              [styles.roundFilterFocused]: roundValue === currentRound,
-              [styles.roundFilterDisabled]:
-                roundValue < leagueDetail?.inProgressRound,
-            })}
-          >
+          <li key={roundValue} className={styles.roundFilter}>
             <Link
+              className={clsx(styles.roundFilterLink, {
+                [styles.roundFilterFocused]: roundValue === currentRound,
+                [styles.roundFilterDisabled]:
+                  roundValue < leagueDetail?.inProgressRound,
+              })}
               href={{ pathname, query: { year, league, round: roundValue } }}
             >
-              {formatRoundLabel(roundValue)}
+              {roundValue > 2 ? `${roundValue}강` : `결승`}
             </Link>
+            <div
+              className={clsx(styles.roundFilterLine, {
+                [styles.roundFilterLineFocused]: roundValue === currentRound,
+              })}
+            />
           </li>
         ))}
       </Flicking>

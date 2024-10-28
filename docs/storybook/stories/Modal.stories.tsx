@@ -3,11 +3,10 @@ import { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
 const meta: Meta = {
-  title: '@hcc/Dialog',
+  title: '@hcc/Modal',
   parameters: {
     layout: 'centered',
   },
-  tags: ['autodocs'],
 };
 
 export default meta;

@@ -6,7 +6,10 @@
     "@hcc/icons": "workspace:^",
     "@hcc/styles": "workspace:*",
     "@hcc/ui": "workspace:*",
-    "@vanilla-extract/css": "^1.14.0"
+    "@hookform/resolvers": "^3.6.0",
+    "@vanilla-extract/css": "^1.14.0",
+    "react-hook-form": "^7.51.5",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@hcc/eslint-config": "workspace:*",

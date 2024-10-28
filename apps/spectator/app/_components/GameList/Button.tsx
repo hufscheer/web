@@ -4,7 +4,7 @@ import { GAME_STATE, TABS_CONFIG } from '@/constants/configs';
 import useTracker from '@/hooks/useTracker';
 import { GameState } from '@/types/game';
 
-import * as styles from './GameList.css';
+import * as styles from './styles.css';
 
 type GameButtonProps = {
   id: number;

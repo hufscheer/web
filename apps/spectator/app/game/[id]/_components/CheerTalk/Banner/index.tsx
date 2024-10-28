@@ -23,7 +23,7 @@ export default function CheerTalkBanner({ gameId }: BannerProps) {
             {gameDetail.gameQuarter}
           </span>
           <span className={styles.banner.gameStartTime}>
-            {formatTime(gameDetail.startTime, 'hh:mm')}
+            {formatTime(gameDetail.startTime, 'HH:mm')}
           </span>
         </div>
         <span className={styles.banner.teamScore}>{secondTeam.score}</span>

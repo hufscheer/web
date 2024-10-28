@@ -17,9 +17,26 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'github.com',
+        hostname: 'images.hufstreaming.site',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.hufscheer.com',
       },
     ],
+  },
+
+  async rewrites() {
+    return [
+      {
+        source: '/api/images/:path*',
+        destination: `https://hufscheer-images.s3.ap-northeast-2.amazonaws.com/:path*`,
+      },
+      {
+        source: '/api/:path*',
+        destination: `https://api.hufscheer.com/:path*`,
+      },
+    ];
   },
 };
 

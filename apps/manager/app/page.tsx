@@ -1,54 +1,22 @@
 'use client';
 
-import { CaretDownIcon, ChatIcon, TrophyIcon } from '@hcc/icons';
-import { Icon } from '@hcc/ui';
-import { Flex, Title } from '@mantine/core';
 import Link from 'next/link';
-import { Suspense } from 'react';
 
-import Card from '@/components/Card';
+import Divider from '@/components/Divider';
 import Layout from '@/components/Layout';
-import useLeagueQuery from '@/hooks/queries/useLeagueQuery';
 
-import PlayingCard from './_components/PlayingCard';
-import * as styles from './page.css';
+import MatchOverview from './_components/MatchOverview';
 
 export default function Page() {
-  const { data: leagues } = useLeagueQuery();
-
   return (
-    <Layout navigationVisible={false}>
-      <Suspense fallback={<div>로딩</div>}>
-        <PlayingCard leagues={leagues?.playing} />
-      </Suspense>
+    <Layout
+      headerVisible={true}
+      navigationVisible={false}
+      navigationMenu={<Link href="/league">대회 관리</Link>}
+    >
+      <Divider height={6} />
 
-      <Title order={2} className={styles.title} mt="lg" mb="xs">
-        설정
-      </Title>
-      <Flex direction="column" gap="xs">
-        <Card.Root>
-          <Card.Content component={Link} href={`/league`}>
-            <Icon source={TrophyIcon} />
-            <div className={styles.content}>
-              <Card.Title text="semibold">대회 관리</Card.Title>
-            </div>
-            <Card.Action>
-              <Icon source={CaretDownIcon} className={styles.caret} />
-            </Card.Action>
-          </Card.Content>
-        </Card.Root>
-        <Card.Root>
-          <Card.Content component={Link} href={`/report`}>
-            <Icon source={ChatIcon} />
-            <div className={styles.content}>
-              <Card.Title text="semibold">응원톡 관리</Card.Title>
-            </div>
-            <Card.Action>
-              <Icon source={CaretDownIcon} className={styles.caret} />
-            </Card.Action>
-          </Card.Content>
-        </Card.Root>
-      </Flex>
+      <MatchOverview />
     </Layout>
   );
 }

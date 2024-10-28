@@ -3,8 +3,11 @@ export type IconSize = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type IconColor =
   | 'primary'
   | 'secondary'
+  | 'black'
+  | 'blue'
+  | 'lightgray'
   | 'gray'
-  | 'error'
-  | 'success'
-  | 'white'
-  | 'black';
+  | 'green'
+  | 'red'
+  | 'orange'
+  | 'white';

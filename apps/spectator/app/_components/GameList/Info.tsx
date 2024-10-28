@@ -1,32 +1,22 @@
 import Image from 'next/image';
-import Link from 'next/link';
 
-import useTracker from '@/hooks/useTracker';
 import { GameListType, GameState } from '@/types/game';
 
-import * as styles from './GameList.css';
+import * as styles from './styles.css';
 
 type GameInfoProps = {
   gameTeams: GameListType['gameTeams'];
-  gameId: number;
   state: GameState;
 };
 
-export default function GameInfo({ gameTeams, gameId, state }: GameInfoProps) {
-  const { tracker } = useTracker();
+const IMAGE_SIZE = 26;
 
+export default function GameInfo({ gameTeams, state }: GameInfoProps) {
   // todo: fisished 상태일 때 경기 승패를 score 색상으로 표시
   const [firstTeam, secondTeam] = gameTeams;
-  const IMAGE_SIZE = 36;
 
   return (
-    <Link
-      href={`/game/${gameId}`}
-      className={styles.gameInfoArea}
-      onClick={() =>
-        tracker(`gameList`, { clickEvent: `${gameId} ${state} game card` })
-      }
-    >
+    <div className={styles.infoContainer}>
       <div className={styles.gameInfoRow.root}>
         <div className={styles.gameInfoRow.team}>
           <Image
@@ -57,12 +47,12 @@ export default function GameInfo({ gameTeams, gameId, state }: GameInfoProps) {
         </div>
         <GameScore score={secondTeam.score} state={state} />
       </div>
-    </Link>
+    </div>
   );
 }
 
 function GameScore({ score, state }: { score: number; state: GameState }) {
-  if (state === 'scheduled') return null;
+  if (state === 'SCHEDULED') return null;
 
   return <span className={styles.gameInfoRow.score}>{score}</span>;
 }

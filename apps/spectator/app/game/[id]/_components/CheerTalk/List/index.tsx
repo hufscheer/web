@@ -1,8 +1,7 @@
 import { ArrowDownIcon } from '@hcc/icons';
-import { Icon } from '@hcc/ui';
+import { Icon, Spinner } from '@hcc/ui';
 import { useEffect, useRef, memo, useState } from 'react';
 
-import Loader from '@/components/Loader';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import useThrottle from '@/hooks/useThrottle';
 import { useTimeout } from '@/hooks/useTimeout';
@@ -97,7 +96,7 @@ export default function CheerTalkList({
   return (
     <div className={styles.list.container}>
       <ul ref={scrollRef} className={styles.list.content}>
-        {isFetchingNextPage && <Loader />}
+        {hasNextPage && <Spinner />}
         <li ref={ref} />
         {/* HTTP */}
         {cheerTalkList.map(talk => (

@@ -1,11 +1,10 @@
-import { ScrollArea } from '@mantine/core';
+import { clsx } from 'clsx';
 import { ReactNode } from 'react';
 
 import Navigation from '@/components/Layout/Navigation';
 
-import Footer from './Footer';
 import Header from './Header';
-import * as styles from './Layout.css';
+import * as styles from './styles.css';
 
 type LayoutProps = {
   children: ReactNode;
@@ -13,35 +12,32 @@ type LayoutProps = {
   navigationVisible?: boolean;
   navigationTitle?: string;
   navigationMenu?: ReactNode;
-  footerVisible?: boolean;
 };
 
-export default function Layout({
+const Layout = ({
   children,
-  headerVisible = true,
+  headerVisible = false,
   navigationVisible = true,
   navigationTitle,
   navigationMenu,
-  footerVisible = true,
-}: LayoutProps) {
+}: LayoutProps) => {
   return (
     <div className={styles.wrapper}>
-      {headerVisible && <Header />}
+      {headerVisible && <Header menu={navigationMenu} />}
+
       {navigationVisible && (
-        <Navigation
-          navigationTitle={navigationTitle}
-          navigationMenu={navigationMenu}
-        />
+        <Navigation title={navigationTitle} menu={navigationMenu} />
       )}
-      <ScrollArea
-        scrollbars="y"
-        component="main"
-        py="sm"
-        className={styles.main}
+
+      <main
+        className={clsx(styles.main, {
+          [styles.mainWithPaddingTop]: headerVisible || navigationVisible,
+        })}
       >
         {children}
-      </ScrollArea>
-      {footerVisible && <Footer />}
+      </main>
     </div>
   );
-}
+};
+
+export default Layout;

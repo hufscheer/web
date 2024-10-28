@@ -29,7 +29,8 @@ export default function Sidebar() {
           source={HamburgerIcon}
           aria-label="메뉴 열기"
           role="button"
-          size={20}
+          color="black"
+          size={24}
         />
       </Modal.Trigger>
       <Modal.Content

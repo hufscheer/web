@@ -1,17 +1,17 @@
 'use client';
 
+import { Spinner } from '@hcc/ui';
 import { useSearchParams } from 'next/navigation';
 import { Fragment } from 'react';
 
 import AsyncBoundary from '@/components/AsyncBoundary';
-import Loader from '@/components/Loader';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { useGameList } from '@/queries/useGameList';
 import useLeagueDetailQuery from '@/queries/useLeagueDetail';
 import { GameState } from '@/types/game';
 
 import GameCard from './Card';
-import * as styles from './GameList.css';
+import * as styles from './styles.css';
 
 type GameListProps = {
   state: GameState;
@@ -35,10 +35,7 @@ export default function GameList({ state, initialLeagueId }: GameListProps) {
   const { ref } = useIntersectionObserver<HTMLDivElement>(
     async (entry, observer): Promise<void> => {
       observer.unobserve(entry.target);
-
-      if (hasNextPage && !isFetching) {
-        fetchNextPage();
-      }
+      if (hasNextPage && !isFetching) await fetchNextPage();
     },
   );
 
@@ -49,12 +46,11 @@ export default function GameList({ state, initialLeagueId }: GameListProps) {
       <div className={styles.root}>
         {groupedGameList?.map(gameList => (
           <Fragment key={gameList.startTime}>
-            <div className={styles.dateRow}>{gameList.startTime}</div>
-            <ul className={styles.listRoot}>
+            <ul className={styles.list}>
               {gameList.data.map(game => (
                 <AsyncBoundary
                   errorFallback={GameCard.ErrorFallback}
-                  loadingFallback={<Loader />}
+                  loadingFallback={<Spinner />}
                   key={game.id}
                 >
                   <GameCard info={game} state={state} {...rest} />

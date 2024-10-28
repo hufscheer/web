@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3001",
+    "dev": "next dev --port 3001 -H 0.0.0.0",
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --max-warnings 0"
@@ -14,10 +14,12 @@
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.6.1",
+    "@egjs/react-conveyer": "^1.7.1",
     "@egjs/react-flicking": "^3.8.3",
     "@hcc/icons": "workspace:^",
     "@hcc/styles": "workspace:*",
     "@hcc/ui": "workspace:*",
+    "@hcc/api": "workspace:*",
     "@stomp/stompjs": "^7.0.0",
     "@tanstack/react-query": "^5.17.19",
     "@tanstack/react-query-devtools": "^5.17.21",

@@ -1,18 +1,13 @@
-import '@mantine/core/styles.css';
-import '@mantine/dates/styles.css';
-import '@mantine/dropzone/styles.css';
-import '@hcc/styles/dist/globals.css';
-import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
-
-import { ColorSchemeScript, MantineProvider } from '@mantine/core';
+import { Toaster } from '@hcc/ui';
 import { extend } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Metadata, Viewport } from 'next';
+import localFont from 'next/font/local';
 import { ReactNode } from 'react';
 
-import { mantineTheme } from '@/styles/theme';
-
-import ReactQueryProvider from './ReactQueryProvider';
+import Providers from './Providers';
+import '@hcc/styles/dist/globals.css';
+import '@hcc/styles/colors.css';
 
 extend(customParseFormat);
 
@@ -29,21 +24,28 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#C5C8CE',
+  themeColor: '#FFFFFF',
 };
+
+const pretendard = localFont({
+  src: './_fonts/PretendardVariable.woff2',
+  display: 'swap',
+  weight: '45 920',
+  preload: true,
+});
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="ko">
+    <html lang="ko" data-hcc="manager">
       <head>
         <title>훕치치 매니저</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <ColorSchemeScript />
       </head>
-      <body>
-        <ReactQueryProvider>
-          <MantineProvider theme={mantineTheme}>{children}</MantineProvider>
-        </ReactQueryProvider>
+      <body className={pretendard.className}>
+        <Providers>
+          <Toaster />
+          {children}
+        </Providers>
       </body>
     </html>
   );
