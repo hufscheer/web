@@ -10,7 +10,7 @@ importers:
     devDependencies:
       '@commitlint/cli':
         specifier: ^18.4.4
-        version: 18.6.1(@types/node@20.14.12)(typescript@5.6.2)
+        version: 18.6.1(@types/node@20.14.12)(typescript@5.6.3)
       '@commitlint/config-conventional':
         specifier: ^18.4.4
         version: 18.6.3
@@ -104,7 +104,7 @@ importers:
         version: 18.3.0
       '@vanilla-extract/next-plugin':
         specifier: ^2.3.6
-        version: 2.4.3(@types/node@20.14.12)(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(sugarss@4.0.1)(terser@5.31.3)(webpack@5.93.0)
+        version: 2.4.3(@types/node@20.14.12)(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)(webpack@5.93.0)
       eslint:
         specifier: ^8.56.0
         version: 8.57.0
@@ -155,7 +155,10 @@ importers:
         version: 2.1.1
       '@vercel/analytics':
         specifier: ^1.1.2
-        version: 1.3.1(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+        version: 1.3.1(next@14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+      '@vercel/speed-insights':
+        specifier: ^1.0.14
+        version: 1.0.14(next@14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       axios:
         specifier: ^1.6.5
         version: 1.7.2
@@ -201,7 +204,7 @@ importers:
         version: 18.3.0
       '@vanilla-extract/next-plugin':
         specifier: ^2.3.6
-        version: 2.4.3(@types/node@20.14.12)(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(sugarss@4.0.1)(terser@5.31.3)(webpack@5.93.0)
+        version: 2.4.3(@types/node@20.14.12)(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)(webpack@5.93.0)
       clsx:
         specifier: ^2.1.0
         version: 2.1.1
@@ -256,10 +259,10 @@ importers:
         version: 7.6.20(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@storybook/react':
         specifier: ^7.6.10
-        version: 7.6.20(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.6.2)
+        version: 7.6.20(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.6.3)
       '@storybook/react-vite':
         specifier: ^7.6.10
-        version: 7.6.20(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(rollup@4.19.0)(typescript@5.6.2)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3))
+        version: 7.6.20(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(rollup@4.19.0)(typescript@5.6.3)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3))
       '@storybook/test':
         specifier: ^7.6.10
         version: 7.6.20
@@ -268,7 +271,7 @@ importers:
         version: 18.3.3
       '@vanilla-extract/vite-plugin':
         specifier: ^3.9.4
-        version: 3.9.5(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)(ts-node@10.9.2(@types/node@20.14.12)(typescript@5.6.2))(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3))
+        version: 3.9.5(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)(ts-node@10.9.2(@types/node@20.14.12)(typescript@5.6.3))(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3))
       '@vitejs/plugin-react':
         specifier: ^4.2.1
         version: 4.3.1(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3))
@@ -289,7 +292,7 @@ importers:
         version: 7.6.20
       typescript:
         specifier: latest
-        version: 5.6.2
+        version: 5.6.3
       vite:
         specifier: ^5.0.10
         version: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
@@ -338,7 +341,7 @@ importers:
         version: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
       vite-plugin-dts:
         specifier: 4.0.0-beta.1
-        version: 4.0.0-beta.1(@types/node@20.14.12)(rollup@4.19.0)(typescript@5.5.4)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3))
+        version: 4.0.0-beta.1(@types/node@20.14.12)(rollup@4.19.0)(typescript@5.5.4)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3))
 
   packages/eslint-config:
     devDependencies:
@@ -3517,6 +3520,29 @@ packages:
       next:
         optional: true
       react:
+        optional: true
+
+  '@vercel/speed-insights@1.0.14':
+    resolution: {integrity: sha512-env1BkPddz1UaEZwBL4GmfRksMi2LbiYaKuoxMQjfLk83aEh7kkWMukkUhpQVs717NE6nnD+1+KO85GZHOZ4nQ==}
+    peerDependencies:
+      '@sveltejs/kit': ^1 || ^2
+      next: '>= 13'
+      react: ^18 || ^19 || ^19.0.0-rc
+      svelte: '>= 4'
+      vue: ^3
+      vue-router: ^4
+    peerDependenciesMeta:
+      '@sveltejs/kit':
+        optional: true
+      next:
+        optional: true
+      react:
+        optional: true
+      svelte:
+        optional: true
+      vue:
+        optional: true
+      vue-router:
         optional: true
 
   '@vercel/style-guide@5.2.0':
@@ -7505,8 +7531,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  typescript@5.6.2:
-    resolution: {integrity: sha512-NW8ByodCSNCwZeghjN3o+JX5OFH0Ojg6sadjEKY4huZ52TqbJTJnDo5+Tw98lSy63NZvi4n+ez5m2u5d4PkZyw==}
+  typescript@5.6.3:
+    resolution: {integrity: sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -8830,11 +8856,11 @@ snapshots:
   '@colors/colors@1.5.0':
     optional: true
 
-  '@commitlint/cli@18.6.1(@types/node@20.14.12)(typescript@5.6.2)':
+  '@commitlint/cli@18.6.1(@types/node@20.14.12)(typescript@5.6.3)':
     dependencies:
       '@commitlint/format': 18.6.1
       '@commitlint/lint': 18.6.1
-      '@commitlint/load': 18.6.1(@types/node@20.14.12)(typescript@5.6.2)
+      '@commitlint/load': 18.6.1(@types/node@20.14.12)(typescript@5.6.3)
       '@commitlint/read': 18.6.1
       '@commitlint/types': 18.6.1
       execa: 5.1.1
@@ -8884,15 +8910,15 @@ snapshots:
       '@commitlint/rules': 18.6.1
       '@commitlint/types': 18.6.1
 
-  '@commitlint/load@18.6.1(@types/node@20.14.12)(typescript@5.6.2)':
+  '@commitlint/load@18.6.1(@types/node@20.14.12)(typescript@5.6.3)':
     dependencies:
       '@commitlint/config-validator': 18.6.1
       '@commitlint/execute-rule': 18.6.1
       '@commitlint/resolve-extends': 18.6.1
       '@commitlint/types': 18.6.1
       chalk: 4.1.2
-      cosmiconfig: 8.3.6(typescript@5.6.2)
-      cosmiconfig-typescript-loader: 5.0.0(@types/node@20.14.12)(cosmiconfig@8.3.6(typescript@5.6.2))(typescript@5.6.2)
+      cosmiconfig: 8.3.6(typescript@5.6.3)
+      cosmiconfig-typescript-loader: 5.0.0(@types/node@20.14.12)(cosmiconfig@8.3.6(typescript@5.6.3))(typescript@5.6.3)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -9345,15 +9371,15 @@ snapshots:
       '@types/yargs': 17.0.32
       chalk: 4.1.2
 
-  '@joshwooding/vite-plugin-react-docgen-typescript@0.3.0(typescript@5.6.2)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3))':
+  '@joshwooding/vite-plugin-react-docgen-typescript@0.3.0(typescript@5.6.3)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3))':
     dependencies:
       glob: 7.2.3
       glob-promise: 4.2.2(glob@7.2.3)
       magic-string: 0.27.0
-      react-docgen-typescript: 2.2.2(typescript@5.6.2)
+      react-docgen-typescript: 2.2.2(typescript@5.6.3)
       vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
     optionalDependencies:
-      typescript: 5.6.2
+      typescript: 5.6.3
 
   '@jridgewell/gen-mapping@0.3.5':
     dependencies:
@@ -10464,7 +10490,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@storybook/builder-vite@7.6.20(typescript@5.6.2)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3))':
+  '@storybook/builder-vite@7.6.20(typescript@5.6.3)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3))':
     dependencies:
       '@storybook/channels': 7.6.20
       '@storybook/client-logger': 7.6.20
@@ -10484,7 +10510,7 @@ snapshots:
       rollup: 3.29.4
       vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
     optionalDependencies:
-      typescript: 5.6.2
+      typescript: 5.6.3
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10781,12 +10807,12 @@ snapshots:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
-  '@storybook/react-vite@7.6.20(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(rollup@4.19.0)(typescript@5.6.2)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3))':
+  '@storybook/react-vite@7.6.20(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(rollup@4.19.0)(typescript@5.6.3)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3))':
     dependencies:
-      '@joshwooding/vite-plugin-react-docgen-typescript': 0.3.0(typescript@5.6.2)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3))
+      '@joshwooding/vite-plugin-react-docgen-typescript': 0.3.0(typescript@5.6.3)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3))
       '@rollup/pluginutils': 5.1.0(rollup@4.19.0)
-      '@storybook/builder-vite': 7.6.20(typescript@5.6.2)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3))
-      '@storybook/react': 7.6.20(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.6.2)
+      '@storybook/builder-vite': 7.6.20(typescript@5.6.3)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3))
+      '@storybook/react': 7.6.20(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.6.3)
       '@vitejs/plugin-react': 3.1.0(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3))
       magic-string: 0.30.10
       react: 18.2.0
@@ -10801,7 +10827,7 @@ snapshots:
       - typescript
       - vite-plugin-glimmerx
 
-  '@storybook/react@7.6.20(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.6.2)':
+  '@storybook/react@7.6.20(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.6.3)':
     dependencies:
       '@storybook/client-logger': 7.6.20
       '@storybook/core-client': 7.6.20
@@ -10827,7 +10853,7 @@ snapshots:
       type-fest: 2.19.0
       util-deprecate: 1.0.2
     optionalDependencies:
-      typescript: 5.6.2
+      typescript: 5.6.3
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11499,7 +11525,7 @@ snapshots:
       - supports-color
       - terser
 
-  '@vanilla-extract/integration@7.1.7(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)':
+  '@vanilla-extract/integration@7.1.7(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)':
     dependencies:
       '@babel/core': 7.24.9
       '@babel/plugin-syntax-typescript': 7.24.7(@babel/core@7.24.9)
@@ -11524,9 +11550,9 @@ snapshots:
       - supports-color
       - terser
 
-  '@vanilla-extract/next-plugin@2.4.3(@types/node@20.14.12)(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(sugarss@4.0.1)(terser@5.31.3)(webpack@5.93.0)':
+  '@vanilla-extract/next-plugin@2.4.3(@types/node@20.14.12)(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)(webpack@5.93.0)':
     dependencies:
-      '@vanilla-extract/webpack-plugin': 2.3.11(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)(webpack@5.93.0)
+      '@vanilla-extract/webpack-plugin': 2.3.11(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)(webpack@5.93.0)
       next: 14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     transitivePeerDependencies:
       - '@types/node'
@@ -11546,12 +11572,12 @@ snapshots:
     dependencies:
       '@vanilla-extract/css': 1.15.3
 
-  '@vanilla-extract/vite-plugin@3.9.5(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)(ts-node@10.9.2(@types/node@20.14.12)(typescript@5.6.2))(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3))':
+  '@vanilla-extract/vite-plugin@3.9.5(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)(ts-node@10.9.2(@types/node@20.14.12)(typescript@5.6.3))(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3))':
     dependencies:
       '@vanilla-extract/integration': 6.5.0(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
       outdent: 0.8.0
       postcss: 8.4.39
-      postcss-load-config: 4.0.2(postcss@8.4.39)(ts-node@10.9.2(@types/node@20.14.12)(typescript@5.6.2))
+      postcss-load-config: 4.0.2(postcss@8.4.39)(ts-node@10.9.2(@types/node@20.14.12)(typescript@5.6.3))
       vite: 5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
     transitivePeerDependencies:
       - '@types/node'
@@ -11565,9 +11591,9 @@ snapshots:
       - terser
       - ts-node
 
-  '@vanilla-extract/webpack-plugin@2.3.11(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)(webpack@5.93.0)':
+  '@vanilla-extract/webpack-plugin@2.3.11(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)(webpack@5.93.0)':
     dependencies:
-      '@vanilla-extract/integration': 7.1.7(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)
+      '@vanilla-extract/integration': 7.1.7(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)
       debug: 4.3.5
       loader-utils: 2.0.4
       picocolors: 1.0.1
@@ -11583,9 +11609,14 @@ snapshots:
       - supports-color
       - terser
 
-  '@vercel/analytics@1.3.1(next@14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)':
+  '@vercel/analytics@1.3.1(next@14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)':
     dependencies:
       server-only: 0.0.1
+    optionalDependencies:
+      next: 14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react: 18.3.1
+
+  '@vercel/speed-insights@1.0.14(next@14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)':
     optionalDependencies:
       next: 14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
@@ -12459,12 +12490,12 @@ snapshots:
 
   core-util-is@1.0.3: {}
 
-  cosmiconfig-typescript-loader@5.0.0(@types/node@20.14.12)(cosmiconfig@8.3.6(typescript@5.6.2))(typescript@5.6.2):
+  cosmiconfig-typescript-loader@5.0.0(@types/node@20.14.12)(cosmiconfig@8.3.6(typescript@5.6.3))(typescript@5.6.3):
     dependencies:
       '@types/node': 20.14.12
-      cosmiconfig: 8.3.6(typescript@5.6.2)
+      cosmiconfig: 8.3.6(typescript@5.6.3)
       jiti: 1.21.6
-      typescript: 5.6.2
+      typescript: 5.6.3
 
   cosmiconfig@8.3.6(typescript@5.5.4):
     dependencies:
@@ -12475,14 +12506,14 @@ snapshots:
     optionalDependencies:
       typescript: 5.5.4
 
-  cosmiconfig@8.3.6(typescript@5.6.2):
+  cosmiconfig@8.3.6(typescript@5.6.3):
     dependencies:
       import-fresh: 3.3.0
       js-yaml: 4.1.0
       parse-json: 5.2.0
       path-type: 4.0.0
     optionalDependencies:
-      typescript: 5.6.2
+      typescript: 5.6.3
 
   create-require@1.1.1: {}
 
@@ -15000,13 +15031,13 @@ snapshots:
 
   possible-typed-array-names@1.0.0: {}
 
-  postcss-load-config@4.0.2(postcss@8.4.39)(ts-node@10.9.2(@types/node@20.14.12)(typescript@5.6.2)):
+  postcss-load-config@4.0.2(postcss@8.4.39)(ts-node@10.9.2(@types/node@20.14.12)(typescript@5.6.3)):
     dependencies:
       lilconfig: 3.1.2
       yaml: 2.4.5
     optionalDependencies:
       postcss: 8.4.39
-      ts-node: 10.9.2(@types/node@20.14.12)(typescript@5.6.2)
+      ts-node: 10.9.2(@types/node@20.14.12)(typescript@5.6.3)
 
   postcss@8.4.31:
     dependencies:
@@ -15175,9 +15206,9 @@ snapshots:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
-  react-docgen-typescript@2.2.2(typescript@5.6.2):
+  react-docgen-typescript@2.2.2(typescript@5.6.3):
     dependencies:
-      typescript: 5.6.2
+      typescript: 5.6.3
 
   react-docgen@7.0.3:
     dependencies:
@@ -16047,7 +16078,7 @@ snapshots:
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
 
-  ts-node@10.9.2(@types/node@20.14.12)(typescript@5.6.2):
+  ts-node@10.9.2(@types/node@20.14.12)(typescript@5.6.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.11
@@ -16061,7 +16092,7 @@ snapshots:
       create-require: 1.1.1
       diff: 4.0.2
       make-error: 1.3.6
-      typescript: 5.6.2
+      typescript: 5.6.3
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
     optional: true
@@ -16172,7 +16203,7 @@ snapshots:
 
   typescript@5.5.4: {}
 
-  typescript@5.6.2: {}
+  typescript@5.6.3: {}
 
   ufo@1.5.4: {}
 
@@ -16339,7 +16370,7 @@ snapshots:
       - supports-color
       - terser
 
-  vite-plugin-dts@4.0.0-beta.1(@types/node@20.14.12)(rollup@4.19.0)(typescript@5.5.4)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1)(terser@5.31.3)):
+  vite-plugin-dts@4.0.0-beta.1(@types/node@20.14.12)(rollup@4.19.0)(typescript@5.5.4)(vite@5.3.4(@types/node@20.14.12)(sugarss@4.0.1(postcss@8.4.39))(terser@5.31.3)):
     dependencies:
       '@microsoft/api-extractor': 7.47.2(@types/node@20.14.12)
       '@rollup/pluginutils': 5.1.0(rollup@4.19.0)
