@@ -20,6 +20,7 @@
     "@hcc/icons": "workspace:^",
     "@hcc/styles": "workspace:*",
     "@hcc/ui": "workspace:*",
+    "@next/third-parties": "^15.0.2",
     "@stomp/stompjs": "^7.0.0",
     "@tanstack/react-query": "^5.17.19",
     "@tanstack/react-query-devtools": "^5.17.21",
