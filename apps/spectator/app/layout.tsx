@@ -1,6 +1,4 @@
 import { Toaster } from '@hcc/ui';
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import { clsx } from 'clsx';
 import { extend } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -8,6 +6,7 @@ import { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import { ReactNode } from 'react';
 
+import AnalyticsProvider from './analytics';
 import * as styles from './layout.css';
 import Providers from './Providers';
 import '@hcc/styles/dist/globals.css';
@@ -50,8 +49,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <Toaster />
           {children}
         </Providers>
-        <Analytics />
-        <SpeedInsights />
+
+        <AnalyticsProvider />
       </body>
     </html>
   );
