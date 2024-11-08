@@ -1,3 +1,4 @@
+import { theme } from '@hcc/styles';
 import { Accordion } from '@hcc/ui';
 import { clsx } from 'clsx';
 import Image from 'next/image';
@@ -27,6 +28,10 @@ export default function Lineup({ gameId }: LineupProps) {
               width={28}
               height={28}
               loading="lazy"
+              style={{
+                border: `1px solid ${theme.colors.gray50}`,
+                borderRadius: '50%',
+              }}
             />
             <span className={styles.teamName.left}>{homeTeam.teamName}</span>
           </div>
@@ -48,6 +53,10 @@ export default function Lineup({ gameId }: LineupProps) {
               width={28}
               height={28}
               loading="lazy"
+              style={{
+                border: `1px solid ${theme.colors.gray50}`,
+                borderRadius: '50%',
+              }}
             />
           </div>
 
