@@ -23,7 +23,7 @@ export const getRecordTitle = (record: TimelineRecordType) => {
   if (record.type === 'REPLACEMENT') {
     return `${record.replacementRecord.replacedPlayerName} IN`;
   }
-  return record.playerName;
+  return `${record.playerName}`;
 };
 
 export const getRecordSubtitle = (record: TimelineRecordType) => {

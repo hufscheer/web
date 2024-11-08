@@ -166,36 +166,44 @@ const ScoreForm = ({ gameId, onClose, quarter }: ScoreFormProps) => {
             )}
           />
         </section>
-
         <h4 className={styles.sectionTitle}>득점 상세 정보</h4>
         <section className={styles.section}>
           <FormField
             control={methods.control}
             name="scoreLineupPlayerId"
-            render={({ field }) => (
-              <FormItem>
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <FormLabel>선수</FormLabel>
-                  <FormControl>
-                    <SelectTrigger type="button">
-                      <SelectValue>
-                        {players.find(
-                          player => player.id.toString() === field.value,
-                        )?.playerName ?? '선수 선택'}
-                      </SelectValue>
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {players.map(player => (
-                      <SelectItem key={player.id} value={player.id.toString()}>
-                        {player.playerName}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
+            render={({ field }) => {
+              const selectedPlayer = players.find(
+                player => player.id.toString() === field.value,
+              );
+
+              return (
+                <FormItem>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormLabel>선수</FormLabel>
+                    <FormControl>
+                      <SelectTrigger type="button">
+                        <SelectValue>
+                          {selectedPlayer
+                            ? `${selectedPlayer?.playerName}(${selectedPlayer?.number})`
+                            : '선수 선택'}
+                        </SelectValue>
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {players.map(player => (
+                        <SelectItem
+                          key={player.id}
+                          value={player.id.toString()}
+                        >
+                          {player.playerName}({player.number})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
           />
 
           <FormField
@@ -212,7 +220,6 @@ const ScoreForm = ({ gameId, onClose, quarter }: ScoreFormProps) => {
             )}
           />
         </section>
-
         <Button
           disabled={isPending}
           type="submit"
