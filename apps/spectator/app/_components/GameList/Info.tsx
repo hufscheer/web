@@ -1,3 +1,4 @@
+import { theme } from '@hcc/styles';
 import Image from 'next/image';
 
 import { GameListType, GameState } from '@/types/game';
@@ -25,6 +26,10 @@ export default function GameInfo({ gameTeams, state }: GameInfoProps) {
             width={IMAGE_SIZE}
             height={IMAGE_SIZE}
             loading="lazy"
+            style={{
+              border: `1px solid ${theme.colors.gray50}`,
+              borderRadius: '50%',
+            }}
           />
           <span className={styles.gameInfoRow.teamName}>
             {firstTeam.gameTeamName}
@@ -40,6 +45,10 @@ export default function GameInfo({ gameTeams, state }: GameInfoProps) {
             width={IMAGE_SIZE}
             height={IMAGE_SIZE}
             loading="lazy"
+            style={{
+              border: `1px solid ${theme.colors.gray50}`,
+              borderRadius: '50%',
+            }}
           />
           <span className={styles.gameInfoRow.teamName}>
             {secondTeam.gameTeamName}
