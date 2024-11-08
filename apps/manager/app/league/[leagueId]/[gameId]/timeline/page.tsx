@@ -1,10 +1,5 @@
 'use client';
-import {
-  TimelineRecordType,
-  TimelineType,
-  useGame,
-  useTimeline,
-} from '@hcc/api';
+import { TimelineRecordType, useGame, useTimeline } from '@hcc/api';
 import { Fragment } from 'react';
 
 import Layout from '@/components/Layout';
@@ -30,14 +25,12 @@ export default function Page({ params }: PageProps) {
 
   const homeTeamId: number = game.gameTeams[0].gameTeamId;
 
-  const sortedTimelines: TimelineType[] = timelines.map(timeline => ({
-    ...timeline,
-    records: timeline.records.sort((a, b) => b.recordId - a.recordId),
-  }));
-  const lastRecord: TimelineRecordType | undefined =
-    sortedTimelines?.[0]?.records?.[0] ?? undefined;
+  const lastRecord: TimelineRecordType | null =
+    timelines
+      .flatMap(item => item.records)
+      .sort((a, b) => b.recordId - a.recordId)[0] ?? null;
 
-  const currentQuarter = sortedTimelines[0]?.gameQuarter ?? undefined;
+  const currentQuarter = timelines[0]?.gameQuarter ?? null;
 
   return (
     <Layout
@@ -57,7 +50,7 @@ export default function Page({ params }: PageProps) {
             </TextRecord>
           </Fragment>
         )}
-        {sortedTimelines.map(timeline => {
+        {timelines.map(timeline => {
           return (
             <Fragment key={timeline.gameQuarter}>
               {timeline.records.map(record => {
