@@ -38,6 +38,8 @@ export const item = styleVariants({
   teamLogo: {
     userSelect: 'none',
     alignSelf: 'center',
+    border: `1px solid ${theme.colors.gray50}`,
+    borderRadius: '50%',
   },
   content: {
     padding: `${theme.spaces.xs} ${theme.spaces.sm}`,
