@@ -17,7 +17,7 @@ const EventRecord = ({ record, homeTeamId }: EventRecordProps) => {
   const isAway = record.gameTeamId !== homeTeamId;
 
   return (
-    <div
+    <li
       className={clsx(styles.eventRecordContainer, {
         [styles.eventRecordAwayContainer]: isAway,
       })}
@@ -33,7 +33,7 @@ const EventRecord = ({ record, homeTeamId }: EventRecordProps) => {
           {getRecordSubtitle(record)}
         </p>
       </div>
-    </div>
+    </li>
   );
 };
 

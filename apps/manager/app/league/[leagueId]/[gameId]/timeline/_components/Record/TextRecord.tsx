@@ -3,7 +3,7 @@ import { ComponentProps, ReactNode } from 'react';
 
 import * as styles from './styles.css';
 
-type TextRecordProps = ComponentProps<'div'> & {
+type TextRecordProps = ComponentProps<'li'> & {
   showDividerLine?: boolean;
   className?: string;
   children: ReactNode;
@@ -16,7 +16,7 @@ const TextRecord = ({
   ...props
 }: TextRecordProps) => {
   return (
-    <div
+    <li
       className={clsx(styles.textRecordContainer, className, {
         [styles.textRecordCenter]: !showDividerLine,
       })}
@@ -25,7 +25,7 @@ const TextRecord = ({
       {showDividerLine && <div className={styles.textRecordDivider} />}
       <p className={styles.textRecordText}>{children}</p>
       {showDividerLine && <div className={styles.textRecordDivider} />}
-    </div>
+    </li>
   );
 };
 

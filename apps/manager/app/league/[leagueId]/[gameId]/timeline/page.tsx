@@ -46,7 +46,7 @@ export default function Page({ params }: PageProps) {
     >
       <GameScoreBanner game={game} />
 
-      <div className={styles.timeline}>
+      <ul className={styles.timeline}>
         {game.state === 'FINISHED' && (
           <Fragment>
             <TextRecord>경기가 종료되었습니다.</TextRecord>
@@ -62,6 +62,7 @@ export default function Page({ params }: PageProps) {
             <Fragment key={timeline.gameQuarter}>
               {timeline.records.map(record => {
                 if (record.type === 'GAME_PROGRESS') {
+                  if (timeline.gameQuarter === '경기 종료') return null;
                   return (
                     <TextRecord key={record.recordId} showDividerLine={true}>
                       {timeline.gameQuarter}이(가)&nbsp;
@@ -83,7 +84,7 @@ export default function Page({ params }: PageProps) {
             </Fragment>
           );
         })}
-      </div>
+      </ul>
 
       <BottomMenu gameId={gameId} quarter={currentQuarter} />
     </Layout>
