@@ -94,43 +94,50 @@ export default function CheerTalkList({
   }, [checkScrollHeight]);
 
   return (
-    <div className={styles.list.container}>
-      <ul ref={scrollRef} className={styles.list.content}>
-        {hasNextPage && <Spinner />}
-        <li ref={ref} />
-        {/* HTTP */}
-        {cheerTalkList.map(talk => (
-          <CheerTalkItemMemo
-            key={`cheer-${talk.cheerTalkId}`}
-            hasMenu
-            {...talk}
-          />
-        ))}
-
-        {/* Socket */}
-        {socketTalkList.map(talk => (
-          <CheerTalkItemMemo
-            key={`socket-${talk.cheerTalkId}`}
-            hasMenu
-            {...talk}
-          />
-        ))}
-        <li ref={bottomRef} />
-      </ul>
-      <CheerTalkForm
-        gameTeams={gameDetail.gameTeams}
-        saveCheerTalkMutate={mutate}
-        scrollToBottom={run}
-      />
-      {showScrollToBottomButton && (
-        <button
-          className={styles.scrollToBottomButton}
-          onClick={run}
-          type="button"
-        >
-          <Icon source={ArrowDownIcon} size={16} color="black" />
-        </button>
+    <>
+      {cheerTalkList.length === 0 && socketTalkList.length === 0 && (
+        <div className={styles.emptyMsg}>
+          지금 우리 팀에게 첫 응원톡을 남겨주세요! 💪
+        </div>
       )}
-    </div>
+      <div className={styles.list.container}>
+        <ul ref={scrollRef} className={styles.list.content}>
+          {hasNextPage && <Spinner />}
+          <li ref={ref} />
+          {/* HTTP */}
+          {cheerTalkList.map(talk => (
+            <CheerTalkItemMemo
+              key={`cheer-${talk.cheerTalkId}`}
+              hasMenu
+              {...talk}
+            />
+          ))}
+
+          {/* Socket */}
+          {socketTalkList.map(talk => (
+            <CheerTalkItemMemo
+              key={`socket-${talk.cheerTalkId}`}
+              hasMenu
+              {...talk}
+            />
+          ))}
+          <li ref={bottomRef} />
+        </ul>
+        <CheerTalkForm
+          gameTeams={gameDetail.gameTeams}
+          saveCheerTalkMutate={mutate}
+          scrollToBottom={run}
+        />
+        {showScrollToBottomButton && (
+          <button
+            className={styles.scrollToBottomButton}
+            onClick={run}
+            type="button"
+          >
+            <Icon source={ArrowDownIcon} size={16} color="black" />
+          </button>
+        )}
+      </div>
+    </>
   );
 }
