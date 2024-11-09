@@ -55,8 +55,20 @@ export const state = styleVariants({
       backgroundColor: theme.colors.red600,
     },
   ],
-  SCHEDULED: [baseState],
-  FINISHED: [baseState],
+  SCHEDULED: [
+    baseState,
+    {
+      color: theme.colors.blue600,
+      backgroundColor: theme.colors.blue200,
+    },
+  ],
+  FINISHED: [
+    baseState,
+    {
+      color: theme.colors.white,
+      backgroundColor: theme.colors.gray300,
+    },
+  ],
 });
 
 export const timestamp = style({
