@@ -25,12 +25,11 @@ export default function Page({ params }: PageProps) {
 
   const homeTeamId: number = game.gameTeams[0].gameTeamId;
 
-  const lastRecord: TimelineRecordType | null =
-    timelines
-      .flatMap(item => item.records)
-      .sort((a, b) => b.recordId - a.recordId)[0] ?? null;
+  const lastRecord: TimelineRecordType | undefined = timelines
+    .flatMap(item => item.records)
+    .sort((a, b) => b.recordId - a.recordId)[0];
 
-  const currentQuarter = timelines[0]?.gameQuarter ?? null;
+  const currentQuarter: string | undefined = timelines[0]?.gameQuarter;
 
   return (
     <Layout

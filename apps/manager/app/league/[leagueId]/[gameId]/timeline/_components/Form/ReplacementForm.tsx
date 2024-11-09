@@ -87,14 +87,14 @@ const ReplacementForm = ({
   const gameTeamId = methods.watch('gameTeamId');
   const players = useMemo(() => {
     return (
-      lineupPlayers?.find(lineup => lineup.gameTeamId.toString() === gameTeamId)
+      lineupPlayers?.find(lineup => lineup.gameTeamId === Number(gameTeamId))
         ?.candidatePlayers ?? []
     );
   }, [lineupPlayers, gameTeamId]);
 
   const playingPlayers = useMemo(() => {
     return (
-      lineupPlayers?.find(lineup => lineup.gameTeamId.toString() === gameTeamId)
+      lineupPlayers?.find(lineup => lineup.gameTeamId === Number(gameTeamId))
         ?.starterPlayers ?? []
     );
   }, [lineupPlayers, gameTeamId]);
@@ -144,8 +144,8 @@ const ReplacementForm = ({
             render={({ field }) => (
               <FormItem>
                 <Select
-                  onValueChange={e => {
-                    field.onChange(e);
+                  onValueChange={value => {
+                    field.onChange(value);
                     methods.setValue('originLineupPlayerId', '');
                     methods.setValue('replacementLineupPlayerId', '');
                   }}
@@ -156,7 +156,7 @@ const ReplacementForm = ({
                     <SelectTrigger type="button">
                       <SelectValue>
                         {teams.find(
-                          team => team.gameTeamId.toString() === field.value,
+                          team => team.gameTeamId === Number(field.value),
                         )?.gameTeamName ?? '팀 선택'}
                       </SelectValue>
                     </SelectTrigger>
@@ -185,7 +185,7 @@ const ReplacementForm = ({
             name="replacementLineupPlayerId"
             render={({ field }) => {
               const selectedPlayer = players.find(
-                player => player.id.toString() === field.value,
+                player => player.id === Number(field.value),
               );
 
               return (
@@ -196,7 +196,7 @@ const ReplacementForm = ({
                       <SelectTrigger type="button">
                         <SelectValue>
                           {selectedPlayer
-                            ? `${selectedPlayer?.playerName}(${selectedPlayer?.number})`
+                            ? `${selectedPlayer.playerName}(${selectedPlayer.number})`
                             : '선수 선택'}
                         </SelectValue>
                       </SelectTrigger>
@@ -223,7 +223,7 @@ const ReplacementForm = ({
             name="originLineupPlayerId"
             render={({ field }) => {
               const selectedPlayer = playingPlayers.find(
-                player => player.id.toString() === field.value,
+                player => player.id === Number(field.value),
               );
 
               return (
@@ -234,7 +234,7 @@ const ReplacementForm = ({
                       <SelectTrigger type="button">
                         <SelectValue>
                           {selectedPlayer
-                            ? `${selectedPlayer?.playerName}(${selectedPlayer?.number})`
+                            ? `${selectedPlayer.playerName}(${selectedPlayer.number})`
                             : '선수 선택'}
                         </SelectValue>
                       </SelectTrigger>

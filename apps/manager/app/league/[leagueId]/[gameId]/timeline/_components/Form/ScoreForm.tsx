@@ -86,7 +86,7 @@ const ScoreForm = ({ gameId, onClose, quarter }: ScoreFormProps) => {
   const players = useMemo(() => {
     return (
       lineupPlayingPlayers?.find(
-        lineup => lineup.gameTeamId.toString() === gameTeamId,
+        lineup => lineup.gameTeamId === Number(gameTeamId),
       )?.gameTeamPlayers ?? []
     );
   }, [lineupPlayingPlayers, gameTeamId]);
@@ -145,7 +145,7 @@ const ScoreForm = ({ gameId, onClose, quarter }: ScoreFormProps) => {
                     <SelectTrigger type="button">
                       <SelectValue>
                         {teams.find(
-                          team => team.gameTeamId.toString() === field.value,
+                          team => team.gameTeamId === Number(field.value),
                         )?.gameTeamName ?? '팀 선택'}
                       </SelectValue>
                     </SelectTrigger>
@@ -173,7 +173,7 @@ const ScoreForm = ({ gameId, onClose, quarter }: ScoreFormProps) => {
             name="scoreLineupPlayerId"
             render={({ field }) => {
               const selectedPlayer = players.find(
-                player => player.id.toString() === field.value,
+                player => player.id === Number(field.value),
               );
 
               return (
@@ -184,7 +184,7 @@ const ScoreForm = ({ gameId, onClose, quarter }: ScoreFormProps) => {
                       <SelectTrigger type="button">
                         <SelectValue>
                           {selectedPlayer
-                            ? `${selectedPlayer?.playerName}(${selectedPlayer?.number})`
+                            ? `${selectedPlayer.playerName}(${selectedPlayer.number})`
                             : '선수 선택'}
                         </SelectValue>
                       </SelectTrigger>
