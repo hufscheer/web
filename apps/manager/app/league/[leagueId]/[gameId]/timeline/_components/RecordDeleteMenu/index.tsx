@@ -8,7 +8,7 @@ import { getRecordSubtitle, getRecordTitle } from '../../_utils/record';
 
 type RecordDeleteMenuProps = {
   gameId: string;
-  record: TimelineRecordType | undefined;
+  record?: TimelineRecordType;
 };
 
 const RecordDeleteMenu = ({ gameId, record }: RecordDeleteMenuProps) => {

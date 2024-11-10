@@ -35,6 +35,10 @@ export const textRecordText = style({
   textAlign: 'center',
 });
 
+export const summaryRecord = style({
+  paddingTop: 0,
+});
+
 // Event Record
 export const eventRecordContainer = style({
   position: 'relative',

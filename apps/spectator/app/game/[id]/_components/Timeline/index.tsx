@@ -30,12 +30,23 @@ export default function Timeline({ gameId }: TimelineProps) {
   const homeTeamId: number = game?.gameTeams[0].gameTeamId;
 
   return (
-    <Fragment>
+    <ul className={styles.root}>
+      {game.state === 'FINISHED' && (
+        <Fragment>
+          <TextRecord>경기가 종료되었습니다.</TextRecord>
+          <TextRecord className={styles.summaryRecord}>
+            경기 결과 - {game.gameTeams[0].score}:{game.gameTeams[1].score}
+            {game.isPkTaken &&
+              ` (${game.gameTeams[0].pkScore}:${game.gameTeams[1].pkScore})`}
+          </TextRecord>
+        </Fragment>
+      )}
       {timelines.map(timeline => {
         return (
-          <ul key={timeline.gameQuarter} className={styles.root}>
+          <Fragment key={timeline.gameQuarter}>
             {timeline.records.map(record => {
-              if (record.progressRecord?.gameProgressType)
+              if (record.progressRecord?.gameProgressType) {
+                if (timeline.gameQuarter === '경기 종료') return null;
                 return (
                   <TextRecord key={record.recordId} showDividerLine={true}>
                     {timeline.gameQuarter}이(가)&nbsp;
@@ -45,6 +56,7 @@ export default function Timeline({ gameId }: TimelineProps) {
                     되었습니다.
                   </TextRecord>
                 );
+              }
 
               return (
                 <EventRecord
@@ -54,9 +66,9 @@ export default function Timeline({ gameId }: TimelineProps) {
                 />
               );
             })}
-          </ul>
+          </Fragment>
         );
       })}
-    </Fragment>
+    </ul>
   );
 }

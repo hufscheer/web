@@ -21,7 +21,7 @@ import {
   useToast,
 } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
 import TimeInput from '@/components/TimeInput';
@@ -87,22 +87,17 @@ const ReplacementForm = ({
   const gameTeamId = methods.watch('gameTeamId');
   const players = useMemo(() => {
     return (
-      lineupPlayers?.find(lineup => lineup.gameTeamId.toString() === gameTeamId)
+      lineupPlayers?.find(lineup => lineup.gameTeamId === Number(gameTeamId))
         ?.candidatePlayers ?? []
     );
   }, [lineupPlayers, gameTeamId]);
 
   const playingPlayers = useMemo(() => {
     return (
-      lineupPlayers?.find(lineup => lineup.gameTeamId.toString() === gameTeamId)
+      lineupPlayers?.find(lineup => lineup.gameTeamId === Number(gameTeamId))
         ?.starterPlayers ?? []
     );
   }, [lineupPlayers, gameTeamId]);
-
-  useEffect(() => {
-    methods.setValue('originLineupPlayerId', '');
-    methods.setValue('replacementLineupPlayerId', '');
-  }, [gameTeamId, methods]);
 
   if (!quarter)
     return (
@@ -148,13 +143,20 @@ const ReplacementForm = ({
             name="gameTeamId"
             render={({ field }) => (
               <FormItem>
-                <Select onValueChange={field.onChange} value={field.value}>
+                <Select
+                  onValueChange={value => {
+                    field.onChange(value);
+                    methods.setValue('originLineupPlayerId', '');
+                    methods.setValue('replacementLineupPlayerId', '');
+                  }}
+                  value={field.value}
+                >
                   <FormLabel>팀 명</FormLabel>
                   <FormControl>
                     <SelectTrigger type="button">
                       <SelectValue>
                         {teams.find(
-                          team => team.gameTeamId.toString() === field.value,
+                          team => team.gameTeamId === Number(field.value),
                         )?.gameTeamName ?? '팀 선택'}
                       </SelectValue>
                     </SelectTrigger>
@@ -181,59 +183,77 @@ const ReplacementForm = ({
           <FormField
             control={methods.control}
             name="replacementLineupPlayerId"
-            render={({ field }) => (
-              <FormItem>
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <FormLabel>교체 투입 선수</FormLabel>
-                  <FormControl>
-                    <SelectTrigger type="button">
-                      <SelectValue>
-                        {players.find(
-                          player => player.id.toString() === field.value,
-                        )?.playerName ?? '선수 선택'}
-                      </SelectValue>
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {players.map(player => (
-                      <SelectItem key={player.id} value={player.id.toString()}>
-                        {player.playerName}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
+            render={({ field }) => {
+              const selectedPlayer = players.find(
+                player => player.id === Number(field.value),
+              );
+
+              return (
+                <FormItem>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormLabel>교체 투입 선수</FormLabel>
+                    <FormControl>
+                      <SelectTrigger type="button">
+                        <SelectValue>
+                          {selectedPlayer
+                            ? `${selectedPlayer.playerName}(${selectedPlayer.number})`
+                            : '선수 선택'}
+                        </SelectValue>
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {players.map(player => (
+                        <SelectItem
+                          key={player.id}
+                          value={player.id.toString()}
+                        >
+                          {player.playerName}({player.number})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
           />
 
           <FormField
             control={methods.control}
             name="originLineupPlayerId"
-            render={({ field }) => (
-              <FormItem>
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <FormLabel>교체 아웃 선수</FormLabel>
-                  <FormControl>
-                    <SelectTrigger type="button">
-                      <SelectValue>
-                        {playingPlayers.find(
-                          player => player.id.toString() === field.value,
-                        )?.playerName ?? '선수 선택'}
-                      </SelectValue>
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {playingPlayers.map(player => (
-                      <SelectItem key={player.id} value={player.id.toString()}>
-                        {player.playerName}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
+            render={({ field }) => {
+              const selectedPlayer = playingPlayers.find(
+                player => player.id === Number(field.value),
+              );
+
+              return (
+                <FormItem>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormLabel>교체 아웃 선수</FormLabel>
+                    <FormControl>
+                      <SelectTrigger type="button">
+                        <SelectValue>
+                          {selectedPlayer
+                            ? `${selectedPlayer.playerName}(${selectedPlayer.number})`
+                            : '선수 선택'}
+                        </SelectValue>
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {playingPlayers.map(player => (
+                        <SelectItem
+                          key={player.id}
+                          value={player.id.toString()}
+                        >
+                          {player.playerName}({player.number})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
           />
 
           <FormField

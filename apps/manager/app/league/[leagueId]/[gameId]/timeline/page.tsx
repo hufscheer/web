@@ -1,10 +1,5 @@
 'use client';
-import {
-  TimelineRecordType,
-  TimelineType,
-  useGame,
-  useTimeline,
-} from '@hcc/api';
+import { TimelineRecordType, useGame, useTimeline } from '@hcc/api';
 import { Fragment } from 'react';
 
 import Layout from '@/components/Layout';
@@ -30,14 +25,11 @@ export default function Page({ params }: PageProps) {
 
   const homeTeamId: number = game.gameTeams[0].gameTeamId;
 
-  const sortedTimelines: TimelineType[] = timelines.map(timeline => ({
-    ...timeline,
-    records: timeline.records.sort((a, b) => b.recordId - a.recordId),
-  }));
-  const lastRecord: TimelineRecordType | undefined =
-    sortedTimelines?.[0]?.records?.[0] ?? undefined;
+  const lastRecord: TimelineRecordType | undefined = timelines
+    .flatMap(item => item.records)
+    .sort((a, b) => b.recordId - a.recordId)[0];
 
-  const currentQuarter = sortedTimelines[0]?.gameQuarter ?? undefined;
+  const currentQuarter: string | undefined = timelines[0]?.gameQuarter;
 
   return (
     <Layout
@@ -46,7 +38,7 @@ export default function Page({ params }: PageProps) {
     >
       <GameScoreBanner game={game} />
 
-      <div className={styles.timeline}>
+      <ul className={styles.timeline}>
         {game.state === 'FINISHED' && (
           <Fragment>
             <TextRecord>경기가 종료되었습니다.</TextRecord>
@@ -57,11 +49,12 @@ export default function Page({ params }: PageProps) {
             </TextRecord>
           </Fragment>
         )}
-        {sortedTimelines.map(timeline => {
+        {timelines.map(timeline => {
           return (
             <Fragment key={timeline.gameQuarter}>
               {timeline.records.map(record => {
                 if (record.type === 'GAME_PROGRESS') {
+                  if (timeline.gameQuarter === '경기 종료') return null;
                   return (
                     <TextRecord key={record.recordId} showDividerLine={true}>
                       {timeline.gameQuarter}이(가)&nbsp;
@@ -83,7 +76,7 @@ export default function Page({ params }: PageProps) {
             </Fragment>
           );
         })}
-      </div>
+      </ul>
 
       <BottomMenu gameId={gameId} quarter={currentQuarter} />
     </Layout>
