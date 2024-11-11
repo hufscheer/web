@@ -1,4 +1,3 @@
-import { theme } from '@hcc/styles';
 import { Accordion } from '@hcc/ui';
 import { clsx } from 'clsx';
 import Image from 'next/image';
@@ -22,17 +21,15 @@ export default function Lineup({ gameId }: LineupProps) {
       <div className={clsx(styles.container, styles.starterContainer)}>
         <div className={styles.teamContainer}>
           <div className={styles.team.left}>
-            <Image
-              src={homeTeam.logoImageUrl}
-              alt={`${homeTeam.teamName} logo image`}
-              width={28}
-              height={28}
-              loading="lazy"
-              style={{
-                border: `1px solid ${theme.colors.gray50}`,
-                borderRadius: '50%',
-              }}
-            />
+            <div className={styles.logoContainer}>
+              <Image
+                src={homeTeam.logoImageUrl}
+                alt={`${homeTeam.teamName} logo image`}
+                loading="lazy"
+                fill
+                className={styles.logoImg}
+              />
+            </div>
             <span className={styles.teamName.left}>{homeTeam.teamName}</span>
           </div>
 
@@ -47,17 +44,15 @@ export default function Lineup({ gameId }: LineupProps) {
         <div className={styles.teamContainer}>
           <div className={styles.team.right}>
             <span className={styles.teamName.right}>{awayTeam.teamName}</span>
-            <Image
-              src={awayTeam.logoImageUrl}
-              alt={`${awayTeam.teamName} logo image`}
-              width={28}
-              height={28}
-              loading="lazy"
-              style={{
-                border: `1px solid ${theme.colors.gray50}`,
-                borderRadius: '50%',
-              }}
-            />
+            <div className={styles.logoContainer}>
+              <Image
+                src={awayTeam.logoImageUrl}
+                alt={`${awayTeam.teamName} logo image`}
+                loading="lazy"
+                fill
+                className={styles.logoImg}
+              />
+            </div>
           </div>
 
           <PlayerList

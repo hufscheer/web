@@ -153,3 +153,15 @@ export const errorFallback = styleVariants({
     fontWeight: 500,
   },
 });
+
+export const logoContainer = style({
+  width: rem(28),
+  height: rem(28),
+  position: 'relative',
+});
+
+export const logoImg = style({
+  border: `1px solid ${theme.colors.gray50}`,
+  borderRadius: '50%',
+  objectFit: 'cover',
+});
