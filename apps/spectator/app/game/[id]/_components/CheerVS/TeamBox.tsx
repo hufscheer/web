@@ -1,6 +1,5 @@
 'use client';
 
-import { theme } from '@hcc/styles';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -74,17 +73,15 @@ export default function CheerTeamBox({
       })}
       onClick={handleCheerClick}
     >
-      <Image
-        width={36}
-        height={36}
-        src={logoImageUrl}
-        alt={`${gameTeamName} 로고`}
-        loading="lazy"
-        style={{
-          border: `1px solid ${theme.colors.gray50}`,
-          borderRadius: '50%',
-        }}
-      />
+      <div className={styles.logoContainer}>
+        <Image
+          src={logoImageUrl}
+          alt={`${gameTeamName} 로고`}
+          loading="lazy"
+          fill
+          className={styles.logoImg}
+        />
+      </div>
       <span className={styles.countNumber}>
         {count.toLocaleString('ko-KR')}
       </span>
