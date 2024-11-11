@@ -176,3 +176,15 @@ export const errorFallback = styleVariants({
     color: theme.colors.gray[5],
   },
 });
+
+export const logoContainer = style({
+  width: rem(26),
+  height: rem(26),
+  position: 'relative',
+});
+
+export const logoImg = style({
+  border: `1px solid ${theme.colors.gray50}`,
+  borderRadius: '50%',
+  objectFit: 'cover',
+});

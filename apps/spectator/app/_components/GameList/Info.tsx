@@ -1,4 +1,3 @@
-import { theme } from '@hcc/styles';
 import Image from 'next/image';
 
 import { GameListType, GameState } from '@/types/game';
@@ -10,8 +9,6 @@ type GameInfoProps = {
   state: GameState;
 };
 
-const IMAGE_SIZE = 26;
-
 export default function GameInfo({ gameTeams, state }: GameInfoProps) {
   // todo: fisished 상태일 때 경기 승패를 score 색상으로 표시
   const [firstTeam, secondTeam] = gameTeams;
@@ -20,17 +17,15 @@ export default function GameInfo({ gameTeams, state }: GameInfoProps) {
     <div className={styles.infoContainer}>
       <div className={styles.gameInfoRow.root}>
         <div className={styles.gameInfoRow.team}>
-          <Image
-            src={firstTeam.logoImageUrl}
-            alt={`${firstTeam.gameTeamName} logo`}
-            width={IMAGE_SIZE}
-            height={IMAGE_SIZE}
-            loading="lazy"
-            style={{
-              border: `1px solid ${theme.colors.gray50}`,
-              borderRadius: '50%',
-            }}
-          />
+          <div className={styles.logoContainer}>
+            <Image
+              src={firstTeam.logoImageUrl}
+              alt={`${firstTeam.gameTeamName} logo`}
+              loading="lazy"
+              fill
+              className={styles.logoImg}
+            />
+          </div>
           <span className={styles.gameInfoRow.teamName}>
             {firstTeam.gameTeamName}
           </span>
@@ -39,17 +34,15 @@ export default function GameInfo({ gameTeams, state }: GameInfoProps) {
       </div>
       <div className={styles.gameInfoRow.root}>
         <div className={styles.gameInfoRow.team}>
-          <Image
-            src={secondTeam.logoImageUrl}
-            alt={`${secondTeam.gameTeamName} logo`}
-            width={IMAGE_SIZE}
-            height={IMAGE_SIZE}
-            loading="lazy"
-            style={{
-              border: `1px solid ${theme.colors.gray50}`,
-              borderRadius: '50%',
-            }}
-          />
+          <div className={styles.logoContainer}>
+            <Image
+              src={secondTeam.logoImageUrl}
+              alt={`${secondTeam.gameTeamName} logo`}
+              loading="lazy"
+              fill
+              className={styles.logoImg}
+            />
+          </div>
           <span className={styles.gameInfoRow.teamName}>
             {secondTeam.gameTeamName}
           </span>
