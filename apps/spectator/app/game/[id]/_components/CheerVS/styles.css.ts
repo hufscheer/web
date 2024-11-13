@@ -128,3 +128,15 @@ export const skeleton = styleVariants({
     },
   ],
 });
+
+export const logoContainer = style({
+  width: rem(36),
+  height: rem(36),
+  position: 'relative',
+});
+
+export const logoImg = style({
+  border: `1px solid ${theme.colors.gray50}`,
+  borderRadius: '50%',
+  objectFit: 'cover',
+});

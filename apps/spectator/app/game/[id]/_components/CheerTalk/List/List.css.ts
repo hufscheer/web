@@ -17,6 +17,14 @@ export const list = styleVariants({
   },
 });
 
+export const emptyMsg = style({
+  display: 'flex',
+  flex: 1,
+  fontSize: theme.textVariants.default.fontSize,
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+
 export const scrollToBottomButton = style({
   position: 'absolute',
   display: 'flex',

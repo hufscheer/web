@@ -55,8 +55,20 @@ export const state = styleVariants({
       backgroundColor: theme.colors.red600,
     },
   ],
-  SCHEDULED: [baseState],
-  FINISHED: [baseState],
+  SCHEDULED: [
+    baseState,
+    {
+      color: theme.colors.blue600,
+      backgroundColor: theme.colors.blue200,
+    },
+  ],
+  FINISHED: [
+    baseState,
+    {
+      color: theme.colors.white,
+      backgroundColor: theme.colors.gray300,
+    },
+  ],
 });
 
 export const timestamp = style({
@@ -163,4 +175,16 @@ export const errorFallback = styleVariants({
     ...theme.textVariants.default,
     color: theme.colors.gray[5],
   },
+});
+
+export const logoContainer = style({
+  width: rem(26),
+  height: rem(26),
+  position: 'relative',
+});
+
+export const logoImg = style({
+  border: `1px solid ${theme.colors.gray50}`,
+  borderRadius: '50%',
+  objectFit: 'cover',
 });

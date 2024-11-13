@@ -73,13 +73,15 @@ export default function CheerTeamBox({
       })}
       onClick={handleCheerClick}
     >
-      <Image
-        width={36}
-        height={36}
-        src={logoImageUrl}
-        alt={`${gameTeamName} 로고`}
-        loading="lazy"
-      />
+      <div className={styles.logoContainer}>
+        <Image
+          src={logoImageUrl}
+          alt={`${gameTeamName} 로고`}
+          loading="lazy"
+          fill
+          className={styles.logoImg}
+        />
+      </div>
       <span className={styles.countNumber}>
         {count.toLocaleString('ko-KR')}
       </span>
