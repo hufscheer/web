@@ -1,7 +1,6 @@
 import { LeagueListType } from '@hcc/api';
 import { Skeleton } from '@hcc/ui';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
-import dayjs from 'dayjs';
 import { ReactElement } from 'react';
 
 import Layout from '@/components/Layout';
@@ -42,7 +41,7 @@ type PageProps = {
 };
 
 export default async function Page({ searchParams }: PageProps) {
-  const year = Number(searchParams.year) || dayjs().year();
+  const year = 2024;
   const queryClient = getQueryClient();
   const leagues: LeagueListType[] = await useLeaguesPrefetch(year);
   const inProgress =
