@@ -1,9 +1,0 @@
-{
-  "extends": "@hcc/typescript-config/base.json",
-  "compilerOptions": {
-    "incremental": true,
-    "jsx": "preserve"
-  },
-  "include": ["."],
-  "exclude": ["dist", "build", "node_modules"]
-}
