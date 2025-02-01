@@ -48,6 +48,7 @@ const tabs = [
 ];
 
 export default function Page({ params }: { params: { id: string } }) {
+  const { id } = params;
   const tabState = useQueryValidator(
     'tab',
     tabs.map(tab => tab.key),
@@ -60,14 +61,14 @@ export default function Page({ params }: { params: { id: string } }) {
         errorFallback={() => <BannerFallback />}
         loadingFallback={<BannerSkeleton />}
       >
-        <Banner gameId={params.id} />
+        <Banner gameId={id} />
       </AsyncBoundary>
 
       <AsyncBoundary
         errorFallback={() => <CheerVSFallback />}
         loadingFallback={<CheerVSSkeleton />}
       >
-        <CheerVS gameId={params.id} />
+        <CheerVS gameId={id} />
       </AsyncBoundary>
 
       <section className={styles.cheerTalk.section}>
@@ -77,7 +78,7 @@ export default function Page({ params }: { params: { id: string } }) {
             errorFallback={() => <Fragment></Fragment>}
             loadingFallback={<Fragment></Fragment>}
           >
-            <Live gameId={params.id} />
+            <Live gameId={id} />
           </AsyncBoundary>
         </div>
 
@@ -85,7 +86,7 @@ export default function Page({ params }: { params: { id: string } }) {
           errorFallback={CheerTalkFallback}
           loadingFallback={<Spinner className={styles.spinner} />}
         >
-          <CheerTalk gameId={params.id} defaultState={cheerState} />
+          <CheerTalk gameId={id} defaultState={cheerState} />
         </AsyncBoundary>
       </section>
 
@@ -112,7 +113,7 @@ export default function Page({ params }: { params: { id: string } }) {
               errorFallback={(props: FallbackProps) => tab.errorUI(props)}
               loadingFallback={<Spinner />}
             >
-              {tab.renderer(params.id)}
+              {tab.renderer(id)}
             </AsyncBoundary>
           </Tabs.Content>
         ))}

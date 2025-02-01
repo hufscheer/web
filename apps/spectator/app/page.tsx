@@ -41,16 +41,17 @@ type PageProps = {
 };
 
 export default async function Page({ searchParams }: PageProps) {
+  const { league, round } = await searchParams;
+
   const year = 2024;
   const queryClient = getQueryClient();
   const leagues: LeagueListType[] = await useLeaguesPrefetch(year);
   const inProgress =
     leagues.find(league => league.isInProgress) || leagues?.[0];
-  const initialLeagueId = Number(searchParams.league) || inProgress?.leagueId;
+  const initialLeagueId = Number(league) || inProgress?.leagueId;
 
   const leagueDetail = await useLeagueDetailPrefetch(initialLeagueId);
-  const currentRound =
-    Number(searchParams.round) || leagueDetail.inProgressRound;
+  const currentRound = Number(round) || leagueDetail.inProgressRound;
 
   await useLeagueTeamsPrefetch(initialLeagueId, currentRound);
 
