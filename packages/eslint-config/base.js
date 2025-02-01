@@ -1,72 +1,70 @@
-const { resolve } = require('node:path');
+import js from '@eslint/js';
+import eslintConfigPrettier from 'eslint-config-prettier';
+import importPlugin from 'eslint-plugin-import';
+import turboPlugin from 'eslint-plugin-turbo';
+import tseslint from 'typescript-eslint';
+import onlyWarn from 'eslint-plugin-only-warn';
 
-const project = resolve(process.cwd(), 'tsconfig.json');
-
-/** @type {import("eslint").Linter.Config} */
-module.exports = {
-  root: true,
-  parser: '@typescript-eslint/parser',
-  extends: [
-    'eslint:recommended',
-    'eslint-config-turbo',
-    'plugin:import/recommended',
-    'plugin:import/typescript',
-    'plugin:@typescript-eslint/recommended',
-    'prettier',
-  ],
-  plugins: ['import', '@typescript-eslint', 'prettier'],
-  settings: {
-    'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.tsx'],
+/** @type {import('eslint').Linter.Config} */
+export const config = [
+  js.configs.recommended,
+  eslintConfigPrettier,
+  importPlugin.flatConfigs.recommended,
+  ...tseslint.configs.recommended,
+  {
+    plugins: {
+      turbo: turboPlugin,
     },
-    'import/resolver': {
-      typescript: {
-        project: ['apps/*/tsconfig.json', 'packages/*/tsconfig.json'],
-      },
-    },
-    react: {
-      version: 'detect',
+    rules: {
+      'turbo/no-undeclared-env-vars': 'warn',
     },
   },
-  rules: {
-    // import
-    'import/order': [
-      'error',
-      {
-        groups: [
-          ['builtin', 'external'],
-          'internal',
-          ['parent', 'sibling'],
-          'index',
-        ],
-        'newlines-between': 'always',
-        pathGroups: [
-          {
-            pattern: '@/**',
-            group: 'internal',
-            position: 'after',
-          },
-        ],
-        alphabetize: {
-          order: 'asc',
-          caseInsensitive: true,
+  {
+    plugins: {
+      onlyWarn,
+    },
+  },
+  {
+    settings: {
+      'import/resolver': {
+        typescript: {
+          project: ['apps/*/tsconfig.json', 'packages/*/tsconfig.json'],
+        },
+        node: {
+          extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.cjs'],
         },
       },
-    ],
-    // prettier
-    'prettier/prettier': 'warn',
-    // rules
-    'no-console': [
-      'error',
-      {
-        allow: ['error', 'warn'],
-      },
-    ],
+    },
   },
-  ignorePatterns: [
-    // Ignore dotfiles
-    '.*.js',
-    'node_modules/',
-  ],
-  overrides: [{ files: ['*.js?(x)', '*.ts?(x)'] }],
-};
+  {
+    rules: {
+      'import/order': [
+        'error',
+        {
+          groups: [
+            ['builtin', 'external'],
+            'internal',
+            ['parent', 'sibling'],
+            'index',
+          ],
+          'newlines-between': 'always',
+          pathGroups: [
+            {
+              pattern: '@/**',
+              group: 'internal',
+              position: 'after',
+            },
+          ],
+          alphabetize: {
+            order: 'asc',
+            caseInsensitive: true,
+          },
+        },
+      ],
+      'no-console': ['error', { allow: ['error', 'warn'] }],
+    },
+  },
+  {
+    ignores: ['dist/**'],
+  },
+];

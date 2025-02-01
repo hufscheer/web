@@ -27,6 +27,7 @@ const Trigger: ContentType = forwardRef(function AccordionTrigger<
   const open = accordion.includes(value);
 
   const handleClick = () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     open ? handleItemClose(value) : handleItemOpen(value);
   };
 

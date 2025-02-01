@@ -15,7 +15,7 @@ export default function useLeague(year: number) {
   return { leagues: data };
 }
 
-export async function useLeaguesPrefetch(year: number) {
+export async function leaguesPrefetch(year: number) {
   const queryClient = getQueryClient();
 
   return await queryClient.fetchQuery({

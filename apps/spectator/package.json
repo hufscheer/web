@@ -2,6 +2,7 @@
   "name": "spectator",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --port 3001 -H 0.0.0.0",
     "build": "next build",
@@ -39,14 +40,12 @@
   "devDependencies": {
     "@hcc/eslint-config": "workspace:*",
     "@hcc/typescript-config": "workspace:*",
-    "@types/eslint": "^8.56.12",
     "@types/gtag.js": "^0.0.18",
     "@types/node": "^22.13.0",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vanilla-extract/next-plugin": "^2.4.9",
     "clsx": "^2.1.1",
-    "eslint": "^8.57.1",
     "typescript": "^5.7.3"
   }
 }

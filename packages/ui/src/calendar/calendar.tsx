@@ -1,7 +1,7 @@
 import { CaretDownIcon } from '@hcc/icons';
 import dayjs from 'dayjs';
 import { ComponentProps } from 'react';
-import ReactCalendar, { TileClassNameFunc } from 'react-calendar';
+import ReactCalendar, { type TileClassNameFunc } from 'react-calendar';
 
 import './styles.css';
 import Icon from '../icon';
