@@ -15,7 +15,7 @@ export default function useLeagueTeams(leagueId: number, round: number) {
   return { leagueTeams: data };
 }
 
-export async function useLeagueTeamsPrefetch(leagueId: number, round: number) {
+export async function leagueTeamsPrefetch(leagueId: number, round: number) {
   const queryClient = getQueryClient();
 
   await queryClient.prefetchQuery({

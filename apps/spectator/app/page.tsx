@@ -5,9 +5,9 @@ import { ReactElement } from 'react';
 
 import Layout from '@/components/Layout';
 import { GAME_STATE } from '@/constants/configs';
-import { useLeaguesPrefetch } from '@/queries/useLeague';
-import { useLeagueDetailPrefetch } from '@/queries/useLeagueDetail';
-import { useLeagueTeamsPrefetch } from '@/queries/useLeagueTeams';
+import { leaguesPrefetch } from '@/queries/useLeague';
+import { leagueDetailPrefetch } from '@/queries/useLeagueDetail';
+import { leagueTeamsPrefetch } from '@/queries/useLeagueTeams';
 import { GameState } from '@/types/game';
 
 import LeagueFilter from './_components/GameFilter/LeagueFilter';
@@ -45,15 +45,15 @@ export default async function Page({ searchParams }: PageProps) {
 
   const year = 2024;
   const queryClient = getQueryClient();
-  const leagues: LeagueListType[] = await useLeaguesPrefetch(year);
+  const leagues: LeagueListType[] = await leaguesPrefetch(year);
   const inProgress =
     leagues.find(league => league.isInProgress) || leagues?.[0];
   const initialLeagueId = Number(league) || inProgress?.leagueId;
 
-  const leagueDetail = await useLeagueDetailPrefetch(initialLeagueId);
+  const leagueDetail = await leagueDetailPrefetch(initialLeagueId);
   const currentRound = Number(round) || leagueDetail.inProgressRound;
 
-  await useLeagueTeamsPrefetch(initialLeagueId, currentRound);
+  await leagueTeamsPrefetch(initialLeagueId, currentRound);
 
   return (
     <Layout arrowVisible={false}>

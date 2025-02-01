@@ -1,21 +1,13 @@
-const { createVanillaExtractPlugin } = require('@vanilla-extract/next-plugin');
+import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin';
+import { NextConfig } from 'next';
+
 const withVanillaExtract = createVanillaExtractPlugin();
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: false,
-  experimental: {},
-
+const nextConfig: NextConfig = {
   images: {
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 60 * 60 * 24 * 14,
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'images.hufstreaming.site',
-      },
-      {
-        protocol: 'https',
-        hostname: 'images.hufscheer.com',
-      },
       {
         protocol: 'https',
         hostname: 'hufstreaming.s3.ap-northeast-2.amazonaws.com',
@@ -26,11 +18,11 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'hufscheer-images.s3.ap-northeast-2.amazonaws.com',
+        hostname: 'images.hufstreaming.site',
       },
       {
         protocol: 'https',
-        hostname: 'github.com',
+        hostname: 'images.hufscheer.com',
       },
     ],
   },
@@ -49,4 +41,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withVanillaExtract(nextConfig);
+export default withVanillaExtract(nextConfig);

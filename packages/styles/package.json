@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "sideEffects": false,
+  "type": "module",
   "scripts": {
     "lint": "eslint . --max-warnings 0",
     "build": "tsc"
@@ -19,11 +20,9 @@
     "@hcc/eslint-config": "workspace:*",
     "@hcc/typescript-config": "workspace:*",
     "@turbo/gen": "^1.13.4",
-    "@types/eslint": "^8.56.12",
     "@types/node": "^22.13.0",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
-    "eslint": "^8.57.1",
     "react": "^19.0.0",
     "typescript": "^5.7.3"
   },

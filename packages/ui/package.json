@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "sideEffects": false,
+  "type": "module",
   "scripts": {
     "dev": "tsc -w",
     "lint": "eslint . --max-warnings 0",
@@ -15,23 +16,6 @@
       "prettier --write",
       "eslint --fix --max-warnings 0"
     ]
-  },
-  "devDependencies": {
-    "@hcc/eslint-config": "workspace:*",
-    "@hcc/styles": "workspace:^",
-    "@hcc/typescript-config": "workspace:*",
-    "@turbo/gen": "^1.13.4",
-    "@types/eslint": "^8.56.12",
-    "@types/node": "^22.13.0",
-    "@types/react": "^19.0.8",
-    "@types/react-dom": "^19.0.3",
-    "@types/uuid": "^9.0.8",
-    "@vanilla-extract/recipes": "^0.5.5",
-    "eslint": "^8.57.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "typescript": "^5.7.3",
-    "uuid": "^9.0.1"
   },
   "dependencies": {
     "@hcc/icons": "workspace:^",
@@ -47,5 +31,20 @@
     "react-calendar": "^5.1.0",
     "react-hook-form": "^7.54.2",
     "vaul": "^1.1.2"
+  },
+  "devDependencies": {
+    "@hcc/eslint-config": "workspace:*",
+    "@hcc/styles": "workspace:^",
+    "@hcc/typescript-config": "workspace:*",
+    "@turbo/gen": "^1.13.4",
+    "@types/node": "^22.13.0",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@types/uuid": "^9.0.8",
+    "@vanilla-extract/recipes": "^0.5.5",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typescript": "^5.7.3",
+    "uuid": "^9.0.1"
   }
 }

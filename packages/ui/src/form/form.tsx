@@ -96,7 +96,7 @@ const FormItem = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div'>>(
 );
 FormItem.displayName = 'FormItem';
 
-interface FormLabelProps extends ComponentPropsWithoutRef<'label'> {}
+type FormLabelProps = ComponentPropsWithoutRef<'label'>;
 
 const FormLabel = forwardRef<HTMLLabelElement, FormLabelProps>(
   ({ className, ...props }, ref) => {

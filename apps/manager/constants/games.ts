@@ -1,5 +1,4 @@
-import { StateType } from '@hcc/api';
-import { ProgressType } from '@hcc/api/src';
+import { StateType, ProgressType } from '@hcc/api';
 
 export const QUARTERS_DB = {
   경기전: '경기전',

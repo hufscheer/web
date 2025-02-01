@@ -15,7 +15,7 @@ export default function useLeagueDetailQuery(leagueId: number) {
   return query;
 }
 
-export async function useLeagueDetailPrefetch(leagueId: number) {
+export async function leagueDetailPrefetch(leagueId: number) {
   const queryClient = getQueryClient();
 
   return await queryClient.fetchQuery({

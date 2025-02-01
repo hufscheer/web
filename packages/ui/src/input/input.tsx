@@ -5,7 +5,7 @@ import { ComponentPropsWithoutRef, forwardRef, useRef } from 'react';
 
 import * as styles from './styles.css';
 
-export interface InputProps extends ComponentPropsWithoutRef<'input'> {}
+export type InputProps = ComponentPropsWithoutRef<'input'>;
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ className, type = 'text', ...props }, ref) => {
