@@ -49,8 +49,8 @@ const leagueQueryKeys = {
     },
   }),
 
-  leaguesDetail: (leagueId: string) => ({
-    queryKey: ['leaguesDetail', { leagueId }],
+  leagueDetail: (leagueId: string) => ({
+    queryKey: ['leagueDetail', { leagueId }],
     queryFn: async () => {
       const data: LeagueType = await fetcher.get<LeagueType>(
         `/leagues/${leagueId}`,
