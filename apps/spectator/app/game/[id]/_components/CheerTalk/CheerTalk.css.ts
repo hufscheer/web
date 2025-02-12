@@ -7,6 +7,7 @@ export const wrapper = style({
   display: 'flex',
   flexDirection: 'column',
   height: '100%',
+  maxHeight: '100vh',
   maxWidth: theme.sizes.appWidth,
   width: '100%',
   backgroundColor: theme.colors.white,

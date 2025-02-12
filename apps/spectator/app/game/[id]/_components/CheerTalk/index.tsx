@@ -53,7 +53,6 @@ export default function CheerTalk({
   return (
     <Modal defaultState={defaultState}>
       <Modal.Trigger
-        as="span"
         onClick={() =>
           tracker('onAir', { clickEvent: 'onAir CheerTalk Modal' })
         }
@@ -65,21 +64,23 @@ export default function CheerTalk({
         />
         <CheerTalkEntryButton />
       </Modal.Trigger>
-      <Modal.Content className={styles.wrapper}>
-        {/* Game Banner */}
-        <CheerTalkBanner gameId={gameId} />
+      <Modal.Content>
+        <div className={styles.wrapper}>
+          {/* Game Banner */}
+          <CheerTalkBanner gameId={gameId} />
 
-        {/* Game Timeline */}
-        <CheerTalkTimeline gameId={gameId} />
+          {/* Game Timeline */}
+          <CheerTalkTimeline gameId={gameId} />
 
-        {/* CheerTalk List */}
-        <CheerTalkList
-          gameId={gameId}
-          cheerTalkList={cheerTalks}
-          socketTalkList={socketTalkList}
-          {...rest}
-        />
-        <Modal.Close className={styles.close} />
+          {/* CheerTalk List */}
+          <CheerTalkList
+            gameId={gameId}
+            cheerTalkList={cheerTalks}
+            socketTalkList={socketTalkList}
+            {...rest}
+          />
+          <Modal.Close className={styles.close} />
+        </div>
       </Modal.Content>
     </Modal>
   );
