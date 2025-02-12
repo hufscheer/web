@@ -43,19 +43,20 @@ export default function Sidebar() {
         }}
         transition={{ type: 'just' }}
         aria-label="Sidebar"
-        className={styles.sidebar}
       >
-        <div className={styles.sidebarHeader}>
-          <span>대회 목록</span>
-          <Modal.Close ref={ref} className={styles.close} />
-        </div>
+        <div className={styles.sidebar}>
+          <div className={styles.sidebarHeader}>
+            <span>대회 목록</span>
+            <Modal.Close ref={ref} className={styles.close} />
+          </div>
 
-        <AsyncBoundary
-          errorFallback={() => <div>에러</div>}
-          loadingFallback={<LeagueListSkeleton />}
-        >
-          <LeagueList handleClose={handleClose} />
-        </AsyncBoundary>
+          <AsyncBoundary
+            errorFallback={() => <div>에러</div>}
+            loadingFallback={<LeagueListSkeleton />}
+          >
+            <LeagueList handleClose={handleClose} />
+          </AsyncBoundary>
+        </div>
       </Modal.Content>
     </Modal>
   );

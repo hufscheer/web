@@ -1,3 +1,6 @@
+import '@hcc/styles/globals';
+import '@hcc/styles/colors.css';
+
 import { Toaster } from '@hcc/ui';
 import { extend } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -6,8 +9,6 @@ import localFont from 'next/font/local';
 import { ReactNode } from 'react';
 
 import Providers from './Providers';
-import '@hcc/styles/dist/globals.css';
-import '@hcc/styles/colors.css';
 
 extend(customParseFormat);
 

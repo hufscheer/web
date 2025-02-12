@@ -1,27 +1,13 @@
 import { KeyboardArrowDownIcon } from '@hcc/icons';
 import { clsx } from 'clsx';
-import { ElementType, forwardRef } from 'react';
+import { ComponentProps } from 'react';
 
 import useAccordion from './hooks/useAccordion';
 import useAccordionItem from './hooks/useAccordionItem';
 import * as styles from './styles.css';
-import {
-  PolymorphicComponentProps,
-  PolymorphicComponentPropsWithRef,
-  PolymorphicRef,
-} from './type';
 import Icon from '../icon';
 
-type Props<C extends ElementType> = PolymorphicComponentProps<C>;
-type ContentType = <C extends ElementType = 'button'>(
-  props: PolymorphicComponentPropsWithRef<C, Props<C>>,
-) => React.ReactNode;
-
-const Trigger: ContentType = forwardRef(function AccordionTrigger<
-  C extends ElementType = 'button',
->({ as, className, children }: Props<C>, ref: PolymorphicRef<C>) {
-  const Component = as || 'button';
-
+const Trigger = ({ className, children }: ComponentProps<'button'>) => {
   const { accordion, handleItemOpen, handleItemClose } = useAccordion();
   const { value } = useAccordionItem();
   const open = accordion.includes(value);
@@ -32,19 +18,15 @@ const Trigger: ContentType = forwardRef(function AccordionTrigger<
   };
 
   return (
-    <Component
-      ref={ref}
-      onClick={handleClick}
-      className={clsx(styles.trigger, className)}
-    >
+    <button onClick={handleClick} className={clsx(styles.trigger, className)}>
       {children}
       <Icon
         source={KeyboardArrowDownIcon}
         size="sm"
         className={styles.caret({ open })}
       />
-    </Component>
+    </button>
   );
-});
+};
 
 export default Trigger;

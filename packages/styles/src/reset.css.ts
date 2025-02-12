@@ -1,5 +1,12 @@
 import { globalStyle } from '@vanilla-extract/css';
 
+globalStyle('*', {
+  margin: 0,
+  padding: 0,
+  font: 'inherit',
+  color: 'inherit',
+});
+
 globalStyle('*, :after, :before', {
   boxSizing: 'border-box',
 });
@@ -39,9 +46,8 @@ globalStyle('table', {
   borderSpacing: 0,
 });
 
-globalStyle('*', {
-  margin: 0,
+globalStyle('ul', {
+  listStyle: 'none',
   padding: 0,
-  font: 'inherit',
-  color: 'inherit',
+  margin: 0,
 });

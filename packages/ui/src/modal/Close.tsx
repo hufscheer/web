@@ -1,28 +1,21 @@
 import { CrossIcon } from '@hcc/icons';
 import { clsx } from 'clsx';
-import React, { ElementType, forwardRef } from 'react';
+import { ComponentProps } from 'react';
 
 import { useModal } from './hooks';
 import * as styles from './styles.css';
-import {
-  PolymorphicComponentProps,
-  PolymorphicComponentPropsWithRef,
-  PolymorphicRef,
-} from './type';
 import Icon from '../icon';
 
-type Props<C extends ElementType> = PolymorphicComponentProps<C>;
-type CloseType = <C extends ElementType = 'button'>(
-  props: PolymorphicComponentPropsWithRef<C, Props<C>>,
-) => React.ReactNode;
+type ModalCloseProps = {
+  onClick?: () => void;
+} & ComponentProps<'button'>;
 
-const ModalClose: CloseType = forwardRef(function ModalClose<
-  C extends ElementType = 'button',
->(
-  { as, children, className, onClick, ...props }: Props<C>,
-  ref: PolymorphicRef<C>,
-) {
-  const Component = as || 'button';
+const ModalClose = ({
+  onClick,
+  children,
+  className,
+  ...props
+}: ModalCloseProps) => {
   const { onOpenChange } = useModal();
 
   const handleOnClick = () => {
@@ -32,27 +25,21 @@ const ModalClose: CloseType = forwardRef(function ModalClose<
 
   if (children) {
     return (
-      <Component
-        ref={ref}
-        className={className}
-        {...props}
-        onClick={handleOnClick}
-      >
+      <button className={className} {...props} onClick={handleOnClick}>
         {children}
-      </Component>
+      </button>
     );
   }
 
   return (
-    <Component
-      ref={ref}
+    <button
       {...props}
       onClick={handleOnClick}
       className={clsx(styles.close, className)}
     >
       <Icon source={CrossIcon} size="xs" />
-    </Component>
+    </button>
   );
-});
+};
 
 export default ModalClose;

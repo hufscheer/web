@@ -1,5 +1,4 @@
-import { rem, theme } from '@hcc/styles';
-import { breakpoint } from '@hcc/styles/dist/responsive.css';
+import { rem, theme, breakpoint } from '@hcc/styles';
 import { keyframes, style, styleVariants } from '@vanilla-extract/css';
 
 export const container = style({

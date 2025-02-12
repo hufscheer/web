@@ -1,13 +1,8 @@
-import { AnimatePresence, AnimationProps, motion } from 'framer-motion';
-import React, { ElementType, forwardRef, useEffect } from 'react';
+import { AnimatePresence, motion, MotionProps } from 'framer-motion';
+import React, { useEffect } from 'react';
 
 import { useModal } from './hooks';
 import * as styles from './styles.css';
-import {
-  PolymorphicComponentProps,
-  PolymorphicComponentPropsWithRef,
-  PolymorphicRef,
-} from './type';
 
 const backdropVariants = {
   visible: { opacity: 1 },
@@ -24,29 +19,16 @@ type ModalContentProps = {
   disableEscapeKeyDown?: boolean;
   backdropColor?: string;
   children: React.ReactNode;
-} & AnimationProps;
+} & MotionProps;
 
-type Props<C extends ElementType> = PolymorphicComponentProps<
-  C,
-  ModalContentProps
->;
-type ContentType = <C extends ElementType = 'div'>(
-  props: PolymorphicComponentPropsWithRef<C, Props<C>>,
-) => React.ReactNode;
-
-const ModalContent: ContentType = forwardRef(function ModalContent<
-  C extends ElementType = 'div',
->(
-  {
-    disableBackdropClick = false,
-    disableEscapeKeyDown = false,
-    variants = modalVariants,
-    backdropColor = 'rgba(0, 0, 0, 0.5)',
-    children,
-    ...props
-  }: Props<C>,
-  ref: PolymorphicRef<C>,
-) {
+const ModalContent = ({
+  disableBackdropClick = false,
+  disableEscapeKeyDown = false,
+  variants = modalVariants,
+  backdropColor = 'rgba(0, 0, 0, 0.5)',
+  children,
+  ...props
+}: ModalContentProps) => {
   const { open, onOpenChange } = useModal();
 
   useEffect(() => {
@@ -76,7 +58,6 @@ const ModalContent: ContentType = forwardRef(function ModalContent<
           style={{ backgroundColor: backdropColor }}
         >
           <motion.div
-            ref={ref}
             variants={variants}
             initial="hidden"
             animate="visible"
@@ -90,6 +71,6 @@ const ModalContent: ContentType = forwardRef(function ModalContent<
       )}
     </AnimatePresence>
   );
-});
+};
 
 export default ModalContent;

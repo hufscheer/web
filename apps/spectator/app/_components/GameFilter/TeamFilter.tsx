@@ -4,7 +4,7 @@ import { CaretDownIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { clsx } from 'clsx';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { MouseEvent, useEffect, useRef, useState } from 'react';
+import { MouseEvent, RefObject, useEffect, useRef, useState } from 'react';
 
 import useLeagueTeams from '@/queries/useLeagueTeams';
 
@@ -18,10 +18,10 @@ type LeagueTeamFilterProps = {
 export default function TeamFilter({ leagueId, round }: LeagueTeamFilterProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const scrollRef = useRef<HTMLUListElement | null>(null);
+  const scrollRef = useRef<HTMLUListElement>(null);
   const prevScrollLeftRef = useRef(0);
 
-  useConveyer(scrollRef, {
+  useConveyer(scrollRef as RefObject<HTMLUListElement>, {
     horizontal: true,
     useDrag: true,
     useSideWheel: true,

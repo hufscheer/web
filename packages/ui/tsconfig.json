@@ -2,8 +2,7 @@
   "extends": "@hcc/typescript-config/react-library.json",
   "compilerOptions": {
     "outDir": "dist",
-    "module": "ESNext",
-    "moduleResolution": "Node"
+    "moduleResolution": "bundler",
   },
   "include": ["src", "turbo"],
   "exclude": ["node_modules", "dist"]

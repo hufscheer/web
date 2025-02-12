@@ -13,7 +13,7 @@ import * as styles from './styles.css';
 type FormBottomSheetProps = {
   title: string;
   icon: ReactNode;
-  form: ReactNode;
+  form: ReactElement<{ onClose?: () => void }>;
 };
 
 const FormBottomSheet = ({ title, icon, form }: FormBottomSheetProps) => {
@@ -33,7 +33,7 @@ const FormBottomSheet = ({ title, icon, form }: FormBottomSheetProps) => {
         </BottomSheetHeader>
         <hr className={styles.sheetDivider} />
         <BottomSheetDescription />
-        {cloneElement(form as ReactElement, {
+        {cloneElement(form, {
           onClose: () => setIsOpen(false),
         })}
       </BottomSheetContent>
