@@ -1,5 +1,5 @@
 import '@hcc/styles/globals';
-import '@hcc/styles/colors.css';
+import '@hcc/styles/colors';
 
 import { Toaster } from '@hcc/ui';
 import { clsx } from 'clsx';

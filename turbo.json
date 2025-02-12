@@ -5,7 +5,7 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "lib/**", "storybook-static/**"]
+      "outputs": [".next/**", "lib/**", "storybook-static/**", "dist/**"]
     },
     "deploy": {
       "dependsOn": ["build", "lint"]

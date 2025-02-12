@@ -13,7 +13,8 @@
       "default": "./dist/globals.css.js",
       "import": "./dist/globals.css.js",
       "types": "./dist/globals.css.d.ts"
-    }
+    },
+    "./colors": "./colors.css"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
