@@ -7,11 +7,11 @@ import GameCard from './_components/GameCard';
 import LeagueOverview from './_components/LeagueOverview';
 
 type PageProps = {
-  params: { leagueId: string };
+  params: Promise<{ leagueId: string }>;
 };
 
-export default function Page({ params }: PageProps) {
-  const leagueId: string = params.leagueId;
+export default async function Page({ params }: PageProps) {
+  const { leagueId } = await params;
 
   return (
     <Layout
