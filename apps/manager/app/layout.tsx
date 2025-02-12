@@ -1,4 +1,4 @@
-import '@hcc/styles/dist/globals.css';
+import '@hcc/styles/globals';
 import '@hcc/styles/colors.css';
 
 import { Toaster } from '@hcc/ui';
