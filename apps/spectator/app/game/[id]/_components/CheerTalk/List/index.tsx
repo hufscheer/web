@@ -4,7 +4,7 @@ import { Icon, Spinner } from '@hcc/ui';
 import { useEffect, useRef, memo, useState } from 'react';
 
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
-import useThrottle from '@/hooks/useThrottle';
+import { useThrottle } from '@/hooks/useThrottle';
 import { useTimeout } from '@/hooks/useTimeout';
 import { GameCheerTalkWithTeamInfo } from '@/types/game';
 
