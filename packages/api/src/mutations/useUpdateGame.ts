@@ -24,8 +24,8 @@ export const useUpdateGame = () => {
       const states: StateType[] = Object.keys(stateMap) as StateType[];
 
       await Promise.all([
-        queryClient.invalidateQueries(queryKeys.lineup(gameId)),
-        queryClient.invalidateQueries(queryKeys.lineupPlaying(gameId)),
+        queryClient.invalidateQueries(queryKeys.gameLineup(gameId)),
+        queryClient.invalidateQueries(queryKeys.gameLineupPlaying(gameId)),
         queryClient.invalidateQueries(queryKeys.game(gameId)),
         ...states.map((state: StateType) =>
           queryClient.invalidateQueries(

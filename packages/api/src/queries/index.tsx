@@ -2,6 +2,7 @@ export * from './useGame';
 export * from './useGameCheer';
 export * from './useGameLineup';
 export * from './useGameLineupPlaying';
+export * from './useGameVideo';
 export * from './useGames';
 export * from './useGamesByLeagueList';
 export * from './useLeague';

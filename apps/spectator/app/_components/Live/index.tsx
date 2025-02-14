@@ -1,5 +1,4 @@
-import { GAME_STATE } from '@/constants/configs';
-import useGameById from '@/queries/useGameById';
+import { useGame } from '@hcc/api';
 
 import * as styles from './Live.css';
 
@@ -8,9 +7,9 @@ type LiveProps = {
 };
 
 export default function Live({ gameId }: LiveProps) {
-  const { gameDetail } = useGameById(gameId);
+  const { data } = useGame(gameId);
 
-  if (gameDetail.state !== GAME_STATE['PLAYING'].toUpperCase()) return null;
+  if (data.state !== 'PLAYING') return null;
 
   return (
     <div className={styles.root}>

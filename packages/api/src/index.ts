@@ -7,8 +7,8 @@ export {
 } from '@tanstack/react-query';
 
 export { QueryClientProvider } from './QueryClientProvider';
-export * from './utils';
 
+export * from './utils';
 export * from './mutations';
 export * from './queries';
 export * from './types';

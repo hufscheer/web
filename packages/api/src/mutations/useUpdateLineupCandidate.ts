@@ -20,9 +20,9 @@ export const useUpdateLineupCandidate = () => {
   return useMutation({
     mutationFn: patchUpdateLineupCandidate,
     onSuccess: async (_, variables) => {
-      await queryClient.invalidateQueries(queryKeys.lineup(variables.gameId));
+      await queryClient.invalidateQueries(queryKeys.gameLineup(variables.gameId));
       await queryClient.invalidateQueries(
-        queryKeys.lineupPlaying(variables.gameId),
+        queryKeys.gameLineupPlaying(variables.gameId),
       );
     },
   });

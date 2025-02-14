@@ -66,14 +66,14 @@ export type GameTeamPlayerType = {
   state: 'STARTER' | 'CANDIDATE';
 };
 
-export type LineupType = {
+export type GameLineupType = {
   gameTeamId: number;
   teamName: string;
   starterPlayers: GameTeamPlayerType[];
   candidatePlayers: GameTeamPlayerType[];
 };
 
-export type PlayingLineupType = {
+export type GameLineupPlayingType = {
   gameTeamId: number;
   teamName: string;
   gameTeamPlayers: GameTeamPlayerType[];
@@ -82,4 +82,8 @@ export type PlayingLineupType = {
 export type GameCheerType = {
   gameTeamId: number;
   cheerCount: number;
+};
+
+export type GameVideoType = {
+  videoId: string;
 };

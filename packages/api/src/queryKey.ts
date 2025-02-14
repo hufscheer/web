@@ -11,15 +11,16 @@ import {
   TeamPlayerType,
   TeamDetailType,
   TeamType,
-  LineupType,
+  GameLineupType,
   TimelineType,
   ManagerLeagueType,
   ManagerManageLeagueType,
   CheerTalkType,
   LeagueCheerTalkPayload,
   GameCheerTalkPayload,
-  PlayingLineupType,
+  GameLineupPlayingType,
   GameCheerType,
+  GameVideoType,
 } from './types';
 
 const managerQueryKeys = {
@@ -106,6 +107,22 @@ const gameQueryKeys = {
     queryFn: () => fetcher.get<GameCheerType[]>(`/games/${gameId}/cheer`),
   }),
 
+  gameLineup: (gameId: string) => ({
+    queryKey: ['gameLineup', { gameId }],
+    queryFn: () => fetcher.get<GameLineupType[]>(`/games/${gameId}/lineup`),
+  }),
+
+  gameLineupPlaying: (gameId: string) => ({
+    queryKey: ['gameLineupPlaying', { gameId }],
+    queryFn: () =>
+      fetcher.get<GameLineupPlayingType[]>(`/games/${gameId}/lineup/playing`),
+  }),
+
+  gameVideo: (gameId: string) => ({
+    queryKey: ['gameVideo', { gameId }],
+    queryFn: () => fetcher.get<GameVideoType>(`/games/${gameId}/video`),
+  }),
+
   games: (params: GamesParams) => ({
     queryKey: ['games', params],
     queryFn: () => {
@@ -130,17 +147,6 @@ const gameQueryKeys = {
       const data = await fetcher.get<GameType[]>(`/games`, { params });
       return { games: data, league } satisfies GameWithLeagueListType;
     },
-  }),
-
-  lineup: (gameId: string) => ({
-    queryKey: ['gameLineup', { gameId }],
-    queryFn: () => fetcher.get<LineupType[]>(`/games/${gameId}/lineup`),
-  }),
-
-  lineupPlaying: (gameId: string) => ({
-    queryKey: ['gameLineupPlaying', { gameId }],
-    queryFn: () =>
-      fetcher.get<PlayingLineupType[]>(`/games/${gameId}/lineup/playing`),
   }),
 };
 
