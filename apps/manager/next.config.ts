@@ -75,9 +75,6 @@ export default withSentryConfig(withVanillaExtract(nextConfig), {
   // side errors will fail.
   tunnelRoute: '/monitoring',
 
-  // Hides source maps from generated client bundles
-  hideSourceMaps: true,
-
   // Automatically tree-shake Sentry logger statements to reduce bundle size
   disableLogger: true,
 
@@ -86,4 +83,8 @@ export default withSentryConfig(withVanillaExtract(nextConfig), {
   // https://docs.sentry.io/product/crons/
   // https://vercel.com/docs/cron-jobs
   automaticVercelMonitors: true,
+
+  sourcemaps: {
+    deleteSourcemapsAfterUpload: true,
+  },
 });
