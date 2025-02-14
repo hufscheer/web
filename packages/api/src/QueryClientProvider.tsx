@@ -1,3 +1,4 @@
+'use client';
 import {
   QueryClient,
   QueryClientProvider as BaseQueryClientProvider,
@@ -12,7 +13,7 @@ export function QueryClientProvider({ children }: PropsWithChildren) {
           queries: {
             refetchOnWindowFocus: false,
             refetchInterval: false,
-            staleTime: 1000 * 60 * 10,
+            staleTime: 1000 * 60,
             retry: 0,
           },
         },

@@ -1,9 +1,9 @@
+import { NotFoundError } from '@hcc/api';
 import { ArrowClockwiseIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { AxiosError } from 'axios';
 
 import { FallbackProps } from '@/components/ErrorBoundary';
-import { NotFoundError } from '@/services/errors';
 
 import * as styles from './Highlight.css';
 

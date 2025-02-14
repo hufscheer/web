@@ -2,7 +2,7 @@ import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 import { queryKeys } from '../queryKey';
 
-const useLeagueCheerTalkReported = (leagueId: string) =>
+export const useLeagueCheerTalkReported = (leagueId: string) =>
   useSuspenseInfiniteQuery({
     queryKey: queryKeys.leagueCheerTalksReported({ leagueId }).queryKey,
     initialPageParam: 0,
@@ -19,5 +19,3 @@ const useLeagueCheerTalkReported = (leagueId: string) =>
 
     staleTime: 1000,
   });
-
-export default useLeagueCheerTalkReported;

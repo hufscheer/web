@@ -16,7 +16,7 @@ const putUpdateLeagueTeam = (request: Request) => {
   });
 };
 
-const useUpdateLeagueTeam = () => {
+export const useUpdateLeagueTeam = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -33,5 +33,3 @@ const useUpdateLeagueTeam = () => {
     },
   });
 };
-
-export default useUpdateLeagueTeam;

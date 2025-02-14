@@ -10,6 +10,5 @@ type Request = {
 const postManagerLogin = ({ email, password }: Request) =>
   fetcher.post<void>('/manager/login', { email, password });
 
-const useManagerLogin = () => useMutation({ mutationFn: postManagerLogin });
-
-export default useManagerLogin;
+export const useManagerLogin = () =>
+  useMutation({ mutationFn: postManagerLogin });

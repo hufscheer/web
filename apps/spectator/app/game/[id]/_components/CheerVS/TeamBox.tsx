@@ -1,23 +1,25 @@
 'use client';
-
+import {
+  GameCheerType,
+  GameTeamDirectionType,
+  GameTeamType,
+  useUpdateGameCheer,
+} from '@hcc/api';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 import Image from 'next/image';
 import { useState } from 'react';
 
 import { useDebounce } from '@/hooks/useDebounce';
-import useTracker from '@/hooks/useTracker';
-import useCheerMutation from '@/queries/useCheerMutation';
-import { GameCheerType, GameTeamType, TeamDirection } from '@/types/game';
 
 import * as styles from './styles.css';
 
 type CheerTeamProps = (GameCheerType & GameTeamType) & {
   gameId: string;
-  direction: TeamDirection;
+  direction: GameTeamDirectionType;
   fullCheerCount: number;
 };
 
-const MAX_COUNT = 500;
+const CHEER_MAX_COUNT = 500;
 
 export default function CheerTeamBox({
   gameId,
@@ -28,17 +30,12 @@ export default function CheerTeamBox({
   gameTeamId,
   gameTeamName,
 }: CheerTeamProps) {
-  const { tracker } = useTracker();
   const [count, setCount] = useState(cheerCount);
-  const { mutate } = useCheerMutation();
+  const { mutate } = useUpdateGameCheer();
 
   const debouncedMutateCheerCount = useDebounce(
     () => {
       if (count === cheerCount) return;
-
-      tracker(`cheerVS`, {
-        clickEvent: `${gameTeamName}(${gameId}) | ${count - cheerCount}`,
-      });
 
       mutate(
         { cheerCount: count - cheerCount, gameId, gameTeamId },
@@ -53,7 +50,7 @@ export default function CheerTeamBox({
     setCount(prev => {
       const nextCount = prev + 1;
 
-      if (nextCount - cheerCount > MAX_COUNT) {
+      if (nextCount - cheerCount > CHEER_MAX_COUNT) {
         alert('잠시 쉬었다가 다시 응원해주세요!');
 
         return prev;

@@ -14,7 +14,7 @@ const putUpdateGame = (request: Request) => {
   return fetcher.put<void>(`/leagues/${leagueId}/${gameId}`, { ...rest });
 };
 
-const useUpdateGame = () => {
+export const useUpdateGame = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -24,8 +24,8 @@ const useUpdateGame = () => {
       const states: StateType[] = Object.keys(stateMap) as StateType[];
 
       await Promise.all([
-        queryClient.invalidateQueries(queryKeys.lineup(gameId)),
-        queryClient.invalidateQueries(queryKeys.lineupPlaying(gameId)),
+        queryClient.invalidateQueries(queryKeys.gameLineup(gameId)),
+        queryClient.invalidateQueries(queryKeys.gameLineupPlaying(gameId)),
         queryClient.invalidateQueries(queryKeys.game(gameId)),
         ...states.map((state: StateType) =>
           queryClient.invalidateQueries(
@@ -36,5 +36,3 @@ const useUpdateGame = () => {
     },
   });
 };
-
-export default useUpdateGame;

@@ -11,7 +11,7 @@ type Request = {
 const deleteLeagueTeam = ({ leagueId, teamId }: Request) =>
   fetcher.delete<void>(`/leagues/${leagueId}/teams/${teamId}`);
 
-const useDeleteLeagueTeam = () => {
+export const useDeleteLeagueTeam = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -28,5 +28,3 @@ const useDeleteLeagueTeam = () => {
     },
   });
 };
-
-export default useDeleteLeagueTeam;

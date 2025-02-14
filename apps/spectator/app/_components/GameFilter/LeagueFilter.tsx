@@ -1,12 +1,11 @@
 'use client';
 
 import Flicking from '@egjs/react-flicking';
+import { useLeagues } from '@hcc/api';
 import { clsx } from 'clsx';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useRef } from 'react';
-
-import useLeague from '@/queries/useLeague';
 
 import * as styles from './styles.css';
 
@@ -15,13 +14,13 @@ export default function LeagueFilter({ year }: { year: number }) {
 
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { leagues } = useLeague(year);
+  const { data } = useLeagues(year.toString());
 
-  if (!leagues?.length) return <div>길이 부족</div>;
+  if (!data?.length) return <div>길이 부족</div>;
 
   const selectedLeague =
     Number(searchParams.get('league')) ||
-    (leagues.find(league => league.isInProgress) || leagues[0]).leagueId;
+    (data.find(league => league.isInProgress) || data[0]).leagueId;
 
   return (
     <div className={styles.leagueWrapper}>
@@ -35,7 +34,7 @@ export default function LeagueFilter({ year }: { year: number }) {
         bound={true}
         gap={12}
       >
-        {leagues.map(league => (
+        {data.map(league => (
           <li key={league.leagueId} className={styles.filter}>
             <Link
               className={clsx(styles.filterLink, {

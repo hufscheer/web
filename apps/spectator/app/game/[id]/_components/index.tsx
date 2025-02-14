@@ -1,6 +1,5 @@
 'use client';
 import { Spinner, Tabs } from '@hcc/ui';
-import { Fragment } from 'react';
 
 import Live from '@/app/_components/Live';
 import AsyncBoundary from '@/components/AsyncBoundary';
@@ -70,10 +69,7 @@ export const GameDetail = ({ id, tabState, cheerState }: GameDetailProps) => {
       <section className={styles.cheerTalk.section}>
         <div className={styles.cheerTalk.header}>
           <h2 className={styles.cheerTalk.title}>실시간 응원톡</h2>
-          <AsyncBoundary
-            errorFallback={() => <Fragment></Fragment>}
-            loadingFallback={<Fragment></Fragment>}
-          >
+          <AsyncBoundary errorFallback={() => <></>} loadingFallback={<></>}>
             <Live gameId={id} />
           </AsyncBoundary>
         </div>

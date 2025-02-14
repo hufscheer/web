@@ -1,13 +1,13 @@
 import { useSuspenseQueries } from '@tanstack/react-query';
 
-import useLeagues from './useLeagues';
+import { useLeagues } from './useLeagues';
 import { queryKeys } from '../queryKey';
 
-const useLeaguesDetail = (year?: string) => {
+export const useLeaguesDetail = (year?: string) => {
   const leagues = useLeagues(year).data || [];
 
   const options = leagues.map(league => {
-    return queryKeys.leaguesDetail(league.leagueId.toString());
+    return queryKeys.leagueDetail(league.leagueId.toString());
   });
 
   return useSuspenseQueries({
@@ -21,5 +21,3 @@ const useLeaguesDetail = (year?: string) => {
     },
   });
 };
-
-export default useLeaguesDetail;

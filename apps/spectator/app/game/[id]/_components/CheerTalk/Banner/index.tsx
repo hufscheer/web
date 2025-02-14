@@ -1,4 +1,5 @@
-import useGameById from '@/queries/useGameById';
+import { useGame } from '@hcc/api';
+
 import { formatTime } from '@/utils/time';
 
 import * as styles from './Banner.css';
@@ -8,8 +9,8 @@ type BannerProps = {
 };
 
 export default function CheerTalkBanner({ gameId }: BannerProps) {
-  const { gameDetail } = useGameById(gameId);
-  const [firstTeam, secondTeam] = gameDetail.gameTeams;
+  const { data } = useGame(gameId);
+  const [firstTeam, secondTeam] = data.gameTeams;
 
   return (
     <div className={styles.banner.wrapper}>
@@ -19,11 +20,9 @@ export default function CheerTalkBanner({ gameId }: BannerProps) {
       <div className={styles.banner.gameInfoArea}>
         <span className={styles.banner.teamScore}>{firstTeam.score}</span>
         <div className={styles.banner.gameQuarterContainer}>
-          <span className={styles.banner.gameQuarter}>
-            {gameDetail.gameQuarter}
-          </span>
+          <span className={styles.banner.gameQuarter}>{data.gameQuarter}</span>
           <span className={styles.banner.gameStartTime}>
-            {formatTime(gameDetail.startTime, 'HH:mm')}
+            {formatTime(data.startTime, 'HH:mm')}
           </span>
         </div>
         <span className={styles.banner.teamScore}>{secondTeam.score}</span>

@@ -17,18 +17,16 @@ const patchUpdateLineupCaptainRevoke = ({
   );
 };
 
-const useUpdateLineupCaptainRevoke = () => {
+export const useUpdateLineupCaptainRevoke = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: patchUpdateLineupCaptainRevoke,
     onSuccess: async (_, variables) => {
-      await queryClient.invalidateQueries(queryKeys.lineup(variables.gameId));
+      await queryClient.invalidateQueries(queryKeys.gameLineup(variables.gameId));
       await queryClient.invalidateQueries(
-        queryKeys.lineupPlaying(variables.gameId),
+        queryKeys.gameLineupPlaying(variables.gameId),
       );
     },
   });
 };
-
-export default useUpdateLineupCaptainRevoke;

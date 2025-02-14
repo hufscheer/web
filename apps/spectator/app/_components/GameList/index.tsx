@@ -1,5 +1,6 @@
 'use client';
 
+import { useLeagueDetail } from '@hcc/api';
 import { Spinner } from '@hcc/ui';
 import { useSearchParams } from 'next/navigation';
 import { Fragment } from 'react';
@@ -7,7 +8,6 @@ import { Fragment } from 'react';
 import AsyncBoundary from '@/components/AsyncBoundary';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { useGameList } from '@/queries/useGameList';
-import useLeagueDetailQuery from '@/queries/useLeagueDetail';
 import { GameState } from '@/types/game';
 
 import GameCard from './Card';
@@ -20,7 +20,8 @@ type GameListProps = {
 
 export default function GameList({ state, initialLeagueId }: GameListProps) {
   const searchParams = useSearchParams();
-  const { data: leagueDetail } = useLeagueDetailQuery(Number(initialLeagueId));
+  const { data } = useLeagueDetail(initialLeagueId);
+  const leagueDetail = data?.league;
   const currentRound = leagueDetail?.inProgressRound?.toString() || '';
 
   const { data: groupedGameList, ...rest } = useGameList({

@@ -15,7 +15,7 @@ const postCreateReplacementTimeline = (request: Request) => {
   });
 };
 
-const useCreateReplacementTimeline = () => {
+export const useCreateReplacementTimeline = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -26,13 +26,11 @@ const useCreateReplacementTimeline = () => {
         queryClient.invalidateQueries(queryKeys.game(variables.gameId)),
         queryClient.invalidateQueries(queryKeys.leaguesOnManager()),
         queryClient.invalidateQueries(queryKeys.leaguesManageOnManager()),
-        queryClient.invalidateQueries(queryKeys.lineup(variables.gameId)),
+        queryClient.invalidateQueries(queryKeys.gameLineup(variables.gameId)),
         queryClient.invalidateQueries(
-          queryKeys.lineupPlaying(variables.gameId),
+          queryKeys.gameLineupPlaying(variables.gameId),
         ),
       ]);
     },
   });
 };
-
-export default useCreateReplacementTimeline;

@@ -1,19 +1,11 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const isBrowser: boolean = typeof window !== 'undefined';
-const isDevelopment: boolean = process.env.NODE_ENV === 'development';
-
-const host: string = isBrowser ? window.location.hostname : 'localhost';
-const port: string = isBrowser ? window.location.port : '3000';
-const protocol: 'http' | 'https' = isDevelopment ? 'http' : 'https';
-
-const baseURL: string = `${protocol}://${host}${port ? `:${port}` : ''}/api`;
+const baseURL: string = isBrowser ? '/api' : 'http://localhost:3000/api';
 
 export const instance = axios.create({
   baseURL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
 });
 

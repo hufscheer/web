@@ -10,7 +10,7 @@ const postCreateLeague = (request: Request) => {
   return fetcher.post<void>(`/leagues`, { ...request });
 };
 
-const useCreateLeague = () => {
+export const useCreateLeague = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -24,5 +24,3 @@ const useCreateLeague = () => {
     },
   });
 };
-
-export default useCreateLeague;

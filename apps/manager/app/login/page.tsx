@@ -1,6 +1,6 @@
 'use client';
 
-import { useLoginMutation } from '@hcc/api';
+import { useManagerLogin } from '@hcc/api';
 import {
   Button,
   Form,
@@ -41,7 +41,7 @@ export default function Login() {
     mode: 'onSubmit',
   });
 
-  const { mutate: mutateLogin } = useLoginMutation();
+  const { mutate: mutateLogin } = useManagerLogin();
   const onSubmit = ({ email, password }: LoginFormSchema) => {
     mutateLogin(
       { email, password },

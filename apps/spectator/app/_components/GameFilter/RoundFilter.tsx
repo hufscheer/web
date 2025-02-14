@@ -1,11 +1,10 @@
 'use client';
 
 import Flicking from '@egjs/react-flicking';
+import { useLeagueDetail } from '@hcc/api';
 import { clsx } from 'clsx';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-
-import useLeagueDetailQuery from '@/queries/useLeagueDetail';
 
 import * as styles from './styles.css';
 
@@ -19,9 +18,12 @@ export default function RoundFilter({ initialLeagueId }: RoundFilterProps) {
   const year = Number(searchParams.get('year'));
   const league = searchParams.get('league');
 
-  const { data: leagueDetail } = useLeagueDetailQuery(initialLeagueId);
+  const { data } = useLeagueDetail(initialLeagueId.toString());
+  if (!data) return null;
+  const { league: leagueDetail } = data;
+
   const currentRound =
-    Number(searchParams.get('round')) || leagueDetail?.inProgressRound;
+    Number(searchParams.get('round')) || leagueDetail.inProgressRound;
 
   if (!leagueDetail) return null;
 

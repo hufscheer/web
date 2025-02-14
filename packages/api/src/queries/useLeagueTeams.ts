@@ -1,8 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { queryKeys } from '../queryKey';
+import { getQueryClient } from '../utils';
 
-const useLeagueTeams = (leagueId: string, descriptionOfRound?: string) =>
+export const useLeagueTeams = (leagueId: string, descriptionOfRound?: string) =>
   useQuery(queryKeys.leagueTeams(leagueId, descriptionOfRound));
 
-export default useLeagueTeams;
+export const fetchLeagueTeams = async (
+  leagueId: string,
+  descriptionOfRound?: string,
+) =>
+  await getQueryClient().fetchQuery(
+    queryKeys.leagueTeams(leagueId, descriptionOfRound),
+  );

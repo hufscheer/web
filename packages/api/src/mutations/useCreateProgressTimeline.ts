@@ -15,7 +15,7 @@ const postCreateProgressTimeline = (request: Request) => {
   });
 };
 
-const useCreateProgressTimeline = () => {
+export const useCreateProgressTimeline = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -30,5 +30,3 @@ const useCreateProgressTimeline = () => {
     },
   });
 };
-
-export default useCreateProgressTimeline;

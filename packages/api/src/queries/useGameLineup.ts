@@ -2,6 +2,5 @@ import { useQuery } from '@tanstack/react-query';
 
 import { queryKeys } from '../queryKey';
 
-const useGameLineup = (gameId: string) => useQuery(queryKeys.lineup(gameId));
-
-export default useGameLineup;
+export const useGameLineup = (gameId: string) =>
+  useQuery(queryKeys.gameLineup(gameId));

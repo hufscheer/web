@@ -10,7 +10,7 @@ type Params = {
   state: StateType;
 };
 
-const useGamesByLeagueList = ({ year, state }: Params) => {
+export const useGamesByLeagueList = ({ year, state }: Params) => {
   const { data: leagues } = useLeagues(year);
   const leagueList = leagues ?? [];
 
@@ -29,5 +29,3 @@ const useGamesByLeagueList = ({ year, state }: Params) => {
     },
   });
 };
-
-export default useGamesByLeagueList;

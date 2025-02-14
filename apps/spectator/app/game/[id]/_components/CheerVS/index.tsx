@@ -1,4 +1,4 @@
-import { useCheerVSById } from '@/queries/useCheerVSById';
+import { useGameCheer } from '@hcc/api';
 
 import * as styles from './styles.css';
 import CheerTeamBox from './TeamBox';
@@ -8,25 +8,25 @@ type CheerVSProps = {
 };
 
 export default function CheerVS({ gameId }: CheerVSProps) {
-  const { firstTeam, secondTeam } = useCheerVSById(gameId);
-  const fullCheerCount = firstTeam.cheerCount + secondTeam.cheerCount;
+  const { homeTeam, awayTeam } = useGameCheer(gameId);
+  const cheerCount: number = homeTeam.cheerCount + awayTeam.cheerCount;
 
   return (
     <div className={styles.root}>
       <CheerTeamBox
-        {...firstTeam}
+        {...homeTeam}
         gameId={gameId}
         direction="left"
-        fullCheerCount={fullCheerCount}
+        fullCheerCount={cheerCount}
       />
       <div className={styles.empty}>
         <div className={styles.vs}>VS</div>
       </div>
       <CheerTeamBox
+        {...awayTeam}
         gameId={gameId}
-        {...secondTeam}
         direction="right"
-        fullCheerCount={fullCheerCount}
+        fullCheerCount={cheerCount}
       />
     </div>
   );

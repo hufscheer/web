@@ -15,7 +15,7 @@ const postCreateLeagueTeam = (request: Request) => {
   });
 };
 
-const useCreateLeagueTeam = () => {
+export const useCreateLeagueTeam = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -31,5 +31,3 @@ const useCreateLeagueTeam = () => {
     },
   });
 };
-
-export default useCreateLeagueTeam;

@@ -18,6 +18,5 @@ const postUploadImage = async ({ url, file }: Request) => {
   });
 };
 
-const useUploadImage = () => useMutation({ mutationFn: postUploadImage });
-
-export default useUploadImage;
+export const useUploadImage = () =>
+  useMutation({ mutationFn: postUploadImage });

@@ -1,12 +1,11 @@
 'use client';
 import { useConveyer } from '@egjs/react-conveyer';
+import { useLeagueTeams } from '@hcc/api';
 import { CaretDownIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { clsx } from 'clsx';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { MouseEvent, RefObject, useEffect, useRef, useState } from 'react';
-
-import useLeagueTeams from '@/queries/useLeagueTeams';
 
 import * as styles from './styles.css';
 
@@ -58,10 +57,10 @@ export default function TeamFilter({ leagueId, round }: LeagueTeamFilterProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const { leagueTeams } = useLeagueTeams(leagueId, round);
+  const { data } = useLeagueTeams(leagueId.toString(), round.toString());
   const selectedLeagueTeam = searchParams.get('leagueTeam')?.split(',') || [];
 
-  if (!leagueTeams || !leagueTeams.length) return;
+  if (!data || !data.length) return;
 
   const handleRouter = (
     event: MouseEvent<HTMLButtonElement>,
@@ -105,7 +104,7 @@ export default function TeamFilter({ leagueId, round }: LeagueTeamFilterProps) {
           isExpanded && styles.leagueTeam.listExpanded,
         )}
       >
-        {leagueTeams.map(team => (
+        {data.map(team => (
           <li key={team.leagueTeamId}>
             <button
               onClick={e => handleRouter(e, team.leagueTeamId)}

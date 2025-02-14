@@ -1,8 +1,6 @@
-import { useGame, useTimeline } from '@hcc/api';
+import { NotFoundError, useGame, useTimeline } from '@hcc/api';
 import { Spinner } from '@hcc/ui';
 import { Fragment } from 'react';
-
-import { NotFoundError } from '@/services/errors';
 
 import EventRecord from './EventRecord';
 import TextRecord from './TextRecord';
