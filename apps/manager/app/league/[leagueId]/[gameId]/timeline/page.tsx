@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+
 import Component from './component';
 
 type PageProps = {
@@ -7,5 +9,9 @@ type PageProps = {
 export default async function Page({ params }: PageProps) {
   const { gameId } = await params;
 
-  return <Component gameId={gameId} />;
+  return (
+    <Suspense>
+      <Component gameId={gameId} />
+    </Suspense>
+  );
 }
