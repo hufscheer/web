@@ -1,7 +1,7 @@
+import { useGame } from '@hcc/api';
 import { clsx } from 'clsx';
 import { Sofia_Sans } from 'next/font/google';
 
-import useGameById from '@/queries/useGameById';
 import { formatTime } from '@/utils/time';
 
 import * as styles from './Banner.css';
@@ -15,9 +15,9 @@ type BannerProps = {
 const sofia = Sofia_Sans({ subsets: ['latin'] });
 
 export default function Banner({ gameId }: BannerProps) {
-  const { gameDetail } = useGameById(gameId);
+  const { data } = useGame(gameId);
 
-  const [homeTeam, awayTeam] = gameDetail.gameTeams;
+  const [homeTeam, awayTeam] = data.gameTeams;
 
   return (
     <div className={styles.root}>
@@ -25,10 +25,10 @@ export default function Banner({ gameId }: BannerProps) {
       <div className={styles.gameInfo}>
         <span
           className={clsx(styles.badge, {
-            [badgeActive]: gameDetail.state === 'PLAYING',
+            [badgeActive]: data.state === 'PLAYING',
           })}
         >
-          {gameDetail.gameQuarter}
+          {data.gameQuarter}
         </span>
         <div className={styles.scoreBoard}>
           <span className={clsx(styles.score, sofia.className)}>
@@ -44,8 +44,8 @@ export default function Banner({ gameId }: BannerProps) {
         </div>
 
         <div className={styles.time}>
-          <time>{formatTime(gameDetail.startTime, 'YYYY.MM.DD. (ddd)')}</time>
-          <time>{formatTime(gameDetail.startTime, 'HH:mm')}</time>
+          <time>{formatTime(data.startTime, 'YYYY.MM.DD. (ddd)')}</time>
+          <time>{formatTime(data.startTime, 'HH:mm')}</time>
         </div>
       </div>
       <BannerTeam team={awayTeam} />

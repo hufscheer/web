@@ -1,29 +1,18 @@
+import { GameTeamType, useCreateCheerTalk } from '@hcc/api';
 import { SendIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
-import { UseMutateFunction } from '@tanstack/react-query';
 import axios from 'axios';
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
-
-import { GameCheerTalkPayload, GameTeamType } from '@/types/game';
 
 import * as styles from './Form.css';
 
 type CheerTalkFormProps = {
   gameTeams: GameTeamType[];
-  saveCheerTalkMutate: UseMutateFunction<
-    void,
-    Error,
-    GameCheerTalkPayload,
-    unknown
-  >;
   scrollToBottom: () => void;
 };
 
-const CheerTalkForm = ({
-  gameTeams,
-  saveCheerTalkMutate,
-  scrollToBottom,
-}: CheerTalkFormProps) => {
+const CheerTalkForm = ({ gameTeams, scrollToBottom }: CheerTalkFormProps) => {
+  const { mutate } = useCreateCheerTalk();
   const [inputValue, setInputValue] = useState<string>('');
   const [selectedTeamId, setSelectedTeamId] = useState<number>(
     gameTeams[0].gameTeamId,
@@ -35,7 +24,7 @@ const CheerTalkForm = ({
 
       if (!inputValue.trim()) return;
 
-      saveCheerTalkMutate(
+      mutate(
         {
           gameTeamId: selectedTeamId,
           content: inputValue,
@@ -51,7 +40,7 @@ const CheerTalkForm = ({
 
       setInputValue('');
     },
-    [inputValue, saveCheerTalkMutate, selectedTeamId, scrollToBottom],
+    [inputValue, mutate, selectedTeamId, scrollToBottom],
   );
 
   const handleRadioClick = useCallback(

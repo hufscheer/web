@@ -1,9 +1,9 @@
-import useGameById from './useGameById';
+import { useGame } from '@hcc/api';
 
 export const useGameTeamInfo = (
   gameId: string,
 ): { getTeamInfo: typeof getTeamInfo } => {
-  const { gameDetail } = useGameById(gameId);
+  const { data: gameDetail } = useGame(gameId);
 
   const getTeamInfo = (gameTeamId: number) => {
     const order = gameDetail.gameTeams.findIndex(

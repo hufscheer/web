@@ -1,3 +1,4 @@
+import { useGame } from '@hcc/api';
 import { ArrowDownIcon } from '@hcc/icons';
 import { Icon, Spinner } from '@hcc/ui';
 import { useEffect, useRef, memo, useState } from 'react';
@@ -5,8 +6,6 @@ import { useEffect, useRef, memo, useState } from 'react';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import useThrottle from '@/hooks/useThrottle';
 import { useTimeout } from '@/hooks/useTimeout';
-import useGameById from '@/queries/useGameById';
-import useSaveCheerTalkMutation from '@/queries/useSaveCheerTalkMutation/query';
 import { GameCheerTalkWithTeamInfo } from '@/types/game';
 
 import * as styles from './List.css';
@@ -38,8 +37,7 @@ export default function CheerTalkList({
   const [showScrollToBottomButton, setShowScrollToBottomButton] =
     useState(false);
 
-  const { gameDetail } = useGameById(gameId);
-  const { mutate } = useSaveCheerTalkMutation();
+  const { data: gameDetail } = useGame(gameId);
 
   const bottomRef = useRef<HTMLLIElement>(null);
   const scrollRef = useRef<HTMLUListElement>(null);
@@ -123,11 +121,7 @@ export default function CheerTalkList({
           ))}
           <li ref={bottomRef} />
         </ul>
-        <CheerTalkForm
-          gameTeams={gameDetail.gameTeams}
-          saveCheerTalkMutate={mutate}
-          scrollToBottom={run}
-        />
+        <CheerTalkForm gameTeams={gameDetail.gameTeams} scrollToBottom={run} />
         {showScrollToBottomButton && (
           <button
             className={styles.scrollToBottomButton}

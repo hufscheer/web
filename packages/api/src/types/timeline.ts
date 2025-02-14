@@ -44,8 +44,6 @@ export const RecordType = {
   PK: 'PK',
 } as const;
 
-export type RecordType = (typeof RecordType)[keyof typeof RecordType];
-
 export type PkRecordType = {
   pkRecordId: number;
   isSuccess: boolean;

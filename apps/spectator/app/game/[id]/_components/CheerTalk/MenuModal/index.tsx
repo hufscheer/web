@@ -1,3 +1,4 @@
+import { useCreateCheerTalkReport } from '@hcc/api';
 import { ExclamationCircleFillIcon } from '@hcc/icons';
 import {
   Dialog,
@@ -10,7 +11,6 @@ import {
 import { ReactNode } from 'react';
 
 import useTracker from '@/hooks/useTracker';
-import useReportCheerTalkMutation from '@/queries/useReportCheerTalkMutation/query';
 
 import * as styles from './MenuModal.css';
 
@@ -28,7 +28,7 @@ const CheerTalkMenuModal = ({
   children,
 }: CheerTalkMenuModalProps) => {
   const { tracker } = useTracker();
-  const { mutate, isSuccess } = useReportCheerTalkMutation();
+  const { mutate, isSuccess } = useCreateCheerTalkReport();
 
   const handleReportButton = async (payload: { cheerTalkId: number }) => {
     if (isSuccess) {

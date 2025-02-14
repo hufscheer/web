@@ -1,3 +1,5 @@
+export * from './useCreateCheerTalk';
+export * from './useCreateCheerTalkReport';
 export * from './useCreateGame';
 export * from './useCreateLeague';
 export * from './useCreateLeagueTeam';
