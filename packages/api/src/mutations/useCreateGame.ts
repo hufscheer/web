@@ -23,7 +23,7 @@ type UseCreateGameRequest = Omit<
 > &
   LeagueId;
 
-const useCreateGame = ({ leagueId, ...options }: UseCreateGameRequest) => {
+export const useCreateGame = ({ leagueId, ...options }: UseCreateGameRequest) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -50,5 +50,3 @@ const useCreateGame = ({ leagueId, ...options }: UseCreateGameRequest) => {
     ...options,
   });
 };
-
-export default useCreateGame;

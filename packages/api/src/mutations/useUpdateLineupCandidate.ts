@@ -14,7 +14,7 @@ const patchUpdateLineupCandidate = ({ gameId, lineupPlayerId }: Request) => {
   );
 };
 
-const useUpdateLineupCandidate = () => {
+export const useUpdateLineupCandidate = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -27,5 +27,3 @@ const useUpdateLineupCandidate = () => {
     },
   });
 };
-
-export default useUpdateLineupCandidate;

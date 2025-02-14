@@ -15,7 +15,7 @@ const postCreateScoreTimeline = (request: Request) => {
   });
 };
 
-const useCreateScoreTimeline = () => {
+export const useCreateScoreTimeline = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -30,5 +30,3 @@ const useCreateScoreTimeline = () => {
     },
   });
 };
-
-export default useCreateScoreTimeline;

@@ -12,7 +12,7 @@ const patchCheerTalkUnblock = ({ leagueId, cheerTalkId }: Request) => {
   return fetcher.patch<void>(`/cheer-talks/${leagueId}/${cheerTalkId}/unblock`);
 };
 
-const useUpdateCheerTalkUnblock = () => {
+export const useUpdateCheerTalkUnblock = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -32,5 +32,3 @@ const useUpdateCheerTalkUnblock = () => {
     },
   });
 };
-
-export default useUpdateCheerTalkUnblock;

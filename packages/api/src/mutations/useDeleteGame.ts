@@ -13,7 +13,7 @@ const deleteGame = ({ leagueId, gameId }: Request) => {
   return fetcher.delete<void>(`/leagues/${leagueId}/${gameId}`);
 };
 
-const useDeleteGame = () => {
+export const useDeleteGame = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -34,5 +34,3 @@ const useDeleteGame = () => {
     },
   });
 };
-
-export default useDeleteGame;

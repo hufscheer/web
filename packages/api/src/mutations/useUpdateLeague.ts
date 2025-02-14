@@ -13,7 +13,7 @@ const putUpdateLeague = (request: Request) => {
   return fetcher.put<void>(`/leagues/${leagueId}`, { ...rest });
 };
 
-const useUpdateLeague = () => {
+export const useUpdateLeague = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -28,5 +28,3 @@ const useUpdateLeague = () => {
     },
   });
 };
-
-export default useUpdateLeague;

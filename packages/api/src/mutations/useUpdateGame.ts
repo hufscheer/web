@@ -14,7 +14,7 @@ const putUpdateGame = (request: Request) => {
   return fetcher.put<void>(`/leagues/${leagueId}/${gameId}`, { ...rest });
 };
 
-const useUpdateGame = () => {
+export const useUpdateGame = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -36,5 +36,3 @@ const useUpdateGame = () => {
     },
   });
 };
-
-export default useUpdateGame;

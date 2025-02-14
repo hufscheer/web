@@ -15,7 +15,7 @@ const postCreatePkTimeline = (request: Request) => {
   });
 };
 
-const useCreatePkTimeline = () => {
+export const useCreatePkTimeline = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -30,5 +30,3 @@ const useCreatePkTimeline = () => {
     },
   });
 };
-
-export default useCreatePkTimeline;

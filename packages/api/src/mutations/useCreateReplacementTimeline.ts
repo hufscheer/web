@@ -15,7 +15,7 @@ const postCreateReplacementTimeline = (request: Request) => {
   });
 };
 
-const useCreateReplacementTimeline = () => {
+export const useCreateReplacementTimeline = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -34,5 +34,3 @@ const useCreateReplacementTimeline = () => {
     },
   });
 };
-
-export default useCreateReplacementTimeline;

@@ -12,7 +12,5 @@ const getGeneratePresignedUrl = ({ extension }: Request) => {
   return fetcher.get<string>('/manager/aws/generate-presigned-url', { params });
 };
 
-const useGeneratePresignedUrl = () =>
+export const useGeneratePresignedUrl = () =>
   useMutation({ mutationFn: getGeneratePresignedUrl });
-
-export default useGeneratePresignedUrl;

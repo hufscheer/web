@@ -11,7 +11,7 @@ const deleteLeague = ({ leagueId }: Request) => {
   return fetcher.delete<void>(`/leagues/${leagueId}`);
 };
 
-const useDeleteLeague = () => {
+export const useDeleteLeague = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -26,5 +26,3 @@ const useDeleteLeague = () => {
     },
   });
 };
-
-export default useDeleteLeague;

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 
 export const useTimeout = (callback: () => void, ms: number) => {
-  const timeoutId = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timeoutId = useRef<ReturnType<typeof setTimeout>>(null);
   const callbackRef = useRef(callback);
 
   useEffect(() => {
@@ -9,23 +9,22 @@ export const useTimeout = (callback: () => void, ms: number) => {
   }, [callback]);
 
   const run = useCallback(() => {
-    if (timeoutId.current) clearTimeout(timeoutId.current);
+    if (timeoutId.current) {
+      clearTimeout(timeoutId.current);
+    }
 
     timeoutId.current = setTimeout(() => {
-      callbackRef.current();
+      callback();
     }, ms);
-  }, [ms]);
+  }, [callback, ms]);
 
   const clear = useCallback(() => {
     if (timeoutId.current) {
       clearTimeout(timeoutId.current);
-      timeoutId.current = null;
     }
   }, []);
 
-  useEffect(() => {
-    return () => clear();
-  }, [clear]);
+  useEffect(() => clear, [clear]);
 
-  return [run, clear] as const;
+  return [run, clear];
 };

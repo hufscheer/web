@@ -17,7 +17,7 @@ const patchUpdateLineupCaptainRegister = ({
   );
 };
 
-const useUpdateLineupCaptainRegister = () => {
+export const useUpdateLineupCaptainRegister = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -30,5 +30,3 @@ const useUpdateLineupCaptainRegister = () => {
     },
   });
 };
-
-export default useUpdateLineupCaptainRegister;

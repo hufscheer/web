@@ -17,7 +17,7 @@ const patchUpdateLineupCaptainRevoke = ({
   );
 };
 
-const useUpdateLineupCaptainRevoke = () => {
+export const useUpdateLineupCaptainRevoke = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -30,5 +30,3 @@ const useUpdateLineupCaptainRevoke = () => {
     },
   });
 };
-
-export default useUpdateLineupCaptainRevoke;

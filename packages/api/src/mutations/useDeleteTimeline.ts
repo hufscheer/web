@@ -12,7 +12,7 @@ const deleteTimeline = ({ gameId, timelineId }: Request) => {
   return fetcher.delete<void>(`/games/${gameId}/timelines/${timelineId}`);
 };
 
-const useDeleteTimeline = () => {
+export const useDeleteTimeline = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -27,5 +27,3 @@ const useDeleteTimeline = () => {
     },
   });
 };
-
-export default useDeleteTimeline;
