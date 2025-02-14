@@ -1,7 +1,6 @@
 import Link from 'next/link';
 
 import { GAME_STATE, TABS_CONFIG } from '@/constants/configs';
-import useTracker from '@/hooks/useTracker';
 import { GameState } from '@/types/game';
 
 import * as styles from './styles.css';
@@ -13,7 +12,6 @@ type GameButtonProps = {
 };
 
 export default function GameButton({ id, state, hasVideo }: GameButtonProps) {
-  const { tracker } = useTracker();
   if (state === GAME_STATE.SCHEDULED) {
     return null;
   }
@@ -23,9 +21,6 @@ export default function GameButton({ id, state, hasVideo }: GameButtonProps) {
       {state === GAME_STATE.PLAYING && (
         <Link
           href={{ pathname: `/game/${id}`, query: { cheer: 'open' } }}
-          onClick={() =>
-            tracker(`gameList`, { clickEvent: `cheer button ${id}` })
-          }
           className={styles.gameButtonArea.cheer}
         >
           응원
@@ -37,11 +32,6 @@ export default function GameButton({ id, state, hasVideo }: GameButtonProps) {
             pathname: `/game/${id}`,
             query: { tab: TABS_CONFIG.HIGHLIGHT },
           }}
-          onClick={() =>
-            tracker(`gameList`, {
-              clickEvent: `highlight button ${id}`,
-            })
-          }
           className={styles.gameButtonArea.record}
         >
           영상
@@ -53,9 +43,6 @@ export default function GameButton({ id, state, hasVideo }: GameButtonProps) {
           pathname: `/game/${id}`,
           query: { tab: TABS_CONFIG.TIMELINE },
         }}
-        onClick={() =>
-          tracker(`gameList`, { clickEvent: `timeline button ${id}` })
-        }
         className={styles.gameButtonArea.record}
       >
         기록

@@ -10,8 +10,6 @@ import {
 } from '@hcc/ui';
 import { ReactNode } from 'react';
 
-import useTracker from '@/hooks/useTracker';
-
 import * as styles from './MenuModal.css';
 
 interface CheerTalkMenuModalProps {
@@ -27,18 +25,13 @@ const CheerTalkMenuModal = ({
   className,
   children,
 }: CheerTalkMenuModalProps) => {
-  const { tracker } = useTracker();
   const { mutate, isSuccess } = useCreateCheerTalkReport();
 
   const handleReportButton = async (payload: { cheerTalkId: number }) => {
     if (isSuccess) {
       alert('이미 신고했습니다!');
-
       return;
     }
-
-    tracker(`report`, { clickEvent: `report cheerTalk | "${content}"` });
-
     mutate(payload);
   };
 

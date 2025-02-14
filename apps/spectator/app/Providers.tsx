@@ -6,8 +6,6 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PropsWithChildren, useState } from 'react';
 
-import AmplitudeContextProvider from '@/contexts/AmplitudeContext';
-
 const Provider = ({ children }: PropsWithChildren) => {
   const [queryClient] = useState(
     () =>
@@ -24,14 +22,10 @@ const Provider = ({ children }: PropsWithChildren) => {
   );
 
   return (
-    <AmplitudeContextProvider>
-      <HccQueryClientProvider>
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
-        <HccReactQueryDevtools />
-      </HccQueryClientProvider>
-    </AmplitudeContextProvider>
+    <HccQueryClientProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <HccReactQueryDevtools />
+    </HccQueryClientProvider>
   );
 };
 

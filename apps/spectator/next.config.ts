@@ -1,3 +1,4 @@
+import { withSentryConfig } from '@sentry/nextjs';
 import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin';
 import { NextConfig } from 'next';
 
@@ -41,4 +42,14 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withVanillaExtract(nextConfig);
+export default withSentryConfig(withVanillaExtract(nextConfig), {
+  org: 'hufscheer',
+  project: 'spectator',
+  silent: !process.env.CI,
+  widenClientFileUpload: true,
+  reactComponentAnnotation: { enabled: true },
+  tunnelRoute: '/monitoring',
+  disableLogger: true,
+  automaticVercelMonitors: true,
+  sourcemaps: { deleteSourcemapsAfterUpload: true },
+});

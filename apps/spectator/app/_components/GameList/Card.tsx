@@ -1,7 +1,6 @@
 import Link from 'next/link';
 
 import { GAME_STATE_KR } from '@/constants/configs';
-import useTracker from '@/hooks/useTracker';
 import { GameListType, GameState } from '@/types/game';
 import { formatTime } from '@/utils/time';
 
@@ -17,16 +16,10 @@ type GameCardProps = {
 
 export default function GameCard({ info, state }: GameCardProps) {
   const { id, gameTeams, gameName, startTime, videoId } = info;
-  const { tracker } = useTracker();
 
   return (
     <li className={styles.item}>
-      <Link
-        href={`/game/${id}`}
-        onClick={() =>
-          tracker(`gameList`, { clickEvent: `${id} ${state} game card` })
-        }
-      >
+      <Link href={`/game/${id}`}>
         <div className={styles.metadata}>
           <span className={styles.titleContainer}>
             <div className={styles.state[state]}>{GAME_STATE_KR[state]}</div>
