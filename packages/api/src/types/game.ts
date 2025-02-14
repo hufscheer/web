@@ -28,6 +28,8 @@ export type GameTeamType = {
   pkScore: number;
 };
 
+export type GameTeamDirectionType = 'left' | 'right';
+
 export type GameType = {
   id: number;
   startTime: Date;
@@ -75,4 +77,9 @@ export type PlayingLineupType = {
   gameTeamId: number;
   teamName: string;
   gameTeamPlayers: GameTeamPlayerType[];
+};
+
+export type GameCheerType = {
+  gameTeamId: number;
+  cheerCount: number;
 };

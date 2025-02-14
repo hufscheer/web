@@ -1,19 +1,18 @@
 'use client';
 
+import { GameCheerType, GameTeamDirectionType, GameTeamType } from '@hcc/api';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 import Image from 'next/image';
 import { useState } from 'react';
 
 import { useDebounce } from '@/hooks/useDebounce';
-import useTracker from '@/hooks/useTracker';
 import useCheerMutation from '@/queries/useCheerMutation';
-import { GameCheerType, GameTeamType, TeamDirection } from '@/types/game';
 
 import * as styles from './styles.css';
 
 type CheerTeamProps = (GameCheerType & GameTeamType) & {
   gameId: string;
-  direction: TeamDirection;
+  direction: GameTeamDirectionType;
   fullCheerCount: number;
 };
 
@@ -28,17 +27,12 @@ export default function CheerTeamBox({
   gameTeamId,
   gameTeamName,
 }: CheerTeamProps) {
-  const { tracker } = useTracker();
   const [count, setCount] = useState(cheerCount);
   const { mutate } = useCheerMutation();
 
   const debouncedMutateCheerCount = useDebounce(
     () => {
       if (count === cheerCount) return;
-
-      tracker(`cheerVS`, {
-        clickEvent: `${gameTeamName}(${gameId}) | ${count - cheerCount}`,
-      });
 
       mutate(
         { cheerCount: count - cheerCount, gameId, gameTeamId },

@@ -16,6 +16,7 @@ const sofia = Sofia_Sans({ subsets: ['latin'] });
 
 export default function Banner({ gameId }: BannerProps) {
   const { gameDetail } = useGameById(gameId);
+
   const [homeTeam, awayTeam] = gameDetail.gameTeams;
 
   return (

@@ -19,6 +19,7 @@ import {
   LeagueCheerTalkPayload,
   GameCheerTalkPayload,
   PlayingLineupType,
+  GameCheerType,
 } from './types';
 
 const managerQueryKeys = {
@@ -51,7 +52,7 @@ const leagueQueryKeys = {
 
   leagueDetail: (leagueId: string) => ({
     queryKey: ['leagueDetail', { leagueId }],
-    queryFn: async () => {
+    queryFn: async (): Promise<LeagueDetailType> => {
       const data: LeagueType = await fetcher.get<LeagueType>(
         `/leagues/${leagueId}`,
       );
@@ -98,6 +99,11 @@ const gameQueryKeys = {
     queryKey: ['game', { gameId }],
     queryFn: () => fetcher.get<GameType>(`/games/${gameId}`),
     enabled: !!gameId,
+  }),
+
+  gameCheer: (gameId: string) => ({
+    queryKey: ['gameCheer', gameId],
+    queryFn: () => fetcher.get<GameCheerType[]>(`/games/${gameId}/cheer`),
   }),
 
   games: (params: GamesParams) => ({
