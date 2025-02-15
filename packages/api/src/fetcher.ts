@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const isBrowser: boolean = typeof window !== 'undefined';
-const baseURL: string = isBrowser ? '/api' : 'http://localhost:3000/api';
+const baseURL: string = isBrowser ? '/api' : 'https://api.hufscheer.com';
 
 export const instance = axios.create({
   baseURL,
