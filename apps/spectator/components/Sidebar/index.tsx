@@ -1,8 +1,17 @@
 'use client';
 
 import { HamburgerIcon } from '@hcc/icons';
-import { theme } from '@hcc/styles';
-import { Icon, Modal } from '@hcc/ui';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+  Icon,
+} from '@hcc/ui';
 import { useRef } from 'react';
 
 import * as styles from './Sidebar.css';
@@ -17,8 +26,8 @@ export default function Sidebar() {
   };
 
   return (
-    <Modal>
-      <Modal.Trigger className={styles.openIconButton}>
+    <Dialog>
+      <DialogTrigger className={styles.openIconButton}>
         <Icon
           source={HamburgerIcon}
           aria-label="메뉴 열기"
@@ -26,23 +35,14 @@ export default function Sidebar() {
           color="black"
           size={24}
         />
-      </Modal.Trigger>
-      <Modal.Content
-        key="sidebar"
-        initial="hidden"
-        animate="visible"
-        variants={{
-          hidden: { x: theme.sizes.appWidth },
-          visible: { x: 0 },
-        }}
-        transition={{ type: 'just' }}
-        aria-label="Sidebar"
-      >
-        <div className={styles.sidebar}>
-          <div className={styles.sidebarHeader}>
-            <span>대회 목록</span>
-            <Modal.Close ref={ref} className={styles.close} />
-          </div>
+      </DialogTrigger>
+      <DialogPortal>
+        <DialogOverlay />
+        <DialogContent className={styles.sidebar} aria-label="sidebar">
+          <DialogHeader className={styles.header}>
+            <DialogTitle>대회 목록</DialogTitle>
+            <DialogClose ref={ref} className={styles.close} />
+          </DialogHeader>
 
           <AsyncBoundary
             errorFallback={() => <div>에러</div>}
@@ -50,8 +50,8 @@ export default function Sidebar() {
           >
             <LeagueList handleClose={handleClose} />
           </AsyncBoundary>
-        </div>
-      </Modal.Content>
-    </Modal>
+        </DialogContent>
+      </DialogPortal>
+    </Dialog>
   );
 }

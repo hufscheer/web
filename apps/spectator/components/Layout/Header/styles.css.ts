@@ -2,17 +2,17 @@ import { rem, theme } from '@hcc/styles';
 import { style } from '@vanilla-extract/css';
 
 export const root = style({
-  position: 'fixed',
+  position: 'sticky',
+  top: 0,
   left: 0,
   width: '100%',
-  height: rem(44),
   zIndex: theme.zIndices.header,
 });
 
 export const container = style({
-  position: 'relative',
   ...theme.layouts.rowBetween,
-  height: '100%',
+  position: 'relative',
+  height: rem(44),
   width: '100%',
   maxWidth: theme.sizes.appWidth,
   paddingInline: theme.sizes.appInlinePadding,
