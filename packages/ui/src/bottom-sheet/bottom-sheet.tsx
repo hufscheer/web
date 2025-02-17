@@ -1,7 +1,12 @@
 'use client';
 
 import { clsx } from 'clsx';
-import * as React from 'react';
+import {
+  ComponentProps,
+  ComponentPropsWithoutRef,
+  ComponentRef,
+  forwardRef,
+} from 'react';
 import { Drawer as DrawerPrimitive } from 'vaul';
 
 import * as styles from './styles.css';
@@ -9,7 +14,7 @@ import * as styles from './styles.css';
 const BottomSheet = ({
   shouldScaleBackground = true,
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Root>) => (
+}: ComponentProps<typeof DrawerPrimitive.Root>) => (
   <DrawerPrimitive.Root
     shouldScaleBackground={shouldScaleBackground}
     {...props}
@@ -23,9 +28,9 @@ const BottomSheetPortal = DrawerPrimitive.Portal;
 
 const BottomSheetClose = DrawerPrimitive.Close;
 
-const BottomSheetOverlay = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
+const BottomSheetOverlay = forwardRef<
+  ComponentRef<typeof DrawerPrimitive.Overlay>,
+  ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Overlay
     ref={ref}
@@ -35,9 +40,9 @@ const BottomSheetOverlay = React.forwardRef<
 ));
 BottomSheetOverlay.displayName = DrawerPrimitive.Overlay.displayName;
 
-const BottomSheetContent = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
+const BottomSheetContent = forwardRef<
+  ComponentRef<typeof DrawerPrimitive.Content>,
+  ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
 >(({ className, children, ...props }, ref) => (
   <BottomSheetPortal>
     <BottomSheetOverlay />
@@ -55,25 +60,19 @@ const BottomSheetContent = React.forwardRef<
 ));
 BottomSheetContent.displayName = 'DrawerContent';
 
-const BottomSheetHeader = ({
-  className,
-  ...props
-}: React.ComponentProps<'div'>) => (
+const BottomSheetHeader = ({ className, ...props }: ComponentProps<'div'>) => (
   <div className={clsx(styles.header, className)} {...props} />
 );
 BottomSheetHeader.displayName = 'DrawerHeader';
 
-const BottomSheetFooter = ({
-  className,
-  ...props
-}: React.ComponentProps<'div'>) => (
+const BottomSheetFooter = ({ className, ...props }: ComponentProps<'div'>) => (
   <div className={clsx(styles.footer, className)} {...props} />
 );
 BottomSheetFooter.displayName = 'DrawerFooter';
 
-const BottomSheetTitle = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitive.Title>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>
+const BottomSheetTitle = forwardRef<
+  ComponentRef<typeof DrawerPrimitive.Title>,
+  ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Title
     ref={ref}
@@ -83,9 +82,9 @@ const BottomSheetTitle = React.forwardRef<
 ));
 BottomSheetTitle.displayName = DrawerPrimitive.Title.displayName;
 
-const BottomSheetDescription = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>
+const BottomSheetDescription = forwardRef<
+  ComponentRef<typeof DrawerPrimitive.Description>,
+  ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Description
     ref={ref}
