@@ -6,6 +6,7 @@ export const container = style({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
+  top: '50% !important',
   maxWidth: calc.divide(theme.sizes.appWidth, 2),
   marginInline: 'auto',
   paddingInline: theme.spaces.default,
