@@ -17,12 +17,11 @@ export const container = style({
   maxWidth: theme.sizes.appWidth,
   paddingInline: theme.sizes.appInlinePadding,
   marginInline: 'auto',
-  borderBottom: `1px solid ${theme.colors.gray25}`,
+  borderBottom: `${rem(1)} solid ${theme.colors.gray25}`,
   backgroundColor: theme.colors.white,
-  borderInline: `1px solid ${theme.colors.gray25}`,
 });
 
-export const homeLink = style({
+export const home = style({
   ...theme.layouts.center,
   position: 'absolute',
   left: '50%',
@@ -32,7 +31,7 @@ export const homeLink = style({
   transform: 'translate(-50%, -50%)',
 });
 
-export const linkButton = style({
+export const previous = style({
   ...theme.layouts.center,
   flexGrow: 0,
   width: 'fit-content',

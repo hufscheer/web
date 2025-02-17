@@ -43,7 +43,7 @@ type PageProps = {
   searchParams: Promise<{ league: number; round: string }>;
 };
 
-export default async function Page({ searchParams }: PageProps) {
+const HomePage = async ({ searchParams }: PageProps) => {
   const { league, round } = await searchParams;
 
   const year = 2024;
@@ -77,4 +77,6 @@ export default async function Page({ searchParams }: PageProps) {
       ))}
     </Layout>
   );
-}
+};
+
+export default HomePage;

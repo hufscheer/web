@@ -1,4 +1,12 @@
-import { Modal } from '@hcc/ui';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+} from '@hcc/ui';
 import { useMemo, useState } from 'react';
 
 import useSocket from '@/hooks/useSocket';
@@ -49,33 +57,32 @@ export default function CheerTalk({
   connect();
 
   return (
-    <Modal defaultState={defaultState}>
-      <Modal.Trigger>
+    <Dialog defaultOpen={defaultState}>
+      <DialogTrigger>
         <CheerTalkOnAir
           cheerTalk={
             !socketTalkList.length ? cheerTalkList.pages : socketTalkList
           }
         />
         <CheerTalkEntryButton />
-      </Modal.Trigger>
-      <Modal.Content>
-        <div className={styles.wrapper}>
-          {/* Game Banner */}
-          <CheerTalkBanner gameId={gameId} />
+      </DialogTrigger>
 
-          {/* Game Timeline */}
+      <DialogPortal>
+        <DialogOverlay />
+        <DialogContent className={styles.root}>
+          <DialogTitle>
+            <CheerTalkBanner gameId={gameId} />
+          </DialogTitle>
           <CheerTalkTimeline gameId={gameId} />
-
-          {/* CheerTalk List */}
           <CheerTalkList
             gameId={gameId}
             cheerTalkList={cheerTalks}
             socketTalkList={socketTalkList}
             {...rest}
           />
-          <Modal.Close className={styles.close} />
-        </div>
-      </Modal.Content>
-    </Modal>
+          <DialogClose className={styles.close} />
+        </DialogContent>
+      </DialogPortal>
+    </Dialog>
   );
 }
