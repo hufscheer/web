@@ -38,7 +38,11 @@ export default function Sidebar() {
       </DialogTrigger>
       <DialogPortal>
         <DialogOverlay />
-        <DialogContent className={styles.sidebar} aria-label="sidebar">
+        <DialogContent
+          className={styles.sidebar}
+          aria-label="sidebar"
+          aria-describedby={undefined}
+        >
           <DialogHeader className={styles.header}>
             <DialogTitle>대회 목록</DialogTitle>
             <DialogClose ref={ref} className={styles.close} />

@@ -69,10 +69,10 @@ export default function CheerTalk({
 
       <DialogPortal>
         <DialogOverlay />
-        <DialogContent className={styles.root}>
-          <DialogTitle>
-            <CheerTalkBanner gameId={gameId} />
-          </DialogTitle>
+        <DialogContent className={styles.root} aria-describedby={undefined}>
+          <DialogTitle aria-hidden />
+          <CheerTalkBanner gameId={gameId} />
+
           <CheerTalkTimeline gameId={gameId} />
           <CheerTalkList
             gameId={gameId}
