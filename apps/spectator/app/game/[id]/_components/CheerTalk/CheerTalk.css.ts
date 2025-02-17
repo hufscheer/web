@@ -3,7 +3,7 @@ import { style } from '@vanilla-extract/css';
 import { calc } from '@vanilla-extract/css-utils';
 
 export const root = style({
-  position: 'relative',
+  top: '0 !important',
   display: 'flex !important',
   flexDirection: 'column',
   maxWidth: `${theme.sizes.appWidth} !important`,
@@ -12,6 +12,7 @@ export const root = style({
   padding: '0 !important',
   borderRadius: 0,
   backgroundColor: theme.colors.white,
+  transform: 'translate(-50%) !important',
 });
 
 export const close = style({
