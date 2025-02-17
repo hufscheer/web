@@ -1,4 +1,9 @@
-import { Accordion } from '@hcc/ui';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@hcc/ui';
 import { clsx } from 'clsx';
 import Image from 'next/image';
 import { Fragment } from 'react';
@@ -62,12 +67,12 @@ export default function Lineup({ gameId }: LineupProps) {
         </div>
       </div>
 
-      <Accordion type="single">
-        <Accordion.Item value="candidate">
-          <Accordion.Trigger className={styles.candidateButton} type="button">
+      <Accordion type="single" collapsible>
+        <AccordionItem value="candidate">
+          <AccordionTrigger className={styles.candidateButton}>
             후보 선수 보기
-          </Accordion.Trigger>
-          <Accordion.Content>
+          </AccordionTrigger>
+          <AccordionContent>
             <div className={clsx(styles.container, styles.candidateContainer)}>
               <PlayerList
                 players={homeTeam.candidatePlayers}
@@ -79,8 +84,8 @@ export default function Lineup({ gameId }: LineupProps) {
                 direction={awayTeam.direction}
               />
             </div>
-          </Accordion.Content>
-        </Accordion.Item>
+          </AccordionContent>
+        </AccordionItem>
       </Accordion>
     </Fragment>
   );

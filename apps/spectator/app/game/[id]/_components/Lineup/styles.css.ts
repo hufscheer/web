@@ -108,9 +108,10 @@ export const backNumber = styleVariants({
 });
 
 export const candidateButton = style({
-  ...theme.layouts.center,
-  width: `calc(100% - 2 * ${theme.sizes.appInlinePadding})`,
+  justifyContent: 'center !important',
+  width: `calc(100% - 2 * ${theme.sizes.appInlinePadding}) !important`,
   height: rem(56),
+  paddingInline: theme.sizes.appInlinePadding,
   marginBlock: rem(26),
   marginInline: theme.sizes.appInlinePadding,
   color: theme.colors.gray900,
@@ -118,6 +119,7 @@ export const candidateButton = style({
   fontWeight: 600,
   borderRadius: rem(8),
   backgroundColor: theme.colors.gray25,
+  gap: rem(4),
 });
 
 export const errorFallback = styleVariants({

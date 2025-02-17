@@ -1,4 +1,9 @@
-import { Accordion } from '@hcc/ui';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@hcc/ui';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 
@@ -17,19 +22,24 @@ type LeagueListProps = {
   handleClose: () => void;
 };
 
-export default function LeagueList({ handleClose }: LeagueListProps) {
+const LeagueList = ({ handleClose }: LeagueListProps) => {
   const { data: leagues } = useLeagueArchives<typeof YEARS_LIST>(YEARS_LIST);
 
   return (
     <>
       {YEARS_LIST.map(year => (
-        <Accordion type="single" key={year} defaultValue={`${YEARS_LIST[0]}`}>
-          <Accordion.Item value={year.toString()}>
-            <Accordion.Trigger className={styles.yearName}>
+        <Accordion
+          type="single"
+          key={year}
+          defaultValue={`${YEARS_LIST[0]}`}
+          collapsible
+        >
+          <AccordionItem value={year.toString()}>
+            <AccordionTrigger className={styles.yearName}>
               {year}년도
-            </Accordion.Trigger>
+            </AccordionTrigger>
 
-            <Accordion.Content>
+            <AccordionContent>
               <ul className={styles.leagueList}>
                 {leagues[year].map(league => (
                   <li key={league.leagueId} className={styles.leagueItem}>
@@ -45,10 +55,12 @@ export default function LeagueList({ handleClose }: LeagueListProps) {
                   </li>
                 ))}
               </ul>
-            </Accordion.Content>
-          </Accordion.Item>
+            </AccordionContent>
+          </AccordionItem>
         </Accordion>
       ))}
     </>
   );
-}
+};
+
+export default LeagueList;

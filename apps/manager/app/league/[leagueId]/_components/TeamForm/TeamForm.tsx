@@ -14,8 +14,8 @@ import {
   FormLabel,
   FormMessage,
   Icon,
+  ImageUploader,
   Input,
-  Uploader,
 } from '@hcc/ui';
 import { SubmitHandler, useFieldArray, UseFormReturn } from 'react-hook-form';
 
@@ -53,7 +53,7 @@ export const TeamForm = ({ methods, submitText, onSubmit }: TeamFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <div className={styles.logoInputItem}>
-                  <Uploader onChange={file => field.onChange(file)}>
+                  <ImageUploader onChange={file => field.onChange(file)}>
                     {src => (
                       <span className={styles.logoContainer}>
                         <Icon
@@ -75,7 +75,7 @@ export const TeamForm = ({ methods, submitText, onSubmit }: TeamFormProps) => {
                         />
                       </span>
                     )}
-                  </Uploader>
+                  </ImageUploader>
                   <Badge colorScheme="red" asChild>
                     <button type="button" onClick={handleImageRemove}>
                       <Icon
