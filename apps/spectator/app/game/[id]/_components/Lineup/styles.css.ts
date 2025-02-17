@@ -160,6 +160,7 @@ export const logoContainer = style({
   width: rem(28),
   height: rem(28),
   position: 'relative',
+  flexShrink: 0,
 });
 
 export const logoImg = style({
