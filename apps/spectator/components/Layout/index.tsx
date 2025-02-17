@@ -1,20 +1,20 @@
 import { clsx } from 'clsx';
-import { ReactNode } from 'react';
+import { ComponentProps } from 'react';
 
 import Header from '@/components/Layout/Header';
 
 import * as styles from './styles.css';
 
-type LayoutProps = {
-  children: ReactNode;
+type LayoutProps = ComponentProps<'div'> & {
+  className?: string;
   arrowVisible?: boolean;
 };
 
-const Layout = ({ children, arrowVisible = true }: LayoutProps) => {
+const Layout = ({ className, children, arrowVisible = true }: LayoutProps) => {
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.root}>
       <Header arrowVisible={arrowVisible} />
-      <main className={clsx(styles.main)}>{children}</main>
+      <main className={clsx(className, styles.main)}>{children}</main>
     </div>
   );
 };

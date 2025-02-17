@@ -1,10 +1,15 @@
 import { CrossIcon } from '@hcc/icons';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { clsx } from 'clsx';
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react';
+import {
+  ComponentPropsWithoutRef,
+  ComponentRef,
+  forwardRef,
+  HTMLAttributes,
+} from 'react';
 
 import * as styles from './styles.css';
-import Icon from '../icon';
+import { Icon } from '../icon';
 
 const Dialog = DialogPrimitive.Root;
 
@@ -13,8 +18,8 @@ const DialogTrigger = DialogPrimitive.Trigger;
 const DialogPortal = DialogPrimitive.Portal;
 
 const DialogOverlay = forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
+  ComponentRef<typeof DialogPrimitive.Overlay>,
+  ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => {
   return (
     <DialogPrimitive.Overlay
@@ -28,7 +33,7 @@ const DialogOverlay = forwardRef<
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
 const DialogContent = forwardRef<
-  ElementRef<typeof DialogPrimitive.Content>,
+  ComponentRef<typeof DialogPrimitive.Content>,
   ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => (
   <DialogPortal>
@@ -47,7 +52,7 @@ DialogContent.displayName = DialogPrimitive.Content.displayName;
 const DialogHeader = ({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
+}: HTMLAttributes<HTMLDivElement>) => (
   <div className={clsx(styles.header, className)} {...props} />
 );
 
@@ -56,14 +61,14 @@ DialogHeader.displayName = 'DialogHeader';
 const DialogFooter = ({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
+}: HTMLAttributes<HTMLDivElement>) => (
   <div className={clsx(styles.footer, className)} {...props} />
 );
 
 DialogFooter.displayName = 'DialogFooter';
 
 const DialogTitle = forwardRef<
-  ElementRef<typeof DialogPrimitive.Title>,
+  ComponentRef<typeof DialogPrimitive.Title>,
   ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
@@ -76,7 +81,7 @@ const DialogTitle = forwardRef<
 DialogTitle.displayName = DialogPrimitive.Title.displayName;
 
 const DialogDescription = forwardRef<
-  ElementRef<typeof DialogPrimitive.Description>,
+  ComponentRef<typeof DialogPrimitive.Description>,
   ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
@@ -89,7 +94,7 @@ const DialogDescription = forwardRef<
 DialogDescription.displayName = DialogPrimitive.Description.displayName;
 
 const DialogClose = forwardRef<
-  ElementRef<typeof DialogPrimitive.Close>,
+  ComponentRef<typeof DialogPrimitive.Close>,
   ComponentPropsWithoutRef<typeof DialogPrimitive.Close>
 >(({ className, children, ...props }, ref) => (
   <DialogPrimitive.DialogClose

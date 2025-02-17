@@ -1,4 +1,5 @@
 'use client';
+
 import { ArrowBackIcon, NewHccIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import Link from 'next/link';
@@ -20,7 +21,7 @@ const Header = ({ arrowVisible }: HeaderProps) => {
         {arrowVisible ? (
           <button
             aria-label="이전 페이지로 이동"
-            className={styles.linkButton}
+            className={styles.previous}
             onClick={() => router.back()}
           >
             <Icon source={ArrowBackIcon} color="black" />
@@ -28,7 +29,8 @@ const Header = ({ arrowVisible }: HeaderProps) => {
         ) : (
           <span />
         )}
-        <Link className={styles.homeLink} href="/" aria-label="홈페이지로 이동">
+
+        <Link className={styles.home} href="/" aria-label="홈페이지로 이동">
           <Icon
             width="71.5"
             height="21"
@@ -37,6 +39,7 @@ const Header = ({ arrowVisible }: HeaderProps) => {
             aria-label="훕치치"
           />
         </Link>
+
         <Sidebar />
       </div>
     </header>

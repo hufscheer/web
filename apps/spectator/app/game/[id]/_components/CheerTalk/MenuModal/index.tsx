@@ -5,6 +5,7 @@ import {
   DialogClose,
   DialogContent,
   DialogOverlay,
+  DialogTitle,
   DialogTrigger,
   Icon,
 } from '@hcc/ui';
@@ -12,12 +13,12 @@ import { ReactNode } from 'react';
 
 import * as styles from './MenuModal.css';
 
-interface CheerTalkMenuModalProps {
+type CheerTalkMenuModalProps = {
   cheerTalkId: number;
   content: string;
   className: string;
   children: ReactNode;
-}
+};
 
 const CheerTalkMenuModal = ({
   cheerTalkId,
@@ -41,8 +42,8 @@ const CheerTalkMenuModal = ({
       <DialogTrigger className={className} aria-label="응원톡 모달 열기">
         {children}
       </DialogTrigger>
-      <DialogContent key="cheer-talk-menu" className={styles.container}>
-        <p className={styles.content}>{content}</p>
+      <DialogContent className={styles.container} aria-describedby={undefined}>
+        <DialogTitle>{content}</DialogTitle>
         <DialogClose className={styles.menuClose} />
         <DialogClose asChild>
           <button

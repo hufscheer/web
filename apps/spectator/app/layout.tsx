@@ -2,22 +2,16 @@ import '@hcc/styles/globals';
 import '@hcc/styles/colors';
 
 import { Toaster } from '@hcc/ui';
-import { clsx } from 'clsx';
 import { extend } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
-import { ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 
 import AnalyticsProvider from './analytics';
-import * as styles from './layout.css';
 import Providers from './Providers';
 
 extend(customParseFormat);
-
-interface RootLayoutProps {
-  children: ReactNode;
-}
 
 export const metadata: Metadata = {
   title: '훕치치',
@@ -35,20 +29,18 @@ const pretendard = localFont({
   preload: true,
 });
 
-export default function RootLayout({ children }: RootLayoutProps) {
+const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="ko">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </head>
-      <body className={clsx(pretendard.className, styles.body)}>
+      <body className={pretendard.className}>
         <Providers>
           <Toaster />
           {children}
         </Providers>
-
         <AnalyticsProvider />
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

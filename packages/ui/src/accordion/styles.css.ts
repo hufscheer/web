@@ -1,52 +1,41 @@
-import { style } from '@vanilla-extract/css';
-import { recipe } from '@vanilla-extract/recipes';
+import { theme } from '@hcc/styles';
+import { globalStyle, keyframes, style } from '@vanilla-extract/css';
 
-export const root = style({
-  width: '100%',
+export const slideDown = keyframes({
+  from: { height: '0' },
+  to: { height: 'var(--radix-accordion-content-height)' },
+});
+
+export const slideUp = keyframes({
+  from: { height: 'var(--radix-accordion-content-height)' },
+  to: { height: '0' },
+});
+
+export const item = style({
+  overflow: 'hidden',
+});
+
+export const content = style({
+  overflow: 'hidden',
 });
 
 export const trigger = style({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-
+  ...theme.layouts.rowBetween,
   width: '100%',
 });
 
-export const caret = recipe({
-  base: {
-    transition: 'transform 0.3s',
-  },
-  variants: {
-    open: {
-      true: {
-        transform: 'rotate(-180deg)',
-      },
-      false: {
-        transform: 'rotate(0deg)',
-      },
-    },
-  },
+globalStyle(`${trigger} > svg`, {
+  transition: `transform 300ms cubic-bezier(0.87, 0, 0.13, 1)`,
 });
 
-export const content = recipe({
-  base: {
-    display: 'grid',
-    gridTemplateRows: '0fr',
-    transition: '.3s grid-template-rows ease-in-out',
-  },
-  variants: {
-    open: {
-      true: {
-        gridTemplateRows: '1fr',
-      },
-      false: {
-        gridTemplateRows: '0fr',
-      },
-    },
-  },
+globalStyle(`${trigger}[data-state="open"] > svg`, {
+  transform: 'rotate(180deg)',
 });
 
-export const inner = style({
-  overflow: 'hidden',
+globalStyle(`${content}[data-state="open"]`, {
+  animation: `${slideDown} 300ms cubic-bezier(0.87, 0, 0.13, 1)`,
+});
+
+globalStyle(`${content}[data-state="closed"]`, {
+  animation: `${slideUp} 300ms cubic-bezier(0.87, 0, 0.13, 1)`,
 });

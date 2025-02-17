@@ -7,7 +7,7 @@ type PageProps = {
   searchParams: Promise<{ tab?: string; cheer?: string }>;
 };
 
-export default async function Page({ params, searchParams }: PageProps) {
+const GamePage = async ({ params, searchParams }: PageProps) => {
   const { id } = await params;
   const { tab: tabState, cheer } = await searchParams;
   const cheerState: boolean = cheer === 'open';
@@ -21,4 +21,6 @@ export default async function Page({ params, searchParams }: PageProps) {
       />
     </Layout>
   );
-}
+};
+
+export default GamePage;

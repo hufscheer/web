@@ -3,10 +3,10 @@
 import { CaretDownIcon, CheckIcon } from '@hcc/icons';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { clsx } from 'clsx';
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react';
+import { ComponentPropsWithoutRef, ComponentRef, forwardRef } from 'react';
 
 import * as styles from './styles.css';
-import Icon from '../icon';
+import { Icon } from '../icon';
 
 const Select = SelectPrimitive.Root;
 
@@ -15,7 +15,7 @@ const SelectGroup = SelectPrimitive.Group;
 const SelectValue = SelectPrimitive.Value;
 
 const SelectTrigger = forwardRef<
-  ElementRef<typeof SelectPrimitive.Trigger>,
+  ComponentRef<typeof SelectPrimitive.Trigger>,
   ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & {
     caret?: boolean;
   }
@@ -36,7 +36,7 @@ const SelectTrigger = forwardRef<
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
 const SelectContent = forwardRef<
-  ElementRef<typeof SelectPrimitive.Content>,
+  ComponentRef<typeof SelectPrimitive.Content>,
   ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
 >(({ className, children, position = 'popper', ...props }, ref) => (
   <SelectPrimitive.Portal>
@@ -61,7 +61,7 @@ const SelectContent = forwardRef<
 SelectContent.displayName = SelectPrimitive.Content.displayName;
 
 const SelectLabel = forwardRef<
-  ElementRef<typeof SelectPrimitive.Label>,
+  ComponentRef<typeof SelectPrimitive.Label>,
   ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Label
@@ -73,7 +73,7 @@ const SelectLabel = forwardRef<
 SelectLabel.displayName = SelectPrimitive.Label.displayName;
 
 const SelectItem = forwardRef<
-  ElementRef<typeof SelectPrimitive.Item>,
+  ComponentRef<typeof SelectPrimitive.Item>,
   ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
 >(({ className, children, ...props }, ref) => (
   <SelectPrimitive.Item
@@ -91,7 +91,7 @@ const SelectItem = forwardRef<
 SelectItem.displayName = SelectPrimitive.Item.displayName;
 
 const SelectSeparator = forwardRef<
-  ElementRef<typeof SelectPrimitive.Separator>,
+  ComponentRef<typeof SelectPrimitive.Separator>,
   ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Separator
