@@ -6,12 +6,12 @@ import * as styles from './styles.css';
 
 type TagVariants = RecipeVariants<typeof styles.variants>;
 
-type TagProps = {
+export type TagProps = {
   asChild?: boolean;
 } & ComponentPropsWithoutRef<'span'> &
   TagVariants;
 
-const Tag = ({
+export const Tag = ({
   colorScheme = 'primary',
   className,
   children,
@@ -26,5 +26,3 @@ const Tag = ({
     </span>
   );
 };
-
-export { Tag, type TagProps };

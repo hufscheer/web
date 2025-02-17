@@ -4,7 +4,7 @@ import { ComponentProps } from 'react';
 import ReactCalendar, { type TileClassNameFunc } from 'react-calendar';
 
 import './styles.css';
-import Icon from '../icon';
+import { Icon } from '../icon';
 
 export const Calendar = (props: ComponentProps<typeof ReactCalendar>) => {
   const tileClassName: TileClassNameFunc = ({ date, view }) => {

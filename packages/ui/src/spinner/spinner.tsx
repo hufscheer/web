@@ -7,7 +7,7 @@ type SpinnerProps = {
   className?: string;
 };
 
-export function Spinner({ size = 'md', className }: SpinnerProps) {
+export const Spinner = ({ size = 'md', className }: SpinnerProps) => {
   return (
     <div className={clsx(styles.wrapper, className)}>
       <svg
@@ -28,4 +28,4 @@ export function Spinner({ size = 'md', className }: SpinnerProps) {
       </svg>
     </div>
   );
-}
+};

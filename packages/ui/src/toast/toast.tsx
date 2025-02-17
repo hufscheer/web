@@ -11,11 +11,11 @@ import {
 } from 'react';
 
 import * as styles from './styles.css';
-import Icon from '../icon';
+import { Icon } from '../icon';
 
-const ToastProvider = ToastPrimitives.Provider;
+export const ToastProvider = ToastPrimitives.Provider;
 
-const ToastViewport = forwardRef<
+export const ToastViewport = forwardRef<
   ComponentRef<typeof ToastPrimitives.Viewport>,
   ComponentPropsWithoutRef<typeof ToastPrimitives.Viewport>
 >(({ className, ...props }, ref) => (
@@ -31,7 +31,7 @@ type ToastVariant = {
   variant?: keyof typeof styles.variants;
 };
 
-const Toast = forwardRef<
+export const Toast = forwardRef<
   ComponentRef<typeof ToastPrimitives.Root>,
   ComponentPropsWithoutRef<typeof ToastPrimitives.Root> & ToastVariant
 >(({ className, variant = 'default', ...props }, ref) => {
@@ -45,7 +45,7 @@ const Toast = forwardRef<
 });
 Toast.displayName = ToastPrimitives.Root.displayName;
 
-const ToastAction = forwardRef<
+export const ToastAction = forwardRef<
   ComponentRef<typeof ToastPrimitives.Action>,
   ComponentPropsWithoutRef<typeof ToastPrimitives.Action>
 >(({ className, ...props }, ref) => (
@@ -57,7 +57,7 @@ const ToastAction = forwardRef<
 ));
 ToastAction.displayName = ToastPrimitives.Action.displayName;
 
-const ToastClose = forwardRef<
+export const ToastClose = forwardRef<
   ComponentRef<typeof ToastPrimitives.Close>,
   ComponentPropsWithoutRef<typeof ToastPrimitives.Close>
 >(({ className, ...props }, ref) => (
@@ -73,7 +73,7 @@ const ToastClose = forwardRef<
 ));
 ToastClose.displayName = ToastPrimitives.Close.displayName;
 
-const ToastTitle = forwardRef<
+export const ToastTitle = forwardRef<
   ComponentRef<typeof ToastPrimitives.Title>,
   ComponentPropsWithoutRef<typeof ToastPrimitives.Title>
 >(({ className, ...props }, ref) => (
@@ -85,7 +85,7 @@ const ToastTitle = forwardRef<
 ));
 ToastTitle.displayName = ToastPrimitives.Title.displayName;
 
-const ToastDescription = forwardRef<
+export const ToastDescription = forwardRef<
   ComponentRef<typeof ToastPrimitives.Description>,
   ComponentPropsWithoutRef<typeof ToastPrimitives.Description>
 >(({ className, ...props }, ref) => (
@@ -97,18 +97,6 @@ const ToastDescription = forwardRef<
 ));
 ToastDescription.displayName = ToastPrimitives.Description.displayName;
 
-type ToastProps = ComponentPropsWithoutRef<typeof Toast>;
+export type ToastProps = ComponentPropsWithoutRef<typeof Toast>;
 
-type ToastActionElement = ReactElement<typeof ToastAction>;
-
-export {
-  type ToastProps,
-  type ToastActionElement,
-  ToastProvider,
-  ToastViewport,
-  Toast,
-  ToastTitle,
-  ToastDescription,
-  ToastClose,
-  ToastAction,
-};
+export type ToastActionElement = ReactElement<typeof ToastAction>;

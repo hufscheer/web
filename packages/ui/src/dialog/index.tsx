@@ -9,7 +9,7 @@ import {
 } from 'react';
 
 import * as styles from './styles.css';
-import Icon from '../icon';
+import { Icon } from '../icon';
 
 const Dialog = DialogPrimitive.Root;
 

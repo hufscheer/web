@@ -4,7 +4,7 @@ import { Slot } from '@radix-ui/react-slot';
 import { clsx } from 'clsx';
 import {
   ComponentPropsWithoutRef,
-  ElementRef,
+  ComponentRef,
   createContext,
   forwardRef,
   useContext,
@@ -116,7 +116,7 @@ const FormLabel = forwardRef<HTMLLabelElement, FormLabelProps>(
 FormLabel.displayName = 'FormLabel';
 
 const FormControl = forwardRef<
-  ElementRef<typeof Slot>,
+  ComponentRef<typeof Slot>,
   ComponentPropsWithoutRef<typeof Slot>
 >(({ ...props }, ref) => {
   const { error, formItemId, formDescriptionId, formMessageId } =
