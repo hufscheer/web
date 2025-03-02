@@ -16,7 +16,7 @@ const GamePage = async ({ params, searchParams }: PageProps) => {
     <Layout>
       <GameDetail
         id={id}
-        tabState={tabState || 'lineup'}
+        tabState={tabState || 'participate'}
         cheerState={cheerState}
       />
     </Layout>

@@ -4,17 +4,10 @@ import { style, styleVariants } from '@vanilla-extract/css';
 export const container = style({
   display: 'grid',
   gridTemplateColumns: '1fr 1px 1fr',
+  paddingBlock: theme.spaces.default,
   paddingInline: rem(56),
-});
-
-export const starterContainer = style({
-  paddingTop: theme.spaces.default,
   marginTop: rem(20),
   gap: rem(36),
-});
-
-export const candidateContainer = style({
-  paddingBottom: theme.sizes.appInlinePadding,
 });
 
 export const teamContainer = style({
@@ -105,55 +98,6 @@ export const backNumber = styleVariants({
       backgroundColor: 'rgba(156, 23, 20, 8%)',
     },
   ],
-});
-
-export const candidateButton = style({
-  justifyContent: 'center !important',
-  width: `calc(100% - 2 * ${theme.sizes.appInlinePadding}) !important`,
-  height: rem(56),
-  paddingInline: theme.sizes.appInlinePadding,
-  marginBlock: rem(26),
-  marginInline: theme.sizes.appInlinePadding,
-  color: theme.colors.gray900,
-  fontSize: rem(14),
-  fontWeight: 600,
-  borderRadius: rem(8),
-  backgroundColor: theme.colors.gray25,
-  gap: rem(4),
-});
-
-export const errorFallback = styleVariants({
-  wrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-
-    minHeight: rem(180),
-    paddingInline: theme.spaces.default,
-    gap: theme.spaces.xs,
-  },
-  message: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: theme.spaces.sm,
-
-    color: theme.colors.gray[5],
-    ...theme.textVariants.sm,
-
-    fontWeight: 500,
-    textAlign: 'center',
-  },
-  retry: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: theme.spaces.xs,
-
-    ...theme.textVariants.sm,
-    color: theme.colors.gray[5],
-    fontWeight: 500,
-  },
 });
 
 export const logoContainer = style({
