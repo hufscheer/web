@@ -1,9 +1,11 @@
+import { ReactNode } from 'react';
+
 import useTabs from './hooks';
 
 type TabsContentProps = {
   value: string;
   className?: string;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 const TabsContent = ({ value, className, children }: TabsContentProps) => {
