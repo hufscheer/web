@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "turbo build --remote-only",
+    "build": "turbo build",
     "dev": "turbo dev --parallel",
     "dev:manager": "turbo dev --filter manager",
     "dev:spectator": "turbo dev --filter spectator",
@@ -15,12 +15,12 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.7.1",
-    "@commitlint/config-conventional": "^19.7.1",
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.4.3",
-    "prettier": "^3.5.1",
-    "turbo": "^2.4.2"
+    "prettier": "^3.5.3",
+    "turbo": "^2.4.4"
   },
   "packageManager": "pnpm@9.2.0",
   "engines": {
