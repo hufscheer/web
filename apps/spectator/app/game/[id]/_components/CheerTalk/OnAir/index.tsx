@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 
 import { GameCheerTalkWithTeamInfo } from '@/types/game';
 
