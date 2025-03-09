@@ -1,5 +1,4 @@
 export const TABS_CONFIG = {
-  PARTICIPATE: 'participate',
   LINEUP: 'lineup',
   TIMELINE: 'timeline',
   HIGHLIGHT: 'highlight',
