@@ -7,36 +7,19 @@ import {
   fetchLeagues,
   fetchLeagueTeams,
 } from '@hcc/api';
-import { Skeleton } from '@hcc/ui';
-import { ReactElement } from 'react';
 
 import Layout from '@/components/Layout';
 import { GAME_STATE } from '@/constants/configs';
-import { GameState } from '@/types/game';
 
 import LeagueFilter from './_components/GameFilter/LeagueFilter';
 import RoundFilter from './_components/GameFilter/RoundFilter';
 import TeamFilter from './_components/GameFilter/TeamFilter';
 import GameList from './_components/GameList';
 
-type Games = {
-  key: GameState;
-  loadingFallback: ReactElement;
-};
-
-const GAMES: Games[] = [
-  {
-    key: GAME_STATE.PLAYING,
-    loadingFallback: <Skeleton />,
-  },
-  {
-    key: GAME_STATE.SCHEDULED,
-    loadingFallback: <Skeleton />,
-  },
-  {
-    key: GAME_STATE.FINISHED,
-    loadingFallback: <Skeleton />,
-  },
+const GAMES = [
+  { key: GAME_STATE.PLAYING },
+  { key: GAME_STATE.SCHEDULED },
+  { key: GAME_STATE.FINISHED },
 ];
 
 type PageProps = {
@@ -68,6 +51,7 @@ const HomePage = async ({ searchParams }: PageProps) => {
           <TeamFilter leagueId={initialLeagueId} round={currentRound} />
         )}
       </HydrationBoundary>
+
       {GAMES.map(game => (
         <GameList
           key={game.key}
