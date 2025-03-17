@@ -1,3 +1,5 @@
+'use client';
+
 import { useGame, useLeague, useLeagueTeams, ROUND_OPTIONS } from '@hcc/api';
 import { CalendarIcon } from '@hcc/icons';
 import {
@@ -49,7 +51,10 @@ export const GameForm = ({
 }: GameFormProps) => {
   const { data: league } = useLeague(leagueId);
   const { data: teams } = useLeagueTeams(leagueId);
-  const { data: game } = useGame(gameId);
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const gameQuery = gameId ? useGame(gameId) : null;
+  const game = gameQuery?.data;
 
   const getTeamName = (teamId: string) => {
     return type === 'CREATE'

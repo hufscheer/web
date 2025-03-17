@@ -3,6 +3,7 @@ import { useCreateGame } from '@hcc/api';
 import { useToast } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { Suspense } from 'react';
 import { useForm } from 'react-hook-form';
 
 import {
@@ -67,13 +68,15 @@ const Component = ({ leagueId }: ComponentProps) => {
 
   return (
     <Layout navigationTitle="새로운 경기 생성">
-      <GameForm
-        leagueId={leagueId}
-        methods={methods}
-        submitText="경기 생성"
-        onSubmit={onSubmit}
-        type="CREATE"
-      />
+      <Suspense>
+        <GameForm
+          leagueId={leagueId}
+          methods={methods}
+          submitText="경기 생성"
+          onSubmit={onSubmit}
+          type="CREATE"
+        />
+      </Suspense>
     </Layout>
   );
 };
