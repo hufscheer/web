@@ -3,7 +3,7 @@ import { useDeleteGame, useGame, useUpdateGame } from '@hcc/api';
 import { useToast } from '@hcc/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import {
@@ -117,14 +117,16 @@ export const Component = ({ leagueId, gameId }: ComponentProps) => {
       navigationTitle="경기 정보"
       navigationMenu={<DeleteButton onAction={handleDelete} />}
     >
-      <GameForm
-        leagueId={leagueId}
-        gameId={gameId}
-        methods={methods}
-        submitText="수정 완료"
-        onSubmit={onSubmit}
-        type="UPDATE"
-      />
+      <Suspense>
+        <GameForm
+          leagueId={leagueId}
+          gameId={gameId}
+          methods={methods}
+          submitText="수정 완료"
+          onSubmit={onSubmit}
+          type="UPDATE"
+        />
+      </Suspense>
     </Layout>
   );
 };
