@@ -1,13 +1,15 @@
 import {
-  dehydrate,
   getQueryClient,
+  dehydrate,
   HydrationBoundary,
-  LeagueListType,
   fetchLeagueDetail,
   fetchLeagues,
   fetchLeagueTeams,
+  type LeagueListType,
+  type LeagueDetailType,
 } from '@hcc/api';
 import { Skeleton } from '@hcc/ui';
+import dayjs from 'dayjs';
 import { ReactElement } from 'react';
 
 import Layout from '@/components/Layout';
@@ -44,18 +46,17 @@ type PageProps = {
 };
 
 const HomePage = async ({ searchParams }: PageProps) => {
+  const queryClient = getQueryClient();
   const { league, round } = await searchParams;
 
-  const year = 2024;
-  const queryClient = getQueryClient();
-  const leagues: LeagueListType[] = await fetchLeagues(year.toString());
-  const inProgress: LeagueListType =
-    leagues.find(league => league.isInProgress) || leagues?.[0];
-  const initialLeagueId: number = league || inProgress.leagueId;
+  const year: number = dayjs().year();
+  const leaguesByYears: LeagueListType[] = await fetchLeagues(year.toString());
+  const progressLeague: LeagueListType =
+    leaguesByYears.find((league) => league.isInProgress) || leaguesByYears?.[0];
+  const initialLeagueId: number = league || progressLeague.leagueId;
 
-  const leagueDetail = await fetchLeagueDetail(initialLeagueId.toString());
-  const currentRound: number =
-    Number(round) || leagueDetail.league.inProgressRound;
+  const leagueDetail: LeagueDetailType = await fetchLeagueDetail(initialLeagueId.toString());
+  const currentRound: number = Number(round) || leagueDetail.league.inProgressRound;
 
   await fetchLeagueTeams(initialLeagueId.toString(), currentRound.toString());
 
@@ -64,16 +65,10 @@ const HomePage = async ({ searchParams }: PageProps) => {
       <HydrationBoundary state={dehydrate(queryClient)}>
         <LeagueFilter year={year} />
         {initialLeagueId && <RoundFilter initialLeagueId={initialLeagueId} />}
-        {initialLeagueId && (
-          <TeamFilter leagueId={initialLeagueId} round={currentRound} />
-        )}
+        {initialLeagueId && <TeamFilter leagueId={initialLeagueId} round={currentRound} />}
       </HydrationBoundary>
-      {GAMES.map(game => (
-        <GameList
-          key={game.key}
-          state={game.key}
-          initialLeagueId={initialLeagueId.toString()}
-        />
+      {GAMES.map((game) => (
+        <GameList key={game.key} state={game.key} initialLeagueId={initialLeagueId.toString()} />
       ))}
     </Layout>
   );

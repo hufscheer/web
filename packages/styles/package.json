@@ -33,7 +33,7 @@
     "@hcc/eslint-config": "workspace:*",
     "@hcc/typescript-config": "workspace:*",
     "@types/node": "^22.13.10",
-    "@types/react": "^19.0.10",
+    "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
     "react": "^19.0.0",
     "typescript": "^5.8.2"
