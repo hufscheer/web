@@ -41,7 +41,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/api/images/:path*',
-        destination: `https://hufscheer-images.s3.ap-northeast-2.amazonaws.com/:path*`,
+        destination: `https://hufscheer-image.s3.ap-northeast-2.amazonaws.com/:path*`,
       },
       {
         source: '/api/:path*',
