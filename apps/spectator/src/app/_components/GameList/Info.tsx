@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { GameListType, GameState } from '@/src/types/game';
+import { GameListType, GameState } from '@/types/game';
 
 import * as styles from './styles.css';
 

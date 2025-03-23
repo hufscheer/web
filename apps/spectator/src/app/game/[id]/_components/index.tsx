@@ -1,10 +1,10 @@
 'use client';
 import { Spinner, Tabs } from '@hcc/ui';
 
-import Live from '@/src/app/_components/Live';
-import AsyncBoundary from '@/src/components/AsyncBoundary';
-import { FallbackProps } from '@/src/components/ErrorBoundary';
-import { TABS_CONFIG } from '@/src/constants/configs';
+import Live from '@/app/_components/Live';
+import AsyncBoundary from '@/components/AsyncBoundary';
+import { FallbackProps } from '@/components/ErrorBoundary';
+import { TABS_CONFIG } from '@/constants/configs';
 
 import Banner from './Banner';
 import * as styles from '../page.css';

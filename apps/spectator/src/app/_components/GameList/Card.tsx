@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
-import { GAME_STATE_KR } from '@/src/constants/configs';
-import { GameListType, GameState } from '@/src/types/game';
-import { formatTime } from '@/src/utils/time';
+import { GAME_STATE_KR } from '@/constants/configs';
+import { GameListType, GameState } from '@/types/game';
+import { formatTime } from '@/utils/time';
 
 import GameButton from './Button';
 import { GameCardErrorFallback } from './Error';

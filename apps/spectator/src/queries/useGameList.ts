@@ -1,8 +1,8 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { getGameList } from '@/src/api/game';
-import { GameListParams, GameListType } from '@/src/types/game';
-import { formatTime } from '@/src/utils/time';
+import { getGameList } from '@/api/game';
+import { GameListParams, GameListType } from '@/types/game';
+import { formatTime } from '@/utils/time';
 
 export const GAME_LIST_QUERY_KEY = 'game-list';
 export const useGameList = (params: Omit<GameListParams, 'cursor' | 'size'>) => {

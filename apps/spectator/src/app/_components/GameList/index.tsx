@@ -5,10 +5,10 @@ import { Spinner } from '@hcc/ui';
 import { useSearchParams } from 'next/navigation';
 import { Fragment } from 'react';
 
-import AsyncBoundary from '@/src/components/AsyncBoundary';
-import useIntersectionObserver from '@/src/hooks/useIntersectionObserver';
-import { useGameList } from '@/src/queries/useGameList';
-import { GameState } from '@/src/types/game';
+import AsyncBoundary from '@/components/AsyncBoundary';
+import useIntersectionObserver from '@/hooks/useIntersectionObserver';
+import { useGameList } from '@/queries/useGameList';
+import { GameState } from '@/types/game';
 
 import GameCard from './Card';
 import * as styles from './styles.css';

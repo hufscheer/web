@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { ComponentProps } from 'react';
 
-import Header from '@/src/components/Layout/Header';
+import Header from '@/components/Layout/Header';
 
 import * as styles from './styles.css';
 

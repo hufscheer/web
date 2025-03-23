@@ -1,7 +1,7 @@
 import { CaptainIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 
-import { GamePlayerType, TeamDirection } from '@/src/types/game';
+import { GamePlayerType, TeamDirection } from '@/types/game';
 
 import * as styles from './styles.css';
 

@@ -1,7 +1,7 @@
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
-import { getGameCheerTalkById } from '@/src/api/game';
-import { GameCheerTalkWithTeamInfo } from '@/src/types/game';
+import { getGameCheerTalkById } from '@/api/game';
+import { GameCheerTalkWithTeamInfo } from '@/types/game';
 
 import { useGameTeamInfo } from './useGameTeamInfo';
 

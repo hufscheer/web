@@ -2,7 +2,7 @@ import { useGame } from '@hcc/api';
 import { clsx } from 'clsx';
 import { Sofia_Sans } from 'next/font/google';
 
-import { formatTime } from '@/src/utils/time';
+import { formatTime } from '@/utils/time';
 
 import * as styles from './Banner.css';
 import { badgeActive } from './Banner.css';

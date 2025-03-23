@@ -12,9 +12,9 @@ import { Skeleton } from '@hcc/ui';
 import dayjs from 'dayjs';
 import { ReactElement } from 'react';
 
-import Layout from '@/src/components/Layout';
-import { GAME_STATE } from '@/src/constants/configs';
-import { GameState } from '@/src/types/game';
+import Layout from '@/components/Layout';
+import { GAME_STATE } from '@/constants/configs';
+import { GameState } from '@/types/game';
 
 import LeagueFilter from './_components/GameFilter/LeagueFilter';
 import RoundFilter from './_components/GameFilter/RoundFilter';

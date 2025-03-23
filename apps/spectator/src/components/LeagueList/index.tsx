@@ -2,7 +2,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@h
 import dayjs from 'dayjs';
 import Link from 'next/link';
 
-import useLeagueArchives from '@/src/queries/useLeagueArchives';
+import useLeagueArchives from '@/queries/useLeagueArchives';
 
 import * as styles from './LeagueList.css';
 

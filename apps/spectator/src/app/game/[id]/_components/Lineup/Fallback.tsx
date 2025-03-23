@@ -2,8 +2,8 @@ import { ArrowClockwiseIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { AxiosError } from 'axios';
 
-import { FallbackProps } from '@/src/components/ErrorBoundary';
-import { NotFoundError } from '@/src/services/errors';
+import { FallbackProps } from '@/components/ErrorBoundary';
+import { NotFoundError } from '@/services/errors';
 
 import * as styles from './styles.css';
 

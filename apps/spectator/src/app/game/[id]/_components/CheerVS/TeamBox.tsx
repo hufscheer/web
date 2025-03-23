@@ -4,7 +4,7 @@ import { assignInlineVars } from '@vanilla-extract/dynamic';
 import Image from 'next/image';
 import { useState } from 'react';
 
-import { useDebounce } from '@/src/hooks/useDebounce';
+import { useDebounce } from '@/hooks/useDebounce';
 
 import * as styles from './styles.css';
 

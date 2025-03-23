@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import Image from 'next/image';
 import { Fragment } from 'react';
 
-import { useGameLineupById } from '@/src/queries/useGameLineupById';
+import { useGameLineupById } from '@/queries/useGameLineupById';
 
 import PlayerList from './PlayerList';
 import * as styles from './styles.css';

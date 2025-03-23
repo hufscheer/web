@@ -1,4 +1,4 @@
-import Layout from '@/src/components/Layout';
+import Layout from '@/components/Layout';
 
 import { GameDetail } from './_components';
 

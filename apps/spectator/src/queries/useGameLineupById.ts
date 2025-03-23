@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import { getGameLineupById } from '@/src/api/game';
-import { NotFoundError } from '@/src/services/errors';
+import { getGameLineupById } from '@/api/game';
+import { NotFoundError } from '@/services/errors';
 
 import { useGameTeamInfo } from './useGameTeamInfo';
 

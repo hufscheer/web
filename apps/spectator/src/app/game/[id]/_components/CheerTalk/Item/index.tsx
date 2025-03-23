@@ -3,8 +3,8 @@ import { Icon } from '@hcc/ui';
 import { clsx } from 'clsx';
 import Image from 'next/image';
 
-import { TeamDirection } from '@/src/types/game';
-import { formatTime } from '@/src/utils/time';
+import { TeamDirection } from '@/types/game';
+import { formatTime } from '@/utils/time';
 
 import * as styles from './Item.css';
 import CheerTalkMenuModal from '../MenuModal';

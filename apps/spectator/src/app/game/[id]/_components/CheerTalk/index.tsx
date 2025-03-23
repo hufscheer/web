@@ -9,10 +9,10 @@ import {
 } from '@hcc/ui';
 import { useMemo, useState } from 'react';
 
-import useSocket from '@/src/hooks/useSocket';
-import useCheerTalkById from '@/src/queries/useCheerTalkById';
-import { useGameTeamInfo } from '@/src/queries/useGameTeamInfo';
-import { GameCheerTalkType, GameCheerTalkWithTeamInfo } from '@/src/types/game';
+import useSocket from '@/hooks/useSocket';
+import useCheerTalkById from '@/queries/useCheerTalkById';
+import { useGameTeamInfo } from '@/queries/useGameTeamInfo';
+import { GameCheerTalkType, GameCheerTalkWithTeamInfo } from '@/types/game';
 
 import CheerTalkBanner from './Banner';
 import * as styles from './CheerTalk.css';

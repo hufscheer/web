@@ -2,8 +2,8 @@ import { SoccerIcon, SwitchIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import Image from 'next/image';
 
-import { useTimelineById } from '@/src/queries/useTimelineById';
-import { GenericRecordType } from '@/src/types/game';
+import { useTimelineById } from '@/queries/useTimelineById';
+import { GenericRecordType } from '@/types/game';
 
 import * as styles from './Timeline.css';
 

@@ -1,5 +1,5 @@
-import instance from '@/src/api/index';
-import { LeagueType } from '@/src/types/league';
+import instance from '@/api';
+import { LeagueType } from '@/types/league';
 
 export const getLeagues = async (year: number) => {
   const { data } = await instance.get<LeagueType[]>(`/leagues`, {

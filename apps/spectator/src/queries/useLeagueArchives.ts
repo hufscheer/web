@@ -1,7 +1,7 @@
 import { useSuspenseQueries } from '@tanstack/react-query';
 
-import { getLeagues } from '@/src/api/league';
-import { LeagueType } from '@/src/types/league';
+import { getLeagues } from '@/api/league';
+import { LeagueType } from '@/types/league';
 
 export default function useLeagueArchives<T extends number[]>(years: T) {
   const options = years.map((year) => ({

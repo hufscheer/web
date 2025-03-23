@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
-import { GAME_STATE, TABS_CONFIG } from '@/src/constants/configs';
-import { GameState } from '@/src/types/game';
+import { GAME_STATE, TABS_CONFIG } from '@/constants/configs';
+import { GameState } from '@/types/game';
 
 import * as styles from './styles.css';
 

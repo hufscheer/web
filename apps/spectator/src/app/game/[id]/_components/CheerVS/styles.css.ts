@@ -2,7 +2,7 @@ import { rem, theme } from '@hcc/styles';
 import { createVar, style, styleVariants } from '@vanilla-extract/css';
 import { calc } from '@vanilla-extract/css-utils';
 
-import { skeletonAnimation } from '@/src/styles/animations.css';
+import { skeletonAnimation } from '@/styles/animations.css';
 
 export const root = style({
   display: 'flex',

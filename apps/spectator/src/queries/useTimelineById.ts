@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import { getGameTimelineById } from '@/src/api/game';
+import { getGameTimelineById } from '@/api/game';
 
 import { useGameTeamInfo } from './useGameTeamInfo';
 

@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
-import PlayerList from '@/src/app/game/[id]/_components/Lineup/PlayerList';
-import { useGameLineupById } from '@/src/queries/useGameLineupById';
+import PlayerList from '@/app/game/[id]/_components/Lineup/PlayerList';
+import { useGameLineupById } from '@/queries/useGameLineupById';
 
 import * as styles from './styles.css';
 

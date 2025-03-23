@@ -3,10 +3,10 @@ import { ArrowDownIcon } from '@hcc/icons';
 import { Icon, Spinner } from '@hcc/ui';
 import { useEffect, useRef, memo, useState } from 'react';
 
-import useIntersectionObserver from '@/src/hooks/useIntersectionObserver';
-import { useThrottle } from '@/src/hooks/useThrottle';
-import { useTimeout } from '@/src/hooks/useTimeout';
-import { GameCheerTalkWithTeamInfo } from '@/src/types/game';
+import useIntersectionObserver from '@/hooks/useIntersectionObserver';
+import { useThrottle } from '@/hooks/useThrottle';
+import { useTimeout } from '@/hooks/useTimeout';
+import { GameCheerTalkWithTeamInfo } from '@/types/game';
 
 import * as styles from './List.css';
 import CheerTalkForm from '../Form';

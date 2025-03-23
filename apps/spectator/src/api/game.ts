@@ -1,11 +1,11 @@
-import instance from '@/src/api/index';
+import instance from '@/api/index';
 import {
   GameCheerTalkType,
   GameLineupType,
   GameListType,
   GameTimelineType,
   GameListParams,
-} from '@/src/types/game';
+} from '@/types/game';
 
 export const getGameList = async ({ size = '5', cursor, ...params }: GameListParams) => {
   const { data } = await instance.get<GameListType[]>('/games', {

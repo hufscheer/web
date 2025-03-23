@@ -1,4 +1,4 @@
-import { GAME_STATE } from '@/src/constants/configs';
+import { GAME_STATE } from '@/constants/configs';
 
 export interface GameListType extends GameType {
   id: number;

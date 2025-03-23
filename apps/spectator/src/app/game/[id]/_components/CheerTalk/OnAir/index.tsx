@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'motion/react';
 
-import { GameCheerTalkWithTeamInfo } from '@/src/types/game';
+import { GameCheerTalkWithTeamInfo } from '@/types/game';
 
 import * as styles from './OnAir.css';
 import CheerTalkFallback from '../Fallback';

@@ -3,7 +3,7 @@ import { ArrowClockwiseIcon } from '@hcc/icons';
 import { Icon } from '@hcc/ui';
 import { AxiosError } from 'axios';
 
-import { FallbackProps } from '@/src/components/ErrorBoundary';
+import { FallbackProps } from '@/components/ErrorBoundary';
 
 import * as styles from './Timeline.css';
 

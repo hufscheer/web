@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { GameTeamType } from '@/src/types/game';
+import { GameTeamType } from '@/types/game';
 
 import * as styles from './Banner.css';
 
