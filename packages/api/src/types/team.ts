@@ -8,6 +8,7 @@ export type TeamType = {
 export type TeamPlayerType = {
   id: number;
   name: string;
+  studentNumber?: string;
   number: number;
   description?: string;
 };

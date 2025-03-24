@@ -56,6 +56,7 @@ const Component = ({ leagueId, teamId }: ComponentProps) => {
         players: team.leagueTeamPlayers.map((player) => ({
           ...player,
           number: player.number.toString(),
+          studentNumber: player.studentNumber?.toString(),
           type: 'EXISTING',
         })),
       });
@@ -79,12 +80,21 @@ const Component = ({ leagueId, teamId }: ComponentProps) => {
         logoImageUrl: imageUrl,
         newPlayers: data.players
           .filter((player) => player.type === 'NEW')
-          .map(({ name, number }) => ({ name: name.trim(), number: +number })),
+          .map(({ name, studentNumber, number }) => ({
+            name: name.trim(),
+            studentNumber: studentNumber ? +studentNumber : undefined,
+            number: +number,
+          })),
         updatedPlayers: data.players
           .filter((player) => player.type === 'EXISTING')
           .map(
-            ({ id, name, number }) =>
-              ({ id, name: name.trim(), number: +number }) as TeamPlayerType,
+            ({ id, name, studentNumber, number }) =>
+              ({
+                id,
+                name: name.trim(),
+                studentNumber: studentNumber ? +studentNumber : undefined,
+                number: +number,
+              }) as TeamPlayerType,
           ),
         deletedPlayerIds:
           team?.leagueTeamPlayers

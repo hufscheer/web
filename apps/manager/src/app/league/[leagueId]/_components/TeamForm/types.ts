@@ -12,6 +12,7 @@ export const teamPlayerSchema = z.object({
     .refine((val) => Number(val) >= 0, {
       message: '플레이어 번호는 0 이상이어야 합니다.',
     }),
+  studentNumber: z.string().optional(),
   type: z.enum(['NEW', 'EXISTING']).default('NEW'),
 });
 

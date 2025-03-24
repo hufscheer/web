@@ -69,10 +69,10 @@ export const playerItem = style({
   gap: rem(8),
 });
 
-export const playerNameInput = style({
-  flex: 0.7,
+export const playerInput = style({
+  flex: 0.3,
 });
 
-export const playerNumberInput = style({
-  flex: 0.3,
+export const playerStudentNumberInput = style({
+  flex: 0.4,
 });

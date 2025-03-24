@@ -107,8 +107,21 @@ export const TeamForm = ({ methods, submitText, onSubmit }: TeamFormProps) => {
                   control={methods.control}
                   name={`players.${index}.name`}
                   render={({ field }) => (
-                    <FormItem className={styles.playerNameInput}>
+                    <FormItem className={styles.playerInput}>
                       <FormLabel>이름</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={methods.control}
+                  name={`players.${index}.studentNumber`}
+                  render={({ field }) => (
+                    <FormItem className={styles.playerStudentNumberInput}>
+                      <FormLabel>학번(9자리)</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -120,7 +133,7 @@ export const TeamForm = ({ methods, submitText, onSubmit }: TeamFormProps) => {
                   control={methods.control}
                   name={`players.${index}.number`}
                   render={({ field }) => (
-                    <FormItem className={styles.playerNumberInput}>
+                    <FormItem className={styles.playerInput}>
                       <FormLabel>번호</FormLabel>
                       <FormControl>
                         <Input type="number" {...field} />
