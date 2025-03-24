@@ -56,7 +56,7 @@ const Component = ({ leagueId, teamId }: ComponentProps) => {
         players: team.leagueTeamPlayers.map((player) => ({
           ...player,
           number: player.number.toString(),
-          studentNumber: player.studentNumber?.toString(),
+          studentNumber: player.studentNumber,
           type: 'EXISTING',
         })),
       });
@@ -82,7 +82,7 @@ const Component = ({ leagueId, teamId }: ComponentProps) => {
           .filter((player) => player.type === 'NEW')
           .map(({ name, studentNumber, number }) => ({
             name: name.trim(),
-            studentNumber: studentNumber ? +studentNumber : undefined,
+            studentNumber: studentNumber ? studentNumber : undefined,
             number: +number,
           })),
         updatedPlayers: data.players
@@ -92,7 +92,7 @@ const Component = ({ leagueId, teamId }: ComponentProps) => {
               ({
                 id,
                 name: name.trim(),
-                studentNumber: studentNumber ? +studentNumber : undefined,
+                studentNumber: studentNumber ? studentNumber : undefined,
                 number: +number,
               }) as TeamPlayerType,
           ),

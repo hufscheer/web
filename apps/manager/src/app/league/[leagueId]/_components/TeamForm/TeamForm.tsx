@@ -34,7 +34,7 @@ export const TeamForm = ({ methods, submitText, onSubmit }: TeamFormProps) => {
   };
 
   const handleAddPlayer = () => {
-    append({ name: '', number: '0', type: 'NEW' });
+    append({ name: '', number: '0', studentNumber: '', type: 'NEW' });
   };
 
   return (
