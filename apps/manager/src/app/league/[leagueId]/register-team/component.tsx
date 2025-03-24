@@ -49,8 +49,9 @@ const Component = ({ leagueId }: ComponentProps) => {
     const team: TeamCreateType = {
       name: data.name.trim(),
       logoImageUrl: imageUrl,
-      players: data.players.map(({ name, number }) => ({
+      players: data.players.map(({ name, studentNumber, number }) => ({
         name: name.trim(),
+        studentNumber: studentNumber ? studentNumber : undefined,
         number: +number,
       })),
     };
