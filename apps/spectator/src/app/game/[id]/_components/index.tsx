@@ -1,4 +1,5 @@
 'use client';
+
 import { Spinner, Tabs } from '@hcc/ui';
 
 import Live from '@/app/_components/Live';
@@ -19,17 +20,10 @@ import Highlight from './Highlight';
 import HighlightFallback from './Highlight/Fallback';
 import Lineup from './Lineup';
 import LineupFallback from './Lineup/Fallback';
-import Participate from './Participate';
 import Timeline from './Timeline';
 import TimelineFallback from './Timeline/Fallback';
 
 const tabs = [
-  {
-    key: TABS_CONFIG.PARTICIPATE,
-    label: '출전',
-    errorUI: () => <></>,
-    renderer: (gameId: string) => <Participate gameId={gameId} />,
-  },
   {
     key: TABS_CONFIG.LINEUP,
     label: '라인업',
