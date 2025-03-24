@@ -12,7 +12,7 @@ export default function Highlight({ gameId, ...props }: HighlightProps) {
   return (
     <iframe
       className={styles.highlight}
-      src={data.videoId.replace('watch?v=', 'embed/')}
+      src={data.videoId.replace('watch?v=', 'embed/').replace('live', 'embed')}
       title="Match Video"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       allowFullScreen
