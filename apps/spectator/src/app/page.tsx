@@ -42,14 +42,14 @@ const GAMES: Games[] = [
 ];
 
 type PageProps = {
-  searchParams: Promise<{ league: number; round: string }>;
+  searchParams: Promise<{ year: number; league: number; round: string }>;
 };
 
 const HomePage = async ({ searchParams }: PageProps) => {
   const queryClient = getQueryClient();
-  const { league, round } = await searchParams;
+  const { year: _year, league, round } = await searchParams;
 
-  const year: number = dayjs().year();
+  const year: number = _year ?? dayjs().year();
   const leaguesByYears: LeagueListType[] = await fetchLeagues(year.toString());
   const progressLeague: LeagueListType =
     leaguesByYears.find((league) => league.isInProgress) || leaguesByYears?.[0];
