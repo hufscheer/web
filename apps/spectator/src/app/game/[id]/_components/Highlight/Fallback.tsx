@@ -1,37 +1,9 @@
-import { NotFoundError } from '@hcc/api';
-import { ArrowClockwiseIcon } from '@hcc/icons';
-import { Icon } from '@hcc/ui';
-import { AxiosError } from 'axios';
-
-import { FallbackProps } from '@/components/ErrorBoundary';
-
 import * as styles from './Highlight.css';
 
-export default function HighlightFallback({ error, resetErrorBoundary }: FallbackProps) {
-  if (error instanceof NotFoundError) {
-    return (
-      <div className={styles.errorFallback.wrapper}>
-        <div className={styles.errorFallback.message}>{error.message}</div>
-      </div>
-    );
-  }
-
-  if (error instanceof AxiosError) {
-    return (
-      <div className={styles.errorFallback.wrapper}>
-        <div className={styles.errorFallback.message}>연결이 원활하지 않습니다.</div>
-        <button onClick={resetErrorBoundary} className={styles.errorFallback.retry}>
-          재시도
-          <Icon source={ArrowClockwiseIcon} size="xs" color="black" />
-        </button>
-      </div>
-    );
-  }
-
+export default function HighlightFallback() {
   return (
     <div className={styles.errorFallback.wrapper}>
-      <span className={styles.errorFallback.message}>{error?.message || ''}</span>
-      <span className={styles.errorFallback.message}>잠시 후 다시 시도해주세요.</span>
+      <span className={styles.errorFallback.message}>경기 하이라이트가 등록되지 않았어요.</span>
     </div>
   );
 }
