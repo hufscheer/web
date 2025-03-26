@@ -44,7 +44,11 @@ const PopupDialog = ({ imageUrl, imageAlt }: PopupDialogProps) => {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogPortal>
         <DialogOverlay />
-        <DialogContent className={styles.container} aria-describedby={undefined}>
+        <DialogContent
+          className={styles.container}
+          aria-describedby={undefined}
+          onOpenAutoFocus={(e) => e.preventDefault()}
+        >
           <DialogHeader aria-hidden="true">
             <DialogTitle />
           </DialogHeader>
@@ -61,7 +65,7 @@ const PopupDialog = ({ imageUrl, imageAlt }: PopupDialogProps) => {
           </div>
           <div className={styles.buttonContainer}>
             <button className={styles.button} onClick={handleDontShowToday} type="button">
-              하루동안 보지 않기
+              오늘하루 보지 않기
             </button>
             <button className={styles.button} onClick={handleClose} type="button">
               닫기

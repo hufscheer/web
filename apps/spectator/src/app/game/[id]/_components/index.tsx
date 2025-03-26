@@ -18,6 +18,7 @@ import CheerVSFallback from './CheerVS/Error';
 import CheerVSSkeleton from './CheerVS/Skeleton';
 import Highlight from './Highlight';
 import HighlightFallback from './Highlight/Fallback';
+import { HighlightTab } from './Highlight/Tab';
 import Lineup from './Lineup';
 import LineupFallback from './Lineup/Fallback';
 import Timeline from './Timeline';
@@ -84,11 +85,17 @@ export const GameDetail = ({ id, tabState, cheerState }: GameDetailProps) => {
 
       <Tabs defaultValue={tabState || 'lineup'} className={styles.panel.wrapper}>
         <Tabs.List className={styles.panel.menu}>
-          {tabs.map((tab) => (
-            <Tabs.Trigger key={tab.key} value={tab.key} className={(state) => styles.item[state]}>
-              {tab.label}
-            </Tabs.Trigger>
-          ))}
+          {tabs.map((tab) => {
+            if (tab.key === TABS_CONFIG.HIGHLIGHT) {
+              return <HighlightTab key={tab.key} gameId={id} />;
+            }
+
+            return (
+              <Tabs.Trigger key={tab.key} value={tab.key} className={(state) => styles.item[state]}>
+                {tab.label}
+              </Tabs.Trigger>
+            );
+          })}
         </Tabs.List>
         {tabs.map((tab) => (
           <Tabs.Content key={tab.key} value={tab.key}>

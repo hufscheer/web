@@ -21,7 +21,7 @@ globalStyle(`${image} > img`, {
 
 export const buttonContainer = style({
   ...theme.layouts.rowBetween,
-  paddingBlock: rem(8),
+  paddingBlock: rem(10),
   paddingInline: rem(16),
 });
 
