@@ -12,21 +12,15 @@ export const entryContainer = style({
   }),
 });
 
-export const entryButtonContent = style({
-  display: 'flex',
-  minWidth: rem(120),
-  justifyContent: 'flex-end',
-});
-
 export const entryButton = style({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   width: rem(40),
   height: rem(40),
-  border: `${rem(1)} solid ${theme.colors.gray[2]}`,
+  border: `${rem(1)} solid ${theme.colors.gray50}`,
   borderRadius: '50%',
-  backgroundColor: theme.colors.primary[3],
+  backgroundColor: theme.colors.primary.normal,
 });
 
 export const entryButtonIcon = style({

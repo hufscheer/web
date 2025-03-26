@@ -9,7 +9,7 @@ import localFont from 'next/font/local';
 import { PropsWithChildren } from 'react';
 
 import AnalyticsProvider from './analytics';
-import Providers from './Providers';
+import Providers from './providers';
 
 extend(customParseFormat);
 

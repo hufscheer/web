@@ -34,6 +34,7 @@ export const cheerTalkDivider = style({
 });
 
 const panelItemBase = style({
+  width: '100%',
   textAlign: 'center',
   paddingBlock: rem(12),
   color: theme.colors.gray300,

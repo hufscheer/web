@@ -6,6 +6,7 @@ export const root = style({
   top: 0,
   left: 0,
   width: '100%',
+  zIndex: theme.zIndices.header,
 });
 
 export const container = style({
