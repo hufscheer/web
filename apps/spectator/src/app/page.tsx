@@ -71,7 +71,10 @@ const HomePage = async ({ searchParams }: PageProps) => {
       {GAMES.map((game) => (
         <GameList key={game.key} state={game.key} initialLeagueId={initialLeagueId.toString()} />
       ))}
-      <PopupDialog imageUrl="/static/2025-worldcup/popup.webp" />
+      <PopupDialog
+        imageUrl="/static/2025-worldcup/popup.webp"
+        imageAlt="2025 외대월드컵 팝업 이미지"
+      />
     </Layout>
   );
 };

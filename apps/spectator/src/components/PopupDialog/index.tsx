@@ -16,9 +16,10 @@ import * as styles from './styles.css';
 
 type PopupDialogProps = {
   imageUrl: string;
+  imageAlt: string;
 };
 
-const PopupDialog = ({ imageUrl }: PopupDialogProps) => {
+const PopupDialog = ({ imageUrl, imageAlt }: PopupDialogProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -50,7 +51,7 @@ const PopupDialog = ({ imageUrl }: PopupDialogProps) => {
           <div className={styles.image}>
             <Image
               src={imageUrl}
-              alt="2025 외대월드컵 팝업 이미지"
+              alt={imageAlt}
               width={0}
               height={0}
               sizes="100vw"
