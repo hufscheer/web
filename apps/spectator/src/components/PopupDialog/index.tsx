@@ -59,10 +59,10 @@ const PopupDialog = ({ imageUrl }: PopupDialogProps) => {
             />
           </div>
           <div className={styles.buttonContainer}>
-            <button className={styles.button} onClick={handleDontShowToday}>
+            <button className={styles.button} onClick={handleDontShowToday} type="button">
               하루동안 보지 않기
             </button>
-            <button className={styles.button} onClick={handleClose}>
+            <button className={styles.button} onClick={handleClose} type="button">
               닫기
             </button>
           </div>
