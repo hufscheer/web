@@ -3,6 +3,7 @@
 import Flicking from '@egjs/react-flicking';
 import { useLeagueDetail } from '@hcc/api';
 import { clsx } from 'clsx';
+import dayjs from 'dayjs';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 
@@ -15,7 +16,7 @@ type RoundFilterProps = {
 export default function RoundFilter({ initialLeagueId }: RoundFilterProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const year = Number(searchParams.get('year'));
+  const year = Number(searchParams.get('year') ?? dayjs().year());
   const league = searchParams.get('league');
 
   const { data } = useLeagueDetail(initialLeagueId.toString());
