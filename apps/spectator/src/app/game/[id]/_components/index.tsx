@@ -40,7 +40,7 @@ const tabs = [
   {
     key: TABS_CONFIG.HIGHLIGHT,
     label: '경기 영상',
-    errorUI: (props: FallbackProps) => <HighlightFallback {...props} />,
+    errorUI: () => <HighlightFallback />,
     renderer: (gameId: string) => <Highlight gameId={gameId} />,
   },
 ];
