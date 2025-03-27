@@ -130,7 +130,7 @@ export const errorFallback = styleVariants({
     alignItems: 'center',
     gap: theme.spaces.sm,
 
-    color: theme.colors.gray[5],
+    color: theme.colors.gray400,
     ...theme.textVariants.sm,
 
     fontWeight: 500,
@@ -142,7 +142,7 @@ export const errorFallback = styleVariants({
     gap: theme.spaces.xs,
 
     ...theme.textVariants.sm,
-    color: theme.colors.gray[5],
+    color: theme.colors.gray400,
     fontWeight: 500,
   },
 });

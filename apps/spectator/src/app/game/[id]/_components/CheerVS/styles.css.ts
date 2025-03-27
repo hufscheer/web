@@ -42,7 +42,7 @@ export const cheerTeam = styleVariants({
 
       selectors: {
         '&:active': {
-          backgroundColor: theme.colors.indicatorBlue[5],
+          backgroundColor: theme.colors.primary.normal,
         },
       },
     },
@@ -58,7 +58,7 @@ export const cheerTeam = styleVariants({
 
       selectors: {
         '&:active': {
-          backgroundColor: theme.colors.indicatorRed[4],
+          backgroundColor: theme.colors.red600,
         },
       },
     },

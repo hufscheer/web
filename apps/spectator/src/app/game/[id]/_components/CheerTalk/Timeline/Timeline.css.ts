@@ -5,7 +5,7 @@ export const wrapper = style({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  borderBottom: `${rem(1)} solid ${theme.colors.gray[2]}`,
+  borderBottom: `${rem(1)} solid ${theme.colors.gray100}`,
 });
 
 export const timeline = style({
@@ -26,22 +26,22 @@ export const timestamp = style({
   padding: `${rem(2)} ${rem(4)}`,
   ...theme.textVariants.xs,
   fontWeight: 600,
-  color: theme.colors.gray[6],
-  backgroundColor: theme.colors.gray[2],
+  color: theme.colors.gray500,
+  backgroundColor: theme.colors.gray100,
 });
 
 export const scoreTimeline = styleVariants({
   left: [
     timeline,
     {
-      backgroundColor: theme.colors.indicatorBlue[3],
+      backgroundColor: theme.colors.primary.normal,
       color: theme.colors.white,
     },
   ],
   right: [
     timeline,
     {
-      backgroundColor: theme.colors.indicatorRed[3],
+      backgroundColor: theme.colors.red600,
       color: theme.colors.white,
     },
   ],

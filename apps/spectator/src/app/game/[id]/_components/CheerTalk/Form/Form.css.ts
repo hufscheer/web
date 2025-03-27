@@ -31,11 +31,11 @@ export const radioInput = style({
   outline: 'none',
   border: 'none',
   borderRadius: '50%',
-  backgroundColor: theme.colors.gray[2],
+  backgroundColor: theme.colors.gray100,
   selectors: {
     '&:checked': {
-      border: `${rem(2)} solid ${theme.colors.gray[2]}`,
-      backgroundColor: theme.colors.indicatorBlue[3],
+      border: `${rem(2)} solid ${theme.colors.gray100}`,
+      backgroundColor: theme.colors.primary.normal,
     },
   },
 });
@@ -49,13 +49,13 @@ export const cheerTalkInputContainer = style({
 export const inputWrapper = style({
   flex: '1',
   borderRadius: rem(12),
-  backgroundColor: theme.colors.gray[1],
+  backgroundColor: theme.colors.gray50,
 });
 
 export const cheerTalkInput = style({
   width: '100%',
   paddingBlock: theme.spaces.sm,
-  color: theme.colors.gray[4],
+  color: theme.colors.gray300,
   ...theme.textVariants.default,
   transform: 'scale(0.9)',
   backgroundColor: 'transparent',
@@ -68,17 +68,4 @@ export const cheerTalkSendButton = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-});
-
-export const scrollToBottomButton = style({
-  position: 'absolute',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  top: rem(2),
-  right: rem(10),
-  width: rem(32),
-  height: rem(32),
-  borderRadius: '50%',
-  backgroundColor: theme.colors.gray[2],
 });

@@ -21,7 +21,7 @@ export const clickable = style({
 const infoBase = style({
   display: 'flex',
   alignItems: 'center',
-  color: theme.colors.gray[4],
+  color: theme.colors.gray200,
   width: 'max-content',
   gap: rem(2),
 });
@@ -46,7 +46,7 @@ export const item = styleVariants({
     color: theme.colors.black,
   },
   blocked: {
-    color: theme.colors.gray[4],
+    color: theme.colors.gray200,
   },
   timestamp: {
     fontSize: rem(8),
@@ -59,6 +59,6 @@ export const item = styleVariants({
   menuButtonIcon: {
     width: rem(8),
     height: rem(8),
-    color: theme.colors.gray[4],
+    color: theme.colors.gray200,
   },
 });

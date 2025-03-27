@@ -32,7 +32,7 @@ export const empty = styleVariants({
     width: 32,
     height: 32,
     borderRadius: '100%',
-    backgroundColor: theme.colors.primary[3],
+    backgroundColor: theme.colors.primary.normal,
   },
   talkBox: [
     talkBox,

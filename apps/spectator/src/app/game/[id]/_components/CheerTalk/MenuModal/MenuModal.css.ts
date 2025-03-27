@@ -14,16 +14,6 @@ export const container = style({
   borderRadius: rem(8),
 });
 
-export const content = style({
-  width: '100%',
-
-  paddingBlock: theme.spaces.xs,
-  paddingInline: theme.spaces.default,
-  borderRadius: rem(15),
-  backgroundColor: theme.colors.gray[2],
-  ...theme.textVariants.sm,
-});
-
 export const menuBlock = style({
   display: 'flex',
   alignItems: 'center',
@@ -39,7 +29,7 @@ export const menuBlock = style({
 
   selectors: {
     '&:hover': {
-      backgroundColor: theme.colors.gray[2],
+      backgroundColor: theme.colors.gray100,
     },
   },
 });
@@ -47,7 +37,7 @@ export const menuBlock = style({
 export const menuIcon = style({
   width: rem(16),
   height: rem(16),
-  color: theme.colors.gray[5],
+  color: theme.colors.gray400,
 });
 
 export const menuClose = style({

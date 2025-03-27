@@ -169,11 +169,11 @@ export const errorFallback = styleVariants({
     gap: theme.spaces.xs,
     width: '100%',
     minHeight: rem(138),
-    backgroundColor: theme.colors.gray[1],
+    backgroundColor: theme.colors.gray50,
   },
   message: {
     ...theme.textVariants.default,
-    color: theme.colors.gray[5],
+    color: theme.colors.gray400,
   },
 });
 

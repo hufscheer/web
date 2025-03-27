@@ -19,8 +19,7 @@ import CheerVSSkeleton from './CheerVS/Skeleton';
 import Highlight from './Highlight';
 import HighlightFallback from './Highlight/Fallback';
 import { HighlightTab } from './Highlight/Tab';
-import Lineup from './Lineup';
-import LineupFallback from './Lineup/Fallback';
+import { Lineup } from './lineup';
 import Timeline from './Timeline';
 import TimelineFallback from './Timeline/Fallback';
 
@@ -28,7 +27,7 @@ const tabs = [
   {
     key: TABS_CONFIG.LINEUP,
     label: '라인업',
-    errorUI: (props: FallbackProps) => <LineupFallback {...props} />,
+    errorUI: () => <></>,
     renderer: (gameId: string) => <Lineup gameId={gameId} />,
   },
   {

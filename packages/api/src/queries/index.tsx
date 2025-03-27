@@ -19,3 +19,5 @@ export * from './useLeagueTeamDetail';
 export * from './useLeagueTeamPlayers';
 export * from './useLeagueTeams';
 export * from './useTimeline';
+
+export * from './useSuspenseGameLineup';

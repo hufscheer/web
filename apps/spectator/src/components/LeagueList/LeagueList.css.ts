@@ -26,13 +26,13 @@ export const leagueList = style({
 
 export const leagueItem = style({
   paddingBlock: theme.spaces.xxs,
-  color: theme.colors.gray[3],
+  color: theme.colors.gray200,
 
   transition: 'color cubic-bezier(.4,0,.2,1) .15s',
 
   selectors: {
     '&:hover': {
-      color: theme.colors.gray[4],
+      color: theme.colors.gray400,
     },
   },
 });
@@ -56,7 +56,7 @@ export const skeleton = styleVariants({
       marginBottom: theme.spaces.xs,
 
       borderRadius: rem(4),
-      backgroundColor: theme.colors.gray[2],
+      backgroundColor: theme.colors.gray100,
     },
   ],
   description: [
@@ -68,7 +68,7 @@ export const skeleton = styleVariants({
       marginLeft: theme.spaces.xs,
 
       borderRadius: rem(4),
-      backgroundColor: theme.colors.gray[2],
+      backgroundColor: theme.colors.gray100,
     },
   ],
 });
