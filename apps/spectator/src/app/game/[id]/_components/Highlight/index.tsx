@@ -9,6 +9,9 @@ type HighlightProps = {
 export default function Highlight({ gameId, ...props }: HighlightProps) {
   const { data } = useGameVideo(gameId);
 
+  if (!data || !data.videoId)
+    return <p className={styles.message}>경기 하이라이트가 등록되지 않았어요.</p>;
+
   return (
     <iframe
       className={styles.highlight}

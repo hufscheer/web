@@ -18,21 +18,25 @@ const HighlightTabContent = ({ gameId }: { gameId: string }) => {
   const isGameInProgress = gameData?.state === 'PLAYING';
   const hasVideoLink = Boolean(videoData?.videoId);
   const [showTooltip, setShowTooltip] = useState(false);
+
   const tooltipKey = useMemo(() => {
     return hasVideoLink ? `highlight_tooltip_${gameId}_${videoData?.videoId}` : '';
   }, [hasVideoLink, gameId, videoData?.videoId]);
+
   useEffect(() => {
     if (hasVideoLink && tooltipKey) {
       const hasShownTooltip = localStorage.getItem(tooltipKey);
       setShowTooltip(!hasShownTooltip);
     }
   }, [hasVideoLink, tooltipKey]);
+
   const handleTabClick = useCallback(() => {
     if (showTooltip && tooltipKey) {
       localStorage.setItem(tooltipKey, 'true');
       setShowTooltip(false);
     }
   }, [showTooltip, tooltipKey]);
+
   return (
     <Tooltip open={showTooltip}>
       <TooltipTrigger asChild onClick={handleTabClick}>

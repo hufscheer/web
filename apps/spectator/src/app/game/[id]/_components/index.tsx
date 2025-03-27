@@ -1,10 +1,10 @@
 'use client';
 
 import { Spinner, Tabs } from '@hcc/ui';
+import { ErrorBoundary, Suspense } from '@suspensive/react';
 
 import Live from '@/app/_components/Live';
 import AsyncBoundary from '@/components/AsyncBoundary';
-import { FallbackProps } from '@/components/ErrorBoundary';
 import { TABS_CONFIG } from '@/constants/configs';
 
 import Banner from './Banner';
@@ -19,28 +19,27 @@ import CheerVSSkeleton from './CheerVS/Skeleton';
 import Highlight from './Highlight';
 import HighlightFallback from './Highlight/Fallback';
 import { HighlightTab } from './Highlight/Tab';
-import Lineup from './Lineup';
-import LineupFallback from './Lineup/Fallback';
+import { Lineup } from './lineup';
 import Timeline from './Timeline';
-import TimelineFallback from './Timeline/Fallback';
+import { TimelineFallback } from './Timeline/Fallback';
 
 const tabs = [
   {
     key: TABS_CONFIG.LINEUP,
     label: '라인업',
-    errorUI: (props: FallbackProps) => <LineupFallback {...props} />,
+    errorUI: () => <></>,
     renderer: (gameId: string) => <Lineup gameId={gameId} />,
   },
   {
     key: TABS_CONFIG.TIMELINE,
     label: '타임라인',
-    errorUI: (props: FallbackProps) => <TimelineFallback {...props} />,
+    errorUI: () => <TimelineFallback />,
     renderer: (gameId: string) => <Timeline gameId={gameId} />,
   },
   {
     key: TABS_CONFIG.HIGHLIGHT,
     label: '경기 영상',
-    errorUI: (props: FallbackProps) => <HighlightFallback {...props} />,
+    errorUI: () => <HighlightFallback />,
     renderer: (gameId: string) => <Highlight gameId={gameId} />,
   },
 ];
@@ -99,12 +98,9 @@ export const GameDetail = ({ id, tabState, cheerState }: GameDetailProps) => {
         </Tabs.List>
         {tabs.map((tab) => (
           <Tabs.Content key={tab.key} value={tab.key}>
-            <AsyncBoundary
-              errorFallback={(props: FallbackProps) => tab.errorUI(props)}
-              loadingFallback={<Spinner />}
-            >
-              {tab.renderer(id)}
-            </AsyncBoundary>
+            <ErrorBoundary fallback={tab.errorUI}>
+              <Suspense>{tab.renderer(id)}</Suspense>
+            </ErrorBoundary>
           </Tabs.Content>
         ))}
       </Tabs>

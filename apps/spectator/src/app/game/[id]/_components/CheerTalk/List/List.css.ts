@@ -35,13 +35,7 @@ export const scrollToBottomButton = style({
   width: rem(32),
   height: rem(32),
   borderRadius: '50%',
-  backgroundColor: theme.colors.gray[2],
-  boxShadow: `0 1px 4px 0 ${theme.colors.gray[4]}`,
+  backgroundColor: theme.colors.gray100,
+  boxShadow: `0 1px 4px 0 ${theme.colors.gray200}`,
   opacity: 0.9,
-});
-
-export const scrollToBottomIcon = style({
-  width: rem(16),
-  height: rem(16),
-  color: theme.colors.gray[4],
 });

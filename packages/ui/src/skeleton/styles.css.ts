@@ -11,7 +11,7 @@ const pulse = keyframes({
 });
 
 export const root = style({
-  backgroundColor: theme.colors.gray[1],
+  backgroundColor: theme.colors.gray50,
   animation: `${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`,
 });
 

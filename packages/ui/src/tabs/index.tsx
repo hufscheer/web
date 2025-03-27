@@ -29,7 +29,9 @@ const Tabs = ({ defaultValue, className, children }: TabsProps) => {
 
   return (
     <TabsContext.Provider value={{ value, setValue }}>
-      <div className={clsx(styles.root, className)}>{children}</div>
+      <div className={clsx(styles.root, className)} role="tabpanel">
+        {children}
+      </div>
     </TabsContext.Provider>
   );
 };

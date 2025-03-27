@@ -5,48 +5,12 @@ import { rem } from './pxto';
 export const theme = createGlobalTheme(':root', {
   colors: {
     primary: {
-      '1': '#ECEEFF',
-      '2': '#9AA4FF',
-      '3': '#4354F0',
-      '4': '#2735BD',
-      '5': '#121E8A',
-      '6': '#050D57',
       normal: 'var(--hcc-colors-primary)',
       light: 'var(--hcc-colors-primary-light)',
     },
-    indicatorBlue: {
-      '1': '#EFF6FF',
-      '2': '#BEDDFF',
-      '3': '#007AFF',
-      '4': '#5DAAFF',
-      '5': '#226BBB',
-      '6': '#003977',
-    },
-    indicatorRed: {
-      '1': '#FFECEB',
-      '2': '#FF9993',
-      '3': '#FF453A',
-      '4': '#CC281F',
-      '5': '#99130B',
-      '6': '#660600',
-    },
     secondary: {
-      '1': '#F9FBFD',
-      '2': '#D3E2F6',
-      '3': '#A9B9CD',
-      '4': '#8291A5',
-      '5': '#5E6B7C',
-      '6': '#3C4653',
       normal: 'var(--hcc-colors-secondary)',
       light: 'var(--hcc-colors-secondary-light)',
-    },
-    gray: {
-      '1': '#F7F8F9',
-      '2': '#E9EBEE',
-      '3': '#C5C8CE',
-      '4': '#646F7C',
-      '5': '#374553',
-      '6': '#28323C',
     },
     background: {
       secondary: '#F7F8F9',
@@ -91,6 +55,8 @@ export const theme = createGlobalTheme(':root', {
     border: 'var(--hcc-colors-border)',
     border25: 'var(--hcc-colors-border-25)',
     tip: 'var(--hcc-colors-tip)',
+
+    playground: '#3D9A54',
   },
 
   shadows: {

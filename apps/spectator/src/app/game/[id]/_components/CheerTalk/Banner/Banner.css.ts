@@ -19,7 +19,7 @@ export const banner = styleVariants({
     justifyItems: 'center',
     alignItems: 'center',
     paddingBlock: theme.spaces.xxs,
-    backgroundColor: theme.colors.gray[2],
+    backgroundColor: theme.colors.gray100,
     gap: theme.spaces.default,
   },
   firstTeamName: [
@@ -57,11 +57,11 @@ export const banner = styleVariants({
     fontSize: rem(12),
     fontWeight: 500,
     borderRadius: rem(8),
-    backgroundColor: theme.colors.primary[3],
+    backgroundColor: theme.colors.primary.normal,
     whiteSpace: 'nowrap',
   },
   gameStartTime: {
     ...theme.textVariants.xs,
-    color: theme.colors.gray[6],
+    color: theme.colors.gray500,
   },
 });
