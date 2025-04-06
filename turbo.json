@@ -5,14 +5,15 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "lib/**", "storybook-static/**", "dist/**"]
+      "outputs": [".next/**", "lib/**", "dist/**"]
+    },
+    "lint": {
     },
     "deploy": {
-      "dependsOn": ["build", "lint"]
+      "dependsOn": ["^build", "^lint"]
     },
-    "lint": {},
     "dev": {
-      "dependsOn": ["@hcc/ui#build"],
+      "dependsOn": ["@hcc/style#build", "@hcc/ui#build"],
       "cache": false,
       "persistent": true
     }
