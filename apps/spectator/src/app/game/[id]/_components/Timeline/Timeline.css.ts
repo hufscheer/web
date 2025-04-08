@@ -146,3 +146,12 @@ export const errorFallback = styleVariants({
     fontWeight: 500,
   },
 });
+
+export const message = style({
+  ...theme.layouts.center,
+  marginTop: rem(24),
+  color: theme.colors.gray400,
+  fontSize: rem(14),
+  fontWeight: 500,
+  textAlign: 'center',
+});
