@@ -7,13 +7,12 @@
       "dependsOn": ["^build"],
       "outputs": [".next/**", "lib/**", "dist/**"]
     },
-    "lint": {
-    },
+    "lint": {},
     "deploy": {
       "dependsOn": ["^build", "^lint"]
     },
     "dev": {
-      "dependsOn": ["@hcc/style#build", "@hcc/ui#build"],
+      "dependsOn": ["@hcc/styles#build", "@hcc/ui#build"],
       "cache": false,
       "persistent": true
     }
