@@ -1,0 +1,72 @@
+"package: api":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'packages/api/**/*'
+
+"package: icon":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'packages/icon/**/*'
+
+"package: style":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'packages/style/**/*'
+
+"package: ui":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'packages/ui/**/*'
+
+"eslint":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'tooling/config-eslint/**/*'
+              - '.eslintrc*'
+              - 'eslint.config.*'
+
+"tsconfig":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'tooling/config-typescript/**/*'
+              - 'tsconfig.json'
+
+"documentation":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'docs/**/*'
+              - 'README.md'
+
+"build":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'pnpm-lock.yaml'
+              - 'package.json'
+              - 'packages/*/package.json'
+              - 'apps/*/package.json'
+
+"workflows":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - '.github/workflows/**/*'
+
+"app: spectator":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'apps/spectator/**/*'
+
+"app: manager":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'apps/manager/**/*'
