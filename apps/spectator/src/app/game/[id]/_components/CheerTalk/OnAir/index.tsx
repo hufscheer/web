@@ -13,25 +13,6 @@ type CheerTalkInRealProps = {
 export default function CheerTalkOnAir({ cheerTalk }: CheerTalkInRealProps) {
   if (!cheerTalk.length || !cheerTalk.at(-1)) return <CheerTalkFallback />;
 
-  const transition = {
-    type: 'spring',
-    stiffness: 200,
-    mass: 0.2,
-    damping: 20,
-  };
-
-  const variants = {
-    initial: {
-      opacity: 0,
-      y: 20,
-    },
-    enter: {
-      opacity: 1,
-      y: 0,
-      transition,
-    },
-  };
-
   return (
     <AnimatePresence initial={false}>
       <motion.ul
@@ -39,7 +20,10 @@ export default function CheerTalkOnAir({ cheerTalk }: CheerTalkInRealProps) {
         layout
         initial="initial"
         animate="enter"
-        variants={variants}
+        variants={{
+          initial: { opacity: 0, y: 20 },
+          enter: { opacity: 1, y: 0 },
+        }}
         className={styles.billboard}
         transition={{
           y: { type: 'spring', stiffness: 200, damping: 20, mass: 0.2 },
