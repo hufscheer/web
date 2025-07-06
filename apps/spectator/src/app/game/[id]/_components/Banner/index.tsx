@@ -31,12 +31,26 @@ export default function Banner({ gameId }: BannerProps) {
           {data.gameQuarter}
         </span>
         <div className={styles.scoreBoard}>
-          <span className={clsx(styles.score, sofia.className)}>{homeTeam.score}</span>
+          <span
+            className={clsx(
+              data.state === 'FINISHED' ? styles.scoreFinished : styles.score,
+              sofia.className,
+            )}
+          >
+            {homeTeam.score}
+          </span>
           <div className={styles.colon}>
             <span className={styles.dots} />
             <span className={styles.dots} />
           </div>
-          <span className={clsx(styles.score, sofia.className)}>{awayTeam.score}</span>
+          <span
+            className={clsx(
+              data.state === 'FINISHED' ? styles.scoreFinished : styles.score,
+              sofia.className,
+            )}
+          >
+            {awayTeam.score}
+          </span>
         </div>
 
         <div className={styles.time}>

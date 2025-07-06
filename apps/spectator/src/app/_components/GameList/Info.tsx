@@ -26,7 +26,7 @@ export default function GameInfo({ gameTeams, state }: GameInfoProps) {
               className={styles.logoImg}
             />
           </div>
-          <span className={styles.gameInfoRow.teamName}>{firstTeam.gameTeamName}</span>
+          <span className={getTeamNameStyle(state)}>{firstTeam.gameTeamName}</span>
         </div>
         <GameScore score={firstTeam.score} state={state} />
       </div>
@@ -41,7 +41,7 @@ export default function GameInfo({ gameTeams, state }: GameInfoProps) {
               className={styles.logoImg}
             />
           </div>
-          <span className={styles.gameInfoRow.teamName}>{secondTeam.gameTeamName}</span>
+          <span className={getTeamNameStyle(state)}>{secondTeam.gameTeamName}</span>
         </div>
         <GameScore score={secondTeam.score} state={state} />
       </div>
@@ -54,3 +54,9 @@ function GameScore({ score, state }: { score: number; state: GameState }) {
 
   return <span className={styles.gameInfoRow.score}>{score}</span>;
 }
+
+const getTeamNameStyle = (gameState: GameState) => {
+  return gameState === 'FINISHED'
+    ? styles.gameInfoRow.teamNameFinished
+    : styles.gameInfoRow.teamName;
+};

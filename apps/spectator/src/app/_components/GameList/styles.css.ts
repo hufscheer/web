@@ -108,6 +108,12 @@ export const gameInfoRow = styleVariants({
     fontWeight: 500,
     lineHeight: '100%',
   },
+  teamNameFinished: {
+    color: theme.colors.gray300,
+    fontSize: rem(14),
+    fontWeight: 500,
+    lineHeight: '100%',
+  },
   score: {
     color: theme.colors.gray300,
     fontSize: rem(14),
