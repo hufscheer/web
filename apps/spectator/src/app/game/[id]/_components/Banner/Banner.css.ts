@@ -61,6 +61,11 @@ export const score = style({
   fontSize: rem(36),
 });
 
+export const scoreFinished = style({
+  color: theme.colors.gray300,
+  fontSize: rem(36),
+});
+
 export const colon = style({
   display: 'flex',
   flexDirection: 'column',
