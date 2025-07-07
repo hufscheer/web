@@ -4,23 +4,28 @@ import { Icon } from '@hcc/ui';
 import axios from 'axios';
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 
+import { GameState } from '@/types/game';
+
 import * as styles from './Form.css';
 
 type CheerTalkFormProps = {
   gameTeams: GameTeamType[];
   scrollToBottom: () => void;
+  gameState: GameState;
 };
 
-const CheerTalkForm = ({ gameTeams, scrollToBottom }: CheerTalkFormProps) => {
+const CheerTalkForm = ({ gameTeams, scrollToBottom, gameState }: CheerTalkFormProps) => {
   const { mutate } = useCreateCheerTalk();
   const [inputValue, setInputValue] = useState<string>('');
   const [selectedTeamId, setSelectedTeamId] = useState<number>(gameTeams[0].gameTeamId);
+
+  const isGameFinished = gameState === 'FINISHED';
 
   const handleCheerTalkSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>): void => {
       e.preventDefault();
 
-      if (!inputValue.trim()) return;
+      if (!inputValue.trim() || isGameFinished) return;
 
       mutate(
         {
@@ -38,7 +43,7 @@ const CheerTalkForm = ({ gameTeams, scrollToBottom }: CheerTalkFormProps) => {
 
       setInputValue('');
     },
-    [inputValue, mutate, selectedTeamId, scrollToBottom],
+    [inputValue, mutate, selectedTeamId, scrollToBottom, isGameFinished],
   );
 
   const handleRadioClick = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
@@ -47,7 +52,7 @@ const CheerTalkForm = ({ gameTeams, scrollToBottom }: CheerTalkFormProps) => {
 
   return (
     <form className={styles.form} onSubmit={handleCheerTalkSubmit}>
-      <fieldset className={styles.radioBox}>
+      <fieldset className={styles.radioBox} disabled={isGameFinished}>
         {gameTeams.map((team) => (
           <label key={team.gameTeamId} className={styles.radioField}>
             <input
@@ -56,6 +61,7 @@ const CheerTalkForm = ({ gameTeams, scrollToBottom }: CheerTalkFormProps) => {
               value={team.gameTeamId}
               onChange={handleRadioClick}
               className={styles.radioInput}
+              disabled={isGameFinished}
             />
             {team.gameTeamName}
           </label>
@@ -67,12 +73,19 @@ const CheerTalkForm = ({ gameTeams, scrollToBottom }: CheerTalkFormProps) => {
             className={styles.cheerTalkInput}
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            placeholder="응원톡을 남겨보세요!"
+            placeholder={
+              isGameFinished ? '경기가 종료되어 응원톡을 남길 수 없습니다.' : '응원톡을 남겨보세요!'
+            }
             aria-label="응원 메시지 입력"
+            disabled={isGameFinished}
           />
         </div>
-        <button className={styles.cheerTalkSendButton} type="submit">
-          <Icon source={SendIcon} size="md" color={inputValue ? 'primary' : 'secondary'} />
+        <button className={styles.cheerTalkSendButton} type="submit" disabled={isGameFinished}>
+          <Icon
+            source={SendIcon}
+            size="md"
+            color={inputValue && !isGameFinished ? 'primary' : 'secondary'}
+          />
         </button>
       </div>
     </form>
