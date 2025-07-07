@@ -23,6 +23,13 @@ export const radioField = style({
   cursor: 'pointer',
   border: 'none',
   ...theme.textVariants.sm,
+
+  selectors: {
+    '&:has(input:disabled)': {
+      cursor: 'not-allowed',
+      opacity: 0.5,
+    },
+  },
 });
 
 export const radioInput = style({
@@ -62,10 +69,25 @@ export const cheerTalkInput = style({
   border: 'none',
   outline: 'none',
   boxShadow: 'none',
+
+  selectors: {
+    '&:disabled': {
+      cursor: 'not-allowed',
+      opacity: 0.5,
+      color: theme.colors.gray400,
+    },
+  },
 });
 
 export const cheerTalkSendButton = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+
+  selectors: {
+    '&:disabled': {
+      cursor: 'not-allowed',
+      opacity: 0.5,
+    },
+  },
 });
