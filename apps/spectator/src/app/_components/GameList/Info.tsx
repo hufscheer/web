@@ -10,7 +10,6 @@ type GameInfoProps = {
 };
 
 export default function GameInfo({ gameTeams, state }: GameInfoProps) {
-  // todo: fisished 상태일 때 경기 승패를 score 색상으로 표시
   const [firstTeam, secondTeam] = gameTeams;
 
   return (
@@ -26,7 +25,15 @@ export default function GameInfo({ gameTeams, state }: GameInfoProps) {
               className={styles.logoImg}
             />
           </div>
-          <span className={getTeamNameStyle(state)}>{firstTeam.gameTeamName}</span>
+          <span
+            className={
+              state === 'FINISHED'
+                ? styles.gameInfoRow.teamNameFinished
+                : styles.gameInfoRow.teamName
+            }
+          >
+            {firstTeam.gameTeamName}
+          </span>
         </div>
         <GameScore score={firstTeam.score} state={state} />
       </div>
@@ -41,7 +48,15 @@ export default function GameInfo({ gameTeams, state }: GameInfoProps) {
               className={styles.logoImg}
             />
           </div>
-          <span className={getTeamNameStyle(state)}>{secondTeam.gameTeamName}</span>
+          <span
+            className={
+              state === 'FINISHED'
+                ? styles.gameInfoRow.teamNameFinished
+                : styles.gameInfoRow.teamName
+            }
+          >
+            {secondTeam.gameTeamName}
+          </span>
         </div>
         <GameScore score={secondTeam.score} state={state} />
       </div>
@@ -54,9 +69,3 @@ function GameScore({ score, state }: { score: number; state: GameState }) {
 
   return <span className={styles.gameInfoRow.score}>{score}</span>;
 }
-
-const getTeamNameStyle = (gameState: GameState) => {
-  return gameState === 'FINISHED'
-    ? styles.gameInfoRow.teamNameFinished
-    : styles.gameInfoRow.teamName;
-};

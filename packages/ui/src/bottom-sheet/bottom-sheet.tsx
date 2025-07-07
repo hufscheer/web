@@ -6,6 +6,8 @@ import {
   ComponentPropsWithoutRef,
   ComponentRef,
   forwardRef,
+  ForwardRefExoticComponent,
+  RefAttributes,
 } from 'react';
 import { Drawer as DrawerPrimitive } from 'vaul';
 
@@ -15,42 +17,37 @@ const BottomSheet = ({
   shouldScaleBackground = true,
   ...props
 }: ComponentProps<typeof DrawerPrimitive.Root>) => (
-  <DrawerPrimitive.Root
-    shouldScaleBackground={shouldScaleBackground}
-    {...props}
-  />
+  <DrawerPrimitive.Root shouldScaleBackground={shouldScaleBackground} {...props} />
 );
 BottomSheet.displayName = 'Drawer';
 
-const BottomSheetTrigger = DrawerPrimitive.Trigger;
+const BottomSheetTrigger: typeof DrawerPrimitive.Trigger = DrawerPrimitive.Trigger;
 
 const BottomSheetPortal = DrawerPrimitive.Portal;
 
-const BottomSheetClose = DrawerPrimitive.Close;
+const BottomSheetClose: typeof DrawerPrimitive.Close = DrawerPrimitive.Close;
 
-const BottomSheetOverlay = forwardRef<
+const BottomSheetOverlay: ForwardRefExoticComponent<
+  ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay> &
+    RefAttributes<ComponentRef<typeof DrawerPrimitive.Overlay>>
+> = forwardRef<
   ComponentRef<typeof DrawerPrimitive.Overlay>,
   ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
-  <DrawerPrimitive.Overlay
-    ref={ref}
-    className={clsx(styles.overlay, className)}
-    {...props}
-  />
+  <DrawerPrimitive.Overlay ref={ref} className={clsx(styles.overlay, className)} {...props} />
 ));
 BottomSheetOverlay.displayName = DrawerPrimitive.Overlay.displayName;
 
-const BottomSheetContent = forwardRef<
+const BottomSheetContent: ForwardRefExoticComponent<
+  ComponentPropsWithoutRef<typeof DrawerPrimitive.Content> &
+    RefAttributes<ComponentRef<typeof DrawerPrimitive.Content>>
+> = forwardRef<
   ComponentRef<typeof DrawerPrimitive.Content>,
   ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
 >(({ className, children, ...props }, ref) => (
   <BottomSheetPortal>
     <BottomSheetOverlay />
-    <DrawerPrimitive.Content
-      ref={ref}
-      className={clsx(styles.content, className)}
-      {...props}
-    >
+    <DrawerPrimitive.Content ref={ref} className={clsx(styles.content, className)} {...props}>
       <div className={styles.inner}>
         <div className={styles.bar} />
         {children}
@@ -70,19 +67,21 @@ const BottomSheetFooter = ({ className, ...props }: ComponentProps<'div'>) => (
 );
 BottomSheetFooter.displayName = 'DrawerFooter';
 
-const BottomSheetTitle = forwardRef<
+const BottomSheetTitle: ForwardRefExoticComponent<
+  ComponentPropsWithoutRef<typeof DrawerPrimitive.Title> &
+    RefAttributes<ComponentRef<typeof DrawerPrimitive.Title>>
+> = forwardRef<
   ComponentRef<typeof DrawerPrimitive.Title>,
   ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>
 >(({ className, ...props }, ref) => (
-  <DrawerPrimitive.Title
-    ref={ref}
-    className={clsx(styles.title, className)}
-    {...props}
-  />
+  <DrawerPrimitive.Title ref={ref} className={clsx(styles.title, className)} {...props} />
 ));
 BottomSheetTitle.displayName = DrawerPrimitive.Title.displayName;
 
-const BottomSheetDescription = forwardRef<
+const BottomSheetDescription: ForwardRefExoticComponent<
+  ComponentPropsWithoutRef<typeof DrawerPrimitive.Description> &
+    RefAttributes<ComponentRef<typeof DrawerPrimitive.Description>>
+> = forwardRef<
   ComponentRef<typeof DrawerPrimitive.Description>,
   ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>
 >(({ className, ...props }, ref) => (
