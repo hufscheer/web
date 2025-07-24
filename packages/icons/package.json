@@ -24,7 +24,7 @@
     "@types/react": "^19.1.8",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "rollup": "^4.44.2",
+    "rollup": "^4.45.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-visualizer": "^5.14.0",
     "typescript": "^5.8.3"

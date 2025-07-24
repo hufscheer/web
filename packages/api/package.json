@@ -10,15 +10,15 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.81.5",
-    "@tanstack/react-query-devtools": "^5.81.5",
-    "axios": "^1.10.0",
-    "next": "^15.3.5"
+    "@tanstack/react-query": "^5.83.0",
+    "@tanstack/react-query-devtools": "^5.83.0",
+    "axios": "^1.11.0",
+    "next": "^15.4.3"
   },
   "devDependencies": {
     "@hcc/eslint-config": "workspace:*",
     "@hcc/typescript-config": "workspace:*",
-    "@types/node": "^22.16.0",
+    "@types/node": "^22.16.5",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "react": "^19.1.0",
