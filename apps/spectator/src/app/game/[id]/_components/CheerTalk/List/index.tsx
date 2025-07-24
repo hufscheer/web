@@ -110,7 +110,11 @@ export default function CheerTalkList({
           ))}
           <li ref={bottomRef} />
         </ul>
-        <CheerTalkForm gameTeams={gameDetail.gameTeams} scrollToBottom={run} />
+        <CheerTalkForm
+          gameTeams={gameDetail.gameTeams}
+          scrollToBottom={run}
+          gameState={gameDetail.state}
+        />
         {showScrollToBottomButton && (
           <button className={styles.scrollToBottomButton} onClick={run} type="button">
             <Icon source={ArrowDownIcon} size={16} color="black" />
