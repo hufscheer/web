@@ -13,7 +13,6 @@ import dayjs from 'dayjs';
 import { ReactElement } from 'react';
 
 import Layout from '@/components/Layout';
-import PopupDialog from '@/components/PopupDialog';
 import { GAME_STATE } from '@/constants/configs';
 import { GameState } from '@/types/game';
 
@@ -71,10 +70,6 @@ const HomePage = async ({ searchParams }: PageProps) => {
       {GAMES.map((game) => (
         <GameList key={game.key} state={game.key} initialLeagueId={initialLeagueId.toString()} />
       ))}
-      <PopupDialog
-        imageUrl="/static/2025-worldcup/popup.webp"
-        imageAlt="2025 외대월드컵 팝업 이미지"
-      />
     </Layout>
   );
 };
