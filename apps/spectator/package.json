@@ -21,7 +21,7 @@
     "@hcc/icons": "workspace:^",
     "@hcc/styles": "workspace:*",
     "@hcc/ui": "workspace:*",
-    "@next/third-parties": "^15.4.3",
+    "@next/third-parties": "^15.4.4",
     "@sentry/nextjs": "^8.55.0",
     "@stomp/stompjs": "^7.1.1",
     "@suspensive/react": "^3.3.2",
@@ -34,7 +34,7 @@
     "axios": "^1.11.0",
     "dayjs": "^1.11.13",
     "motion": "^12.23.9",
-    "next": "^15.4.3",
+    "next": "^15.4.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
