@@ -25,17 +25,17 @@
     "@vanilla-extract/recipes": "^0.5.7",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
-    "framer-motion": "^12.23.0",
-    "next": "^15.3.5",
+    "framer-motion": "^12.23.9",
+    "next": "^15.4.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-hook-form": "^7.60.0",
-    "zod": "^3.25.74"
+    "react-hook-form": "^7.61.1",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@hcc/eslint-config": "workspace:*",
     "@hcc/typescript-config": "workspace:*",
-    "@types/node": "^22.16.0",
+    "@types/node": "^22.16.5",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vanilla-extract/next-plugin": "^2.4.14",
