@@ -1,2 +1,2 @@
-export * from './LeagueForm';
+export * from './newLeagueForm';
 export * from './types';
