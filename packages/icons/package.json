@@ -8,6 +8,15 @@
     "lint": "biome lint .",
     "format": "biome format --write ."
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "biome lint --fix",
+      "biome format --write"
+    ],
+    "*.{json,yml,yaml}": [
+      "biome format --write"
+    ]
+  },
   "sideEffects": false,
   "type": "module",
   "main": "./dist/index.cjs",

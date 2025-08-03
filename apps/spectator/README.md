@@ -1,1 +1,1 @@
-# spectator
+## `@hcc/spectator`
