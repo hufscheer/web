@@ -1,3 +1,10 @@
 {
-  "extends": "@hcc/typescript-config/react-library.json"
+  "extends": "@hcc/typescript-config/react-library.json",
+  "compilerOptions": {
+    "strict": true,
+    "emitDeclarationOnly": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "sourceMap": false
+  }
 }

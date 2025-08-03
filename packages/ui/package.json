@@ -2,23 +2,32 @@
   "name": "@hcc/ui",
   "version": "0.0.1",
   "scripts": {
-    "build": "rm -rf lib && node build.js && tsc",
-    "dev": "node build.js --watch"
+    "build": "rm -rf dist && node build.js && tsc",
+    "dev": "node build.js --watch",
+    "start": "next start",
+    "lint": "biome lint .",
+    "format": "biome format --write ."
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "biome lint --fix",
+      "biome format --write"
+    ]
   },
   "sideEffects": false,
   "type": "module",
-  "main": "./lib/index.cjs",
-  "module": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./lib/index.d.ts",
-      "import": "./lib/index.js",
-      "require": "./lib/index.cjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "peerDependencies": {
     "react": "^19.1.0",

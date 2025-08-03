@@ -12,9 +12,6 @@
     "*.{js,jsx,ts,tsx}": [
       "biome lint --fix",
       "biome format --write"
-    ],
-    "*.{json,yml,yaml}": [
-      "biome format --write"
     ]
   },
   "sideEffects": false,

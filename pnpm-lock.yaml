@@ -29,6 +29,9 @@ importers:
 
   apps/spectator:
     dependencies:
+      '@hcc/icons':
+        specifier: workspace:*
+        version: link:../../packages/icons
       next:
         specifier: 15.4.5
         version: 15.4.5(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -60,8 +63,6 @@ importers:
       typescript:
         specifier: ^5.9.2
         version: 5.9.2
-
-  packages/config-typescript: {}
 
   packages/icons:
     dependencies:

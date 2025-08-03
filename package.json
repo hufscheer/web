@@ -19,7 +19,7 @@
       "biome lint --fix",
       "biome format --write"
     ],
-    "*.{json,yml,yaml}": [
+    "*.{json,yml}": [
       "biome format --write"
     ]
   },
