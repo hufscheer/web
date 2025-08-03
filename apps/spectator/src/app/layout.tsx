@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import type { PropsWithChildren } from 'react';
 import { Pretendard } from './_fonts';
+import '~/styles/globals.css';
 
 export const metadata: Metadata = {
   title: '훕치치',
