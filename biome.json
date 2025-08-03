@@ -6,6 +6,9 @@
     "experimentalScannerIgnores": [
       "node_modules/**",
       "dist/**",
+      "lib/**",
+      "**/lib/**",
+      "**/dist/**",
       ".turbo/**",
       ".next/**",
       "pnpm-lock.yaml"
