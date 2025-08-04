@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import type { PropsWithChildren } from 'react';
 import { Layout } from '~/components/layout';
 import { Pretendard } from './_fonts';
+import { Provider } from './provider';
 import '~/styles/globals.css';
 
 export const metadata: Metadata = {
@@ -13,7 +14,9 @@ const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="ko">
       <body className={Pretendard.className}>
-        <Layout>{children}</Layout>
+        <Provider>
+          <Layout>{children}</Layout>
+        </Provider>
       </body>
     </html>
   );
