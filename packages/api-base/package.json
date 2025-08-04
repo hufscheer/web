@@ -1,5 +1,5 @@
 {
-  "name": "@hcc/ui",
+  "name": "@hcc/api-base",
   "version": "0.0.1",
   "scripts": {
     "build": "rm -rf dist && node build.js && tsc",
@@ -32,6 +32,9 @@
   "peerDependencies": {
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
+  },
+  "dependencies": {
+    "ky": "^1.8.2"
   },
   "devDependencies": {
     "@hcc/typescript-config": "workspace:*",
