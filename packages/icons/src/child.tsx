@@ -6,7 +6,7 @@ type ChildProps = {
 };
 
 const Child = ({ children, ...props }: ChildProps) => {
-  const child: React.ReactNode = Children.only(children);
+  const child: ReactNode = Children.only(children);
 
   return isValidElement(child) ? cloneElement(child, props) : null;
 };
