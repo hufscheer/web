@@ -1,6 +1,7 @@
 {
   "name": "@hcc/icons",
   "version": "0.0.1",
+  "private": true,
   "scripts": {
     "build": "rm -rf dist && node build.js && tsc",
     "dev": "node build.js --watch",
@@ -39,8 +40,5 @@
     "@types/react-dom": "^19.1.7",
     "esbuild": "^0.25.8",
     "typescript": "^5.9.2"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }
