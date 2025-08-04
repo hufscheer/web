@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from 'next';
 import type { PropsWithChildren } from 'react';
 import { Layout } from '~/components/layout';
@@ -17,6 +18,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
         <Provider>
           <Layout>{children}</Layout>
         </Provider>
+        <Analytics />
       </body>
     </html>
   );
