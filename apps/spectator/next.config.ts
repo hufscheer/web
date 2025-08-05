@@ -6,15 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'hufstreaming.s3.ap-northeast-2.amazonaws.com',
-      },
-      {
-        protocol: 'https',
         hostname: 'hufscheer-server.s3.ap-northeast-2.amazonaws.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'images.hufstreaming.site',
       },
       {
         protocol: 'https',
