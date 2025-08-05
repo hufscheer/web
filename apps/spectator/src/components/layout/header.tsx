@@ -10,7 +10,7 @@ export const Header = () => {
       </Link>
 
       <Link href={ROUTES.CALENDAR}>
-        <CalendarMonthIcon />
+        <CalendarMonthIcon size={24} className="text-neutral-900" />
       </Link>
     </header>
   );
