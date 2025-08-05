@@ -1,0 +1,23 @@
+import Icon from '../../icon';
+import type { IconProps } from '../../types';
+
+export const CaptainIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <rect width="24" height="24" rx="4" fill="currentColor" />
+      <path
+        d="M9.375 18.125V16.375H7.625V14.625H5.875V9.375H7.625V7.625H9.375V5.875H16.375V7.625H18.125V9.375H14.625V7.625H11.125V9.375H9.375V14.625H11.125V16.375H14.625V14.625H18.125V16.375H16.375V18.125H9.375Z"
+        fill="currentColor"
+      />
+    </svg>
+  </Icon>
+);
+
+CaptainIcon.displayName = 'CaptainIcon';
