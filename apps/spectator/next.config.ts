@@ -10,11 +10,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'images.hufscheer.com',
+        hostname: 'hufscheer-images.s3.ap-northeast-2.amazonaws.com',
       },
       {
         protocol: 'https',
-        hostname: 'hufscheer-images.s3.ap-northeast-2.amazonaws.com',
+        hostname: 'images.hufscheer.com',
       },
     ],
   },
