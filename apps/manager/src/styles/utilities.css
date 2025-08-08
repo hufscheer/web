@@ -1,0 +1,37 @@
+@layer utilities {
+  .center {
+    @apply flex items-center justify-center;
+  }
+
+  .center-x {
+    @apply flex justify-center;
+  }
+
+  .center-y {
+    @apply flex items-center;
+  }
+
+  .row-between {
+    @apply flex items-center justify-between;
+  }
+
+  .column {
+    @apply flex flex-col;
+  }
+
+  .column-center {
+    @apply flex flex-col items-center justify-center;
+  }
+
+  .column-center-x {
+    @apply flex flex-col items-center;
+  }
+
+  .column-center-y {
+    @apply flex flex-col justify-center;
+  }
+
+  .column-between {
+    @apply flex flex-col items-center justify-between;
+  }
+}
