@@ -12,7 +12,7 @@
       "dependsOn": ["^build", "^lint"]
     },
     "dev": {
-      "dependsOn": ["@hcc/api-base#build", "@hcc/icons#build", "@hcc/ui#build"],
+      "dependsOn": ["^build"],
       "cache": true,
       "persistent": true
     }
