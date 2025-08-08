@@ -1,4 +1,0 @@
-{
-  "extends": "@hcc/typescript-config/vite-library.json",
-  "include": ["src"]
-}

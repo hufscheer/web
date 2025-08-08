@@ -1,36 +1,44 @@
 {
   "name": "@hcc/icons",
   "version": "0.0.1",
-  "module": "dist/index.js",
-  "main": "dist/index.js",
-  "sideEffects": [
-    "*.svg"
-  ],
+  "private": true,
   "scripts": {
-    "build": "node ./src/scripts/generate-icons.js && tsc --emitDeclarationOnly && rollup -c",
-    "build:watch": "rollup -c -w"
+    "build": "rm -rf dist && node build.js && tsc",
+    "dev": "node build.js --watch",
+    "start": "next start",
+    "lint": "biome lint .",
+    "format": "biome format --write ."
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "biome lint --fix",
+      "biome format --write"
+    ]
+  },
+  "sideEffects": false,
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.28.0",
-    "@babel/preset-env": "^7.28.0",
-    "@babel/preset-react": "^7.27.1",
-    "@babel/preset-typescript": "^7.27.1",
-    "@hcc/typescript-config": "workspace:^",
-    "@rollup/plugin-babel": "^6.0.4",
-    "@rollup/plugin-commonjs": "^25.0.8",
-    "@rollup/plugin-node-resolve": "^15.3.1",
-    "@rollup/plugin-url": "^8.0.2",
-    "@svgr/rollup": "^8.1.0",
-    "@types/react": "^19.1.8",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "rollup": "^4.45.1",
-    "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-visualizer": "^5.14.0",
-    "typescript": "^5.8.3"
-  },
-  "peerDependencies": {
-    "react": "^19",
-    "react-dom": "^19"
+    "@hcc/typescript-config": "workspace:*",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
+    "esbuild": "^0.25.8",
+    "typescript": "^5.9.2"
   }
 }
