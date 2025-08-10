@@ -5,8 +5,9 @@ import { ROUTES } from '~/constants/routes';
 export const Header = () => {
   return (
     <header className="sticky top-0 z-header row-between h-12 w-full border-neutral-100 border-b px-5">
-      <Link href={ROUTES.HOME}>
-        <HCCLogo width="71.5" height="21" className="text-primary-500" />
+      <Link className="flex items-end gap-2" href={ROUTES.HOME}>
+        <HCCLogo width="71.5" height="21" className="text-neutral-900" />
+        <span className="font-medium leading-none">매니저</span>
       </Link>
     </header>
   );
