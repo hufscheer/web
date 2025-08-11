@@ -1,4 +1,5 @@
 import { Slot } from '@radix-ui/react-slot';
+import { clsx } from 'clsx';
 import { type ComponentProps, type CSSProperties, forwardRef } from 'react';
 import {
   fontSize as fontSizeToken,
@@ -44,7 +45,7 @@ export const Typography = forwardRef<HTMLParagraphElement, TypographyProps>(
     } as CSSProperties;
 
     return (
-      <Comp className={`${styles.typography} ${className}`} ref={ref} style={style} {...props} />
+      <Comp className={clsx(styles.typography, className)} ref={ref} style={style} {...props} />
     );
   },
 );

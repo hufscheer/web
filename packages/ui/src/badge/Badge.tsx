@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import { type ComponentProps, type CSSProperties, forwardRef } from 'react';
 import { Typography } from '../typography';
 import styles from './Badge.module.css';
@@ -27,7 +28,7 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(
     const fontSize = getFontSize(size);
 
     return (
-      <div ref={ref} className={`${styles.badge} ${className}`} style={style} {...props}>
+      <div ref={ref} className={clsx(styles.badge, className)} style={style} {...props}>
         <Typography color={fontColor} size={fontSize} weight="semiBold" lineHeight="tight" asChild>
           <span>{children}</span>
         </Typography>
