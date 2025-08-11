@@ -1,0 +1,11 @@
+.typography {
+  color: var(--hcc-typography-font-color);
+  font-size: var(--hcc-typography-font-size);
+  font-weight: var(--hcc-typography-font-weight);
+  line-height: var(--hcc-typography-line-height);
+
+  --hcc-typography-font-color: inherit;
+  --hcc-typography-font-size: inherit;
+  --hcc-typography-font-weight: inherit;
+  --hcc-typography-line-height: inherit;
+}

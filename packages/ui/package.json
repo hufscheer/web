@@ -25,6 +25,9 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./index.css": {
+      "import": "./dist/index.css"
     }
   },
   "files": [
@@ -40,5 +43,8 @@
     "@types/react-dom": "^19.1.7",
     "esbuild": "^0.25.8",
     "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.2.3"
   }
 }

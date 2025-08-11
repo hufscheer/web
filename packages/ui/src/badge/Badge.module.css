@@ -1,0 +1,16 @@
+.badge {
+  display: inline-flex;
+  padding: var(--hcc-badge-padding);
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  border: var(--hcc-badge-border);
+  border-radius: var(--hcc-badge-border-radius);
+  background-color: var(--hcc-badge-bg-color);
+
+  --hcc-badge-padding: inherit;
+  --hcc-badge-border: inherit;
+  --hcc-badge-border-radius: inherit;
+  --hcc-badge-bg-color: inherit;
+}
