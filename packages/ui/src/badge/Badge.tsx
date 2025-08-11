@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { type ComponentProps, type CSSProperties, forwardRef } from 'react';
+import { color } from '../token';
 import { Typography } from '../typography';
 import styles from './Badge.module.css';
 
@@ -62,21 +63,21 @@ const getFontSize = (size: BadgeSize) => {
 const getFontColor = (variant: BadgeVariant) => {
   switch (variant) {
     case 'danger':
-      return '#FFFFFF';
+      return color.white;
     case 'success':
-      return '#007AFF';
+      return color.primary600;
     default:
-      return '#5F6A75';
+      return color.neutral600;
   }
 };
 
 const getBackgroundColor = (variant: BadgeVariant) => {
   switch (variant) {
     case 'danger':
-      return '#FC5555';
+      return color.danger600;
     case 'success':
-      return '#F2F8FF';
+      return color.primary100;
     default:
-      return '#F3F3F5';
+      return color.neutral100;
   }
 };
