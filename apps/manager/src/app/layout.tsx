@@ -5,6 +5,7 @@ import { Layout } from '~/components/layout';
 import { Pretendard } from './_fonts';
 import { Provider } from './provider';
 import '~/styles/globals.css';
+import '@hcc/ui/index.css';
 
 export const metadata: Metadata = {
   title: '훕치치 매니저',

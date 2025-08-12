@@ -6,7 +6,7 @@ export const Header = () => {
   return (
     <header className="sticky top-0 z-header row-between h-12 w-full border-neutral-100 border-b px-5">
       <Link href={ROUTES.HOME}>
-        <HCCLogo width="71.5" height="21" className="text-primary-500" />
+        <HCCLogo width="71.5" height="21" className="text-primary-600" />
       </Link>
 
       <Link href={ROUTES.CALENDAR}>
