@@ -38,6 +38,9 @@ importers:
       '@hcc/icons':
         specifier: workspace:*
         version: link:../../packages/icons
+      '@hcc/style':
+        specifier: workspace:*
+        version: link:../../packages/style
       '@hcc/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -90,6 +93,9 @@ importers:
       '@hcc/icons':
         specifier: workspace:*
         version: link:../../packages/icons
+      '@hcc/style':
+        specifier: workspace:*
+        version: link:../../packages/style
       '@vercel/analytics':
         specifier: ^1.5.0
         version: 1.5.0(next@15.4.6(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1)
@@ -183,6 +189,8 @@ importers:
       typescript:
         specifier: ^5.9.2
         version: 5.9.2
+
+  packages/style: {}
 
   packages/ui:
     dependencies:

@@ -1,0 +1,17 @@
+{
+  "name": "@hcc/style",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {},
+  "sideEffects": [
+    "css/*.css"
+  ],
+  "type": "module",
+  "exports": {
+    "./theme.css": "./css/theme.css",
+    "./utilities.css": "./css/utilities.css"
+  },
+  "files": [
+    "css"
+  ]
+}

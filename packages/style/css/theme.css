@@ -1,0 +1,36 @@
+
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+
+  --z-index-above: 1;
+  --z-index-header: 10;
+
+  --app-max-width: 560px;
+
+  --color-primary-100: #F2F8FF;
+  --color-primary-600: #007AFF;
+}
+
+@layer base {
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding-bottom: env(safe-area-inset-bottom);
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
+    background-color: var(--color-neutral-50);
+  }
+}
