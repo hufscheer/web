@@ -21,6 +21,7 @@
     "@hcc/api-base": "workspace:*",
     "@hcc/icons": "workspace:*",
     "@hcc/ui": "workspace:*",
+    "@hcc/style": "workspace:*",
     "@lukemorales/query-key-factory": "^1.3.4",
     "@vercel/analytics": "^1.5.0",
     "next": "^15.4.6",
