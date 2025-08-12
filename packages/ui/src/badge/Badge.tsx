@@ -42,10 +42,10 @@ const getPadding = (size: BadgeSize) => {
   switch (size) {
     case 'small':
       return '6px 8px';
+    case 'medium':
+      return '8px 12px';
     case 'large':
       return '10px 16px';
-    default:
-      return '8px 12px';
   }
 };
 
@@ -53,31 +53,31 @@ const getFontSize = (size: BadgeSize) => {
   switch (size) {
     case 'small':
       return 12;
+    case 'medium':
+      return 14;
     case 'large':
       return 18;
-    default:
-      return 14;
   }
 };
 
 const getFontColor = (variant: BadgeVariant) => {
   switch (variant) {
+    case 'default':
+      return color.neutral600;
     case 'danger':
       return color.white;
     case 'success':
       return color.primary600;
-    default:
-      return color.neutral600;
   }
 };
 
 const getBackgroundColor = (variant: BadgeVariant) => {
   switch (variant) {
+    case 'default':
+      return color.neutral100;
     case 'danger':
       return color.danger600;
     case 'success':
       return color.primary100;
-    default:
-      return color.neutral100;
   }
 };
