@@ -10,13 +10,18 @@ import styles from './Typography.module.css';
 
 export type FontSize = keyof typeof fontSizeToken;
 
+export type ResponsiveFontSize =
+  | FontSize
+  | [FontSize, FontSize?, FontSize?]
+  | { base: FontSize; tablet?: FontSize; desktop?: FontSize };
+
 export type FontWeight = keyof typeof fontWeightToken;
 
 export type LineHeight = keyof typeof lineHeightToken;
 
 export interface TypographyProps extends ComponentProps<'p'> {
   asChild?: boolean;
-  size?: FontSize;
+  size?: ResponsiveFontSize;
   weight?: FontWeight;
   lineHeight?: LineHeight;
 }
@@ -36,10 +41,29 @@ export const Typography = forwardRef<HTMLParagraphElement, TypographyProps>(
     ref,
   ) => {
     const Comp = asChild ? Slot : 'p';
+
+    let base: FontSize | undefined;
+    let tablet: FontSize | undefined;
+    let desktop: FontSize | undefined;
+
+    if (Array.isArray(size)) {
+      [base, tablet, desktop] = size;
+    } else if (typeof size === 'object') {
+      ({ base, tablet, desktop } = size);
+    } else {
+      base = size;
+    }
+
     const style = {
       ..._style,
       '--hcc-typography-font-color': color,
-      '--hcc-typography-font-size': `${fontSizeToken[size]}px`,
+      '--hcc-typography-font-size': `${fontSizeToken[base]}px`,
+      ...(tablet !== undefined && {
+        '--hcc-tablet-typography-font-size': `${fontSizeToken[tablet]}px`,
+      }),
+      ...(desktop !== undefined && {
+        '--hcc-desktop-typography-font-size': `${fontSizeToken[desktop]}px`,
+      }),
       '--hcc-typography-font-weight': fontWeightToken[weight],
       '--hcc-typography-line-height': lineHeightToken[lineHeight],
     } as CSSProperties;

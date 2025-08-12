@@ -9,3 +9,15 @@
   --hcc-typography-font-weight: inherit;
   --hcc-typography-line-height: inherit;
 }
+
+@media (min-width: 768px) {
+  .typography {
+    font-size: var(--hcc-tablet-typography-font-size, var(--hcc-typography-font-size));
+  }
+}
+
+@media (min-width: 1024px) {
+  .typography {
+    font-size: var(--hcc-desktop-typography-font-size, var(--hcc-tablet-typography-font-size, var(--hcc-typography-font-size)));
+  }
+}
