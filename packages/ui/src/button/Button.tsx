@@ -2,7 +2,7 @@ import { Slot } from '@radix-ui/react-slot';
 import { clsx } from 'clsx';
 import { type ComponentProps, type CSSProperties, forwardRef } from 'react';
 import { match } from 'ts-pattern';
-import { fontWeight as fontWeightToken, color as token } from '../token';
+import { colors, fontWeight as fontWeightToken } from '../token';
 import styles from './Button.module.css';
 
 type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -105,32 +105,32 @@ export const getFontWeight = (size: ButtonSize) => {
 
 const getColorStyle = (color: ButtonColor, variant: ButtonVariant) => {
   const fontColor = match([color, variant])
-    .with(['black', 'solid'], ['primary', 'solid'], ['danger', 'solid'], () => token.white)
-    .with(['black', 'subtle'], ['black', 'ghost'], () => token.neutral900)
-    .with(['primary', 'subtle'], ['primary', 'ghost'], () => token.primary600)
-    .with(['danger', 'subtle'], ['danger', 'ghost'], () => token.danger600)
+    .with(['black', 'solid'], ['primary', 'solid'], ['danger', 'solid'], () => colors.white)
+    .with(['black', 'subtle'], ['black', 'ghost'], () => colors.neutral900)
+    .with(['primary', 'subtle'], ['primary', 'ghost'], () => colors.primary600)
+    .with(['danger', 'subtle'], ['danger', 'ghost'], () => colors.danger600)
     .exhaustive();
 
   const backgroundColor = match([color, variant])
-    .with(['black', 'solid'], () => token.neutral900)
-    .with(['black', 'subtle'], () => token.neutral50)
-    .with(['primary', 'solid'], () => token.primary600)
-    .with(['primary', 'subtle'], () => token.primary100)
-    .with(['danger', 'solid'], () => token.danger600)
-    .with(['danger', 'subtle'], () => token.danger100)
-    .otherwise(() => token.transparent);
+    .with(['black', 'solid'], () => colors.neutral900)
+    .with(['black', 'subtle'], () => colors.neutral50)
+    .with(['primary', 'solid'], () => colors.primary600)
+    .with(['primary', 'subtle'], () => colors.primary100)
+    .with(['danger', 'solid'], () => colors.danger600)
+    .with(['danger', 'subtle'], () => colors.danger100)
+    .otherwise(() => colors.transparent);
 
   const backgroundHoverColor = match([color, variant])
-    .with(['black', 'solid'], () => token.neutral700)
-    .with(['black', 'subtle'], () => token.neutral100)
-    .with(['black', 'ghost'], () => token.neutral50)
-    .with(['primary', 'solid'], () => token.primary700)
-    .with(['primary', 'subtle'], () => token.primary200)
-    .with(['primary', 'ghost'], () => token.primary50)
-    .with(['danger', 'solid'], () => token.danger700)
-    .with(['danger', 'subtle'], () => token.danger200)
-    .with(['danger', 'ghost'], () => token.danger50)
-    .otherwise(() => token.transparent);
+    .with(['black', 'solid'], () => colors.neutral700)
+    .with(['black', 'subtle'], () => colors.neutral100)
+    .with(['black', 'ghost'], () => colors.neutral50)
+    .with(['primary', 'solid'], () => colors.primary700)
+    .with(['primary', 'subtle'], () => colors.primary200)
+    .with(['primary', 'ghost'], () => colors.primary50)
+    .with(['danger', 'solid'], () => colors.danger700)
+    .with(['danger', 'subtle'], () => colors.danger200)
+    .with(['danger', 'ghost'], () => colors.danger50)
+    .otherwise(() => colors.transparent);
 
   return {
     '--hcc-button-font-color': fontColor,

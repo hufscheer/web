@@ -1,4 +1,4 @@
-export const color = {
+export const colors = {
   white: 'oklch(100% 0 0)',
   black: 'oklch(0% 0 0)',
   transparent: 'transparent',
