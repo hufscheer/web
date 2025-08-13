@@ -32,9 +32,17 @@ export const LoginForm = () => {
 
   return (
     <form className="column w-full" onSubmit={handleSubmit}>
-      <Input id="email" size="xl" type="email" placeholder="이메일" autoComplete="email" />
+      <Input
+        id="email"
+        name="email"
+        size="xl"
+        type="email"
+        placeholder="이메일"
+        autoComplete="email"
+      />
       <Input
         id="password"
+        name="password"
         className="mt-4"
         size="xl"
         type="password"
