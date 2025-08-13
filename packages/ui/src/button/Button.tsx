@@ -2,14 +2,14 @@ import { Slot } from '@radix-ui/react-slot';
 import { clsx } from 'clsx';
 import { type ComponentProps, type CSSProperties, forwardRef } from 'react';
 import { match } from 'ts-pattern';
-import { color as colorToken } from '../token';
+import { color as token } from '../token';
 import styles from './Button.module.css';
 
-type ButtonSize = 'small' | 'medium' | 'large';
+type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
-type ButtonColor = 'black' | 'white' | 'primary' | 'danger';
+type ButtonColor = 'black' | 'primary' | 'danger';
 
-type ButtonVariant = 'solid' | 'subtle' | 'outline' | 'ghost';
+type ButtonVariant = 'solid' | 'subtle' | 'ghost';
 
 export interface ButtonProps extends ComponentProps<'button'> {
   asChild?: boolean;
@@ -26,7 +26,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       children,
       disabled,
-      size = 'medium',
+      size = 'md',
       color = 'primary',
       variant = 'solid',
       style: _style,
@@ -38,7 +38,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const style = {
       ..._style,
-      ...getButtonStyle({ color, variant }),
+      ...getColorStyle(color, variant),
+      '--hcc-button-height': `${getHeight(size)}px`,
+      '--hcc-button-font-size': `${getFontSize(size)}px`,
+      '--hcc-button-border-radius': '8px',
     } as CSSProperties;
 
     return (
@@ -54,47 +57,68 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   },
 );
 
-const getButtonStyle = ({ color, variant }: { color: ButtonColor; variant: ButtonVariant }) => {
-  const backgroundColor = match([color, variant])
-    .with(['black', 'solid'], () => colorToken.neutral900)
-    .with(['black', 'subtle'], () => colorToken.neutral50)
-    .with(['white', 'solid'], () => colorToken.white)
-    .with(['white', 'subtle'], () => colorToken.white)
-    .with(['primary', 'solid'], () => colorToken.primary600)
-    .with(['primary', 'subtle'], () => colorToken.primary100)
-    .with(['danger', 'solid'], () => colorToken.danger600)
-    .with(['danger', 'subtle'], () => colorToken.danger100)
-    .otherwise(() => colorToken.transparent);
-
-  const borderColor = match([color, variant])
-    .with(['black', 'outline'], () => `1px solid ${colorToken.neutral900}`)
-    .with(['white', 'outline'], () => `1px solid ${colorToken.white}`)
-    .with(['primary', 'outline'], () => `1px solid ${colorToken.primary600}`)
-    .with(['danger', 'outline'], () => `1px solid ${colorToken.danger600}`)
-    .otherwise(() => 'none');
-
+const getColorStyle = (color: ButtonColor, variant: ButtonVariant) => {
   const fontColor = match([color, variant])
-    .with(['black', 'solid'], () => colorToken.white)
-    .with(['black', 'subtle'], () => colorToken.neutral900)
-    .with(['black', 'outline'], () => colorToken.neutral900)
-    .with(['black', 'ghost'], () => colorToken.neutral900)
-    .with(['white', 'solid'], () => colorToken.neutral900)
-    .with(['white', 'subtle'], () => colorToken.neutral900)
-    .with(['white', 'outline'], () => colorToken.neutral900)
-    .with(['white', 'ghost'], () => colorToken.neutral900)
-    .with(['primary', 'solid'], () => colorToken.white)
-    .with(['primary', 'subtle'], () => colorToken.primary600)
-    .with(['primary', 'outline'], () => colorToken.primary600)
-    .with(['primary', 'ghost'], () => colorToken.primary600)
-    .with(['danger', 'solid'], () => colorToken.white)
-    .with(['danger', 'subtle'], () => colorToken.danger600)
-    .with(['danger', 'outline'], () => colorToken.danger600)
-    .with(['danger', 'ghost'], () => colorToken.danger600)
+    .with(['black', 'solid'], ['primary', 'solid'], ['danger', 'solid'], () => token.white)
+    .with(['black', 'subtle'], ['black', 'ghost'], () => token.neutral900)
+    .with(['primary', 'subtle'], ['primary', 'ghost'], () => token.primary600)
+    .with(['danger', 'subtle'], ['danger', 'ghost'], () => token.danger600)
     .exhaustive();
 
+  const backgroundColor = match([color, variant])
+    .with(['black', 'solid'], () => token.neutral900)
+    .with(['black', 'subtle'], () => token.neutral50)
+    .with(['primary', 'solid'], () => token.primary600)
+    .with(['primary', 'subtle'], () => token.primary100)
+    .with(['danger', 'solid'], () => token.danger600)
+    .with(['danger', 'subtle'], () => token.danger100)
+    .otherwise(() => token.transparent);
+
+  const backgroundHoverColor = match([color, variant])
+    .with(['black', 'solid'], () => token.neutral700)
+    .with(['black', 'subtle'], () => token.neutral100)
+    .with(['black', 'ghost'], () => token.neutral50)
+    .with(['primary', 'solid'], () => token.primary700)
+    .with(['primary', 'subtle'], () => token.primary200)
+    .with(['primary', 'ghost'], () => token.primary50)
+    .with(['danger', 'solid'], () => token.danger700)
+    .with(['danger', 'subtle'], () => token.danger200)
+    .with(['danger', 'ghost'], () => token.danger50)
+    .otherwise(() => token.transparent);
+
   return {
-    '--hcc-button-background-color': backgroundColor,
-    '--hcc-button-border-color': borderColor,
     '--hcc-button-font-color': fontColor,
+    '--hcc-button-bg-color': backgroundColor,
+    '--hcc-button-bg-hover-color': backgroundHoverColor,
   };
+};
+
+export const getFontSize = (size: ButtonSize) => {
+  switch (size) {
+    case 'xs':
+      return 12;
+    case 'sm':
+      return 14;
+    case 'md':
+      return 14;
+    case 'lg':
+      return 16;
+    case 'xl':
+      return 18;
+  }
+};
+
+export const getHeight = (size: ButtonSize) => {
+  switch (size) {
+    case 'xs':
+      return 28;
+    case 'sm':
+      return 36;
+    case 'md':
+      return 44;
+    case 'lg':
+      return 52;
+    case 'xl':
+      return 60;
+  }
 };

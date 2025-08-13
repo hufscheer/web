@@ -4,7 +4,7 @@ import { color } from '../token';
 import { Typography } from '../typography';
 import styles from './Badge.module.css';
 
-type BadgeSize = 'small' | 'medium' | 'large';
+type BadgeSize = 'sm' | 'md' | 'lg';
 
 type BadgeVariant = 'default' | 'danger' | 'primary';
 
@@ -14,7 +14,7 @@ export interface BadgeProps extends ComponentProps<'div'> {
 }
 
 export const Badge = forwardRef<HTMLDivElement, BadgeProps>(
-  ({ className, children, size = 'medium', variant = 'default', style: _style, ...props }, ref) => {
+  ({ className, children, size = 'md', variant = 'default', style: _style, ...props }, ref) => {
     const backgroundColor = getBackgroundColor(variant);
     const padding = getPadding(size);
     const style = {
@@ -40,22 +40,22 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(
 
 const getPadding = (size: BadgeSize) => {
   switch (size) {
-    case 'small':
+    case 'sm':
       return '6px 8px';
-    case 'medium':
+    case 'md':
       return '8px 12px';
-    case 'large':
+    case 'lg':
       return '10px 16px';
   }
 };
 
 const getFontSize = (size: BadgeSize) => {
   switch (size) {
-    case 'small':
+    case 'sm':
       return 12;
-    case 'medium':
+    case 'md':
       return 14;
-    case 'large':
+    case 'lg':
       return 18;
   }
 };
