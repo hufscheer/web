@@ -1,4 +1,5 @@
-import { Badge, Button, Input } from '@hcc/ui';
+import { Badge } from '@hcc/ui';
+import { LoginForm } from './login-form';
 
 const Page = () => {
   return (
@@ -14,20 +15,7 @@ const Page = () => {
         </Badge>
       </div>
 
-      <form className="column w-full">
-        <Input id="email" size="lg" type="email" placeholder="이메일" autoComplete="email" />
-        <Input
-          id="password"
-          className="mt-4"
-          size="md"
-          type="password"
-          placeholder="비밀번호"
-          autoComplete="current-password"
-        />
-        <Button className="mt-6" size="lg" color="black" variant="solid" type="submit">
-          로그인
-        </Button>
-      </form>
+      <LoginForm />
     </div>
   );
 };
