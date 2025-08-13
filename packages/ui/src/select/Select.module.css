@@ -1,0 +1,69 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  text-align: start;
+  overflow: hidden;
+
+  height: var(--hcc-select-height);
+  border-radius: var(--hcc-select-border-radius);
+  outline: var(--hcc-select-outline);
+
+  --hcc-select-height: inherit;
+  --hcc-select-padding-inline: inherit;
+  --hcc-select-placeholder-color: inherit;
+  --hcc-select-font-size: inherit;
+  --hcc-select-font-weight: inherit;
+  --hcc-select-line-height: inherit;
+  --hcc-select-border-radius: inherit;
+  --hcc-select-outline: inherit;
+  --hcc-select-padding-top: inherit;
+  --hcc-select-label-top: inherit;
+}
+
+.select {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  text-align: inherit;
+  padding-top: var(--hcc-select-padding-top);
+
+  color: inherit;
+  outline: 1px solid transparent;
+  border: none;
+  background: transparent;
+  appearance: none;
+
+  padding-inline: var(--hcc-select-padding-inline);
+  font-size: var(--hcc-select-font-size);
+  font-weight: var(--hcc-select-font-weight);
+  line-height: var(--hcc-select-line-height);
+}
+
+.select:invalid {
+  color: var(--hcc-select-placeholder-color);
+}
+
+.wrapper:has(.label) .select:invalid {
+  color: transparent;
+}
+
+.label {
+  position: absolute;
+  left: var(--hcc-select-padding-inline);
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition: top 0.15s ease, transform 0.15s ease, font-size 0.15s ease;
+
+  color: var(--hcc-select-placeholder-color);
+  font-size: var(--hcc-select-font-size);
+  font-weight: var(--hcc-select-font-weight);
+  line-height: var(--hcc-select-line-height);
+}
+
+.wrapper:has(.select:valid) .label {
+  top: var(--hcc-select-label-top);
+  transform: translateY(0);
+  font-size: calc(var(--hcc-select-font-size) * 0.75);
+}
