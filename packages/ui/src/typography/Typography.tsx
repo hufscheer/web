@@ -1,27 +1,20 @@
 import { Slot } from '@radix-ui/react-slot';
-import { clsx } from 'clsx';
+import { clsx as cn } from 'clsx';
 import { type ComponentProps, type CSSProperties, forwardRef } from 'react';
 import {
+  type FontWeight,
   fontSize as fontSizeToken,
   fontWeight as fontWeightToken,
+  type LineHeight,
   lineHeight as lineHeightToken,
+  parseResponsiveFontSize,
+  type ResponsiveFontSize,
 } from '../token';
 import styles from './Typography.module.css';
 
-export type FontSize = keyof typeof fontSizeToken;
-
-export type ResponsiveFontSize =
-  | FontSize
-  | [FontSize, FontSize?, FontSize?]
-  | { base: FontSize; tablet?: FontSize; desktop?: FontSize };
-
-export type FontWeight = keyof typeof fontWeightToken;
-
-export type LineHeight = keyof typeof lineHeightToken;
-
 export interface TypographyProps extends ComponentProps<'p'> {
   asChild?: boolean;
-  size?: ResponsiveFontSize;
+  fontSize?: ResponsiveFontSize;
   weight?: FontWeight;
   lineHeight?: LineHeight;
 }
@@ -32,7 +25,7 @@ export const Typography = forwardRef<HTMLParagraphElement, TypographyProps>(
       asChild,
       className,
       color,
-      size = 16,
+      fontSize = 16,
       weight = 'regular',
       lineHeight = 'normal',
       style: _style,
@@ -41,18 +34,7 @@ export const Typography = forwardRef<HTMLParagraphElement, TypographyProps>(
     ref,
   ) => {
     const Comp = asChild ? Slot : 'p';
-
-    let base: FontSize | undefined;
-    let tablet: FontSize | undefined;
-    let desktop: FontSize | undefined;
-
-    if (Array.isArray(size)) {
-      [base, tablet, desktop] = size;
-    } else if (typeof size === 'object') {
-      ({ base, tablet, desktop } = size);
-    } else {
-      base = size;
-    }
+    const { base, tablet, pc } = parseResponsiveFontSize(fontSize);
 
     const style = {
       ..._style,
@@ -61,15 +43,13 @@ export const Typography = forwardRef<HTMLParagraphElement, TypographyProps>(
       ...(tablet !== undefined && {
         '--hcc-tablet-typography-font-size': `${fontSizeToken[tablet]}px`,
       }),
-      ...(desktop !== undefined && {
-        '--hcc-desktop-typography-font-size': `${fontSizeToken[desktop]}px`,
+      ...(pc !== undefined && {
+        '--hcc-pc-typography-font-size': `${fontSizeToken[pc]}px`,
       }),
       '--hcc-typography-font-weight': fontWeightToken[weight],
       '--hcc-typography-line-height': lineHeightToken[lineHeight],
     } as CSSProperties;
 
-    return (
-      <Comp className={clsx(styles.typography, className)} ref={ref} style={style} {...props} />
-    );
+    return <Comp className={cn(styles.typography, className)} ref={ref} style={style} {...props} />;
   },
 );

@@ -29,3 +29,30 @@ export const lineHeight = {
   relaxed: 1.625,
   loose: 2,
 } as const;
+
+export type FontSize = keyof typeof fontSize;
+
+export type ResponsiveFontSize =
+  | FontSize
+  | [FontSize, FontSize?, FontSize?]
+  | { base: FontSize; tablet?: FontSize; pc?: FontSize };
+
+export type FontWeight = keyof typeof fontWeight;
+
+export type LineHeight = keyof typeof lineHeight;
+
+export const parseResponsiveFontSize = (fontSize: ResponsiveFontSize) => {
+  let base: FontSize | undefined;
+  let tablet: FontSize | undefined;
+  let pc: FontSize | undefined;
+
+  if (Array.isArray(fontSize)) {
+    [base, tablet, pc] = fontSize;
+  } else if (typeof fontSize === 'object' && fontSize !== null) {
+    ({ base, tablet, pc } = fontSize);
+  } else {
+    base = fontSize;
+  }
+
+  return { base, tablet, pc };
+};

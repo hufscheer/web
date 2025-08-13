@@ -30,7 +30,13 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(
 
     return (
       <div ref={ref} className={clsx(styles.badge, className)} style={style} {...props}>
-        <Typography color={fontColor} size={fontSize} weight="semiBold" lineHeight="tight" asChild>
+        <Typography
+          color={fontColor}
+          fontSize={fontSize}
+          weight="semiBold"
+          lineHeight="tight"
+          asChild
+        >
           <span>{children}</span>
         </Typography>
       </div>
