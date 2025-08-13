@@ -24,6 +24,7 @@ export interface InputProps extends Omit<ComponentProps<'input'>, 'size'> {
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
+      id,
       className,
       children,
       placeholder,
@@ -37,11 +38,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     ref,
   ) => {
     const { base, tablet, pc } = parseResponsiveFontSize(fontSize);
+    const isLabelVisible = size === 'lg' || size === 'xl';
 
     const style = {
       ..._style,
       '--hcc-input-height': `${getHeight(size)}px`,
       '--hcc-input-padding-inline': `${getPadding(size)}px`,
+      '--hcc-input-placeholder-color': colors.neutral400,
       '--hcc-input-font-size': `${fontSizeToken[base]}px`,
       ...(tablet !== undefined && {
         '--hcc-tablet-input-font-size': `${fontSizeToken[tablet]}px`,
@@ -53,12 +56,23 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       '--hcc-input-line-height': lineHeightToken[lineHeight],
       '--hcc-input-border-radius': '8px',
       '--hcc-input-outline': `1px solid ${colors.neutral100}`,
+      '--hcc-input-position': isLabelVisible ? getInputPosition(size) : '50%',
+      '--hcc-label-position': isLabelVisible ? getLabelPosition(size) : '50%',
     } as CSSProperties;
 
     return (
-      <div className={cn(styles.wrapper, className)} style={style} role="presentation">
-        <label className={styles.label}>{placeholder}</label>
-        <input ref={ref} className={styles.input} {...props} />
+      <div
+        className={cn(styles.wrapper, className)}
+        style={style}
+        data-size={size}
+        role="presentation"
+      >
+        <input ref={ref} id={id} className={styles.input} placeholder={placeholder} {...props} />
+        {isLabelVisible && (
+          <label className={styles.label} htmlFor={id}>
+            {placeholder}
+          </label>
+        )}
         {children}
       </div>
     );
@@ -94,5 +108,27 @@ const getPadding = (size: InputSize) => {
       return 18;
     case 'xl':
       return 22;
+  }
+};
+
+const getInputPosition = (size: InputSize) => {
+  switch (size) {
+    case 'lg':
+      return '12.5%';
+    case 'xl':
+      return '15%';
+    default:
+      return '50%';
+  }
+};
+
+const getLabelPosition = (size: InputSize) => {
+  switch (size) {
+    case 'lg':
+      return '12.5%';
+    case 'xl':
+      return '15%';
+    default:
+      return '50%';
   }
 };

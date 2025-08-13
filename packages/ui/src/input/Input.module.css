@@ -1,37 +1,72 @@
 .wrapper {
+  position: relative;
   display: flex;
-  align-items: center;
   text-align: start;
 
   height: var(--hcc-input-height);
-  padding-inline: var(--hcc-input-padding-inline);
   border-radius: var(--hcc-input-border-radius);
   outline: var(--hcc-input-outline);
 
   --hcc-input-height: inherit;
   --hcc-input-padding-inline: inherit;
+  --hcc-input-placeholder-color: inherit;
   --hcc-input-font-size: inherit;
   --hcc-input-font-weight: inherit;
   --hcc-input-line-height: inherit;
   --hcc-input-border-radius: inherit;
   --hcc-input-outline: inherit;
+  --hcc-input-position: inherit;
+  --hcc-label-position: inherit;
 }
 
 .input {
+  position: absolute;
   width: 100%;
+  height: fit-content;
   display: flex;
-  align-items: center;
+  align-self: flex-end;
   text-align: inherit;
+  bottom: var(--hcc-input-position);
 
   color: inherit;
   outline: 1px solid transparent;
   border: none;
+  background: transparent;
 
+  padding-inline: var(--hcc-input-padding-inline);
   font-size: var(--hcc-input-font-size);
   font-weight: var(--hcc-input-font-weight);
   line-height: var(--hcc-input-line-height);
 }
 
-.label {
+.wrapper:not([data-size="lg"]):not([data-size="xl"]) .input {
+  transform: translateY(50%);
+}
 
+.wrapper:not([data-size="lg"]):not([data-size="xl"]) .input::placeholder {
+  color: var(--hcc-input-placeholder-color);
+}
+
+.input::placeholder {
+  color: transparent;
+}
+
+.label {
+  position: absolute;
+  left: var(--hcc-input-padding-inline);
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition: top 0.15s ease, transform 0.15s ease, font-size 0.15s ease;
+
+  color: var(--hcc-input-placeholder-color);
+  font-size: var(--hcc-input-font-size);
+  font-weight: var(--hcc-input-font-weight);
+  line-height: var(--hcc-input-line-height);
+}
+
+.wrapper:focus-within .label, .input:not(:placeholder-shown) ~ .label {
+  top: var(--hcc-label-position);
+  transform: translateY(0);
+  font-size: calc(var(--hcc-input-font-size) * 0.75);
 }
