@@ -15,18 +15,17 @@
   --hcc-input-line-height: inherit;
   --hcc-input-border-radius: inherit;
   --hcc-input-outline: inherit;
-  --hcc-input-position: inherit;
+  --hcc-input-padding-top: inherit;
   --hcc-label-position: inherit;
 }
 
 .input {
   position: absolute;
   width: 100%;
-  height: fit-content;
+  height: 100%;
   display: flex;
-  align-self: flex-end;
+  align-items: center;
   text-align: inherit;
-  bottom: var(--hcc-input-position);
 
   color: inherit;
   outline: 1px solid transparent;
@@ -40,7 +39,14 @@
 }
 
 .wrapper:not([data-size="lg"]):not([data-size="xl"]) .input {
-  transform: translateY(50%);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.wrapper[data-size="lg"] .input,
+.wrapper[data-size="xl"] .input {
+  top: 0;
+  padding-top: var(--hcc-input-padding-top);
 }
 
 .wrapper:not([data-size="lg"]):not([data-size="xl"]) .input::placeholder {

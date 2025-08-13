@@ -19,7 +19,7 @@ const Page = () => {
         <Input
           id="password"
           className="mt-4"
-          size="md"
+          size="lg"
           type="password"
           placeholder="비밀번호"
           autoComplete="current-password"

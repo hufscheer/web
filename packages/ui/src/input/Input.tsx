@@ -56,7 +56,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       '--hcc-input-line-height': lineHeightToken[lineHeight],
       '--hcc-input-border-radius': '8px',
       '--hcc-input-outline': `1px solid ${colors.neutral100}`,
-      '--hcc-input-position': isLabelVisible ? getInputPosition(size) : '50%',
+      '--hcc-input-padding-top': isLabelVisible ? getInputPaddingTop(size) : '0',
       '--hcc-label-position': isLabelVisible ? getLabelPosition(size) : '50%',
     } as CSSProperties;
 
@@ -111,23 +111,23 @@ const getPadding = (size: InputSize) => {
   }
 };
 
-const getInputPosition = (size: InputSize) => {
+const getInputPaddingTop = (size: InputSize) => {
   switch (size) {
     case 'lg':
-      return '12.5%';
+      return '10px';
     case 'xl':
-      return '15%';
+      return '18px';
     default:
-      return '50%';
+      return '0';
   }
 };
 
 const getLabelPosition = (size: InputSize) => {
   switch (size) {
     case 'lg':
-      return '12.5%';
+      return '5px';
     case 'xl':
-      return '15%';
+      return '9px';
     default:
       return '50%';
   }
