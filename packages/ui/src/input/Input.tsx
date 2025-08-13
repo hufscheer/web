@@ -90,7 +90,7 @@ const getPadding = (size: InputSize) => {
     case 'lg':
       return 18;
     case 'xl':
-      return 22;
+      return 18;
   }
 };
 

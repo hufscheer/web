@@ -106,7 +106,7 @@ const getPadding = (size: SelectSize) => {
     case 'lg':
       return 18;
     case 'xl':
-      return 22;
+      return 18;
   }
 };
 
