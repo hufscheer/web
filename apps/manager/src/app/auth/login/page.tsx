@@ -1,4 +1,4 @@
-import { Badge, Button } from '@hcc/ui';
+import { Badge, Button, Input } from '@hcc/ui';
 
 const Page = () => {
   return (
@@ -13,11 +13,21 @@ const Page = () => {
           매니저 용
         </Badge>
       </div>
-      <div className="column w-full">
-        <Button size="lg" color="black" variant="solid">
+
+      <form className="column w-full">
+        <Input id="email" size="lg" type="email" placeholder="이메일" autoComplete="email" />
+        <Input
+          id="password"
+          className="mt-4"
+          size="lg"
+          type="password"
+          placeholder="비밀번호"
+          autoComplete="current-password"
+        />
+        <Button className="mt-6" size="lg" color="black" variant="solid" type="submit">
           로그인
         </Button>
-      </div>
+      </form>
     </div>
   );
 };

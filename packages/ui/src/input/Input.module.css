@@ -1,5 +1,37 @@
-.wrapper {}
+.wrapper {
+  display: flex;
+  align-items: center;
+  text-align: start;
+
+  height: var(--hcc-input-height);
+  padding-inline: var(--hcc-input-padding-inline);
+  border-radius: var(--hcc-input-border-radius);
+  outline: var(--hcc-input-outline);
+
+  --hcc-input-height: inherit;
+  --hcc-input-padding-inline: inherit;
+  --hcc-input-font-size: inherit;
+  --hcc-input-font-weight: inherit;
+  --hcc-input-line-height: inherit;
+  --hcc-input-border-radius: inherit;
+  --hcc-input-outline: inherit;
+}
 
 .input {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  text-align: inherit;
+
+  color: inherit;
+  outline: 1px solid transparent;
+  border: none;
+
+  font-size: var(--hcc-input-font-size);
+  font-weight: var(--hcc-input-font-weight);
+  line-height: var(--hcc-input-line-height);
+}
+
+.label {
 
 }

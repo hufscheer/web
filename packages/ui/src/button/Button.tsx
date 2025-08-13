@@ -58,7 +58,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   },
 );
 
-export const getHeight = (size: ButtonSize) => {
+const getHeight = (size: ButtonSize) => {
   switch (size) {
     case 'xs':
       return 28;
@@ -73,7 +73,7 @@ export const getHeight = (size: ButtonSize) => {
   }
 };
 
-export const getFontSize = (size: ButtonSize) => {
+const getFontSize = (size: ButtonSize) => {
   switch (size) {
     case 'xs':
       return 12;
@@ -88,7 +88,7 @@ export const getFontSize = (size: ButtonSize) => {
   }
 };
 
-export const getFontWeight = (size: ButtonSize) => {
+const getFontWeight = (size: ButtonSize) => {
   switch (size) {
     case 'xs':
       return 'medium';
