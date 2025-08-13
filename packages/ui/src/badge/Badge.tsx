@@ -6,7 +6,7 @@ import styles from './Badge.module.css';
 
 type BadgeSize = 'small' | 'medium' | 'large';
 
-type BadgeVariant = 'default' | 'danger' | 'success';
+type BadgeVariant = 'default' | 'danger' | 'primary';
 
 export interface BadgeProps extends ComponentProps<'div'> {
   size?: BadgeSize;
@@ -66,7 +66,7 @@ const getFontColor = (variant: BadgeVariant) => {
       return color.neutral600;
     case 'danger':
       return color.white;
-    case 'success':
+    case 'primary':
       return color.primary600;
   }
 };
@@ -77,7 +77,7 @@ const getBackgroundColor = (variant: BadgeVariant) => {
       return color.neutral100;
     case 'danger':
       return color.danger600;
-    case 'success':
+    case 'primary':
       return color.primary100;
   }
 };

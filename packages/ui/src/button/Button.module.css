@@ -1,0 +1,17 @@
+.button {
+  color: var(--hcc-button-color);
+  border: var(--hcc-button-border);
+  border-radius: var(--hcc-button-border-radius);
+  background-color: var(--hcc-button-bg-color);
+
+  --hcc-button-color: inherit;
+  --hcc-button-border: inherit;
+  --hcc-button-border-radius: inherit;
+  --hcc-button-bg-color: inherit;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
