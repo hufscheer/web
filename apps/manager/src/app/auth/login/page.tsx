@@ -9,12 +9,14 @@ const Page = () => {
           <br />
           manager
         </h1>
-        <Badge className="h-fit" size="small" variant="primary">
+        <Badge className="h-fit" size="sm" variant="primary">
           매니저 용
         </Badge>
       </div>
       <div className="column w-full">
-        <Button variant="solid">로그인</Button>
+        <Button size="lg" color="black" variant="solid">
+          로그인
+        </Button>
       </div>
     </div>
   );

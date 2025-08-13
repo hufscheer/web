@@ -2,7 +2,7 @@ import { Slot } from '@radix-ui/react-slot';
 import { clsx } from 'clsx';
 import { type ComponentProps, type CSSProperties, forwardRef } from 'react';
 import { match } from 'ts-pattern';
-import { color as token } from '../token';
+import { fontWeight as fontWeightToken, color as token } from '../token';
 import styles from './Button.module.css';
 
 type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -41,6 +41,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       ...getColorStyle(color, variant),
       '--hcc-button-height': `${getHeight(size)}px`,
       '--hcc-button-font-size': `${getFontSize(size)}px`,
+      '--hcc-button-font-weight': fontWeightToken[getFontWeight(size)],
       '--hcc-button-border-radius': '8px',
     } as CSSProperties;
 
@@ -105,6 +106,21 @@ export const getFontSize = (size: ButtonSize) => {
       return 16;
     case 'xl':
       return 18;
+  }
+};
+
+export const getFontWeight = (size: ButtonSize) => {
+  switch (size) {
+    case 'xs':
+      return 'medium';
+    case 'sm':
+      return 'medium';
+    case 'md':
+      return 'semiBold';
+    case 'lg':
+      return 'semiBold';
+    case 'xl':
+      return 'semiBold';
   }
 };
 
