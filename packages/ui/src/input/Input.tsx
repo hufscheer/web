@@ -50,7 +50,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     } as CSSProperties;
 
     return (
-      <div className={clsx(styles.wrapper, className)} style={style} role="presentation">
+      <div className={clsx(styles.wrapper, className)} style={style}>
         <input ref={ref} id={id} className={styles.input} placeholder={placeholder} {...props} />
         {isLabelVisible && (
           <label className={styles.label} htmlFor={id}>

@@ -25,6 +25,8 @@ export const colors = {
   danger800: '#CC2626',
   danger900: '#991A1A',
 
+  green600: '#1ADA3B',
+
   neutral50: 'oklch(98.5% 0 0)',
   neutral100: 'oklch(97% 0 0)',
   neutral200: 'oklch(92.2% 0 0)',
@@ -35,4 +37,6 @@ export const colors = {
   neutral700: 'oklch(37.1% 0 0)',
   neutral800: 'oklch(26.9% 0 0)',
   neutral900: 'oklch(20.5% 0 0)',
+
+  toast: '#374553',
 } as const;

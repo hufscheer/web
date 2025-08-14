@@ -54,7 +54,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     } as CSSProperties;
 
     return (
-      <div className={clsx(styles.wrapper, className)} style={style} role="presentation">
+      <div className={clsx(styles.wrapper, className)} style={style}>
         <select
           ref={ref}
           className={styles.select}
