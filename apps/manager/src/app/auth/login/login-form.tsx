@@ -1,10 +1,13 @@
 'use client';
 
 import { Button, Input, toast } from '@hcc/ui';
+import { useRouter } from 'next/navigation';
 import type { FormEvent } from 'react';
 import { useLogin } from '~/api';
+import { ROUTES } from '~/constants/routes';
 
 export const LoginForm = () => {
+  const router = useRouter();
   const { mutate } = useLogin();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -17,13 +20,13 @@ export const LoginForm = () => {
       { email, password },
       {
         onSuccess: () => {
-          window.location.href = '/';
+          router.push(ROUTES.HOME);
         },
         onError: error => {
           if (error instanceof Error) {
-            toast.error(error.message);
+            toast.error(error.name);
           } else {
-            toast.error('로그인에 실패했습니다. 다시 시도해주세요.');
+            toast.error('아이디 또는 비밀번호 오류');
           }
         },
       },
