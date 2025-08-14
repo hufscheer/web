@@ -1,5 +1,6 @@
-import { clsx as cn } from 'clsx';
+import { clsx } from 'clsx';
 import { type ComponentProps, type CSSProperties, forwardRef } from 'react';
+import { match } from 'ts-pattern';
 import {
   colors,
   type FontWeight,
@@ -49,7 +50,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     } as CSSProperties;
 
     return (
-      <div className={cn(styles.wrapper, className)} style={style} role="presentation">
+      <div className={clsx(styles.wrapper, className)} style={style} role="presentation">
         <input ref={ref} id={id} className={styles.input} placeholder={placeholder} {...props} />
         {isLabelVisible && (
           <label className={styles.label} htmlFor={id}>
@@ -64,69 +65,40 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = 'Input';
 
-const getHeight = (size: InputSize) => {
-  switch (size) {
-    case 'xs':
-      return 28;
-    case 'sm':
-      return 36;
-    case 'md':
-      return 44;
-    case 'lg':
-      return 52;
-    case 'xl':
-      return 60;
-  }
-};
+const getHeight = (size: InputSize) =>
+  match(size)
+    .with('xs', () => 28)
+    .with('sm', () => 36)
+    .with('md', () => 44)
+    .with('lg', () => 52)
+    .with('xl', () => 60)
+    .exhaustive();
 
-const getPadding = (size: InputSize) => {
-  switch (size) {
-    case 'xs':
-      return 8;
-    case 'sm':
-      return 10;
-    case 'md':
-      return 14;
-    case 'lg':
-      return 18;
-    case 'xl':
-      return 18;
-  }
-};
+const getPadding = (size: InputSize) =>
+  match(size)
+    .with('xs', () => 8)
+    .with('sm', () => 10)
+    .with('md', () => 14)
+    .with('lg', 'xl', () => 18)
+    .exhaustive();
 
-const getInputPaddingTop = (size: InputSize) => {
-  switch (size) {
-    case 'lg':
-      return 10;
-    case 'xl':
-      return 18;
-    default:
-      return 0;
-  }
-};
+const getFontSize = (size: InputSize) =>
+  match(size)
+    .with('xs', () => 12)
+    .with('sm', () => 14)
+    .with('md', 'lg', 'xl', () => 16)
+    .exhaustive();
 
-const getLabelPosition = (size: InputSize) => {
-  switch (size) {
-    case 'lg':
-      return 5;
-    case 'xl':
-      return 9;
-    default:
-      return 0;
-  }
-};
+const getInputPaddingTop = (size: InputSize) =>
+  match(size)
+    .with('xs', 'sm', 'md', () => 0)
+    .with('lg', () => 10)
+    .with('xl', () => 18)
+    .exhaustive();
 
-const getFontSize = (size: InputSize) => {
-  switch (size) {
-    case 'xs':
-      return 12;
-    case 'sm':
-      return 14;
-    case 'md':
-      return 16;
-    case 'lg':
-      return 16;
-    case 'xl':
-      return 16;
-  }
-};
+const getLabelPosition = (size: InputSize) =>
+  match(size)
+    .with('xs', 'sm', 'md', () => 0)
+    .with('lg', () => 5)
+    .with('xl', () => 9)
+    .exhaustive();

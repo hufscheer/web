@@ -58,50 +58,29 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   },
 );
 
-const getHeight = (size: ButtonSize) => {
-  switch (size) {
-    case 'xs':
-      return 28;
-    case 'sm':
-      return 36;
-    case 'md':
-      return 44;
-    case 'lg':
-      return 52;
-    case 'xl':
-      return 60;
-  }
-};
+const getHeight = (size: ButtonSize) =>
+  match(size)
+    .with('xs', () => 28)
+    .with('sm', () => 36)
+    .with('md', () => 44)
+    .with('lg', () => 52)
+    .with('xl', () => 60)
+    .exhaustive();
 
-const getFontSize = (size: ButtonSize) => {
-  switch (size) {
-    case 'xs':
-      return 12;
-    case 'sm':
-      return 14;
-    case 'md':
-      return 14;
-    case 'lg':
-      return 16;
-    case 'xl':
-      return 18;
-  }
-};
+const getFontSize = (size: ButtonSize) =>
+  match(size)
+    .with('xs', () => 12)
+    .with('sm', () => 14)
+    .with('md', () => 14)
+    .with('lg', () => 16)
+    .with('xl', () => 18)
+    .exhaustive();
 
-const getFontWeight = (size: ButtonSize) => {
-  switch (size) {
-    case 'xs':
-      return 'medium';
-    case 'sm':
-      return 'medium';
-    case 'md':
-      return 'semiBold';
-    case 'lg':
-      return 'semiBold';
-    case 'xl':
-      return 'semiBold';
-  }
-};
+const getFontWeight = (size: ButtonSize): keyof typeof fontWeightToken =>
+  match(size)
+    .with('xs', 'sm', () => 'medium' as const)
+    .with('md', 'lg', 'xl', () => 'semibold' as const)
+    .exhaustive();
 
 const getColorStyle = (color: ButtonColor, variant: ButtonVariant) => {
   const fontColor = match([color, variant])

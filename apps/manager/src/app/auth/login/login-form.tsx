@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Input } from '@hcc/ui';
+import { Button, Input, toast } from '@hcc/ui';
 import type { FormEvent } from 'react';
 import { useLogin } from '~/api';
 
@@ -21,9 +21,9 @@ export const LoginForm = () => {
         },
         onError: error => {
           if (error instanceof Error) {
-            alert(error.message);
+            toast.error(error.message);
           } else {
-            alert('로그인에 실패했습니다. 다시 시도해주세요.');
+            toast.error('로그인에 실패했습니다. 다시 시도해주세요.');
           }
         },
       },

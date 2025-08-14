@@ -1,5 +1,6 @@
-import { clsx as cn } from 'clsx';
+import { clsx } from 'clsx';
 import { type ComponentProps, type CSSProperties, forwardRef } from 'react';
+import { match } from 'ts-pattern';
 import {
   colors,
   type FontWeight,
@@ -53,7 +54,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     } as CSSProperties;
 
     return (
-      <div className={cn(styles.wrapper, className)} style={style} role="presentation">
+      <div className={clsx(styles.wrapper, className)} style={style} role="presentation">
         <select
           ref={ref}
           className={styles.select}
@@ -80,69 +81,40 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 
 Select.displayName = 'Select';
 
-const getHeight = (size: SelectSize) => {
-  switch (size) {
-    case 'xs':
-      return 28;
-    case 'sm':
-      return 36;
-    case 'md':
-      return 44;
-    case 'lg':
-      return 52;
-    case 'xl':
-      return 60;
-  }
-};
+const getHeight = (size: SelectSize) =>
+  match(size)
+    .with('xs', () => 28)
+    .with('sm', () => 36)
+    .with('md', () => 44)
+    .with('lg', () => 52)
+    .with('xl', () => 60)
+    .exhaustive();
 
-const getPadding = (size: SelectSize) => {
-  switch (size) {
-    case 'xs':
-      return 8;
-    case 'sm':
-      return 10;
-    case 'md':
-      return 14;
-    case 'lg':
-      return 18;
-    case 'xl':
-      return 18;
-  }
-};
+const getPadding = (size: SelectSize) =>
+  match(size)
+    .with('xs', () => 8)
+    .with('sm', () => 10)
+    .with('md', () => 14)
+    .with('lg', 'xl', () => 18)
+    .exhaustive();
 
-const getSelectPaddingTop = (size: SelectSize) => {
-  switch (size) {
-    case 'lg':
-      return '10px';
-    case 'xl':
-      return '18px';
-    default:
-      return '0px';
-  }
-};
+const getFontSize = (size: SelectSize) =>
+  match(size)
+    .with('xs', () => 12)
+    .with('sm', () => 14)
+    .with('md', 'lg', 'xl', () => 16)
+    .exhaustive();
 
-const getLabelTop = (size: SelectSize) => {
-  switch (size) {
-    case 'lg':
-      return '5px';
-    case 'xl':
-      return '9px';
-    default:
-      return '50%';
-  }
-};
+const getSelectPaddingTop = (size: SelectSize) =>
+  match(size)
+    .with('xs', 'sm', 'md', () => 0)
+    .with('lg', () => 10)
+    .with('xl', () => 18)
+    .exhaustive();
 
-const getFontSize = (size: SelectSize) => {
-  switch (size) {
-    case 'xs':
-      return 12;
-    case 'sm':
-      return 14;
-    case 'md':
-      return 16;
-    case 'lg':
-      return 16;
-    case 'xl':
-      return 16;
-  }
-};
+const getLabelTop = (size: SelectSize) =>
+  match(size)
+    .with('xs', 'sm', 'md', () => 0)
+    .with('lg', () => 5)
+    .with('xl', () => 9)
+    .exhaustive();

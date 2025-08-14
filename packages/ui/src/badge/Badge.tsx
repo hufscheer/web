@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { type ComponentProps, type CSSProperties, forwardRef } from 'react';
-import { colors } from '../token';
+import { match } from 'ts-pattern';
+import { colors, type ResponsiveFontSize } from '../token';
 import { Typography } from '../typography';
 import styles from './Badge.module.css';
 
@@ -32,8 +33,8 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(
       <div ref={ref} className={clsx(styles.badge, className)} style={style} {...props}>
         <Typography
           color={fontColor}
-          fontSize={fontSize}
-          weight="semiBold"
+          fontSize={fontSize as ResponsiveFontSize}
+          weight="semibold"
           lineHeight="tight"
           asChild
         >
@@ -44,46 +45,30 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(
   },
 );
 
-const getPadding = (size: BadgeSize) => {
-  switch (size) {
-    case 'sm':
-      return '6px 8px';
-    case 'md':
-      return '8px 12px';
-    case 'lg':
-      return '10px 16px';
-  }
-};
+const getPadding = (size: BadgeSize) =>
+  match(size)
+    .with('sm', () => '4px 8px')
+    .with('md', () => '6px 12px')
+    .with('lg', () => '8px 16px')
+    .exhaustive();
 
-const getFontSize = (size: BadgeSize) => {
-  switch (size) {
-    case 'sm':
-      return 12;
-    case 'md':
-      return 14;
-    case 'lg':
-      return 18;
-  }
-};
+const getFontSize = (size: BadgeSize) =>
+  match(size)
+    .with('sm', () => 12)
+    .with('md', () => 14)
+    .with('lg', () => 16)
+    .exhaustive();
 
-const getFontColor = (variant: BadgeVariant) => {
-  switch (variant) {
-    case 'default':
-      return colors.neutral600;
-    case 'danger':
-      return colors.white;
-    case 'primary':
-      return colors.primary600;
-  }
-};
+const getFontColor = (variant: BadgeVariant) =>
+  match(variant)
+    .with('default', () => colors.neutral600)
+    .with('danger', () => colors.white)
+    .with('primary', () => colors.primary600)
+    .exhaustive();
 
-const getBackgroundColor = (variant: BadgeVariant) => {
-  switch (variant) {
-    case 'default':
-      return colors.neutral100;
-    case 'danger':
-      return colors.danger600;
-    case 'primary':
-      return colors.primary100;
-  }
-};
+const getBackgroundColor = (variant: BadgeVariant) =>
+  match(variant)
+    .with('default', () => colors.neutral100)
+    .with('danger', () => colors.danger600)
+    .with('primary', () => colors.primary100)
+    .exhaustive();

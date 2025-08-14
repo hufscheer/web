@@ -47,6 +47,7 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
     "clsx": "^2.1.1",
+    "sonner": "^2.0.7",
     "ts-pattern": "^5.8.0"
   }
 }
