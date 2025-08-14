@@ -11,21 +11,21 @@ const Page = () => {
       <div className="column-between h-full">
         <div />
 
-        <div className="row-between w-full gap-2 p-5">
+        <div className="row-between w-full gap-2 bg-white p-5">
           <Button className="flex-1 gap-1" variant="subtle" asChild>
-            <Link href={ROUTES.HOME}>
+            <Link href={ROUTES.LEAGUE}>
               <RewardedAdsIcon size={20} />
               대회 관리
             </Link>
           </Button>
           <Button className="flex-1 gap-1" variant="subtle" asChild>
-            <Link href={ROUTES.HOME}>
+            <Link href={ROUTES.PLAYER}>
               <PersonIcon size={20} />
               선수 관리
             </Link>
           </Button>
           <Button className="flex-1 gap-1" variant="subtle" asChild>
-            <Link href={ROUTES.HOME}>
+            <Link href={ROUTES.TEAM}>
               <GroupIcon size={20} />팀 관리
             </Link>
           </Button>
