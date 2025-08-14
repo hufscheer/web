@@ -1,12 +1,13 @@
 import { clsx } from 'clsx';
 import { type ComponentProps, type CSSProperties, forwardRef } from 'react';
-import { color } from '../token';
+import { match } from 'ts-pattern';
+import { colors, type ResponsiveFontSize } from '../token';
 import { Typography } from '../typography';
 import styles from './Badge.module.css';
 
-type BadgeSize = 'small' | 'medium' | 'large';
+type BadgeSize = 'sm' | 'md' | 'lg';
 
-type BadgeVariant = 'default' | 'danger' | 'success';
+type BadgeVariant = 'default' | 'danger' | 'primary';
 
 export interface BadgeProps extends ComponentProps<'div'> {
   size?: BadgeSize;
@@ -14,7 +15,7 @@ export interface BadgeProps extends ComponentProps<'div'> {
 }
 
 export const Badge = forwardRef<HTMLDivElement, BadgeProps>(
-  ({ className, children, size = 'medium', variant = 'default', style: _style, ...props }, ref) => {
+  ({ className, children, size = 'md', variant = 'default', style: _style, ...props }, ref) => {
     const backgroundColor = getBackgroundColor(variant);
     const padding = getPadding(size);
     const style = {
@@ -30,7 +31,13 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(
 
     return (
       <div ref={ref} className={clsx(styles.badge, className)} style={style} {...props}>
-        <Typography color={fontColor} size={fontSize} weight="semiBold" lineHeight="tight" asChild>
+        <Typography
+          color={fontColor}
+          fontSize={fontSize as ResponsiveFontSize}
+          weight="semibold"
+          lineHeight="tight"
+          asChild
+        >
           <span>{children}</span>
         </Typography>
       </div>
@@ -38,46 +45,30 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(
   },
 );
 
-const getPadding = (size: BadgeSize) => {
-  switch (size) {
-    case 'small':
-      return '6px 8px';
-    case 'medium':
-      return '8px 12px';
-    case 'large':
-      return '10px 16px';
-  }
-};
+const getPadding = (size: BadgeSize) =>
+  match(size)
+    .with('sm', () => '4px 8px')
+    .with('md', () => '6px 12px')
+    .with('lg', () => '8px 16px')
+    .exhaustive();
 
-const getFontSize = (size: BadgeSize) => {
-  switch (size) {
-    case 'small':
-      return 12;
-    case 'medium':
-      return 14;
-    case 'large':
-      return 18;
-  }
-};
+const getFontSize = (size: BadgeSize) =>
+  match(size)
+    .with('sm', () => 12)
+    .with('md', () => 14)
+    .with('lg', () => 16)
+    .exhaustive();
 
-const getFontColor = (variant: BadgeVariant) => {
-  switch (variant) {
-    case 'default':
-      return color.neutral600;
-    case 'danger':
-      return color.white;
-    case 'success':
-      return color.primary600;
-  }
-};
+const getFontColor = (variant: BadgeVariant) =>
+  match(variant)
+    .with('default', () => colors.neutral600)
+    .with('danger', () => colors.white)
+    .with('primary', () => colors.primary600)
+    .exhaustive();
 
-const getBackgroundColor = (variant: BadgeVariant) => {
-  switch (variant) {
-    case 'default':
-      return color.neutral100;
-    case 'danger':
-      return color.danger600;
-    case 'success':
-      return color.primary100;
-  }
-};
+const getBackgroundColor = (variant: BadgeVariant) =>
+  match(variant)
+    .with('default', () => colors.neutral100)
+    .with('danger', () => colors.danger600)
+    .with('primary', () => colors.primary100)
+    .exhaustive();

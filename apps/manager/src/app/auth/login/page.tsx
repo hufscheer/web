@@ -1,4 +1,5 @@
 import { Badge } from '@hcc/ui';
+import { LoginForm } from './login-form';
 
 const Page = () => {
   return (
@@ -9,11 +10,12 @@ const Page = () => {
           <br />
           manager
         </h1>
-        <Badge className="h-fit" size="small" variant="success">
+        <Badge className="h-fit" size="sm" variant="primary">
           매니저 용
         </Badge>
       </div>
-      <div className="column w-full" />
+
+      <LoginForm />
     </div>
   );
 };

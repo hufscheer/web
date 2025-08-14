@@ -1,12 +1,42 @@
-export const color = {
-  white: '#FFFFFF',
-  black: '#000000',
+export const colors = {
+  white: 'oklch(100% 0 0)',
+  black: 'oklch(0% 0 0)',
+  transparent: 'transparent',
 
+  primary50: '#F8FBFF',
   primary100: '#F2F8FF',
+  primary200: '#E0EDFF',
+  primary300: '#C7DBFF',
+  primary400: '#A3C4FF',
+  primary500: '#4D9FFF',
   primary600: '#007AFF',
+  primary700: '#0056CC',
+  primary800: '#003D99',
+  primary900: '#002466',
 
+  danger50: '#FFF8F7',
+  danger100: '#FFF0EF',
+  danger200: '#FFE0DE',
+  danger300: '#FFC7C4',
+  danger400: '#FFA3A0',
+  danger500: '#FE7A7A',
   danger600: '#FC5555',
+  danger700: '#E63939',
+  danger800: '#CC2626',
+  danger900: '#991A1A',
 
-  neutral100: '#F5F5F5',
-  neutral600: '#525252',
-};
+  green600: '#1ADA3B',
+
+  neutral50: 'oklch(98.5% 0 0)',
+  neutral100: 'oklch(97% 0 0)',
+  neutral200: 'oklch(92.2% 0 0)',
+  neutral300: 'oklch(87% 0 0)',
+  neutral400: 'oklch(70.8% 0 0)',
+  neutral500: 'oklch(55.6% 0 0)',
+  neutral600: 'oklch(43.9% 0 0)',
+  neutral700: 'oklch(37.1% 0 0)',
+  neutral800: 'oklch(26.9% 0 0)',
+  neutral900: 'oklch(20.5% 0 0)',
+
+  toast: '#374553',
+} as const;

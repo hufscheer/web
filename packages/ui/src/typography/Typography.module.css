@@ -18,6 +18,6 @@
 
 @media (min-width: 1024px) {
   .typography {
-    font-size: var(--hcc-desktop-typography-font-size, var(--hcc-tablet-typography-font-size, var(--hcc-typography-font-size)));
+    font-size: var(--hcc-pc-typography-font-size, var(--hcc-tablet-typography-font-size, var(--hcc-typography-font-size)));
   }
 }

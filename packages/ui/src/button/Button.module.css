@@ -1,0 +1,40 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+
+  height: var(--hcc-button-height);
+  color: var(--hcc-button-font-color);
+  font-size: var(--hcc-button-font-size);
+  font-weight: var(--hcc-button-font-weight);
+  border: var(--hcc-button-border);
+  border-radius: var(--hcc-button-border-radius);
+  background-color: var(--hcc-button-bg-color);
+
+  --hcc-button-height: inherit;
+  --hcc-button-font-color: inherit;
+  --hcc-button-font-size: inherit;
+  --hcc-button-font-weight: inherit;
+  --hcc-button-border: inherit;
+  --hcc-button-border-radius: inherit;
+  --hcc-button-bg-color: inherit;
+}
+
+.button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.button:hover {
+  background-color: var(--hcc-button-bg-hover-color);
+
+  --hcc-button-bg-hover-color: inherit;
+}
