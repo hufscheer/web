@@ -3,13 +3,13 @@ import { Badge, Typography } from '@hcc/ui';
 import Link from 'next/link';
 
 import { Header } from '~/components/layout';
-
+import { ROUTES } from '~/constants/routes';
 import { BottomMenu } from './_components/bottom-menu';
 import { LeagueCard } from './_components/league-card';
 
 const LeagueMenu = () => (
   <Typography color="var(--color-primary-600)" weight="semibold" asChild>
-    <Link href={''}>대회 관리</Link>
+    <Link href={ROUTES.LEAGUE}>대회 관리</Link>
   </Typography>
 );
 
@@ -36,6 +36,7 @@ const Page = () => {
           </div>
           <LeagueCard />
         </div>
+
         <BottomMenu />
       </div>
     </>

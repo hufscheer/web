@@ -22,13 +22,15 @@ export const Header = ({ arrow, title, menu }: Props) => {
             <button
               type="button"
               aria-label="뒤로"
-              className="center aspect-square h-full"
+              className="center h-full cursor-pointer"
               onClick={() => router.back()}
             >
               <ArrowBackIcon size={24} className="text-neutral-900" />
             </button>
             <Typography
-              className="-translate-x-1/2 -translate-y-1/2 pointer-events-none absolute top-1/2 left-1/2 truncate text-center font-semibold text-neutral-900"
+              className="-translate-x-1/2 -translate-y-1/2 pointer-events-none absolute top-1/2 left-1/2 truncate text-center text-neutral-900"
+              fontSize={18}
+              weight="semibold"
               asChild
             >
               <h2>{title}</h2>
