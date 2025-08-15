@@ -1,7 +1,7 @@
 import type { Options, ResponsePromise } from 'ky';
 import ky from 'ky';
 
-const API_URL = typeof window === 'undefined' ? 'https://api.hufscheer.com' : '/api/v1';
+const API_URL = 'https://api.hufscheer.com';
 
 const defaultOption: Options = {
   retry: 0,

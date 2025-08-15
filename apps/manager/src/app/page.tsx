@@ -7,10 +7,17 @@ import { Header } from '~/components/layout';
 import { BottomMenu } from './_components/bottom-menu';
 import { LeagueCard } from './_components/league-card';
 
+const LeagueMenu = () => (
+  <Typography color="var(--color-primary-600)" weight="semibold" asChild>
+    <Link href={''}>대회 관리</Link>
+  </Typography>
+);
+
 const Page = () => {
   return (
     <>
-      <Header />
+      <Header menu={<LeagueMenu />} />
+
       <div className="column-between h-full">
         <div className="w-full flex-1 overflow-y-auto">
           <div className="row-between mt-1.5 w-full bg-white px-5 py-3">
