@@ -1,8 +1,8 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.1.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
   "files": {
     "ignoreUnknown": false,
-    "includes": ["**/*.ts", "**/*.tsx", "**/*.json"],
+    "includes": ["**/*.ts", "**/*.tsx", "**/*.json", "**/*.js"],
     "experimentalScannerIgnores": [
       "node_modules/**",
       "dist/**",

@@ -1,3 +1,45 @@
+:root {
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+  --color-transparent: transparent;
+
+  --color-primary-50: #F8FBFF;
+  --color-primary-100: #F2F8FF;
+  --color-primary-200: #E0EDFF;
+  --color-primary-300: #C7DBFF;
+  --color-primary-400: #A3C4FF;
+  --color-primary-500: #4D9FFF;
+  --color-primary-600: #007AFF;
+  --color-primary-700: #0056CC;
+  --color-primary-800: #003D99;
+  --color-primary-900: #002466;
+
+  --color-danger-50: #FFF8F7;
+  --color-danger-100: #FFF0EF;
+  --color-danger-200: #FFE0DE;
+  --color-danger-300: #FFC7C4;
+  --color-danger-400: #FFA3A0;
+  --color-danger-500: #FE7A7A;
+  --color-danger-600: #FC5555;
+  --color-danger-700: #E63939;
+  --color-danger-800: #CC2626;
+  --color-danger-900: #991A1A;
+
+  --color-green-600: #1ADA3B;
+
+  --color-neutral-50: oklch(98.5% 0 0);
+  --color-neutral-100: oklch(97% 0 0);
+  --color-neutral-200: oklch(92.2% 0 0);
+  --color-neutral-300: oklch(87% 0 0);
+  --color-neutral-400: oklch(70.8% 0 0);
+  --color-neutral-500: oklch(55.6% 0 0);
+  --color-neutral-600: oklch(43.9% 0 0);
+  --color-neutral-700: oklch(37.1% 0 0);
+  --color-neutral-800: oklch(26.9% 0 0);
+  --color-neutral-900: oklch(20.5% 0 0);
+
+  --color-toast: #374553;
+}
 
 @theme {
   --breakpoint-*: initial;
@@ -8,9 +50,6 @@
   --z-index-header: 10;
 
   --app-max-width: 560px;
-
-  --color-primary-100: #F2F8FF;
-  --color-primary-600: #007AFF;
 }
 
 @layer base {

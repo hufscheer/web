@@ -2,7 +2,7 @@
 
 import { Button, Input, toast } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
-import type { FormEvent } from 'react';
+import { type FormEvent, useId } from 'react';
 import { useLogin } from '~/api';
 import { ROUTES } from '~/constants/routes';
 
@@ -23,11 +23,8 @@ export const LoginForm = () => {
           router.push(ROUTES.HOME);
         },
         onError: error => {
-          if (error instanceof Error) {
-            toast.error(error.name);
-          } else {
-            toast.error('아이디 또는 비밀번호 오류');
-          }
+          console.error(`[hcc] ${error}`);
+          toast.error('아이디 또는 비밀번호 오류');
         },
       },
     );
@@ -36,7 +33,7 @@ export const LoginForm = () => {
   return (
     <form className="column w-full" onSubmit={handleSubmit}>
       <Input
-        id="email"
+        id={useId()}
         name="email"
         size="xl"
         type="email"
@@ -44,7 +41,7 @@ export const LoginForm = () => {
         autoComplete="email"
       />
       <Input
-        id="password"
+        id={useId()}
         name="password"
         className="mt-4"
         size="xl"

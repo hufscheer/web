@@ -12,6 +12,6 @@
 }
 
 .toast [data-content] {
-  flex: 1;
+  flex: 1 !important;
   gap: 0 !important;
 }
