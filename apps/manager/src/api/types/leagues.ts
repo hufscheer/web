@@ -1,6 +1,12 @@
 import type { GameType } from '~/api/types/games';
 
-export type LeagueStateType = '진행 중' | '종료' | '예정';
+export const LEAGUE_STATE = {
+  IN_PROGRESS: '진행 중',
+  FINISHED: '종료',
+  SCHEDULED: '예정',
+} as const;
+
+export type LeagueStateType = (typeof LEAGUE_STATE)[keyof typeof LEAGUE_STATE];
 
 export type LeagueType = {
   id: string;
