@@ -1,0 +1,28 @@
+@keyframes overlay-open {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  animation: overlay-open 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: rgba(0, 0, 0, 0.25);
+  z-index: var(--z-index-overlay);
+}
+
+@keyframes content-open {
+  from { opacity: 0; transform: translate(-50%, -48%) scale(0.98); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.content {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: content-open 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: var(--z-index-modal);
+}

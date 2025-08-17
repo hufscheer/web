@@ -1,10 +1,11 @@
 'use client';
 
-import { ChevronForwardIcon, DeleteForeverIcon, DeleteForeverOutlineIcon } from '@hcc/icons';
-import { Typography } from '@hcc/ui';
+import { ChevronForwardIcon, DeleteForeverIcon } from '@hcc/icons';
+import { Typography, toast } from '@hcc/ui';
 import Link from 'next/link';
 import { Fragment } from 'react';
 import { useSuspensePlayers } from '~/api';
+import { AlertDialog } from '~/components/ui/alert-dialog';
 import { ROUTES } from '~/constants/routes';
 
 type Props = {
@@ -13,6 +14,15 @@ type Props = {
 
 export const PlayerList = ({ edit }: Props) => {
   const { data } = useSuspensePlayers();
+
+  const handlePlayerDelete = (playerId: number): Promise<void> => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        toast.success(`선수가 삭제되었어요. ${playerId}`);
+        resolve();
+      }, 3000);
+    });
+  };
 
   return (
     <Fragment>
@@ -37,9 +47,16 @@ export const PlayerList = ({ edit }: Props) => {
               </div>
 
               {edit ? (
-                <button type="button" className="cursor-pointer text-[var(--color-danger-600)]">
-                  <DeleteForeverIcon size={20} />
-                </button>
+                <AlertDialog
+                  title={`${player.name} 선수를 삭제할게요`}
+                  description="삭제한 선수는 다시 복구할 수 없어요."
+                  primaryTitle="삭제"
+                  onPrimaryClick={() => handlePlayerDelete(player.playerId)}
+                >
+                  <span className="cursor-pointer text-[var(--color-danger-600)]">
+                    <DeleteForeverIcon size={20} />
+                  </span>
+                </AlertDialog>
               ) : (
                 <Link className="center" href={`${ROUTES.PLAYER}/${player.playerId}`}>
                   <ChevronForwardIcon size={20} />

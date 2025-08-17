@@ -39,6 +39,11 @@
   --color-neutral-900: oklch(20.5% 0 0);
 
   --color-toast: #374553;
+
+  --z-index-above: 1;
+  --z-index-header: 10;
+  --z-index-overlay: 1000;
+  --z-index-modal: 1001;
 }
 
 @theme {
@@ -46,8 +51,10 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
 
-  --z-index-above: 1;
-  --z-index-header: 10;
+  --z-index-above: var(--z-index-above);
+  --z-index-header: var(--z-index-header);
+  --z-index-overlay: var(--z-index-overlay);
+  --z-index-modal: var(--z-index-modal);
 
   --app-max-width: 560px;
 }
