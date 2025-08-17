@@ -18,6 +18,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'https://api.hufscheer.com/:path*',
+      },
+    ];
+  },
 };
 
 export default nextConfig;
