@@ -27,7 +27,7 @@ const Page = async ({ searchParams }: Props) => {
     <>
       <Header title="선수 관리" menu={<PlayerEditButton edit={edit} />} arrow />
 
-      <div className="column mt-1.5 h-full gap-1.5">
+      <div className="column h-full gap-1.5 bg-white px-5">
         <Suspense clientOnly>
           <PlayerList edit={edit} />
         </Suspense>
