@@ -3,6 +3,7 @@ import { Suspense } from '@suspensive/react';
 import Link from 'next/link';
 import { Header } from '~/components/layout';
 import { ROUTES } from '~/constants/routes';
+import { PlayerList } from './_components/player-list';
 
 const PlayerEditButton = ({ edit }: { edit: boolean }) => {
   return (
@@ -27,7 +28,9 @@ const Page = async ({ searchParams }: Props) => {
       <Header title="선수 관리" menu={<PlayerEditButton edit={edit} />} arrow />
 
       <div className="column mt-1.5 h-full gap-1.5">
-        <Suspense clientOnly />
+        <Suspense clientOnly>
+          <PlayerList edit={edit} />
+        </Suspense>
       </div>
     </>
   );

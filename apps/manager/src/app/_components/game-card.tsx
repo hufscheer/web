@@ -3,7 +3,7 @@ import { Badge, Button, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { PropsWithChildren } from 'react';
-import type { GameType, TeamType } from '~/api';
+import type { GameTeamType, GameType } from '~/api';
 import { ROUTES } from '~/constants/routes';
 
 export const GameCardRoot = ({ children }: PropsWithChildren) => {
@@ -34,7 +34,7 @@ const GameTeamGroup = ({ children }: PropsWithChildren) => {
   return <div className="column mt-4 gap-2">{children}</div>;
 };
 
-const GameTeam = ({ gameTeamName, logoImageUrl, score }: TeamType) => {
+const GameTeam = ({ gameTeamName, logoImageUrl, score }: GameTeamType) => {
   return (
     <div className="row-between">
       <div className="center-y flex-1 gap-2">

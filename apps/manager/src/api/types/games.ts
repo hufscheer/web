@@ -1,4 +1,4 @@
-import type { TeamType } from '~/api/types/teams';
+import type { GameTeamType } from '~/api/types/teams';
 
 export type GameType = {
   id: number;
@@ -7,6 +7,6 @@ export type GameType = {
   gameName: string;
   round: number;
   videoId: string;
-  gameTeams: TeamType[];
+  gameTeams: GameTeamType[];
   isPkTaken: boolean;
 };
