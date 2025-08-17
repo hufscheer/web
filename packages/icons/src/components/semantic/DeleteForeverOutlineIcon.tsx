@@ -1,35 +1,39 @@
+import { useId } from 'react';
 import Icon from '../../icon';
 import type { IconProps } from '../../types';
 
-export const DeleteForeverOutlineIcon = (props: IconProps) => (
-  <Icon {...props}>
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <mask
-        id="mask0_7258_1985"
-        style={{ maskType: 'alpha' }}
-        maskUnits="userSpaceOnUse"
-        x="0"
-        y="0"
+export const DeleteForeverOutlineIcon = (props: IconProps) => {
+  const id = useId();
+  return (
+    <Icon {...props}>
+      <svg
         width="24"
         height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
       >
-        <rect width="24" height="24" fill="currentColor" />
-      </mask>
-      <g mask="url(#mask0_7258_1985)">
-        <path
-          d="M9.4 16.5L12 13.9L14.6 16.5L16 15.1L13.4 12.5L16 9.9L14.6 8.5L12 11.1L9.4 8.5L8 9.9L10.6 12.5L8 15.1L9.4 16.5ZM7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM17 6H7V19H17V6Z"
-          fill="currentColor"
-        />
-      </g>
-    </svg>
-  </Icon>
-);
+        <mask
+          id={id}
+          style={{ maskType: 'alpha' }}
+          maskUnits="userSpaceOnUse"
+          x="0"
+          y="0"
+          width="24"
+          height="24"
+        >
+          <rect width="24" height="24" fill="currentColor" />
+        </mask>
+        <g mask={`url(#${id})`}>
+          <path
+            d="M9.4 16.5L12 13.9L14.6 16.5L16 15.1L13.4 12.5L16 9.9L14.6 8.5L12 11.1L9.4 8.5L8 9.9L10.6 12.5L8 15.1L9.4 16.5ZM7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM17 6H7V19H17V6Z"
+            fill="currentColor"
+          />
+        </g>
+      </svg>
+    </Icon>
+  );
+};
 
 DeleteForeverOutlineIcon.displayName = 'DeleteForeverOutlineIcon';
