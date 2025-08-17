@@ -2,7 +2,7 @@
 
 import { Button, Input, toast } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
-import type { FormEvent } from 'react';
+import { type FormEvent, useId } from 'react';
 import { useLogin } from '~/api';
 import { ROUTES } from '~/constants/routes';
 
@@ -33,7 +33,7 @@ export const LoginForm = () => {
   return (
     <form className="column w-full" onSubmit={handleSubmit}>
       <Input
-        id="email"
+        id={useId()}
         name="email"
         size="xl"
         type="email"
@@ -41,7 +41,7 @@ export const LoginForm = () => {
         autoComplete="email"
       />
       <Input
-        id="password"
+        id={useId()}
         name="password"
         className="mt-4"
         size="xl"
