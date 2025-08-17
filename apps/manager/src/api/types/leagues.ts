@@ -12,7 +12,7 @@ export type LeagueType = {
 export type LeagueDetailType = {
   id: string;
   name: string;
-  leagueProgress: string;
+  leagueProgress: LeagueStateType;
   sizeOfLeagueTeams: number;
   maxRound: number;
   startAt: string;
