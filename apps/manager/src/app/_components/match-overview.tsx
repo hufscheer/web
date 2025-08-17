@@ -3,7 +3,6 @@
 import { ChevronForwardIcon } from '@hcc/icons';
 import { Badge, Typography } from '@hcc/ui';
 import Link from 'next/link';
-import { Fragment } from 'react';
 import { useSuspenseLeaguesHome } from '~/api';
 import { ROUTES } from '~/constants/routes';
 import { GameCard } from './game-card';
@@ -12,9 +11,9 @@ export const MatchOverview = () => {
   const { data } = useSuspenseLeaguesHome();
 
   return (
-    <Fragment>
+    <div className="column w-full flex-1 gap-1.5 overflow-y-auto pt-1.5">
       {data.map(league => (
-        <div key={league.id} className="w-full flex-1 overflow-y-auto">
+        <div key={league.id}>
           <div className="row-between w-full bg-white px-5 py-3">
             <div className="center-y gap-2">
               <Badge size="sm" variant={league.state === '진행 중' ? 'danger' : 'default'}>
@@ -55,6 +54,6 @@ export const MatchOverview = () => {
           )}
         </div>
       ))}
-    </Fragment>
+    </div>
   );
 };

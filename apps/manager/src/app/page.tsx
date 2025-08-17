@@ -17,7 +17,7 @@ const Page = () => {
     <>
       <Header menu={<LeagueMenu />} />
 
-      <div className="column-between mt-1.5 h-full gap-1.5">
+      <div className="column-between h-full w-full overflow-hidden">
         <Suspense fallback={<div />} clientOnly>
           <MatchOverview />
         </Suspense>

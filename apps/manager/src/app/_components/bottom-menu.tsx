@@ -5,7 +5,7 @@ import { ROUTES } from '~/constants/routes';
 
 export const BottomMenu = () => {
   return (
-    <div className="row-between w-full gap-2 bg-white p-5">
+    <div className="row-between w-full gap-2 border-neutral-100 border-t bg-white p-5">
       <Button className="flex-1 gap-1" variant="subtle" asChild>
         <Link href={ROUTES.LEAGUE}>
           <RewardedAdsIcon size={20} />
