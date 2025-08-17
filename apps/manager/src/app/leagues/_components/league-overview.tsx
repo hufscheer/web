@@ -1,6 +1,7 @@
 'use client';
 
 import { ChevronForwardIcon } from '@hcc/icons';
+import { formatTime } from '@hcc/toolkit';
 import { Badge, Button, Typography } from '@hcc/ui';
 import Link from 'next/link';
 import { Fragment } from 'react';
@@ -51,7 +52,7 @@ export const LeagueOverview = () => {
               weight="medium"
               lineHeight="none"
             >
-              <strong>기간</strong> {league.startAt} - {league.endAt}
+              <strong>기간</strong> {formatTime(league.startAt)} - {formatTime(league.endAt)}
             </Typography>
           </div>
 
