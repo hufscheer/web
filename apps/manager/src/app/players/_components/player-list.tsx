@@ -39,9 +39,11 @@ export const PlayerList = ({ edit }: Props) => {
             {index === 0 && <hr className="h-[1px] w-full border-none bg-neutral-100" />}
 
             <div className="row-between border-neutral-100 border-b py-2">
-              <div className="center-y gap-1">
-                <Typography weight="medium">{player.name}</Typography>
-                <Typography color="var(--color-neutral-500)" fontSize={14}>
+              <div className="center-y gap-2">
+                <Typography weight="medium">
+                  {player.name} ({player.studentNumber})
+                </Typography>
+                <Typography color="var(--color-neutral-500)" fontSize={13} weight="medium">
                   {player.teams.map(team => team.name).join(', ')}
                 </Typography>
               </div>
