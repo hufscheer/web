@@ -67,7 +67,7 @@ export const AlertDialog = ({
             variant="solid"
             color="black"
             onClick={handlePrimaryClick}
-            disabled={loading}
+            loading={loading}
           >
             {primaryTitle}
           </Button>

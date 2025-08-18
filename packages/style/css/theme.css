@@ -2,8 +2,8 @@
   --color-transparent: transparent;
 
   --color-white: #FFFFFF;
-  --color-white-alpha-5: rgba(255, 255, 255, 0.05);,
-  --color-white-alpha-10: rgba(255, 255, 255, 0.1),
+  --color-white-alpha-5: rgba(255, 255, 255, 0.05);
+  --color-white-alpha-10: rgba(255, 255, 255, 0.1);
   --color-white-alpha-20: rgba(255, 255, 255, 0.2);
   --color-white-alpha-30: rgba(255, 255, 255, 0.3);
   --color-white-alpha-40: rgba(255, 255, 255, 0.4);

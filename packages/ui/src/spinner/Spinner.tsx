@@ -4,7 +4,7 @@ import { match } from 'ts-pattern';
 import { colors } from '../token';
 import styles from './Spinner.module.css';
 
-type SpinnerSize = 'lg' | 'md';
+type SpinnerSize = 'xl' | 'lg' | 'md' | 'sm';
 
 type SpinnerColor = 'primary' | 'neutral' | 'white';
 
@@ -31,14 +31,18 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
 
 const getSize = (size: SpinnerSize) =>
   match(size)
-    .with('lg', () => 40)
+    .with('xl', () => 40)
+    .with('lg', () => 32)
     .with('md', () => 24)
+    .with('sm', () => 20)
     .exhaustive();
 
 const getBorderWidth = (size: SpinnerSize) =>
   match(size)
-    .with('lg', () => 5)
+    .with('xl', () => 5)
+    .with('lg', () => 4)
     .with('md', () => 3)
+    .with('sm', () => 3)
     .exhaustive();
 
 const getBorderColor = (color: SpinnerColor) =>
