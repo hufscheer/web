@@ -2,6 +2,7 @@ import { Slot } from '@radix-ui/react-slot';
 import { clsx } from 'clsx';
 import { type ComponentProps, type CSSProperties, forwardRef } from 'react';
 import { match } from 'ts-pattern';
+import { Spinner } from '../spinner';
 import { colors, fontWeight as fontWeightToken } from '../token';
 import styles from './Button.module.css';
 
@@ -17,6 +18,7 @@ export interface ButtonProps extends ComponentProps<'button'> {
   color?: ButtonColor;
   variant?: ButtonVariant;
   disabled?: boolean;
+  loading?: boolean;
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -29,6 +31,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       size = 'md',
       color = 'primary',
       variant = 'solid',
+      loading = false,
       style: _style,
       ...props
     },
@@ -50,9 +53,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         className={clsx(styles.button, disabled && styles.disabled, className)}
         style={style}
+        disabled={disabled || loading}
+        data-loading={loading ? 'true' : undefined}
         {...props}
       >
-        {children}
+        {loading ? <Spinner className={styles.spinner} size="sm" color="white" /> : children}
       </Comp>
     );
   },

@@ -7,6 +7,7 @@
   height: var(--hcc-input-height);
   border-radius: var(--hcc-input-border-radius);
   outline: var(--hcc-input-outline);
+  opacity: 1;
 
   --hcc-input-height: inherit;
   --hcc-input-padding-inline: inherit;
@@ -65,4 +66,15 @@
   top: var(--hcc-label-position);
   transform: translateY(0);
   font-size: calc(var(--hcc-input-font-size) * 0.75);
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  user-select: none;
+}
+
+.disabled input {
+  cursor: not-allowed;
+  user-select: none;
 }

@@ -1,9 +1,10 @@
 import { ChevronForwardIcon } from '@hcc/icons';
+import { formatTime } from '@hcc/toolkit';
 import { Badge, Button, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { PropsWithChildren } from 'react';
-import type { GameType, TeamType } from '~/api';
+import type { GameTeamType, GameType } from '~/api';
 import { ROUTES } from '~/constants/routes';
 
 export const GameCardRoot = ({ children }: PropsWithChildren) => {
@@ -22,7 +23,7 @@ const GameHeader = ({ leagueId, id: gameId, gameQuarter, startTime }: GameCardPr
       </Badge>
       <Typography className="center-y" color="var(--color-neutral-500)" fontSize={14} asChild>
         <Link href={`${ROUTES.LEAGUE}/${leagueId}/${gameId}`}>
-          {startTime}
+          {formatTime(startTime, { format: 'YYYY.MM.DD. HH:mm' })}
           <ChevronForwardIcon size={20} />
         </Link>
       </Typography>
@@ -34,7 +35,7 @@ const GameTeamGroup = ({ children }: PropsWithChildren) => {
   return <div className="column mt-4 gap-2">{children}</div>;
 };
 
-const GameTeam = ({ gameTeamName, logoImageUrl, score }: TeamType) => {
+const GameTeam = ({ gameTeamName, logoImageUrl, score }: GameTeamType) => {
   return (
     <div className="row-between">
       <div className="center-y flex-1 gap-2">

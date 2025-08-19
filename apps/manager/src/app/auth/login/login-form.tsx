@@ -8,7 +8,7 @@ import { ROUTES } from '~/constants/routes';
 
 export const LoginForm = () => {
   const router = useRouter();
-  const { mutate } = useLogin();
+  const { mutate, isPending } = useLogin();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -49,7 +49,14 @@ export const LoginForm = () => {
         placeholder="비밀번호"
         autoComplete="current-password"
       />
-      <Button className="mt-6" size="xl" color="black" variant="solid" type="submit">
+      <Button
+        type="submit"
+        className="mt-6"
+        size="xl"
+        color="black"
+        variant="solid"
+        loading={isPending}
+      >
         로그인
       </Button>
     </form>

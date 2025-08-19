@@ -1,0 +1,21 @@
+@keyframes donut-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spinner {
+  position: relative;
+  display: inline-block;
+  width: var(--hcc-spinner-size);
+  height: var(--hcc-spinner-size);
+  border: var(--hcc-spinner-border-width) solid var(--hcc-spinner-bg-color);
+  border-top-color: var(--hcc-spinner-border-color);
+  border-radius: 50%;
+  animation: donut-spin 0.75s linear infinite;
+  transform-origin: center center;
+
+  --hcc-spinner-size: inherit;
+  --hcc-spinner-border-width: inherit;
+  --hcc-spinner-border-color: inherit;
+  --hcc-spinner-bg-color: inherit;
+}
