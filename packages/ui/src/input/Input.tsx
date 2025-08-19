@@ -29,6 +29,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       weight = 'medium',
       lineHeight = 'normal',
       style: _style,
+      disabled,
       ...props
     },
     ref,
@@ -50,8 +51,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     } as CSSProperties;
 
     return (
-      <div className={clsx(styles.wrapper, className)} style={style}>
-        <input ref={ref} id={id} className={styles.input} placeholder={placeholder} {...props} />
+      <div className={clsx(styles.wrapper, disabled && styles.disabled, className)} style={style}>
+        <input
+          ref={ref}
+          id={id}
+          className={styles.input}
+          placeholder={placeholder}
+          disabled={disabled}
+          {...props}
+        />
         {isLabelVisible && (
           <label className={styles.label} htmlFor={id}>
             {placeholder}
@@ -92,13 +100,13 @@ const getFontSize = (size: InputSize) =>
 const getInputPaddingTop = (size: InputSize) =>
   match(size)
     .with('xs', 'sm', 'md', () => 0)
-    .with('lg', () => 10)
+    .with('lg', () => 18)
     .with('xl', () => 18)
     .exhaustive();
 
 const getLabelPosition = (size: InputSize) =>
   match(size)
     .with('xs', 'sm', 'md', () => 0)
-    .with('lg', () => 5)
-    .with('xl', () => 9)
+    .with('lg', () => 6)
+    .with('xl', () => 10)
     .exhaustive();

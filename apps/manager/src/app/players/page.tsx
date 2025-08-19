@@ -1,12 +1,12 @@
 import { AddIcon } from '@hcc/icons';
-import { Button, Typography } from '@hcc/ui';
+import { Button, Spinner, Typography } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 import Link from 'next/link';
 import { Header } from '~/components/layout';
 import { ROUTES } from '~/constants/routes';
 import { PlayerList } from './_components/player-list';
 
-const PlayerEditButton = ({ edit }: { edit: boolean }) => {
+const PlayerEditMenu = ({ edit }: { edit: boolean }) => {
   return (
     <Typography color="var(--color-neutral-500)" weight="semibold" asChild>
       <Link href={`${ROUTES.PLAYER}?edit=${edit ? 'false' : 'true'}`} replace>
@@ -26,10 +26,17 @@ const Page = async ({ searchParams }: Props) => {
 
   return (
     <>
-      <Header title="선수 관리" menu={<PlayerEditButton edit={edit} />} arrow />
+      <Header title="선수 관리" menu={<PlayerEditMenu edit={edit} />} arrow />
 
       <div className="column h-full overflow-hidden bg-white px-5">
-        <Suspense clientOnly>
+        <Suspense
+          fallback={
+            <div className="center p-5">
+              <Spinner size="lg" color="neutral" />
+            </div>
+          }
+          clientOnly
+        >
           <PlayerList edit={edit} />
         </Suspense>
 

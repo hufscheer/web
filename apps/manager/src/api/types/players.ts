@@ -7,3 +7,7 @@ export type PlayerType = {
   totalGoalCount: number;
   teams: TeamType[];
 };
+
+export type PlayerDetailPayload = {
+  id: number;
+};

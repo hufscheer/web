@@ -4,7 +4,8 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color 0.15s ease-in-out;
+  opacity: 1;
+  transition: background-color 0.15s ease-in-out, transform 0.15s ease-in-out;
 
   height: var(--hcc-button-height);
   color: var(--hcc-button-font-color);
@@ -28,14 +29,9 @@
   outline-offset: 2px;
 }
 
-.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
 .button:hover {
   background-color: var(--hcc-button-bg-hover-color);
+  transform: scale(0.997);
 
   --hcc-button-bg-hover-color: inherit;
 }
@@ -54,4 +50,9 @@
   left: 0;
   right: 0;
   bottom: 0;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

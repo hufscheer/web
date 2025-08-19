@@ -3,6 +3,7 @@ export * from './button';
 export * from './input';
 export * from './modal';
 export * from './select';
+export * from './spinner';
 export * from './toast';
 export * from './token';
 export * from './typography';

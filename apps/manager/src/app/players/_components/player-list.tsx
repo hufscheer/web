@@ -4,7 +4,7 @@ import { ChevronForwardIcon, DeleteForeverIcon } from '@hcc/icons';
 import { Typography, toast } from '@hcc/ui';
 import Link from 'next/link';
 import { Fragment, useState } from 'react';
-import { useSuspensePlayers } from '~/api';
+import { useDeletePlayers, useSuspensePlayers } from '~/api';
 import { AlertDialog } from '~/components/ui/alert-dialog';
 import { ROUTES } from '~/constants/routes';
 
@@ -16,13 +16,16 @@ export const PlayerList = ({ edit }: Props) => {
   const { data } = useSuspensePlayers();
   const [query, setQuery] = useState<string>('');
 
-  const handlePlayerDelete = (playerId: number): Promise<void> => {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        toast.success(`선수가 삭제되었어요. ${playerId}`);
-        resolve();
-      }, 3000);
-    });
+  const { mutateAsync } = useDeletePlayers();
+
+  const handlePlayerDelete = async (playerId: number): Promise<void> => {
+    try {
+      await mutateAsync({ id: playerId });
+      toast.success('선수가 삭제되었어요.');
+    } catch (error) {
+      console.error(error);
+      toast.error('선수 삭제에 실패했어요.');
+    }
   };
 
   return (
@@ -56,8 +59,8 @@ export const PlayerList = ({ edit }: Props) => {
 
                 {edit ? (
                   <AlertDialog
-                    title={`${player.name} 선수를 삭제할게요`}
-                    description="삭제한 선수는 다시 복구할 수 없어요."
+                    title="삭제한 선수는 다시 복구할 수 없어요"
+                    description="정말 삭제할까요?"
                     primaryTitle="삭제"
                     onPrimaryClick={() => handlePlayerDelete(player.playerId)}
                   >

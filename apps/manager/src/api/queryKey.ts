@@ -1,6 +1,6 @@
 import { fetcher } from '@hcc/api-base';
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
-import type { LeagueDetailType, LeagueType, PlayerType } from './types';
+import type { LeagueDetailType, LeagueType, PlayerDetailPayload, PlayerType } from './types';
 
 const leagueQueryKeys = createQueryKeys('leagues', {
   home: {
@@ -18,6 +18,10 @@ const playerQueryKeys = createQueryKeys('players', {
     queryKey: null,
     queryFn: () => fetcher.get<PlayerType[]>('players'),
   },
+  detail: (payload: PlayerDetailPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<PlayerType>(`players/${payload.id}`),
+  }),
 });
 
 export const queryKeys = mergeQueryKeys(leagueQueryKeys, playerQueryKeys);

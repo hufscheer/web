@@ -1,4 +1,5 @@
 import { ChevronForwardIcon } from '@hcc/icons';
+import { formatTime } from '@hcc/toolkit';
 import { Badge, Button, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -22,7 +23,7 @@ const GameHeader = ({ leagueId, id: gameId, gameQuarter, startTime }: GameCardPr
       </Badge>
       <Typography className="center-y" color="var(--color-neutral-500)" fontSize={14} asChild>
         <Link href={`${ROUTES.LEAGUE}/${leagueId}/${gameId}`}>
-          {startTime}
+          {formatTime(startTime, { format: 'YYYY.MM.DD. HH:mm' })}
           <ChevronForwardIcon size={20} />
         </Link>
       </Typography>
