@@ -74,7 +74,11 @@ export const PlayerForm = ({ className, onSubmit, onClick, initialData, ...props
           name="team"
           size="lg"
           placeholder="팀"
-          defaultValue={initialData?.teams?.map(team => team.name).join(', ')}
+          defaultValue={
+            initialData?.teams && initialData.teams.length > 0
+              ? initialData.teams.map(team => team.name).join(', ')
+              : '소속팀이 존재하지 않아요.'
+          }
           readOnly
           disabled
         />
