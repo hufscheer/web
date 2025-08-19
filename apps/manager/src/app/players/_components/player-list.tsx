@@ -37,7 +37,7 @@ export const PlayerList = ({ edit }: Props) => {
         />
       </Typography>
 
-      <div>
+      <div className="h-full overflow-y-auto pb-[92px]">
         {data
           .filter(player => player.name.includes(query) || player.studentNumber.includes(query))
           .map((player, index) => (

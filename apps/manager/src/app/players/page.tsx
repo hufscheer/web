@@ -1,4 +1,5 @@
-import { Typography } from '@hcc/ui';
+import { AddIcon } from '@hcc/icons';
+import { Button, Typography } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 import Link from 'next/link';
 import { Header } from '~/components/layout';
@@ -27,10 +28,18 @@ const Page = async ({ searchParams }: Props) => {
     <>
       <Header title="선수 관리" menu={<PlayerEditButton edit={edit} />} arrow />
 
-      <div className="column h-full gap-1.5 bg-white px-5">
+      <div className="column h-full overflow-hidden bg-white px-5">
         <Suspense clientOnly>
           <PlayerList edit={edit} />
         </Suspense>
+
+        <div className="fixed bottom-5 w-full max-w-[calc(var(--app-max-width)-40px)] gap-0.5">
+          <Button className="w-full" variant="subtle" color="black" size="lg" asChild>
+            <Link href={ROUTES.PLAYER_CREATE}>
+              <AddIcon className="mr-0.5" size={24} /> 새로운 선수 추가
+            </Link>
+          </Button>
+        </div>
       </div>
     </>
   );

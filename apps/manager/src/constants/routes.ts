@@ -4,5 +4,7 @@ export const ROUTES = {
 
   LEAGUE: '/leagues',
   PLAYER: '/players',
+  PLAYER_CREATE: '/players/create',
+
   TEAM: '/teams',
 };
