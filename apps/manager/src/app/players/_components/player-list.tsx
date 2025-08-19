@@ -18,9 +18,9 @@ export const PlayerList = ({ edit }: Props) => {
 
   const { mutateAsync } = useDeletePlayers();
 
-  const handlePlayerDelete = async (playerId: number): Promise<void> => {
+  const handlePlayerDelete = async (id: number): Promise<void> => {
     try {
-      await mutateAsync({ id: playerId });
+      await mutateAsync({ id });
       toast.success('선수가 삭제되었어요.');
     } catch (error) {
       console.error(error);

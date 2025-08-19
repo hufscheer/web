@@ -25,18 +25,17 @@ export const AlertDialog = ({
     if (onPrimaryClick) {
       const result = onPrimaryClick();
       if (result instanceof Promise) {
+        setLoading(true);
         try {
-          setLoading(true);
           await result;
-        } catch (e) {
-          console.error(e);
+          setOpen(false);
+        } finally {
           setLoading(false);
-          return;
         }
+        return;
       }
     }
     setOpen(false);
-    setLoading(false);
   };
 
   return (

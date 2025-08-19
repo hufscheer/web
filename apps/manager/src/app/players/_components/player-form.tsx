@@ -9,7 +9,7 @@ type Props = {
   initialData?: Partial<PlayerFormType> & { teams?: TeamType[] };
 } & Omit<ComponentProps<'form'>, 'onSubmit'>;
 
-export const PlayerForm = ({ className, onSubmit, onClick, initialData, ...props }: Props) => {
+export const PlayerForm = ({ className, onSubmit, initialData, ...props }: Props) => {
   const {
     register,
     handleSubmit,
