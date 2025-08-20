@@ -32,7 +32,7 @@ export const PlayerList = ({ edit }: Props) => {
     <Fragment>
       <Typography asChild>
         <input
-          className="my-4 w-full rounded-md border border-neutral-200 px-2.5 py-1.5"
+          className="my-4 w-full rounded-lg border border-neutral-100 px-2.5 py-1.5"
           placeholder="선수 검색"
           value={query}
           onChange={e => setQuery(e.target.value)}
@@ -40,41 +40,40 @@ export const PlayerList = ({ edit }: Props) => {
         />
       </Typography>
 
-      <div className="h-full overflow-y-auto pb-[92px]">
+      <div className="column h-full gap-3 overflow-y-auto pb-[92px]">
         {data
           .filter(player => player.name.includes(query) || player.studentNumber.includes(query))
-          .map((player, index) => (
-            <Fragment key={player.playerId}>
-              {index === 0 && <hr className="h-[1px] w-full border-none bg-neutral-100" />}
-
-              <div className="row-between border-neutral-100 border-b py-2">
-                <div className="center-y gap-2">
-                  <Typography weight="medium">
-                    {player.name} ({player.studentNumber})
-                  </Typography>
-                  <Typography color="var(--color-neutral-500)" fontSize={13} weight="medium">
-                    {player.teams.map(team => team.name).join(', ')}
-                  </Typography>
-                </div>
-
-                {edit ? (
-                  <AlertDialog
-                    title="삭제한 선수는 다시 복구할 수 없어요"
-                    description="정말 삭제할까요?"
-                    primaryTitle="삭제"
-                    onPrimaryClick={() => handlePlayerDelete(player.playerId)}
-                  >
-                    <span className="cursor-pointer text-[var(--color-danger-600)]">
-                      <DeleteForeverIcon size={20} />
-                    </span>
-                  </AlertDialog>
-                ) : (
-                  <Link className="center" href={`${ROUTES.PLAYER}/${player.playerId}`}>
-                    <ChevronForwardIcon size={20} />
-                  </Link>
-                )}
+          .map(player => (
+            <div
+              key={player.playerId}
+              className="row-between rounded-lg border border-neutral-100 px-4 py-3"
+            >
+              <div>
+                <Typography weight="medium">
+                  {player.name} ({player.studentNumber})
+                </Typography>
+                <Typography color="var(--color-neutral-500)" fontSize={12} weight="medium">
+                  {player.teams.map(team => team.name).join(', ')}
+                </Typography>
               </div>
-            </Fragment>
+
+              {edit ? (
+                <AlertDialog
+                  title="삭제한 선수는 다시 복구할 수 없어요"
+                  description="정말 삭제할까요?"
+                  primaryTitle="삭제"
+                  onPrimaryClick={() => handlePlayerDelete(player.playerId)}
+                >
+                  <span className="cursor-pointer text-[var(--color-danger-600)]">
+                    <DeleteForeverIcon size={20} />
+                  </span>
+                </AlertDialog>
+              ) : (
+                <Link className="center" href={`${ROUTES.PLAYER}/${player.playerId}`}>
+                  <ChevronForwardIcon size={20} />
+                </Link>
+              )}
+            </div>
           ))}
       </div>
     </Fragment>

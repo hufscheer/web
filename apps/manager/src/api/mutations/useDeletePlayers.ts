@@ -10,12 +10,12 @@ export const deletePlayers = ({ id }: Request) => {
 };
 
 export const useDeletePlayers = () => {
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
 
   return useMutation({
     mutationFn: deletePlayers,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.players._def });
+      await qc.invalidateQueries({ queryKey: queryKeys.players._def });
     },
   });
 };

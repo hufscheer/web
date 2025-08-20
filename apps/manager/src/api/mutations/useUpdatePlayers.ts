@@ -11,12 +11,12 @@ export const patchPlayers = ({ id, ...request }: Request) => {
 };
 
 export const useUpdatePlayers = () => {
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
 
   return useMutation({
     mutationFn: patchPlayers,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.players._def });
+      await qc.invalidateQueries({ queryKey: queryKeys.players._def });
     },
   });
 };
