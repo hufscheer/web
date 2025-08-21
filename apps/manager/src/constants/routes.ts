@@ -8,4 +8,4 @@ export const ROUTES = {
 
   TEAM: '/teams',
   TEAM_CREATE: '/teams/create',
-};
+} as const;
