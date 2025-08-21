@@ -8,7 +8,7 @@ import { MatchOverview } from './_components/match-overview';
 
 const LeagueMenu = () => (
   <Typography color="var(--color-primary-600)" weight="semibold" asChild>
-    <Link href={routes.league}>대회 관리</Link>
+    <Link href={`/${routes.league}`}>대회 관리</Link>
   </Typography>
 );
 

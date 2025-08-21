@@ -42,7 +42,7 @@ const Page = async ({ searchParams }: Props) => {
 
         <div className="fixed bottom-5 w-full max-w-[calc(var(--app-max-width)-40px)] gap-0.5">
           <Button className="w-full" variant="subtle" color="black" size="lg" asChild>
-            <Link href={routes.player_create}>
+            <Link href={`/${routes.player_create}`}>
               <AddIcon className="mr-0.5" size={24} /> 새로운 선수 추가
             </Link>
           </Button>
