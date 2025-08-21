@@ -6,7 +6,7 @@ import { Badge, Button, Typography } from '@hcc/ui';
 import Link from 'next/link';
 import { Fragment } from 'react';
 import { useSuspenseLeaguesLeague } from '~/api';
-import { ROUTES } from '~/constants/routes';
+import { routes } from '~/constants/routes';
 
 export const LeagueOverview = () => {
   const { data } = useSuspenseLeaguesLeague();
@@ -22,7 +22,7 @@ export const LeagueOverview = () => {
               </Badge>
               <Typography weight="semibold">{league.name}</Typography>
             </div>
-            <Link className="center" href={`${ROUTES.LEAGUE}/${league.id}`}>
+            <Link className="center" href={`${routes.league}/${league.id}`}>
               <ChevronForwardIcon size={24} />
             </Link>
           </div>

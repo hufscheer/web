@@ -5,7 +5,7 @@ import { Typography } from '@hcc/ui';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import type { ReactNode } from 'react';
-import { ROUTES } from '~/constants/routes';
+import { routes } from '~/constants/routes';
 
 type Props =
   | { arrow: true; title: string; menu?: ReactNode }
@@ -39,7 +39,7 @@ export const Header = ({ arrow, title, menu }: Props) => {
           </>
         ) : (
           <>
-            <Link className="flex select-none items-end gap-2" href={ROUTES.HOME}>
+            <Link className="flex select-none items-end gap-2" href={routes.home}>
               <HCCLogo width="71.5" height="21" className="text-neutral-900" />
               <span className="font-medium leading-none">매니저</span>
             </Link>

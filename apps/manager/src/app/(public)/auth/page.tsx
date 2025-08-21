@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation';
-import { ROUTES } from '~/constants/routes';
+import { routes } from '~/constants/routes';
 
 const Page = () => {
-  redirect(ROUTES.LOGIN);
+  redirect(routes.login);
 };
 
 export default Page;

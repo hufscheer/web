@@ -4,7 +4,7 @@ import { Button, Input, toast } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
 import { type FormEvent, useId } from 'react';
 import { useLogin } from '~/api';
-import { ROUTES } from '~/constants/routes';
+import { routes } from '~/constants/routes';
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -20,7 +20,7 @@ export const LoginForm = () => {
       { email, password },
       {
         onSuccess: () => {
-          router.push(ROUTES.HOME);
+          router.push(routes.home);
         },
         onError: error => {
           console.error(`[hcc] ${error}`);

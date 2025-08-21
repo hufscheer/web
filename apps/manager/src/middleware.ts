@@ -2,30 +2,33 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { env } from '~/constants/variables';
 
-export function middleware(request: NextRequest) {
+export const middleware = (request: NextRequest): NextResponse => {
   const { pathname } = request.nextUrl;
+  const tokenCookie = request.cookies.get(env.access_token);
 
-  if (
-    pathname.startsWith('/leagues') ||
-    pathname.startsWith('/players') ||
-    pathname.startsWith('/teams') ||
-    pathname === '/'
-  ) {
-    const isAuthenticated = checkAuthentication(request);
+  const headers = new Headers(request.headers);
+  headers.set('x-pathname', pathname);
 
-    if (!isAuthenticated) {
-      return NextResponse.redirect(new URL('/auth/login', request.url));
+  if (pathname.startsWith('/auth')) {
+    if (tokenCookie) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/';
+      return NextResponse.redirect(url);
     }
+    return NextResponse.next();
   }
 
-  return NextResponse.next();
-}
+  if (!tokenCookie) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/auth/login';
+    return NextResponse.redirect(url);
+  }
 
-function checkAuthentication(request: NextRequest): boolean {
-  const token = request.cookies.get(env.access_token)?.value;
-  return !!token;
-}
+  return NextResponse.next({ request: { headers } });
+};
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|auth).*)'],
+  matcher: [
+    '/((?!_next/static|_next/image|favicon.ico|icon.ico|apple-icon.ico|static|data:image|api).*)',
+  ],
 };

@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { PropsWithChildren } from 'react';
 import type { GameTeamType, GameType } from '~/api';
-import { ROUTES } from '~/constants/routes';
+import { routes } from '~/constants/routes';
 
 export const GameCardRoot = ({ children }: PropsWithChildren) => {
   return <div className="column bg-white p-5">{children}</div>;
@@ -22,7 +22,7 @@ const GameHeader = ({ leagueId, id: gameId, gameQuarter, startTime }: GameCardPr
         {gameQuarter} &middot;
       </Badge>
       <Typography className="center-y" color="var(--color-neutral-500)" fontSize={14} asChild>
-        <Link href={`${ROUTES.LEAGUE}/${leagueId}/${gameId}`}>
+        <Link href={`${routes.league}/${leagueId}/${gameId}`}>
           {formatTime(startTime, { format: 'YYYY.MM.DD. HH:mm' })}
           <ChevronForwardIcon size={20} />
         </Link>

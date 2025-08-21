@@ -4,7 +4,7 @@ import { ChevronForwardIcon } from '@hcc/icons';
 import { Badge, Typography } from '@hcc/ui';
 import Link from 'next/link';
 import { useSuspenseLeaguesHome } from '~/api';
-import { ROUTES } from '~/constants/routes';
+import { routes } from '~/constants/routes';
 import { GameCard } from './game-card';
 
 export const MatchOverview = () => {
@@ -22,7 +22,7 @@ export const MatchOverview = () => {
               <Typography weight="semibold">{league.name}</Typography>
             </div>
             <Typography color="var(--color-neutral-500)" weight="medium" asChild>
-              <Link className="center-y" href={`${ROUTES.LEAGUE}/${league.id}`}>
+              <Link className="center-y" href={`${routes.league}/${league.id}`}>
                 전체 경기 <ChevronForwardIcon size={24} />
               </Link>
             </Typography>

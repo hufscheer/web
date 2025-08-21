@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Fragment, useState } from 'react';
 import { useDeletePlayers, useSuspensePlayers } from '~/api';
 import { AlertDialog } from '~/components/ui/alert-dialog';
-import { ROUTES } from '~/constants/routes';
+import { routes } from '~/constants/routes';
 
 type Props = {
   edit: boolean;
@@ -69,7 +69,7 @@ export const PlayerList = ({ edit }: Props) => {
                   </span>
                 </AlertDialog>
               ) : (
-                <Link className="center" href={`${ROUTES.PLAYER}/${player.playerId}`}>
+                <Link className="center" href={`${routes.player}/${player.playerId}`}>
                   <ChevronForwardIcon size={24} />
                 </Link>
               )}

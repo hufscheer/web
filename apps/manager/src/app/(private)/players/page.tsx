@@ -3,13 +3,13 @@ import { Button, Spinner, Typography } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 import Link from 'next/link';
 import { Header } from '~/components/layout';
-import { ROUTES } from '~/constants/routes';
+import { routes } from '~/constants/routes';
 import { PlayerList } from './_components/player-list';
 
 const PlayerEditMenu = ({ edit }: { edit: boolean }) => {
   return (
     <Typography color="var(--color-neutral-500)" weight="semibold" asChild>
-      <Link href={`${ROUTES.PLAYER}?edit=${edit ? 'false' : 'true'}`} replace>
+      <Link href={`${routes.player}?edit=${edit ? 'false' : 'true'}`} replace>
         {edit ? '완료' : '편집'}
       </Link>
     </Typography>
@@ -42,7 +42,7 @@ const Page = async ({ searchParams }: Props) => {
 
         <div className="fixed bottom-5 w-full max-w-[calc(var(--app-max-width)-40px)] gap-0.5">
           <Button className="w-full" variant="subtle" color="black" size="lg" asChild>
-            <Link href={ROUTES.PLAYER_CREATE}>
+            <Link href={routes.player_create}>
               <AddIcon className="mr-0.5" size={24} /> 새로운 선수 추가
             </Link>
           </Button>
