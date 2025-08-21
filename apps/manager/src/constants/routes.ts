@@ -7,4 +7,5 @@ export const ROUTES = {
   PLAYER_CREATE: '/players/create',
 
   TEAM: '/teams',
+  TEAM_CREATE: '/teams/create',
 };

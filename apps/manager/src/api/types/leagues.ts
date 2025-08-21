@@ -1,4 +1,4 @@
-import type { GameType } from '~/api/types/games';
+import type { GameType } from '~/api';
 
 export const LEAGUE_STATE = {
   IN_PROGRESS: '진행 중',

@@ -46,7 +46,7 @@ export const PlayerList = ({ edit }: Props) => {
           .map(player => (
             <div
               key={player.playerId}
-              className="row-between rounded-lg border border-neutral-100 px-4 py-3"
+              className="row-between rounded-lg border border-neutral-100 px-4 py-2.5"
             >
               <div>
                 <Typography weight="medium">
@@ -65,12 +65,12 @@ export const PlayerList = ({ edit }: Props) => {
                   onPrimaryClick={() => handlePlayerDelete(player.playerId)}
                 >
                   <span className="cursor-pointer text-[var(--color-danger-600)]">
-                    <DeleteForeverIcon size={20} />
+                    <DeleteForeverIcon size={24} />
                   </span>
                 </AlertDialog>
               ) : (
                 <Link className="center" href={`${ROUTES.PLAYER}/${player.playerId}`}>
-                  <ChevronForwardIcon size={20} />
+                  <ChevronForwardIcon size={24} />
                 </Link>
               )}
             </div>

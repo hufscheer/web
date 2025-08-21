@@ -1,4 +1,4 @@
-import type { GameTeamType } from '~/api/types/teams';
+import type { GameTeamType } from '~/api';
 
 export type GameType = {
   id: number;
