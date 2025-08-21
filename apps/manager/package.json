@@ -26,7 +26,7 @@
     "@lukemorales/query-key-factory": "^1.3.4",
     "@suspensive/react": "^3.6.0",
     "@vercel/analytics": "^1.5.0",
-    "next": "^15.4.6",
+    "next": "^15.5.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.62.0",
