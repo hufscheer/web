@@ -20,7 +20,7 @@ export const LoginForm = () => {
       { email, password },
       {
         onSuccess: () => {
-          router.push(routes.home);
+          router.push(`/${routes.league}`);
         },
         onError: error => {
           console.error(`[hcc] ${error}`);

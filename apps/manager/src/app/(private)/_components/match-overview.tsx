@@ -22,7 +22,7 @@ export const MatchOverview = () => {
               <Typography weight="semibold">{league.name}</Typography>
             </div>
             <Typography color="var(--color-neutral-500)" weight="medium" asChild>
-              <Link className="center-y" href={`${routes.league}/${league.id}`}>
+              <Link className="center-y" href={`/${routes.league}/${league.id}`}>
                 전체 경기 <ChevronForwardIcon size={24} />
               </Link>
             </Typography>

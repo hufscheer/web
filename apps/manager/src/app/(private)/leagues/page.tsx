@@ -7,7 +7,7 @@ import { LeagueOverview } from './_components/league-overview';
 
 const LeagueCreateMenu = () => (
   <Typography color="var(--color-neutral-500)" weight="semibold" asChild>
-    <Link href={routes.league}>대회 생성</Link>
+    <Link href={`/${routes.league}`}>대회 생성</Link>
   </Typography>
 );
 

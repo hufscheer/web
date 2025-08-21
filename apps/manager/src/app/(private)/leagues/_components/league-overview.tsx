@@ -22,7 +22,7 @@ export const LeagueOverview = () => {
               </Badge>
               <Typography weight="semibold">{league.name}</Typography>
             </div>
-            <Link className="center" href={`${routes.league}/${league.id}`}>
+            <Link className="center" href={`/${routes.league}/${league.id}`}>
               <ChevronForwardIcon size={24} />
             </Link>
           </div>

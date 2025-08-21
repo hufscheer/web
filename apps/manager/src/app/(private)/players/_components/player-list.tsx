@@ -69,7 +69,7 @@ export const PlayerList = ({ edit }: Props) => {
                   </span>
                 </AlertDialog>
               ) : (
-                <Link className="center" href={`${routes.player}/${player.playerId}`}>
+                <Link className="center" href={`/${routes.player}/${player.playerId}`}>
                   <ChevronForwardIcon size={24} />
                 </Link>
               )}

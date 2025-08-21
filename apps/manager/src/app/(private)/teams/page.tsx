@@ -1,5 +1,5 @@
 import { AddIcon } from '@hcc/icons';
-import { Button, Typography } from '@hcc/ui';
+import { Button, Spinner, Typography } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 import Link from 'next/link';
 import { Header } from '~/components/layout';
@@ -29,7 +29,14 @@ const Page = async ({ searchParams }: Props) => {
       <Header title="참가 팀 관리" menu={<TeamEditMenu edit={edit} />} arrow />
 
       <div className="column h-full overflow-hidden bg-white px-5">
-        <Suspense clientOnly>
+        <Suspense
+          fallback={
+            <div className="center p-5">
+              <Spinner size="lg" color="neutral" />
+            </div>
+          }
+          clientOnly
+        >
           <TeamList />
         </Suspense>
 

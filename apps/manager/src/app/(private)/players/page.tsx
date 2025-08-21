@@ -9,7 +9,7 @@ import { PlayerList } from './_components/player-list';
 const PlayerEditMenu = ({ edit }: { edit: boolean }) => {
   return (
     <Typography color="var(--color-neutral-500)" weight="semibold" asChild>
-      <Link href={`${routes.player}?edit=${edit ? 'false' : 'true'}`} replace>
+      <Link href={`/${routes.player}?edit=${edit ? 'false' : 'true'}`} replace>
         {edit ? '완료' : '편집'}
       </Link>
     </Typography>
