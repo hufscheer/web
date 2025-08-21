@@ -37,7 +37,7 @@ const Page = async ({ searchParams }: Props) => {
           }
           clientOnly
         >
-          <TeamList />
+          <TeamList edit={edit} />
         </Suspense>
 
         <div className="fixed bottom-5 w-full max-w-[calc(var(--app-max-width)-40px)] gap-0.5">

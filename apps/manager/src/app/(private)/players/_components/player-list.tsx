@@ -46,15 +46,22 @@ export const PlayerList = ({ edit }: Props) => {
           .map(player => (
             <div
               key={player.playerId}
-              className="row-between rounded-lg border border-neutral-100 px-4 py-2.5"
+              className="row-between rounded-lg border border-neutral-100 px-4 py-3"
             >
-              <div>
-                <Typography weight="medium">
+              <div className="column gap-1.5">
+                <Typography weight="medium" lineHeight="none">
                   {player.name} ({player.studentNumber})
                 </Typography>
-                <Typography color="var(--color-neutral-500)" fontSize={12} weight="medium">
-                  {player.teams.map(team => team.name).join(', ')}
-                </Typography>
+                {player.teams && player.teams.length > 0 && (
+                  <Typography
+                    color="var(--color-neutral-500)"
+                    fontSize={12}
+                    weight="medium"
+                    lineHeight="none"
+                  >
+                    {player.teams.map(team => team.name).join(', ')}
+                  </Typography>
+                )}
               </div>
 
               {edit ? (
