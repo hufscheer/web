@@ -35,6 +35,10 @@ const teamQueryKeys = createQueryKeys('teams', {
     queryKey: null,
     queryFn: () => fetcher.get<TeamType[]>('teams'),
   },
+  detail: (payload: { id: number }) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<TeamType>(`teams/${payload.id}`),
+  }),
 });
 
 export const queryKeys = mergeQueryKeys(leagueQueryKeys, playerQueryKeys, teamQueryKeys);

@@ -1,5 +1,5 @@
 import { Typography } from '@hcc/ui';
-import { Suspense } from '@suspensive/react';
+import { ErrorBoundary, Suspense } from '@suspensive/react';
 import Link from 'next/link';
 import { Header } from '~/components/layout';
 import { routes } from '~/constants/routes';
@@ -18,9 +18,11 @@ const Page = () => {
       <Header menu={<LeagueMenu />} />
 
       <div className="column-between h-full w-full overflow-hidden">
-        <Suspense fallback={<div />} clientOnly>
-          <MatchOverview />
-        </Suspense>
+        <ErrorBoundary fallback={<div />}>
+          <Suspense fallback={<div />} clientOnly>
+            <MatchOverview />
+          </Suspense>
+        </ErrorBoundary>
 
         <BottomMenu />
       </div>

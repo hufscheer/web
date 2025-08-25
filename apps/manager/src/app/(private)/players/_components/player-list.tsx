@@ -1,12 +1,12 @@
 'use client';
 
 import { ChevronForwardIcon, DeleteForeverIcon } from '@hcc/icons';
-import { Typography, toast } from '@hcc/ui';
+import { Typography } from '@hcc/ui';
 import Link from 'next/link';
 import { Fragment, useState } from 'react';
-import { useDeletePlayers, useSuspensePlayers } from '~/api';
-import { AlertDialog } from '~/components/ui/alert-dialog';
+import { useSuspensePlayers } from '~/api';
 import { routes } from '~/constants/routes';
+import { PlayerDeleteDialog } from './player-delete-dialog';
 
 type Props = {
   edit: boolean;
@@ -15,18 +15,6 @@ type Props = {
 export const PlayerList = ({ edit }: Props) => {
   const { data } = useSuspensePlayers();
   const [query, setQuery] = useState<string>('');
-
-  const { mutateAsync } = useDeletePlayers();
-
-  const handlePlayerDelete = async (id: number): Promise<void> => {
-    try {
-      await mutateAsync({ id });
-      toast.success('선수가 삭제되었어요.');
-    } catch (error) {
-      console.error(error);
-      toast.error('선수 삭제에 실패했어요.');
-    }
-  };
 
   return (
     <Fragment>
@@ -65,16 +53,11 @@ export const PlayerList = ({ edit }: Props) => {
               </div>
 
               {edit ? (
-                <AlertDialog
-                  title="삭제한 선수는 다시 복구할 수 없어요"
-                  description="정말 삭제할까요?"
-                  primaryTitle="삭제"
-                  onPrimaryClick={() => handlePlayerDelete(player.playerId)}
-                >
+                <PlayerDeleteDialog id={player.playerId}>
                   <span className="cursor-pointer text-[var(--color-danger-600)]">
                     <DeleteForeverIcon size={24} />
                   </span>
-                </AlertDialog>
+                </PlayerDeleteDialog>
               ) : (
                 <Link className="center" href={`/${routes.player}/${player.playerId}`}>
                   <ChevronForwardIcon size={24} />

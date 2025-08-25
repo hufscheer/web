@@ -2,7 +2,7 @@ import { fetcher, useMutation, useQueryClient } from '@hcc/api-base';
 import type { TeamType } from '~/api';
 import { queryKeys } from '~/api/queryKey';
 
-type TeamPlayerType = {
+export type TeamPlayerType = {
   playerId: number;
   jerseyNumber: number;
 };

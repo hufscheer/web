@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useSuspenseTeams } from '~/api';
 import { routes } from '~/constants/routes';
+import { TeamDeleteDialog } from './team-delete-dialog';
 
 type Props = {
   edit: boolean;
@@ -45,9 +46,11 @@ export const TeamList = ({ edit }: Props) => {
           </div>
 
           {edit ? (
-            <span className="cursor-pointer text-[var(--color-danger-600)]">
-              <DeleteForeverIcon size={24} />
-            </span>
+            <TeamDeleteDialog id={team.id}>
+              <span className="cursor-pointer text-[var(--color-danger-600)]">
+                <DeleteForeverIcon size={24} />
+              </span>
+            </TeamDeleteDialog>
           ) : (
             <Link className="center" href={`/${routes.team}/${team.id}`}>
               <ChevronForwardIcon size={24} />

@@ -32,10 +32,6 @@ export const PlayerForm = ({ className, onSubmit, initialData, ...props }: Props
       .map(error => error?.message)
       .filter(Boolean);
 
-    if (messages.length === 0) {
-      return;
-    }
-
     const [first, ...rest] = messages;
     const suffix = rest.length > 0 ? ` (외 ${rest.length}개의 오류)` : '';
 

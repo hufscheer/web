@@ -13,13 +13,13 @@ export const GameCardRoot = ({ children }: PropsWithChildren) => {
 
 type GameCardProps = {
   leagueId: string;
-} & Pick<GameType, 'id' | 'gameQuarter' | 'startTime'>;
+} & Pick<GameType, 'id' | 'state' | 'startTime'>;
 
-const GameHeader = ({ leagueId, id: gameId, gameQuarter, startTime }: GameCardProps) => {
+const GameHeader = ({ leagueId, id: gameId, state, startTime }: GameCardProps) => {
   return (
     <div className="row-between">
       <Badge size="sm" variant="danger">
-        {gameQuarter} &middot;
+        {state}
       </Badge>
       <Typography className="center-y" color="var(--color-neutral-500)" fontSize={14} asChild>
         <Link href={`/${routes.league}/${leagueId}/${gameId}`}>
