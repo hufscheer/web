@@ -55,12 +55,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 
     return (
       <div className={clsx(styles.wrapper, className)} style={style}>
-        <select
-          ref={ref}
-          className={styles.select}
-          defaultValue={props.defaultValue ?? ''}
-          {...props}
-        >
+        <select ref={ref} className={styles.select} {...props}>
           {placeholder && (
             <option value="" disabled>
               {placeholder}

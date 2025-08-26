@@ -15,7 +15,7 @@ export const PlayerForm = ({ className, onSubmit, initialData, ...props }: Props
     handleSubmit,
     formState: { isValid, isSubmitting },
   } = useForm<PlayerFormType>({
-    defaultValues: initialData,
+    defaultValues: { name: '', studentNumber: '', ...initialData },
     mode: 'onChange',
   });
 
@@ -81,7 +81,7 @@ export const PlayerForm = ({ className, onSubmit, initialData, ...props }: Props
       </div>
 
       <Button
-        className="mt-6"
+        className="mt-6 w-full"
         size="lg"
         color="black"
         type="submit"

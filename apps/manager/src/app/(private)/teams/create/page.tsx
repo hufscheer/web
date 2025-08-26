@@ -6,7 +6,7 @@ const Page = () => {
     <>
       <Header title="참가 팀 생성" arrow />
 
-      <div className="column-between h-full overflow-hidden p-6">
+      <div className="column-between h-full overflow-hidden">
         <FormSection />
       </div>
     </>

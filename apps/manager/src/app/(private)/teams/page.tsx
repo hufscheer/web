@@ -28,7 +28,7 @@ const Page = async ({ searchParams }: Props) => {
     <>
       <Header title="참가 팀 관리" menu={<TeamEditMenu edit={edit} />} arrow />
 
-      <div className="column h-full overflow-hidden bg-white px-5">
+      <div className="column h-full overflow-hidden bg-white">
         <Suspense
           fallback={
             <div className="center p-5">
@@ -40,7 +40,7 @@ const Page = async ({ searchParams }: Props) => {
           <TeamList edit={edit} />
         </Suspense>
 
-        <div className="fixed bottom-5 w-full max-w-[calc(var(--app-max-width)-40px)] gap-0.5">
+        <div className="fixed bottom-5 ml-5 w-full max-w-[calc(var(--app-max-width)-40px)] gap-0.5">
           <Button className="w-full" variant="subtle" color="black" size="lg" asChild>
             <Link href={`/${routes.team_create}`}>
               <AddIcon className="mr-0.5" size={24} /> 새로운 팀 추가
