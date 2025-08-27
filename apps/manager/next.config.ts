@@ -16,10 +16,22 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'images.hufscheer.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'hufstreaming.s3.ap-northeast-2.amazonaws.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'github.com',
+      },
     ],
   },
   async rewrites() {
     return [
+      {
+        source: '/api/images/:path*',
+        destination: 'https://hufscheer-image.s3.ap-northeast-2.amazonaws.com/:path*',
+      },
       {
         source: '/api/:path*',
         destination: 'https://api.hufscheer.com/:path*',

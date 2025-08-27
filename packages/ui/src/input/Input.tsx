@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type ComponentProps, type CSSProperties, forwardRef } from 'react';
+import { type ComponentProps, type CSSProperties, forwardRef, useId } from 'react';
 import { match } from 'ts-pattern';
 import {
   colors,
@@ -21,7 +21,7 @@ export interface InputProps extends Omit<ComponentProps<'input'>, 'size'> {
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
-      id,
+      id: _id,
       className,
       children,
       placeholder,
@@ -34,6 +34,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     },
     ref,
   ) => {
+    const generatedId = useId();
+    const id = _id ?? generatedId;
     const isLabelVisible = size === 'lg' || size === 'xl';
 
     const style = {

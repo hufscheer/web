@@ -1,10 +1,11 @@
-export const ROUTES = {
-  HOME: '/',
-  LOGIN: '/auth/login',
+export const routes = {
+  home: '',
+  login: 'auth/login',
 
-  LEAGUE: '/leagues',
-  PLAYER: '/players',
-  PLAYER_CREATE: '/players/create',
+  league: 'leagues',
+  player: 'players',
+  player_create: 'players/create',
 
-  TEAM: '/teams',
-};
+  team: 'teams',
+  team_create: 'teams/create',
+} as const;

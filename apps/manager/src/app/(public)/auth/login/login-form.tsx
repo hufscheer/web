@@ -1,0 +1,64 @@
+'use client';
+
+import { Button, Input, toast } from '@hcc/ui';
+import { useRouter } from 'next/navigation';
+import { type FormEvent, useId } from 'react';
+import { useLogin } from '~/api';
+import { routes } from '~/constants/routes';
+
+export const LoginForm = () => {
+  const router = useRouter();
+  const { mutate, isPending } = useLogin();
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
+    mutate(
+      { email, password },
+      {
+        onSuccess: () => {
+          router.push(`/${routes.home}`);
+        },
+        onError: error => {
+          console.error(`[hcc] ${error}`);
+          toast.error('아이디 또는 비밀번호 오류');
+        },
+      },
+    );
+  };
+
+  return (
+    <form className="column w-full" onSubmit={handleSubmit}>
+      <Input
+        id={useId()}
+        name="email"
+        size="xl"
+        type="email"
+        placeholder="이메일"
+        autoComplete="email"
+      />
+      <Input
+        id={useId()}
+        name="password"
+        className="mt-4"
+        size="xl"
+        type="password"
+        placeholder="비밀번호"
+        autoComplete="current-password"
+      />
+      <Button
+        type="submit"
+        className="mt-6"
+        size="xl"
+        color="black"
+        variant="solid"
+        loading={isPending}
+      >
+        로그인
+      </Button>
+    </form>
+  );
+};

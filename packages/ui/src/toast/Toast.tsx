@@ -7,7 +7,7 @@ import styles from './Toast.module.css';
 export const Toaster = () => {
   return (
     <BaseToaster
-      position="top-center"
+      position="bottom-center"
       toastOptions={{
         className: styles.toast,
         style: {

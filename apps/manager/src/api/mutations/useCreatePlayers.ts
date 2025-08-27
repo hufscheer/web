@@ -9,12 +9,12 @@ export const postPlayers = (request: PlayerFormType) => {
 };
 
 export const useCreatePlayers = () => {
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
 
   return useMutation({
     mutationFn: postPlayers,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.players._def });
+      await qc.invalidateQueries({ queryKey: queryKeys.players._def });
     },
   });
 };
