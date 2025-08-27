@@ -1,4 +1,4 @@
-import type { TeamPlayerType } from '../mutations/useCreateTeams';
+import type { TeamPlayerType } from '~/api';
 
 export type TeamType = {
   id: number;
@@ -15,4 +15,8 @@ export type GameTeamType = {
   logoImageUrl: string;
   score: number;
   pkScore: number;
+};
+
+export type TeamDetailPayload = {
+  id: number;
 };

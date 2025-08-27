@@ -24,7 +24,7 @@ export const TeamList = ({ edit }: Props) => {
               <Image
                 src={team.logoImageUrl}
                 alt={`${team.name} logo`}
-                sizes="100vw"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 draggable={false}
                 priority
                 fill
