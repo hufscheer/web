@@ -81,11 +81,7 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
               />
             </div>
 
-            <button
-              type="button"
-              className="shrink-0 cursor-pointer"
-              onClick={() => remove(Number(field.id))}
-            >
+            <button type="button" className="shrink-0 cursor-pointer" onClick={() => remove(index)}>
               <CancelIcon className="text-[var(--color-danger-600)]" size={20} />
             </button>
           </div>
