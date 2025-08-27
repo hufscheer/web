@@ -20,6 +20,7 @@
     "@hcc/api-base": "workspace:*",
     "@hcc/icons": "workspace:*",
     "@hcc/style": "workspace:*",
+    "@hcc/ui": "workspace:*",
     "@vercel/analytics": "^1.5.0",
     "next": "^15.5.0",
     "react": "^19.1.1",

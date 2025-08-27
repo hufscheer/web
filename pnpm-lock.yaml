@@ -108,6 +108,9 @@ importers:
       '@hcc/style':
         specifier: workspace:*
         version: link:../../packages/style
+      '@hcc/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@vercel/analytics':
         specifier: ^1.5.0
         version: 1.5.0(next@15.5.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1)
