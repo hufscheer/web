@@ -1,4 +1,5 @@
 import { toast } from '@hcc/ui';
+import { Suspense } from '@suspensive/react';
 import type { ComponentProps } from 'react';
 import { useState } from 'react';
 import { type FieldErrors, FormProvider, useForm } from 'react-hook-form';
@@ -69,7 +70,11 @@ export const TeamForm = ({ className, onSubmit, initialData, ...props }: Props) 
           value={step}
           caseBy={{
             0: <TeamBasicInfoStep onNext={() => (step === 0 ? setStep(1) : undefined)} />,
-            1: <TeamPlayersStep onPrevious={() => (step === 1 ? setStep(0) : undefined)} />,
+            1: (
+              <Suspense fallback={<div>로딩중...</div>} clientOnly>
+                <TeamPlayersStep onPrevious={() => (step === 1 ? setStep(0) : undefined)} />
+              </Suspense>
+            ),
           }}
         />
       </form>

@@ -20,7 +20,7 @@ export const PlayerList = ({ edit }: Props) => {
     <Fragment>
       <Typography asChild>
         <input
-          className="my-4 w-full rounded-lg border border-neutral-100 px-2.5 py-1.5"
+          className="my-4 w-full rounded-lg border border-neutral-100 px-3 py-2.5"
           placeholder="선수 검색"
           value={query}
           onChange={e => setQuery(e.target.value)}

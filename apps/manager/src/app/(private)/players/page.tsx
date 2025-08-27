@@ -2,6 +2,7 @@ import { AddIcon } from '@hcc/icons';
 import { Button, Spinner, Typography } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 import Link from 'next/link';
+import { Fragment } from 'react';
 import { Header } from '~/components/layout';
 import { routes } from '~/constants/routes';
 import { PlayerList } from './_components/player-list';
@@ -25,7 +26,7 @@ const Page = async ({ searchParams }: Props) => {
   const edit = _edit === 'true';
 
   return (
-    <>
+    <Fragment>
       <Header title="선수 관리" menu={<PlayerEditMenu edit={edit} />} arrow />
 
       <div className="column h-full overflow-hidden bg-white px-5">
@@ -48,7 +49,7 @@ const Page = async ({ searchParams }: Props) => {
           </Button>
         </div>
       </div>
-    </>
+    </Fragment>
   );
 };
 

@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type ComponentProps, type CSSProperties, forwardRef } from 'react';
+import { type ComponentProps, type CSSProperties, forwardRef, useId } from 'react';
 import { match } from 'ts-pattern';
 import {
   colors,
@@ -24,7 +24,7 @@ export interface SelectProps extends Omit<ComponentProps<'select'>, 'size'> {
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   (
     {
-      id,
+      id: _id,
       className,
       children,
       placeholder,
@@ -37,6 +37,8 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     },
     ref,
   ) => {
+    const generatedId = useId();
+    const id = _id ?? generatedId;
     const isLabelVisible = size === 'lg' || size === 'xl';
 
     const style = {
@@ -49,15 +51,15 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       '--hcc-select-line-height': lineHeightToken[lineHeight],
       '--hcc-select-border-radius': '8px',
       '--hcc-select-outline': `1px solid ${colors.neutral100}`,
-      '--hcc-select-padding-top': isLabelVisible ? getSelectPaddingTop(size) : '0px',
-      '--hcc-select-label-top': isLabelVisible ? getLabelTop(size) : '0px',
+      '--hcc-select-padding-top': isLabelVisible ? `${getSelectPaddingTop(size)}px` : '0px',
+      '--hcc-select-label-top': isLabelVisible ? `${getLabelTop(size)}px` : '0px',
     } as CSSProperties;
 
     return (
       <div className={clsx(styles.wrapper, className)} style={style}>
         <select ref={ref} className={styles.select} {...props}>
           {placeholder && (
-            <option value="" disabled>
+            <option value="" hidden>
               {placeholder}
             </option>
           )}
@@ -103,13 +105,13 @@ const getFontSize = (size: SelectSize) =>
 const getSelectPaddingTop = (size: SelectSize) =>
   match(size)
     .with('xs', 'sm', 'md', () => 0)
-    .with('lg', () => 10)
+    .with('lg', () => 18)
     .with('xl', () => 18)
     .exhaustive();
 
 const getLabelTop = (size: SelectSize) =>
   match(size)
     .with('xs', 'sm', 'md', () => 0)
-    .with('lg', () => 5)
-    .with('xl', () => 9)
+    .with('lg', () => 6)
+    .with('xl', () => 10)
     .exhaustive();

@@ -7,7 +7,8 @@ export type TeamPlayerType = {
   jerseyNumber: number;
 };
 
-export type TeamFormType = Pick<TeamType, 'name' | 'logoImageUrl' | 'unit' | 'teamColor'> & {
+export type TeamFormType = Pick<TeamType, 'name' | 'unit' | 'teamColor'> & {
+  logoImageUrl: string | File;
   teamPlayers: TeamPlayerType[];
 };
 

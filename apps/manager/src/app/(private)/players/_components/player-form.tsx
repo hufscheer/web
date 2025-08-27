@@ -50,7 +50,7 @@ export const PlayerForm = ({ className, onSubmit, initialData, ...props }: Props
         <Input
           size="lg"
           placeholder="이름"
-          {...register('name', { required: '이름을 입력해주세요.' })}
+          {...register('name', { required: '이름은 필수 입력값이에요.' })}
         />
         <Input
           size="lg"
@@ -58,8 +58,8 @@ export const PlayerForm = ({ className, onSubmit, initialData, ...props }: Props
           maxLength={9}
           {...register('studentNumber', {
             required: '학번을 입력해주세요.',
-            minLength: { value: 9, message: '학번은 9자리여야 합니다.' },
-            maxLength: { value: 9, message: '학번은 9자리여야 합니다.' },
+            minLength: { value: 9, message: '학번을 9자리로 입력해주세요.' },
+            maxLength: { value: 9, message: '학번을 9자리로 입력해주세요.' },
             pattern: {
               value: /^\d+$/,
               message: '학번은 숫자만 입력해주세요.',
