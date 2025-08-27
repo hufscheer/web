@@ -1,4 +1,7 @@
-import type { TeamPlayerType } from '~/api';
+export type TeamPlayerType = {
+  playerId: number;
+  jerseyNumber: number;
+};
 
 export type TeamType = {
   id: number;

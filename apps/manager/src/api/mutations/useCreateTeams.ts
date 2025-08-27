@@ -2,14 +2,8 @@ import { fetcher, useMutation, useQueryClient } from '@hcc/api-base';
 import type { TeamType } from '~/api';
 import { queryKeys } from '~/api/queryKey';
 
-export type TeamPlayerType = {
-  playerId: number;
-  jerseyNumber: number;
-};
-
-export type TeamFormType = Pick<TeamType, 'name' | 'unit' | 'teamColor'> & {
+export type TeamFormType = Pick<TeamType, 'name' | 'unit' | 'teamColor' | 'teamPlayers'> & {
   logoImageUrl: string | File;
-  teamPlayers: TeamPlayerType[];
 };
 
 export const postTeams = (request: TeamFormType) => {
