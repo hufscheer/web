@@ -29,6 +29,10 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
+        source: '/api/images/:path*',
+        destination: 'https://hufscheer-image.s3.ap-northeast-2.amazonaws.com/:path*',
+      },
+      {
         source: '/api/:path*',
         destination: 'https://api.hufscheer.com/:path*',
       },

@@ -4,15 +4,24 @@ import { toast } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
 import type { TeamFormType } from '~/api';
 import { useCreateTeams } from '~/api';
+import { useImageUpload } from '~/hooks';
 import { TeamForm } from '../_components/team-form';
 
 export function FormSection() {
   const router = useRouter();
   const { mutateAsync: createTeam } = useCreateTeams();
+  const { uploadImage } = useImageUpload();
 
   const handleSubmit = async (data: TeamFormType) => {
     try {
-      await createTeam(data);
+      let imageUrl: string;
+      if (data.logoImageUrl instanceof File) {
+        imageUrl = await uploadImage(data.logoImageUrl);
+      } else {
+        imageUrl = data.logoImageUrl;
+      }
+
+      await createTeam({ ...data, logoImageUrl: imageUrl });
       toast.success('팀이 성공적으로 생성되었습니다!');
       router.back();
     } catch (error) {

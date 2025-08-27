@@ -27,7 +27,17 @@ export const instance = ky.create({
 });
 
 export async function resultify<T>(response: ResponsePromise) {
-  return await response.json<T>();
+  const res = await response;
+
+  if (res.status === 204) {
+    return undefined as unknown as T;
+  }
+
+  const ct = res.headers.get('content-type') ?? '';
+  if (ct.includes('application/json') || ct.includes('+json')) {
+    return res.json<T>();
+  }
+  return (await res.text()) as unknown as T;
 }
 
 export const fetcher = {
