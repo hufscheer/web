@@ -1,4 +1,7 @@
+'use client';
+
 import * as Tabs from '@radix-ui/react-tabs';
+import { useRouter, useSearchParams } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { twMerge } from 'tailwind-merge';
 
@@ -9,6 +12,15 @@ interface TabTriggerProps {
 }
 
 export const TabTrigger = ({ value, children, className }: TabTriggerProps) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const handleTabChange = () => {
+    const params = new URLSearchParams(searchParams);
+    params.set('tab', value);
+    router.replace(`?${params.toString()}`);
+  };
+
   return (
     <Tabs.Trigger
       className={twMerge(
@@ -18,6 +30,7 @@ export const TabTrigger = ({ value, children, className }: TabTriggerProps) => {
         className,
       )}
       value={value}
+      onClick={handleTabChange}
     >
       {children}
     </Tabs.Trigger>
