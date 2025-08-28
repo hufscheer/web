@@ -1,3 +1,4 @@
+import '@hcc/ui/styles.css';
 import '~/styles/globals.css';
 
 import { Analytics } from '@vercel/analytics/next';
@@ -8,13 +9,13 @@ import { Pretendard } from './_fonts';
 import { Provider } from './provider';
 
 export const metadata: Metadata = {
-  title: '훕치치',
+  title: { default: '훕치치', template: '%s | 훕치치' },
   description: '한국외대 스포츠 플랫폼 훕치치',
 };
 
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
-    <html lang="ko">
+    <html dir="ltr" lang="ko">
       <body className={Pretendard.className}>
         <Provider>
           <Layout>{children}</Layout>
