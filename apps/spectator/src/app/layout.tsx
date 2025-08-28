@@ -1,10 +1,11 @@
+import '~/styles/globals.css';
+
 import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from 'next';
 import type { PropsWithChildren } from 'react';
 import { Layout } from '~/components/layout';
 import { Pretendard } from './_fonts';
 import { Provider } from './provider';
-import '~/styles/globals.css';
 
 export const metadata: Metadata = {
   title: '훕치치',

@@ -1,4 +1,4 @@
-export const ROUTES = {
-  HOME: '/',
-  CALENDAR: '/calendar',
+export const routes = {
+  home: '',
+  calendar: 'calendar',
 };
