@@ -36,12 +36,12 @@
   "dependencies": {
     "@tanstack/react-query": "^5.85.5",
     "@tanstack/react-query-devtools": "^5.85.5",
-    "ky": "^1.9.0"
+    "ky": "^1.9.1"
   },
   "devDependencies": {
     "@hcc/typescript-config": "workspace:*",
-    "@types/react": "^19.1.11",
-    "@types/react-dom": "^19.1.7",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
     "esbuild": "^0.25.9",
     "typescript": "^5.9.2"
   }
