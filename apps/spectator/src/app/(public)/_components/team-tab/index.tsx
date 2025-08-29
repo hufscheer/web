@@ -10,7 +10,7 @@ export const TeamTab = () => {
   const { data } = useSuspenseTeams({ units: selected });
 
   return (
-    <>
+    <div className="column h-full">
       <TeamFilter />
 
       <div className="flex-1 overflow-y-auto">
@@ -30,6 +30,6 @@ export const TeamTab = () => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };

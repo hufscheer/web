@@ -3,32 +3,25 @@ import { startTransition } from 'react';
 import { TEAM_UNIT_LIST, type TeamUnitType } from '~/api';
 
 export const useTeamUnits = () => {
-  const [selected, setSelected] = useQueryState(
-    'units',
-    parseAsArrayOf(parseAsString).withDefault([]),
-  );
+  const [units, setUnits] = useQueryState('units', parseAsArrayOf(parseAsString).withDefault([]));
 
   const toggle = (unit: TeamUnitType) => {
-    const filteredSelected = selected.filter(unit =>
-      TEAM_UNIT_LIST.includes(unit as TeamUnitType),
+    const activeUnits = units.filter(u =>
+      TEAM_UNIT_LIST.includes(u as TeamUnitType),
     ) as TeamUnitType[];
 
-    const isSelected = filteredSelected.includes(unit);
-    const updated = isSelected
-      ? filteredSelected.filter(u => u !== unit)
-      : [...filteredSelected, unit];
+    const isActive = activeUnits.includes(unit);
+    const updated = isActive ? activeUnits.filter(u => u !== unit) : [...activeUnits, unit];
 
     startTransition(() => {
-      setSelected(updated, { scroll: false, history: 'replace' });
+      setUnits(updated, { scroll: false, history: 'replace' });
     });
   };
 
-  const clear = () => setSelected([], { scroll: false, history: 'replace' });
+  const clear = () => setUnits([], { scroll: false, history: 'replace' });
 
   return {
-    selected: selected.filter(unit =>
-      TEAM_UNIT_LIST.includes(unit as TeamUnitType),
-    ) as TeamUnitType[],
+    selected: units.filter(u => TEAM_UNIT_LIST.includes(u as TeamUnitType)) as TeamUnitType[],
     toggle,
     clear,
   };

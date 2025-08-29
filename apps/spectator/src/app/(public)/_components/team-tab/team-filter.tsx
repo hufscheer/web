@@ -7,30 +7,30 @@ import { TEAM_UNIT_LIST } from '~/api';
 import { useTeamUnits } from './useTeamUnits';
 
 export const TeamFilter = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const scrollerRef = useRef<Conveyer | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const conveyerRef = useRef<Conveyer | null>(null);
   const { selected, toggle } = useTeamUnits();
 
   useEffect(() => {
-    if (!scrollRef.current) {
+    if (!containerRef.current) {
       return;
     }
 
-    scrollerRef.current = new Conveyer(scrollRef.current, {
+    conveyerRef.current = new Conveyer(containerRef.current, {
       horizontal: true,
     });
 
-    return () => scrollerRef.current?.destroy();
+    return () => conveyerRef.current?.destroy();
   }, []);
 
-  const units = [...TEAM_UNIT_LIST].sort((a, b) => {
-    const isASelected = selected.includes(a);
-    const isBSelected = selected.includes(b);
+  const sortedUnits = [...TEAM_UNIT_LIST].sort((a, b) => {
+    const aSelected = selected.includes(a);
+    const bSelected = selected.includes(b);
 
-    if (isASelected && !isBSelected) {
+    if (aSelected && !bSelected) {
       return -1;
     }
-    if (!isASelected && isBSelected) {
+    if (!aSelected && bSelected) {
       return 1;
     }
     return 0;
@@ -38,25 +38,31 @@ export const TeamFilter = () => {
 
   return (
     <div className="my-3">
-      <div ref={scrollRef} className="flex overflow-hidden">
+      <div ref={containerRef} className="flex overflow-hidden">
         <div className="flex gap-2 px-5">
-          {units.map(unit => {
-            const isSelected = selected.includes(unit);
+          {sortedUnits.map((unit, idx) => {
+            const isActive = selected.includes(unit);
+            const prevUnit = sortedUnits[idx - 1];
+            const wasPrevActive = prevUnit ? selected.includes(prevUnit) : false;
+            const showDivider = idx > 0 && wasPrevActive && !isActive;
+
             return (
-              <button
-                key={unit}
-                type="button"
-                onClick={() => toggle(unit)}
-                className={twMerge(
-                  'shrink-0 rounded-full px-4 py-2 font-medium text-sm transition-colors',
-                  'border border-gray-200 hover:border-gray-300',
-                  isSelected
-                    ? 'border-blue-500 bg-blue-500 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50',
-                )}
-              >
-                {unit}
-              </button>
+              <div key={unit} className="flex shrink-0 items-center gap-2">
+                {showDivider && <div className="h-8 w-px bg-neutral-100" aria-hidden="true" />}
+                <button
+                  type="button"
+                  onClick={() => toggle(unit)}
+                  className={twMerge(
+                    'shrink-0 rounded-full px-4 py-2 font-medium text-sm transition-colors',
+                    'border border-gray-200 hover:border-gray-300',
+                    isActive
+                      ? 'border-blue-500 bg-blue-500 text-white'
+                      : 'bg-white text-gray-700 hover:bg-gray-50',
+                  )}
+                >
+                  {unit}
+                </button>
+              </div>
             );
           })}
         </div>
