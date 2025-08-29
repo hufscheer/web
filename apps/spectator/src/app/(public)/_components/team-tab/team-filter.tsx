@@ -12,9 +12,7 @@ export const TeamFilter = () => {
   const { selected, toggle } = useTeamUnits();
 
   useEffect(() => {
-    if (!containerRef.current) {
-      return;
-    }
+    if (!containerRef.current) return;
 
     conveyerRef.current = new Conveyer(containerRef.current, {
       horizontal: true,
@@ -27,12 +25,8 @@ export const TeamFilter = () => {
     const aSelected = selected.includes(a);
     const bSelected = selected.includes(b);
 
-    if (aSelected && !bSelected) {
-      return -1;
-    }
-    if (!aSelected && bSelected) {
-      return 1;
-    }
+    if (aSelected && !bSelected) return -1;
+    if (!aSelected && bSelected) return 1;
     return 0;
   });
 

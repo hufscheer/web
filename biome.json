@@ -47,7 +47,7 @@
         "noUselessElse": "error",
         "useArrayLiterals": "error",
         "useAsConstAssertion": "error",
-        "useBlockStatements": "error",
+        "useBlockStatements": "off",
         "useConst": "error",
         "useDefaultParameterLast": "error",
         "useEnumInitializers": "error",
