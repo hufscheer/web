@@ -3,7 +3,7 @@
 import Conveyer from '@egjs/conveyer';
 import { useEffect, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { TEAM_UNIT_LIST } from '~/api';
+import { TEAM_UNIT_LIST, type TeamUnitType } from '~/api';
 import { useTeamUnits } from './useTeamUnits';
 
 export const TeamFilter = () => {
@@ -21,9 +21,15 @@ export const TeamFilter = () => {
     return () => conveyerRef.current?.destroy();
   }, []);
 
-  const sortedUnits = [...TEAM_UNIT_LIST].sort((a, b) => {
-    const aSelected = selected.includes(a);
-    const bSelected = selected.includes(b);
+  const isEmpty = selected.length === 0;
+  const allUnits = ['전체', ...TEAM_UNIT_LIST];
+
+  const sortedUnits = [...allUnits].sort((a, b) => {
+    if (a === '전체') return isEmpty ? -1 : 1;
+    if (b === '전체') return isEmpty ? 1 : -1;
+
+    const aSelected = selected.includes(a as TeamUnitType);
+    const bSelected = selected.includes(b as TeamUnitType);
 
     if (aSelected && !bSelected) return -1;
     if (!aSelected && bSelected) return 1;
@@ -33,25 +39,30 @@ export const TeamFilter = () => {
   return (
     <div className="my-3">
       <div ref={containerRef} className="flex overflow-hidden">
-        <div className="flex gap-2 px-5">
+        <div className="flex gap-2 [&>*:first-child]:ml-5 [&>*:last-child]:mr-5">
           {sortedUnits.map((unit, idx) => {
-            const isActive = selected.includes(unit);
+            const isAll = unit === '전체';
+            const isActive = isAll ? isEmpty : selected.includes(unit as TeamUnitType);
+
             const prevUnit = sortedUnits[idx - 1];
-            const wasPrevActive = prevUnit ? selected.includes(prevUnit) : false;
+            const wasPrevAll = prevUnit === '전체';
+            const wasPrevActive = wasPrevAll
+              ? isEmpty
+              : selected.includes(prevUnit as TeamUnitType);
+
             const showDivider = idx > 0 && wasPrevActive && !isActive;
 
             return (
               <div key={unit} className="flex shrink-0 items-center gap-2">
-                {showDivider && <div className="h-8 w-px bg-neutral-100" aria-hidden="true" />}
+                {showDivider && <div className="h-6 w-px bg-neutral-100" aria-hidden="true" />}
                 <button
                   type="button"
-                  onClick={() => toggle(unit)}
+                  onClick={() => toggle(isAll ? null : (unit as TeamUnitType))}
                   className={twMerge(
-                    'shrink-0 rounded-full px-4 py-2 font-medium text-sm transition-colors',
-                    'border border-gray-200 hover:border-gray-300',
+                    'shrink-0 cursor-pointer rounded-lg px-2 py-1.5 font-medium text-sm transition-colors',
                     isActive
-                      ? 'border-blue-500 bg-blue-500 text-white'
-                      : 'bg-white text-gray-700 hover:bg-gray-50',
+                      ? 'bg-[var(--color-primary-100)] text-[var(--color-primary-600)] hover:bg-[var(--color-primary-200)]'
+                      : 'bg-neutral-100 text-neutral-400 hover:bg-neutral-200',
                   )}
                 >
                   {unit}
