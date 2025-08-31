@@ -1,6 +1,7 @@
 'use client';
 
 import Conveyer from '@egjs/conveyer';
+import { CheckSmallIcon } from '@hcc/icons';
 import { useEffect, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { TEAM_UNIT_LIST, type TeamUnitType } from '~/api';
@@ -59,12 +60,13 @@ export const TeamFilter = () => {
                   type="button"
                   onClick={() => toggle(isAll ? null : (unit as TeamUnitType))}
                   className={twMerge(
-                    'shrink-0 cursor-pointer rounded-lg px-2 py-1.5 font-medium text-sm transition-colors',
+                    'center shrink-0 cursor-pointer gap-0.5 rounded-lg px-2 py-1.5 font-medium text-sm transition-colors',
                     isActive
                       ? 'bg-[var(--color-primary-100)] text-[var(--color-primary-600)] hover:bg-[var(--color-primary-200)]'
                       : 'bg-neutral-100 text-neutral-400 hover:bg-neutral-200',
                   )}
                 >
+                  {isActive && <CheckSmallIcon />}
                   {unit}
                 </button>
               </div>

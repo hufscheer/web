@@ -7,8 +7,8 @@ export const useTeamUnits = () => {
 
   const toggle = (unit: TeamUnitType | null) => {
     if (unit === null) {
-      startTransition(() => {
-        setUnits([], { scroll: false, history: 'replace' });
+      startTransition(async () => {
+        await setUnits([], { scroll: false, history: 'replace' });
       });
       return;
     }
@@ -20,8 +20,8 @@ export const useTeamUnits = () => {
     const isActive = activeUnits.includes(unit);
     const updated = isActive ? activeUnits.filter(u => u !== unit) : [...activeUnits, unit];
 
-    startTransition(() => {
-      setUnits(updated, { scroll: false, history: 'replace' });
+    startTransition(async () => {
+      await setUnits(updated, { scroll: false, history: 'replace' });
     });
   };
 
