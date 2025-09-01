@@ -7,8 +7,8 @@ export const RecentTab = () => {
 
   return (
     <div>
-      {data.map(game => (
-        <div key={game.id}>{game.gameName}</div>
+      {data.map(league => (
+        <div key={league.leagueId}>{league.leagueName}</div>
       ))}
     </div>
   );

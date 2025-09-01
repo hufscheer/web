@@ -14,7 +14,7 @@ import type {
 const gameQueryKeys = createQueryKeys('games', {
   list: (payload: GameListPayload) => ({
     queryKey: [payload],
-    queryFn: () => fetcher.get<GameListResponse>('games', { searchParams: payload }),
+    queryFn: () => fetcher.get<GameListResponse[]>('games', { searchParams: payload }),
   }),
 });
 

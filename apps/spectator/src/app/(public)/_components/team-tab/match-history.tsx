@@ -1,7 +1,6 @@
 import { colors, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import Link from 'next/link';
-import { twMerge } from 'tailwind-merge';
 import { useSuspenseTeamGames } from '~/api';
 import { routes } from '~/constants/routes';
 
@@ -14,7 +13,7 @@ export const MatchHistory = ({ teamId, teamName }: Props) => {
   const { data } = useSuspenseTeamGames({ id: teamId });
 
   return (
-    <div className="column mt-1.5 gap-1">
+    <div className="column mt-1.5 gap-1.5">
       {data.slice(0, 3).map(game => {
         if (game.gameTeams.length < 2) return null;
 
