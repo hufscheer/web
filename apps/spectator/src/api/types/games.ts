@@ -27,8 +27,12 @@ export type GameListPayload = {
   round?: number;
 };
 
+export type GameListType = {
+  id: number;
+} & GameData;
+
 export type GameListResponse = {
   leagueId: number;
   leagueName: string;
-  games: ({ id: number } & GameData)[];
+  games: GameListType[];
 };

@@ -7,4 +7,7 @@ export const routes = {
 
   games: 'games',
   game: (id: number) => `games/${id}`,
+
+  leagues: 'leagues',
+  league: (id: number) => `leagues/${id}`,
 };

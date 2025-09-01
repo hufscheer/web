@@ -14,7 +14,7 @@ export const TeamTab = () => {
     <div className="column h-full">
       <TeamFilter />
 
-      <div className="column flex-1 gap-3 overflow-y-auto px-5">
+      <div className="column mb-5 flex-1 gap-3 overflow-y-auto px-5">
         {data.map(team => (
           <ErrorBoundary key={team.id} fallback={null}>
             <Suspense clientOnly>

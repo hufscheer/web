@@ -14,7 +14,7 @@ type Props = {
 
 export const TeamCard = ({ team }: Props) => {
   return (
-    <div className="column mb-5 gap-3 rounded-lg border border-gray-100 p-4">
+    <div className="column gap-3 rounded-lg border border-gray-100 p-4">
       <div className="row-between gap-3">
         <div className="center-y gap-3">
           {team.logoImageUrl && (
