@@ -1,7 +1,6 @@
 import type { GameTeamType } from '~/api';
 
-export type GameType = {
-  gameId: number;
+type GameData = {
   startTime: string;
   gameQuarter: string;
   gameName: string;
@@ -13,6 +12,10 @@ export type GameType = {
   leagueName: string;
 };
 
+export type GameType = {
+  gameId: number;
+} & GameData;
+
 export type GameStateType = 'SCHEDULED' | 'PLAYING' | 'FINISHED';
 
 export type GameListPayload = {
@@ -22,4 +25,10 @@ export type GameListPayload = {
   size?: number;
   league_team_id?: number;
   round?: number;
+};
+
+export type GameListResponse = {
+  leagueId: number;
+  leagueName: string;
+  games: ({ id: number } & GameData)[];
 };
