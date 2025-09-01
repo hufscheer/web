@@ -114,6 +114,9 @@ importers:
       '@hcc/style':
         specifier: workspace:*
         version: link:../../packages/style
+      '@hcc/toolkit':
+        specifier: workspace:*
+        version: link:../../packages/toolkit
       '@hcc/ui':
         specifier: workspace:*
         version: link:../../packages/ui

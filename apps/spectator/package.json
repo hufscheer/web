@@ -19,6 +19,7 @@
     "@bprogress/next": "^3.2.12",
     "@egjs/conveyer": "^1.8.0",
     "@hcc/api-base": "workspace:*",
+    "@hcc/toolkit": "workspace:*",
     "@hcc/icons": "workspace:*",
     "@hcc/style": "workspace:*",
     "@hcc/ui": "workspace:*",
