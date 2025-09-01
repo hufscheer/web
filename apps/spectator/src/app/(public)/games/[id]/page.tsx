@@ -1,5 +1,4 @@
 import { redirect } from 'next/navigation';
-import { CalendarMenu } from '~/app/(public)/_components/calendar-menu';
 import { Header } from '~/components/layout';
 import { routes } from '~/constants/routes';
 

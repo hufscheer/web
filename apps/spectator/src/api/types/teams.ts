@@ -38,3 +38,48 @@ export type GameTeamType = {
   score: number;
   pkScore: number;
 };
+
+export type TeamDetailPayload = {
+  id: number;
+};
+
+export type TeamPlayerType = {
+  playerId: number;
+  teamPlayerId: number;
+  name: string;
+  studentNumber: string;
+  totalGoalCount: number;
+};
+
+export type TopScorerType = {
+  playerId: number;
+  admissionYear: string;
+  rank: number;
+  playerName: string;
+  totalGoals: number;
+};
+
+export type TrophyResultType = '우승' | '준우승';
+
+export type TrophyType = {
+  leagueId: number;
+  leagueName: string;
+  trophyType: TrophyResultType;
+};
+
+export type TeamDetailType = {
+  name: string;
+  logoImageUrl: string;
+  unit: string;
+  teamColor: string;
+  teamPlayers: TeamPlayerType[];
+  winCount: number;
+  drawCount: number;
+  loseCount: number;
+  topScorers: TopScorerType[];
+  trophies: TrophyType[];
+};
+
+export type TeamGamesPayload = {
+  id: number;
+};

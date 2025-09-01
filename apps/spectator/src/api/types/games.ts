@@ -1,7 +1,7 @@
-import type { GameTeamType } from './teams';
+import type { GameTeamType } from '~/api';
 
 export type GameType = {
-  id: number;
+  gameId: number;
   startTime: string;
   gameQuarter: string;
   gameName: string;
@@ -9,11 +9,15 @@ export type GameType = {
   videoId: string;
   gameTeams: GameTeamType[];
   isPkTaken: boolean;
+  leagueId: number;
+  leagueName: string;
 };
+
+export type GameStateType = 'SCHEDULED' | 'PLAYING' | 'FINISHED';
 
 export type GameListPayload = {
   league_id?: number;
-  state?: 'SCHEDULED' | 'PLAYING' | 'FINISHED';
+  state?: GameStateType;
   cursor?: number;
   size?: number;
   league_team_id?: number;
