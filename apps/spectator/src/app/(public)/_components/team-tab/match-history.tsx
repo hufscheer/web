@@ -13,7 +13,7 @@ export const MatchHistory = ({ teamId, teamName }: Props) => {
   const { data } = useSuspenseTeamGames({ id: teamId });
 
   return (
-    <div className="column mt-1.5 gap-1.5">
+    <div className="column mt-2 gap-1.5">
       {data.slice(0, 3).map(game => {
         if (game.gameTeams.length < 2) return null;
 

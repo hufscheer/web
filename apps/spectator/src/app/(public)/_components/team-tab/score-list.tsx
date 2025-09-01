@@ -9,10 +9,10 @@ export const ScoreList = ({ teamId }: Props) => {
   const { data } = useSuspenseTeam({ id: teamId });
 
   return (
-    <div className="column mt-1.5 gap-1">
+    <div className="column mt-2 gap-1">
       {data.topScorers.slice(0, 3).map(player => (
         <div key={player.playerId} className="row-between">
-          <Typography color={colors.neutral500} fontSize={13} weight="medium">
+          <Typography color={colors.neutral700} fontSize={13} weight="medium">
             {player.playerName}
           </Typography>
           <Typography color={colors.neutral500} fontSize={13} weight="medium">
