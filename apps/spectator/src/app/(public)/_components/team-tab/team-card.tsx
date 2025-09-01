@@ -1,12 +1,12 @@
 import { ChevronForwardIcon } from '@hcc/icons';
 import { Typography } from '@hcc/ui';
-import { Suspense } from '@suspensive/react';
+import { ErrorBoundary, Suspense } from '@suspensive/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { TeamType } from '~/api';
-import { MatchHistory } from '~/app/(public)/_components/team-tab/match-history';
-import { ScoreList } from '~/app/(public)/_components/team-tab/score-list';
 import { routes } from '~/constants/routes';
+import { MatchHistory } from './match-history';
+import { ScoreList } from './score-list';
 
 type Props = {
   team: TeamType;
@@ -43,17 +43,21 @@ export const TeamCard = ({ team }: Props) => {
           <Typography fontSize={14} weight="medium">
             🙋‍♂️ 득점왕
           </Typography>
-          <Suspense clientOnly>
-            <ScoreList teamId={team.id} />
-          </Suspense>
+          <ErrorBoundary fallback={null}>
+            <Suspense clientOnly>
+              <ScoreList teamId={team.id} />
+            </Suspense>
+          </ErrorBoundary>
         </div>
         <div>
           <Typography fontSize={14} weight="medium">
             💥 최근 경기
           </Typography>
-          <Suspense clientOnly>
-            <MatchHistory teamId={team.id} teamName={team.name} />
-          </Suspense>
+          <ErrorBoundary fallback={null}>
+            <Suspense clientOnly>
+              <MatchHistory teamId={team.id} teamName={team.name} />
+            </Suspense>
+          </ErrorBoundary>
         </div>
       </div>
     </div>
