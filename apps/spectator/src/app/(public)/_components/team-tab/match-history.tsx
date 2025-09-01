@@ -1,6 +1,7 @@
 import { colors, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import Link from 'next/link';
+import { twMerge } from 'tailwind-merge';
 import { useSuspenseTeamGames } from '~/api';
 import { routes } from '~/constants/routes';
 
@@ -42,7 +43,13 @@ export const MatchHistory = ({ teamId, teamName }: Props) => {
 
               <Typography
                 className="min-w-9 text-center"
-                color={colors.neutral500}
+                color={
+                  home.score > away.score
+                    ? colors.primary600
+                    : home.score < away.score
+                      ? colors.danger600
+                      : colors.neutral500
+                }
                 fontSize={13}
                 weight="medium"
               >
