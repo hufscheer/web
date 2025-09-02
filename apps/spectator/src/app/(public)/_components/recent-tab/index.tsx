@@ -8,10 +8,10 @@ import { routes } from '~/constants/routes';
 import { GameCard } from './game-card';
 
 export const RecentTab = () => {
-  const { data } = useSuspenseGames({ state: 'FINISHED' });
+  const { data } = useSuspenseGames({ state: 'FINISHED', size: 100 });
 
   return (
-    <div className="column flex-1 gap-3 overflow-y-auto p-5">
+    <div className="column h-full gap-3 overflow-y-auto p-5">
       {data.map(league => (
         <div key={league.leagueId} className="column gap-3 rounded-lg border border-gray-100 p-4">
           <div className="row-between gap-3">

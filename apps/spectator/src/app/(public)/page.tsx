@@ -41,7 +41,7 @@ const Page = async ({ searchParams }: PageProps) => {
             <PreviousTab />
           </Suspense>
         </Tabs.Content>
-        <Tabs.Content value="recent">
+        <Tabs.Content className="flex-1 overflow-hidden" value="recent">
           <Suspense clientOnly>
             <RecentTab />
           </Suspense>
