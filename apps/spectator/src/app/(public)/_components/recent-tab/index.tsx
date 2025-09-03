@@ -3,12 +3,13 @@
 import { ChevronForwardIcon } from '@hcc/icons';
 import { Typography } from '@hcc/ui';
 import Link from 'next/link';
+import { Fragment } from 'react';
 import { useSuspenseGames } from '~/api';
 import { routes } from '~/constants/routes';
 import { GameCard } from './game-card';
 
 export const RecentTab = () => {
-  const { data } = useSuspenseGames({ state: 'FINISHED', size: 100 });
+  const { data } = useSuspenseGames({ state: 'PLAYING', size: 10 });
 
   return (
     <div className="column h-full gap-3 overflow-y-auto p-5">
@@ -27,9 +28,20 @@ export const RecentTab = () => {
             </Link>
           </div>
 
-          {league.games.map(game => (
-            <GameCard key={game.id} game={game} />
-          ))}
+          <hr className="h-px w-full border-none bg-gray-100" />
+
+          {league.games.map((game, index) => {
+            if (game.gameTeams.length < 2) return null;
+
+            return (
+              <Fragment key={game.id}>
+                <GameCard game={game} />
+                {index !== league.games.length - 1 && (
+                  <hr className="h-px w-full border-none bg-gray-100" />
+                )}
+              </Fragment>
+            );
+          })}
         </div>
       ))}
     </div>
