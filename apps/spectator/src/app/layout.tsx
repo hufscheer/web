@@ -1,9 +1,9 @@
 import '@hcc/ui/styles.css';
 import '~/styles/globals.css';
 
-import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from 'next';
 import type { PropsWithChildren } from 'react';
+import { AnalyticsProvider } from '~/app/analytics';
 import { Layout } from '~/components/layout';
 import { Pretendard } from './_fonts';
 import { Provider } from './provider';
@@ -20,7 +20,8 @@ const RootLayout = ({ children }: PropsWithChildren) => {
         <Provider>
           <Layout>{children}</Layout>
         </Provider>
-        <Analytics />
+
+        <AnalyticsProvider />
       </body>
     </html>
   );
