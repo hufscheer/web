@@ -4,6 +4,8 @@ import type {
   GameListPayload,
   GameListResponse,
   GameType,
+  LeagueListPayload,
+  LeagueType,
   TeamDetailPayload,
   TeamDetailType,
   TeamGamesPayload,
@@ -26,10 +28,7 @@ const teamQueryKeys = createQueryKeys('teams', {
 
       if (payload.units) {
         const units = Array.isArray(payload.units) ? payload.units : [payload.units];
-
-        units.forEach(u => {
-          params.append('units', u);
-        });
+        units.forEach(u => params.append('units', u));
       }
 
       return fetcher.get<TeamType[]>('teams', { searchParams: params });
@@ -47,4 +46,11 @@ const teamQueryKeys = createQueryKeys('teams', {
   }),
 });
 
-export const queryKeys = mergeQueryKeys(gameQueryKeys, teamQueryKeys);
+const leagueQueryKeys = createQueryKeys('leagues', {
+  list: (payload: LeagueListPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<LeagueType[]>('leagues', { searchParams: payload }),
+  }),
+});
+
+export const queryKeys = mergeQueryKeys(gameQueryKeys, teamQueryKeys, leagueQueryKeys);

@@ -9,10 +9,10 @@ import type { GameListResponse, GameListType, GameTeamType } from '~/api';
 import { routes } from '~/constants/routes';
 
 /* -------------------------------------------------------------------------------------------------
- * LeagueCard
+ * GameCard
  * -----------------------------------------------------------------------------------------------*/
 
-const LeagueCardRoot = ({ children, className, ...props }: ComponentProps<'div'>) => {
+const GameCardRoot = ({ children, className, ...props }: ComponentProps<'div'>) => {
   return (
     <div
       className={twMerge('column gap-3 rounded-lg border border-gray-100 p-4', className)}
@@ -24,14 +24,14 @@ const LeagueCardRoot = ({ children, className, ...props }: ComponentProps<'div'>
 };
 
 /* -------------------------------------------------------------------------------------------------
- * LeagueCard.Title
+ * GameCard.League
  * -----------------------------------------------------------------------------------------------*/
 
-interface LeagueCardTitleProps extends ComponentProps<'div'> {
+interface GameCardLeagueProps extends ComponentProps<'div'> {
   league: GameListResponse;
 }
 
-const LeagueCardTitle = ({ league, className, ...props }: LeagueCardTitleProps) => {
+const GameCardLeague = ({ league, className, ...props }: GameCardLeagueProps) => {
   return (
     <div className={twMerge('row-between gap-3', className)} {...props}>
       <div className="center-y gap-3">
@@ -49,10 +49,10 @@ const LeagueCardTitle = ({ league, className, ...props }: LeagueCardTitleProps) 
 };
 
 /* -------------------------------------------------------------------------------------------------
- * LeagueCard.Game
+ * GameCard.Container
  * -----------------------------------------------------------------------------------------------*/
 
-const LeagueCardGame = ({ children, className, ...props }: ComponentProps<'div'>) => {
+const GameCardContainer = ({ children, className, ...props }: ComponentProps<'div'>) => {
   return (
     <div className={twMerge('column', className)} {...props}>
       {children}
@@ -61,14 +61,14 @@ const LeagueCardGame = ({ children, className, ...props }: ComponentProps<'div'>
 };
 
 /* -------------------------------------------------------------------------------------------------
- * LeagueCard.GameHeader
+ * GameCard.Header
  * -----------------------------------------------------------------------------------------------*/
 
-interface LeagueCardGameHeaderProps extends ComponentProps<'div'> {
+interface GameCardHeaderProps extends ComponentProps<'div'> {
   game: GameListType;
 }
 
-const LeagueCardGameHeader = ({ game, className, ...props }: LeagueCardGameHeaderProps) => {
+const GameCardHeader = ({ game, className, ...props }: GameCardHeaderProps) => {
   return (
     <div className={twMerge('row-between', className)} {...props}>
       <Typography color={colors.neutral500} fontSize={13} weight="medium">
@@ -82,15 +82,15 @@ const LeagueCardGameHeader = ({ game, className, ...props }: LeagueCardGameHeade
 };
 
 /* -------------------------------------------------------------------------------------------------
- * LeagueCard.GameTeam
+ * GameCard.Team
  * -----------------------------------------------------------------------------------------------*/
 
-interface LeagueCardGameTeamProps extends ComponentProps<'div'> {
+interface GameCardTeamProps extends ComponentProps<'div'> {
   team: GameTeamType;
   position: 'home' | 'away';
 }
 
-const LeagueCardGameTeam = ({ team, position, className, ...props }: LeagueCardGameTeamProps) => {
+const GameCardTeam = ({ team, position, className, ...props }: GameCardTeamProps) => {
   const isHome = position === 'home';
 
   return (
@@ -137,14 +137,14 @@ const LeagueCardGameTeam = ({ team, position, className, ...props }: LeagueCardG
 };
 
 /* -------------------------------------------------------------------------------------------------
- * LeagueCard.GameScore
+ * GameCard.Score
  * -----------------------------------------------------------------------------------------------*/
 
-interface LeagueCardGameScoreProps extends ComponentProps<'div'> {
+interface GameCardScoreProps extends ComponentProps<'div'> {
   game: GameListType;
 }
 
-const LeagueCardGameScore = ({ game, className, ...props }: LeagueCardGameScoreProps) => {
+const GameCardScore = ({ game, className, ...props }: GameCardScoreProps) => {
   if (game.gameTeams.length < 2) return null;
 
   const home = game.gameTeams[0];
@@ -160,20 +160,20 @@ const LeagueCardGameScore = ({ game, className, ...props }: LeagueCardGameScoreP
 };
 
 /* -------------------------------------------------------------------------------------------------
- * LeagueCard.GameActions
+ * GameCard.Actions
  * -----------------------------------------------------------------------------------------------*/
 
-interface LeagueCardGameActionsProps extends ComponentProps<'div'> {
+interface GameCardActionsProps extends ComponentProps<'div'> {
   onBroadcastClick?: () => void;
   onCheerClick?: () => void;
 }
 
-const LeagueCardGameActions = ({
+const GameCardActions = ({
   onBroadcastClick,
   onCheerClick,
   className,
   ...props
-}: LeagueCardGameActionsProps) => {
+}: GameCardActionsProps) => {
   return (
     <div className={twMerge('center-y mt-2 gap-2 self-center', className)} {...props}>
       <Button
@@ -199,21 +199,21 @@ const LeagueCardGameActions = ({
 };
 
 /* -------------------------------------------------------------------------------------------------
- * LeagueCard.Divider
+ * GameCard.Divider
  * -----------------------------------------------------------------------------------------------*/
 
-const LeagueCardDivider = ({ className, ...props }: ComponentProps<'hr'>) => {
+const GameCardDivider = ({ className, ...props }: ComponentProps<'hr'>) => {
   return <hr className={twMerge('h-px w-full border-none bg-gray-100', className)} {...props} />;
 };
 
 /* -----------------------------------------------------------------------------------------------*/
 
-export const LeagueCard = Object.assign(LeagueCardRoot, {
-  Title: LeagueCardTitle,
-  Game: LeagueCardGame,
-  GameHeader: LeagueCardGameHeader,
-  GameTeam: LeagueCardGameTeam,
-  GameScore: LeagueCardGameScore,
-  GameActions: LeagueCardGameActions,
-  Divider: LeagueCardDivider,
+export const GameCard = Object.assign(GameCardRoot, {
+  League: GameCardLeague,
+  Container: GameCardContainer,
+  Header: GameCardHeader,
+  Team: GameCardTeam,
+  Score: GameCardScore,
+  Actions: GameCardActions,
+  Divider: GameCardDivider,
 });

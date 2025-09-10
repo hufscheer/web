@@ -17,32 +17,28 @@ export const TeamTab = () => {
 
       <div className="column mb-5 flex-1 gap-3 overflow-y-auto px-5">
         {data.map(team => (
-          <ErrorBoundary key={team.id} fallback={null}>
-            <Suspense clientOnly>
-              <TeamCard>
-                <TeamCard.Header team={team} />
-                <TeamCard.Divider />
+          <TeamCard key={team.id}>
+            <TeamCard.Header team={team} />
+            <TeamCard.Divider />
 
-                <TeamCard.Content>
-                  <TeamCard.Section title="득점왕" icon="🙋‍♂️">
-                    <ErrorBoundary fallback={null}>
-                      <Suspense clientOnly>
-                        <ScoreList teamId={team.id} />
-                      </Suspense>
-                    </ErrorBoundary>
-                  </TeamCard.Section>
+            <TeamCard.Content>
+              <TeamCard.Section title="득점왕" icon="🙋‍♂️">
+                <ErrorBoundary fallback={null}>
+                  <Suspense clientOnly>
+                    <ScoreList teamId={team.id} />
+                  </Suspense>
+                </ErrorBoundary>
+              </TeamCard.Section>
 
-                  <TeamCard.Section title="최근 경기" icon="💥">
-                    <ErrorBoundary fallback={null}>
-                      <Suspense clientOnly>
-                        <MatchHistory teamId={team.id} teamName={team.name} />
-                      </Suspense>
-                    </ErrorBoundary>
-                  </TeamCard.Section>
-                </TeamCard.Content>
-              </TeamCard>
-            </Suspense>
-          </ErrorBoundary>
+              <TeamCard.Section title="최근 경기" icon="💥">
+                <ErrorBoundary fallback={null}>
+                  <Suspense clientOnly>
+                    <MatchHistory teamId={team.id} teamName={team.name} />
+                  </Suspense>
+                </ErrorBoundary>
+              </TeamCard.Section>
+            </TeamCard.Content>
+          </TeamCard>
         ))}
       </div>
     </div>

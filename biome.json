@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.3/schema.json",
   "files": {
     "ignoreUnknown": false,
     "includes": ["**/*.ts", "**/*.tsx", "**/*.json", "**/*.js", "!**/*.spec.ts", "!**/*.test.ts"],
@@ -37,7 +37,8 @@
       },
       "suspicious": {
         "noArrayIndexKey": "info",
-        "noExplicitAny": "info"
+        "noExplicitAny": "info",
+        "useIterableCallbackReturn": "off"
       },
       "style": {
         "noInferrableTypes": "error",
