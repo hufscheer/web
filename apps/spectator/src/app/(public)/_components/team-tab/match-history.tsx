@@ -4,17 +4,18 @@ import Link from 'next/link';
 import { useSuspenseTeamGames } from '~/api';
 import { routes } from '~/constants/routes';
 
-type Props = {
+interface MatchHistoryProps {
   teamId: number;
   teamName: string;
-};
+  limit?: number;
+}
 
-export const MatchHistory = ({ teamId, teamName }: Props) => {
+export const MatchHistory = ({ teamId, teamName, limit = 3 }: MatchHistoryProps) => {
   const { data } = useSuspenseTeamGames({ id: teamId });
 
   return (
     <div className="column mt-2 gap-1.5">
-      {data.slice(0, 3).map(game => {
+      {data.slice(0, limit).map(game => {
         if (game.gameTeams.length < 2) return null;
 
         const [home, away] =

@@ -1,16 +1,17 @@
 import { colors, Typography } from '@hcc/ui';
 import { useSuspenseTeam } from '~/api';
 
-type Props = {
+interface ScoreListProps {
   teamId: number;
-};
+  limit?: number;
+}
 
-export const ScoreList = ({ teamId }: Props) => {
+export const ScoreList = ({ teamId, limit = 3 }: ScoreListProps) => {
   const { data } = useSuspenseTeam({ id: teamId });
 
   return (
     <div className="column mt-2 gap-1">
-      {data.topScorers.slice(0, 3).map(player => (
+      {data.topScorers.slice(0, limit).map(player => (
         <div key={player.playerId} className="row-between">
           <Typography color={colors.neutral700} fontSize={13} weight="medium">
             {player.playerName}
