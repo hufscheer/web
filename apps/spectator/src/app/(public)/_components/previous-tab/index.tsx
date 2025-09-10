@@ -2,9 +2,8 @@
 
 import { parseAsInteger, useQueryState } from 'nuqs';
 import { useSuspenseLeagues } from '~/api';
-import { GameCard } from '../recent-tab/game-card';
+import { LeagueCard } from './league-card';
 import { YearFilter } from './year-filter';
-import { LeagueCard } from '~/app/(public)/_components/previous-tab/league-card';
 
 export const PreviousTab = () => {
   const current = new Date().getFullYear();
