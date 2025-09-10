@@ -11,11 +11,7 @@ export const TeamFilter = () => {
 
   useEffect(() => {
     if (!containerRef.current) return;
-
-    conveyerRef.current = new Conveyer(containerRef.current, {
-      horizontal: true,
-    });
-
+    conveyerRef.current = new Conveyer(containerRef.current, { horizontal: true });
     return () => conveyerRef.current?.destroy();
   }, []);
 

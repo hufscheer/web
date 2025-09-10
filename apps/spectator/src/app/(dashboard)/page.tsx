@@ -9,11 +9,14 @@ import { TabTrigger } from './_components/tab-trigger';
 import { TeamTab } from './_components/team-tab';
 
 interface Props {
-  searchParams: Promise<{ tab?: string }>;
+  searchParams: Promise<{
+    tab?: string;
+    year: string;
+  }>;
 }
 
 const Page = async ({ searchParams }: Props) => {
-  const { tab } = await searchParams;
+  const { tab, year: _year } = await searchParams;
 
   const validTabs = ['previous', 'recent', 'team'];
   const currentTab = validTabs.includes(tab || '') ? tab : 'recent';
@@ -21,6 +24,8 @@ const Page = async ({ searchParams }: Props) => {
   if (tab && !validTabs.includes(tab)) {
     redirect('?tab=recent');
   }
+
+  const year = _year ? Number(_year) : new Date().getFullYear();
 
   return (
     <>
@@ -38,7 +43,7 @@ const Page = async ({ searchParams }: Props) => {
 
         <Tabs.Content value="previous">
           <Suspense clientOnly>
-            <PreviousTab />
+            <PreviousTab year={year} />
           </Suspense>
         </Tabs.Content>
         <Tabs.Content className="flex-1 overflow-hidden" value="recent">
