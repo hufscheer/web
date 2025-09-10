@@ -5,8 +5,7 @@ import { useSuspenseTeams } from '~/api';
 import { MatchHistory } from './match-history';
 import { ScoreList } from './score-list';
 import { TeamCard } from './team-card';
-import { TeamFilter } from './team-filter';
-import { useTeamUnits } from './useTeamUnits';
+import { TeamFilter, useTeamUnits } from './team-filter';
 
 export const TeamTab = () => {
   const { selected } = useTeamUnits();

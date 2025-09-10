@@ -1,10 +1,7 @@
-'use client';
-
 import Conveyer from '@egjs/conveyer';
-import { CheckSmallIcon } from '@hcc/icons';
 import { useEffect, useRef } from 'react';
-import { twMerge } from 'tailwind-merge';
 import { TEAM_UNIT_LIST, type TeamUnitType } from '~/api';
+import { FilterBadge } from '~/components/ui';
 import { useTeamUnits } from './useTeamUnits';
 
 export const TeamFilter = () => {
@@ -56,19 +53,12 @@ export const TeamFilter = () => {
             return (
               <div key={unit} className="flex shrink-0 items-center gap-2">
                 {showDivider && <div className="h-6 w-px bg-neutral-100" aria-hidden="true" />}
-                <button
-                  type="button"
+                <FilterBadge
+                  isActive={isActive}
                   onClick={() => toggle(isAll ? null : (unit as TeamUnitType))}
-                  className={twMerge(
-                    'center shrink-0 cursor-pointer gap-0.5 rounded-lg px-2 py-1.5 font-medium text-sm transition-colors',
-                    isActive
-                      ? 'bg-[var(--color-primary-100)] text-[var(--color-primary-600)] hover:bg-[var(--color-primary-200)]'
-                      : 'bg-neutral-100 text-neutral-400 hover:bg-neutral-200',
-                  )}
                 >
-                  {isActive && <CheckSmallIcon />}
                   {unit}
-                </button>
+                </FilterBadge>
               </div>
             );
           })}
@@ -77,3 +67,5 @@ export const TeamFilter = () => {
     </div>
   );
 };
+
+export * from './useTeamUnits';
