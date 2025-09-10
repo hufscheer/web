@@ -13,7 +13,7 @@ export const RecentTab = () => {
         <LeagueCard key={league.leagueId}>
           <LeagueCard.Title league={league} />
 
-          <hr className="h-px w-full border-none bg-gray-100" />
+          <LeagueCard.Divider />
 
           {league.games.map((game, index) => {
             if (game.gameTeams.length < 2) return null;
@@ -31,9 +31,7 @@ export const RecentTab = () => {
 
                   <LeagueCard.GameActions />
                 </LeagueCard.Game>
-                {index !== league.games.length - 1 && (
-                  <hr className="h-px w-full border-none bg-gray-100" />
-                )}
+                {index !== league.games.length - 1 && <LeagueCard.Divider />}
               </Fragment>
             );
           })}

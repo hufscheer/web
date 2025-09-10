@@ -198,6 +198,14 @@ const LeagueCardGameActions = ({
   );
 };
 
+/* -------------------------------------------------------------------------------------------------
+ * LeagueCard.Divider
+ * -----------------------------------------------------------------------------------------------*/
+
+const LeagueCardDivider = ({ className, ...props }: ComponentProps<'hr'>) => {
+  return <hr className={twMerge('h-px w-full border-none bg-gray-100', className)} {...props} />;
+};
+
 /* -----------------------------------------------------------------------------------------------*/
 
 export const LeagueCard = Object.assign(LeagueCardRoot, {
@@ -207,4 +215,5 @@ export const LeagueCard = Object.assign(LeagueCardRoot, {
   GameTeam: LeagueCardGameTeam,
   GameScore: LeagueCardGameScore,
   GameActions: LeagueCardGameActions,
+  Divider: LeagueCardDivider,
 });
