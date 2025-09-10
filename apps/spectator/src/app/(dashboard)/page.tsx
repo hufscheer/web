@@ -8,11 +8,11 @@ import { RecentTab } from './_components/recent-tab';
 import { TabTrigger } from './_components/tab-trigger';
 import { TeamTab } from './_components/team-tab';
 
-interface PageProps {
+interface Props {
   searchParams: Promise<{ tab?: string }>;
 }
 
-const Page = async ({ searchParams }: PageProps) => {
+const Page = async ({ searchParams }: Props) => {
   const { tab } = await searchParams;
 
   const validTabs = ['previous', 'recent', 'team'];
