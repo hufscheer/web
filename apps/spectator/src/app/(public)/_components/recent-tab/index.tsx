@@ -1,32 +1,17 @@
 'use client';
 
-import { ChevronForwardIcon } from '@hcc/icons';
-import { Typography } from '@hcc/ui';
-import Link from 'next/link';
 import { Fragment } from 'react';
 import { useSuspenseGames } from '~/api';
-import { routes } from '~/constants/routes';
-import { GameCard } from './game-card';
+import { LeagueCard } from './league-card';
 
 export const RecentTab = () => {
-  const { data } = useSuspenseGames({ state: 'PLAYING', size: 10 });
+  const { data } = useSuspenseGames({ state: 'FINISHED', size: 20 });
 
   return (
     <div className="column h-full gap-3 overflow-y-auto p-5">
       {data.map(league => (
-        <div key={league.leagueId} className="column gap-3 rounded-lg border border-gray-100 p-4">
-          <div className="row-between gap-3">
-            <div className="center-y gap-3">
-              <div className="center relative h-8 w-8 select-none overflow-hidden rounded-full bg-neutral-200">
-                ⚽
-              </div>
-              <Typography weight="medium">{league.leagueName}</Typography>
-            </div>
-
-            <Link href={`/${routes.league(league.leagueId)}}`} className="center">
-              <ChevronForwardIcon size={24} />
-            </Link>
-          </div>
+        <LeagueCard key={league.leagueId}>
+          <LeagueCard.Title league={league} />
 
           <hr className="h-px w-full border-none bg-gray-100" />
 
@@ -35,14 +20,24 @@ export const RecentTab = () => {
 
             return (
               <Fragment key={game.id}>
-                <GameCard game={game} />
+                <LeagueCard.Game>
+                  <LeagueCard.GameHeader game={game} />
+
+                  <div className="row-between mt-2">
+                    <LeagueCard.GameTeam team={game.gameTeams[0]} position="home" />
+                    <LeagueCard.GameScore game={game} />
+                    <LeagueCard.GameTeam team={game.gameTeams[1]} position="away" />
+                  </div>
+
+                  <LeagueCard.GameActions />
+                </LeagueCard.Game>
                 {index !== league.games.length - 1 && (
                   <hr className="h-px w-full border-none bg-gray-100" />
                 )}
               </Fragment>
             );
           })}
-        </div>
+        </LeagueCard>
       ))}
     </div>
   );
