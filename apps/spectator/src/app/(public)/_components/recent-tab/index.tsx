@@ -12,7 +12,6 @@ export const RecentTab = () => {
       {data.map(league => (
         <LeagueCard key={league.leagueId}>
           <LeagueCard.Title league={league} />
-
           <LeagueCard.Divider />
 
           {league.games.map((game, index) => {
