@@ -1,5 +1,3 @@
-import type { TeamType } from '~/api';
-
 export type LeagueType = {
   leagueId: number;
   name: string;
@@ -15,11 +13,19 @@ export type LeagueListPayload = {
   size: number;
 };
 
+export type StatisticTeamType = {
+  teamId: number;
+  leagueTeamId: number;
+  teamName: string;
+  logoImageUrl: string;
+  sizeOfTeamPlayers: number;
+};
+
 export type LeagueStatisticsType = {
-  firstWinnerTeam: TeamType;
-  secondWinnerTeam: TeamType;
-  mostCheeredTeam: TeamType;
-  mostCheerTalksTeam: TeamType;
+  firstWinnerTeam: StatisticTeamType;
+  secondWinnerTeam: StatisticTeamType;
+  mostCheeredTeam: StatisticTeamType & { cheerCount: number };
+  mostCheerTalksTeam: StatisticTeamType & { cheerTalkCount: number };
 };
 
 export type LeagueStatisticsPayload = {

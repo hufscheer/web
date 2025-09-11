@@ -3,7 +3,7 @@ import { colors, Typography } from '@hcc/ui';
 import Link from 'next/link';
 import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { type LeagueType, useSuspenseLeagueTopScorers } from '~/api';
+import { type LeagueType, useSuspenseLeagueStatistics, useSuspenseLeagueTopScorers } from '~/api';
 import { routes } from '~/constants/routes';
 
 /* -------------------------------------------------------------------------------------------------
@@ -93,7 +93,7 @@ const LeagueCardScorers = ({
                 {scorer.playerName}
               </Typography>
               <Typography
-                className="flex-1"
+                className="flex-1 text-right"
                 fontSize={13}
                 color={colors.neutral500}
                 weight="medium"
@@ -104,6 +104,87 @@ const LeagueCardScorers = ({
           ))}
         </ul>
       )}
+    </div>
+  );
+};
+
+/* -------------------------------------------------------------------------------------------------
+ * LeagueCard.Scorers
+ * -----------------------------------------------------------------------------------------------*/
+
+interface LeagueCardStatisticsProps extends ComponentProps<'div'> {
+  leagueId: number;
+  limit?: number;
+}
+
+const LeagueCardStatistics = ({
+  leagueId,
+  limit = 3,
+  className,
+  ...props
+}: LeagueCardStatisticsProps) => {
+  const { data } = useSuspenseLeagueStatistics({ leagueId });
+
+  return (
+    <div className={twMerge('center-y rounded-md bg-gray-50 p-3', className)} {...props}>
+      <ul className="column w-full gap-1">
+        {data.mostCheeredTeam && (
+          <li className="row-between gap-1">
+            <Typography
+              className="flex-1"
+              fontSize={13}
+              color={colors.neutral500}
+              weight="semibold"
+            >
+              폭풍응원
+            </Typography>
+            <Typography
+              className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap"
+              fontSize={13}
+              color={colors.neutral500}
+              weight="medium"
+            >
+              {data.mostCheeredTeam.teamName}
+            </Typography>
+            <Typography
+              className="flex-1 text-right"
+              fontSize={13}
+              color={colors.neutral500}
+              weight="medium"
+            >
+              {data.mostCheeredTeam.cheerCount ?? 0}회
+            </Typography>
+          </li>
+        )}
+        {data.mostCheerTalksTeam && (
+          <li className="row-between gap-1">
+            <Typography
+              className="flex-1"
+              fontSize={13}
+              color={colors.neutral500}
+              weight="semibold"
+            >
+              댓글폭발
+            </Typography>
+            <Typography
+              className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap"
+              fontSize={13}
+              color={colors.neutral500}
+              weight="medium"
+            >
+              {data.mostCheerTalksTeam.teamName}
+            </Typography>
+            <Typography
+              className="flex-1 text-right"
+              fontSize={13}
+              color={colors.neutral500}
+              weight="medium"
+            >
+              {data.mostCheerTalksTeam.cheerTalkCount ?? 0}회
+            </Typography>
+          </li>
+        )}
+      </ul>
     </div>
   );
 };
@@ -121,5 +202,6 @@ const LeagueCardDivider = ({ className, ...props }: ComponentProps<'hr'>) => {
 export const LeagueCard = Object.assign(LeagueCardRoot, {
   Header: LeagueCardHeader,
   Scorers: LeagueCardScorers,
+  Statistics: LeagueCardStatistics,
   Divider: LeagueCardDivider,
 });

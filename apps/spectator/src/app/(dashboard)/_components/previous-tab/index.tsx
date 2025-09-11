@@ -30,7 +30,11 @@ export const PreviousTab = ({ year }: Props) => {
                 </Suspense>
               </ErrorBoundary>
 
-              <div>폭풍응원 댓글폭발</div>
+              <ErrorBoundary fallback={null}>
+                <Suspense fallback={null} clientOnly>
+                  <LeagueCard.Statistics leagueId={league.leagueId} />
+                </Suspense>
+              </ErrorBoundary>
             </div>
           </LeagueCard>
         ))}
