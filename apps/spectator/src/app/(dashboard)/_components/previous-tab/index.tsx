@@ -1,9 +1,9 @@
 'use client';
 
+import { ErrorBoundary, Suspense } from '@suspensive/react';
 import { useSuspenseLeagues } from '~/api';
 import { LeagueCard } from './league-card';
 import { YearFilter } from './year-filter';
-import { ErrorBoundary, Suspense } from '@suspensive/react';
 
 interface Props {
   year: number;
@@ -22,6 +22,8 @@ export const PreviousTab = ({ year }: Props) => {
             <LeagueCard.Header league={league} />
 
             <LeagueCard.Divider />
+
+            <LeagueCard.Teams leagueId={league.leagueId} />
 
             <div className="grid grid-cols-2 gap-4">
               <ErrorBoundary fallback={null}>

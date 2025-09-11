@@ -1,5 +1,6 @@
 import { ChevronForwardIcon } from '@hcc/icons';
-import { colors, Typography } from '@hcc/ui';
+import { Badge, colors, Typography } from '@hcc/ui';
+import Image from 'next/image';
 import Link from 'next/link';
 import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -42,6 +43,58 @@ const LeagueCardHeader = ({ league, className, ...props }: LeagueCardHeaderProps
       <Link href={`/${routes.league(league.leagueId)}`} className="center">
         <ChevronForwardIcon size={24} />
       </Link>
+    </div>
+  );
+};
+
+/* -------------------------------------------------------------------------------------------------
+ * LeagueCard.Teams
+ * -----------------------------------------------------------------------------------------------*/
+
+interface LeagueCardTeamsProps extends ComponentProps<'div'> {
+  leagueId: number;
+}
+
+const LeagueCardTeams = ({ leagueId, className, ...props }: LeagueCardTeamsProps) => {
+  const { data } = useSuspenseLeagueStatistics({ leagueId });
+
+  return (
+    <div className={twMerge('grid grid-cols-2 gap-4', className)} {...props}>
+      <div className="center-y">
+        <Badge size="sm" variant="primary">
+          우승
+        </Badge>
+        <div className="relative ml-2 h-5 w-5 overflow-hidden rounded-full border border-neutral-100">
+          <Image
+            className="rounded-full object-cover"
+            src={data.firstWinnerTeam.logoImageUrl}
+            alt={`${data.firstWinnerTeam.teamName} 로고`}
+            width={20}
+            height={20}
+          />
+        </div>
+        <Typography className="ml-1" fontSize={14} weight="semibold" lineHeight="none">
+          {data.firstWinnerTeam.teamName}
+        </Typography>
+      </div>
+
+      <div className="center-y">
+        <Badge size="sm" variant="primary">
+          준우승
+        </Badge>
+        <div className="relative ml-2 h-5 w-5 overflow-hidden rounded-full border border-neutral-100">
+          <Image
+            className="rounded-full object-cover"
+            src={data.secondWinnerTeam.logoImageUrl}
+            alt={`${data.secondWinnerTeam.teamName} 로고`}
+            width={20}
+            height={20}
+          />
+        </div>
+        <Typography className="ml-1" fontSize={14} weight="semibold" lineHeight="none">
+          {data.secondWinnerTeam.teamName}
+        </Typography>
+      </div>
     </div>
   );
 };
@@ -201,6 +254,7 @@ const LeagueCardDivider = ({ className, ...props }: ComponentProps<'hr'>) => {
 
 export const LeagueCard = Object.assign(LeagueCardRoot, {
   Header: LeagueCardHeader,
+  Teams: LeagueCardTeams,
   Scorers: LeagueCardScorers,
   Statistics: LeagueCardStatistics,
   Divider: LeagueCardDivider,
