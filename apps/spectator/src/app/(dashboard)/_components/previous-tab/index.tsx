@@ -3,6 +3,7 @@
 import { useSuspenseLeagues } from '~/api';
 import { LeagueCard } from './league-card';
 import { YearFilter } from './year-filter';
+import { ErrorBoundary, Suspense } from '@suspensive/react';
 
 interface Props {
   year: number;
@@ -19,7 +20,18 @@ export const PreviousTab = ({ year }: Props) => {
         {data.map(league => (
           <LeagueCard key={league.leagueId}>
             <LeagueCard.Header league={league} />
+
             <LeagueCard.Divider />
+
+            <div className="grid grid-cols-2 gap-4">
+              <ErrorBoundary fallback={null}>
+                <Suspense fallback={null} clientOnly>
+                  <LeagueCard.Scorers leagueId={league.leagueId} />
+                </Suspense>
+              </ErrorBoundary>
+
+              <div>폭풍응원 댓글폭발</div>
+            </div>
           </LeagueCard>
         ))}
       </div>

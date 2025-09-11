@@ -1,9 +1,9 @@
 import { ChevronForwardIcon } from '@hcc/icons';
-import { Typography } from '@hcc/ui';
+import { colors, Typography } from '@hcc/ui';
 import Link from 'next/link';
 import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
-import type { LeagueType } from '~/api';
+import { type LeagueType, useSuspenseLeagueTopScorers } from '~/api';
 import { routes } from '~/constants/routes';
 
 /* -------------------------------------------------------------------------------------------------
@@ -47,6 +47,68 @@ const LeagueCardHeader = ({ league, className, ...props }: LeagueCardHeaderProps
 };
 
 /* -------------------------------------------------------------------------------------------------
+ * LeagueCard.Scorers
+ * -----------------------------------------------------------------------------------------------*/
+
+interface LeagueCardScorersProps extends ComponentProps<'div'> {
+  leagueId: number;
+  limit?: number;
+}
+
+const LeagueCardScorers = ({
+  leagueId,
+  limit = 3,
+  className,
+  ...props
+}: LeagueCardScorersProps) => {
+  const { data } = useSuspenseLeagueTopScorers({ leagueId });
+
+  return (
+    <div className={twMerge('rounded-md bg-gray-50 p-3', className)} {...props}>
+      <Typography fontSize={14} color={colors.neutral500} weight="semibold">
+        득점왕
+      </Typography>
+      {data.length === 0 ? (
+        <Typography className="mt-2" fontSize={13} color={colors.neutral500} weight="medium">
+          아직 득점 기록이 없어요.
+        </Typography>
+      ) : (
+        <ul className="column mt-2 gap-1">
+          {data.slice(0, limit).map(scorer => (
+            <li key={scorer.playerId} className="row-between">
+              <Typography
+                className="flex-1"
+                fontSize={13}
+                color={colors.neutral500}
+                weight="medium"
+              >
+                #{scorer.ranking}
+              </Typography>
+              <Typography
+                className="flex-1"
+                fontSize={13}
+                color={colors.neutral500}
+                weight="medium"
+              >
+                {scorer.playerName}
+              </Typography>
+              <Typography
+                className="flex-1"
+                fontSize={13}
+                color={colors.neutral500}
+                weight="medium"
+              >
+                {scorer.goalCount}골
+              </Typography>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
+
+/* -------------------------------------------------------------------------------------------------
  * LeagueCard.Divider
  * -----------------------------------------------------------------------------------------------*/
 
@@ -54,7 +116,10 @@ const LeagueCardDivider = ({ className, ...props }: ComponentProps<'hr'>) => {
   return <hr className={twMerge('h-px w-full border-none bg-gray-100', className)} {...props} />;
 };
 
+/* -----------------------------------------------------------------------------------------------*/
+
 export const LeagueCard = Object.assign(LeagueCardRoot, {
   Header: LeagueCardHeader,
+  Scorers: LeagueCardScorers,
   Divider: LeagueCardDivider,
 });

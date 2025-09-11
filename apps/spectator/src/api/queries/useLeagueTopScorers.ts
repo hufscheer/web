@@ -1,5 +1,5 @@
 import { useQuery, useSuspenseQuery } from '@hcc/api-base';
-import type { LeagueStatisticsPayload, LeagueTopScorersPayload } from '~/api';
+import type { LeagueTopScorersPayload } from '~/api';
 import { queryKeys } from '../queryKey';
 
 export const useLeagueTopScorers = (payload: LeagueTopScorersPayload) =>
