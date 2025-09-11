@@ -3,6 +3,8 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { FilterBadge } from '~/components/ui';
 
+const SERVICE_START_YEAR = 2023;
+
 interface Props {
   year: number;
 }
@@ -20,7 +22,10 @@ export const YearFilter = ({ year }: Props) => {
     return () => conveyerRef.current?.destroy();
   }, []);
 
-  const years = Array.from({ length: currentYear - 2023 + 1 }, (_, i) => currentYear - i);
+  const years = Array.from(
+    { length: currentYear - SERVICE_START_YEAR + 1 },
+    (_, i) => currentYear - i,
+  );
 
   const handleSelectYear = (selectedYear: number) => {
     const params = new URLSearchParams(window.location.search);
