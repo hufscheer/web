@@ -8,6 +8,8 @@ import { RecentTab } from './_components/recent-tab';
 import { TabTrigger } from './_components/tab-trigger';
 import { TeamTab } from './_components/team-tab';
 
+const validTabs = ['previous', 'recent', 'team'];
+
 interface Props {
   searchParams: Promise<{
     tab?: string;
@@ -18,7 +20,6 @@ interface Props {
 const Page = async ({ searchParams }: Props) => {
   const { tab, year: _year } = await searchParams;
 
-  const validTabs = ['previous', 'recent', 'team'];
   const currentTab = validTabs.includes(tab || '') ? tab : 'recent';
 
   if (tab && !validTabs.includes(tab)) {
