@@ -1,0 +1,27 @@
+{
+  "name": "@hcc/rollup-config",
+  "version": "1.0.0",
+  "description": "Shared rollup configuration for HUFSCHEER packages",
+  "main": "base.js",
+  "exports": {
+    "./base": "./base.js",
+    "./ui": "./ui.js"
+  },
+  "files": [
+    "base.js",
+    "ui.js"
+  ],
+  "dependencies": {
+    "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "rollup-plugin-dts": "^6.2.3",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-preserve-directives": "^0.4.0"
+  },
+  "peerDependencies": {
+    "rollup": "^4.0.0"
+  }
+}
