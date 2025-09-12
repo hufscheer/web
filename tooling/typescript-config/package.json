@@ -1,5 +1,6 @@
 {
   "name": "@hcc/typescript-config",
+  "description": "Shared TypeScript configuration for HUFSCHEER packages",
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
