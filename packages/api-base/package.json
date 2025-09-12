@@ -30,10 +30,6 @@
   "files": [
     "dist"
   ],
-  "peerDependencies": {
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
-  },
   "dependencies": {
     "@tanstack/react-query": "^5.87.4",
     "@tanstack/react-query-devtools": "^5.87.4",
@@ -46,5 +42,9 @@
     "@types/react-dom": "^19.1.9",
     "rollup": "^4.50.1",
     "typescript": "^5.9.2"
+  },
+  "peerDependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   }
 }
