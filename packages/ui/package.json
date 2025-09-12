@@ -3,9 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "rm -rf dist && node build.js && tsc",
-    "dev": "node build.js --watch",
-    "start": "next start",
+    "prebuild": "rm -rf dist",
+    "build": "rollup -c rollup.config.cjs",
     "lint": "biome lint .",
     "format": "biome format --write ."
   },
@@ -15,35 +14,25 @@
       "biome format --write"
     ]
   },
-  "sideEffects": false,
-  "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "sideEffects": [
+    "*.css"
+  ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.mts",
+        "default": "./dist/esm/index.mjs"
+      }
     },
-    "./styles.css": {
-      "import": "./dist/index.css"
-    }
+    "./styles.css": "./dist/esm/index.css"
   },
   "files": [
     "dist"
   ],
-  "peerDependencies": {
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
-  },
-  "devDependencies": {
-    "@hcc/typescript-config": "workspace:*",
-    "@types/react": "^19.1.12",
-    "@types/react-dom": "^19.1.9",
-    "esbuild": "^0.25.9",
-    "typescript": "^5.9.2"
-  },
   "dependencies": {
     "@hcc/icons": "workspace:*",
     "@radix-ui/react-dialog": "^1.1.15",
@@ -51,5 +40,17 @@
     "clsx": "^2.1.1",
     "sonner": "^2.0.7",
     "ts-pattern": "^5.8.0"
+  },
+  "devDependencies": {
+    "@hcc/typescript-config": "workspace:*",
+    "@hcc/rollup-config": "workspace:*",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "rollup": "^4.50.1",
+    "typescript": "^5.9.2"
+  },
+  "peerDependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   }
 }
