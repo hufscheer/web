@@ -1,3 +1,4 @@
+import { dehydrate, getQueryClient, HydrationBoundary } from '@hcc/api-base';
 import { redirect } from 'next/navigation';
 import { fetchLeague, type LeagueDetailType } from '~/api';
 import { Header } from '~/components/layout';
@@ -9,11 +10,12 @@ type Props = {
 };
 
 const Page = async ({ searchParams, params }: Props) => {
+  const qc = getQueryClient();
+
   const { id: _id } = await params;
   const id = Number(_id);
 
   const { round: _round } = await searchParams;
-
   const league: LeagueDetailType = await fetchLeague({ leagueId: id });
   const round = Number(_round) || league.league.inProgressRound;
 
@@ -24,10 +26,10 @@ const Page = async ({ searchParams, params }: Props) => {
   alert(round);
 
   return (
-    <>
+    <HydrationBoundary state={dehydrate(qc)}>
       <Header arrow />
       <div className="h-full w-full">{id}</div>
-    </>
+    </HydrationBoundary>
   );
 };
 
