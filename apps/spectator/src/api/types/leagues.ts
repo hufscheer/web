@@ -13,6 +13,15 @@ export type LeagueListPayload = {
   size: number;
 };
 
+export type LeagueDetailPayload = {
+  leagueId: number;
+};
+
+export type LeagueDetailType = {
+  leagueId: number;
+  league: LeagueType;
+};
+
 export type StatisticTeamType = {
   teamId: number;
   leagueTeamId: number;

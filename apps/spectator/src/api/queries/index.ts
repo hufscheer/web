@@ -1,4 +1,5 @@
 export * from './useGames';
+export * from './useLeague';
 export * from './useLeagueStatistics';
 export * from './useLeagues';
 export * from './useLeagueTopScorers';

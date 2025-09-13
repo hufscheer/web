@@ -4,6 +4,8 @@ import type {
   GameListPayload,
   GameListResponse,
   GameType,
+  LeagueDetailPayload,
+  LeagueDetailType,
   LeagueListPayload,
   LeagueStatisticsPayload,
   LeagueStatisticsType,
@@ -54,6 +56,10 @@ const leagueQueryKeys = createQueryKeys('leagues', {
   list: (payload: LeagueListPayload) => ({
     queryKey: [payload],
     queryFn: () => fetcher.get<LeagueType[]>('leagues', { searchParams: payload }),
+  }),
+  detail: (payload: LeagueDetailPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<LeagueDetailType>(`leagues/${payload.leagueId}`),
   }),
   statistics: (payload: LeagueStatisticsPayload) => ({
     queryKey: [payload],
