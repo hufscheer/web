@@ -9,6 +9,8 @@ import type {
   LeagueListPayload,
   LeagueStatisticsPayload,
   LeagueStatisticsType,
+  LeagueTeamsPayload,
+  LeagueTeamType,
   LeagueTopScorersPayload,
   LeagueTopScorersType,
   LeagueType,
@@ -68,6 +70,13 @@ const leagueQueryKeys = createQueryKeys('leagues', {
   topScorers: (payload: LeagueTopScorersPayload) => ({
     queryKey: [payload],
     queryFn: () => fetcher.get<LeagueTopScorersType[]>(`leagues/${payload.leagueId}/top-scorers`),
+  }),
+  teams: (payload: LeagueTeamsPayload) => ({
+    queryKey: [payload],
+    queryFn: () =>
+      fetcher.get<LeagueTeamType[]>(`leagues/${payload.leagueId}/teams`, {
+        searchParams: { round: payload.round },
+      }),
   }),
 });
 

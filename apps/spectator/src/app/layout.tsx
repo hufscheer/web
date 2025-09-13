@@ -1,5 +1,6 @@
 import '@hcc/ui/styles.css';
 import '~/styles/globals.css';
+import '@egjs/react-flicking/dist/flicking-inline.css';
 
 import type { Metadata } from 'next';
 import type { PropsWithChildren } from 'react';
@@ -9,8 +10,26 @@ import { Pretendard } from './_fonts';
 import { Provider } from './provider';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.hufscheer.com'),
   title: { default: '훕치치', template: '%s | 훕치치' },
   description: '한국외대 스포츠 플랫폼 훕치치',
+  openGraph: {
+    title: { default: '훕치치', template: '%s | 훕치치' },
+  },
+  twitter: {
+    title: { default: '훕치치', template: '%s | 훕치치' },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 const RootLayout = ({ children }: PropsWithChildren) => {

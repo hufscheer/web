@@ -18,6 +18,7 @@
   "dependencies": {
     "@bprogress/next": "^3.2.12",
     "@egjs/conveyer": "^1.8.0",
+    "@egjs/react-flicking": "^4.14.0",
     "@hcc/api-base": "workspace:*",
     "@hcc/icons": "workspace:*",
     "@hcc/style": "workspace:*",

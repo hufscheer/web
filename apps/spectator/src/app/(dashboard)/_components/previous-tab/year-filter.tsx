@@ -18,7 +18,12 @@ export const YearFilter = ({ year }: Props) => {
 
   useEffect(() => {
     if (!containerRef.current) return;
-    conveyerRef.current = new Conveyer(containerRef.current, { horizontal: true });
+    conveyerRef.current = new Conveyer(containerRef.current, {
+      horizontal: true,
+      useDrag: true,
+      useSideWheel: true,
+      preventClickOnDrag: true,
+    });
     return () => conveyerRef.current?.destroy();
   }, []);
 

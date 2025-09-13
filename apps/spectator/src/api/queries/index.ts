@@ -2,6 +2,7 @@ export * from './useGames';
 export * from './useLeague';
 export * from './useLeagueStatistics';
 export * from './useLeagues';
+export * from './useLeagueTeams';
 export * from './useLeagueTopScorers';
 export * from './useTeam';
 export * from './useTeamGames';
