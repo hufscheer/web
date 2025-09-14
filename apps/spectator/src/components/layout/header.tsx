@@ -27,14 +27,17 @@ export const Header = ({ arrow, menu }: Props) => {
             >
               <ArrowBackIcon size={24} className="text-neutral-900" />
             </button>
-            <span className="-translate-x-1/2 -translate-y-1/2 pointer-events-none absolute top-1/2 left-1/2 truncate">
+            <Link
+              className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 truncate"
+              href={`/${routes.home}`}
+            >
               <HCCLogo width="71.5" height="21" className="text-[var(--color-primary-600)]" />
-            </span>
+            </Link>
             <div className="center-y">{menu ?? null}</div>
           </>
         ) : (
           <>
-            <Link className="flex select-none items-end gap-2" href={routes.home}>
+            <Link className="flex select-none items-end gap-2" href={`/${routes.home}`}>
               <HCCLogo width="71.5" height="21" className="text-[var(--color-primary-600)]" />
             </Link>
             <div className="center-y">{menu ?? null}</div>

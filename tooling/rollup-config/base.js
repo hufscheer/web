@@ -3,6 +3,7 @@ const babelPresetReact = require('@babel/preset-react');
 const babelPresetTypescript = require('@babel/preset-typescript');
 const commonjs = require('@rollup/plugin-commonjs');
 const resolve = require('@rollup/plugin-node-resolve');
+const preserveDirectives = require('rollup-plugin-preserve-directives');
 const dts = require('rollup-plugin-dts').default;
 const path = require('path');
 
@@ -42,6 +43,7 @@ function createRollupConfig(options = {}) {
           babelHelpers: 'bundled',
           presets: [[babelPresetReact, { runtime: 'automatic' }], babelPresetTypescript],
         }),
+        preserveDirectives.default(),
         ...plugins,
       ].filter(Boolean),
     };

@@ -42,7 +42,7 @@ const Page = async ({ searchParams }: Props) => {
           <TabTrigger value="team">팀별 보기</TabTrigger>
         </Tabs.List>
 
-        <Tabs.Content value="previous">
+        <Tabs.Content className="flex-1 overflow-hidden" value="previous">
           <Suspense clientOnly>
             <PreviousTab year={year} />
           </Suspense>

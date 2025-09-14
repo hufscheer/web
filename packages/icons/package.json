@@ -35,9 +35,9 @@
     "react-dom": "^19.1.1"
   },
   "devDependencies": {
-    "@hcc/typescript-config": "workspace:*",
     "@hcc/rollup-config": "workspace:*",
-    "@types/react": "^19.1.12",
+    "@hcc/typescript-config": "workspace:*",
+    "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "rollup": "^4.50.1",
     "typescript": "^5.9.2"

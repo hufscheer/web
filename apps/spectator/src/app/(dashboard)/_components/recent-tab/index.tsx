@@ -2,7 +2,7 @@
 
 import { Fragment } from 'react';
 import { useSuspenseGames } from '~/api';
-import { GameCard } from './game-card';
+import { GameCard } from '~/components/ui';
 
 export const RecentTab = () => {
   const { data } = useSuspenseGames({ state: 'FINISHED', size: 20 });

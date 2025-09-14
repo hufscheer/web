@@ -11,7 +11,12 @@ export const TeamFilter = () => {
 
   useEffect(() => {
     if (!containerRef.current) return;
-    conveyerRef.current = new Conveyer(containerRef.current, { horizontal: true });
+    conveyerRef.current = new Conveyer(containerRef.current, {
+      horizontal: true,
+      useDrag: true,
+      useSideWheel: true,
+      preventClickOnDrag: true,
+    });
     return () => conveyerRef.current?.destroy();
   }, []);
 
@@ -33,7 +38,7 @@ export const TeamFilter = () => {
   return (
     <div className="my-3">
       <div ref={containerRef} className="flex overflow-hidden">
-        <div className="flex gap-2 [&>*:first-child]:ml-5 [&>*:last-child]:mr-5">
+        <div className="flex gap-2 [&>*:first-child]:pl-5 [&>*:last-child]:pr-5">
           {sortedUnits.map((unit, idx) => {
             const isAll = unit === '전체';
             const isActive = isAll ? isEmpty : selected.includes(unit as TeamUnitType);

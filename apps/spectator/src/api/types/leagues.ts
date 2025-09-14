@@ -13,6 +13,20 @@ export type LeagueListPayload = {
   size: number;
 };
 
+export type LeagueDetailPayload = {
+  leagueId: number;
+};
+
+export type LeagueDetailType = {
+  name: string;
+  startAt: string;
+  endAt: string;
+  maxRound: number;
+  inProgressRound: number;
+  leagueProgress: string;
+  leagueTeamCount: number;
+};
+
 export type StatisticTeamType = {
   teamId: number;
   leagueTeamId: number;
@@ -42,4 +56,19 @@ export type LeagueTopScorersType = {
 
 export type LeagueTopScorersPayload = {
   leagueId: number;
+};
+
+export type LeagueTeamsPayload = {
+  leagueId: number;
+  round: number;
+};
+
+export type LeagueTeamType = {
+  teamId: number;
+  leagueTeamId: number;
+  teamName: string;
+  logoImageUrl: string;
+  sizeOfTeamPlayers: number;
+  cheerCount: number;
+  cheerTalkCount: number;
 };
