@@ -23,7 +23,7 @@ export type GameListPayload = {
   state?: GameStateType;
   cursor?: number;
   size?: number;
-  league_team_id?: number;
+  league_team_id?: string;
   round?: number;
 };
 

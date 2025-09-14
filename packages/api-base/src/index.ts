@@ -7,6 +7,7 @@ export {
   useMutation,
   useQuery,
   useQueryClient,
+  useSuspenseInfiniteQuery,
   useSuspenseQuery,
 } from '@tanstack/react-query';
 
