@@ -1,7 +1,7 @@
 'use client';
 
 import Conveyer from '@egjs/conveyer';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import type { LeagueTeamType } from '~/api';
 import { FilterBadge } from '~/components/ui';
@@ -15,6 +15,8 @@ export const TeamFilter = ({ teams, selectedTeams }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const conveyerRef = useRef<Conveyer | null>(null);
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -28,20 +30,17 @@ export const TeamFilter = ({ teams, selectedTeams }: Props) => {
   }, []);
 
   const toggleTeam = (leagueTeamId: number) => {
-    const searchParams = new URLSearchParams(window.location.search);
+    const sp = new URLSearchParams(searchParams);
     const currentTeams = selectedTeams || [];
     const isActive = currentTeams.includes(leagueTeamId);
     const updatedTeams = isActive
       ? currentTeams.filter(id => id !== leagueTeamId)
       : [...currentTeams, leagueTeamId];
 
-    if (updatedTeams.length === 0) {
-      searchParams.delete('teams');
-    } else {
-      searchParams.set('teams', updatedTeams.join(','));
-    }
+    if (updatedTeams.length === 0) sp.delete('teams');
+    else sp.set('teams', updatedTeams.join(','));
 
-    router.replace(`${window.location.pathname}?${searchParams.toString()}`);
+    router.replace(`${pathname}?${sp.toString()}`);
   };
 
   return (

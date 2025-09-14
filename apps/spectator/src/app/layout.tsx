@@ -1,6 +1,5 @@
 import '@hcc/ui/styles.css';
 import '~/styles/globals.css';
-import '@egjs/react-flicking/dist/flicking-inline.css';
 
 import type { Metadata } from 'next';
 import type { PropsWithChildren } from 'react';
