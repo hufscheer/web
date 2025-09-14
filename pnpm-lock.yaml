@@ -105,9 +105,6 @@ importers:
       '@egjs/conveyer':
         specifier: ^1.8.0
         version: 1.8.0
-      '@egjs/react-flicking':
-        specifier: ^4.14.0
-        version: 4.14.0
       '@hcc/api-base':
         specifier: workspace:*
         version: link:../../packages/api-base
@@ -592,14 +589,8 @@ packages:
       react: '>=18.0.0'
       react-dom: '>=18.0.0'
 
-  '@cfcs/core@0.0.24':
-    resolution: {integrity: sha512-feB38qu+eDk0Pggh/yR7gjaNmvUYA2uCxHP3Pz2MLE4LZ/9jPdtu8bzCSI47yTEhWyZCF5Pk698hdz8IN2mTjA==}
-
   '@cfcs/core@0.1.0':
     resolution: {integrity: sha512-kvYX0RpL45XTHJ5sW7teNbKeAa7pK3nNqaJPoFfZDPTIBJOkTtRD3QhkBG+O3Hu69a8xeMoPvF6y/RtJ6JUOdA==}
-
-  '@cfcs/react@0.1.0':
-    resolution: {integrity: sha512-3IaDaE1Qn0iLZ1ZqD0cqoiX0Kjzp6/VB56409A963lQ5kK6ONNa3cNbCBqFZccCfPSnyzeSdvPlg75Af3W4raA==}
 
   '@commitlint/cli@19.8.1':
     resolution: {integrity: sha512-LXUdNIkspyxrlV6VDHWBmCZRtkEVRpBKxi2Gtw3J54cGWhLCTouVD/Q6ZSaSvd2YaDObWK8mDjrz3TIKtaQMAA==}
@@ -685,17 +676,8 @@ packages:
   '@egjs/conveyer@1.8.0':
     resolution: {integrity: sha512-cNvWAuc64Rd5C7rr2Ti/m4Y6b+9oLP6N1qaIlN++NM8vJHKVCH/7N+gG2TbezoOtMacZ3D2i3RRxISWsEYETkQ==}
 
-  '@egjs/flicking@4.14.0':
-    resolution: {integrity: sha512-0FWs/3r1QFrDTv8iouN7Ml9O2IKZZkQhJzMw8BGVVnMkISg/YeQlRYHFFt4mpup/wNmvtY73HwbnLpjemsCptQ==}
-
-  '@egjs/imready@1.4.2':
-    resolution: {integrity: sha512-ckV7KlBa23Bw6iZP59W2cMZfAmV5q0BtMoOz7ZkzIvjoOtkxfLZkqVJROSgDP5Ha0hsnskyL4vtom9Bt7FZSRQ==}
-
   '@egjs/list-differ@1.0.1':
     resolution: {integrity: sha512-OTFTDQcWS+1ZREOdCWuk5hCBgYO4OsD30lXcOCyVOAjXMhgL5rBRDnt/otb6Nz8CzU0L/igdcaQBDLWc4t9gvg==}
-
-  '@egjs/react-flicking@4.14.0':
-    resolution: {integrity: sha512-LhreAViO8Ky6RT/FX/pPIklQj48CTU9T5XLOC2zLE4KAe/9xzMcehISdi0cabDvcyOVr3xjUGnrEAbTFZrF3tg==}
 
   '@emnapi/runtime@1.5.0':
     resolution: {integrity: sha512-97/BJ3iXHww3djw6hYIfErCZFee7qCtrneuLa20UXFCOTCfBM2cvQHjWJ2EG0s0MtdNwInarqCTz35i4wWXHsQ==}
@@ -3446,17 +3428,9 @@ snapshots:
       react: 19.1.1
       react-dom: 19.1.1(react@19.1.1)
 
-  '@cfcs/core@0.0.24':
-    dependencies:
-      '@egjs/component': 3.0.5
-
   '@cfcs/core@0.1.0':
     dependencies:
       '@egjs/component': 3.0.5
-
-  '@cfcs/react@0.1.0':
-    dependencies:
-      '@cfcs/core': 0.1.0
 
   '@commitlint/cli@19.8.1(@types/node@24.3.1)(typescript@5.9.2)':
     dependencies:
@@ -3589,28 +3563,7 @@ snapshots:
       '@egjs/children-differ': 1.0.1
       '@egjs/component': 3.0.5
 
-  '@egjs/flicking@4.14.0':
-    dependencies:
-      '@cfcs/core': 0.1.0
-      '@egjs/axes': 3.9.2
-      '@egjs/component': 3.0.5
-      '@egjs/imready': 1.4.2
-      '@egjs/list-differ': 1.0.1
-
-  '@egjs/imready@1.4.2':
-    dependencies:
-      '@cfcs/core': 0.0.24
-      '@egjs/component': 3.0.5
-
   '@egjs/list-differ@1.0.1': {}
-
-  '@egjs/react-flicking@4.14.0':
-    dependencies:
-      '@cfcs/core': 0.1.0
-      '@cfcs/react': 0.1.0
-      '@egjs/component': 3.0.5
-      '@egjs/flicking': 4.14.0
-      '@egjs/list-differ': 1.0.1
 
   '@emnapi/runtime@1.5.0':
     dependencies:
