@@ -27,13 +27,13 @@ export const TeamFilter = ({ teams, selectedTeams }: Props) => {
     return () => conveyerRef.current?.destroy();
   }, []);
 
-  const toggleTeam = (teamId: number) => {
+  const toggleTeam = (leagueTeamId: number) => {
     const searchParams = new URLSearchParams(window.location.search);
     const currentTeams = selectedTeams || [];
-    const isActive = currentTeams.includes(teamId);
+    const isActive = currentTeams.includes(leagueTeamId);
     const updatedTeams = isActive
-      ? currentTeams.filter(id => id !== teamId)
-      : [...currentTeams, teamId];
+      ? currentTeams.filter(id => id !== leagueTeamId)
+      : [...currentTeams, leagueTeamId];
 
     if (updatedTeams.length === 0) {
       searchParams.delete('teams');
@@ -48,11 +48,11 @@ export const TeamFilter = ({ teams, selectedTeams }: Props) => {
     <div ref={containerRef} className="flex overflow-hidden bg-white py-3">
       <div className="flex gap-2 [&>*:first-child]:pl-5 [&>*:last-child]:pr-5">
         {teams.map(item => {
-          const isActive = selectedTeams.includes(item.teamId);
+          const isActive = selectedTeams.includes(item.leagueTeamId);
 
           return (
-            <div key={`team-${item.teamId}`} className="flex shrink-0 items-center gap-2">
-              <FilterBadge isActive={isActive} onClick={() => toggleTeam(item.teamId)}>
+            <div key={`team-${item.leagueTeamId}`} className="flex shrink-0 items-center gap-2">
+              <FilterBadge isActive={isActive} onClick={() => toggleTeam(item.leagueTeamId)}>
                 {item.teamName}
               </FilterBadge>
             </div>
