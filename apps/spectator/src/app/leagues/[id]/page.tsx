@@ -2,7 +2,7 @@ import { dehydrate, getQueryClient, HydrationBoundary } from '@hcc/api-base';
 import { Suspense } from '@suspensive/react';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import type { LeagueDetailType, LeagueTeamType, LeagueType } from '~/api';
+import type { LeagueDetailType, LeagueTeamType } from '~/api';
 import { fetchLeague, fetchLeagueTeams } from '~/api';
 import { Header } from '~/components/layout';
 import { routes } from '~/constants/routes';
@@ -55,7 +55,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
   if (!_id || Number.isNaN(id) || id <= 0) return {};
 
-  const league: LeagueType = await fetchLeague({ leagueId: id });
+  const league: LeagueDetailType = await fetchLeague({ leagueId: id });
   const title = league ? league.name : '';
   const url = `/${routes.league(id)}`;
 
