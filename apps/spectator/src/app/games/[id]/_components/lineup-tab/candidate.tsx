@@ -42,7 +42,7 @@ export const Candidate = ({ gameId }: Props) => {
             .filter(player => player.isReplaced)
             .map(player => (
               <div key={player.id} className="center-y w-full gap-2">
-                <span className="center h-7 w-7 rounded-lg bg-neutral-50 font-medium text-neutral-500 text-sm">
+                <span className="center h-7 w-7 rounded-lg bg-neutral-100 font-medium text-neutral-500 text-sm">
                   {player.number}
                 </span>
                 <div className="column gap-1">
@@ -51,7 +51,7 @@ export const Candidate = ({ gameId }: Props) => {
                   </Typography>
                   <Typography
                     className="center-y gap-0.5"
-                    color={colors.neutral300}
+                    color={colors.neutral500}
                     fontSize={12}
                     weight="medium"
                     asChild
@@ -67,7 +67,7 @@ export const Candidate = ({ gameId }: Props) => {
         </div>
       ))}
 
-      <div className="order-2 h-full w-full bg-neutral-50" aria-hidden />
+      <div className="order-2 h-full w-full bg-neutral-100" aria-hidden />
     </div>
   );
 };
