@@ -150,6 +150,9 @@ importers:
       react-dom:
         specifier: ^19.1.1
         version: 19.1.1(react@19.1.1)
+      react-simplikit:
+        specifier: ^0.0.42
+        version: 0.0.42(react@19.1.1)
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.3.1
@@ -2701,6 +2704,11 @@ packages:
       '@types/react':
         optional: true
 
+  react-simplikit@0.0.42:
+    resolution: {integrity: sha512-z24jmcsPsrkiAhcpvPSw5SDIDmtJJz+WWUgq3udpDLeP8MXDIvIOcTfeXuNynVdTIFuiN52Y+B7XlT/ziYQ44g==}
+    peerDependencies:
+      react: '*'
+
   react-style-singleton@2.2.3:
     resolution: {integrity: sha512-b6jSvxvVnyptAiLjbkWLE/lOnR4lfTtDAl+eUC7RZy+QQWc6wRzIV2CE6xBuMmDxc2qIihtDCZD5NPOFl7fRBQ==}
     engines: {node: '>=10'}
@@ -5234,6 +5242,10 @@ snapshots:
       use-sidecar: 1.1.3(@types/react@19.1.13)(react@19.1.1)
     optionalDependencies:
       '@types/react': 19.1.13
+
+  react-simplikit@0.0.42(react@19.1.1):
+    dependencies:
+      react: 19.1.1
 
   react-style-singleton@2.2.3(@types/react@19.1.13)(react@19.1.1):
     dependencies:

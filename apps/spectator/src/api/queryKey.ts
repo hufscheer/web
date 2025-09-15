@@ -1,6 +1,8 @@
 import { fetcher } from '@hcc/api-base';
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
 import type {
+  GameCheerPayload,
+  GameCheerType,
   GameDetailPayload,
   GameListPayload,
   GameListResponse,
@@ -27,10 +29,13 @@ const gameQueryKeys = createQueryKeys('games', {
     queryKey: [payload],
     queryFn: () => fetcher.get<GameListResponse[]>('games', { searchParams: payload }),
   }),
-
   detail: (payload: GameDetailPayload) => ({
     queryKey: [payload],
     queryFn: () => fetcher.get<GameType>(`games/${payload.gameId}`),
+  }),
+  cheer: (payload: GameCheerPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<GameCheerType[]>(`games/${payload.gameId}/cheer`),
   }),
 });
 
@@ -48,12 +53,10 @@ const teamQueryKeys = createQueryKeys('teams', {
       return fetcher.get<TeamType[]>('teams', { searchParams: params });
     },
   }),
-
   detail: (payload: TeamDetailPayload) => ({
     queryKey: [payload],
     queryFn: () => fetcher.get<TeamDetailType>(`teams/${payload.id}`),
   }),
-
   games: (payload: TeamGamesPayload) => ({
     queryKey: [payload],
     queryFn: () => fetcher.get<GameType[]>(`teams/${payload.id}/games`),

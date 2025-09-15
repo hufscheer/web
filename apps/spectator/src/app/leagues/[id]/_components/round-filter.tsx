@@ -20,7 +20,7 @@ export const RoundFilter = ({ league, round }: Props) => {
     >
       <Tabs.List className="center gap-5 border-neutral-100 border-b">
         {rounds.map(r => (
-          <TabTrigger className="min-w-14" key={r} value={r.toString()}>
+          <TabTrigger className="min-w-14" key={r} value={r.toString()} queryKey="round">
             {r > 2 ? `${r}강` : '결승'}
           </TabTrigger>
         ))}

@@ -1,6 +1,7 @@
 import * as Tabs from '@radix-ui/react-tabs';
 import { Suspense } from '@suspensive/react';
 import { redirect } from 'next/navigation';
+import { CheerVS } from '~/app/games/[id]/_components/cheer-vs';
 import { Header } from '~/components/layout';
 import { TabTrigger } from '~/components/ui';
 import { Banner } from './_components/banner';
@@ -26,12 +27,14 @@ const Page = async ({ searchParams, params }: Props) => {
   return (
     <>
       <Header arrow />
-      <div className="h-full w-full">
-        <div className="w-full bg-white pt-8">
-          <Suspense clientOnly>
-            <Banner gameId={id} />
-          </Suspense>
-        </div>
+      <div className="h-full w-full bg-white">
+        <Suspense clientOnly>
+          <Banner gameId={id} />
+        </Suspense>
+
+        <Suspense clientOnly>
+          <CheerVS gameId={id} />
+        </Suspense>
 
         <hr className="h-2 w-full border-none bg-neutral-50" />
 
@@ -49,6 +52,18 @@ const Page = async ({ searchParams, params }: Props) => {
           </Tabs.List>
 
           <Tabs.Content className="flex-1 overflow-hidden" value="lineup">
+            <Suspense clientOnly>
+              <></>
+            </Suspense>
+          </Tabs.Content>
+
+          <Tabs.Content className="flex-1 overflow-hidden" value="timeline">
+            <Suspense clientOnly>
+              <></>
+            </Suspense>
+          </Tabs.Content>
+
+          <Tabs.Content className="flex-1 overflow-hidden" value="video">
             <Suspense clientOnly>
               <></>
             </Suspense>

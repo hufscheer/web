@@ -19,7 +19,7 @@ export const Banner = ({ gameId }: Props) => {
   const [homeTeam, awayTeam] = data.gameTeams;
 
   return (
-    <div className="row-between gap-2 px-8">
+    <div className="row-between w-full gap-2 px-8 pt-8">
       <div className="flex-1">
         <BannerTeam team={homeTeam} />
       </div>

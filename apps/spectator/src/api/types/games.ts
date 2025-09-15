@@ -41,3 +41,12 @@ export type GameListResponse = {
 export type GameDetailPayload = {
   gameId: number;
 };
+
+export type GameCheerPayload = {
+  gameId: number;
+};
+
+export type GameCheerType = {
+  gameTeamId: number;
+  cheerCount: number;
+};
