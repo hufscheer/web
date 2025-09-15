@@ -105,7 +105,7 @@ const CheerTeamBox = ({
   return (
     <button
       className={twMerge(
-        'center-y relative h-14 w-full cursor-pointer gap-2 rounded-xl px-2 transition-all duration-150 active:scale-[0.995]',
+        'center-y relative h-14 w-full cursor-pointer gap-2 rounded-xl px-3 transition-all duration-150 active:scale-[0.995]',
         direction === 'left' ? 'bg-[#002843]' : 'flex-row-reverse bg-[#9C1714]',
       )}
       type="button"
