@@ -132,7 +132,7 @@ const CheerTeamBox = ({
       />
 
       <Typography color={colors.white} weight="medium">
-        {cheerCount + pendingCount}
+        {(cheerCount + pendingCount).toLocaleString()}
       </Typography>
     </button>
   );

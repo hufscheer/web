@@ -3,6 +3,7 @@ import { Suspense } from '@suspensive/react';
 import { redirect } from 'next/navigation';
 import { CheerVS } from '~/app/games/[id]/_components/cheer-vs';
 import { LineupTab } from '~/app/games/[id]/_components/lineup-tab';
+import { TimelineTab } from '~/app/games/[id]/_components/timeline-tab';
 import { Header } from '~/components/layout';
 import { TabTrigger } from '~/components/ui';
 import { Banner } from './_components/banner';
@@ -60,7 +61,7 @@ const Page = async ({ searchParams, params }: Props) => {
 
           <Tabs.Content value="timeline">
             <Suspense clientOnly>
-              <></>
+              <TimelineTab gameId={id} />
             </Suspense>
           </Tabs.Content>
 
