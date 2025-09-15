@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { CheerVS } from '~/app/games/[id]/_components/cheer-vs';
 import { LineupTab } from '~/app/games/[id]/_components/lineup-tab';
 import { TimelineTab } from '~/app/games/[id]/_components/timeline-tab';
+import { VideoTab } from '~/app/games/[id]/_components/video-tab';
 import { Header } from '~/components/layout';
 import { TabTrigger } from '~/components/ui';
 import { Banner } from './_components/banner';
@@ -67,7 +68,7 @@ const Page = async ({ searchParams, params }: Props) => {
 
           <Tabs.Content value="video">
             <Suspense clientOnly>
-              <></>
+              <VideoTab gameId={id} />
             </Suspense>
           </Tabs.Content>
         </Tabs.Root>
