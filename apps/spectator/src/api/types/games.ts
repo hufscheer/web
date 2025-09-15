@@ -73,6 +73,8 @@ export type GameLineupPlayingType = {
   gameTeamPlayers: GameTeamPlayerType[];
 };
 
+export type GameVideoPayload = { gameId: number };
+
 export type GameVideoType = {
   videoId: string;
 };
