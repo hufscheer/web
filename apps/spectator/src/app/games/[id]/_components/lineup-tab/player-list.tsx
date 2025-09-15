@@ -25,7 +25,7 @@ export const PlayerList = ({ gameId }: Props) => {
         >
           <div className="center-y gap-2">
             <Image
-              className="h-6 w-6 overflow-hidden rounded-full border border-neutral-50 object-cover"
+              className="h-6 w-6 shrink-0 overflow-hidden rounded-full border border-neutral-50 object-cover"
               src={team.logoImageUrl}
               alt={`${team.gameTeamName} 로고`}
               width={24}
@@ -33,7 +33,11 @@ export const PlayerList = ({ gameId }: Props) => {
               draggable={false}
               aria-hidden
             />
-            <Typography fontSize={15} weight="medium">
+            <Typography
+              className="overflow-hidden text-ellipsis whitespace-nowrap"
+              fontSize={14}
+              weight="medium"
+            >
               {team.gameTeamName}
             </Typography>
           </div>
