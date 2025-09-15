@@ -40,14 +40,14 @@ const Page = async ({ searchParams, params }: Props) => {
         <hr className="h-2 w-full border-none bg-neutral-50" />
 
         <Tabs.Root className="column w-full" defaultValue={tab}>
-          <Tabs.List className="center sticky top-12 z-10 h-12 gap-5 border-neutral-100 border-b">
-            <TabTrigger className="w-full" value="lineup">
+          <Tabs.List className="center sticky top-12 z-10 h-12 gap-5 border-neutral-100 border-b bg-white">
+            <TabTrigger className="size-full" value="lineup">
               라인업
             </TabTrigger>
-            <TabTrigger className="w-full" value="timeline">
+            <TabTrigger className="size-full" value="timeline">
               타임라인
             </TabTrigger>
-            <TabTrigger className="w-full" value="video">
+            <TabTrigger className="size-full" value="video">
               영상
             </TabTrigger>
           </Tabs.List>

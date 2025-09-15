@@ -10,7 +10,7 @@ type Props = {
   gameId: number;
 };
 
-export const Candidate = ({ gameId }: Props) => {
+export const PlayerList = ({ gameId }: Props) => {
   const { data: game } = useSuspenseGame({ gameId });
   const { data: lineup } = useSuspenseGameLineup({ gameId });
 

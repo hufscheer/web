@@ -83,22 +83,33 @@ const CheerTeamBox = ({
   direction,
 }: CheerTeamBoxProps) => {
   const [optimisticCount, setOptimisticCount] = useState(0);
+  const [pendingCount, setPendingCount] = useState(0);
   const { mutate } = useUpdateGameCheer();
 
   const debouncedMutate = useDebounce(() => {
-    if (optimisticCount === 0) return;
+    if (pendingCount === 0) return;
+
+    const countToSubmit = pendingCount;
+    setPendingCount(0);
 
     mutate(
-      { cheerCount: optimisticCount, gameId, gameTeamId },
+      { cheerCount: countToSubmit, gameId, gameTeamId },
       {
-        onSuccess: () => setOptimisticCount(0),
-        onError: () => setOptimisticCount(0),
+        onSuccess: () => {
+          // mutation이 성공하면 optimistic count를 실제 서버 응답으로 조정
+          setOptimisticCount(prev => Math.max(0, prev - countToSubmit));
+        },
+        onError: () => {
+          setOptimisticCount(prev => Math.max(0, prev - countToSubmit));
+          setPendingCount(0);
+        },
       },
     );
   }, 1000);
 
   const handleCheer = () => {
     setOptimisticCount(prev => prev + 1);
+    setPendingCount(prev => prev + 1);
     debouncedMutate();
   };
 
