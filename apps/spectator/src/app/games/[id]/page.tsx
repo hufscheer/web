@@ -2,6 +2,7 @@ import * as Tabs from '@radix-ui/react-tabs';
 import { Suspense } from '@suspensive/react';
 import { redirect } from 'next/navigation';
 import { CheerVS } from '~/app/games/[id]/_components/cheer-vs';
+import { LineupTab } from '~/app/games/[id]/_components/lineup-tab';
 import { Header } from '~/components/layout';
 import { TabTrigger } from '~/components/ui';
 import { Banner } from './_components/banner';
@@ -27,7 +28,7 @@ const Page = async ({ searchParams, params }: Props) => {
   return (
     <>
       <Header arrow />
-      <div className="h-full w-full bg-white">
+      <div className="h-full w-full overflow-y-auto bg-white">
         <Suspense clientOnly>
           <Banner gameId={id} />
         </Suspense>
@@ -51,19 +52,19 @@ const Page = async ({ searchParams, params }: Props) => {
             </TabTrigger>
           </Tabs.List>
 
-          <Tabs.Content className="flex-1 overflow-hidden" value="lineup">
+          <Tabs.Content className="flex-1" value="lineup">
+            <Suspense clientOnly>
+              <LineupTab gameId={id} />
+            </Suspense>
+          </Tabs.Content>
+
+          <Tabs.Content className="flex-1" value="timeline">
             <Suspense clientOnly>
               <></>
             </Suspense>
           </Tabs.Content>
 
-          <Tabs.Content className="flex-1 overflow-hidden" value="timeline">
-            <Suspense clientOnly>
-              <></>
-            </Suspense>
-          </Tabs.Content>
-
-          <Tabs.Content className="flex-1 overflow-hidden" value="video">
+          <Tabs.Content className="flex-1" value="video">
             <Suspense clientOnly>
               <></>
             </Suspense>
