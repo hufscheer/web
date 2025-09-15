@@ -4,7 +4,7 @@ const Page = () => {
   return (
     <>
       <Header arrow />
-      <div className="column-between h-full w-full overflow-hidden">{/* TODO */}</div>
+      <div className="column-between w-full">{/* TODO */}</div>
     </>
   );
 };

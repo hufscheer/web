@@ -58,7 +58,7 @@ export const GameList = (props: Props) => {
   const states: GameStateType[] = ['PLAYING', 'SCHEDULED', 'FINISHED'];
 
   return (
-    <div className="column h-full gap-3 overflow-y-auto bg-white p-5">
+    <div className="column gap-3 p-5">
       {states.map(state => (
         <GameListContent key={state} state={state} {...props} />
       ))}

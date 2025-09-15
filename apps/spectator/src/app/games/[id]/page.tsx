@@ -28,7 +28,7 @@ const Page = async ({ searchParams, params }: Props) => {
   return (
     <>
       <Header arrow />
-      <div className="h-full w-full overflow-y-auto bg-white">
+      <div className="w-full">
         <Suspense clientOnly>
           <Banner gameId={id} />
         </Suspense>
@@ -39,8 +39,8 @@ const Page = async ({ searchParams, params }: Props) => {
 
         <hr className="h-2 w-full border-none bg-neutral-50" />
 
-        <Tabs.Root className="column w-full flex-1 overflow-hidden bg-white" defaultValue={tab}>
-          <Tabs.List className="center gap-5 border-neutral-100 border-b">
+        <Tabs.Root className="column w-full" defaultValue={tab}>
+          <Tabs.List className="center sticky top-12 z-10 h-12 gap-5 border-neutral-100 border-b">
             <TabTrigger className="w-full" value="lineup">
               라인업
             </TabTrigger>
@@ -52,19 +52,19 @@ const Page = async ({ searchParams, params }: Props) => {
             </TabTrigger>
           </Tabs.List>
 
-          <Tabs.Content className="flex-1" value="lineup">
+          <Tabs.Content value="lineup">
             <Suspense clientOnly>
               <LineupTab gameId={id} />
             </Suspense>
           </Tabs.Content>
 
-          <Tabs.Content className="flex-1" value="timeline">
+          <Tabs.Content value="timeline">
             <Suspense clientOnly>
               <></>
             </Suspense>
           </Tabs.Content>
 
-          <Tabs.Content className="flex-1" value="video">
+          <Tabs.Content value="video">
             <Suspense clientOnly>
               <></>
             </Suspense>

@@ -12,10 +12,10 @@ export const TeamTab = () => {
   const { data } = useSuspenseTeams({ units: selected });
 
   return (
-    <div className="column h-full">
+    <div className="column">
       <TeamFilter />
 
-      <div className="column mb-5 flex-1 gap-3 overflow-y-auto px-5">
+      <div className="column mb-5 gap-3 px-5">
         {data.map(team => (
           <TeamCard key={team.id}>
             <TeamCard.Header team={team} />

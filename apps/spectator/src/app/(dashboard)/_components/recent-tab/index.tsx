@@ -10,7 +10,7 @@ export const RecentTab = () => {
   const { data } = useSuspenseGames({ state: 'FINISHED', size: 20 });
 
   return (
-    <div className="column h-full gap-3 overflow-y-auto p-5">
+    <div className="column gap-3 p-5">
       {data.map(league => (
         <GameCard key={league.leagueId}>
           <GameCard.League league={league} />

@@ -44,7 +44,7 @@ export const TeamFilter = ({ teams, selectedTeams }: Props) => {
   };
 
   return (
-    <div ref={containerRef} className="flex overflow-hidden bg-white py-3">
+    <div ref={containerRef} className="sticky top-24 z-10 flex h-12 overflow-hidden bg-white py-3">
       <div className="flex gap-2 [&>*:first-child]:pl-5 [&>*:last-child]:pr-5">
         {teams.map(item => {
           const isActive = selectedTeams.includes(item.leagueTeamId);

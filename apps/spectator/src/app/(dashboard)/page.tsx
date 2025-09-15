@@ -32,24 +32,24 @@ const Page = async ({ searchParams }: Props) => {
     <>
       <Header menu={<CalendarMenu />} />
 
-      <Tabs.Root className="column w-full flex-1 overflow-hidden bg-white" defaultValue={tab}>
-        <Tabs.List className="center gap-5 border-neutral-100 border-b">
+      <Tabs.Root className="column w-full bg-white" defaultValue={tab}>
+        <Tabs.List className="center sticky top-12 z-10 h-12 gap-5 border-neutral-100 border-b bg-white">
           <TabTrigger value="previous">이전 대회</TabTrigger>
           <TabTrigger value="recent">최근 경기</TabTrigger>
           <TabTrigger value="team">팀별 보기</TabTrigger>
         </Tabs.List>
 
-        <Tabs.Content className="flex-1 overflow-hidden" value="previous">
+        <Tabs.Content value="previous">
           <Suspense clientOnly>
             <PreviousTab year={year} />
           </Suspense>
         </Tabs.Content>
-        <Tabs.Content className="flex-1 overflow-hidden" value="recent">
+        <Tabs.Content value="recent">
           <Suspense clientOnly>
             <RecentTab />
           </Suspense>
         </Tabs.Content>
-        <Tabs.Content className="flex-1 overflow-hidden" value="team">
+        <Tabs.Content value="team">
           <Suspense clientOnly>
             <TeamTab />
           </Suspense>

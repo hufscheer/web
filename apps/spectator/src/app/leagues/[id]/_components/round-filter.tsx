@@ -14,11 +14,8 @@ export const RoundFilter = ({ league, round }: Props) => {
   );
 
   return (
-    <Tabs.Root
-      className="column w-full flex-1 overflow-hidden bg-white"
-      defaultValue={round.toString()}
-    >
-      <Tabs.List className="center gap-5 border-neutral-100 border-b">
+    <Tabs.Root className="column w-full" defaultValue={round.toString()}>
+      <Tabs.List className="center sticky top-12 z-10 h-12 gap-5 border-neutral-100 border-b bg-white">
         {rounds.map(r => (
           <TabTrigger className="min-w-14" key={r} value={r.toString()} queryKey="round">
             {r > 2 ? `${r}강` : '결승'}

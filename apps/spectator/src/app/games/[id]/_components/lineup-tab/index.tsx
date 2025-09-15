@@ -6,7 +6,7 @@ type Props = {
 
 export const LineupTab = ({ gameId }: Props) => {
   return (
-    <div>
+    <div className="bg-white">
       <Ground gameId={gameId} />
 
       <hr className="h-2 w-full border-none bg-neutral-50" />
