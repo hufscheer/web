@@ -1,16 +1,8 @@
 'use client';
 
-import { Typography } from '@hcc/ui';
-import Image from 'next/image';
-import type { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
-import {
-  type GameTeamPlayerType,
-  type GameTeamType,
-  useSuspenseGame,
-  useSuspenseGameLineup,
-} from '~/api';
+import { type GameTeamPlayerType, useSuspenseGame, useSuspenseGameLineup } from '~/api';
 import { Ground as BaseGround } from './ground';
+import { TeamBox } from './team-box';
 
 type Props = {
   gameId: number;
@@ -50,29 +42,6 @@ export const Ground = ({ gameId }: Props) => {
           ))}
         </BaseGround.PlayerField>
       </BaseGround>
-    </div>
-  );
-};
-
-interface TeamBoxProps extends ComponentProps<'div'> {
-  team: GameTeamType;
-}
-
-const TeamBox = ({ team, className, ...props }: TeamBoxProps) => {
-  return (
-    <div className={twMerge('center-y h-11 justify-center gap-2.5', className)} {...props}>
-      <Image
-        className="h-6 w-6 overflow-hidden rounded-full border border-neutral-50 object-cover"
-        src={team.logoImageUrl}
-        alt={`${team.gameTeamName} 로고`}
-        width={24}
-        height={24}
-        draggable={false}
-        aria-hidden
-      />
-      <Typography fontSize={15} weight="medium">
-        {team.gameTeamName}
-      </Typography>
     </div>
   );
 };
