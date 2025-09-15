@@ -175,7 +175,7 @@ const GameCardActions = ({
   ...props
 }: GameCardActionsProps) => {
   return (
-    <div className={twMerge('center-y mt-2 gap-2 self-center', className)} {...props}>
+    <div className={twMerge('center-y gap-2 self-center pt-2', className)} {...props}>
       <Button
         className="!border !border-neutral-100 min-w-12"
         variant="ghost"

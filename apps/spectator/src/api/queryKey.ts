@@ -1,6 +1,7 @@
 import { fetcher } from '@hcc/api-base';
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
 import type {
+  GameDetailPayload,
   GameListPayload,
   GameListResponse,
   GameType,
@@ -25,6 +26,11 @@ const gameQueryKeys = createQueryKeys('games', {
   list: (payload: GameListPayload) => ({
     queryKey: [payload],
     queryFn: () => fetcher.get<GameListResponse[]>('games', { searchParams: payload }),
+  }),
+
+  detail: (payload: GameDetailPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<GameType>(`games/${payload.gameId}`),
   }),
 });
 

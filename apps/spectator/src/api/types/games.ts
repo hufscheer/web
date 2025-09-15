@@ -10,6 +10,7 @@ type GameData = {
   isPkTaken: boolean;
   leagueId: number;
   leagueName: string;
+  state: GameStateType;
 };
 
 export type GameType = {
@@ -35,4 +36,8 @@ export type GameListResponse = {
   leagueId: number;
   leagueName: string;
   games: GameListType[];
+};
+
+export type GameDetailPayload = {
+  gameId: number;
 };

@@ -1,3 +1,4 @@
+export * from './useGame';
 export * from './useGames';
 export * from './useLeague';
 export * from './useLeagueStatistics';

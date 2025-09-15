@@ -1,8 +1,10 @@
 'use client';
 
+import Link from 'next/link';
 import { Fragment } from 'react';
 import { type GameStateType, useSuspenseGames } from '~/api';
 import { GameCard } from '~/components/ui';
+import { routes } from '~/constants/routes';
 
 type Props = {
   leagueId: number;
@@ -35,11 +37,11 @@ const GameListContent = ({
               <GameCard.Container>
                 <GameCard.Header game={game} />
 
-                <div className="row-between mt-2">
+                <Link href={`/${routes.game(game.id)}`} className="row-between pt-2">
                   <GameCard.Team team={game.gameTeams[0]} position="home" />
                   <GameCard.Score game={game} />
                   <GameCard.Team team={game.gameTeams[1]} position="away" />
-                </div>
+                </Link>
 
                 <GameCard.Actions />
               </GameCard.Container>
