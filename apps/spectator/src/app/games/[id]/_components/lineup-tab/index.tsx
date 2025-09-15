@@ -1,3 +1,4 @@
+import { Candidate } from './candidate';
 import { Ground } from './ground';
 
 type Props = {
@@ -8,8 +9,8 @@ export const LineupTab = ({ gameId }: Props) => {
   return (
     <div className="bg-white">
       <Ground gameId={gameId} />
-
       <hr className="h-2 w-full border-none bg-neutral-50" />
+      <Candidate gameId={gameId} />
     </div>
   );
 };
