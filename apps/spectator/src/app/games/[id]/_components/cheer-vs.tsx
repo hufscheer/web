@@ -2,7 +2,7 @@
 
 import { colors, Typography } from '@hcc/ui';
 import Image from 'next/image';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useDebounce } from 'react-simplikit';
 import { twMerge } from 'tailwind-merge';
 import {
@@ -82,33 +82,30 @@ const CheerTeamBox = ({
   logoImageUrl,
   direction,
 }: CheerTeamBoxProps) => {
-  const [optimisticCount, setOptimisticCount] = useState(0);
   const [pendingCount, setPendingCount] = useState(0);
-  const { mutate } = useUpdateGameCheer();
+  const pendingCountRef = useRef(0);
+  const { mutate, isPending } = useUpdateGameCheer();
 
   const debouncedMutate = useDebounce(() => {
-    if (pendingCount === 0) return;
+    const countToSubmit = pendingCountRef.current;
+    if (countToSubmit === 0) return;
 
-    const countToSubmit = pendingCount;
+    pendingCountRef.current = 0;
     setPendingCount(0);
 
     mutate(
       { cheerCount: countToSubmit, gameId, gameTeamId },
       {
-        onSuccess: () => {
-          // mutation이 성공하면 optimistic count를 실제 서버 응답으로 조정
-          setOptimisticCount(prev => Math.max(0, prev - countToSubmit));
-        },
         onError: () => {
-          setOptimisticCount(prev => Math.max(0, prev - countToSubmit));
-          setPendingCount(0);
+          pendingCountRef.current += countToSubmit;
+          setPendingCount(prev => prev + countToSubmit);
         },
       },
     );
   }, 1000);
 
   const handleCheer = () => {
-    setOptimisticCount(prev => prev + 1);
+    pendingCountRef.current += 1;
     setPendingCount(prev => prev + 1);
     debouncedMutate();
   };
@@ -118,9 +115,11 @@ const CheerTeamBox = ({
       className={twMerge(
         'center-y relative h-14 w-full cursor-pointer gap-2 rounded-xl px-3 transition-all duration-150 active:scale-[0.995]',
         direction === 'left' ? 'bg-[#002843]' : 'flex-row-reverse bg-[#9C1714]',
+        isPending && 'opacity-80',
       )}
       type="button"
       onClick={handleCheer}
+      disabled={isPending}
     >
       <Image
         className="h-9 w-9 rounded-full object-cover"
@@ -133,7 +132,7 @@ const CheerTeamBox = ({
       />
 
       <Typography color={colors.white} weight="medium">
-        {cheerCount + optimisticCount}
+        {cheerCount + pendingCount}
       </Typography>
     </button>
   );
