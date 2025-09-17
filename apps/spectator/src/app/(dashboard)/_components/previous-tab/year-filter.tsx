@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { FilterBadge } from '~/components/ui';
 
-const SERVICE_START_YEAR = 2023;
+const SERVICE_START_YEAR = 2024;
 
 interface Props {
   year: number;
