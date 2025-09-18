@@ -6,6 +6,7 @@ import { Header } from '~/components/layout';
 import { routes } from '~/constants/routes';
 import { StepProgress } from '~/components/ui';
 import { InputSelect } from '~/components/ui/input-select';
+import { InputDate } from '~/components/ui/input-date';
 
 const ROUND_STRINGS = ['32강', '16강', '8강', '4강', '결승'];
 const ROUND_OPTIONS = ROUND_STRINGS.map(round => ({
@@ -30,20 +31,8 @@ const Page = () => {
           <div className="flex flex-col gap-4">
             <div className="font-semibold text-black text-lg">대회 정보</div>
             <Input name="name" size="xl" type="name" placeholder="대회 이름" autoComplete="name" />
-            <Input
-              name="start-date"
-              size="xl"
-              type="date"
-              placeholder="시작 일"
-              autoComplete="start-date"
-            />
-            <Input
-              name="end-date"
-              size="xl"
-              type="date"
-              placeholder="종료 일"
-              autoComplete="end-date"
-            />
+            <InputDate label="시작 일" />
+            <InputDate label="종료 일" />
             <InputSelect options={ROUND_OPTIONS} label="라운드" placeholder="32강" />
           </div>
           <Button size="lg" className="w-full" color="primary" onClick={handleNextStep}>
