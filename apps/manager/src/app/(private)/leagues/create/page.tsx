@@ -1,19 +1,23 @@
-import { Badge, Button, Input, Typography } from '@hcc/ui';
+'use client';
+import { Button, Input, Typography } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 import Link from 'next/link';
 import { Header } from '~/components/layout';
 import { routes } from '~/constants/routes';
-import { LeagueOverview } from '../_components/league-overview';
-import { SwitchCase } from '~/components/feature';
 import { StepProgress } from '~/components/ui';
+import { InputSelect } from '~/components/ui/input-select';
 
-// const LeagueCreateMenu = () => (
-//   <Typography color="var(--color-neutral-500)" weight="semibold" asChild>
-//     <Link href={`/${routes.league}`}>대회 생성</Link>
-//   </Typography>
-// );
-
+const ROUND_STRINGS = ['32강', '16강', '8강', '4강', '결승'];
+const ROUND_OPTIONS = ROUND_STRINGS.map(round => ({
+  value: round,
+  label: round,
+}));
 const Page = () => {
+  const handleNextStep = () => (
+    <Typography color="var(--color-neutral-500)" weight="semibold" asChild>
+      <Link href={`/${routes.league}`}>대회 생성</Link>
+    </Typography>
+  );
   return (
     <>
       <Header title="신규 대회 만들기" arrow />
@@ -23,10 +27,26 @@ const Page = () => {
           <div className="w-auto px-10">
             <StepProgress steps={['기본 정보', '참가 팀등록']} currentStep={1} />
           </div>
-          <div>
+          <div className="flex flex-col gap-4">
             <div className="font-semibold text-black text-lg">대회 정보</div>
+            <Input name="name" size="xl" type="name" placeholder="대회 이름" autoComplete="name" />
+            <Input
+              name="start-date"
+              size="xl"
+              type="date"
+              placeholder="시작 일"
+              autoComplete="start-date"
+            />
+            <Input
+              name="end-date"
+              size="xl"
+              type="date"
+              placeholder="종료 일"
+              autoComplete="end-date"
+            />
+            <InputSelect options={ROUND_OPTIONS} label="라운드" placeholder="32강" />
           </div>
-          <Button size="lg" className="w-full" color="primary">
+          <Button size="lg" className="w-full" color="primary" onClick={handleNextStep}>
             다음 단계
           </Button>
           <Button size="lg" className="w-full" color="primary">
