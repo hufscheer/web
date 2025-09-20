@@ -46,8 +46,7 @@ const SelectItem = ({ name, isSelected, onClick }: SelectTeamProps) => (
 
 type TeamCreationFormProps = {
   onClose: () => void;
-  // 선택 완료 시 Affiliation과 Team 정보를 함께 전달
-  onRegister: (selection: { affiliation: Affiliation; team: Team }) => void;
+  onRegister: (selection: { affiliation: Omit<Affiliation, 'teams'>; team: Team }) => void;
 };
 
 export const SelectTeam = ({ onClose, onRegister }: TeamCreationFormProps) => {
@@ -62,9 +61,13 @@ export const SelectTeam = ({ onClose, onRegister }: TeamCreationFormProps) => {
   );
 
   const handleRegister = () => {
-    const selectedTeam = selectedAffiliation?.teams.find(team => team.id === selectedTeamId);
+    const selectedTeam = selectedAffiliation?.teams.find(t => t.id === selectedTeamId);
     if (selectedAffiliation && selectedTeam) {
-      onRegister({ affiliation: selectedAffiliation, team: selectedTeam });
+      const affiliationData = {
+        id: selectedAffiliation.id,
+        name: selectedAffiliation.name,
+      };
+      onRegister({ affiliation: affiliationData, team: selectedTeam });
     }
   };
 

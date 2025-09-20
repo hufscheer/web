@@ -7,7 +7,7 @@ import { Drawer } from 'vaul';
 import { SelectTeam } from '../_components/select-team';
 
 type Team = { id: number; name: string };
-type Affiliation = { id: number; name: string; teams: Team[] };
+type Affiliation = { id: number; name: string };
 type RegisteredTeam = {
   affiliationName: string;
   teamName: string;
