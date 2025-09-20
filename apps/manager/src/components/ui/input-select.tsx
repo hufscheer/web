@@ -2,6 +2,7 @@
 
 import * as Select from '@radix-ui/react-select';
 import { CheckSmallIcon, KeyboardArrowDownIcon } from '@hcc/icons';
+import { useState } from 'react';
 
 type SelectOption = { value: string; label: string };
 type BoxSelectProps = Select.SelectProps & {
@@ -10,12 +11,19 @@ type BoxSelectProps = Select.SelectProps & {
   placeholder?: string;
 };
 
-export const InputSelect = ({ options, placeholder, label, ...props }: BoxSelectProps) => {
+export const InputSelect = ({ options, placeholder, label }: BoxSelectProps) => {
+  const [value, setValue] = useState<string | undefined>(undefined);
   return (
-    <Select.Root {...props}>
+    <Select.Root value={value} onValueChange={setValue}>
       <Select.Trigger className="group relative flex h-15 w-full items-center justify-between rounded-lg border border-neutral-100 bg-white px-4 font-medium text-base focus:outline-none">
         <div className="flex flex-col">
-          <span className="top-2 font-medium text-neutral-400 text-xs">{label}</span>
+          <span
+            className={`font-medium text-neutral-400 transition-all ${
+              value ? 'text-xs' : 'text-base'
+            }`}
+          >
+            {label}
+          </span>
           <Select.Value
             placeholder={placeholder}
             className="group-data-[placeholder]:text-gray-400"
