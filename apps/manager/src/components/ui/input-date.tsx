@@ -30,7 +30,7 @@ export const InputDate = ({ label, value, onSelect }: InputDateProps) => {
             <p
               className={`pointer-events-none absolute font-medium text-neutral-400 transition-all ${
                 value ? 'top-2 text-xs' : '-translate-y-1/2 top-1/2 text-base'
-              } group-data-[state=open]:-translate-y-0 group-data-[state=open]:top-1.5 group-data-[state=open]:text-xs`}
+              } group-data-[state=open]:-translate-y-0 group-data-[state=open]:top-2 group-data-[state=open]:text-xs`}
             >
               {label}
             </p>

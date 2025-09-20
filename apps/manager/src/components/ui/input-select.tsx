@@ -11,23 +11,31 @@ type BoxSelectProps = Select.SelectProps & {
   placeholder?: string;
 };
 
-export const InputSelect = ({ options, placeholder, label }: BoxSelectProps) => {
-  const [value, setValue] = useState<string | undefined>(undefined);
+export const InputSelect = ({ options, placeholder, label, ...props }: BoxSelectProps) => {
+  const hasValue =
+    typeof props.value === 'string'
+      ? props.value.length > 0
+      : typeof props.defaultValue === 'string'
+        ? props.defaultValue.length > 0
+        : false;
   return (
-    <Select.Root value={value} onValueChange={setValue}>
+    <Select.Root {...props}>
       <Select.Trigger className="group relative flex h-15 w-full items-center justify-between rounded-lg border border-neutral-100 bg-white px-4 font-medium text-base focus:outline-none">
         <div className="flex flex-col">
           <span
-            className={`font-medium text-neutral-400 transition-all ${
-              value ? 'text-xs' : 'text-base'
-            }`}
+            className={`pointer-events-none absolute font-medium text-neutral-400 transition-all ${
+              hasValue ? 'top-2 text-xs' : '-translate-y-1/2 top-1/2 text-base'
+            } group-data-[state=open]:-translate-y-0 group-data-[state=open]:top-2 group-data-[state=open]:text-xs`}
           >
             {label}
           </span>
-          <Select.Value
-            placeholder={placeholder}
-            className="group-data-[placeholder]:text-gray-400"
-          />
+          {hasValue ? (
+            <p className="pt-4 font-medium text-base text-black">
+              <Select.Value />
+            </p>
+          ) : (
+            <Select.Value placeholder={placeholder} className="text-gray-400" />
+          )}
         </div>
         <Select.Icon className="text-[#141B21]">
           <KeyboardArrowDownIcon />
