@@ -2,7 +2,6 @@
 
 import * as Select from '@radix-ui/react-select';
 import { CheckSmallIcon, KeyboardArrowDownIcon } from '@hcc/icons';
-import { useState } from 'react';
 
 type SelectOption = { value: string; label: string };
 type BoxSelectProps = Select.SelectProps & {

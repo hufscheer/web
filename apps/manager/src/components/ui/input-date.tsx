@@ -16,7 +16,6 @@ type InputDateProps = {
 };
 
 export const InputDate = ({ label, value, onSelect }: InputDateProps) => {
-  //const [date, setDate] = useState<Date | undefined>();
   const formattedDate = value ? format(value, 'yyyy년 MM월 dd일') : null;
 
   return (
