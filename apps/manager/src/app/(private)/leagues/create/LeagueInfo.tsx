@@ -30,7 +30,6 @@ const LeagueInfo = ({ form, onChange, onNext, isFormValid }: LeagueInfoProps) =>
       <Suspense clientOnly>
         <div className="flex flex-col gap-4">
           <div className="font-semibold text-black text-lg">대회 정보</div>
-
           <Input
             name="name"
             size="xl"
@@ -60,20 +59,20 @@ const LeagueInfo = ({ form, onChange, onNext, isFormValid }: LeagueInfoProps) =>
             onValueChange={v => onChange({ round: v })}
           />
         </div>
-
-        <Button
-          size="lg"
-          className="w-full"
-          color="primary"
-          onClick={onNext}
-          disabled={!isFormValid}
-        >
-          다음 단계
-        </Button>
-
-        <Button size="lg" className="w-full" color="primary" disabled>
-          대회 생성
-        </Button>
+        <div className="mt-auto flex flex-col gap-2">
+          <Button
+            size="lg"
+            className="w-full"
+            color="primary"
+            onClick={onNext}
+            disabled={!isFormValid}
+          >
+            다음 단계
+          </Button>
+          <Button size="lg" className="w-full" color="primary" disabled>
+            대회 생성
+          </Button>
+        </div>
       </Suspense>
     </div>
   );

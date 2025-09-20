@@ -1,6 +1,6 @@
 'use client';
 
-import { AddIcon, CloseIcon, TradeHorizontalIcon } from '@hcc/icons';
+import { AddIcon, CloseIcon } from '@hcc/icons';
 import { Button, Input, Typography } from '@hcc/ui';
 import { useState } from 'react';
 import { Drawer } from 'vaul';
