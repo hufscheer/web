@@ -13,11 +13,11 @@ const Page = () => {
     leagueName: '',
     startDate: undefined,
     endDate: undefined,
-    round: undefined,
+    roundSize: undefined,
   });
 
   const isFormValid = useMemo(() => {
-    return form.leagueName.trim() !== '' && !!form.startDate && !!form.endDate && !!form.round;
+    return form.leagueName.trim() !== '' && !!form.startDate && !!form.endDate && !!form.roundSize;
   }, [form]);
 
   const handleFormChange = (patch: Partial<LeagueForm>) => {
@@ -49,7 +49,9 @@ const Page = () => {
               />
             )}
 
-            {currentStep === 2 && <LeagueRegister onPrev={() => setCurrentStep(1)} />}
+            {currentStep === 2 && (
+              <LeagueRegister onPrev={() => setCurrentStep(1)} round={form.roundSize ?? 0} />
+            )}
           </div>
         </Suspense>
       </div>

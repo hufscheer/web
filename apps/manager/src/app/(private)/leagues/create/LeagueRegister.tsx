@@ -2,7 +2,7 @@
 
 import { AddIcon, CloseIcon } from '@hcc/icons';
 import { Button, Input, Typography } from '@hcc/ui';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Drawer } from 'vaul';
 import { SelectTeam } from '../_components/select-team';
 
@@ -16,14 +16,18 @@ type RegisteredTeam = {
 
 type Props = {
   onPrev: () => void;
+  round: number;
 };
 
-const LeagueRegister = ({ onPrev }: Props) => {
+const LeagueRegister = ({ onPrev, round }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [registeredTeams, setRegisteredTeams] = useState<RegisteredTeam[]>([]);
 
+  const maxTeams = useMemo(() => round ?? 32, [round]);
+  const isFull = registeredTeams.length >= maxTeams;
   const handleRegisterTeam = ({ affiliation, team }: { affiliation: Affiliation; team: Team }) => {
     // 중복 등록 방지
+    if (isFull) return;
     if (!registeredTeams.find(rt => rt.teamId === team.id)) {
       setRegisteredTeams(prevTeams => [
         ...prevTeams,
@@ -50,7 +54,7 @@ const LeagueRegister = ({ onPrev }: Props) => {
             <Typography color="var(--color-primary-600)" weight="semibold">
               {registeredTeams.length}
             </Typography>
-            /32
+            /{round}
           </span>
         </div>
 

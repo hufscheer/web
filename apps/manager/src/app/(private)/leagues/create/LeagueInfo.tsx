@@ -8,13 +8,13 @@ export type LeagueForm = {
   leagueName: string;
   startDate?: Date;
   endDate?: Date;
-  round?: string;
+  roundSize?: number | undefined;
 };
 
-const ROUND_STRINGS = ['32강', '16강', '8강', '4강', '결승'];
-const ROUND_OPTIONS = ROUND_STRINGS.map(round => ({
-  value: round,
-  label: round,
+const ROUND_SIZES = [32, 16, 8, 4, 2];
+const ROUND_OPTIONS = ROUND_SIZES.map(n => ({
+  value: String(n),
+  label: n === 2 ? '결승' : `${n}강`,
 }));
 
 type LeagueInfoProps = {
@@ -55,8 +55,8 @@ const LeagueInfo = ({ form, onChange, onNext, isFormValid }: LeagueInfoProps) =>
           <InputSelect
             options={ROUND_OPTIONS}
             label="라운드"
-            value={form.round}
-            onValueChange={v => onChange({ round: v })}
+            value={form.roundSize ? String(form.roundSize) : undefined}
+            onValueChange={v => onChange({ roundSize: Number(v) })}
           />
         </div>
         <div className="mt-auto flex flex-col gap-2">
