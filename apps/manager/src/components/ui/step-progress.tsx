@@ -24,12 +24,10 @@ export const StepProgress = ({ steps, currentStep }: StepProgressProps) => {
                 className={clsx(
                   'flex h-6 w-6 items-center justify-center rounded-full border font-semibold text-sm transition-all',
                   {
-                    // 완료된 단계 (체크 아이콘)
-                    'bg-white text-blue-600': isCompleted,
+                    // 완료된 단계 (체크 아이콘) or 비활성 단계
+                    'bg-gray-400 text-white': isCompleted || (!isCompleted && !isActive),
                     // 현재 활성 단계
                     'bg-blue-500 text-white': isActive,
-                    // 비활성 단계
-                    'border-gray-300 bg-gray-400 text-white': !isCompleted && !isActive,
                   },
                 )}
               >
