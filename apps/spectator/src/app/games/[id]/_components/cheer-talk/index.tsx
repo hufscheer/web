@@ -6,6 +6,7 @@ import { useMemo, useState } from 'react';
 import type { CheerTalkType, GameCheerTalkWithTeamInfo } from '~/api';
 import useSocket from '~/hooks/useSocket';
 import { CheerTalkList } from './cheer-talk-list';
+import { CheerTalkTimeline } from './cheer-talk-timeline';
 import useCheerTalkById from './useCheerTalkById';
 import { useSuspenseGameTeamInfo } from './useGameTeamInfo';
 
@@ -21,7 +22,7 @@ export const CheerTalk = ({ gameId }: Props) => {
 
   const { data: cheerTalkList, ...rest } = useCheerTalkById(gameId);
   const cheerTalks = useMemo(
-    () => (cheerTalkList ? cheerTalkList.pages.flatMap(talk => talk) : []),
+    () => (cheerTalkList ? cheerTalkList.pages.flat() : []),
     [cheerTalkList],
   );
 
@@ -65,6 +66,7 @@ export const CheerTalk = ({ gameId }: Props) => {
           <BottomSheet.Content className="!h-full max-h-[90%]">
             <BottomSheet.Title className="sr-only">응원톡 작성</BottomSheet.Title>
             <div className="column-between h-full overflow-hidden">
+              <CheerTalkTimeline gameId={gameId} />
               <CheerTalkList
                 gameId={gameId}
                 cheerTalkList={cheerTalks}
