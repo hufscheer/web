@@ -3,6 +3,7 @@ export const routes = {
   login: 'auth/login',
 
   league: 'leagues',
+  league_create: 'leagues/create',
   player: 'players',
   player_create: 'players/create',
 
