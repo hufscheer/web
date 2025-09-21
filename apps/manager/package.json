@@ -24,14 +24,19 @@
     "@hcc/toolkit": "workspace:*",
     "@hcc/ui": "workspace:*",
     "@lukemorales/query-key-factory": "^1.3.4",
+    "@radix-ui/react-select": "^2.2.6",
     "@suspensive/react": "^3.9.0",
     "@vercel/analytics": "^1.5.0",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "ky": "^1.10.0",
     "next": "^15.5.3",
     "react": "^19.1.1",
+    "react-day-picker": "^9.10.0",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.62.0",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "^3.3.1",
+    "vaul": "^1.1.2"
   },
   "devDependencies": {
     "@hcc/typescript-config": "workspace:*",
