@@ -1,5 +1,6 @@
 import { fetcher } from '@hcc/api-base';
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
+import type { TimelinePayload, TimelineType } from '~/api/types/timelines';
 import type {
   GameCheerPayload,
   GameCheerType,
@@ -53,6 +54,10 @@ const gameQueryKeys = createQueryKeys('games', {
   video: (payload: GameVideoPayload) => ({
     queryKey: [payload],
     queryFn: () => fetcher.get<GameVideoType>(`games/${payload.gameId}/video`),
+  }),
+  timeline: (payload: TimelinePayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<TimelineType[]>(`games/${payload.gameId}/timeline`),
   }),
 });
 

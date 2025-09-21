@@ -79,6 +79,10 @@ export type TimelineRecordType =
       pkRecord: PkRecordType;
     });
 
+export type TimelinePayload = {
+  gameId: number;
+};
+
 export type TimelineType = {
   gameQuarter: string;
   records: TimelineRecordType[];
