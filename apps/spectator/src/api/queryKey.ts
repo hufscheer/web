@@ -2,6 +2,8 @@ import { fetcher } from '@hcc/api-base';
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
 import type { TimelinePayload, TimelineType } from '~/api/types/timelines';
 import type {
+  CheerTalkPayload,
+  CheerTalkType,
   GameCheerPayload,
   GameCheerType,
   GameDetailPayload,
@@ -58,6 +60,15 @@ const gameQueryKeys = createQueryKeys('games', {
   timeline: (payload: TimelinePayload) => ({
     queryKey: [payload],
     queryFn: () => fetcher.get<TimelineType[]>(`games/${payload.gameId}/timeline`),
+  }),
+  cheertalk: (payload: CheerTalkPayload) => ({
+    queryKey: [payload],
+    queryFn: async ({ pageParam }: { pageParam: number }) => {
+      const cursor = pageParam > 0 ? pageParam : '';
+      return fetcher.get<CheerTalkType[]>(`games/${payload.gameId}/cheer-talks`, {
+        searchParams: { cursor, size: 20 },
+      });
+    },
   }),
 });
 

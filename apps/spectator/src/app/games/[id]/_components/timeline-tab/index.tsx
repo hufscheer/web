@@ -1,6 +1,6 @@
 'use client';
 
-import { Typography } from '@hcc/ui';
+import { colors, Typography } from '@hcc/ui';
 import { Fragment } from 'react';
 import { useSuspenseGame, useSuspenseGameTimeline } from '~/api';
 import { getProgressSemantics } from './_utils';
@@ -16,7 +16,16 @@ export const TimelineTab = ({ gameId }: Props) => {
   const { data } = useSuspenseGameTimeline({ gameId });
 
   if (data.length === 0)
-    return <Typography>경기가 시작한 뒤 시간 순으로 타임라인이 업데이트됩니다.</Typography>;
+    return (
+      <Typography
+        className="p-5 text-center"
+        color={colors.neutral500}
+        fontSize={14}
+        weight="medium"
+      >
+        경기가 시작한 뒤 시간 순으로 타임라인이 업데이트됩니다.
+      </Typography>
+    );
 
   const homeTeamId: number = game.gameTeams[0].gameTeamId;
 

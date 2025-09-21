@@ -144,6 +144,9 @@ importers:
       '@radix-ui/react-tabs':
         specifier: ^1.1.13
         version: 1.1.13(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      '@stomp/stompjs':
+        specifier: ^7.2.0
+        version: 7.2.0
       '@suspensive/react':
         specifier: ^3.9.0
         version: 3.9.0(react@19.1.1)
@@ -324,6 +327,9 @@ importers:
       ts-pattern:
         specifier: ^5.8.0
         version: 5.8.0
+      vaul:
+        specifier: ^1.1.2
+        version: 1.1.2(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
     devDependencies:
       '@hcc/rollup-config':
         specifier: workspace:*
@@ -1665,6 +1671,9 @@ packages:
 
   '@standard-schema/spec@1.0.0':
     resolution: {integrity: sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA==}
+
+  '@stomp/stompjs@7.2.0':
+    resolution: {integrity: sha512-+Waf/wdSxgRmXHWg7HXUt51YNK/Cp2pMhW+OELwX5fzbO6pd+O2bLrWqGmyFNC/RyeUQIMGESP7oE3L1dXXm0Q==}
 
   '@suspensive/react@3.9.0':
     resolution: {integrity: sha512-VbnhDKZS/InBQuV/eOot1dCDghAao+vs8FoVZextdoduPiVatcqOfRKiGbWLA9HRkoTsmvtZY88je4eZFqaeiQ==}
@@ -4583,6 +4592,8 @@ snapshots:
     optional: true
 
   '@standard-schema/spec@1.0.0': {}
+
+  '@stomp/stompjs@7.2.0': {}
 
   '@suspensive/react@3.9.0(react@19.1.1)':
     dependencies:

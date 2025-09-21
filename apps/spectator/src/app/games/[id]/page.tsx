@@ -8,6 +8,7 @@ import { VideoTab } from '~/app/games/[id]/_components/video-tab';
 import { Header } from '~/components/layout';
 import { TabTrigger } from '~/components/ui';
 import { Banner } from './_components/banner';
+import { CheerTalk } from './_components/cheer-talk';
 
 const validTabs = ['lineup', 'timeline', 'video'];
 
@@ -37,6 +38,10 @@ const Page = async ({ searchParams, params }: Props) => {
 
         <Suspense clientOnly>
           <CheerVS gameId={id} />
+        </Suspense>
+
+        <Suspense clientOnly>
+          <CheerTalk gameId={id} />
         </Suspense>
 
         <hr className="h-2 w-full border-none bg-neutral-50" />
