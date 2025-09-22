@@ -18,6 +18,7 @@ export const CheerTalkTimeline = ({ gameId }: Props) => {
 
   const lastRecord = timelines[0].records[0];
   if (!lastRecord) return null;
+  if (lastRecord.type !== 'SCORE' && lastRecord.type !== 'REPLACEMENT') return null;
 
   const direction = getTeamInfo(lastRecord.gameTeamId).direction;
 

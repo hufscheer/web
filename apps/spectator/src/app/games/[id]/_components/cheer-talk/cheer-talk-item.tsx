@@ -7,20 +7,11 @@ import type { TeamDirection } from '~/api';
 type Props = {
   direction: TeamDirection;
   logoImageUrl: string;
-  cheerTalkId: number;
   content: string;
-  isBlocked: boolean;
   createdAt: string;
 };
 
-export default function CheerTalkItem({
-  direction,
-  logoImageUrl,
-  cheerTalkId,
-  content,
-  isBlocked,
-  createdAt,
-}: Props) {
+export default function CheerTalkItem({ direction, logoImageUrl, content, createdAt }: Props) {
   return (
     <div
       className={twMerge(
