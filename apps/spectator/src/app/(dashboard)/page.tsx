@@ -33,7 +33,7 @@ const Page = async ({ searchParams }: Props) => {
       <Header menu={<CalendarMenu />} />
 
       <Tabs.Root className="column w-full bg-white" defaultValue={tab}>
-        <Tabs.List className="center sticky top-12 z-10 h-12 gap-5 border-neutral-100 border-b bg-white">
+        <Tabs.List className="center sticky top-12 z-header h-12 gap-5 border-neutral-100 border-b bg-white">
           <TabTrigger value="previous">이전 대회</TabTrigger>
           <TabTrigger value="recent">최근 경기</TabTrigger>
           <TabTrigger value="team">팀별 보기</TabTrigger>

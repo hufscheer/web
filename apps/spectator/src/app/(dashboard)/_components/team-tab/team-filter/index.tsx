@@ -36,34 +36,33 @@ export const TeamFilter = () => {
   });
 
   return (
-    <div className="sticky top-24 z-10 bg-white py-3">
-      <div ref={containerRef} className="flex overflow-hidden">
-        <div className="flex gap-2 [&>*:first-child]:pl-5 [&>*:last-child]:pr-5">
-          {sortedUnits.map((unit, idx) => {
-            const isAll = unit === '전체';
-            const isActive = isAll ? isEmpty : selected.includes(unit as TeamUnitType);
+    <div className="sticky top-24 z-header flex overflow-hidden bg-white py-3">
+      <div
+        ref={containerRef}
+        className="flex gap-2 overflow-x-scroll [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*:first-child]:pl-5 [&>*:last-child]:pr-5"
+      >
+        {sortedUnits.map((unit, idx) => {
+          const isAll = unit === '전체';
+          const isActive = isAll ? isEmpty : selected.includes(unit as TeamUnitType);
 
-            const prevUnit = sortedUnits[idx - 1];
-            const wasPrevAll = prevUnit === '전체';
-            const wasPrevActive = wasPrevAll
-              ? isEmpty
-              : selected.includes(prevUnit as TeamUnitType);
+          const prevUnit = sortedUnits[idx - 1];
+          const wasPrevAll = prevUnit === '전체';
+          const wasPrevActive = wasPrevAll ? isEmpty : selected.includes(prevUnit as TeamUnitType);
 
-            const showDivider = idx > 0 && wasPrevActive && !isActive;
+          const showDivider = idx > 0 && wasPrevActive && !isActive;
 
-            return (
-              <div key={unit} className="flex shrink-0 items-center gap-2">
-                {showDivider && <div className="h-6 w-px bg-neutral-100" aria-hidden="true" />}
-                <FilterBadge
-                  isActive={isActive}
-                  onClick={() => toggle(isAll ? null : (unit as TeamUnitType))}
-                >
-                  {unit}
-                </FilterBadge>
-              </div>
-            );
-          })}
-        </div>
+          return (
+            <div key={unit} className="flex shrink-0 items-center gap-2">
+              {showDivider && <div className="h-6 w-px bg-neutral-100" aria-hidden="true" />}
+              <FilterBadge
+                isActive={isActive}
+                onClick={() => toggle(isAll ? null : (unit as TeamUnitType))}
+              >
+                {unit}
+              </FilterBadge>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
