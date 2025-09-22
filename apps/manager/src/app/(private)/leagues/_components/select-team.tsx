@@ -37,13 +37,13 @@ export const SelectTeam = ({ onClose, onRegister }: TeamCreationFormProps) => {
   const { data: teams = [], isLoading } = useTeams();
 
   const affiliations = useMemo(() => {
-    const units: { [key: string]: TeamType[] } = {};
-    teams.forEach(team => {
-      if (!units[team.unit]) {
-        units[team.unit] = [];
+    const units = teams.reduce<Record<string, TeamType[]>>((acc, team) => {
+      if (!acc[team.unit]) {
+        acc[team.unit] = [];
       }
-      units[team.unit].push(team);
-    });
+      acc[team.unit].push(team);
+      return acc;
+    }, {});
 
     return Object.keys(units).map((unit, index) => ({
       id: index + 1,
