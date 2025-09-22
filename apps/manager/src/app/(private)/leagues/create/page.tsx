@@ -28,6 +28,15 @@ const Page = () => {
     if (!isFormValid) return;
     setCurrentStep(2);
   };
+  const leagueInfoForm = useMemo(
+    () => ({
+      name: form.leagueName,
+      maxRound: form.roundSize!,
+      startAt: form.startDate?.toISOString() ?? '',
+      endAt: form.endDate?.toISOString() ?? '',
+    }),
+    [form],
+  );
 
   return (
     <>
@@ -50,7 +59,11 @@ const Page = () => {
             )}
 
             {currentStep === 2 && (
-              <LeagueRegister onPrev={() => setCurrentStep(1)} round={form.roundSize ?? 0} />
+              <LeagueRegister
+                onPrev={() => setCurrentStep(1)}
+                round={form.roundSize ?? 0}
+                leagueInfoForm={leagueInfoForm}
+              />
             )}
           </div>
         </Suspense>

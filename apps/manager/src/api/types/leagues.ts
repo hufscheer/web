@@ -23,4 +23,5 @@ export type LeagueDetailType = {
   maxRound: number;
   startAt: string;
   endAt: string;
+  teamIds: number[];
 };
