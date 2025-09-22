@@ -36,7 +36,7 @@ const Page = async ({ searchParams, params }: Props) => {
   return (
     <HydrationBoundary state={dehydrate(qc)}>
       <Header arrow />
-      <div className="h-full w-full overflow-hidden">
+      <div className="w-full">
         {league && round && <RoundFilter league={league} round={round} />}
         {teams && <TeamFilter teams={teams} selectedTeams={selectedTeams} />}
         <Suspense clientOnly>

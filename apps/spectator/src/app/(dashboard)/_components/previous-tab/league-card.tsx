@@ -61,7 +61,7 @@ const LeagueCardTeams = ({ leagueId, className, ...props }: LeagueCardTeamsProps
   return (
     <div className={twMerge('grid grid-cols-2 gap-4', className)} {...props}>
       <div className="center-y">
-        <Badge size="sm" variant="primary">
+        <Badge className="shrink-0" size="sm" variant="primary">
           우승
         </Badge>
         <div className="relative ml-2 h-5 w-5 overflow-hidden rounded-full border border-neutral-100">
@@ -73,13 +73,18 @@ const LeagueCardTeams = ({ leagueId, className, ...props }: LeagueCardTeamsProps
             height={20}
           />
         </div>
-        <Typography className="ml-1" fontSize={14} weight="semibold" lineHeight="none">
+        <Typography
+          className="ml-1 overflow-hidden text-ellipsis whitespace-nowrap"
+          fontSize={14}
+          weight="semibold"
+          lineHeight="none"
+        >
           {data.firstWinnerTeam.teamName}
         </Typography>
       </div>
 
       <div className="center-y">
-        <Badge size="sm" variant="primary">
+        <Badge className="shrink-0" size="sm" variant="primary">
           준우승
         </Badge>
         <div className="relative ml-2 h-5 w-5 overflow-hidden rounded-full border border-neutral-100">
@@ -91,7 +96,12 @@ const LeagueCardTeams = ({ leagueId, className, ...props }: LeagueCardTeamsProps
             height={20}
           />
         </div>
-        <Typography className="ml-1" fontSize={14} weight="semibold" lineHeight="none">
+        <Typography
+          className="ml-1 overflow-hidden text-ellipsis whitespace-nowrap"
+          fontSize={14}
+          weight="semibold"
+          lineHeight="none"
+        >
           {data.secondWinnerTeam.teamName}
         </Typography>
       </div>

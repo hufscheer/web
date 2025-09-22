@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { FilterBadge } from '~/components/ui';
 
-const SERVICE_START_YEAR = 2023;
+const SERVICE_START_YEAR = 2024;
 
 interface Props {
   year: number;
@@ -39,7 +39,7 @@ export const YearFilter = ({ year }: Props) => {
   };
 
   return (
-    <div className="my-3">
+    <div className="sticky top-24 z-10 bg-white py-3">
       <div ref={containerRef} className="flex overflow-hidden">
         <div className="flex gap-2 [&>*:first-child]:ml-5 [&>*:last-child]:mr-5">
           {years.map(_year => {

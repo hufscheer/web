@@ -79,6 +79,7 @@
   --z-index-modal: var(--z-index-modal);
 
   --app-max-width: 560px;
+  --app-inline-padding: 20px;
 }
 
 @layer base {

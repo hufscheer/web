@@ -1,0 +1,48 @@
+@keyframes slideDown {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+.item {
+  overflow: hidden;
+}
+
+.content {
+  overflow: hidden;
+}
+
+.trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.trigger > svg {
+  transition: transform 0.4s cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+.trigger[data-state="open"] > svg {
+  transform: rotate(180deg);
+}
+
+.content[data-state="open"] {
+  animation: slideDown 0.4s cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+.content[data-state="closed"] {
+  animation: slideUp 0.4s cubic-bezier(0.87, 0, 0.13, 1);
+}
