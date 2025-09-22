@@ -1,8 +1,9 @@
 'use client';
+
 import { Button, Input } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
-import { InputSelect } from '~/components/ui/input-select';
 import { InputDate } from '~/components/ui/input-date';
+import { InputSelect } from '~/components/ui/input-select';
 
 export type LeagueForm = {
   leagueName: string;

@@ -2,11 +2,11 @@
 
 import { AddIcon, CloseIcon } from '@hcc/icons';
 import { Button, Input, Typography } from '@hcc/ui';
+import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { Drawer } from 'vaul';
-import { SelectTeam } from '../_components/select-team';
 import { type LeagueFormType, useCreateLeagues } from '~/api/mutations/useCreateLeagues';
-import { useRouter } from 'next/navigation';
+import { SelectTeam } from '../_components/select-team';
 
 type Team = { id: number; name: string };
 type Affiliation = { id: number; name: string };

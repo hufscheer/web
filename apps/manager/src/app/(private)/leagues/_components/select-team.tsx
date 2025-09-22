@@ -1,10 +1,10 @@
 'use client';
 
-import { useTeams } from '~/api/queries/useTeams';
 import { Button } from '@hcc/ui';
-import { useMemo, useState } from 'react';
 import clsx from 'clsx';
+import { useMemo, useState } from 'react';
 import type { TeamType } from '~/api';
+import { useTeams } from '~/api/queries/useTeams';
 
 type Team = { id: number; name: string };
 type Affiliation = { id: number; name: string; teams: Team[] };
