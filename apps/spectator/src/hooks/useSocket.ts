@@ -1,5 +1,5 @@
 import { Client } from '@stomp/stompjs';
-import { useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 type useSocketParams<T> = {
   url: string;
@@ -9,32 +9,46 @@ type useSocketParams<T> = {
 
 export default function useSocket<T>({ url, destination, callback }: useSocketParams<T>) {
   const stompRef = useRef<Client | null>(null);
-  const client = new Client({
-    brokerURL: url,
-  });
+  const clientRef = useRef<Client | null>(null);
+  const callbackRef = useRef(callback);
 
-  const connect = () => {
-    if (stompRef.current) return;
+  callbackRef.current = callback;
 
-    stompRef.current = client;
+  if (!clientRef.current) {
+    clientRef.current = new Client({
+      brokerURL: url,
+    });
+  }
 
-    client.activate();
-    client.onConnect = () => {
-      client.subscribe(destination, message => {
+  const connect = useCallback(() => {
+    if (stompRef.current || !clientRef.current) return;
+
+    stompRef.current = clientRef.current;
+
+    clientRef.current.activate();
+    clientRef.current.onConnect = () => {
+      clientRef.current?.subscribe(destination, message => {
         try {
-          callback(JSON.parse(message.body));
-        } catch {
-          throw new Error('소켓이 제대로 연결되지 않은 것 같아요');
+          callbackRef.current(JSON.parse(message.body));
+        } catch (error) {
+          console.error('소켓 메시지 파싱 실패:', error);
+          console.error('원본 메시지:', message.body);
         }
       });
     };
-  };
+  }, [destination]);
 
-  const disconnect = () => {
+  const disconnect = useCallback(() => {
     if (!stompRef.current) return;
 
-    client.deactivate();
-  };
+    clientRef.current?.deactivate();
+    stompRef.current = null;
+  }, []);
+
+  useEffect(() => {
+    connect();
+    return () => disconnect();
+  }, [connect, disconnect]);
 
   return { connect, disconnect, stompRef };
 }

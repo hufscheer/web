@@ -1,5 +1,5 @@
 import { SendFillIcon } from '@hcc/icons';
-import { type ChangeEvent, type FormEvent, useCallback, useState } from 'react';
+import { type FormEvent, useCallback, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { type GameStateType, type GameTeamType, useCreateCheerTalk } from '~/api';
 
@@ -20,7 +20,6 @@ export const CheerTalkForm = ({ gameTeams, scrollToBottom, gameState }: CheerTal
   const handleSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-
       if (!canSubmit) return;
 
       mutate({ gameTeamId: teamId, content: message }, { onSuccess: () => scrollToBottom() });
@@ -30,17 +29,11 @@ export const CheerTalkForm = ({ gameTeams, scrollToBottom, gameState }: CheerTal
     [canSubmit, mutate, teamId, message, scrollToBottom],
   );
 
-  const handleTeamChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setTeamId(Number(e.target.value));
-  }, []);
-
-  const handleMessageChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setMessage(e.target.value);
-  }, []);
-
   const placeholder = isFinished
     ? '경기가 종료되어 응원톡을 남길 수 없습니다.'
     : '응원톡을 남겨보세요!';
+
+  if (gameTeams.length === 0) return null;
 
   return (
     <form className="column w-full gap-1 bg-white p-4" onSubmit={handleSubmit}>
@@ -51,7 +44,7 @@ export const CheerTalkForm = ({ gameTeams, scrollToBottom, gameState }: CheerTal
               type="radio"
               checked={teamId === team.gameTeamId}
               value={team.gameTeamId}
-              onChange={handleTeamChange}
+              onChange={e => setTeamId(Number(e.target.value))}
               disabled={isFinished}
             />
             {team.gameTeamName}
@@ -63,7 +56,7 @@ export const CheerTalkForm = ({ gameTeams, scrollToBottom, gameState }: CheerTal
         <input
           className="w-full rounded-lg bg-neutral-100 px-3 py-2 font-medium text-sm"
           value={message}
-          onChange={handleMessageChange}
+          onChange={e => setMessage(e.target.value)}
           placeholder={placeholder}
           aria-label="응원 메시지 입력"
           disabled={isFinished}

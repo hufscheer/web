@@ -33,13 +33,11 @@ export const CheerTalk = ({ gameId }: Props) => {
     }
   };
 
-  const { connect } = useSocket({
+  useSocket({
     url: process.env.NEXT_PUBLIC_SOCKET_URL || '',
     destination: `/topic/games/${gameId}`,
     callback: handleSocketMessage,
   });
-
-  connect();
 
   return (
     <div className="column gap-2 border-neutral-100 border-t p-4">
