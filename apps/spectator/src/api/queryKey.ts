@@ -1,9 +1,20 @@
 import { fetcher } from '@hcc/api-base';
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
+import type { TimelinePayload, TimelineType } from '~/api/types/timelines';
 import type {
+  CheerTalkPayload,
+  CheerTalkType,
+  GameCheerPayload,
+  GameCheerType,
+  GameDetailPayload,
+  GameLineupPayload,
+  GameLineupPlayingType,
+  GameLineupType,
   GameListPayload,
   GameListResponse,
   GameType,
+  GameVideoPayload,
+  GameVideoType,
   LeagueDetailPayload,
   LeagueDetailType,
   LeagueListPayload,
@@ -26,6 +37,39 @@ const gameQueryKeys = createQueryKeys('games', {
     queryKey: [payload],
     queryFn: () => fetcher.get<GameListResponse[]>('games', { searchParams: payload }),
   }),
+  detail: (payload: GameDetailPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<GameType>(`games/${payload.gameId}`),
+  }),
+  cheer: (payload: GameCheerPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<GameCheerType[]>(`games/${payload.gameId}/cheer`),
+  }),
+  lineup: (payload: GameLineupPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<GameLineupType[]>(`games/${payload.gameId}/lineup`),
+  }),
+  lineupPlaying: (payload: GameLineupPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<GameLineupPlayingType[]>(`games/${payload.gameId}/lineup/playing`),
+  }),
+  video: (payload: GameVideoPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<GameVideoType>(`games/${payload.gameId}/video`),
+  }),
+  timeline: (payload: TimelinePayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<TimelineType[]>(`games/${payload.gameId}/timeline`),
+  }),
+  cheertalk: (payload: CheerTalkPayload) => ({
+    queryKey: [payload],
+    queryFn: async ({ pageParam }: { pageParam: number }) => {
+      const cursor = pageParam > 0 ? pageParam : '';
+      return fetcher.get<CheerTalkType[]>(`games/${payload.gameId}/cheer-talks`, {
+        searchParams: { cursor, size: 20 },
+      });
+    },
+  }),
 });
 
 const teamQueryKeys = createQueryKeys('teams', {
@@ -42,12 +86,10 @@ const teamQueryKeys = createQueryKeys('teams', {
       return fetcher.get<TeamType[]>('teams', { searchParams: params });
     },
   }),
-
   detail: (payload: TeamDetailPayload) => ({
     queryKey: [payload],
     queryFn: () => fetcher.get<TeamDetailType>(`teams/${payload.id}`),
   }),
-
   games: (payload: TeamGamesPayload) => ({
     queryKey: [payload],
     queryFn: () => fetcher.get<GameType[]>(`teams/${payload.id}/games`),

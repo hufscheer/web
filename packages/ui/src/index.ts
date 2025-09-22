@@ -1,4 +1,6 @@
+export * from './accordion';
 export * from './badge';
+export * from './bottom-sheet';
 export * from './button';
 export * from './input';
 export * from './modal';

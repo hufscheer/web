@@ -15,8 +15,8 @@ export const Header = ({ arrow, menu }: Props) => {
   const router = useRouter();
 
   return (
-    <header className="sticky top-0 z-header w-full border-neutral-100 border-b bg-white">
-      <div className="relative row-between h-12 w-full px-5">
+    <header className="sticky top-0 z-header h-12 w-full border-neutral-100 border-b bg-white">
+      <div className="relative row-between h-full w-full px-5">
         {arrow ? (
           <>
             <button

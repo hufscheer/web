@@ -10,15 +10,16 @@ interface TabTriggerProps {
   className?: string;
   value: string;
   children: ReactNode;
+  queryKey?: string;
 }
 
-export const RoundTabTrigger = ({ value, children, className }: TabTriggerProps) => {
+export const TabTrigger = ({ value, children, className, queryKey = 'tab' }: TabTriggerProps) => {
   const pathname = usePathname();
 
   return (
     <Tabs.Trigger
       className={twMerge(
-        'min-w-14 cursor-pointer border-b px-1.5 py-3 font-semibold text-neutral-950 text-sm transition-colors duration-150',
+        'cursor-pointer border-b px-1.5 py-3 font-semibold text-neutral-950 text-sm transition-colors duration-150',
         'data-[state=active]:border-neutral-950',
         'data-[state=inactive]:border-transparent data-[state=inactive]:text-neutral-400',
         className,
@@ -26,7 +27,7 @@ export const RoundTabTrigger = ({ value, children, className }: TabTriggerProps)
       value={value}
       asChild
     >
-      <Link className="text-center" href={{ pathname, query: { round: value } }} replace>
+      <Link className="text-center" href={{ pathname, query: { [queryKey]: value } }} replace>
         {children}
       </Link>
     </Tabs.Trigger>

@@ -13,10 +13,10 @@ export const PreviousTab = ({ year }: Props) => {
   const { data } = useSuspenseLeagues({ year, leagueProgress: 'FINISHED', size: 50 });
 
   return (
-    <div className="column h-full">
+    <div className="column">
       <YearFilter year={year} />
 
-      <div className="column h-full gap-3 overflow-y-auto px-5 pb-5">
+      <div className="column gap-3 px-5 pb-5">
         {data.map(league => (
           <LeagueCard key={league.leagueId}>
             <LeagueCard.Header league={league} />
@@ -25,7 +25,7 @@ export const PreviousTab = ({ year }: Props) => {
 
             <LeagueCard.Teams leagueId={league.leagueId} />
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <ErrorBoundary fallback={null}>
                 <Suspense fallback={null} clientOnly>
                   <LeagueCard.Scorers leagueId={league.leagueId} />
