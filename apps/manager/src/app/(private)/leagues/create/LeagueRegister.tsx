@@ -58,7 +58,6 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm }: Props) => {
 
     mutate(payload, {
       onSuccess: () => {
-        alert('대회가 성공적으로 생성되었습니다!');
         router.push('/leagues');
       },
       onError: error => {
