@@ -6,6 +6,7 @@ import { useMemo, useState } from 'react';
 import { Drawer } from 'vaul';
 import { SelectTeam } from '../_components/select-team';
 import { type LeagueFormType, useCreateLeagues } from '~/api/mutations/useCreateLeagues';
+import { useRouter } from 'next/navigation';
 
 type Team = { id: number; name: string };
 type Affiliation = { id: number; name: string };
@@ -22,6 +23,7 @@ type Props = {
 };
 
 const LeagueRegister = ({ onPrev, round, leagueInfoForm }: Props) => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [registeredTeams, setRegisteredTeams] = useState<RegisteredTeam[]>([]);
   const { mutate, isPending } = useCreateLeagues();
@@ -57,6 +59,7 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm }: Props) => {
     mutate(payload, {
       onSuccess: () => {
         alert('대회가 성공적으로 생성되었습니다!');
+        router.push('/leagues');
       },
       onError: error => {
         alert(`대회 생성에 실패했습니다: ${error.message}`);
@@ -107,8 +110,9 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm }: Props) => {
             color="primary"
             onClick={handleCreateLeague}
             disabled={isPending || registeredTeams.length === 0}
-          >
             loading={isPending}
+          >
+            대회 생성
           </Button>
         </div>
       </div>

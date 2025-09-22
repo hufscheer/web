@@ -1,37 +1,21 @@
 'use client';
 
+import { useTeams } from '~/api/queries/useTeams';
 import { Button } from '@hcc/ui';
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import clsx from 'clsx';
+import type { TeamType } from '~/api';
 
 type Team = { id: number; name: string };
 type Affiliation = { id: number; name: string; teams: Team[] };
 
-const AFFILIATIONS: Affiliation[] = [
-  //임시 값
-  {
-    id: 1,
-    name: '경영대학',
-    teams: [
-      { id: 1, name: '경영학과' },
-      { id: 2, name: '경영정보학과' },
-      { id: 3, name: '벤처중소기업학과' },
-      { id: 4, name: '세무학과' },
-      { id: 5, name: '글로벌경영학과' },
-      { id: 6, name: '국제통상학과' },
-      { id: 7, name: '금융학과' },
-      { id: 8, name: '회계학과' },
-    ],
-  },
-];
-
-type SelectTeamProps = {
+type SelectItemProps = {
   name: string;
   isSelected: boolean;
   onClick: () => void;
 };
 
-const SelectItem = ({ name, isSelected, onClick }: SelectTeamProps) => (
+const SelectItem = ({ name, isSelected, onClick }: SelectItemProps) => (
   <button
     type="button"
     onClick={onClick}
@@ -50,14 +34,35 @@ type TeamCreationFormProps = {
 };
 
 export const SelectTeam = ({ onClose, onRegister }: TeamCreationFormProps) => {
+  const { data: teams = [], isLoading } = useTeams();
+
+  const affiliations = useMemo(() => {
+    const units: { [key: string]: TeamType[] } = {};
+    teams.forEach(team => {
+      if (!units[team.unit]) {
+        units[team.unit] = [];
+      }
+      units[team.unit].push(team);
+    });
+
+    return Object.keys(units).map((unit, index) => ({
+      id: index + 1,
+      name: unit,
+      teams: units[unit].map(team => ({
+        id: team.id,
+        name: team.name,
+      })),
+    }));
+  }, [teams]);
+
   const [selectedAffiliationId, setSelectedAffiliationId] = useState<number | null>(
-    AFFILIATIONS[0]?.id || null,
+    affiliations[0]?.id || null,
   );
   const [selectedTeamId, setSelectedTeamId] = useState<number | null>(null);
 
   const selectedAffiliation = useMemo(
-    () => AFFILIATIONS.find(aff => aff.id === selectedAffiliationId),
-    [selectedAffiliationId],
+    () => affiliations.find(aff => aff.id === selectedAffiliationId),
+    [affiliations, selectedAffiliationId],
   );
 
   const handleRegister = () => {
@@ -71,15 +76,21 @@ export const SelectTeam = ({ onClose, onRegister }: TeamCreationFormProps) => {
     }
   };
 
+  if (isLoading) {
+    return <div className="p-4 text-center">팀 정보를 불러오는 중입니다...</div>;
+  }
+  if (affiliations.length === 0) {
+    return <div className="p-4 text-center">불러올 팀 정보가 없습니다.</div>;
+  }
+
   return (
     <div className="flex h-[60vh] flex-col pt-4">
       <div className="flex flex-grow flex-row overflow-hidden">
         {/* 왼쪽 열: 소속 */}
-
         <div className="flex-1 border-r">
           <div className="w-full bg-[#EBECEE] p-3 text-left font-medium text-base">소속</div>
           <div className="overflow-y-auto">
-            {AFFILIATIONS.map(affiliation => (
+            {affiliations.map(affiliation => (
               <SelectItem
                 key={affiliation.id}
                 name={affiliation.name}
