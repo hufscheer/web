@@ -15,6 +15,7 @@ export const useUpdateGameCheer = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: postGameCheer,
-    onSuccess: async () => await qc.invalidateQueries({ queryKey: queryKeys.games._def }),
+    onSuccess: async (_, { gameId }) =>
+      await qc.invalidateQueries({ queryKey: queryKeys.games.cheer({ gameId }).queryKey }),
   });
 };
