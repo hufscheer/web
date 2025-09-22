@@ -6,6 +6,10 @@ export const useSuspenseGameTeamInfo = (gameId: number) => {
   const getTeamInfo = (gameTeamId: number) => {
     const order = data.gameTeams.findIndex(team => team.gameTeamId === gameTeamId);
 
+    if (order === -1) {
+      throw new Error(`Team with id ${gameTeamId} not found in game ${data.gameId}.`);
+    }
+
     return {
       direction: (['HOME', 'AWAY'] as const)[order] as 'HOME' | 'AWAY',
       logoImageUrl: data.gameTeams[order]?.logoImageUrl || '',
