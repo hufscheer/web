@@ -3,7 +3,6 @@
 import { colors, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import { useMemo, useRef, useState } from 'react';
-import { useDebounce } from 'react-simplikit';
 import { twMerge } from 'tailwind-merge';
 import {
   type GameCheerType,
@@ -12,6 +11,7 @@ import {
   useSuspenseGameCheer,
   useUpdateGameCheer,
 } from '~/api';
+import { useDebounce } from '~/hooks/useDebounce';
 
 type Props = {
   gameId: number;
@@ -86,28 +86,31 @@ const CheerTeamBox = ({
   const pendingCountRef = useRef(0);
   const { mutate, isPending } = useUpdateGameCheer();
 
-  const debouncedMutate = useDebounce(() => {
-    const countToSubmit = pendingCountRef.current;
-    if (countToSubmit === 0) return;
+  useDebounce(
+    () => {
+      const countToSubmit = pendingCountRef.current;
+      if (countToSubmit === 0) return;
 
-    pendingCountRef.current = 0;
-    setPendingCount(0);
+      pendingCountRef.current = 0;
+      setPendingCount(0);
 
-    mutate(
-      { cheerCount: countToSubmit, gameId, gameTeamId },
-      {
-        onError: () => {
-          pendingCountRef.current += countToSubmit;
-          setPendingCount(prev => prev + countToSubmit);
+      mutate(
+        { cheerCount: countToSubmit, gameId, gameTeamId },
+        {
+          onError: () => {
+            pendingCountRef.current += countToSubmit;
+            setPendingCount(prev => prev + countToSubmit);
+          },
         },
-      },
-    );
-  }, 1000);
+      );
+    },
+    1000,
+    [pendingCount, gameId, gameTeamId, mutate],
+  );
 
   const handleCheer = () => {
     pendingCountRef.current += 1;
     setPendingCount(prev => prev + 1);
-    debouncedMutate();
   };
 
   return (
