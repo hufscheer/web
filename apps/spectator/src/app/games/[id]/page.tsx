@@ -9,6 +9,7 @@ import { Header } from '~/components/layout';
 import { TabTrigger } from '~/components/ui';
 import { Banner } from './_components/banner';
 import { CheerTalk } from './_components/cheer-talk';
+import { routes } from '~/constants/routes';
 
 const validTabs = ['lineup', 'timeline', 'video'];
 
@@ -20,6 +21,10 @@ type Props = {
 const Page = async ({ searchParams, params }: Props) => {
   const { id: _id } = await params;
   const id = Number(_id);
+
+  if (Number.isNaN(id) || id <= 0) {
+    redirect(`/${routes.home}`);
+  }
 
   const { tab: _tab } = await searchParams;
   const tab = validTabs.includes(_tab || '') ? _tab : 'lineup';
