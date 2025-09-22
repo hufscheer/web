@@ -1,7 +1,7 @@
 'use client';
 
-import { Drawer } from 'vaul';
 import React, { type ComponentProps } from 'react';
+import { Drawer } from 'vaul';
 
 type BottomSheetProps = ComponentProps<typeof Drawer.Root> & {
   title: string;

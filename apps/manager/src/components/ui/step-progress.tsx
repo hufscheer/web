@@ -1,8 +1,8 @@
 'use client';
 
-import { Fragment } from 'react';
 import { CheckSmallIcon } from '@hcc/icons';
 import clsx from 'clsx';
+import { Fragment } from 'react';
 
 type StepProgressProps = {
   steps: string[];

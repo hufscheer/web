@@ -1,7 +1,7 @@
 'use client';
 
-import * as Select from '@radix-ui/react-select';
 import { CheckSmallIcon, KeyboardArrowDownIcon } from '@hcc/icons';
+import * as Select from '@radix-ui/react-select';
 
 type SelectOption = { value: string; label: string };
 type BoxSelectProps = Select.SelectProps & {

@@ -1,8 +1,9 @@
 'use client';
+
 import { Suspense } from '@suspensive/react';
+import { useMemo, useState } from 'react';
 import { Header } from '~/components/layout';
 import { StepProgress } from '~/components/ui';
-import { useMemo, useState } from 'react';
 import LeagueInfo, { type LeagueForm } from './LeagueInfo';
 import LeagueRegister from './LeagueRegister';
 
@@ -29,6 +30,16 @@ const Page = () => {
     setCurrentStep(2);
   };
 
+  const leagueInfoForm = useMemo(
+    () => ({
+      name: form.leagueName,
+      maxRound: form.roundSize!,
+      startAt: form.startDate?.toISOString() ?? '',
+      endAt: form.endDate?.toISOString() ?? '',
+    }),
+    [form],
+  );
+
   return (
     <>
       <Header title="신규 대회 만들기" arrow />
@@ -36,7 +47,7 @@ const Page = () => {
       <div className="column h-full gap-1.5 bg-white p-5">
         <Suspense clientOnly>
           <div className="w-auto px-10">
-            <StepProgress steps={['기본 정보', '참가 팀등록']} currentStep={currentStep} />
+            <StepProgress steps={['기본 정보', '참가 팀 등록']} currentStep={currentStep} />
           </div>
 
           <div className="flex-grow">
@@ -50,7 +61,11 @@ const Page = () => {
             )}
 
             {currentStep === 2 && (
-              <LeagueRegister onPrev={() => setCurrentStep(1)} round={form.roundSize ?? 0} />
+              <LeagueRegister
+                onPrev={() => setCurrentStep(1)}
+                round={form.roundSize ?? 0}
+                leagueInfoForm={leagueInfoForm}
+              />
             )}
           </div>
         </Suspense>

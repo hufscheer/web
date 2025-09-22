@@ -2,8 +2,10 @@
 
 import { AddIcon, CloseIcon } from '@hcc/icons';
 import { Button, Input, Typography } from '@hcc/ui';
+import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { Drawer } from 'vaul';
+import { type LeagueFormType, useCreateLeagues } from '~/api/mutations/useCreateLeagues';
 import { SelectTeam } from '../_components/select-team';
 
 type Team = { id: number; name: string };
@@ -17,12 +19,14 @@ type RegisteredTeam = {
 type Props = {
   onPrev: () => void;
   round: number;
+  leagueInfoForm: Omit<LeagueFormType, 'teamIds'>;
 };
 
-const LeagueRegister = ({ onPrev, round }: Props) => {
+const LeagueRegister = ({ onPrev, round, leagueInfoForm }: Props) => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [registeredTeams, setRegisteredTeams] = useState<RegisteredTeam[]>([]);
-
+  const { mutate, isPending } = useCreateLeagues();
   const maxTeams = useMemo(() => round ?? 32, [round]);
   const isFull = registeredTeams.length >= maxTeams;
   const handleRegisterTeam = ({ affiliation, team }: { affiliation: Affiliation; team: Team }) => {
@@ -44,7 +48,23 @@ const LeagueRegister = ({ onPrev, round }: Props) => {
   const handleRemoveTeam = (teamId: number) => {
     setRegisteredTeams(prevTeams => prevTeams.filter(team => team.teamId !== teamId));
   };
+  const handleCreateLeague = () => {
+    const teamIds = registeredTeams.map(team => team.teamId);
 
+    const payload: LeagueFormType = {
+      ...leagueInfoForm,
+      teamIds: teamIds,
+    };
+
+    mutate(payload, {
+      onSuccess: () => {
+        router.push('/leagues');
+      },
+      onError: error => {
+        alert(`대회 생성에 실패했습니다: ${error.message}`);
+      },
+    });
+  };
   return (
     <Drawer.Root open={isOpen} onOpenChange={setIsOpen}>
       <div className="flex h-full flex-col gap-4 bg-white p-5">
@@ -83,7 +103,14 @@ const LeagueRegister = ({ onPrev, round }: Props) => {
           <Button size="lg" variant="subtle" className="w-full" onClick={onPrev}>
             이전 단계
           </Button>
-          <Button size="lg" className="w-full">
+          <Button
+            size="lg"
+            className="w-full"
+            color="primary"
+            onClick={handleCreateLeague}
+            disabled={isPending || registeredTeams.length === 0}
+            loading={isPending}
+          >
             대회 생성
           </Button>
         </div>
