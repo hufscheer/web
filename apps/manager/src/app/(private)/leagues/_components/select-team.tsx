@@ -55,13 +55,13 @@ export const SelectTeam = ({ onClose, onRegister }: TeamCreationFormProps) => {
     }));
   }, [teams]);
 
-  const [selectedAffiliationId, setSelectedAffiliationId] = useState<number | null>(
-    affiliations[0]?.id || null,
+  const [selectedAffiliationId, setSelectedAffiliationId] = useState<string | null>(
+    affiliations[0]?.name || null,
   );
   const [selectedTeamId, setSelectedTeamId] = useState<number | null>(null);
 
   const selectedAffiliation = useMemo(
-    () => affiliations.find(aff => aff.id === selectedAffiliationId),
+    () => affiliations.find(aff => aff.name === selectedAffiliationId),
     [affiliations, selectedAffiliationId],
   );
 
@@ -94,9 +94,9 @@ export const SelectTeam = ({ onClose, onRegister }: TeamCreationFormProps) => {
               <SelectItem
                 key={affiliation.id}
                 name={affiliation.name}
-                isSelected={selectedAffiliationId === affiliation.id}
+                isSelected={selectedAffiliationId === affiliation.name}
                 onClick={() => {
-                  setSelectedAffiliationId(affiliation.id);
+                  setSelectedAffiliationId(affiliation.name);
                   setSelectedTeamId(null);
                 }}
               />
