@@ -9,4 +9,5 @@ export const routes = {
 
   team: 'teams',
   team_create: 'teams/create',
+  cheertalk: 'cheertalks',
 } as const;
