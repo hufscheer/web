@@ -3,6 +3,7 @@
 import { Fragment } from 'react';
 import CheerTalkCard from './cheertalkCard';
 import { Button } from '@hcc/ui';
+import CheerTalkTabs from './cheertalk-tab';
 
 export const CheertalkOverview = () => {
   //const { data } = useSuspenseLeaguesLeague();
@@ -10,6 +11,7 @@ export const CheertalkOverview = () => {
   return (
     <Fragment>
       <div className="flex flex-col gap-2 p-5">
+        <CheerTalkTabs />
         <CheerTalkCard
           cheerTalk={{
             cheerTalkId: 1,
