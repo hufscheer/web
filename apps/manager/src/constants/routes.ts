@@ -10,4 +10,5 @@ export const routes = {
   team: 'teams',
   team_create: 'teams/create',
   cheertalk: 'cheertalks',
+  cheertalk_block: 'cheertalks/blocked',
 } as const;
