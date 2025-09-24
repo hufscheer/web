@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, toast } from '@hcc/ui';
+import { AlertDialog } from '~/components/ui';
 import CheerTalkCard from './cheertalkCard';
 
 type CheerTalk = {
@@ -48,9 +49,19 @@ export const CheertalkList = ({ cheerTalk, status }: CheerTalkListProps) => {
         );
       case 'blocked':
         return (
-          <Button color="primary" variant="subtle" onClick={handleUnhide}>
-            가리기 해제
-          </Button>
+          <div className="flex-1 [&_button]:w-full">
+            <AlertDialog
+              title="해당 채팅 가리기를 해제할게요"
+              description="가리기 해제 시 채팅이 응원톡에 노출됩니다."
+              primaryTitle="해제"
+              secondaryTitle="취소"
+              onPrimaryClick={handleUnhide}
+            >
+              <Button asChild color="primary" variant="subtle" className="w-full">
+                <span>가리기 해제</span>
+              </Button>
+            </AlertDialog>
+          </div>
         );
       default:
         return null;
