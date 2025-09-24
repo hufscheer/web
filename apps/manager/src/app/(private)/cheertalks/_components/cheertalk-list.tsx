@@ -31,7 +31,7 @@ export const CheertalkList = ({ cheerTalk, status }: CheerTalkListProps) => {
     switch (status) {
       case 'all':
         return (
-          <Button color="danger" variant="subtle" onClick={handleHide}>
+          <Button color="danger" variant="subtle" className="flex-1" onClick={handleHide}>
             채팅 가리기
           </Button>
         );
