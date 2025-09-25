@@ -9,17 +9,22 @@ export const LEAGUE_STATE = {
 export type LeagueStateType = (typeof LEAGUE_STATE)[keyof typeof LEAGUE_STATE];
 
 export type LeagueType = {
-  id: string;
+  id: number;
   name: string;
   state: LeagueStateType;
   inProgressGames: GameType[];
 };
 
+export type LeagueDetailPayload = {
+  leagueId: number;
+};
+
 export type LeagueDetailType = {
-  id: string;
+  id: number;
   name: string;
   leagueProgress: LeagueStateType;
   sizeOfLeagueTeams: number;
+  leagueTeamCount: number;
   maxRound: number;
   startAt: string;
   endAt: string;

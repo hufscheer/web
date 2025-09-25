@@ -1,3 +1,5 @@
+export * from './useGames';
+export * from './useLeague';
 export * from './useLeaguesHome';
 export * from './useLeaguesLeague';
 export * from './usePlayer';

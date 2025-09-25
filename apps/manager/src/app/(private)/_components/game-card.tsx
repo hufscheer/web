@@ -12,17 +12,18 @@ export const GameCardRoot = ({ children }: PropsWithChildren) => {
 };
 
 type GameCardProps = {
-  leagueId: string;
+  leagueId: number;
+  gameQuarter?: string;
 } & Pick<GameType, 'id' | 'state' | 'startTime'>;
 
-const GameHeader = ({ leagueId, id: gameId, state, startTime }: GameCardProps) => {
+const GameHeader = ({ leagueId, id: gameId, gameQuarter, state, startTime }: GameCardProps) => {
   return (
     <div className="row-between">
-      <Badge size="sm" variant="danger">
-        {state}
+      <Badge size="sm" variant={state === 'PLAYING' ? 'danger' : 'default'}>
+        {state ?? gameQuarter}
       </Badge>
       <Typography className="center-y" color="var(--color-neutral-500)" fontSize={14} asChild>
-        <Link href={`/${routes.league}/${leagueId}/${gameId}`}>
+        <Link href={`/${routes.leagues}/${leagueId}/${gameId}`}>
           {formatTime(startTime, { format: 'YYYY.MM.DD. HH:mm' })}
           <ChevronForwardIcon size={20} />
         </Link>
@@ -53,14 +54,19 @@ const GameTeam = ({ gameTeamName, logoImageUrl, score }: GameTeamType) => {
   );
 };
 
-const GameMenu = () => {
+type GameMenuProps = {
+  leagueId: number;
+  id: number;
+};
+
+const GameMenu = ({ leagueId, id }: GameMenuProps) => {
   return (
     <div className="row-between mt-4 gap-2.5">
       <Button className="flex-1" size="sm" color="black" variant="subtle" asChild>
-        <Link href={''}>경기 진행</Link>
+        <Link href={`/${routes.game_timeline(leagueId, id)}`}>경기 진행</Link>
       </Button>
       <Button className="flex-1" size="sm" color="black" variant="subtle" asChild>
-        <Link href={''}>경기 정보 수정</Link>
+        <Link href={`/${routes.game(leagueId, id)}`}>경기 정보 수정</Link>
       </Button>
     </div>
   );

@@ -72,7 +72,7 @@ export const SelectTeam = ({ onClose, onRegister }: TeamCreationFormProps) => {
         id: selectedAffiliation.id,
         name: selectedAffiliation.name,
       };
-      onRegister({ affiliation: affiliationData, team: selectedTeam });
+      onRegister({ affiliation: affiliationData, teams: selectedTeam });
     }
   };
 

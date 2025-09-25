@@ -16,13 +16,13 @@ export const LeagueOverview = () => {
       {data.map(league => (
         <div key={league.id} className="w-full bg-white p-5">
           <div className="row-between w-full bg-white">
-            <div className="center-y gap-2">
+            <div className="center-y gap-1.5">
               <Badge size="sm" variant={league.leagueProgress === '진행 중' ? 'danger' : 'default'}>
                 {league.leagueProgress}
               </Badge>
               <Typography weight="semibold">{league.name}</Typography>
             </div>
-            <Link className="center" href={`/${routes.league}/${league.id}`}>
+            <Link className="center" href={`/${routes.league(league.id)}`}>
               <ChevronForwardIcon size={24} />
             </Link>
           </div>
