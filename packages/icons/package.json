@@ -11,8 +11,8 @@
     "build:watch": "rollup -c -w"
   },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.28.0",
-    "@babel/preset-env": "^7.28.0",
+    "@babel/plugin-transform-runtime": "^7.28.3",
+    "@babel/preset-env": "^7.28.3",
     "@babel/preset-react": "^7.27.1",
     "@babel/preset-typescript": "^7.27.1",
     "@hcc/typescript-config": "workspace:^",
@@ -21,13 +21,13 @@
     "@rollup/plugin-node-resolve": "^15.3.1",
     "@rollup/plugin-url": "^8.0.2",
     "@svgr/rollup": "^8.1.0",
-    "@types/react": "^19.1.8",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "rollup": "^4.45.1",
+    "@types/react": "^19.1.13",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "rollup": "^4.52.2",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-visualizer": "^5.14.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   },
   "peerDependencies": {
     "react": "^19",
