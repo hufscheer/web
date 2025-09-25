@@ -59,3 +59,17 @@ export const LeagueOverview = ({ id }: Props) => {
     </div>
   );
 };
+
+export const LeagueOverviewError = () => {
+  return (
+    <Typography
+      className="bg-white p-5 text-center"
+      color={colors.neutral500}
+      fontSize={14}
+      weight="medium"
+      lineHeight="none"
+    >
+      대회 정보를 불러오는 중에 오류가 발생했어요.
+    </Typography>
+  );
+};

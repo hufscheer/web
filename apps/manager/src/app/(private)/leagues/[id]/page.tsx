@@ -1,11 +1,11 @@
 import { colors, Typography } from '@hcc/ui';
-import { Suspense } from '@suspensive/react';
+import { ErrorBoundary, Suspense } from '@suspensive/react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Header } from '~/components/layout';
 import { routes } from '~/constants/routes';
-import { GameList } from './_components/game-list';
-import { LeagueOverview } from './_components/league-overview';
+import { GameList, GameListError } from './_components/game-list';
+import { LeagueOverview, LeagueOverviewError } from './_components/league-overview';
 
 const CreateGameMenu = () => (
   <Typography color={colors.neutral500} weight="semibold" asChild>
@@ -28,27 +28,35 @@ const Page = async ({ params }: Props) => {
       <Header title="대회 내 경기 관리" menu={<CreateGameMenu />} arrow />
 
       <div className="column h-full overflow-y-auto">
-        <Suspense fallback={null} clientOnly>
-          <LeagueOverview id={id} />
-        </Suspense>
+        <ErrorBoundary fallback={<LeagueOverviewError />}>
+          <Suspense fallback={null} clientOnly>
+            <LeagueOverview id={id} />
+          </Suspense>
+        </ErrorBoundary>
 
         <hr className="h-2 w-full border-none bg-neutral-50" />
 
-        <Suspense fallback={null} clientOnly>
-          <GameList id={id} state="PLAYING" />
-        </Suspense>
+        <ErrorBoundary fallback={<GameListError />}>
+          <Suspense fallback={null} clientOnly>
+            <GameList id={id} state="PLAYING" />
+          </Suspense>
+        </ErrorBoundary>
 
         <hr className="h-2 w-full border-none bg-neutral-50" />
 
-        <Suspense fallback={null} clientOnly>
-          <GameList id={id} state="SCHEDULED" />
-        </Suspense>
+        <ErrorBoundary fallback={<GameListError />}>
+          <Suspense fallback={null} clientOnly>
+            <GameList id={id} state="SCHEDULED" />
+          </Suspense>
+        </ErrorBoundary>
 
         <hr className="h-2 w-full border-none bg-neutral-50" />
 
-        <Suspense fallback={null} clientOnly>
-          <GameList id={id} state="FINISHED" />
-        </Suspense>
+        <ErrorBoundary fallback={<GameListError />}>
+          <Suspense fallback={null} clientOnly>
+            <GameList id={id} state="FINISHED" />
+          </Suspense>
+        </ErrorBoundary>
       </div>
     </>
   );
