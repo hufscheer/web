@@ -6,7 +6,7 @@ export type GameType = {
   id: number;
   isPkTaken: boolean;
   startTime: string;
-  state: string;
+  state: GameStateType;
   gameName: string;
   round: number;
   videoId: string;
