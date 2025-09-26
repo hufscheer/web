@@ -28,7 +28,6 @@ export const useBlockCheerTalk = () => {
 
   return useMutation({
     mutationFn: blockCheerTalk,
-    // 2. 추출한 함수를 onSuccess 콜백으로 사용합니다.
     onSuccess: invalidateCheerTalkQueries,
   });
 };
@@ -38,7 +37,6 @@ export const useUnblockCheerTalk = () => {
 
   return useMutation({
     mutationFn: unblockCheerTalk,
-    // 2. 추출한 함수를 onSuccess 콜백으로 사용합니다.
     onSuccess: invalidateCheerTalkQueries,
   });
 };
