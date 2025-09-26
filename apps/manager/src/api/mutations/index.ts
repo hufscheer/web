@@ -7,6 +7,6 @@ export * from './useGeneratePresignedUrl';
 export * from './useImageUpload';
 export * from './useLogin';
 export * from './useUpdateCheerTalkBlock';
-export * from './useUpdateCheerTalkUnBlock';
+export * from './useUpdateCheerTalkUnblock';
 export * from './useUpdatePlayers';
 export * from './useUpdateTeams';

@@ -2,7 +2,7 @@
 
 import { Button, toast } from '@hcc/ui';
 import { useEffect, useState } from 'react';
-import { type CheerTalkType, useUpdateCheerTalkBlock, useUpdateCheerTalkUnBlock } from '~/api';
+import { type CheerTalkType, useUpdateCheerTalkBlock, useUpdateCheerTalkUnblock } from '~/api';
 import { AlertDialog } from '~/components/ui';
 import CheerTalkCard from './cheertalk-card';
 
@@ -13,7 +13,7 @@ type CheerTalkListProps = {
 
 export const CheerTalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
   const { mutate: block } = useUpdateCheerTalkBlock();
-  const { mutate: unblock } = useUpdateCheerTalkUnBlock();
+  const { mutate: unblock } = useUpdateCheerTalkUnblock();
   const [lastAccessedAt, setLastAccessedAt] = useState<string>(new Date(0).toISOString());
 
   useEffect(() => {

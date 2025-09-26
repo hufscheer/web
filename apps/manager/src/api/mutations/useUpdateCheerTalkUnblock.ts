@@ -6,15 +6,15 @@ type Request = {
   cheerTalkId: number;
 };
 
-const patchCheerTalkUnBlock = ({ leagueId, cheerTalkId }: Request) => {
+const patchCheerTalkUnblock = ({ leagueId, cheerTalkId }: Request) => {
   return fetcher.patch<void>(`cheer-talks/${leagueId}/${cheerTalkId}/unblock`);
 };
 
-export const useUpdateCheerTalkUnBlock = () => {
+export const useUpdateCheerTalkUnblock = () => {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: patchCheerTalkUnBlock,
+    mutationFn: patchCheerTalkUnblock,
     onSuccess: async () => {
       await qc.invalidateQueries({ queryKey: queryKeys.cheertalks._def });
     },
