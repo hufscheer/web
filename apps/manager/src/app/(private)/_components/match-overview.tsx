@@ -38,7 +38,7 @@ export const MatchOverview = () => {
                   <GameCard.Team key={team.gameTeamId} {...team} />
                 ))}
               </GameCard.TeamGroup>
-              <GameCard.Menu leagueId={league.id} id={league.id} />
+              <GameCard.Menu leagueId={league.id} id={game.id} />
             </GameCard>
           ))}
 
