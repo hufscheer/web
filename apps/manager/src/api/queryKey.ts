@@ -1,11 +1,11 @@
 import { fetcher } from '@hcc/api-base';
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
 import type {
+  CheerTalkPayload,
+  CheerTalkType,
   GameListPayload,
   GameListResponse,
   LeagueDetailPayload,
-  CheerTalkPayload,
-  CheerTalkType,
   LeagueDetailType,
   LeagueType,
   PlayerDetailPayload,

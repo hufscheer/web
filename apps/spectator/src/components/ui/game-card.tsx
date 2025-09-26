@@ -9,7 +9,7 @@ import type { GameListResponse, GameListType, GameTeamType } from '~/api';
 import { routes } from '~/constants/routes';
 
 /* -------------------------------------------------------------------------------------------------
- * GameList
+ * GameCard
  * -----------------------------------------------------------------------------------------------*/
 
 const GameCardRoot = ({ children, className, ...props }: ComponentProps<'div'>) => {
@@ -24,7 +24,7 @@ const GameCardRoot = ({ children, className, ...props }: ComponentProps<'div'>) 
 };
 
 /* -------------------------------------------------------------------------------------------------
- * GameList.League
+ * GameCard.League
  * -----------------------------------------------------------------------------------------------*/
 
 interface GameCardLeagueProps extends ComponentProps<'div'> {
@@ -49,7 +49,7 @@ const GameCardLeague = ({ league, className, ...props }: GameCardLeagueProps) =>
 };
 
 /* -------------------------------------------------------------------------------------------------
- * GameList.Container
+ * GameCard.Container
  * -----------------------------------------------------------------------------------------------*/
 
 const GameCardContainer = ({ children, className, ...props }: ComponentProps<'div'>) => {
@@ -82,7 +82,7 @@ const GameCardHeader = ({ game, className, ...props }: GameCardHeaderProps) => {
 };
 
 /* -------------------------------------------------------------------------------------------------
- * GameList.Team
+ * GameCard.Team
  * -----------------------------------------------------------------------------------------------*/
 
 interface GameCardTeamProps extends ComponentProps<'div'> {
@@ -137,7 +137,7 @@ const GameCardTeam = ({ team, position, className, ...props }: GameCardTeamProps
 };
 
 /* -------------------------------------------------------------------------------------------------
- * GameList.Score
+ * GameCard.Score
  * -----------------------------------------------------------------------------------------------*/
 
 interface GameCardScoreProps extends ComponentProps<'div'> {
@@ -160,7 +160,7 @@ const GameCardScore = ({ game, className, ...props }: GameCardScoreProps) => {
 };
 
 /* -------------------------------------------------------------------------------------------------
- * GameList.Actions
+ * GameCard.Actions
  * -----------------------------------------------------------------------------------------------*/
 
 interface GameCardActionsProps extends ComponentProps<'div'> {
@@ -199,7 +199,7 @@ const GameCardActions = ({
 };
 
 /* -------------------------------------------------------------------------------------------------
- * GameList.Divider
+ * GameCard.Divider
  * -----------------------------------------------------------------------------------------------*/
 
 const GameCardDivider = ({ className, ...props }: ComponentProps<'hr'>) => {

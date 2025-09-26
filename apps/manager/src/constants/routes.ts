@@ -18,6 +18,6 @@ export const routes = {
   game_timeline: (leagueId: number, id: number) => `leagues/${leagueId}/${id}/timeline`,
   game_create: (leagueId: number) => `leagues/${leagueId}/create-game`,
 
-  cheertalk: 'cheertalks',
+  cheertalks: 'cheertalks',
   cheertalk_block: 'cheertalks/blocked',
 } as const;
