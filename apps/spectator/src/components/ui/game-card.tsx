@@ -61,7 +61,7 @@ const GameCardContainer = ({ children, className, ...props }: ComponentProps<'di
 };
 
 /* -------------------------------------------------------------------------------------------------
- * GameList.Header
+ * GameCard.Header
  * -----------------------------------------------------------------------------------------------*/
 
 interface GameCardHeaderProps extends ComponentProps<'div'> {
