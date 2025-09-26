@@ -12,7 +12,7 @@ const CheerTalkCard = ({ cheerTalk, lastAccessedAt }: Props) => {
 
   const isUnread = cheerTalkDate > lastAccessedDate;
   return (
-    <div className="flex w-[80%] flex-col gap-1 rounded-lg bg-[#FBFBFC] px-3 py-2">
+    <div className="flex w-[80%] flex-col gap-1 rounded-lg bg-neutral-50 px-3 py-2">
       <Typography fontSize={12} color={colors.neutral500} weight="medium" lineHeight="none" asChild>
         <time>
           {formatTime(cheerTalk.createdAt, { format: 'YYYY년 MM월 DD일 HH:mm', locale: 'ko' })}
