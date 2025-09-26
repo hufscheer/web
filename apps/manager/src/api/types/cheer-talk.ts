@@ -14,10 +14,3 @@ export type CheerTalkPayload = {
   cursor: number;
   size: number;
 };
-
-export type TeamDirection = 'HOME' | 'AWAY';
-
-export type GameCheerTalkWithTeamInfo = CheerTalkType & {
-  direction: TeamDirection;
-  logoImageUrl: string;
-};
