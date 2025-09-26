@@ -8,7 +8,7 @@ export type GameFormTeamType = {
     teamPlayerId: number;
     state: 'STARTER' | 'CANDIDATE';
     isCaptain: boolean;
-  };
+  }[];
 };
 
 export type GameFormType = {
