@@ -6,7 +6,7 @@ import { CheertalkList } from '../_components/cheertalk-list';
 import { useSuspenseCheerTalkBlock } from '~/api/queries/useCheerTalkBlock';
 
 const Page = () => {
-  const { data } = useSuspenseCheerTalkBlock({ cursor: 1, size: 2 });
+  const { data } = useSuspenseCheerTalkBlock({ cursor: 1, size: 5 });
   return (
     <>
       <Header title="응원톡 관리" arrow />

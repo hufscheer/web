@@ -8,14 +8,12 @@ import { useSuspenseCheerTalkReport } from '~/api/queries/useCheerTalkReport';
 
 type TabKey = 'ALL' | 'REPORTED';
 const AllCheerTalkContent = () => {
-  const { data } = useSuspenseCheerTalks({ cursor: 1, size: 5 });
-  console.log(data);
+  const { data } = useSuspenseCheerTalks({ cursor: 1, size: 2 });
   return <CheertalkList cheerTalks={data} status="all" />;
 };
 
 const ReportedCheerTalkContent = () => {
   const { data } = useSuspenseCheerTalkReport({ cursor: 1, size: 2 });
-  console.log(data);
   return <CheertalkList cheerTalks={data} status="reported" />;
 };
 const TABS_CONFIG = [
@@ -35,7 +33,7 @@ export default function CheerTalkTabs() {
   const [activeTab, setActiveTab] = useState<TabKey>('ALL');
   const ActiveContent = TABS_CONFIG.find(t => t.key === activeTab)?.renderer;
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex h-screen flex-col gap-3">
       <div className="flex justify-center">
         <div className="relative flex w-full rounded-lg bg-gray-200 p-1">
           {TABS_CONFIG.map(tab => (
@@ -56,7 +54,9 @@ export default function CheerTalkTabs() {
           ))}
         </div>
       </div>
-      <div>{ActiveContent ? <ActiveContent /> : null}</div>
+      <div className="flex-1 overflow-y-auto pb-[92px]">
+        {ActiveContent ? <ActiveContent /> : null}
+      </div>
     </div>
   );
 }
