@@ -11,7 +11,9 @@ export type CheerTalkType = {
 };
 
 export type CheerTalkPayload = {
-  gameId: number;
+  //gameId: number;
+  cursor: number;
+  size: number;
 };
 
 export type TeamDirection = 'HOME' | 'AWAY';

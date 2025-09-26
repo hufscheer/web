@@ -15,11 +15,11 @@ type CheerTalk = {
 };
 
 type CheerTalkListProps = {
-  cheerTalk: CheerTalk;
+  cheerTalks: CheerTalk[];
   status: 'all' | 'reported' | 'blocked';
 };
 
-export const CheertalkList = ({ cheerTalk, status }: CheerTalkListProps) => {
+export const CheertalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
   const handleHide = () => {
     toast.success('응원톡을 가렸어요');
   };
@@ -70,8 +70,12 @@ export const CheertalkList = ({ cheerTalk, status }: CheerTalkListProps) => {
 
   return (
     <div className="flex flex-col gap-2">
-      <CheerTalkCard cheerTalk={cheerTalk} />
-      <div className="flex w-full items-center gap-2">{renderActions()}</div>
+      {cheerTalks.map(cheerTalk => (
+        <div key={cheerTalk.cheerTalkId} className="flex flex-col gap-2">
+          <CheerTalkCard cheerTalk={cheerTalk} />{' '}
+          <div className="flex w-full items-center gap-2">{renderActions()}</div>
+        </div>
+      ))}
     </div>
   );
 };

@@ -6,6 +6,8 @@ import type {
   PlayerDetailPayload,
   PlayerType,
   TeamType,
+  CheerTalkType,
+  CheerTalkPayload,
 } from './types';
 
 const leagueQueryKeys = createQueryKeys('leagues', {
@@ -41,4 +43,24 @@ const teamQueryKeys = createQueryKeys('teams', {
   }),
 });
 
-export const queryKeys = mergeQueryKeys(leagueQueryKeys, playerQueryKeys, teamQueryKeys);
+const cheerTalkQueryKeys = createQueryKeys('cheer-talks', {
+  list: (params: CheerTalkPayload) => ({
+    queryKey: [{ scope: 'reported', ...params }],
+    queryFn: () => fetcher.get<CheerTalkType[]>('cheer-talks'),
+  }),
+  reported: (params: CheerTalkPayload) => ({
+    queryKey: [{ scope: 'reported', ...params }],
+    queryFn: () => fetcher.get<CheerTalkType[]>('cheer-talks/reported'),
+  }),
+  blocked: (params: CheerTalkPayload) => ({
+    queryKey: [{ scope: 'blocked', ...params }],
+    queryFn: () => fetcher.get<CheerTalkType[]>('cheer-talks/blocked'),
+  }),
+});
+
+export const queryKeys = mergeQueryKeys(
+  leagueQueryKeys,
+  playerQueryKeys,
+  teamQueryKeys,
+  cheerTalkQueryKeys,
+);

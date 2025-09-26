@@ -3,40 +3,20 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 import { CheertalkList } from './cheertalk-list';
+import { useSuspenseCheerTalks } from '~/api/queries/useCheerTalks';
+import { useSuspenseCheerTalkReport } from '~/api/queries/useCheerTalkReport';
 
 type TabKey = 'ALL' | 'REPORTED';
 const AllCheerTalkContent = () => {
-  return (
-    <CheertalkList
-      cheerTalk={{
-        cheerTalkId: 1,
-        content: '응원합니다! 화이팅!',
-        gameTeamId: 101,
-        createdAt: '2025-09-23T13:00:00',
-        isBlocked: false,
-        leagueName: '트로이카',
-        gameName: '외대 VS 경희대',
-      }}
-      status="all"
-    />
-  );
+  const { data } = useSuspenseCheerTalks({ cursor: 1, size: 5 });
+  console.log(data);
+  return <CheertalkList cheerTalks={data} status="all" />;
 };
 
 const ReportedCheerTalkContent = () => {
-  return (
-    <CheertalkList
-      cheerTalk={{
-        cheerTalkId: 1,
-        content: '응원합니다! 화이팅!',
-        gameTeamId: 101,
-        createdAt: '2025-09-23T13:00:00',
-        isBlocked: false,
-        leagueName: '트로이카',
-        gameName: '외대 VS 경희대',
-      }}
-      status="reported"
-    />
-  );
+  const { data } = useSuspenseCheerTalkReport({ cursor: 1, size: 2 });
+  console.log(data);
+  return <CheertalkList cheerTalks={data} status="reported" />;
 };
 const TABS_CONFIG = [
   {
