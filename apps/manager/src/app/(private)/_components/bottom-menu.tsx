@@ -1,8 +1,7 @@
-import { GroupIcon, PersonIcon, RewardedAdsIcon } from '@hcc/icons';
+import { ChatFillIcon, GroupIcon, PersonIcon, RewardedAdsIcon } from '@hcc/icons';
 import { Button } from '@hcc/ui';
 import Link from 'next/link';
 import { routes } from '~/constants/routes';
-import { ChatFillIcon } from '../../../../../../packages/icons/src/components/semantic/ChatFillIcon';
 
 export const BottomMenu = () => {
   return (
