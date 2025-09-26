@@ -54,6 +54,9 @@ export const CheertalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
         onSuccess: () => {
           toast.success('응원톡을 복구했어요.');
         },
+        onError: () => {
+          toast.error('오류가 발생했습니다. 다시 시도해주세요.');
+        },
       },
     );
   };
