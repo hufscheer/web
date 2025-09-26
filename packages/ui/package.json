@@ -48,7 +48,7 @@
     "@hcc/typescript-config": "workspace:*",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
-    "rollup": "^4.50.2",
+    "rollup": "^4.52.2",
     "typescript": "^5.9.2"
   },
   "peerDependencies": {

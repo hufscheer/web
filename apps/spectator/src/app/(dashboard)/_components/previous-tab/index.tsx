@@ -1,5 +1,6 @@
 'use client';
 
+import { colors, Typography } from '@hcc/ui';
 import { ErrorBoundary, Suspense } from '@suspensive/react';
 import { useSuspenseLeagues } from '~/api';
 import { LeagueCard } from './league-card';
@@ -23,7 +24,11 @@ export const PreviousTab = ({ year }: Props) => {
 
             <LeagueCard.Divider />
 
-            <LeagueCard.Teams leagueId={league.leagueId} />
+            <ErrorBoundary fallback={null}>
+              <Suspense fallback={null} clientOnly>
+                <LeagueCard.Teams leagueId={league.leagueId} />
+              </Suspense>
+            </ErrorBoundary>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <ErrorBoundary fallback={null}>
@@ -32,7 +37,20 @@ export const PreviousTab = ({ year }: Props) => {
                 </Suspense>
               </ErrorBoundary>
 
-              <ErrorBoundary fallback={null}>
+              <ErrorBoundary
+                fallback={
+                  <div className="center-y rounded-md bg-gray-50 p-3">
+                    <Typography
+                      className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap"
+                      fontSize={13}
+                      color={colors.neutral500}
+                      weight="medium"
+                    >
+                      리그 통계 데이터가 집계되지 않았어요.
+                    </Typography>
+                  </div>
+                }
+              >
                 <Suspense fallback={null} clientOnly>
                   <LeagueCard.Statistics leagueId={league.leagueId} />
                 </Suspense>
