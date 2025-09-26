@@ -52,7 +52,7 @@ export const TeamList = ({ edit }: Props) => {
               </span>
             </TeamDeleteDialog>
           ) : (
-            <Link className="center" href={`/${routes.team}/${team.id}`}>
+            <Link className="center" href={`/${routes.teams}/${team.id}`}>
               <ChevronForwardIcon size={24} />
             </Link>
           )}

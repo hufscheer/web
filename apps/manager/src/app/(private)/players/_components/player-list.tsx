@@ -59,7 +59,7 @@ export const PlayerList = ({ edit }: Props) => {
                   </span>
                 </PlayerDeleteDialog>
               ) : (
-                <Link className="center" href={`/${routes.player}/${player.playerId}`}>
+                <Link className="center" href={`/${routes.players}/${player.playerId}`}>
                   <ChevronForwardIcon size={24} />
                 </Link>
               )}

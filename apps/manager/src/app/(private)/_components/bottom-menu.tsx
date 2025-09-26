@@ -13,19 +13,19 @@ export const BottomMenu = () => {
           </Link>
         </Button>
         <Button className="flex-1 gap-1" variant="subtle" asChild>
-          <Link href={`/${routes.cheertalk}`}>
+          <Link href={`/${routes.cheertalks}`}>
             <ChatFillIcon size={20} /> 응원톡 관리
           </Link>
         </Button>
       </div>
       <div className="row-between gap-2">
         <Button className="flex-1 gap-1" variant="subtle" asChild>
-          <Link href={`/${routes.player}`}>
+          <Link href={`/${routes.players}`}>
             <PersonIcon size={20} /> 선수 관리
           </Link>
         </Button>
         <Button className="flex-1 gap-1" variant="subtle" asChild>
-          <Link href={`/${routes.team}`}>
+          <Link href={`/${routes.teams}`}>
             <GroupIcon size={20} /> 팀 관리
           </Link>
         </Button>

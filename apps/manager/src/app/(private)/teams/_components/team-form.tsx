@@ -1,11 +1,11 @@
-import { toast } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 import type { ComponentProps } from 'react';
 import { useState } from 'react';
-import { type FieldErrors, FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 import type { TeamFormType } from '~/api';
 import { SwitchCase } from '~/components/feature';
+import { handleFormError } from '~/utils/form-util';
 import { StepProgress } from './step-progress';
 import { TeamBasicInfoStep } from './team-basic-info-step';
 import { TeamPlayersStep } from './team-players-step';
@@ -40,17 +40,6 @@ export const TeamForm = ({ className, onSubmit, initialData, ...props }: Props) 
       return result;
     }
     return Promise.resolve();
-  };
-
-  const handleFormError = (errors: FieldErrors<TeamFormType>) => {
-    const messages = Object.values(errors)
-      .map(error => error?.message)
-      .filter(Boolean);
-
-    const [first, ...rest] = messages;
-    const suffix = rest.length > 0 ? ` (외 ${rest.length}개의 오류)` : '';
-
-    toast.error(`${first}${suffix}`);
   };
 
   return (
