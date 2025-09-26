@@ -9,7 +9,7 @@ type Props = {
 const Page = async ({ params }: Props) => {
   const { id: _id } = await params;
 
-  if (!_id || Number.isNaN(_id)) notFound();
+  if (!_id || Number.isNaN(Number(_id))) notFound();
   const id: number = Number(_id);
 
   return (
