@@ -3,6 +3,7 @@
 import { Button, toast } from '@hcc/ui';
 import { AlertDialog } from '~/components/ui';
 import CheerTalkCard from './cheertalkCard';
+import { useEffect, useState } from 'react';
 
 type CheerTalk = {
   cheerTalkId: number;
@@ -20,6 +21,18 @@ type CheerTalkListProps = {
 };
 
 export const CheertalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
+  const [lastAccessedAt, setLastAccessedAt] = useState<string>(new Date(0).toISOString());
+
+  useEffect(() => {
+    const storageKey = 'cheerTalkLastAccessedAt';
+    const storedTime = localStorage.getItem(storageKey);
+    if (storedTime) {
+      setLastAccessedAt(storedTime);
+    }
+    return () => {
+      localStorage.setItem(storageKey, new Date().toISOString());
+    };
+  }, []);
   const handleHide = () => {
     toast.success('응원톡을 가렸어요');
   };
@@ -72,7 +85,7 @@ export const CheertalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
     <div className="flex flex-col gap-2">
       {cheerTalks.map(cheerTalk => (
         <div key={cheerTalk.cheerTalkId} className="flex flex-col gap-2">
-          <CheerTalkCard cheerTalk={cheerTalk} />{' '}
+          <CheerTalkCard cheerTalk={cheerTalk} lastAccessedAt={lastAccessedAt} />
           <div className="flex w-full items-center gap-2">{renderActions()}</div>
         </div>
       ))}

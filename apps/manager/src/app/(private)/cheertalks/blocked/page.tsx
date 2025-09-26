@@ -1,9 +1,9 @@
 'use client';
 
 import { Suspense } from '@suspensive/react';
+import { useSuspenseCheerTalkBlock } from '~/api/queries/useCheerTalkBlock';
 import { Header } from '~/components/layout';
 import { CheertalkList } from '../_components/cheertalk-list';
-import { useSuspenseCheerTalkBlock } from '~/api/queries/useCheerTalkBlock';
 
 const Page = () => {
   const { data } = useSuspenseCheerTalkBlock({ cursor: 1, size: 5 });
