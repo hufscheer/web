@@ -85,7 +85,12 @@ export const CheertalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
             >
               채팅 가리기
             </Button>
-            <Button color="primary" variant="subtle" className="flex-1">
+            <Button
+              color="primary"
+              variant="subtle"
+              className="flex-1"
+              onClick={() => handleUnhide(cheerTalk)}
+            >
               신고 취소하기
             </Button>
           </>
