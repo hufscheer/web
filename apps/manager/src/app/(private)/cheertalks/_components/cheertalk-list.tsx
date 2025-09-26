@@ -1,26 +1,20 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Button, toast } from '@hcc/ui';
+import type { CheerTalkType } from '~/api';
+import { useBlockCheerTalk, useUnblockCheerTalk } from '~/api/mutations/useUpdateCheerTalks';
 import { AlertDialog } from '~/components/ui';
 import CheerTalkCard from './cheertalkCard';
-import { useEffect, useState } from 'react';
-
-type CheerTalk = {
-  cheerTalkId: number;
-  content: string;
-  gameTeamId: number;
-  createdAt: string;
-  isBlocked: boolean;
-  leagueName: string;
-  gameName: string;
-};
 
 type CheerTalkListProps = {
-  cheerTalks: CheerTalk[];
+  cheerTalks: CheerTalkType[];
   status: 'all' | 'reported' | 'blocked';
 };
 
 export const CheertalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
+  const { mutate: block } = useBlockCheerTalk();
+  const { mutate: unblock } = useUnblockCheerTalk();
   const [lastAccessedAt, setLastAccessedAt] = useState<string>(new Date(0).toISOString());
 
   useEffect(() => {
@@ -33,26 +27,59 @@ export const CheertalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
       localStorage.setItem(storageKey, new Date().toISOString());
     };
   }, []);
-  const handleHide = () => {
-    toast.success('응원톡을 가렸어요');
+  const handleHide = (cheerTalk: CheerTalkType) => {
+    block(
+      {
+        leagueId: cheerTalk.leagueId,
+        cheerTalkId: cheerTalk.cheerTalkId,
+      },
+      {
+        onSuccess: () => {
+          toast.success('응원톡을 가렸어요');
+        },
+        onError: () => {
+          toast.error('오류가 발생했습니다. 다시 시도해주세요.');
+        },
+      },
+    );
   };
 
-  const handleUnhide = () => {
-    toast.success('응원톡을 복구했어요.');
+  const handleUnhide = (cheerTalk: CheerTalkType) => {
+    unblock(
+      {
+        leagueId: cheerTalk.leagueId,
+        cheerTalkId: cheerTalk.cheerTalkId,
+      },
+      {
+        onSuccess: () => {
+          toast.success('응원톡을 복구했어요.');
+        },
+      },
+    );
   };
 
-  const renderActions = () => {
+  const renderActions = (cheerTalk: CheerTalkType) => {
     switch (status) {
       case 'all':
         return (
-          <Button color="danger" variant="subtle" className="flex-1" onClick={handleHide}>
+          <Button
+            color="danger"
+            variant="subtle"
+            className="flex-1"
+            onClick={() => handleHide(cheerTalk)}
+          >
             채팅 가리기
           </Button>
         );
       case 'reported':
         return (
           <>
-            <Button color="danger" variant="subtle" className="flex-1" onClick={handleHide}>
+            <Button
+              color="danger"
+              variant="subtle"
+              className="flex-1"
+              onClick={() => handleHide(cheerTalk)}
+            >
               채팅 가리기
             </Button>
             <Button color="primary" variant="subtle" className="flex-1">
@@ -68,7 +95,7 @@ export const CheertalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
               description="가리기 해제 시 채팅이 응원톡에 노출됩니다."
               primaryTitle="해제"
               secondaryTitle="취소"
-              onPrimaryClick={handleUnhide}
+              onPrimaryClick={() => handleUnhide(cheerTalk)}
             >
               <Button asChild color="primary" variant="subtle" className="w-full">
                 <span>가리기 해제</span>
@@ -86,7 +113,7 @@ export const CheertalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
       {cheerTalks.map(cheerTalk => (
         <div key={cheerTalk.cheerTalkId} className="flex flex-col gap-2">
           <CheerTalkCard cheerTalk={cheerTalk} lastAccessedAt={lastAccessedAt} />
-          <div className="flex w-full items-center gap-2">{renderActions()}</div>
+          <div className="flex w-full items-center gap-2">{renderActions(cheerTalk)}</div>
         </div>
       ))}
     </div>

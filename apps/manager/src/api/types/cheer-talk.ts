@@ -1,7 +1,7 @@
 export type CheerTalkType = {
   cheerTalkId: number;
-  gameId?: number;
-  leagueId?: number;
+  gameId: number;
+  leagueId: number;
   content: string;
   gameTeamId: number;
   createdAt: string;
@@ -11,7 +11,6 @@ export type CheerTalkType = {
 };
 
 export type CheerTalkPayload = {
-  //gameId: number;
   cursor: number;
   size: number;
 };
