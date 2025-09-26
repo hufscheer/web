@@ -1,0 +1,22 @@
+import { fetcher, useMutation, useQueryClient } from '@hcc/api-base';
+import { queryKeys } from '~/api/queryKey';
+
+type Request = {
+  leagueId: number;
+  cheerTalkId: number;
+};
+
+const patchCheerTalkUnblock = ({ leagueId, cheerTalkId }: Request) => {
+  return fetcher.patch<void>(`cheer-talks/${leagueId}/${cheerTalkId}/unblock`);
+};
+
+export const useUpdateCheerTalkUnblock = () => {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: patchCheerTalkUnblock,
+    onSuccess: async () => {
+      await qc.invalidateQueries({ queryKey: queryKeys.cheertalks._def });
+    },
+  });
+};
