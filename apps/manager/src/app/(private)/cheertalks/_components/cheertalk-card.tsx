@@ -1,6 +1,6 @@
 import { formatTime } from '@hcc/toolkit';
-import clsx from 'clsx';
-import type { CheerTalkType } from '~/api/types/cheer-talk';
+import { colors, Typography } from '@hcc/ui';
+import type { CheerTalkType } from '~/api';
 
 type Props = {
   cheerTalk: CheerTalkType;
@@ -13,23 +13,17 @@ const CheerTalkCard = ({ cheerTalk, lastAccessedAt }: Props) => {
   const isUnread = cheerTalkDate > lastAccessedDate;
   return (
     <div className="flex w-[80%] flex-col gap-1 rounded-lg bg-[#FBFBFC] px-3 py-2">
-      <span className="font-medium text-[#79828C] text-sm">
-        {formatTime(cheerTalk.createdAt, {
-          format: 'YYYY년 MM월 DD일 HH:mm',
-          locale: 'ko',
-        })}
-      </span>
-      <p
-        className={clsx('font-medium text-base', {
-          'text-[#141B21]': isUnread,
-          'text-[#79828C]': !isUnread,
-        })}
-      >
+      <Typography fontSize={12} color={colors.neutral500} weight="medium" lineHeight="none" asChild>
+        <time>
+          {formatTime(cheerTalk.createdAt, { format: 'YYYY년 MM월 DD일 HH:mm', locale: 'ko' })}
+        </time>
+      </Typography>
+      <Typography weight="medium" color={isUnread ? colors.neutral900 : colors.neutral500}>
         {cheerTalk.content}
-      </p>
-      <p className="font-light text-[#79828C] text-sm">
+      </Typography>
+      <Typography fontSize={12} color={colors.neutral500} lineHeight="none">
         {cheerTalk.leagueName} - {cheerTalk.gameName}
-      </p>
+      </Typography>
     </div>
   );
 };

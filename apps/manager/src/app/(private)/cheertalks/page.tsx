@@ -1,12 +1,12 @@
-import { Spinner, Typography } from '@hcc/ui';
+import { colors, Spinner, Typography } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 import Link from 'next/link';
 import { Header } from '~/components/layout';
 import { routes } from '~/constants/routes';
-import { CheertalkOverview } from './_components/cheertalk-overview';
+import { CheerTalkTabs } from './_components/cheertalk-tab';
 
 const BlockedTalkMenu = () => (
-  <Typography color="var(--color-neutral-500)" weight="semibold" asChild>
+  <Typography color={colors.neutral500} weight="semibold" asChild>
     <Link href={`/${routes.cheertalk_block}`}>가려진 목록</Link>
   </Typography>
 );
@@ -16,7 +16,7 @@ const Page = () => {
     <>
       <Header title="응원톡 관리" menu={<BlockedTalkMenu />} arrow />
 
-      <div className="column h-full gap-1.5 overflow-hidden bg-white">
+      <div className="column h-full gap-2 overflow-hidden bg-white px-5 py-4">
         <Suspense
           fallback={
             <div className="center p-5">
@@ -25,7 +25,7 @@ const Page = () => {
           }
           clientOnly
         >
-          <CheertalkOverview />
+          <CheerTalkTabs />
         </Suspense>
       </div>
     </>

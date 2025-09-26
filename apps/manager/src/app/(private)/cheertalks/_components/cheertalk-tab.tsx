@@ -1,37 +1,31 @@
 'use client';
 
-import clsx from 'clsx';
 import { useState } from 'react';
-import { CheertalkList } from './cheertalk-list';
-import { useSuspenseCheerTalks } from '~/api/queries/useCheerTalks';
+import { twMerge } from 'tailwind-merge';
 import { useSuspenseCheerTalkReport } from '~/api/queries/useCheerTalkReport';
+import { useSuspenseCheerTalks } from '~/api/queries/useCheerTalks';
+import { CheerTalkList } from './cheertalk-list';
 
 type TabKey = 'ALL' | 'REPORTED';
+
 const AllCheerTalkContent = () => {
   const { data } = useSuspenseCheerTalks({ cursor: 1, size: 2 });
-  return <CheertalkList cheerTalks={data} status="all" />;
+  return <CheerTalkList cheerTalks={data} status="all" />;
 };
 
 const ReportedCheerTalkContent = () => {
   const { data } = useSuspenseCheerTalkReport({ cursor: 1, size: 2 });
-  return <CheertalkList cheerTalks={data} status="reported" />;
+  return <CheerTalkList cheerTalks={data} status="reported" />;
 };
+
 const TABS_CONFIG = [
-  {
-    key: 'ALL',
-    label: '전체 응원톡',
-    renderer: () => <AllCheerTalkContent />,
-  },
-  {
-    key: 'REPORTED',
-    label: '신고된 응원톡',
-    renderer: () => <ReportedCheerTalkContent />,
-  },
+  { key: 'ALL', label: '전체 응원톡', renderer: () => <AllCheerTalkContent /> },
+  { key: 'REPORTED', label: '신고된 응원톡', renderer: () => <ReportedCheerTalkContent /> },
 ] as const;
 
-export default function CheerTalkTabs() {
+export const CheerTalkTabs = () => {
   const [activeTab, setActiveTab] = useState<TabKey>('ALL');
-  const ActiveContent = TABS_CONFIG.find(t => t.key === activeTab)?.renderer;
+
   return (
     <div className="flex h-screen flex-col gap-3">
       <div className="flex justify-center">
@@ -41,12 +35,11 @@ export default function CheerTalkTabs() {
               key={tab.key}
               type="button"
               onClick={() => setActiveTab(tab.key)}
-              className={clsx(
-                'flex-1 rounded-md py-2 text-center font-medium text-sm transition-all duration-300 ease-in-out',
-                {
-                  'bg-white text-black shadow-md': activeTab === tab.key,
-                  'bg-transparent text-gray-500': activeTab !== tab.key,
-                },
+              className={twMerge(
+                'flex-1 rounded-md py-1 text-center font-medium text-sm transition-colors duration-150 ease-in-out',
+                activeTab === tab.key
+                  ? 'bg-white text-black shadow-md'
+                  : 'bg-transparent text-gray-500',
               )}
             >
               {tab.label}
@@ -54,9 +47,10 @@ export default function CheerTalkTabs() {
           ))}
         </div>
       </div>
+
       <div className="flex-1 overflow-y-auto pb-[92px]">
-        {ActiveContent ? <ActiveContent /> : null}
+        {TABS_CONFIG.find(tab => tab.key === activeTab)?.renderer() || null}
       </div>
     </div>
   );
-}
+};

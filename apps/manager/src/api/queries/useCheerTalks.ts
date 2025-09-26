@@ -1,9 +1,9 @@
 import { useQuery, useSuspenseQuery } from '@hcc/api-base';
+import type { CheerTalkPayload } from '~/api';
 import { queryKeys } from '../queryKey';
-import type { CheerTalkPayload } from '../types';
 
 export const useCheerTalks = (payload: CheerTalkPayload) =>
-  useQuery(queryKeys['cheer-talks'].list(payload));
+  useQuery(queryKeys.cheertalks.list(payload));
 
 export const useSuspenseCheerTalks = (payload: CheerTalkPayload) =>
-  useSuspenseQuery(queryKeys['cheer-talks'].list(payload));
+  useSuspenseQuery(queryKeys.cheertalks.list(payload));

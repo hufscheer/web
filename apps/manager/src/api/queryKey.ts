@@ -1,13 +1,13 @@
 import { fetcher } from '@hcc/api-base';
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
 import type {
+  CheerTalkPayload,
+  CheerTalkType,
   LeagueDetailType,
   LeagueType,
   PlayerDetailPayload,
   PlayerType,
   TeamType,
-  CheerTalkType,
-  CheerTalkPayload,
 } from './types';
 
 const leagueQueryKeys = createQueryKeys('leagues', {
@@ -43,17 +43,17 @@ const teamQueryKeys = createQueryKeys('teams', {
   }),
 });
 
-const cheerTalkQueryKeys = createQueryKeys('cheer-talks', {
-  list: (params: CheerTalkPayload) => ({
-    queryKey: [{ scope: 'list', ...params }],
+const cheerTalkQueryKeys = createQueryKeys('cheertalks', {
+  list: (payload: CheerTalkPayload) => ({
+    queryKey: [payload],
     queryFn: () => fetcher.get<CheerTalkType[]>('cheer-talks'),
   }),
-  reported: (params: CheerTalkPayload) => ({
-    queryKey: [{ scope: 'reported', ...params }],
+  reported: (payload: CheerTalkPayload) => ({
+    queryKey: [payload],
     queryFn: () => fetcher.get<CheerTalkType[]>('cheer-talks/reported'),
   }),
-  blocked: (params: CheerTalkPayload) => ({
-    queryKey: [{ scope: 'blocked', ...params }],
+  blocked: (payload: CheerTalkPayload) => ({
+    queryKey: [payload],
     queryFn: () => fetcher.get<CheerTalkType[]>('cheer-talks/blocked'),
   }),
 });

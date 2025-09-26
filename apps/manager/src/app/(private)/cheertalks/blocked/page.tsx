@@ -1,19 +1,23 @@
-'use client';
-
+import { Spinner } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
-import { useSuspenseCheerTalkBlock } from '~/api/queries/useCheerTalkBlock';
 import { Header } from '~/components/layout';
-import { CheertalkList } from '../_components/cheertalk-list';
+import { BlockedList } from './blocked-list';
 
 const Page = () => {
-  const { data } = useSuspenseCheerTalkBlock({ cursor: 1, size: 5 });
   return (
     <>
       <Header title="응원톡 관리" arrow />
 
-      <div className="column h-full gap-1.5 bg-white p-5">
-        <Suspense clientOnly>
-          <CheertalkList cheerTalks={data} status="blocked" />
+      <div className="column h-full gap-1.5 bg-white px-5 py-4">
+        <Suspense
+          fallback={
+            <div className="center p-5">
+              <Spinner size="lg" color="neutral" />
+            </div>
+          }
+          clientOnly
+        >
+          <BlockedList />
         </Suspense>
       </div>
     </>

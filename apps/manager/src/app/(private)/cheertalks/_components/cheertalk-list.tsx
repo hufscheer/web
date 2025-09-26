@@ -1,20 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { Button, toast } from '@hcc/ui';
-import type { CheerTalkType } from '~/api';
-import { useBlockCheerTalk, useUnblockCheerTalk } from '~/api/mutations/useUpdateCheerTalks';
+import { useEffect, useState } from 'react';
+import { type CheerTalkType, useUpdateCheerTalkBlock, useUpdateCheerTalkUnBlock } from '~/api';
 import { AlertDialog } from '~/components/ui';
-import CheerTalkCard from './cheertalkCard';
+import CheerTalkCard from './cheertalk-card';
 
 type CheerTalkListProps = {
   cheerTalks: CheerTalkType[];
   status: 'all' | 'reported' | 'blocked';
 };
 
-export const CheertalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
-  const { mutate: block } = useBlockCheerTalk();
-  const { mutate: unblock } = useUnblockCheerTalk();
+export const CheerTalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
+  const { mutate: block } = useUpdateCheerTalkBlock();
+  const { mutate: unblock } = useUpdateCheerTalkUnBlock();
   const [lastAccessedAt, setLastAccessedAt] = useState<string>(new Date(0).toISOString());
 
   useEffect(() => {
@@ -27,12 +26,10 @@ export const CheertalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
       localStorage.setItem(storageKey, new Date().toISOString());
     };
   }, []);
+
   const handleHide = (cheerTalk: CheerTalkType) => {
     block(
-      {
-        leagueId: cheerTalk.leagueId,
-        cheerTalkId: cheerTalk.cheerTalkId,
-      },
+      { leagueId: cheerTalk.leagueId, cheerTalkId: cheerTalk.cheerTalkId },
       {
         onSuccess: () => {
           toast.success('응원톡을 가렸어요');
@@ -46,10 +43,7 @@ export const CheertalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
 
   const handleUnhide = (cheerTalk: CheerTalkType) => {
     unblock(
-      {
-        leagueId: cheerTalk.leagueId,
-        cheerTalkId: cheerTalk.cheerTalkId,
-      },
+      { leagueId: cheerTalk.leagueId, cheerTalkId: cheerTalk.cheerTalkId },
       {
         onSuccess: () => {
           toast.success('응원톡을 복구했어요.');
@@ -66,9 +60,10 @@ export const CheertalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
       case 'all':
         return (
           <Button
+            className="flex-1"
             color="danger"
             variant="subtle"
-            className="flex-1"
+            size="sm"
             onClick={() => handleHide(cheerTalk)}
           >
             채팅 가리기
@@ -78,17 +73,19 @@ export const CheertalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
         return (
           <>
             <Button
+              className="flex-1"
               color="danger"
               variant="subtle"
-              className="flex-1"
+              size="sm"
               onClick={() => handleHide(cheerTalk)}
             >
               채팅 가리기
             </Button>
             <Button
+              className="flex-1"
               color="primary"
               variant="subtle"
-              className="flex-1"
+              size="sm"
               onClick={() => handleUnhide(cheerTalk)}
             >
               신고 취소하기
@@ -105,7 +102,7 @@ export const CheertalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
               secondaryTitle="취소"
               onPrimaryClick={() => handleUnhide(cheerTalk)}
             >
-              <Button asChild color="primary" variant="subtle" className="w-full">
+              <Button className="w-full" color="primary" variant="subtle" size="sm" asChild>
                 <span>가리기 해제</span>
               </Button>
             </AlertDialog>
