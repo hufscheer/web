@@ -33,7 +33,7 @@ export const useCreateGames = () => {
   return useMutation({
     mutationFn: postGames,
     onSuccess: async () => {
-      await Promise.any([
+      await Promise.all([
         qc.invalidateQueries({ queryKey: queryKeys.leagues._def }),
         qc.invalidateQueries({ queryKey: queryKeys.games._def }),
       ]);
