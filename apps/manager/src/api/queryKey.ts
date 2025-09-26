@@ -1,6 +1,8 @@
 import { fetcher } from '@hcc/api-base';
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
 import type {
+  CheerTalkPayload,
+  CheerTalkType,
   LeagueDetailType,
   LeagueType,
   PlayerDetailPayload,
@@ -41,4 +43,24 @@ const teamQueryKeys = createQueryKeys('teams', {
   }),
 });
 
-export const queryKeys = mergeQueryKeys(leagueQueryKeys, playerQueryKeys, teamQueryKeys);
+const cheerTalkQueryKeys = createQueryKeys('cheertalks', {
+  list: (payload: CheerTalkPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<CheerTalkType[]>('cheer-talks'),
+  }),
+  reported: (payload: CheerTalkPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<CheerTalkType[]>('cheer-talks/reported'),
+  }),
+  blocked: (payload: CheerTalkPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<CheerTalkType[]>('cheer-talks/blocked'),
+  }),
+});
+
+export const queryKeys = mergeQueryKeys(
+  leagueQueryKeys,
+  playerQueryKeys,
+  teamQueryKeys,
+  cheerTalkQueryKeys,
+);
