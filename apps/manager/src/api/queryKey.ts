@@ -45,7 +45,7 @@ const teamQueryKeys = createQueryKeys('teams', {
 
 const cheerTalkQueryKeys = createQueryKeys('cheer-talks', {
   list: (params: CheerTalkPayload) => ({
-    queryKey: [{ scope: 'reported', ...params }],
+    queryKey: [{ scope: 'list', ...params }],
     queryFn: () => fetcher.get<CheerTalkType[]>('cheer-talks'),
   }),
   reported: (params: CheerTalkPayload) => ({

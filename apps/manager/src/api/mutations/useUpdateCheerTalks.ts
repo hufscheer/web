@@ -13,25 +13,32 @@ const blockCheerTalk = ({ leagueId, cheerTalkId }: Request) => {
 const unblockCheerTalk = ({ leagueId, cheerTalkId }: Request) => {
   return fetcher.patch<void>(`cheer-talks/${leagueId}/${cheerTalkId}/unblock`);
 };
+const useCheerTalkInvalidator = () => {
+  const qc = useQueryClient();
+
+  return () => {
+    qc.invalidateQueries({ queryKey: queryKeys['cheer-talks'].list._def });
+    qc.invalidateQueries({ queryKey: queryKeys['cheer-talks'].reported._def });
+    qc.invalidateQueries({ queryKey: queryKeys['cheer-talks'].blocked._def });
+  };
+};
 
 export const useBlockCheerTalk = () => {
-  const qc = useQueryClient();
+  const invalidateCheerTalkQueries = useCheerTalkInvalidator();
 
   return useMutation({
     mutationFn: blockCheerTalk,
-    onSuccess: async () => {
-      await qc.invalidateQueries({ queryKey: queryKeys['cheer-talks']._def });
-    },
+    // 2. 추출한 함수를 onSuccess 콜백으로 사용합니다.
+    onSuccess: invalidateCheerTalkQueries,
   });
 };
 
 export const useUnblockCheerTalk = () => {
-  const qc = useQueryClient();
+  const invalidateCheerTalkQueries = useCheerTalkInvalidator();
 
   return useMutation({
     mutationFn: unblockCheerTalk,
-    onSuccess: async () => {
-      await qc.invalidateQueries({ queryKey: queryKeys['cheer-talks']._def });
-    },
+    // 2. 추출한 함수를 onSuccess 콜백으로 사용합니다.
+    onSuccess: invalidateCheerTalkQueries,
   });
 };
