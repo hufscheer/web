@@ -7,9 +7,9 @@ import { routes } from '~/constants/routes';
 import { GameList, GameListError } from './_components/game-list';
 import { LeagueOverview, LeagueOverviewError } from './_components/league-overview';
 
-const CreateGameMenu = () => (
+const CreateGameMenu = ({ id }: { id: number }) => (
   <Typography color={colors.neutral500} weight="semibold" asChild>
-    <Link href={`/${routes.games_create}`}>경기 생성</Link>
+    <Link href={`/${routes.game_create(id)}`}>경기 생성</Link>
   </Typography>
 );
 
@@ -25,7 +25,7 @@ const Page = async ({ params }: Props) => {
 
   return (
     <>
-      <Header title="대회 내 경기 관리" menu={<CreateGameMenu />} arrow />
+      <Header title="대회 내 경기 관리" menu={<CreateGameMenu id={id} />} arrow />
 
       <div className="column h-full overflow-y-auto">
         <ErrorBoundary fallback={<LeagueOverviewError />}>

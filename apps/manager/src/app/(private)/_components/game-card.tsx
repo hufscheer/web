@@ -23,7 +23,7 @@ const GameHeader = ({ leagueId, id: gameId, gameQuarter, state, startTime }: Gam
         {state ?? gameQuarter}
       </Badge>
       <Typography className="center-y" color="var(--color-neutral-500)" fontSize={14} asChild>
-        <Link href={`/${routes.leagues}/${leagueId}/${gameId}`}>
+        <Link href={`/${routes.game(leagueId, gameId)}`}>
           {formatTime(startTime, { format: 'YYYY.MM.DD. HH:mm' })}
           <ChevronForwardIcon size={20} />
         </Link>

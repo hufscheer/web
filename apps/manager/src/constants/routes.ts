@@ -16,5 +16,5 @@ export const routes = {
 
   game: (leagueId: number, id: number) => `leagues/${leagueId}/${id}`,
   game_timeline: (leagueId: number, id: number) => `leagues/${leagueId}/${id}/timeline`,
-  games_create: 'leagues/create-game',
+  game_create: (leagueId: number) => `leagues/${leagueId}/create-game`,
 } as const;

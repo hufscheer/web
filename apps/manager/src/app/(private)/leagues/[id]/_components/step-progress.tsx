@@ -59,7 +59,7 @@ export const StepProgress = ({ currentStep, totalSteps, steps }: Props) => {
               </div>
 
               {index < totalSteps - 1 && (
-                <div className="flex-1 px-5" aria-hidden="true">
+                <div className="flex-1 px-4" aria-hidden="true">
                   <div className="h-px bg-neutral-300 transition-colors duration-200" />
                 </div>
               )}
