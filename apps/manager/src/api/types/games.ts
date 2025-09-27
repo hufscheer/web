@@ -44,3 +44,4 @@ export type GameListResponse = {
   leagueName: string;
   games: GameListType[];
 };
+export type GameDetailPayload = { gameId: number };
