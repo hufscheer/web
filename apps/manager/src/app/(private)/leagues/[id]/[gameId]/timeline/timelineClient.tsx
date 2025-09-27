@@ -46,7 +46,7 @@ export default function TimelineClient({ gameId }: { gameId: number }) {
 
   return (
     <>
-      <div className="column-between h-full overflow-y-auto bg-white">
+      <div className="flex h-full flex-col justify-between bg-white">
         <Timeline gameId={gameId} />
         <BottomButton onOpen={setActiveSheet} />
       </div>

@@ -12,7 +12,12 @@ export const EventRecord = ({ record, homeTeamId }: Props) => {
   const isAway = record.gameTeamId !== homeTeamId;
 
   return (
-    <div className={twMerge('center-y relative gap-4 py-2', isAway && 'flex-row-reverse')}>
+    <div
+      className={twMerge(
+        'relative flex w-full items-center gap-4 py-2',
+        isAway && 'flex-row-reverse',
+      )}
+    >
       <div className="h-full w-[3px] bg-neutral-950" aria-hidden />
       <Typography
         className="center size-10 rounded-full border border-neutral-50"

@@ -21,7 +21,7 @@ const Page = async ({ params }: Props) => {
   const id: number = Number(_id);
 
   return (
-    <div className="-mx-auto w-screen">
+    <div className="w-full">
       <div className="flex h-screen flex-col bg-white">
         <Header title="경기 진행" menu={<TimelineDeleteMenu />} arrow />
         <div className="flex-1 overflow-y-auto">
