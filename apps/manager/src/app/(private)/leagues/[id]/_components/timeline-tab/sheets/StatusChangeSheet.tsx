@@ -1,16 +1,38 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import { Button, Input } from '@hcc/ui';
+import { useState } from 'react';
+import { Button, Input, toast } from '@hcc/ui';
 import { InputSelect } from '~/components/ui/input-select';
-import { useSuspenseGameLineupPlaying } from '~/api/queries/useGameLineupPlaying';
+import { PROGRESS_TYPE, QUARTER_TYPE } from '~/api/types';
+import type { ProgressStateType } from '~/api/types';
+import { useCreateTimelinesProgress } from '~/api/mutations/useCreateTimelineStatus';
 
 type SelectOption = { label: string; value: string };
 
-const QUARTERS = ['전반', '후반'] as const;
-const quarterOptions: SelectOption[] = QUARTERS.map(q => ({
-  label: q,
-  value: q,
+const QUARTER_LABELS: Partial<Record<keyof typeof QUARTER_TYPE, string>> = {
+  FIRST_HALF: '전반',
+  SECOND_HALF: '후반',
+  EXTRA_TIME: '연장전',
+  PENALTY_SHOOTOUT: '승부차기',
+};
+const quarterOptions: SelectOption[] = (
+  Object.keys(QUARTER_LABELS) as Array<keyof typeof QUARTER_LABELS>
+).map(key => ({
+  label: QUARTER_LABELS[key]!,
+  value: QUARTER_TYPE[key],
+}));
+
+const PROGRESS_LABELS: Record<keyof typeof PROGRESS_TYPE, string> = {
+  GAME_START: '경기 시작',
+  QUARTER_START: '쿼터 시작',
+  QUARTER_END: '쿼터 종료',
+  GAME_END: '경기 종료',
+};
+const progressOptions: SelectOption[] = (
+  Object.keys(PROGRESS_LABELS) as Array<keyof typeof PROGRESS_LABELS>
+).map(key => ({
+  label: PROGRESS_LABELS[key],
+  value: PROGRESS_TYPE[key],
 }));
 
 export default function StatusChangeSheet({
@@ -20,80 +42,38 @@ export default function StatusChangeSheet({
   gameId: number;
   onClose: () => void;
 }) {
-  const { data: lineup } = useSuspenseGameLineupPlaying({ gameId: gameId });
-
-  const allPlayers: any[] = useMemo(() => {
-    if (!lineup) return [];
-    return (
-      (lineup as any).players ?? [
-        ...((lineup as any).homePlayers ?? []),
-        ...((lineup as any).awayPlayers ?? []),
-      ]
-    );
-  }, [lineup]);
-
-  // 팀 옵션 생성
-  const teamOptions: SelectOption[] = useMemo(() => {
-    if (!lineup) return [];
-
-    if (Array.isArray((lineup as any).teams)) {
-      return (lineup as any).teams
-        .filter((t: any) => t && (t.name ?? t.teamName))
-        .map((t: any) => ({
-          label: t.name ?? t.teamName,
-          value: String(t.id ?? t.teamId),
-        }));
-    }
-
-    const out: SelectOption[] = [];
-    const home = (lineup as any).homeTeam ?? (lineup as any).home;
-    const away = (lineup as any).awayTeam ?? (lineup as any).away;
-    if (home?.id || home?.teamId)
-      out.push({
-        label: home.name ?? home.teamName,
-        value: String(home.id ?? home.teamId),
-      });
-    if (away?.id || away?.teamId)
-      out.push({
-        label: away.name ?? away.teamName,
-        value: String(away.id ?? away.teamId),
-      });
-    if (out.length) return out;
-
-    const byTeam = new Map<string, string>();
-    for (const p of allPlayers) {
-      const teamId = String(p.gameTeamId ?? p.teamId ?? '');
-      if (!teamId) continue;
-      if (!byTeam.has(teamId)) byTeam.set(teamId, p.teamName ?? `팀 ${teamId}`);
-    }
-    return Array.from(byTeam, ([value, label]) => ({ label, value }));
-  }, [lineup, allPlayers]);
-
-  const [quarter, setQuarter] = useState<string | undefined>(undefined);
-  const [teamId, setTeamId] = useState<string | undefined>(undefined);
-  const [playerId, setPlayerId] = useState<string | undefined>(undefined);
+  const { mutate: createProgress, isPending } = useCreateTimelinesProgress({
+    gameId,
+  });
+  const [quarter, setQuarter] = useState<SelectOption | null>(null);
+  const [progress, setProgress] = useState<SelectOption | null>(null);
   const [minute, setMinute] = useState<string>('');
 
-  // 선택된 팀에 따른 선수 옵션
-  const playerOptions: SelectOption[] = useMemo(() => {
-    if (!teamId) return [];
-    const tid = Number(teamId);
-    return allPlayers
-      .filter(p => Number(p.gameTeamId ?? p.teamId) === tid)
-      .map(p => {
-        const num = p.backNumber ?? p.uniformNo ?? p.number;
-        const name = p.playerName ?? p.name;
-        return {
-          label: num ? `${num} ${name}` : String(name),
-          value: String(p.playerId ?? p.id),
-        };
-      });
-  }, [allPlayers, teamId]);
+  const isFormValid = quarter && progress && minute;
 
   const submit = () => {
-    // quarter, teamId, playerId, minute 로 제출
-    // TODO: 유효성 검사 및 API 호출
-    onClose();
+    if (!isFormValid) {
+      toast('모든 항목을 입력해주세요.');
+      return;
+    }
+
+    const request: ProgressStateType = {
+      gameId,
+      recordedQuarter: quarter.value,
+      gameProgressType: progress.value as keyof typeof PROGRESS_TYPE,
+      recordedAt: Number(minute),
+    };
+
+    createProgress(request, {
+      onSuccess: () => {
+        toast('상태 변경이 등록되었습니다.');
+        onClose();
+      },
+      onError: error => {
+        console.error('상태 변경 실패:', error);
+        toast.error('상태 변경 등록에 실패했습니다. 다시 시도해주세요.');
+      },
+    });
   };
 
   return (
@@ -103,28 +83,16 @@ export default function StatusChangeSheet({
       <InputSelect
         label="쿼터"
         options={quarterOptions}
-        value={quarter}
-        onValueChange={setQuarter}
+        value={quarter?.value}
+        onValueChange={value => setQuarter(quarterOptions.find(opt => opt.value === value) || null)}
       />
-
       <InputSelect
-        label="팀 명"
-        options={teamOptions}
-        value={teamId}
-        onValueChange={v => {
-          setTeamId(v);
-          setPlayerId(undefined);
-        }}
-      />
-
-      <div className="font-medium text-base text-black">득점 상세 정보</div>
-
-      <InputSelect
-        label="선수"
-        options={playerOptions}
-        value={playerId}
-        onValueChange={setPlayerId}
-        disabled={!teamId || playerOptions.length === 0}
+        label="상황"
+        options={progressOptions}
+        value={progress?.value}
+        onValueChange={value =>
+          setProgress(progressOptions.find(opt => opt.value === value) || null)
+        }
       />
 
       <Input
@@ -135,7 +103,13 @@ export default function StatusChangeSheet({
         min={0}
       />
 
-      <Button color="black" size="lg" onClick={submit}>
+      <Button
+        color="black"
+        size="lg"
+        onClick={submit}
+        loading={isPending}
+        disabled={!isFormValid || isPending}
+      >
         타임라인 등록
       </Button>
     </div>

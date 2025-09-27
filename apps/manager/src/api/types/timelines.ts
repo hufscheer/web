@@ -36,6 +36,7 @@ export type ReplacementType = {
 };
 
 export type ProgressStateType = {
+  gameId?: number;
   recordedQuarter: QuarterType;
   recordedAt: number;
   gameProgressType: ProgressType;
