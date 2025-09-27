@@ -4,9 +4,9 @@ import { useMemo, useState } from 'react';
 import { Button, Input, toast } from '@hcc/ui';
 import { InputSelect } from '~/components/ui/input-select';
 import { useSuspenseGameLineupPlaying } from '~/api/queries/useGameLineupPlaying';
-import { QUARTER_TYPE } from '~/api/types';
-import type { ReplacementType } from '~/api/types';
-import { useCreateTimelinesReplace } from '~/api/mutations/useCreateTimelineReplacement';
+import { CARD_TYPE, QUARTER_TYPE } from '~/api/types';
+import type { WarningType } from '~/api/types';
+import { useCreateTimelinesWarning } from '~/api/mutations/useCreateTimelineWarning';
 
 type SelectOption = { label: string; value: string };
 const QUARTER_LABELS = {
@@ -21,15 +21,19 @@ const quarterOptions: SelectOption[] = (
   label: QUARTER_LABELS[key],
   value: QUARTER_TYPE[key],
 }));
+const CARD_LABELS = {
+  YELLOW: '경고',
+  RED: '퇴장',
+} as const;
 
-export default function SubstituteSheet({
-  gameId,
-  onClose,
-}: {
-  gameId: number;
-  onClose: () => void;
-}) {
-  const { mutate: createReplacement, isPending } = useCreateTimelinesReplace({
+const cardOptions: SelectOption[] = (Object.keys(CARD_TYPE) as Array<keyof typeof CARD_TYPE>).map(
+  key => ({
+    label: CARD_LABELS[key],
+    value: CARD_TYPE[key],
+  }),
+);
+export default function WarningSheet({ gameId, onClose }: { gameId: number; onClose: () => void }) {
+  const { mutate: createWarning, isPending } = useCreateTimelinesWarning({
     gameId,
   });
   const { data: lineup } = useSuspenseGameLineupPlaying({ gameId });
@@ -43,53 +47,41 @@ export default function SubstituteSheet({
 
   const [quarter, setQuarter] = useState<SelectOption | null>(null);
   const [team, setTeam] = useState<SelectOption | null>(null);
-  const [playerIn, setPlayerIn] = useState<SelectOption | null>(null);
-  const [playerOut, setPlayerOut] = useState<SelectOption | null>(null);
+  const [player, setPlayer] = useState<SelectOption | null>(null);
+  const [card, setCard] = useState<SelectOption | null>(null);
 
   const [minute, setMinute] = useState('');
 
-  const playerInOptions: SelectOption[] = useMemo(() => {
+  const playerOptions: SelectOption[] = useMemo(() => {
     if (!team) return [];
-    const selectedTeam = lineup.find(t => String(t.gameTeamId) === team.value);
+
+    const selectedTeamId = Number(team.value);
+    const selectedTeam = lineup.find(t => t.gameTeamId === selectedTeamId);
+
     if (!selectedTeam) return [];
 
-    return selectedTeam.gameTeamPlayers
-      .filter(p => p.state === 'CANDIDATE') // 후보 선수만 필터링
-      .map(p => ({
-        label: `${p.jerseyNumber} ${p.playerName}`,
-        value: String(p.id),
-      }));
+    return selectedTeam.gameTeamPlayers.map(p => ({
+      label: `${p.jerseyNumber} ${p.playerName}`,
+      value: String(p.id),
+    }));
   }, [lineup, team]);
-
-  const playerOutOptions: SelectOption[] = useMemo(() => {
-    if (!team) return [];
-    const selectedTeam = lineup.find(t => String(t.gameTeamId) === team.value);
-    if (!selectedTeam) return [];
-
-    return selectedTeam.gameTeamPlayers
-      .filter(p => p.state === 'STARTER') // 주전 선수만 필터링
-      .map(p => ({
-        label: `${p.jerseyNumber} ${p.playerName}`,
-        value: String(p.id),
-      }));
-  }, [lineup, team]);
-  const isFormValid = quarter && team && playerOut && playerIn && minute;
+  const isFormValid = quarter && team && player && card && minute;
 
   const submit = () => {
     if (!isFormValid) {
       toast('모든 항목을 입력해주세요.');
       return;
     }
-    const request: ReplacementType = {
+    const request: WarningType = {
       gameId,
       gameTeamId: Number(team.value),
+      warnedLineupPlayerId: Number(player.value),
       recordedQuarter: quarter.value,
       recordedAt: Number(minute),
-      originLineupPlayerId: Number(playerOut?.value),
-      scoreLineupPlayerId: Number(playerIn?.value),
+      cardType: card.value,
     };
 
-    createReplacement(request, {
+    createWarning(request, {
       onSuccess: () => {
         onClose();
       },
@@ -116,29 +108,24 @@ export default function SubstituteSheet({
         value={team?.value}
         onValueChange={value => {
           setTeam(teamOptions.find(opt => opt.value === value) || null);
-          setPlayerIn(null); // 팀이 바뀌면 선수 초기화
+          setPlayer(null); // 팀이 바뀌면 선수 초기화
         }}
       />
 
-      <div className="font-medium text-base text-black">교체 상세 정보</div>
+      <div className="font-medium text-base text-black">경고 상세 정보</div>
 
       <InputSelect
-        label="교체 투입 선수"
-        options={playerInOptions}
-        value={playerIn?.value}
-        onValueChange={value =>
-          setPlayerIn(playerInOptions.find(opt => opt.value === value) || null)
-        }
-        disabled={!team || playerInOptions.length === 0}
+        label="선수"
+        options={playerOptions}
+        value={player?.value}
+        onValueChange={value => setPlayer(playerOptions.find(opt => opt.value === value) || null)}
+        disabled={!team || playerOptions.length === 0}
       />
       <InputSelect
-        label="교체 아웃 선수"
-        options={playerOutOptions}
-        value={playerOut?.value}
-        onValueChange={value =>
-          setPlayerOut(playerOutOptions.find(opt => opt.value === value) || null)
-        }
-        disabled={!team || playerOutOptions.length === 0}
+        label="상태"
+        options={cardOptions}
+        value={card?.value}
+        onValueChange={value => setCard(cardOptions.find(opt => opt.value === value) || null)}
       />
       <Input
         placeholder="시간(분)"

@@ -2,7 +2,7 @@
 import { AddCircleIcon, ErrorIcon, SettingsIcon, SmsIcon, TradeIcon } from '@hcc/icons';
 import { Button } from '@hcc/ui';
 
-export type BottomSheetType = 'addScore' | 'changeStatus' | 'substitute' | 'warning' | 'cheerTalk';
+export type BottomSheetType = 'addScore' | 'changeStatus' | 'substitute' | 'warning';
 
 export function BottomButton({ onOpen }: { onOpen: (type: BottomSheetType) => void }) {
   return (
@@ -49,7 +49,7 @@ export function BottomButton({ onOpen }: { onOpen: (type: BottomSheetType) => vo
           color="black"
           variant="ghost"
           size="sm"
-          onClick={() => onOpen('cheerTalk')}
+          //onClick={}
         >
           <SmsIcon /> 응원톡
         </Button>

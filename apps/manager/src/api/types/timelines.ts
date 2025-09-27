@@ -48,17 +48,19 @@ export type PkType = {
   scorerId: number;
   isSuccess: boolean;
 };
-export type cardType = {
-  YELLOW: 'YELLOW';
-  RED: 'RED';
+export const CARD_TYPE = {
+  YELLOW: 'YELLOW',
+  RED: 'RED',
 };
+export type CardType = (typeof CARD_TYPE)[keyof typeof CARD_TYPE];
 
 export type WarningType = {
+  gameId?: number;
   recordedQuarter: QuarterType;
   recordedAt: number;
   gameTeamId: number;
   warnedLineupPlayerId: number;
-  cardType: cardType;
+  cardType: CardType;
 };
 
 type ScoreSnapshotType = {

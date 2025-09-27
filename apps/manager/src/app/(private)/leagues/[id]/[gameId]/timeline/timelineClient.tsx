@@ -10,8 +10,7 @@ const StatusChangeSheet = lazy(
   () => import('../../_components/timeline-tab/sheets/StatusChangeSheet'),
 );
 const SubstituteSheet = lazy(() => import('../../_components/timeline-tab/sheets/SubstituteSheet'));
-const WarningSheet = lazy(() => import('../../_components/timeline-tab/sheets/AddScoreSheet'));
-const CheerTalkSheet = lazy(() => import('../../_components/timeline-tab/sheets/AddScoreSheet'));
+const WarningSheet = lazy(() => import('../../_components/timeline-tab/sheets/WarningSheet'));
 
 export default function TimelineClient({ gameId }: { gameId: number }) {
   const [activeSheet, setActiveSheet] = useState<BottomSheetType | null>(null);
@@ -33,10 +32,6 @@ export default function TimelineClient({ gameId }: { gameId: number }) {
       warning: {
         title: '경고 추가',
         node: <WarningSheet gameId={gameId} onClose={close} />,
-      },
-      cheerTalk: {
-        title: '응원톡',
-        node: <CheerTalkSheet gameId={gameId} onClose={close} />,
       },
     }),
     [gameId, close],
