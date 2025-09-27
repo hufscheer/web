@@ -27,6 +27,7 @@ export type ScoreType = {
 };
 
 export type ReplacementType = {
+  gameId?: number;
   recordedQuarter: QuarterType;
   recordedAt: number;
   gameTeamId: number;

@@ -9,7 +9,7 @@ const AddScoreSheet = lazy(() => import('../../_components/timeline-tab/sheets/A
 const StatusChangeSheet = lazy(
   () => import('../../_components/timeline-tab/sheets/StatusChangeSheet'),
 );
-const SubstituteSheet = lazy(() => import('../../_components/timeline-tab/sheets/AddScoreSheet'));
+const SubstituteSheet = lazy(() => import('../../_components/timeline-tab/sheets/SubstituteSheet'));
 const WarningSheet = lazy(() => import('../../_components/timeline-tab/sheets/AddScoreSheet'));
 const CheerTalkSheet = lazy(() => import('../../_components/timeline-tab/sheets/AddScoreSheet'));
 
