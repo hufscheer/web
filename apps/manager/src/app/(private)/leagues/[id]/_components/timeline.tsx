@@ -27,7 +27,7 @@ export const Timeline = ({ gameId }: Props) => {
       </Typography>
     );
 
-  const homeTeamId: number = game.gameTeams[0].gameTeamId;
+  const homeTeamId: number = game.gameTeams?.[0]?.gameTeamId;
 
   return (
     <div className="bg-white py-5">

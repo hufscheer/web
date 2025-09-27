@@ -4,6 +4,9 @@ import type {
   CheerTalkPayload,
   CheerTalkType,
   GameDetailPayload,
+  GameLineupPayload,
+  GameLineupPlayingType,
+  GameLineupType,
   GameListPayload,
   GameListResponse,
   GameType,
@@ -66,6 +69,14 @@ const gameQueryKeys = createQueryKeys('games', {
   detail: (payload: GameDetailPayload) => ({
     queryKey: [payload],
     queryFn: () => fetcher.get<GameType>(`games/${payload.gameId}`),
+  }),
+  lineup: (payload: GameLineupPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<GameLineupType[]>(`games/${payload.gameId}/lineup`),
+  }),
+  lineupPlaying: (payload: GameLineupPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<GameLineupPlayingType[]>(`games/${payload.gameId}/lineup/playing`),
   }),
 });
 

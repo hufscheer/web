@@ -63,6 +63,7 @@ const GameMenu = ({ leagueId, id }: GameMenuProps) => {
   return (
     <div className="row-between mt-4 gap-2.5">
       <Button className="flex-1" size="sm" color="black" variant="subtle" asChild>
+        {/* <Link href={`/${routes.game_timeline(leagueId, id)}`}>경기 진행</Link> */}
         <Link href={`/${routes.game_timeline(leagueId, id)}`}>경기 진행</Link>
       </Button>
       <Button className="flex-1" size="sm" color="black" variant="subtle" asChild>

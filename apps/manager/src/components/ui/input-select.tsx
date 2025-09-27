@@ -44,7 +44,7 @@ export const InputSelect = ({ options, placeholder, label, ...props }: BoxSelect
         <Select.Content
           position="popper"
           sideOffset={5}
-          className="w-[var(--radix-select-trigger-width)] overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg"
+          className="z-[80] w-[var(--radix-select-trigger-width)] overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg"
         >
           <Select.Viewport className="max-h-60 overflow-y-auto p-1">
             {options.map(option => (

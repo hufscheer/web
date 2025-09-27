@@ -4,32 +4,26 @@ import { notFound } from 'next/navigation';
 import { Header } from '~/components/layout';
 import TimelineClient from './timelineClient';
 
-type Props = {
-  params: Promise<{ id: number }>;
-};
+type PageProps = { params: { id: string; gameId: string } };
 
 const TimelineDeleteMenu = () => (
   <Typography color="var(--color-danger-600)" weight="semibold" asChild>
-    <Link href={''}>타임라인 삭제</Link>
+    <Link href="#">타임라인 삭제</Link>
   </Typography>
 );
 
-const Page = async ({ params }: Props) => {
-  const { id: _id } = await params;
+export default function Page({ params: { id, gameId } }: PageProps) {
+  const leagueId = Number(id);
+  const gid = Number(gameId);
 
-  if (!_id || Number.isNaN(Number(_id))) notFound();
-  const id: number = Number(_id);
+  if (Number.isNaN(leagueId) || Number.isNaN(gid)) notFound();
 
   return (
-    <div className="w-full">
-      <div className="flex h-screen flex-col bg-white">
-        <Header title="경기 진행" menu={<TimelineDeleteMenu />} arrow />
-        <div className="flex-1 overflow-y-auto">
-          <TimelineClient gameId={id} />
-        </div>
+    <div className="flex min-h-[100dvh] flex-col bg-white">
+      <Header title="경기 진행" menu={<TimelineDeleteMenu />} arrow />
+      <div className="flex-1 overflow-y-auto">
+        <TimelineClient key={gid} gameId={gid} />
       </div>
     </div>
   );
-};
-
-export default Page;
+}

@@ -7,6 +7,59 @@ export const PROGRESS_TYPE = {
 
 export type ProgressType = (typeof PROGRESS_TYPE)[keyof typeof PROGRESS_TYPE];
 
+export const QUARTER_TYPE = {
+  PRE_GAME: 'PRE_GAME',
+  FIRST_HALF: 'FIRST_HALF',
+  SECOND_HALF: 'SECOND_HALF',
+  EXTRA_TIME: 'EXTRA_TIME',
+  PENALTY_SHOOTOUT: 'PENALTY_SHOOTOUT',
+  POST_GAME: 'POST_GAME',
+};
+
+export type QuarterType = (typeof QUARTER_TYPE)[keyof typeof QUARTER_TYPE];
+
+export type ScoreType = {
+  gameId?: number;
+  recordedQuarter: QuarterType;
+  recordedAt: number;
+  gameTeamId: number;
+  scoreLineupPlayerId: number;
+};
+
+export type ReplacementType = {
+  recordedQuarter: QuarterType;
+  recordedAt: number;
+  gameTeamId: number;
+  originLineupPlayerId: number;
+  scoreLineupPlayerId: number;
+};
+
+export type ProgressStateType = {
+  recordedQuarter: QuarterType;
+  recordedAt: number;
+  gameProgressType: ProgressType;
+};
+
+export type PkType = {
+  recordedQuarter: QuarterType;
+  recordedAt: number;
+  gameTeamId: number;
+  scorerId: number;
+  isSuccess: boolean;
+};
+export type cardType = {
+  YELLOW: 'YELLOW';
+  RED: 'RED';
+};
+
+export type WarningType = {
+  recordedQuarter: QuarterType;
+  recordedAt: number;
+  gameTeamId: number;
+  warnedLineupPlayerId: number;
+  cardType: cardType;
+};
+
 type ScoreSnapshotType = {
   teamName: string;
   teamImageUrl: string;

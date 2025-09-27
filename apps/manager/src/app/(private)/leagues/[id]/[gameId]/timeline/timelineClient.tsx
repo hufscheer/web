@@ -1,12 +1,14 @@
 'use client';
 
 import { useState, useCallback, Suspense, lazy, useMemo } from 'react';
-import { BottomSheet } from '@hcc/ui';
 import { BottomButton, type BottomSheetType } from '../../_components/timeline-tab/bottom-button';
 import { Timeline } from '../../_components/timeline';
+import { Drawer } from 'vaul';
 
 const AddScoreSheet = lazy(() => import('../../_components/timeline-tab/sheets/AddScoreSheet'));
-const StatusChangeSheet = lazy(() => import('../../_components/timeline-tab/sheets/AddScoreSheet'));
+const StatusChangeSheet = lazy(
+  () => import('../../_components/timeline-tab/sheets/StatusChangeSheet'),
+);
 const SubstituteSheet = lazy(() => import('../../_components/timeline-tab/sheets/AddScoreSheet'));
 const WarningSheet = lazy(() => import('../../_components/timeline-tab/sheets/AddScoreSheet'));
 const CheerTalkSheet = lazy(() => import('../../_components/timeline-tab/sheets/AddScoreSheet'));
@@ -14,7 +16,6 @@ const CheerTalkSheet = lazy(() => import('../../_components/timeline-tab/sheets/
 export default function TimelineClient({ gameId }: { gameId: number }) {
   const [activeSheet, setActiveSheet] = useState<BottomSheetType | null>(null);
   const close = useCallback(() => setActiveSheet(null), []);
-
   const sheetMap = useMemo(
     () => ({
       addScore: {
@@ -26,11 +27,11 @@ export default function TimelineClient({ gameId }: { gameId: number }) {
         node: <StatusChangeSheet gameId={gameId} onClose={close} />,
       },
       substitute: {
-        title: '교체',
+        title: '교체 추가',
         node: <SubstituteSheet gameId={gameId} onClose={close} />,
       },
       warning: {
-        title: '경고',
+        title: '경고 추가',
         node: <WarningSheet gameId={gameId} onClose={close} />,
       },
       cheerTalk: {
@@ -50,19 +51,29 @@ export default function TimelineClient({ gameId }: { gameId: number }) {
         <Timeline gameId={gameId} />
         <BottomButton onOpen={setActiveSheet} />
       </div>
-      <BottomSheet
+      <Drawer.Root
         open={activeSheet !== null}
         onOpenChange={isOpen => {
           if (!isOpen) close();
         }}
       >
-        <BottomSheet.Portal>
-          <BottomSheet.Content>
-            {title && <BottomSheet.Title>{title}</BottomSheet.Title>}
-            <Suspense fallback={<div>로딩 중...</div>}>{content}</Suspense>
-          </BottomSheet.Content>
-        </BottomSheet.Portal>
-      </BottomSheet>
+        <Drawer.Portal>
+          <Drawer.Overlay className="fixed inset-0 z-50 bg-black/40" />
+          <Drawer.Content className="fixed right-0 bottom-0 left-0 z-50 mt-24 flex h-[90%] flex-col rounded-t-lg bg-white">
+            <div className="flex-1 rounded-t-lg">
+              <div className="mx-auto my-4 h-1.5 w-12 flex-shrink-0 rounded-full bg-gray-300" />
+              {title && (
+                <Drawer.Title className="mb-4 px-5 text-start font-semibold text-2xl">
+                  {title}
+                </Drawer.Title>
+              )}
+              <div className="h-full overflow-y-auto">
+                <Suspense fallback={<div className="p-5">로딩 중...</div>}>{content}</Suspense>
+              </div>
+            </div>
+          </Drawer.Content>
+        </Drawer.Portal>
+      </Drawer.Root>
     </>
   );
 }
