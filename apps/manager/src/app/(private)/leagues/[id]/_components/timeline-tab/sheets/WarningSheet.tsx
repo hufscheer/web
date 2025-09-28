@@ -37,7 +37,6 @@ export default function WarningSheet({ gameId, onClose }: { gameId: number; onCl
     gameId,
   });
   const { data: lineup } = useSuspenseGameLineupPlaying({ gameId });
-  console.log(lineup);
   const teamOptions: SelectOption[] = useMemo(() => {
     return lineup.map(team => ({
       label: team.teamName,

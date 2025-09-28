@@ -8,7 +8,7 @@ export const postTimelineScore = ({ gameId, ...request }: ScoreType) => {
   });
 };
 
-export const useCreateTimelines = ({ gameId }: { gameId: number }) => {
+export const useCreateTimelineScore = ({ gameId }: { gameId: number }) => {
   const qc = useQueryClient();
 
   return useMutation({

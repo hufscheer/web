@@ -4,7 +4,7 @@ import { toast, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import { useMemo } from 'react';
 import { type TimelineRecordType, useSuspenseGameTimeline } from '~/api';
-import { useDeleteTimelines } from '~/api/mutations/useDeleteTimeline';
+import { useDeleteTimeline } from '~/api/mutations/useDeleteTimeline';
 import { AlertDialog } from '~/components/ui';
 
 type Props = { gameId: number };
@@ -61,7 +61,7 @@ export const TimelineDeleteMenu = ({ gameId }: Props) => {
     };
   }, [timelineData]);
 
-  const { mutate: deleteTimeline } = useDeleteTimelines({ gameId });
+  const { mutate: deleteTimeline } = useDeleteTimeline({ gameId });
 
   const handleDelete = () => {
     if (!latestRecordId) {

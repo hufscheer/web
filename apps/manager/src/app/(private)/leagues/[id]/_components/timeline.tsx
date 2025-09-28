@@ -14,7 +14,6 @@ type Props = {
 export const Timeline = ({ gameId }: Props) => {
   const { data: game } = useSuspenseGame({ gameId });
   const { data } = useSuspenseGameTimeline({ gameId });
-  console.log(data);
   if (data.length === 0)
     return (
       <Typography

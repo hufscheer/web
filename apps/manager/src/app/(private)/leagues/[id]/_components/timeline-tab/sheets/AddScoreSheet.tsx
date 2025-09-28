@@ -6,7 +6,7 @@ import { InputSelect } from '~/components/ui/input-select';
 import { useSuspenseGameLineupPlaying } from '~/api/queries/useGameLineupPlaying';
 import { QUARTER_TYPE } from '~/api/types';
 import type { ScoreType } from '~/api/types';
-import { useCreateTimelines } from '~/api/mutations/useCreateTimelineScore';
+import { useCreateTimelineScore } from '~/api/mutations/useCreateTimelineScore';
 
 type SelectOption = { label: string; value: string };
 const QUARTER_LABELS = {
@@ -29,9 +29,8 @@ export default function AddScoreSheet({
   gameId: number;
   onClose: () => void;
 }) {
-  const { mutate: createScore, isPending } = useCreateTimelines({ gameId });
+  const { mutate: createScore, isPending } = useCreateTimelineScore({ gameId });
   const { data: lineup } = useSuspenseGameLineupPlaying({ gameId });
-  console.log(lineup);
   const teamOptions: SelectOption[] = useMemo(() => {
     return lineup.map(team => ({
       label: team.teamName,

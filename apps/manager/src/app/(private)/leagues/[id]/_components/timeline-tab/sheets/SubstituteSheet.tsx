@@ -6,7 +6,7 @@ import { InputSelect } from '~/components/ui/input-select';
 import { QUARTER_TYPE } from '~/api/types';
 import type { ReplacementType } from '~/api/types';
 import { useCreateTimelinesReplace } from '~/api/mutations/useCreateTimelineReplacement';
-import { useSuspenseGameLineup } from '~/api/queries/useGameTimelineLineup';
+import { useSuspenseGameLineup } from '~/api/queries/useGameLineup';
 
 type SelectOption = { label: string; value: string };
 const QUARTER_LABELS = {
@@ -33,7 +33,6 @@ export default function SubstituteSheet({
     gameId,
   });
   const { data: lineup } = useSuspenseGameLineup({ gameId });
-  console.log(lineup);
   const teamOptions: SelectOption[] = useMemo(() => {
     return lineup.map(team => ({
       label: team.teamName,

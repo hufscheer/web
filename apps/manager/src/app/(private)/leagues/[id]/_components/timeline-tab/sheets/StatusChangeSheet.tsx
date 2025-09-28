@@ -70,7 +70,6 @@ export default function StatusChangeSheet({
         onClose();
       },
       onError: error => {
-        console.error('상태 변경 실패:', error);
         toast.error('상태 변경 등록에 실패했습니다. 다시 시도해주세요.');
       },
     });
