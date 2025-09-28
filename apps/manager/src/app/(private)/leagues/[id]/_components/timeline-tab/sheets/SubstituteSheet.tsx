@@ -3,10 +3,10 @@
 import { useMemo, useState } from 'react';
 import { Button, Input, toast } from '@hcc/ui';
 import { InputSelect } from '~/components/ui/input-select';
-import { useSuspenseGameLineupPlaying } from '~/api/queries/useGameLineupPlaying';
 import { QUARTER_TYPE } from '~/api/types';
 import type { ReplacementType } from '~/api/types';
 import { useCreateTimelinesReplace } from '~/api/mutations/useCreateTimelineReplacement';
+import { useSuspenseGameLineup } from '~/api/queries/useGameTimelineLineup';
 
 type SelectOption = { label: string; value: string };
 const QUARTER_LABELS = {
@@ -32,7 +32,7 @@ export default function SubstituteSheet({
   const { mutate: createReplacement, isPending } = useCreateTimelinesReplace({
     gameId,
   });
-  const { data: lineup } = useSuspenseGameLineupPlaying({ gameId });
+  const { data: lineup } = useSuspenseGameLineup({ gameId });
   console.log(lineup);
   const teamOptions: SelectOption[] = useMemo(() => {
     return lineup.map(team => ({
@@ -53,7 +53,7 @@ export default function SubstituteSheet({
     const selectedTeam = lineup.find(t => String(t.gameTeamId) === team.value);
     if (!selectedTeam) return [];
 
-    return selectedTeam.gameTeamPlayers
+    return selectedTeam.candidatePlayers
       .filter(p => p.state === 'CANDIDATE') // 후보 선수만 필터링
       .map(p => ({
         label: `${p.jerseyNumber} ${p.playerName}`,
@@ -66,7 +66,7 @@ export default function SubstituteSheet({
     const selectedTeam = lineup.find(t => String(t.gameTeamId) === team.value);
     if (!selectedTeam) return [];
 
-    return selectedTeam.gameTeamPlayers
+    return selectedTeam.starterPlayers
       .filter(p => p.state === 'STARTER') // 주전 선수만 필터링
       .map(p => ({
         label: `${p.jerseyNumber} ${p.playerName}`,
@@ -86,7 +86,7 @@ export default function SubstituteSheet({
       recordedQuarter: quarter.value,
       recordedAt: Number(minute),
       originLineupPlayerId: Number(playerOut?.value),
-      scoreLineupPlayerId: Number(playerIn?.value),
+      replacementLineupPlayerId: Number(playerIn?.value),
     };
 
     createReplacement(request, {

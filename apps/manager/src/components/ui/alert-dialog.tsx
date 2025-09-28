@@ -10,6 +10,7 @@ type Props = {
   primaryTitle?: string;
   secondaryTitle?: string;
   onPrimaryClick?: () => void | Promise<void>;
+  extra?: React.ReactNode;
 };
 
 export const AlertDialog = ({
@@ -19,6 +20,7 @@ export const AlertDialog = ({
   secondaryTitle = '취소',
   onPrimaryClick,
   children,
+  extra,
 }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -56,7 +58,7 @@ export const AlertDialog = ({
         >
           <Modal.Description>{description}</Modal.Description>
         </Typography>
-
+        {extra && <div className="mt-3">{extra}</div>}
         <div className="row-between mt-6 gap-2.5">
           <Modal.Close asChild>
             <Button className="flex-1" variant="subtle" color="black">

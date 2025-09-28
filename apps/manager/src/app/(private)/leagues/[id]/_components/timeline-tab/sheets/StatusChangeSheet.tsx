@@ -22,16 +22,14 @@ const quarterOptions: SelectOption[] = (
   value: QUARTER_TYPE[key],
 }));
 
-const PROGRESS_LABELS: Record<keyof typeof PROGRESS_TYPE, string> = {
-  GAME_START: '경기 시작',
+const PROGRESS_LABELS: Partial<Record<keyof typeof PROGRESS_TYPE, string>> = {
   QUARTER_START: '쿼터 시작',
-  QUARTER_END: '쿼터 종료',
   GAME_END: '경기 종료',
 };
 const progressOptions: SelectOption[] = (
   Object.keys(PROGRESS_LABELS) as Array<keyof typeof PROGRESS_LABELS>
 ).map(key => ({
-  label: PROGRESS_LABELS[key],
+  label: PROGRESS_LABELS[key]!,
   value: PROGRESS_TYPE[key],
 }));
 

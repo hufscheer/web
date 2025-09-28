@@ -32,7 +32,7 @@ export type ReplacementType = {
   recordedAt: number;
   gameTeamId: number;
   originLineupPlayerId: number;
-  scoreLineupPlayerId: number;
+  replacementLineupPlayerId: number;
 };
 
 export type ProgressStateType = {

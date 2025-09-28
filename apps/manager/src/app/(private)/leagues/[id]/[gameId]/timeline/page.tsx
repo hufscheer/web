@@ -1,16 +1,9 @@
-import { Typography } from '@hcc/ui';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Header } from '~/components/layout';
 import TimelineClient from './timelineClient';
+import { TimelineDeleteMenu } from '../../_components/timeline-tab/timeline-delete';
 
 type PageProps = { params: { id: string; gameId: string } };
-
-const TimelineDeleteMenu = () => (
-  <Typography color="var(--color-danger-600)" weight="semibold" asChild>
-    <Link href="#">타임라인 삭제</Link>
-  </Typography>
-);
 
 export default function Page({ params: { id, gameId } }: PageProps) {
   const leagueId = Number(id);
@@ -20,7 +13,7 @@ export default function Page({ params: { id, gameId } }: PageProps) {
 
   return (
     <div className="flex min-h-[100dvh] flex-col bg-white">
-      <Header title="경기 진행" menu={<TimelineDeleteMenu />} arrow />
+      <Header title="경기 진행" menu={<TimelineDeleteMenu gameId={gid} />} arrow />
       <div className="flex-1 overflow-y-auto">
         <TimelineClient key={gid} gameId={gid} />
       </div>
