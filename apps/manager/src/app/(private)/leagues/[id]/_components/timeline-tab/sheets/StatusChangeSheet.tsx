@@ -10,10 +10,12 @@ import { useCreateTimelinesProgress } from '~/api/mutations/useCreateTimelineSta
 type SelectOption = { label: string; value: string };
 
 const QUARTER_LABELS: Partial<Record<keyof typeof QUARTER_TYPE, string>> = {
+  PRE_GAME: '경기 시작',
   FIRST_HALF: '전반',
   SECOND_HALF: '후반',
   EXTRA_TIME: '연장전',
   PENALTY_SHOOTOUT: '승부차기',
+  POST_GAME: '경기 종료',
 };
 const quarterOptions: SelectOption[] = (
   Object.keys(QUARTER_LABELS) as Array<keyof typeof QUARTER_LABELS>
