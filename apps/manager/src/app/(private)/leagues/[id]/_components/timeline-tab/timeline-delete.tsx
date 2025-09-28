@@ -73,7 +73,7 @@ export const TimelineDeleteMenu = ({ gameId }: Props) => {
     );
   };
   const extraNode = (
-    <div className="mt-3 rounded-md bg-neutral-50 p-3">
+    <div className="rounded-md bg-neutral-50 px-5 py-3">
       <div className="mt-2 flex flex-row justify-between space-y-1">
         <div className="center-y flex-1 gap-2">
           <div className="relative h-6 w-6 overflow-hidden rounded-full">

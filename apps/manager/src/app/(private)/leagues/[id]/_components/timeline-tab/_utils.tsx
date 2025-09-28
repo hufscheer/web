@@ -1,7 +1,14 @@
-import { SportsAndOutdoorsIcon, TradeHorizontalIcon } from '@hcc/icons';
+import { ErrorFillIcon, ErrorIcon, SportsAndOutdoorsIcon, TradeHorizontalIcon } from '@hcc/icons';
 import type { ProgressType, TimelineRecordType } from '~/api';
 
 export const getRecordIcon = (record: TimelineRecordType) => {
+  const card = record.warningCardRecord?.warningCardType;
+  if (card === 'YELLOW') {
+    return <ErrorIcon size={16} className="text-[var(--color-yellow-500)]" />;
+  }
+  if (card === 'RED') {
+    return <ErrorFillIcon size={16} className="text-[var(--color-danger-600)]" />;
+  }
   switch (record.type) {
     case 'SCORE':
       return <SportsAndOutdoorsIcon size={16} />;
@@ -19,6 +26,10 @@ export const getRecordIcon = (record: TimelineRecordType) => {
 };
 
 export const getRecordTitle = (record: TimelineRecordType) => {
+  const card = record.warningCardRecord?.warningCardType;
+  if (card) {
+    return record.playerName;
+  }
   if (record.type === 'REPLACEMENT') {
     return `${record.replacementRecord.replacedPlayerName} IN`;
   }
@@ -26,6 +37,9 @@ export const getRecordTitle = (record: TimelineRecordType) => {
 };
 
 export const getRecordSubtitle = (record: TimelineRecordType) => {
+  const card = record.warningCardRecord?.warningCardType;
+  if (card === 'YELLOW') return '경고';
+  if (card === 'RED') return '퇴장';
   switch (record.type) {
     case 'SCORE':
       return '득점';
