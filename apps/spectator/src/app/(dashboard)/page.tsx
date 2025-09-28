@@ -1,5 +1,6 @@
+import { colors, Typography } from '@hcc/ui';
 import * as Tabs from '@radix-ui/react-tabs';
-import { Suspense } from '@suspensive/react';
+import { ErrorBoundary, Suspense } from '@suspensive/react';
 import { redirect } from 'next/navigation';
 import { Header } from '~/components/layout';
 import { TabTrigger } from '~/components/ui';
@@ -41,19 +42,25 @@ const Page = async ({ searchParams }: Props) => {
         </Tabs.List>
 
         <Tabs.Content value="previous">
-          <Suspense clientOnly>
-            <PreviousTab year={year} />
-          </Suspense>
+          <ErrorBoundary fallback={<ErrorMessage />}>
+            <Suspense clientOnly>
+              <PreviousTab year={year} />
+            </Suspense>
+          </ErrorBoundary>
         </Tabs.Content>
         <Tabs.Content value="recent">
-          <Suspense clientOnly>
-            <RecentTab />
-          </Suspense>
+          <ErrorBoundary fallback={<ErrorMessage />}>
+            <Suspense clientOnly>
+              <RecentTab />
+            </Suspense>
+          </ErrorBoundary>
         </Tabs.Content>
         <Tabs.Content value="team">
-          <Suspense clientOnly>
-            <TeamTab />
-          </Suspense>
+          <ErrorBoundary fallback={<ErrorMessage />}>
+            <Suspense clientOnly>
+              <TeamTab />
+            </Suspense>
+          </ErrorBoundary>
         </Tabs.Content>
       </Tabs.Root>
     </>
@@ -61,3 +68,11 @@ const Page = async ({ searchParams }: Props) => {
 };
 
 export default Page;
+
+const ErrorMessage = () => {
+  return (
+    <Typography className="p-5 text-center" color={colors.neutral500} fontSize={14} weight="medium">
+      알 수 없는 오류가 발생했어요. 잠시 후 다시 시도해 주세요.
+    </Typography>
+  );
+};
