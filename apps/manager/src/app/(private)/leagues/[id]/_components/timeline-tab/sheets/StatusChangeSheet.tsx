@@ -15,7 +15,6 @@ const QUARTER_LABELS: Partial<Record<keyof typeof QUARTER_TYPE, string>> = {
   SECOND_HALF: '후반',
   EXTRA_TIME: '연장전',
   PENALTY_SHOOTOUT: '승부차기',
-  POST_GAME: '경기 종료',
 };
 const quarterOptions: SelectOption[] = (
   Object.keys(QUARTER_LABELS) as Array<keyof typeof QUARTER_LABELS>
@@ -66,7 +65,7 @@ export default function StatusChangeSheet({
 
     createProgress(request, {
       onSuccess: () => {
-        toast('상태 변경이 등록되었습니다.');
+        toast.success('상태 변경이 등록되었습니다.');
         onClose();
       },
       onError: error => {

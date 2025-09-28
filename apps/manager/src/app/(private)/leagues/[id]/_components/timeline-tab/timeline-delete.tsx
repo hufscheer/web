@@ -22,6 +22,8 @@ export const TimelineDeleteMenu = ({ gameId }: Props) => {
         return 'PK';
       case 'WARNING_CARD':
         return '경고/퇴장';
+      case 'GAME_PROGRESS':
+        return '쿼터';
       default:
         return t ?? '-';
     }
@@ -70,30 +72,38 @@ export const TimelineDeleteMenu = ({ gameId }: Props) => {
     }
     deleteTimeline(
       { gameId, timelineId: latestRecordId },
-      { onSuccess: () => toast('최근 기록이 삭제되었습니다.') },
+      { onSuccess: () => toast.success('최근 기록이 삭제되었습니다.') },
     );
   };
   const extraNode = (
     <div className="rounded-md bg-neutral-50 px-5 py-3">
-      <div className="mt-2 flex flex-row justify-between space-y-1">
-        <div className="center-y flex-1 gap-2">
-          <div className="relative h-6 w-6 overflow-hidden rounded-full">
-            <Image
-              src={latestRecord?.teamImageUrl ?? ''}
-              alt={`${latestRecord?.teamName ?? ''} 팀 로고`}
-              priority={false}
-              fill
-            />
+      {latestRecord?.teamImageUrl ? (
+        <div className="mt-2 flex flex-row justify-between">
+          <div className="center-y flex-1 gap-2">
+            <div className="relative h-6 w-6 overflow-hidden rounded-full">
+              <Image
+                src={latestRecord.teamImageUrl}
+                alt={`${latestRecord.teamName ?? ''} 팀 로고`}
+                priority={false}
+                fill
+              />
+            </div>
+            <Typography fontSize={14} weight="medium">
+              {latestRecord.teamName}
+            </Typography>
           </div>
-          <Typography fontSize={14} weight="medium">
-            {latestRecord?.teamName}
-          </Typography>
+          <div className="flex flex-col items-center justify-between text-sm">
+            <span className="font-semibold">{latestRecord.playerName ?? '-'}</span>
+            <span className="font-regular text-neutral-500">{typeLabel(latestRecord.type)}</span>
+          </div>
         </div>
-        <div className="flex flex-col items-center justify-between text-sm">
-          <span className="font-semibold">{latestRecord?.playerName ?? '-'}</span>
-          <span className="font-regular text-neutral-500">{typeLabel(latestRecord?.type)}</span>
+      ) : (
+        <div className="mt-2 flex justify-center text-center">
+          <div className="flex flex-col items-center text-sm">
+            <span className="font-regular text-neutral-500">{typeLabel(latestRecord?.type)}</span>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 

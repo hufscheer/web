@@ -43,6 +43,7 @@ export type ProgressStateType = {
 };
 
 export type PkType = {
+  gameId: number;
   recordedQuarter: QuarterType;
   recordedAt: number;
   gameTeamId: number;
