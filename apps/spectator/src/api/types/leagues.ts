@@ -39,7 +39,7 @@ export type LeagueStatisticsType = {
   firstWinnerTeam: StatisticTeamType;
   secondWinnerTeam: StatisticTeamType;
   mostCheeredTeam: StatisticTeamType & { cheerCount: number };
-  mostCheerTalksTeam: StatisticTeamType & { cheerTalkCount: number };
+  mostCheerTalksTeam: StatisticTeamType & { cheerTalksCount: number };
 };
 
 export type LeagueStatisticsPayload = {
