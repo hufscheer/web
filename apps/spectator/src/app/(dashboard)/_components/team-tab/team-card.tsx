@@ -48,9 +48,9 @@ const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
         <Typography weight="medium">{team.name}</Typography>
       </div>
 
-      <Link href={`/${routes.team(team.id)}`} className="center">
-        <ChevronForwardIcon size={24} />
-      </Link>
+      {/*<Link href={`/${routes.team(team.id)}`} className="center">*/}
+      {/*  <ChevronForwardIcon size={24} />*/}
+      {/*</Link>*/}
     </div>
   );
 };
