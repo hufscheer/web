@@ -21,7 +21,7 @@ export const TimelineDeleteMenu = ({ gameId }: Props) => {
       case 'PK':
         return 'PK';
       case 'WARNING_CARD':
-        return '경고';
+        return '경고/퇴장';
       default:
         return t ?? '-';
     }
