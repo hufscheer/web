@@ -243,7 +243,7 @@ const LeagueCardStatistics = ({
               color={colors.neutral500}
               weight="medium"
             >
-              {data.mostCheerTalksTeam.cheerTalkCount ?? 0}회
+              {data.mostCheerTalksTeam.cheerTalksCount ?? 0}회
             </Typography>
           </li>
         )}
