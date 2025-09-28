@@ -70,54 +70,61 @@ export default function AddScoreSheet({
   }, [lineup, team]);
 
   const isPK = quarter?.value === QUARTER_TYPE.PENALTY_SHOOTOUT;
-  const isFormValid = quarter && team && player && (isPK ? isSuccess : minute);
 
   const submit = () => {
-    if (!isFormValid) {
+    if (!quarter || !team || !player) {
       toast('모든 항목을 입력해주세요.');
       return;
     }
 
     const commonData = {
       gameId,
-      gameTeamId: Number(team!.value),
-      recordedQuarter: quarter!.value,
+      gameTeamId: Number(team.value),
+      recordedQuarter: quarter.value,
     };
 
     const onSuccess = () => {
+      toast.success('기록이 등록되었습니다.');
       onClose();
     };
 
     if (isPK) {
+      if (!isSuccess) {
+        toast('모든 항목을 입력해주세요.');
+        return;
+      }
       const pkRequest = {
         ...commonData,
         recordedAt: 0,
-        scorerId: Number(player!.value),
-        isSuccess: isSuccess!.value === 'true',
+        scorerId: Number(player.value),
+        isSuccess: isSuccess.value === 'true',
       };
 
       createPK(pkRequest, {
-        onSuccess: onSuccess,
+        onSuccess,
         onError: () => {
           toast.error('승부차기 기록 등록에 실패했습니다. 다시 시도해주세요.');
         },
       });
     } else {
+      if (!minute) {
+        toast('모든 항목을 입력해주세요.');
+        return;
+      }
       const scoreRequest: ScoreType = {
         ...commonData,
         recordedAt: Number(minute),
-        scoreLineupPlayerId: Number(player!.value),
+        scoreLineupPlayerId: Number(player.value),
       };
 
       createScore(scoreRequest, {
-        onSuccess: onSuccess,
+        onSuccess,
         onError: () => {
           toast.error('득점 등록에 실패했습니다. 다시 시도해주세요.');
         },
       });
     }
   };
-
   return (
     <div className="flex h-full flex-col gap-4 bg-white p-5">
       <div className="font-medium text-base text-black">상황</div>
