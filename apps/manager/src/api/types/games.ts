@@ -44,3 +44,30 @@ export type GameListResponse = {
   leagueName: string;
   games: GameListType[];
 };
+export type GameDetailPayload = { gameId: number };
+
+export type GameLineupPayload = { gameId: number };
+export type GameTeamPlayerType = {
+  id: number;
+  playerName: string;
+  description?: string;
+  number: number;
+  jerseyNumber?: number;
+  isCaptain: boolean;
+  isReplaced: boolean;
+  replacedPlayer: Pick<GameTeamPlayerType, 'id' | 'number' | 'playerName'> | null;
+  state: 'STARTER' | 'CANDIDATE';
+};
+
+export type GameLineupType = {
+  gameTeamId: number;
+  teamName: string;
+  starterPlayers: GameTeamPlayerType[];
+  candidatePlayers: GameTeamPlayerType[];
+};
+
+export type GameLineupPlayingType = {
+  gameTeamId: number;
+  teamName: string;
+  gameTeamPlayers: GameTeamPlayerType[];
+};

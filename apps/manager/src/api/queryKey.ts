@@ -3,14 +3,21 @@ import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory'
 import type {
   CheerTalkPayload,
   CheerTalkType,
+  GameDetailPayload,
+  GameLineupPayload,
+  GameLineupPlayingType,
+  GameLineupType,
   GameListPayload,
   GameListResponse,
+  GameType,
   LeagueDetailPayload,
   LeagueDetailType,
   LeagueType,
   PlayerDetailPayload,
   PlayerType,
   TeamType,
+  TimelinePayload,
+  TimelineType,
 } from './types';
 
 const leagueQueryKeys = createQueryKeys('leagues', {
@@ -54,6 +61,22 @@ const gameQueryKeys = createQueryKeys('games', {
   list: (payload: GameListPayload) => ({
     queryKey: [payload],
     queryFn: () => fetcher.get<GameListResponse[]>('games', { searchParams: payload }),
+  }),
+  timeline: (payload: TimelinePayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<TimelineType[]>(`games/${payload.gameId}/timeline`),
+  }),
+  detail: (payload: GameDetailPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<GameType>(`games/${payload.gameId}`),
+  }),
+  lineup: (payload: GameLineupPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<GameLineupType[]>(`games/${payload.gameId}/lineup`),
+  }),
+  lineupPlaying: (payload: GameLineupPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<GameLineupPlayingType[]>(`games/${payload.gameId}/lineup/playing`),
   }),
 });
 
