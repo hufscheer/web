@@ -1,21 +1,19 @@
 import { colors, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSuspenseTeamGames } from '~/api';
+import type { GameType } from '~/api';
 import { routes } from '~/constants/routes';
 
 interface MatchHistoryProps {
-  teamId: number;
+  games: GameType[];
   teamName: string;
   limit?: number;
 }
 
-export const MatchHistory = ({ teamId, teamName, limit = 3 }: MatchHistoryProps) => {
-  const { data } = useSuspenseTeamGames({ id: teamId });
-
+export const MatchHistory = ({ games, teamName, limit = 3 }: MatchHistoryProps) => {
   return (
     <div className="column mt-2 gap-1.5">
-      {data.slice(0, limit).map(game => {
+      {games.slice(0, limit).map(game => {
         if (game.gameTeams.length < 2) return null;
 
         const [home, away] =
@@ -80,7 +78,7 @@ export const MatchHistory = ({ teamId, teamName, limit = 3 }: MatchHistoryProps)
         );
       })}
 
-      {data.length === 0 && (
+      {games.length === 0 && (
         <Typography color={colors.neutral500} fontSize={13} weight="medium">
           아직 경기 기록이 없어요.
         </Typography>
