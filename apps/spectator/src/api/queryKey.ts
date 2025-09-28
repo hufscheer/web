@@ -29,6 +29,7 @@ import type {
   TeamDetailType,
   TeamGamesPayload,
   TeamListPayload,
+  TeamSummaryType,
   TeamType,
 } from './types';
 
@@ -93,6 +94,19 @@ const teamQueryKeys = createQueryKeys('teams', {
   games: (payload: TeamGamesPayload) => ({
     queryKey: [payload],
     queryFn: () => fetcher.get<GameType[]>(`teams/${payload.id}/games`),
+  }),
+  summary: (payload: TeamListPayload) => ({
+    queryKey: [payload],
+    queryFn: () => {
+      const params = new URLSearchParams();
+
+      if (payload.units) {
+        const units = Array.isArray(payload.units) ? payload.units : [payload.units];
+        units.forEach(u => params.append('units', u));
+      }
+
+      return fetcher.get<TeamSummaryType[]>('teams/summary', { searchParams: params });
+    },
   }),
 });
 
