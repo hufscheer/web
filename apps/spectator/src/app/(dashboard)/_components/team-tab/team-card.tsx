@@ -1,11 +1,8 @@
-import { ChevronForwardIcon } from '@hcc/icons';
 import { Typography } from '@hcc/ui';
 import Image from 'next/image';
-import Link from 'next/link';
 import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
-import type { TeamType } from '~/api';
-import { routes } from '~/constants/routes';
+import type { TeamDetailType } from '~/api';
 
 /* -------------------------------------------------------------------------------------------------
  * TeamCard
@@ -27,7 +24,7 @@ const TeamCardRoot = ({ children, className, ...props }: ComponentProps<'div'>) 
  * -----------------------------------------------------------------------------------------------*/
 
 interface TeamCardHeaderProps extends ComponentProps<'div'> {
-  team: TeamType;
+  team: TeamDetailType;
 }
 
 const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
@@ -48,9 +45,9 @@ const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
         <Typography weight="medium">{team.name}</Typography>
       </div>
 
-      <Link href={`/${routes.team(team.id)}`} className="center">
-        <ChevronForwardIcon size={24} />
-      </Link>
+      {/*<Link href={`/${routes.team(team.id)}`} className="center">*/}
+      {/*  <ChevronForwardIcon size={24} />*/}
+      {/*</Link>*/}
     </div>
   );
 };

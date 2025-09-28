@@ -1,3 +1,5 @@
+import type { GameType } from '~/api';
+
 export type TeamType = {
   id: number;
   name: string;
@@ -81,4 +83,9 @@ export type TeamDetailType = {
 
 export type TeamGamesPayload = {
   id: number;
+};
+
+export type TeamSummaryType = {
+  teamDetail: TeamDetailType;
+  recentGames: GameType[];
 };
