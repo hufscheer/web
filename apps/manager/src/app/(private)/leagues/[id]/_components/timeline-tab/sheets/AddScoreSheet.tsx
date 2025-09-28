@@ -2,6 +2,7 @@
 
 import { Button, Input, toast } from '@hcc/ui';
 import { useMemo, useState } from 'react';
+import { useCreateTimelinePK } from '~/api/mutations/useCreateTimelinePK';
 import { useCreateTimelineScore } from '~/api/mutations/useCreateTimelineScore';
 import { useSuspenseGameLineupPlaying } from '~/api/queries/useGameLineupPlaying';
 import type { ScoreType } from '~/api/types';
@@ -21,6 +22,10 @@ const quarterOptions: SelectOption[] = (
   label: QUARTER_LABELS[key],
   value: QUARTER_TYPE[key],
 }));
+const SUCCESS_OPTIONS: SelectOption[] = [
+  { label: '성공', value: 'true' },
+  { label: '실축', value: 'false' },
+];
 
 export default function AddScoreSheet({
   gameId,
@@ -29,7 +34,13 @@ export default function AddScoreSheet({
   gameId: number;
   onClose: () => void;
 }) {
-  const { mutate: createScore, isPending } = useCreateTimelineScore({ gameId });
+  const { mutate: createScore, isPending: isScorePending } = useCreateTimelineScore({
+    gameId,
+  });
+  const { mutate: createPK, isPending: isPKPending } = useCreateTimelinePK({
+    gameId,
+  });
+  const isPending = isScorePending || isPKPending;
   const { data: lineup } = useSuspenseGameLineupPlaying({ gameId });
   const teamOptions: SelectOption[] = useMemo(() => {
     return lineup.map(team => ({
@@ -42,6 +53,7 @@ export default function AddScoreSheet({
   const [team, setTeam] = useState<SelectOption | null>(null);
   const [player, setPlayer] = useState<SelectOption | null>(null);
   const [minute, setMinute] = useState('');
+  const [isSuccess, setIsSuccess] = useState<SelectOption | null>(null);
 
   const playerOptions: SelectOption[] = useMemo(() => {
     if (!team) return [];
@@ -56,31 +68,63 @@ export default function AddScoreSheet({
       value: String(p.id),
     }));
   }, [lineup, team]);
-  const isFormValid = quarter && team && player && minute;
+
+  const isPK = quarter?.value === QUARTER_TYPE.PENALTY_SHOOTOUT;
 
   const submit = () => {
-    if (!isFormValid) {
+    if (!quarter || !team || !player) {
       toast('모든 항목을 입력해주세요.');
       return;
     }
-    const request: ScoreType = {
+
+    const commonData = {
       gameId,
       gameTeamId: Number(team.value),
-      scoreLineupPlayerId: Number(player.value),
       recordedQuarter: quarter.value,
-      recordedAt: Number(minute),
     };
 
-    createScore(request, {
-      onSuccess: () => {
-        onClose();
-      },
-      onError: () => {
-        toast.error('득점 등록에 실패했습니다. 다시 시도해주세요.');
-      },
-    });
-  };
+    const onSuccess = () => {
+      toast.success('기록이 등록되었습니다.');
+      onClose();
+    };
 
+    if (isPK) {
+      if (!isSuccess) {
+        toast('모든 항목을 입력해주세요.');
+        return;
+      }
+      const pkRequest = {
+        ...commonData,
+        recordedAt: 0,
+        scorerId: Number(player.value),
+        isSuccess: isSuccess.value === 'true',
+      };
+
+      createPK(pkRequest, {
+        onSuccess,
+        onError: () => {
+          toast.error('승부차기 기록 등록에 실패했습니다. 다시 시도해주세요.');
+        },
+      });
+    } else {
+      if (!minute) {
+        toast('모든 항목을 입력해주세요.');
+        return;
+      }
+      const scoreRequest: ScoreType = {
+        ...commonData,
+        recordedAt: Number(minute),
+        scoreLineupPlayerId: Number(player.value),
+      };
+
+      createScore(scoreRequest, {
+        onSuccess,
+        onError: () => {
+          toast.error('득점 등록에 실패했습니다. 다시 시도해주세요.');
+        },
+      });
+    }
+  };
   return (
     <div className="flex h-full flex-col gap-4 bg-white p-5">
       <div className="font-medium text-base text-black">상황</div>
@@ -89,7 +133,10 @@ export default function AddScoreSheet({
         label="쿼터"
         options={quarterOptions}
         value={quarter?.value}
-        onValueChange={value => setQuarter(quarterOptions.find(opt => opt.value === value) || null)}
+        onValueChange={value => {
+          setQuarter(quarterOptions.find(opt => opt.value === value) || null);
+          setIsSuccess(null); // 쿼터 변경 시 성공 여부 초기화
+        }}
       />
 
       <InputSelect
@@ -101,9 +148,7 @@ export default function AddScoreSheet({
           setPlayer(null); // 팀이 바뀌면 선수 초기화
         }}
       />
-
       <div className="font-medium text-base text-black">득점 상세 정보</div>
-
       <InputSelect
         label="선수"
         options={playerOptions}
@@ -111,15 +156,25 @@ export default function AddScoreSheet({
         onValueChange={value => setPlayer(playerOptions.find(opt => opt.value === value) || null)}
         disabled={!team || playerOptions.length === 0}
       />
-
+      {isPK && (
+        <InputSelect
+          label="성공 여부"
+          options={SUCCESS_OPTIONS}
+          value={isSuccess?.value}
+          onValueChange={value =>
+            setIsSuccess(SUCCESS_OPTIONS.find(opt => opt.value === value) || null)
+          }
+        />
+      )}
       <Input
         placeholder="시간(분)"
         type="number"
         value={minute}
         onChange={e => setMinute(e.target.value)}
         min={0}
+        // 🚨 승부차기일 경우 시간 입력 필드 비활성화
+        disabled={isPK}
       />
-
       <Button color="black" size="lg" onClick={submit} loading={isPending}>
         타임라인 등록
       </Button>

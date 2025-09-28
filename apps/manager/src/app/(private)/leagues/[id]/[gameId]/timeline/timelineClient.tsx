@@ -4,6 +4,7 @@ import { lazy, Suspense, useCallback, useMemo, useState } from 'react';
 import { Drawer } from 'vaul';
 import { Timeline } from '../../_components/timeline';
 import { BottomButton, type BottomSheetType } from '../../_components/timeline-tab/bottom-button';
+import { Spinner } from '@hcc/ui';
 
 const AddScoreSheet = lazy(() => import('../../_components/timeline-tab/sheets/AddScoreSheet'));
 const StatusChangeSheet = lazy(
@@ -63,7 +64,15 @@ export default function TimelineClient({ gameId }: { gameId: number }) {
                 </Drawer.Title>
               )}
               <div className="h-full overflow-y-auto">
-                <Suspense fallback={<div className="p-5">로딩 중...</div>}>{content}</Suspense>
+                <Suspense
+                  fallback={
+                    <div className="flex items-center justify-center">
+                      <Spinner />
+                    </div>
+                  }
+                >
+                  {content}
+                </Suspense>
               </div>
             </div>
           </Drawer.Content>
