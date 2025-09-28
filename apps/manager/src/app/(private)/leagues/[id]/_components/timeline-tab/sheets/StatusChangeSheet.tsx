@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
 import { Button, Input, toast } from '@hcc/ui';
-import { InputSelect } from '~/components/ui/input-select';
-import { PROGRESS_TYPE, QUARTER_TYPE } from '~/api/types';
-import type { ProgressStateType } from '~/api/types';
+import { useState } from 'react';
 import { useCreateTimelinesProgress } from '~/api/mutations/useCreateTimelineStatus';
+import type { ProgressStateType } from '~/api/types';
+import { PROGRESS_TYPE, QUARTER_TYPE } from '~/api/types';
+import { InputSelect } from '~/components/ui/input-select';
 
 type SelectOption = { label: string; value: string };
 
@@ -70,6 +70,7 @@ export default function StatusChangeSheet({
         onClose();
       },
       onError: error => {
+        console.log(error);
         toast.error('상태 변경 등록에 실패했습니다. 다시 시도해주세요.');
       },
     });

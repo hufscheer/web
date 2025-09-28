@@ -1,22 +1,43 @@
+import { ErrorBoundary, Suspense } from '@suspensive/react';
 import { notFound } from 'next/navigation';
 import { Header } from '~/components/layout';
-import TimelineClient from './timelineClient';
 import { TimelineDeleteMenu } from '../../_components/timeline-tab/timeline-delete';
+import TimelineClient from './timelineClient';
 
-type PageProps = { params: { id: string; gameId: string } };
+type Props = {
+  params: Promise<{ id: string; gameId: string }>;
+};
 
-export default function Page({ params: { id, gameId } }: PageProps) {
-  const leagueId = Number(id);
-  const gid = Number(gameId);
+const Page = async ({ params }: Props) => {
+  const { id: _leagueId, gameId: _gameId } = await params;
 
-  if (Number.isNaN(leagueId) || Number.isNaN(gid)) notFound();
+  const leagueId = Number(_leagueId);
+  const gameId = Number(_gameId);
+
+  if (Number.isNaN(leagueId) || Number.isNaN(gameId)) notFound();
 
   return (
     <div className="flex min-h-[100dvh] flex-col bg-white">
-      <Header title="경기 진행" menu={<TimelineDeleteMenu gameId={gid} />} arrow />
+      <Header
+        title="경기 진행"
+        menu={
+          <ErrorBoundary fallback={<div>오류</div>}>
+            <Suspense clientOnly>
+              <TimelineDeleteMenu gameId={gameId} />
+            </Suspense>
+          </ErrorBoundary>
+        }
+        arrow
+      />
       <div className="flex-1 overflow-y-auto">
-        <TimelineClient key={gid} gameId={gid} />
+        <ErrorBoundary fallback={<div>오류</div>}>
+          <Suspense clientOnly>
+            <TimelineClient key={gameId} gameId={gameId} />
+          </Suspense>
+        </ErrorBoundary>
       </div>
     </div>
   );
-}
+};
+
+export default Page;

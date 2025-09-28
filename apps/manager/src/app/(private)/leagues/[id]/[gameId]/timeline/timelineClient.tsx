@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useCallback, Suspense, lazy, useMemo } from 'react';
-import { BottomButton, type BottomSheetType } from '../../_components/timeline-tab/bottom-button';
-import { Timeline } from '../../_components/timeline';
+import { lazy, Suspense, useCallback, useMemo, useState } from 'react';
 import { Drawer } from 'vaul';
+import { Timeline } from '../../_components/timeline';
+import { BottomButton, type BottomSheetType } from '../../_components/timeline-tab/bottom-button';
 
 const AddScoreSheet = lazy(() => import('../../_components/timeline-tab/sheets/AddScoreSheet'));
 const StatusChangeSheet = lazy(

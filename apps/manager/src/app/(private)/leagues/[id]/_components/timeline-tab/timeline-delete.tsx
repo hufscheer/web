@@ -1,6 +1,6 @@
 'use client';
 
-import { toast, Typography } from '@hcc/ui';
+import { Typography, toast } from '@hcc/ui';
 import Image from 'next/image';
 import { useMemo } from 'react';
 import { type TimelineRecordType, useSuspenseGameTimeline } from '~/api';
