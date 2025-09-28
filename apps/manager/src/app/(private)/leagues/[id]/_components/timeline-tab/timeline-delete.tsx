@@ -3,7 +3,7 @@
 import { toast, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import { useMemo } from 'react';
-import { useSuspenseGameTimeline } from '~/api';
+import { type TimelineRecordType, useSuspenseGameTimeline } from '~/api';
 import { useDeleteTimelines } from '~/api/mutations/useDeleteTimeline';
 import { AlertDialog } from '~/components/ui';
 
@@ -33,8 +33,7 @@ export const TimelineDeleteMenu = ({ gameId }: Props) => {
     );
 
     const toNum = (v: any) => Number(v);
-    let best: any | null = null;
-
+    let best: (TimelineRecordType & { __quarter: string }) | null = null;
     for (const r of all) {
       const id = toNum(r.recordId);
       if (!Number.isFinite(id)) continue;
@@ -80,8 +79,8 @@ export const TimelineDeleteMenu = ({ gameId }: Props) => {
         <div className="center-y flex-1 gap-2">
           <div className="relative h-6 w-6 overflow-hidden rounded-full">
             <Image
-              src={latestRecord?.teamImageUrl}
-              alt={`${latestRecord?.teamName} 팀 로고`}
+              src={latestRecord?.teamImageUrl ?? ''}
+              alt={`${latestRecord?.teamName ?? ''} 팀 로고`}
               priority={false}
               fill
             />

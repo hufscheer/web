@@ -109,52 +109,47 @@ export type PkRecordType = {
 export type WarningCardRecordType = {
   warningCardType: CardType;
 };
-type WithWarningCard = { warningCardRecord?: WarningCardRecordType };
 
 export type TimelineRecordType =
-  | (CommonTimelineRecordFields &
-      WithWarningCard & {
-        type: typeof RecordType.SCORE;
-        scoreRecord: ScoreRecordType[];
-        replacementRecord: undefined;
-        progressRecord: undefined;
-        pkRecord: undefined;
-        warningCardRecord?: WarningCardRecordType;
-      })
-  | (CommonTimelineRecordFields &
-      WithWarningCard & {
-        type: typeof RecordType.REPLACEMENT;
-        scoreRecord: undefined;
-        replacementRecord: ReplacementRecordType;
-        progressRecord: undefined;
-        pkRecord: undefined;
-        warningCardRecord?: WarningCardRecordType;
-      })
-  | (CommonTimelineRecordFields &
-      WithWarningCard & {
-        type: typeof RecordType.PROGRESS;
-        scoreRecord: undefined;
-        replacementRecord: undefined;
-        progressRecord: ProgressRecordType;
-        pkRecord: undefined;
-        warningCardRecord?: WarningCardRecordType;
-      })
-  | (CommonTimelineRecordFields &
-      WithWarningCard & {
-        type: typeof RecordType.PK;
-        scoreRecord: undefined;
-        replacementRecord: undefined;
-        progressRecord: undefined;
-        pkRecord: PkRecordType;
-        warningCardRecord?: WarningCardRecordType;
-      })
   | (CommonTimelineRecordFields & {
-      type: typeof RecordType.WARNING_CARD; // ✅ 새 케이스
+      type: typeof RecordType.SCORE;
+      scoreRecord: ScoreRecordType[];
+      replacementRecord: undefined;
+      progressRecord: undefined;
+      pkRecord: undefined;
+      warningCardRecord?: WarningCardRecordType;
+    })
+  | (CommonTimelineRecordFields & {
+      type: typeof RecordType.REPLACEMENT;
+      scoreRecord: undefined;
+      replacementRecord: ReplacementRecordType;
+      progressRecord: undefined;
+      pkRecord: undefined;
+      warningCardRecord?: WarningCardRecordType;
+    })
+  | (CommonTimelineRecordFields & {
+      type: typeof RecordType.PROGRESS;
+      scoreRecord: undefined;
+      replacementRecord: undefined;
+      progressRecord: ProgressRecordType;
+      pkRecord: undefined;
+      warningCardRecord?: WarningCardRecordType;
+    })
+  | (CommonTimelineRecordFields & {
+      type: typeof RecordType.PK;
+      scoreRecord: undefined;
+      replacementRecord: undefined;
+      progressRecord: undefined;
+      pkRecord: PkRecordType;
+      warningCardRecord?: WarningCardRecordType;
+    })
+  | (CommonTimelineRecordFields & {
+      type: typeof RecordType.WARNING_CARD;
       scoreRecord: undefined;
       replacementRecord: undefined;
       progressRecord: undefined;
       pkRecord: undefined;
-      warningCardRecord: WarningCardRecordType; // ✅ 필수
+      warningCardRecord: WarningCardRecordType;
     });
 
 export type TimelinePayload = {
