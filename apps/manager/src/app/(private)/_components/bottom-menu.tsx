@@ -1,4 +1,4 @@
-import { ChatFillIcon, GroupIcon, PersonIcon, RewardedAdsIcon } from '@hcc/icons';
+import { GroupIcon, PersonIcon, RewardedAdsIcon, SmsIcon } from '@hcc/icons';
 import { Button } from '@hcc/ui';
 import Link from 'next/link';
 import { routes } from '~/constants/routes';
@@ -8,13 +8,13 @@ export const BottomMenu = () => {
     <div className="w-full gap-2 border-neutral-100 border-t bg-white p-5">
       <div className="row-between mb-2 gap-2">
         <Button className="flex-1 gap-1" variant="subtle" asChild>
-          <Link href={`/${routes.league}`}>
+          <Link href={`/${routes.leagues}`}>
             <RewardedAdsIcon size={20} /> 대회 관리
           </Link>
         </Button>
         <Button className="flex-1 gap-1" variant="subtle" asChild>
           <Link href={`/${routes.cheertalks}`}>
-            <ChatFillIcon size={20} /> 응원톡 관리
+            <SmsIcon size={20} /> 응원톡 관리
           </Link>
         </Button>
       </div>

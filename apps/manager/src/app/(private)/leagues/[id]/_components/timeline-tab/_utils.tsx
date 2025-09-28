@@ -1,13 +1,28 @@
-import { ErrorFillIcon, ErrorIcon, SportsAndOutdoorsIcon, TradeHorizontalIcon } from '@hcc/icons';
+import { SportsAndOutdoorsIcon, TradeHorizontalIcon } from '@hcc/icons';
+import { twMerge } from 'tailwind-merge';
 import type { ProgressType, TimelineRecordType } from '~/api';
 
 export const getRecordIcon = (record: TimelineRecordType) => {
   const card = record.warningCardRecord?.warningCardType;
   if (card === 'YELLOW') {
-    return <ErrorIcon size={16} className="text-[var(--color-yellow-500)]" />;
+    return (
+      <div
+        className={twMerge(
+          'inline-flex h-5 w-3.5 items-center justify-center rounded-sm px-1 py-0.5',
+          'bg-[var(--color-yellow-500)]',
+        )}
+      />
+    );
   }
   if (card === 'RED') {
-    return <ErrorFillIcon size={16} className="text-[var(--color-danger-600)]" />;
+    return (
+      <div
+        className={twMerge(
+          'inline-flex h-5 w-3.5 items-center justify-center rounded-sm px-1 py-0.5',
+          'bg-[var(--color-danger-600)]',
+        )}
+      />
+    );
   }
   switch (record.type) {
     case 'SCORE':
