@@ -3,7 +3,6 @@ import { Suspense } from '@suspensive/react';
 import { redirect } from 'next/navigation';
 import { Header } from '~/components/layout';
 import { TabTrigger } from '~/components/ui';
-import { CalendarMenu } from './_components/calendar-menu';
 import { PreviousTab } from './_components/previous-tab';
 import { RecentTab } from './_components/recent-tab';
 import { TeamTab } from './_components/team-tab';
@@ -30,7 +29,9 @@ const Page = async ({ searchParams }: Props) => {
 
   return (
     <>
-      <Header menu={<CalendarMenu />} />
+      <Header
+      // menu={<CalendarMenu />}
+      />
 
       <Tabs.Root className="column w-full bg-white" defaultValue={tab}>
         <Tabs.List className="center sticky top-12 z-header h-12 gap-5 border-neutral-100 border-b bg-white">
