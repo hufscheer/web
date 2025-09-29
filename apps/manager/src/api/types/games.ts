@@ -8,6 +8,7 @@ export type GameType = {
   startTime: string;
   state: GameStateType;
   gameName: string;
+  gameQuarter: string;
   round: number;
   videoId: string;
   gameTeams: GameTeamType[];

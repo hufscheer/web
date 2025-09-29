@@ -9,5 +9,6 @@ export * from './useImageUpload';
 export * from './useLogin';
 export * from './useUpdateCheerTalkBlock';
 export * from './useUpdateCheerTalkUnblock';
+export * from './useUpdateGames';
 export * from './useUpdatePlayers';
 export * from './useUpdateTeams';
