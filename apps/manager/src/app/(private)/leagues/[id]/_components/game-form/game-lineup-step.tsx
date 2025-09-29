@@ -71,14 +71,14 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
     if (currentTeam1Players.length === 0) {
       setTeam1Selection([]);
     }
-  }, [team1Id, getValues]);
+  }, [getValues]);
 
   useEffect(() => {
     const currentTeam2Players = getValues('team2.lineupPlayers') || [];
     if (currentTeam2Players.length === 0) {
       setTeam2Selection([]);
     }
-  }, [team2Id, getValues]);
+  }, [getValues]);
 
   const handlePlayerSelection = (
     teamNumber: 1 | 2,
