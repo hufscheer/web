@@ -41,18 +41,18 @@ export const GameForm = ({ leagueId, className, onSubmit, initialData, ...props 
   return (
     <FormProvider {...form}>
       <form
-        className={twMerge('min-h-screen w-full bg-white p-4', className)}
+        className={twMerge('flex h-full w-full flex-col bg-white p-4', className)}
         onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)}
         {...props}
       >
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto flex h-full w-full max-w-4xl flex-col">
           <StepProgress
             currentStep={step}
             totalSteps={STEPS.length}
             steps={STEPS.map(step => step.title)}
           />
 
-          <div className="mt-6">
+          <div className="mt-6 flex-1 overflow-hidden">
             <SwitchCase
               value={step}
               caseBy={{
