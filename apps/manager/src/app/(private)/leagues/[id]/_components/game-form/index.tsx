@@ -8,6 +8,7 @@ import { GameVideoStep } from '~/app/(private)/leagues/[id]/_components/game-for
 import { SwitchCase } from '~/components/feature';
 import { handleFormError } from '~/utils/form-util';
 import { GameBasicInfoStep } from './game-basic-info-step';
+import { GameLineupStep } from './game-lineup-step';
 import { StepProgress } from './step-progress';
 
 type Props = {
@@ -40,31 +41,42 @@ export const GameForm = ({ leagueId, className, onSubmit, initialData, ...props 
   return (
     <FormProvider {...form}>
       <form
-        className={twMerge('column w-full bg-white', className)}
+        className={twMerge('min-h-screen w-full bg-white p-4', className)}
         onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)}
         {...props}
       >
-        <StepProgress
-          currentStep={step}
-          totalSteps={STEPS.length}
-          steps={STEPS.map(step => step.title)}
-        />
+        <div className="mx-auto max-w-4xl">
+          <StepProgress
+            currentStep={step}
+            totalSteps={STEPS.length}
+            steps={STEPS.map(step => step.title)}
+          />
 
-        <SwitchCase
-          value={step}
-          caseBy={{
-            0: (
-              <Suspense fallback={<Spinner className="self-center" />} clientOnly>
-                <GameBasicInfoStep
-                  leagueId={leagueId}
-                  onNext={() => (step === 0 ? setStep(1) : undefined)}
-                />
-              </Suspense>
-            ),
-            1: null,
-            2: <GameVideoStep onPrevious={() => (step === 2 ? setStep(1) : undefined)} />,
-          }}
-        />
+          <div className="mt-6">
+            <SwitchCase
+              value={step}
+              caseBy={{
+                0: (
+                  <Suspense fallback={<Spinner className="self-center" />} clientOnly>
+                    <GameBasicInfoStep
+                      leagueId={leagueId}
+                      onNext={() => (step === 0 ? setStep(1) : undefined)}
+                    />
+                  </Suspense>
+                ),
+                1: (
+                  <Suspense fallback={<Spinner className="self-center" />} clientOnly>
+                    <GameLineupStep
+                      onNext={() => (step === 1 ? setStep(2) : undefined)}
+                      onPrevious={() => (step === 1 ? setStep(0) : undefined)}
+                    />
+                  </Suspense>
+                ),
+                2: <GameVideoStep onPrevious={() => (step === 2 ? setStep(1) : undefined)} />,
+              }}
+            />
+          </div>
+        </div>
       </form>
     </FormProvider>
   );
