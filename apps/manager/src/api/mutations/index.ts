@@ -2,6 +2,7 @@ export * from './useCreateGames';
 export * from './useCreateLeagues';
 export * from './useCreatePlayers';
 export * from './useCreateTeams';
+export * from './useDeleteGames';
 export * from './useDeletePlayers';
 export * from './useDeleteTeams';
 export * from './useGeneratePresignedUrl';
