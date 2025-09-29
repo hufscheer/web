@@ -2,15 +2,19 @@
 
 import { colors, Typography } from '@hcc/ui';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Fragment } from 'react';
 import { useSuspenseGames } from '~/api';
 import { GameCard } from '~/components/ui';
 import { routes } from '~/constants/routes';
 
 export const RecentTab = () => {
-  const { data: scheduled } = useSuspenseGames({ state: 'SCHEDULED', size: 20 });
+  const { data: scheduled } = useSuspenseGames({
+    state: 'SCHEDULED',
+    size: 20,
+  });
   const { data: playing } = useSuspenseGames({ state: 'PLAYING', size: 20 });
-
+  const router = useRouter();
   return (
     <div className="column gap-3 p-5">
       {playing.map(league => (
@@ -32,7 +36,9 @@ export const RecentTab = () => {
                     <GameCard.Team team={game.gameTeams[1]} position="away" />
                   </Link>
 
-                  <GameCard.Actions />
+                  <GameCard.Actions
+                    onBroadcastClick={() => router.push(`/${routes.game(game.id)}`)}
+                  />
                 </GameCard.Container>
                 {index !== league.games.length - 1 && <GameCard.Divider />}
               </Fragment>
@@ -53,14 +59,14 @@ export const RecentTab = () => {
               <Fragment key={game.id}>
                 <GameCard.Container>
                   <GameCard.Header game={game} />
-
                   <Link href={`/${routes.game(game.id)}`} className="row-between pt-2">
                     <GameCard.Team team={game.gameTeams[0]} position="home" />
                     <GameCard.Score game={game} />
                     <GameCard.Team team={game.gameTeams[1]} position="away" />
                   </Link>
-
-                  <GameCard.Actions />
+                  <GameCard.Actions
+                    onBroadcastClick={() => router.push(`/${routes.game(game.id)}`)}
+                  />
                 </GameCard.Container>
                 {index !== league.games.length - 1 && <GameCard.Divider />}
               </Fragment>
