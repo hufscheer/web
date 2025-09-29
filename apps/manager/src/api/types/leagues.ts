@@ -30,3 +30,15 @@ export type LeagueDetailType = {
   endAt: string;
   teamIds: number[];
 };
+
+export type LeagueTeamPayload = { leagueId: number };
+
+export type LeagueTeamType = {
+  teamId: number;
+  leagueTeamId: number;
+  teamName: string;
+  logoImageUrl: string;
+  sizeOfTeamPlayers: number;
+  cheerCount: number;
+  cheerTalksCount: number;
+};

@@ -1,14 +1,18 @@
 import { Button, Input, Select, Typography } from '@hcc/ui';
 import { useFormContext } from 'react-hook-form';
-import type { GameFormType } from '~/api';
-import { categories } from '~/constants/team';
+import { type GameFormType, useSuspenseLeague, useSuspenseLeagueTeams } from '~/api';
+import { quarterOptions, roundOptions, stateOptions } from '~/constants/leagues';
+import { categories } from '~/constants/teams';
 
 type Props = {
+  leagueId: number;
   onNext: () => void;
 };
 
-export const GameBasicInfoStep = ({ onNext }: Props) => {
+export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
   const { register } = useFormContext<GameFormType>();
+  const { data: league } = useSuspenseLeague({ leagueId });
+  const { data: teams } = useSuspenseLeagueTeams({ leagueId });
 
   const isValid = true;
 
@@ -30,11 +34,13 @@ export const GameBasicInfoStep = ({ onNext }: Props) => {
           placeholder="라운드"
           required
         >
-          {categories.map(category => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
+          {roundOptions
+            .filter(item => league.maxRound >= item.round)
+            .map(item => (
+              <option key={item.value} value={item.value}>
+                {item.label}
+              </option>
+            ))}
         </Select>
 
         <Select
@@ -43,9 +49,9 @@ export const GameBasicInfoStep = ({ onNext }: Props) => {
           placeholder="쿼터"
           required
         >
-          {categories.map(category => (
-            <option key={category} value={category}>
-              {category}
+          {Object.entries(quarterOptions).map(([quarter, value]) => (
+            <option key={quarter} value={quarter}>
+              {value}
             </option>
           ))}
         </Select>
@@ -56,9 +62,9 @@ export const GameBasicInfoStep = ({ onNext }: Props) => {
           placeholder="상황"
           required
         >
-          {categories.map(category => (
-            <option key={category} value={category}>
-              {category}
+          {Object.entries(stateOptions).map(([state, value]) => (
+            <option key={state} value={state}>
+              {value}
             </option>
           ))}
         </Select>
@@ -77,9 +83,27 @@ export const GameBasicInfoStep = ({ onNext }: Props) => {
         </Select>
       </div>
 
-      <Typography className="mt-4 mb-2" weight="semibold">
+      <Typography className="mt-5" weight="semibold">
         참가 팀
       </Typography>
+
+      <div className="column mt-4 gap-3">
+        <Select {...register('team1.teamId')} size="lg" placeholder="팀 선택 1" required>
+          {teams.map(team => (
+            <option key={team.teamId} value={team.teamId}>
+              {team.teamName}
+            </option>
+          ))}
+        </Select>
+
+        <Select {...register('team2.teamId')} size="lg" placeholder="팀 선택 2" required>
+          {teams.map(team => (
+            <option key={team.teamId} value={team.teamId}>
+              {team.teamName}
+            </option>
+          ))}
+        </Select>
+      </div>
 
       <Button
         type="button"

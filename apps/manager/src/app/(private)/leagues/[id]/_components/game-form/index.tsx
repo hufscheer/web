@@ -1,7 +1,10 @@
+import { Spinner } from '@hcc/ui';
+import { Suspense } from '@suspensive/react';
 import { type ComponentProps, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 import type { GameFormType } from '~/api';
+import { GameVideoStep } from '~/app/(private)/leagues/[id]/_components/game-form/game-video-step';
 import { SwitchCase } from '~/components/feature';
 import { handleFormError } from '~/utils/form-util';
 import { GameBasicInfoStep } from './game-basic-info-step';
@@ -50,9 +53,16 @@ export const GameForm = ({ leagueId, className, onSubmit, initialData, ...props 
         <SwitchCase
           value={step}
           caseBy={{
-            0: <GameBasicInfoStep onNext={() => (step === 0 ? setStep(1) : undefined)} />,
+            0: (
+              <Suspense fallback={<Spinner className="self-center" />} clientOnly>
+                <GameBasicInfoStep
+                  leagueId={leagueId}
+                  onNext={() => (step === 0 ? setStep(1) : undefined)}
+                />
+              </Suspense>
+            ),
             1: null,
-            2: null,
+            2: <GameVideoStep onPrevious={() => (step === 2 ? setStep(1) : undefined)} />,
           }}
         />
       </form>
