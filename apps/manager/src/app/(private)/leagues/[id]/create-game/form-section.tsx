@@ -22,7 +22,7 @@ export const FormSection = ({ leagueId }: Props) => {
           router.back();
         },
         onError: error => {
-          console.log(`[manager/leagues/${leagueId}/create-game]`, error);
+          console.error(`[manager/leagues/${leagueId}/create-game]`, error);
           toast.error('경기 생성에 실패했습니다. 잠시 후 다시 시도해주세요.');
         },
       },

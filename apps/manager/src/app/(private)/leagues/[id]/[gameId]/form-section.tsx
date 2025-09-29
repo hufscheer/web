@@ -32,7 +32,7 @@ export const FormSection = ({ leagueId, gameId }: Props) => {
           router.back();
         },
         onError: error => {
-          console.log(`[manager/leagues/${leagueId}]`, error);
+          console.error(`[manager/leagues/${leagueId}]`, error);
           toast.error('경기 수정에 실패했습니다. 잠시 후 다시 시도해주세요.');
         },
       },

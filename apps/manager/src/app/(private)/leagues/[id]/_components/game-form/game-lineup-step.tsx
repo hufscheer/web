@@ -1,5 +1,5 @@
 import { Button, Input } from '@hcc/ui';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 import { type GameFormType, useSuspenseLeagueTeams, useSuspenseLeagueTeamsPlayers } from '~/api';
@@ -37,7 +37,7 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
   const getPlayerName = useCallback(
     (teamPlayerId: number) => {
       const allPlayers = [...team1Players, ...team2Players];
-      const player = allPlayers.find(p => p.playerId === teamPlayerId);
+      const player = allPlayers.find(p => p.teamPlayerId === teamPlayerId);
       return player?.name || `선수 ${teamPlayerId}`;
     },
     [team1Players, team2Players],
@@ -64,6 +64,21 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
         }))
       : [];
   });
+
+  // 팀 ID가 변경되면 해당 팀의 선택 상태 초기화
+  useEffect(() => {
+    const currentTeam1Players = getValues('team1.lineupPlayers') || [];
+    if (currentTeam1Players.length === 0) {
+      setTeam1Selection([]);
+    }
+  }, [team1Id, getValues]);
+
+  useEffect(() => {
+    const currentTeam2Players = getValues('team2.lineupPlayers') || [];
+    if (currentTeam2Players.length === 0) {
+      setTeam2Selection([]);
+    }
+  }, [team2Id, getValues]);
 
   const handlePlayerSelection = (
     teamNumber: 1 | 2,

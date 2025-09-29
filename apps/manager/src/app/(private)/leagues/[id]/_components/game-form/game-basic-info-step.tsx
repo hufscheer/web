@@ -40,6 +40,7 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
     if (selectedTeam) {
       setValue('team1.teamId', selectedTeam.teamId);
       setValue('team1.leagueTeamId', selectedTeam.leagueTeamId);
+      setValue('team1.lineupPlayers', []);
     }
   };
 
@@ -48,6 +49,7 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
     if (selectedTeam) {
       setValue('team2.teamId', selectedTeam.teamId);
       setValue('team2.leagueTeamId', selectedTeam.leagueTeamId);
+      setValue('team2.lineupPlayers', []);
     }
   };
 
