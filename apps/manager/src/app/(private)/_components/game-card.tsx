@@ -11,12 +11,12 @@ export const GameCardRoot = ({ children }: PropsWithChildren) => {
   return <div className="column bg-white p-5">{children}</div>;
 };
 
-type GameCardProps = {
+type GameHeaderProps = {
   leagueId: number;
   gameQuarter?: string;
 } & Pick<GameType, 'id' | 'state' | 'startTime'>;
 
-const GameHeader = ({ leagueId, id: gameId, gameQuarter, state, startTime }: GameCardProps) => {
+const GameHeader = ({ leagueId, id: gameId, gameQuarter, state, startTime }: GameHeaderProps) => {
   return (
     <div className="row-between">
       <Badge size="sm" variant={state === 'PLAYING' ? 'danger' : 'default'}>

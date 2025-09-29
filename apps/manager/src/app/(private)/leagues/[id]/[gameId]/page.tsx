@@ -1,6 +1,7 @@
+import { Suspense } from '@suspensive/react';
 import { notFound } from 'next/navigation';
-import { FormSection } from './form-section';
 import { Header } from '~/components/layout';
+import { FormSection } from './form-section';
 
 type Props = {
   params: Promise<{ id: string; gameId: string }>;
@@ -19,7 +20,9 @@ const Page = async ({ params }: Props) => {
       <Header title="경기 수정" arrow />
 
       <div className="column-between h-full overflow-hidden">
-        <FormSection leagueId={leagueId} gameId={gameId} />;
+        <Suspense clientOnly>
+          <FormSection leagueId={leagueId} gameId={gameId} />
+        </Suspense>
       </div>
     </>
   );
