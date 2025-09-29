@@ -2,7 +2,6 @@ import { Button, Input, Select, Typography } from '@hcc/ui';
 import { useFormContext } from 'react-hook-form';
 import { type GameFormType, useSuspenseLeague, useSuspenseLeagueTeams } from '~/api';
 import { quarterOptions, roundOptions, stateOptions } from '~/constants/leagues';
-import { categories } from '~/constants/teams';
 
 type Props = {
   leagueId: number;
@@ -10,11 +9,31 @@ type Props = {
 };
 
 export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
-  const { register } = useFormContext<GameFormType>();
+  const { register, watch } = useFormContext<GameFormType>();
   const { data: league } = useSuspenseLeague({ leagueId });
   const { data: teams } = useSuspenseLeagueTeams({ leagueId });
 
-  const isValid = true;
+  const watchedFields = watch([
+    'name',
+    'round',
+    'quarter',
+    'state',
+    'startTime',
+    'team1.teamId',
+    'team2.teamId',
+  ]);
+  const [name, round, quarter, state, startTime, team1Id, team2Id] = watchedFields;
+
+  const isValid = Boolean(
+    name?.trim() &&
+      round &&
+      quarter &&
+      state &&
+      startTime &&
+      team1Id &&
+      team2Id &&
+      team1Id !== team2Id,
+  );
 
   return (
     <>
@@ -69,18 +88,13 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
           ))}
         </Select>
 
-        <Select
-          {...register('state', { required: '시작 일시는 필수 입력값이에요.' })}
+        <Input
+          {...register('startTime', { required: '시작 일시는 필수 입력값이에요.' })}
           size="lg"
+          type="datetime-local"
           placeholder="시작 일시"
           required
-        >
-          {categories.map(category => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-        </Select>
+        />
       </div>
 
       <Typography className="mt-5" weight="semibold">
@@ -88,7 +102,12 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
       </Typography>
 
       <div className="column mt-4 gap-3">
-        <Select {...register('team1.teamId')} size="lg" placeholder="팀 선택 1" required>
+        <Select
+          {...register('team1.teamId', { required: '팀 1은 필수 선택값이에요.' })}
+          size="lg"
+          placeholder="팀 선택 1"
+          required
+        >
           {teams.map(team => (
             <option key={team.teamId} value={team.teamId}>
               {team.teamName}
@@ -96,7 +115,12 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
           ))}
         </Select>
 
-        <Select {...register('team2.teamId')} size="lg" placeholder="팀 선택 2" required>
+        <Select
+          {...register('team2.teamId', { required: '팀 2는 필수 선택값이에요.' })}
+          size="lg"
+          placeholder="팀 선택 2"
+          required
+        >
           {teams.map(team => (
             <option key={team.teamId} value={team.teamId}>
               {team.teamName}
