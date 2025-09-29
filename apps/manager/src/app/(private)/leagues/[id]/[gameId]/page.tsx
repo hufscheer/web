@@ -1,5 +1,6 @@
 import { Suspense } from '@suspensive/react';
 import { notFound } from 'next/navigation';
+import { GameDeleteMenu } from '~/app/(private)/leagues/[id]/[gameId]/game-delete-menu';
 import { Header } from '~/components/layout';
 import { FormSection } from './form-section';
 
@@ -17,7 +18,11 @@ const Page = async ({ params }: Props) => {
 
   return (
     <>
-      <Header title="경기 수정" arrow />
+      <Header
+        title="경기 수정"
+        menu={<GameDeleteMenu leagueId={leagueId} gameId={gameId} />}
+        arrow
+      />
 
       <div className="column-between h-full overflow-hidden">
         <Suspense clientOnly>
