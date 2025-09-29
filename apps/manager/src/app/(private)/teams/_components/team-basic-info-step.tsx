@@ -4,7 +4,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 import type { TeamFormType } from '~/api';
 import { ImageUploader } from '~/components/ui';
-import { categories, colorPalette } from '~/constants/team';
+import { categories, colorPalette } from '~/constants/teams';
 
 type Props = {
   onNext: () => void;

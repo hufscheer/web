@@ -34,7 +34,7 @@ export const TimelineDeleteMenu = ({ gameId }: Props) => {
       (q.records ?? []).map(r => ({ ...r, __quarter: q.gameQuarter })),
     );
 
-    const toNum = (v: any) => Number(v);
+    const toNum = (v: unknown) => Number(v);
     let best: (TimelineRecordType & { __quarter: string }) | null = null;
     for (const r of all) {
       const id = toNum(r.recordId);

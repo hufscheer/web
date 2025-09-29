@@ -1,10 +1,10 @@
 'use client';
 
+import { Spinner } from '@hcc/ui';
 import { lazy, Suspense, useCallback, useMemo, useState } from 'react';
 import { Drawer } from 'vaul';
 import { Timeline } from '../../_components/timeline';
 import { BottomButton, type BottomSheetType } from '../../_components/timeline-tab/bottom-button';
-import { Spinner } from '@hcc/ui';
 
 const AddScoreSheet = lazy(() => import('../../_components/timeline-tab/sheets/AddScoreSheet'));
 const StatusChangeSheet = lazy(

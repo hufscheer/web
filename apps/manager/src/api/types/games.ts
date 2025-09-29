@@ -8,6 +8,7 @@ export type GameType = {
   startTime: string;
   state: GameStateType;
   gameName: string;
+  gameQuarter: string;
   round: number;
   videoId: string;
   gameTeams: GameTeamType[];
@@ -47,6 +48,7 @@ export type GameListResponse = {
 export type GameDetailPayload = { gameId: number };
 
 export type GameLineupPayload = { gameId: number };
+
 export type GameTeamPlayerType = {
   id: number;
   playerName: string;

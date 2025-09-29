@@ -1,4 +1,4 @@
-import type { GameType } from '~/api';
+import type { GameType, TeamPlayerType } from '~/api';
 
 export const LEAGUE_STATE = {
   IN_PROGRESS: '진행 중',
@@ -29,4 +29,24 @@ export type LeagueDetailType = {
   startAt: string;
   endAt: string;
   teamIds: number[];
+};
+
+export type LeagueTeamsPayload = { leagueId: number };
+
+export type LeagueTeamType = {
+  teamId: number;
+  leagueTeamId: number;
+  teamName: string;
+  logoImageUrl: string;
+  sizeOfTeamPlayers: number;
+  cheerCount: number;
+  cheerTalksCount: number;
+};
+
+export type LeagueTeamsPlayersPayload = { leagueTeamId: number };
+
+export type LeagueTeamsPlayerType = TeamPlayerType & {
+  teamPlayerId: number;
+  name: string;
+  studentNumber: string;
 };

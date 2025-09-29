@@ -34,7 +34,7 @@ const Page = async ({ params }: Props) => {
           </Suspense>
         </ErrorBoundary>
 
-        <hr className="h-2 w-full border-none bg-neutral-50" />
+        <hr className="h-0.5 w-full shrink-0 border-none bg-neutral-50" />
 
         <ErrorBoundary fallback={<GameListError />}>
           <Suspense fallback={null} clientOnly>
@@ -42,7 +42,7 @@ const Page = async ({ params }: Props) => {
           </Suspense>
         </ErrorBoundary>
 
-        <hr className="h-2 w-full border-none bg-neutral-50" />
+        <hr className="h-0.5 w-full shrink-0 border-none bg-neutral-50" />
 
         <ErrorBoundary fallback={<GameListError />}>
           <Suspense fallback={null} clientOnly>
@@ -50,7 +50,7 @@ const Page = async ({ params }: Props) => {
           </Suspense>
         </ErrorBoundary>
 
-        <hr className="h-2 w-full border-none bg-neutral-50" />
+        <hr className="h-0.5 w-full shrink-0 border-none bg-neutral-50" />
 
         <ErrorBoundary fallback={<GameListError />}>
           <Suspense fallback={null} clientOnly>
