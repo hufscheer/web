@@ -12,7 +12,9 @@ import type {
   GameType,
   LeagueDetailPayload,
   LeagueDetailType,
-  LeagueTeamPayload,
+  LeagueTeamsPayload,
+  LeagueTeamsPlayersPayload,
+  LeagueTeamsPlayerType,
   LeagueTeamType,
   LeagueType,
   PlayerDetailPayload,
@@ -35,9 +37,14 @@ const leagueQueryKeys = createQueryKeys('leagues', {
     queryKey: [payload],
     queryFn: () => fetcher.get<LeagueDetailType>(`leagues/${payload.leagueId}`),
   }),
-  teams: (payload: LeagueTeamPayload) => ({
+  teams: (payload: LeagueTeamsPayload) => ({
     queryKey: [payload],
     queryFn: () => fetcher.get<LeagueTeamType[]>(`leagues/${payload.leagueId}/teams`),
+  }),
+  teamsPlayers: (payload: LeagueTeamsPlayersPayload) => ({
+    queryKey: [payload],
+    queryFn: () =>
+      fetcher.get<LeagueTeamsPlayerType[]>(`leagues/teams/${payload.leagueTeamId}/players`),
   }),
 });
 

@@ -9,7 +9,7 @@ type Props = {
 };
 
 export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
-  const { register, watch } = useFormContext<GameFormType>();
+  const { register, watch, setValue } = useFormContext<GameFormType>();
   const { data: league } = useSuspenseLeague({ leagueId });
   const { data: teams } = useSuspenseLeagueTeams({ leagueId });
 
@@ -19,8 +19,8 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
     'quarter',
     'state',
     'startTime',
-    'team1.teamId',
-    'team2.teamId',
+    'team1.leagueTeamId',
+    'team2.leagueTeamId',
   ]);
   const [name, round, quarter, state, startTime, team1Id, team2Id] = watchedFields;
 
@@ -34,6 +34,22 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
       team2Id &&
       team1Id !== team2Id,
   );
+
+  const handleTeam1Change = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedTeam = teams.find(team => team.leagueTeamId.toString() === event.target.value);
+    if (selectedTeam) {
+      setValue('team1.teamId', selectedTeam.teamId);
+      setValue('team1.leagueTeamId', selectedTeam.leagueTeamId);
+    }
+  };
+
+  const handleTeam2Change = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedTeam = teams.find(team => team.leagueTeamId.toString() === event.target.value);
+    if (selectedTeam) {
+      setValue('team2.teamId', selectedTeam.teamId);
+      setValue('team2.leagueTeamId', selectedTeam.leagueTeamId);
+    }
+  };
 
   return (
     <>
@@ -103,26 +119,28 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
 
       <div className="column mt-4 gap-3">
         <Select
-          {...register('team1.teamId', { required: '팀 1은 필수 선택값이에요.' })}
           size="lg"
           placeholder="팀 선택 1"
           required
+          value={team1Id || ''}
+          onChange={handleTeam1Change}
         >
           {teams.map(team => (
-            <option key={team.teamId} value={team.teamId}>
+            <option key={team.leagueTeamId} value={team.leagueTeamId}>
               {team.teamName}
             </option>
           ))}
         </Select>
 
         <Select
-          {...register('team2.teamId', { required: '팀 2는 필수 선택값이에요.' })}
           size="lg"
           placeholder="팀 선택 2"
           required
+          value={team2Id || ''}
+          onChange={handleTeam2Change}
         >
           {teams.map(team => (
-            <option key={team.teamId} value={team.teamId}>
+            <option key={team.leagueTeamId} value={team.leagueTeamId}>
               {team.teamName}
             </option>
           ))}

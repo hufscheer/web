@@ -4,6 +4,7 @@ import { queryKeys } from '~/api/queryKey';
 
 export type GameFormTeamType = {
   teamId: number;
+  leagueTeamId: number;
   lineupPlayers: {
     teamPlayerId: number;
     state: 'STARTER' | 'CANDIDATE';

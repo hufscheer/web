@@ -67,6 +67,7 @@ export const GameForm = ({ leagueId, className, onSubmit, initialData, ...props 
                 1: (
                   <Suspense fallback={<Spinner className="self-center" />} clientOnly>
                     <GameLineupStep
+                      leagueId={leagueId}
                       onNext={() => (step === 1 ? setStep(2) : undefined)}
                       onPrevious={() => (step === 1 ? setStep(0) : undefined)}
                     />

@@ -2,9 +2,10 @@ import { Button, Input } from '@hcc/ui';
 import { useCallback, useMemo, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
-import { type GameFormType, useSuspensePlayers, useSuspenseTeam } from '~/api';
+import { type GameFormType, useSuspenseLeagueTeams, useSuspenseLeagueTeamsPlayers } from '~/api';
 
 type Props = {
+  leagueId: number;
   onNext: () => void;
   onPrevious: () => void;
 };
@@ -15,23 +16,31 @@ type PlayerSelectionState = {
   isCaptain: boolean;
 };
 
-export const GameLineupStep = ({ onNext, onPrevious }: Props) => {
+export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
   const { watch, setValue, getValues } = useFormContext<GameFormType>();
-  const [team1Id, team2Id] = watch(['team1.teamId', 'team2.teamId']);
+  const [team1Id, team2Id] = watch(['team1.leagueTeamId', 'team2.leagueTeamId']);
 
-  const { data: team1 } = useSuspenseTeam({ id: team1Id });
-  const { data: team2 } = useSuspenseTeam({ id: team2Id });
-  const { data: players } = useSuspensePlayers();
+  const { data: leagueTeams } = useSuspenseLeagueTeams({ leagueId });
+  const team1 = leagueTeams.find(team => team.leagueTeamId === Number(team1Id));
+  const team2 = leagueTeams.find(team => team.leagueTeamId === Number(team2Id));
+
+  const { data: team1Players } = useSuspenseLeagueTeamsPlayers({
+    leagueTeamId: team1?.leagueTeamId || 0,
+  });
+  const { data: team2Players } = useSuspenseLeagueTeamsPlayers({
+    leagueTeamId: team2?.leagueTeamId || 0,
+  });
 
   const [activeTab, setActiveTab] = useState<1 | 2>(1);
   const [searchQuery, setSearchQuery] = useState('');
 
   const getPlayerName = useCallback(
-    (playerId: number) => {
-      const player = players.find(p => p.playerId === playerId);
-      return player?.name || `선수 ${playerId}`;
+    (teamPlayerId: number) => {
+      const allPlayers = [...team1Players, ...team2Players];
+      const player = allPlayers.find(p => p.playerId === teamPlayerId);
+      return player?.name || `선수 ${teamPlayerId}`;
     },
-    [players],
+    [team1Players, team2Players],
   );
 
   const [team1Selection, setTeam1Selection] = useState<PlayerSelectionState[]>(() => {
@@ -58,32 +67,32 @@ export const GameLineupStep = ({ onNext, onPrevious }: Props) => {
 
   const handlePlayerSelection = (
     teamNumber: 1 | 2,
-    playerId: number,
+    teamPlayerId: number,
     state: 'STARTER' | 'CANDIDATE',
   ) => {
     const setSelection = teamNumber === 1 ? setTeam1Selection : setTeam2Selection;
 
     setSelection(prev => {
-      const existing = prev.find(p => p.teamPlayerId === playerId);
+      const existing = prev.find(p => p.teamPlayerId === teamPlayerId);
       if (existing) {
         if (existing.state === state) {
-          return prev.filter(p => p.teamPlayerId !== playerId);
+          return prev.filter(p => p.teamPlayerId !== teamPlayerId);
         }
         return prev.map(p =>
-          p.teamPlayerId === playerId
+          p.teamPlayerId === teamPlayerId
             ? { ...p, state, isCaptain: state === 'CANDIDATE' ? false : p.isCaptain }
             : p,
         );
       }
-      return [...prev, { teamPlayerId: playerId, state, isCaptain: false }];
+      return [...prev, { teamPlayerId: teamPlayerId, state, isCaptain: false }];
     });
   };
 
-  const handleCaptainSelection = (teamNumber: 1 | 2, playerId: number) => {
+  const handleCaptainSelection = (teamNumber: 1 | 2, teamPlayerId: number) => {
     const setSelection = teamNumber === 1 ? setTeam1Selection : setTeam2Selection;
     const currentSelection = teamNumber === 1 ? team1Selection : team2Selection;
 
-    const playerInSelection = currentSelection.find(p => p.teamPlayerId === playerId);
+    const playerInSelection = currentSelection.find(p => p.teamPlayerId === teamPlayerId);
     if (!playerInSelection || playerInSelection.state === 'CANDIDATE') {
       return;
     }
@@ -91,7 +100,7 @@ export const GameLineupStep = ({ onNext, onPrevious }: Props) => {
     setSelection(prev =>
       prev.map(p => ({
         ...p,
-        isCaptain: p.teamPlayerId === playerId ? !p.isCaptain : false,
+        isCaptain: p.teamPlayerId === teamPlayerId ? !p.isCaptain : false,
       })),
     );
   };
@@ -115,34 +124,34 @@ export const GameLineupStep = ({ onNext, onPrevious }: Props) => {
   const isValid =
     team1Starters.length > 0 && team2Starters.length > 0 && team1Captain && team2Captain;
   const filteredPlayers = useMemo(() => {
-    const currentTeam = activeTab === 1 ? team1 : team2;
-    if (!currentTeam?.teamPlayers) return [];
+    const currentPlayers = activeTab === 1 ? team1Players : team2Players;
+    if (!currentPlayers) return [];
 
-    return currentTeam.teamPlayers.filter(player => {
+    return currentPlayers.filter(player => {
       const playerName = getPlayerName(player.playerId).toLowerCase();
       return (
         playerName.includes(searchQuery.toLowerCase()) ||
         player.jerseyNumber.toString().includes(searchQuery)
       );
     });
-  }, [activeTab, team1, team2, searchQuery, getPlayerName]);
+  }, [activeTab, team1Players, team2Players, searchQuery, getPlayerName]);
 
   const renderPlayerList = (teamNumber: 1 | 2) => {
-    const teamData = teamNumber === 1 ? team1 : team2;
-    const playersToShow = teamNumber === activeTab ? filteredPlayers : teamData?.teamPlayers || [];
+    const playersData = teamNumber === 1 ? team1Players : team2Players;
+    const playersToShow = teamNumber === activeTab ? filteredPlayers : playersData || [];
 
     return (
       <div className={twMerge('space-y-2')}>
         {playersToShow.map(player => {
-          const playerState = getPlayerState(teamNumber, player.playerId);
+          const playerState = getPlayerState(teamNumber, player.teamPlayerId);
           return (
             <div
-              key={player.playerId}
+              key={player.teamPlayerId}
               className={twMerge('flex items-center justify-between rounded-lg border p-3')}
             >
               <div className={twMerge('flex items-center gap-3')}>
                 <span className={twMerge('font-medium')}>#{player.jerseyNumber}</span>
-                <span>{getPlayerName(player.playerId)}</span>
+                <span>{getPlayerName(player.teamPlayerId)}</span>
               </div>
               <div className={twMerge('flex gap-2')}>
                 <Button
@@ -150,7 +159,7 @@ export const GameLineupStep = ({ onNext, onPrevious }: Props) => {
                   size="sm"
                   color={playerState?.state === 'STARTER' ? 'black' : 'primary'}
                   variant={playerState?.state === 'STARTER' ? 'solid' : 'ghost'}
-                  onClick={() => handlePlayerSelection(teamNumber, player.playerId, 'STARTER')}
+                  onClick={() => handlePlayerSelection(teamNumber, player.teamPlayerId, 'STARTER')}
                 >
                   선발
                 </Button>
@@ -159,7 +168,9 @@ export const GameLineupStep = ({ onNext, onPrevious }: Props) => {
                   size="sm"
                   color={playerState?.state === 'CANDIDATE' ? 'black' : 'primary'}
                   variant={playerState?.state === 'CANDIDATE' ? 'solid' : 'ghost'}
-                  onClick={() => handlePlayerSelection(teamNumber, player.playerId, 'CANDIDATE')}
+                  onClick={() =>
+                    handlePlayerSelection(teamNumber, player.teamPlayerId, 'CANDIDATE')
+                  }
                 >
                   후보
                 </Button>
@@ -169,7 +180,7 @@ export const GameLineupStep = ({ onNext, onPrevious }: Props) => {
                     size="sm"
                     color={playerState?.isCaptain ? 'black' : 'primary'}
                     variant={playerState?.isCaptain ? 'solid' : 'ghost'}
-                    onClick={() => handleCaptainSelection(teamNumber, player.playerId)}
+                    onClick={() => handleCaptainSelection(teamNumber, player.teamPlayerId)}
                   >
                     주장
                   </Button>
@@ -200,7 +211,7 @@ export const GameLineupStep = ({ onNext, onPrevious }: Props) => {
             }}
           >
             <div className="flex flex-col items-center gap-1">
-              <span>{team1?.name}</span>
+              <span>{team1?.teamName}</span>
               <span className={twMerge('text-gray-500 text-xs')}>
                 선발: {team1Starters.length}명, 주장: {team1Captain ? '✓' : '✗'}
               </span>
@@ -220,7 +231,7 @@ export const GameLineupStep = ({ onNext, onPrevious }: Props) => {
             }}
           >
             <div className="flex flex-col items-center gap-1">
-              <span>{team2?.name}</span>
+              <span>{team2?.teamName}</span>
               <span className={twMerge('text-gray-500 text-xs')}>
                 선발: {team2Starters.length}명, 주장: {team2Captain ? '✓' : '✗'}
               </span>

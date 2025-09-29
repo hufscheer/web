@@ -8,6 +8,7 @@ export * from './useLeague';
 export * from './useLeaguesHome';
 export * from './useLeaguesLeague';
 export * from './useLeagueTeams';
+export * from './useLeagueTeamsPlayers';
 export * from './usePlayer';
 export * from './usePlayers';
 export * from './useTeam';
