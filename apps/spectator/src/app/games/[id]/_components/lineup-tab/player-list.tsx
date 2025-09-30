@@ -47,7 +47,7 @@ export const PlayerList = ({ gameId }: Props) => {
             .map(player => (
               <div key={player.id} className="center-y w-full gap-2">
                 <span className="center h-7 w-7 rounded-lg bg-neutral-100 font-medium text-neutral-500 text-sm">
-                  {player.number}
+                  {player.jerseyNumber}
                 </span>
                 <div className="column gap-1">
                   <Typography fontSize={14} weight="medium" lineHeight="none">
