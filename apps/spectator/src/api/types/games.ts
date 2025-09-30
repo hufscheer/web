@@ -53,10 +53,10 @@ export type GameTeamPlayerType = {
   id: number;
   playerName: string;
   description?: string;
-  number: number;
+  jerseyNumber: number;
   isCaptain: boolean;
   isReplaced: boolean;
-  replacedPlayer: Pick<GameTeamPlayerType, 'id' | 'number' | 'playerName'> | null;
+  replacedPlayer: Pick<GameTeamPlayerType, 'id' | 'jerseyNumber' | 'playerName'> | null;
   state: 'STARTER' | 'CANDIDATE';
 };
 
