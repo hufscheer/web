@@ -51,7 +51,7 @@ const GroundPlayer = ({ player, ...props }: PlayerProps) => {
   return (
     <span className="column-center z-above flex-1" {...props}>
       <span className="center relative h-8 w-8 rounded-full border border-neutral-50 bg-[#50A465] font-medium text-sm text-white">
-        {player.number}
+        {player.jerseyNumber}
         {player.isReplaced && (
           <i className="center -right-0.5 -bottom-0.5 absolute h-3 w-3 rounded-full border border-[var(--color-danger-600)] bg-[var(--color-danger-200)]">
             <ArrowBackIcon className="text-[var(--color-danger-600)]" size={8} />

@@ -8,7 +8,7 @@ export type LeagueType = {
 
 export type LeagueListPayload = {
   year: number;
-  leagueProgress: 'BEFORE_START' | 'IN_PROGRESS' | 'FINISHED';
+  leagueProgress?: 'BEFORE_START' | 'IN_PROGRESS' | 'FINISHED';
   cursor?: number;
   size: number;
 };

@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const PreviousTab = ({ year }: Props) => {
-  const { data } = useSuspenseLeagues({ year, leagueProgress: 'FINISHED', size: 50 });
+  const { data } = useSuspenseLeagues({ year, size: 50 });
 
   return (
     <div className="column">
