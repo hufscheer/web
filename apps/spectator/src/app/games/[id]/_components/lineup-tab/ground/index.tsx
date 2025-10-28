@@ -16,7 +16,8 @@ export const Ground = ({ gameId }: Props) => {
 
   const [homeTeam, awayTeam] = game.gameTeams;
   const [homePlayers, awayPlayers] = lineup;
-
+  const homeTeamColor = homeTeam.teamColor;
+  const awayTeamColor = awayTeam.teamColor;
   return (
     <div className="column m-5 rounded-lg border border-neutral-100 bg-white">
       <TeamBox className="order-1" team={homeTeam} />
@@ -27,7 +28,7 @@ export const Ground = ({ gameId }: Props) => {
           {groupPlayers(homePlayers.starterPlayers).map(group => (
             <div key={uuid()} className="center-y w-full max-w-[420px]">
               {group.map(player => (
-                <BaseGround.Player key={player.id} player={player} />
+                <BaseGround.Player key={player.id} player={player} teamColor={homeTeamColor} />
               ))}
             </div>
           ))}
@@ -36,7 +37,7 @@ export const Ground = ({ gameId }: Props) => {
           {groupPlayers(awayPlayers.starterPlayers).map(group => (
             <div key={uuid()} className="center-y w-full max-w-[420px]">
               {group.map(player => (
-                <BaseGround.Player key={player.id} player={player} />
+                <BaseGround.Player key={player.id} player={player} teamColor={awayTeamColor} />
               ))}
             </div>
           ))}
