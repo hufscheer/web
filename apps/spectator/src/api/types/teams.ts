@@ -38,6 +38,7 @@ export type GameTeamType = {
   logoImageUrl: string;
   score: number;
   pkScore: number;
+  teamColor: string;
 };
 
 export type TeamDetailPayload = {

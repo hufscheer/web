@@ -1,6 +1,7 @@
 'use client';
 
 import { ArrowBackIcon } from '@hcc/icons';
+import { getBorderColor } from '@hcc/toolkit';
 import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 import type { GameTeamPlayerType } from '~/api';
@@ -45,12 +46,17 @@ const GroundPlayerField = ({ className, children, ...props }: ComponentProps<'di
 
 interface PlayerProps extends ComponentProps<'span'> {
   player: GameTeamPlayerType;
+  teamColor?: string;
 }
 
-const GroundPlayer = ({ player, ...props }: PlayerProps) => {
+const GroundPlayer = ({ player, teamColor, ...props }: PlayerProps) => {
+  const borderColor = getBorderColor(teamColor);
   return (
     <span className="column-center z-above flex-1" {...props}>
-      <span className="center relative h-8 w-8 rounded-full border border-neutral-50 bg-[#50A465] font-medium text-sm text-white">
+      <span
+        style={{ backgroundColor: teamColor, borderColor: borderColor }}
+        className="center relative h-8 w-8 rounded-full border font-medium text-sm text-white"
+      >
         {player.jerseyNumber}
         {player.isReplaced && (
           <i className="center -right-0.5 -bottom-0.5 absolute h-3 w-3 rounded-full border border-[var(--color-danger-600)] bg-[var(--color-danger-200)]">

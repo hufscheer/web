@@ -70,6 +70,7 @@ export type GameLineupType = {
 export type GameLineupPlayingType = {
   gameTeamId: number;
   teamName: string;
+  teamColor: string;
   gameTeamPlayers: GameTeamPlayerType[];
 };
 
