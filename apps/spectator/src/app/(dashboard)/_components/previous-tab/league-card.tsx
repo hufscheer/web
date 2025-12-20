@@ -26,13 +26,17 @@ const LeagueCardRoot = ({ children, className, ...props }: ComponentProps<'div'>
  * LeagueCard.Header
  * -----------------------------------------------------------------------------------------------*/
 
-interface LeagueCardHeaderProps extends ComponentProps<'div'> {
+interface LeagueCardHeaderProps extends ComponentProps<'a'> {
   league: LeagueType;
 }
 
 const LeagueCardHeader = ({ league, className, ...props }: LeagueCardHeaderProps) => {
   return (
-    <div className={twMerge('row-between gap-3', className)} {...props}>
+    <Link
+      href={`/${routes.league(league.leagueId)}`}
+      className={twMerge('row-between gap-3', className)}
+      {...props}
+    >
       <div className="center-y gap-3">
         <div className="center relative h-8 w-8 select-none overflow-hidden rounded-full bg-neutral-200">
           ⚽
@@ -40,10 +44,10 @@ const LeagueCardHeader = ({ league, className, ...props }: LeagueCardHeaderProps
         <Typography weight="medium">{league.name}</Typography>
       </div>
 
-      <Link href={`/${routes.league(league.leagueId)}`} className="center">
+      <div className="center">
         <ChevronForwardIcon size={24} />
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 };
 
