@@ -45,7 +45,7 @@ export const CheerTalk = ({ gameId }: Props) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (searchParams?.get('cheer')) {
+    if (searchParams.get('cheer')) {
       setIsOpen(true);
     }
   }, [searchParams]);
@@ -54,7 +54,7 @@ export const CheerTalk = ({ gameId }: Props) => {
     (open: boolean) => {
       setIsOpen(open);
 
-      if (!open && searchParams?.get('cheer')) {
+      if (!open && searchParams.get('cheer')) {
         const sp = new URLSearchParams(Array.from(searchParams.entries()));
         sp.delete('cheer');
         const search = sp.toString();
