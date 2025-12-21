@@ -182,7 +182,7 @@ const GameCardActions = ({
         color="black"
         size="xs"
         onClick={e => {
-          e.stopPropagation(); // 부모로 이벤트가 퍼지는 것을 막음
+          e.stopPropagation();
           onBroadcastClick?.();
         }}
       >
@@ -193,7 +193,10 @@ const GameCardActions = ({
         variant="ghost"
         color="black"
         size="xs"
-        onClick={onCheerClick}
+        onClick={e => {
+          e.stopPropagation();
+          onCheerClick?.();
+        }}
       >
         응원
       </Button>

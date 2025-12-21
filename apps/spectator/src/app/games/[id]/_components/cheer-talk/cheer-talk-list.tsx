@@ -1,3 +1,4 @@
+'use client';
 import { Spinner } from '@hcc/ui';
 import { Fragment, useCallback, useEffect, useRef } from 'react';
 import { type GameCheerTalkWithTeamInfo, useSuspenseGame } from '~/api';
