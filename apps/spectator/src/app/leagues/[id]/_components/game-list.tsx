@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Fragment } from 'react';
 import { type GameStateType, useSuspenseGames } from '~/api';
 import { GameCard } from '~/components/ui';
@@ -25,7 +26,7 @@ const GameListContent = ({
     league_team_id: selectedTeams.join(','),
     size: 20,
   });
-
+  const router = useRouter();
   return (
     <Fragment>
       {data.map(league =>
@@ -43,7 +44,10 @@ const GameListContent = ({
                   <GameCard.Team team={game.gameTeams[1]} position="away" />
                 </Link>
 
-                <GameCard.Actions />
+                <GameCard.Actions
+                  onBroadcastClick={() => router.push(`/${routes.game(game.id)}`)}
+                  onCheerClick={() => router.push(`/${routes.game(game.id)}?cheer=1`)}
+                />
               </GameCard.Container>
               {index !== league.games.length - 1 && <GameCard.Divider />}
             </Fragment>

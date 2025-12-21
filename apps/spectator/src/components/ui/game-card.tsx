@@ -181,7 +181,10 @@ const GameCardActions = ({
         variant="ghost"
         color="black"
         size="xs"
-        onClick={onBroadcastClick}
+        onClick={e => {
+          e.stopPropagation();
+          onBroadcastClick?.();
+        }}
       >
         중계
       </Button>
@@ -190,7 +193,10 @@ const GameCardActions = ({
         variant="ghost"
         color="black"
         size="xs"
-        onClick={onCheerClick}
+        onClick={e => {
+          e.stopPropagation();
+          onCheerClick?.();
+        }}
       >
         응원
       </Button>

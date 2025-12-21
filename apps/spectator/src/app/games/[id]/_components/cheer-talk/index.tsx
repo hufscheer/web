@@ -2,7 +2,8 @@
 
 import { ChatFillIcon } from '@hcc/icons';
 import { BottomSheet, colors, Typography } from '@hcc/ui';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect, useCallback } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import type { CheerTalkType, GameCheerTalkWithTeamInfo } from '~/api';
 import useSocket from '~/hooks/useSocket';
 import { CheerTalkList } from './cheer-talk-list';
@@ -39,13 +40,37 @@ export const CheerTalk = ({ gameId }: Props) => {
     callback: handleSocketMessage,
   });
 
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (searchParams.get('cheer')) {
+      setIsOpen(true);
+    }
+  }, [searchParams]);
+
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      setIsOpen(open);
+
+      if (!open && searchParams.get('cheer')) {
+        const sp = new URLSearchParams(Array.from(searchParams.entries()));
+        sp.delete('cheer');
+        const search = sp.toString();
+        router.replace(search ? `${pathname}?${search}` : pathname);
+      }
+    },
+    [searchParams, router, pathname],
+  );
+
   return (
     <div className="column gap-2 border-neutral-100 border-t p-4">
       <Typography color={colors.neutral900} weight="semibold">
         실시간 응원톡
       </Typography>
 
-      <BottomSheet open={isOpen} onOpenChange={setIsOpen}>
+      <BottomSheet open={isOpen} onOpenChange={handleOpenChange}>
         <BottomSheet.Trigger className="cursor-pointer">
           <div className="center gap-2">
             <div className="center size-8 rounded-full bg-[var(--color-primary-600)]">
