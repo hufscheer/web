@@ -181,7 +181,10 @@ const GameCardActions = ({
         variant="ghost"
         color="black"
         size="xs"
-        onClick={onBroadcastClick}
+        onClick={e => {
+          e.stopPropagation(); // 부모로 이벤트가 퍼지는 것을 막음
+          onBroadcastClick?.();
+        }}
       >
         중계
       </Button>
