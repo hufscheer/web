@@ -30,7 +30,7 @@ export const PreviousTab = ({ year }: Props) => {
               </Suspense>
             </ErrorBoundary>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="column w-full gap-4">
               <ErrorBoundary fallback={null}>
                 <Suspense fallback={null} clientOnly>
                   <LeagueCard.Scorers leagueId={league.leagueId} />
