@@ -4,13 +4,14 @@ import { ChevronForwardIcon } from '@hcc/icons';
 import { formatTime } from '@hcc/toolkit';
 import { Badge, Button, Typography } from '@hcc/ui';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Fragment } from 'react';
 import { useSuspenseLeaguesLeague } from '~/api';
 import { routes } from '~/constants/routes';
 
 export const LeagueOverview = () => {
   const { data } = useSuspenseLeaguesLeague();
-
+  const router = useRouter();
   return (
     <Fragment>
       {data.map(league => (
@@ -57,11 +58,29 @@ export const LeagueOverview = () => {
           </div>
 
           <div className="row-between mt-4 gap-2.5">
-            <Button className="flex-1" size="sm" color="black" variant="subtle" asChild>
-              <Link href={'/teams'}>참가 팀 관리</Link>
+            <Button
+              className="flex-1"
+              size="sm"
+              color="black"
+              variant="subtle"
+              onClick={e => {
+                e.stopPropagation();
+                router.push(`/${routes.teams}`);
+              }}
+            >
+              참가 팀 관리
             </Button>
-            <Button className="flex-1" size="sm" color="black" variant="subtle" asChild>
-              <Link href={'/cheertalks'}>응원톡 관리</Link>
+            <Button
+              className="flex-1"
+              size="sm"
+              color="black"
+              variant="subtle"
+              onClick={e => {
+                e.stopPropagation();
+                router.push(`/${routes.cheertalks}`);
+              }}
+            >
+              응원톡 관리
             </Button>
           </div>
         </Link>
