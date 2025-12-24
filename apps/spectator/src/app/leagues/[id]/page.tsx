@@ -28,9 +28,12 @@ const Page = async ({ searchParams, params }: Props) => {
   const league: LeagueDetailType = await fetchLeague({ leagueId: id });
 
   const { round: _round, teams: _teams } = await searchParams;
-  const round = Number(_round) || league.inProgressRound;
-
-  const teams: LeagueTeamType[] = await fetchLeagueTeams({ leagueId: id, round });
+  // const round = Number(_round) || league.inProgressRound;
+  const round = Number(_round) || league.maxRound;
+  const teams: LeagueTeamType[] = await fetchLeagueTeams({
+    leagueId: id,
+    round,
+  });
   const selectedTeams = _teams ? _teams.split(',').map(Number).filter(Boolean) : [];
 
   return (
