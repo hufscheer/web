@@ -14,6 +14,7 @@
   border: var(--hcc-button-border);
   border-radius: var(--hcc-button-border-radius);
   background-color: var(--hcc-button-bg-color);
+  padding: 0 var(--hcc-button-padding-x, 16px);
 
   --hcc-button-height: inherit;
   --hcc-button-font-color: inherit;

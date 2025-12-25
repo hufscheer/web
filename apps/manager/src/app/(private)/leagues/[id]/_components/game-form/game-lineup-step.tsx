@@ -95,7 +95,11 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
         }
         return prev.map(p =>
           p.teamPlayerId === teamPlayerId
-            ? { ...p, state, isCaptain: state === 'CANDIDATE' ? false : p.isCaptain }
+            ? {
+                ...p,
+                state,
+                isCaptain: state === 'CANDIDATE' ? false : p.isCaptain,
+              }
             : p,
         );
       }
@@ -171,8 +175,9 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
               <div className={twMerge('flex gap-2')}>
                 <Button
                   type="button"
-                  size="sm"
-                  color={playerState?.state === 'STARTER' ? 'black' : 'primary'}
+                  size="md"
+                  className="px-3"
+                  color={playerState?.state === 'STARTER' ? 'primary' : 'black'}
                   variant={playerState?.state === 'STARTER' ? 'solid' : 'ghost'}
                   onClick={() => handlePlayerSelection(teamNumber, player.teamPlayerId, 'STARTER')}
                 >
@@ -180,8 +185,9 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
                 </Button>
                 <Button
                   type="button"
-                  size="sm"
-                  color={playerState?.state === 'CANDIDATE' ? 'black' : 'primary'}
+                  size="md"
+                  className="px-3"
+                  color={playerState?.state === 'CANDIDATE' ? 'primary' : 'black'}
                   variant={playerState?.state === 'CANDIDATE' ? 'solid' : 'ghost'}
                   onClick={() =>
                     handlePlayerSelection(teamNumber, player.teamPlayerId, 'CANDIDATE')
@@ -192,8 +198,9 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
                 {playerState?.state === 'STARTER' && (
                   <Button
                     type="button"
-                    size="sm"
-                    color={playerState?.isCaptain ? 'black' : 'primary'}
+                    size="md"
+                    className="px-3"
+                    color={playerState?.isCaptain ? 'primary' : 'black'}
                     variant={playerState?.isCaptain ? 'solid' : 'ghost'}
                     onClick={() => handleCaptainSelection(teamNumber, player.teamPlayerId)}
                   >

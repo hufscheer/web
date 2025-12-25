@@ -43,6 +43,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       ..._style,
       ...getColorStyle(color, variant),
       '--hcc-button-height': `${getHeight(size)}px`,
+      '--hcc-button-padding-x': getPadding(size),
       '--hcc-button-font-size': `${getFontSize(size)}px`,
       '--hcc-button-font-weight': fontWeightToken[getFontWeight(size)],
       '--hcc-button-border-radius': '8px',
@@ -79,6 +80,15 @@ const getFontSize = (size: ButtonSize) =>
     .with('md', () => 14)
     .with('lg', () => 16)
     .with('xl', () => 18)
+    .exhaustive();
+
+const getPadding = (size: ButtonSize) =>
+  match(size)
+    .with('xs', () => '8px')
+    .with('sm', () => '12px')
+    .with('md', () => '16px')
+    .with('lg', () => '20px')
+    .with('xl', () => '24px')
     .exhaustive();
 
 const getFontWeight = (size: ButtonSize): keyof typeof fontWeightToken =>
