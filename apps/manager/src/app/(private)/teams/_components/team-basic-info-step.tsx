@@ -16,7 +16,7 @@ export const TeamBasicInfoStep = ({ onNext }: Props) => {
   const colorInputRef = useRef<HTMLInputElement>(null);
 
   const isValid = Boolean(watch('name').trim() && watch('unit').trim() && watch('teamColor'));
-  const defaultPalette = colorPalette.slice(0, 7);
+  const defaultPalette = [...colorPalette];
   return (
     <>
       <Typography weight="semibold">팀 정보</Typography>
