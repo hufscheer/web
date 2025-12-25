@@ -1,5 +1,6 @@
-import { CheckCircleIcon, DeleteForeverIcon, FilterHdrIcon } from '@hcc/icons';
+import { CheckCircleIcon, DeleteForeverIcon, FilterHdrIcon, AddIcon } from '@hcc/icons';
 import { Button, Input, Select, Typography } from '@hcc/ui';
+import { useRef } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 import type { TeamFormType } from '~/api';
@@ -12,9 +13,10 @@ type Props = {
 
 export const TeamBasicInfoStep = ({ onNext }: Props) => {
   const { register, control, watch } = useFormContext<TeamFormType>();
+  const colorInputRef = useRef<HTMLInputElement>(null);
 
   const isValid = Boolean(watch('name').trim() && watch('unit').trim() && watch('teamColor'));
-
+  const defaultPalette = colorPalette.slice(0, 7);
   return (
     <>
       <Typography weight="semibold">팀 정보</Typography>
@@ -107,6 +109,39 @@ export const TeamBasicInfoStep = ({ onNext }: Props) => {
                 </button>
               );
             })}
+            {(() => {
+              const isCustomColor =
+                Boolean(value) && !(defaultPalette as string[]).includes(value as string);
+              return (
+                <div className="relative aspect-square w-full">
+                  <button
+                    type="button"
+                    onClick={() => colorInputRef.current?.click()}
+                    className={twMerge(
+                      'flex h-full w-full cursor-pointer items-center justify-center rounded-lg border-2 transition-all',
+                      isCustomColor
+                        ? 'border-none ring-2 ring-black/60'
+                        : 'border-neutral-200 bg-white',
+                    )}
+                    style={{
+                      backgroundColor: isCustomColor ? value : undefined,
+                    }}
+                  >
+                    {isCustomColor ? (
+                      <CheckCircleIcon size={32} className="text-black/60" />
+                    ) : (
+                      <AddIcon size={24} className="text-neutral-400" />
+                    )}
+                  </button>
+                  <input
+                    ref={colorInputRef}
+                    type="color"
+                    className="invisible absolute inset-0"
+                    onChange={e => onChange(e.target.value)}
+                  />
+                </div>
+              );
+            })()}
           </div>
         )}
       />
