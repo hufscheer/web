@@ -1,4 +1,5 @@
 import { Button, Input, Typography } from '@hcc/ui';
+import { useMemo } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { type GameFormType, useSuspenseLeague, useSuspenseLeagueTeams } from '~/api';
 import { InputSelect } from '~/components/ui/input-select';
@@ -35,10 +36,13 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
       team2Id &&
       team1Id !== team2Id,
   );
-  const roundFilteredOptions = roundOptions
-    .filter(item => league.maxRound >= item.round)
-    .map(item => ({ value: item.value.toString(), label: item.label }));
-
+  const roundFilteredOptions = useMemo(
+    () =>
+      roundOptions
+        .filter(item => league.maxRound >= item.round)
+        .map(item => ({ value: item.value.toString(), label: item.label })),
+    [league.maxRound],
+  );
   const quarterListOptions = Object.entries(quarterOptions).map(([key, value]) => ({
     value: key,
     label: value,
