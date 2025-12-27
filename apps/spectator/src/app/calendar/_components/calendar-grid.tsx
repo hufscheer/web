@@ -69,12 +69,12 @@ export const CalendarGrid = ({
               <div key={d ? `date-${year}-${month}-${d}` : `empty-${i}`} className="h-10">
                 {d ? (
                   <div className="relative flex flex-col items-center justify-center">
-                    {/* 1. 경기가 있는 날 표시할 점 (상단 배치) */}
                     <div className="flex items-center justify-center">
                       {hasGame && !isSelected && (
                         <div
-                          className={twMerge('absolute top-0 h-1 w-1 rounded-full bg-[#007AFF]')}
-                          style={{ transform: 'translateY(2px)' }}
+                          className={twMerge(
+                            'absolute top-0 h-1 w-1 translate-y-0.5 rounded-full bg-[#007AFF]',
+                          )}
                         />
                       )}
                     </div>
