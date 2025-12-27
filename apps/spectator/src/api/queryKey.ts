@@ -12,6 +12,7 @@ import type {
   GameLineupType,
   GameListPayload,
   GameListResponse,
+  GameSearchPayload,
   GameType,
   GameVideoPayload,
   GameVideoType,
@@ -41,6 +42,13 @@ const gameQueryKeys = createQueryKeys('games', {
   detail: (payload: GameDetailPayload) => ({
     queryKey: [payload],
     queryFn: () => fetcher.get<GameType>(`games/${payload.gameId}`),
+  }),
+  search: (payload: GameSearchPayload) => ({
+    queryKey: [payload],
+    queryFn: () =>
+      fetcher.get<GameType[]>('games/search', {
+        searchParams: payload,
+      }),
   }),
   cheer: (payload: GameCheerPayload) => ({
     queryKey: [payload],
@@ -105,7 +113,9 @@ const teamQueryKeys = createQueryKeys('teams', {
         units.forEach(u => params.append('units', u));
       }
 
-      return fetcher.get<TeamSummaryType[]>('teams/summary', { searchParams: params });
+      return fetcher.get<TeamSummaryType[]>('teams/summary', {
+        searchParams: params,
+      });
     },
   }),
 });

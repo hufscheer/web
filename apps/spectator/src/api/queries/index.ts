@@ -3,6 +3,7 @@ export * from './useGameCheer';
 export * from './useGameLineup';
 export * from './useGameLineupPlaying';
 export * from './useGames';
+export * from './useGameSearch';
 export * from './useGameTimeline';
 export * from './useGameVideo';
 export * from './useLeague';
