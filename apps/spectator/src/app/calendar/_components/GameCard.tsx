@@ -128,7 +128,7 @@ const GameCardMatch = ({ gameId, time, round, status, team1, team2 }: GameCardMa
 
         {/* 팀 정보 및 점수 */}
         <div className="column flex-1 gap-3 p-4">
-          <div className="row-between items-center">
+          <div className="row-between items-center gap-2">
             <div className="center-y gap-3">
               <div className="h-6 w-6 overflow-hidden rounded-full bg-neutral-50">
                 <Image
@@ -154,7 +154,7 @@ const GameCardMatch = ({ gameId, time, round, status, team1, team2 }: GameCardMa
             )}
           </div>
 
-          <div className="row-between items-center">
+          <div className="row-between items-center gap-2">
             <div className="center-y gap-3">
               <div className="h-6 w-6 overflow-hidden rounded-full bg-neutral-50">
                 <Image
