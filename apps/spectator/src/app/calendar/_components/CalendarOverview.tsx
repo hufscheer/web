@@ -3,14 +3,16 @@
 import { useMemo, useState } from 'react';
 import { CalendarGrid } from './calendar-grid';
 import { GameCard } from './GameCard';
-import { useSuspenseLeagues } from '~/api';
-import Link from 'next/link';
+import { useSuspenseGameSearch } from '~/api';
 
 export const CalendarOverview = () => {
   const [current, setCurrent] = useState(() => new Date());
+  const [selectedDay, setSelectedDay] = useState<number | null>(new Date().getDate());
 
   const year = current.getFullYear();
   const month = current.getMonth();
+
+  const { data: games } = useSuspenseGameSearch({ year, month: month + 1 });
 
   const days = useMemo(() => {
     const firstDayIndex = new Date(year, month, 1).getDay();
@@ -24,33 +26,58 @@ export const CalendarOverview = () => {
     return cells;
   }, [year, month]);
 
-  const goPrev = () => setCurrent(new Date(year, month - 1, 1));
-  const goNext = () => setCurrent(new Date(year, month + 1, 1));
+  const goPrev = () => {
+    setCurrent(new Date(year, month - 1, 1));
+    setSelectedDay(null);
+  };
 
-  const { data } = useSuspenseLeagues({ year, size: 50 });
+  const goNext = () => {
+    setCurrent(new Date(year, month + 1, 1));
+    setSelectedDay(null);
+  };
+
+  const filteredGames = useMemo(() => {
+    if (!selectedDay) return [];
+    return games.filter(game => {
+      const gameDate = new Date(game.startTime);
+      return (
+        gameDate.getFullYear() === year &&
+        gameDate.getMonth() === month &&
+        gameDate.getDate() === selectedDay
+      );
+    });
+  }, [games, selectedDay, year, month]);
 
   return (
     <div className="flex w-full flex-col gap-4 p-5">
-      <CalendarGrid year={year} month={month} days={days} onPrev={goPrev} onNext={goNext} />
+      <CalendarGrid
+        year={year}
+        month={month}
+        days={days}
+        selectedDay={selectedDay}
+        onDayClick={setSelectedDay}
+        onPrev={goPrev}
+        onNext={goNext}
+      />
 
-      <div className="column gap-3">
-        {data.map(league => (
-          <Link href={''} key={league.leagueId}>
-            <GameCard.Header league={league} />
-            <GameCard.Match
-              time="15:00"
-              round="1/8"
-              status="playing"
-              team1={{ name: 'Team A', logoUrl: '/team-a-logo.png' }}
-              team2={{ name: 'Team B', logoUrl: '/team-b-logo.png' }}
-            />
-            {/* <ErrorBoundary fallback={null}>
-              <Suspense fallback={null} clientOnly>
-                <LeagueCard.Teams leagueId={league.leagueId} />
-              </Suspense>
-            </ErrorBoundary> */}
-          </Link>
-        ))}
+      <div className="flex flex-col gap-2">
+        {filteredGames.length > 0 ? (
+          <>
+            <GameCard.Header league={games[0]} className="px-1 py-2" />
+            {filteredGames.map(game => (
+              <GameCard.Match
+                key={game.gameId}
+                status={game.state}
+                time={game.startTime.split('T')[1].substring(0, 5)}
+                round={game.gameName}
+                team1={game.gameTeams[0]}
+                team2={game.gameTeams[1]}
+              />
+            ))}
+          </>
+        ) : (
+          <div className="py-10 text-center text-neutral-400">해당 날짜에 경기가 없습니다.</div>
+        )}
       </div>
     </div>
   );

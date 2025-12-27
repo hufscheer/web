@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
-import type { LeagueType } from '~/api/types/leagues';
+import type { GameStateType, GameType } from '~/api';
 
 /* -------------------------------------------------------------------------------------------------
  * GameCard
@@ -23,14 +23,18 @@ const GameCardRoot = ({ children, className, ...props }: ComponentProps<'div'>) 
  * -----------------------------------------------------------------------------------------------*/
 
 interface GameCardHeaderProps extends ComponentProps<'a'> {
-  league: LeagueType;
+  league: GameType;
 }
 
 const GameCardHeader = ({ league, className, ...props }: GameCardHeaderProps) => {
   return (
-    <Link href={''} className={twMerge('row-between gap-3', className)} {...props}>
+    <Link
+      href={`/leagues/${league.leagueId}`}
+      className={twMerge('row-between gap-3', className)}
+      {...props}
+    >
       <div className="center-y gap-3">
-        <Typography weight="medium">{league.name}</Typography>
+        <Typography weight="medium">{league.leagueName}</Typography>
       </div>
 
       <div className="center">
@@ -43,43 +47,37 @@ const GameCardHeader = ({ league, className, ...props }: GameCardHeaderProps) =>
 /* -------------------------------------------------------------------------------------------------
  * GameCard.Match
  * -----------------------------------------------------------------------------------------------*/
-interface TeamInfo {
-  name: string;
-  logoUrl: string;
-  score?: number;
-}
-
 interface GameCardMatchProps {
   time: string;
   round: string;
-  status: 'playing' | 'scheduled' | 'finished';
-  team1: TeamInfo;
-  team2: TeamInfo;
+  status: GameStateType;
+  team1: GameType['gameTeams'][0];
+  team2: GameType['gameTeams'][0];
 }
 
 const GameCardMatch = ({ time, round, status, team1, team2 }: GameCardMatchProps) => {
   const statusStyles = {
-    playing: {
+    PLAYING: {
       bg: 'rgba(52, 199, 89, 0.1)',
       accent: '#1ADA3B',
       time: '#1ADA3B',
     },
-    scheduled: {
+    SCHEDULED: {
       bg: 'var(--color-primary-100)',
       accent: 'transparent',
       time: 'var(--color-primary-600)',
     },
-    finished: {
+    FINISHED: {
       bg: 'var(--color-gray-400)',
       accent: 'transparent',
       time: 'white',
     },
   };
   const current = statusStyles[status];
-  const showAccent = status === 'playing';
+  const showAccent = status === 'PLAYING';
 
   return (
-    <div className="flex overflow-hidden rounded-xl border border-neutral-100 bg-white shadow-sm transition-all hover:shadow-md">
+    <div className="my-2 flex overflow-hidden rounded-xl border border-neutral-100 bg-white shadow-sm transition-all hover:shadow-md">
       {showAccent && <div className="w-1.5" style={{ backgroundColor: current.accent }} />}
       <div className="flex flex-1 items-center">
         {/* 경기 시간 및 라운드 */}
@@ -92,7 +90,7 @@ const GameCardMatch = ({ time, round, status, team1, team2 }: GameCardMatchProps
               fontSize={14}
               weight="bold"
               style={{ color: current.time }}
-              className={twMerge(status === 'playing' && 'animate-pulse')}
+              className={twMerge(status === 'PLAYING' && 'animate-pulse')}
             >
               {time}
             </Typography>
@@ -108,15 +106,15 @@ const GameCardMatch = ({ time, round, status, team1, team2 }: GameCardMatchProps
             <div className="center-y gap-3">
               <div className="h-6 w-6 overflow-hidden rounded-full bg-neutral-50">
                 <Image
-                  src={team1.logoUrl}
-                  alt={team1.name}
+                  src={team1.logoImageUrl}
+                  alt={team1.gameTeamName}
                   className="h-full w-full object-cover"
                   width={20}
                   height={20}
                 />
               </div>
               <Typography fontSize={15} weight="medium">
-                {team1.name}
+                {team1.gameTeamName}
               </Typography>
             </div>
             {team1.score !== undefined && (
@@ -130,15 +128,15 @@ const GameCardMatch = ({ time, round, status, team1, team2 }: GameCardMatchProps
             <div className="center-y gap-3">
               <div className="h-6 w-6 overflow-hidden rounded-full bg-neutral-50">
                 <Image
-                  src={team2.logoUrl}
-                  alt={team2.name}
+                  src={team2.logoImageUrl}
+                  alt={team2.gameTeamName}
                   className="h-full w-full object-cover"
                   width={20}
                   height={20}
                 />
               </div>
               <Typography fontSize={15} weight="medium">
-                {team2.name}
+                {team2.gameTeamName}
               </Typography>
             </div>
             {team2.score !== undefined && (
@@ -157,28 +155,27 @@ const GameCardMatch = ({ time, round, status, team1, team2 }: GameCardMatchProps
 
         {/* 액션 버튼 */}
         <div className="column gap-2 p-4 pl-2">
-          {status === 'playing' ||
-            (status === 'scheduled' && (
-              <>
-                <Button
-                  size="sm"
-                  color="black"
-                  variant="subtle"
-                  className="h-8 rounded-lg border-neutral-200 px-4 font-semibold text-neutral-600 text-xs hover:bg-neutral-50"
-                >
-                  중계
-                </Button>
-                <Button
-                  size="sm"
-                  color="black"
-                  variant="subtle"
-                  className="h-8 rounded-lg border-neutral-200 px-4 font-semibold text-neutral-600 text-xs hover:bg-neutral-50"
-                >
-                  응원
-                </Button>
-              </>
-            ))}
-          {status === 'finished' && (
+          {(status === 'PLAYING' || status === 'SCHEDULED') && (
+            <>
+              <Button
+                size="sm"
+                color="black"
+                variant="subtle"
+                className="h-8 rounded-lg border-neutral-200 px-4 font-semibold text-neutral-600 text-xs hover:bg-neutral-50"
+              >
+                중계
+              </Button>
+              <Button
+                size="sm"
+                color="black"
+                variant="subtle"
+                className="h-8 rounded-lg border-neutral-200 px-4 font-semibold text-neutral-600 text-xs hover:bg-neutral-50"
+              >
+                응원
+              </Button>
+            </>
+          )}
+          {status === 'FINISHED' && (
             <Button
               size="sm"
               color="black"

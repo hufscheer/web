@@ -8,13 +8,21 @@ interface CalendarGridProps {
   year: number;
   month: number;
   days: (number | null)[];
+  selectedDay: number | null;
+  onDayClick: (day: number) => void;
   onPrev: () => void;
   onNext: () => void;
 }
 
-export const CalendarGrid = ({ year, month, days, onPrev, onNext }: CalendarGridProps) => {
-  const today = new Date();
-
+export const CalendarGrid = ({
+  year,
+  month,
+  days,
+  selectedDay,
+  onDayClick,
+  onPrev,
+  onNext,
+}: CalendarGridProps) => {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-center gap-6">
@@ -53,21 +61,23 @@ export const CalendarGrid = ({ year, month, days, onPrev, onNext }: CalendarGrid
 
         <div className="mt-3 grid grid-cols-7 gap-3">
           {days.map((d, i) => {
-            const isToday =
-              d === today.getDate() && month === today.getMonth() && year === today.getFullYear();
-
+            const isSelected = d === selectedDay;
             return (
               <div key={d ? `date-${year}-${month}-${d}` : `empty-${i}`} className="h-10">
                 {d ? (
                   <div className="center mx-auto h-10 w-10">
-                    <div
+                    <button
+                      type="button"
+                      onClick={() => onDayClick(d)}
                       className={twMerge(
                         'center h-10 w-10 rounded-full text-sm transition-all',
-                        isToday ? 'bg-blue-600 font-bold text-white' : 'hover:bg-neutral-100',
+                        isSelected
+                          ? 'bg-blue-600 font-bold text-white shadow-md'
+                          : 'hover:bg-neutral-100',
                       )}
                     >
                       {d}
-                    </div>
+                    </button>
                   </div>
                 ) : (
                   <div />

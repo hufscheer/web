@@ -19,6 +19,11 @@ export type GameType = {
 
 export type GameStateType = 'SCHEDULED' | 'PLAYING' | 'FINISHED';
 
+export type GameSearchPayload = {
+  year: number;
+  month: number;
+};
+
 export type GameListPayload = {
   league_id?: number;
   state?: GameStateType;
