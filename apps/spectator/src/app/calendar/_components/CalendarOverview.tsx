@@ -48,12 +48,16 @@ export const CalendarOverview = () => {
     });
   }, [games, selectedDay, year, month]);
 
+  const gameDates = useMemo(() => {
+    return Array.from(new Set(games.map(game => new Date(game.startTime).getDate())));
+  }, [games]);
   return (
     <div className="flex w-full flex-col gap-4 p-5">
       <CalendarGrid
         year={year}
         month={month}
         days={days}
+        gameDates={gameDates}
         selectedDay={selectedDay}
         onDayClick={setSelectedDay}
         onPrev={goPrev}

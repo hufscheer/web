@@ -12,6 +12,7 @@ interface CalendarGridProps {
   onDayClick: (day: number) => void;
   onPrev: () => void;
   onNext: () => void;
+  gameDates: number[];
 }
 
 export const CalendarGrid = ({
@@ -22,6 +23,7 @@ export const CalendarGrid = ({
   onDayClick,
   onPrev,
   onNext,
+  gameDates,
 }: CalendarGridProps) => {
   return (
     <div className="flex flex-col gap-4">
@@ -62,17 +64,27 @@ export const CalendarGrid = ({
         <div className="mt-3 grid grid-cols-7 gap-3">
           {days.map((d, i) => {
             const isSelected = d === selectedDay;
+            const hasGame = d !== null && gameDates.includes(d);
             return (
               <div key={d ? `date-${year}-${month}-${d}` : `empty-${i}`} className="h-10">
                 {d ? (
-                  <div className="center mx-auto h-10 w-10">
+                  <div className="relative flex flex-col items-center justify-center">
+                    {/* 1. 경기가 있는 날 표시할 점 (상단 배치) */}
+                    <div className="flex items-center justify-center">
+                      {hasGame && !isSelected && (
+                        <div
+                          className={twMerge('absolute top-0 h-1 w-1 rounded-full bg-[#007AFF]')}
+                          style={{ transform: 'translateY(2px)' }}
+                        />
+                      )}
+                    </div>
                     <button
                       type="button"
                       onClick={() => onDayClick(d)}
                       className={twMerge(
                         'center h-10 w-10 rounded-full text-sm transition-all',
                         isSelected
-                          ? 'bg-blue-600 font-bold text-white shadow-md'
+                          ? 'bg-[#007AFF] font-bold text-white shadow-md'
                           : 'hover:bg-neutral-100',
                       )}
                     >
