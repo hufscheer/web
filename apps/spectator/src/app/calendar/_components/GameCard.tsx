@@ -2,6 +2,7 @@ import { ChevronForwardIcon } from '@hcc/icons';
 import { Button, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 import type { GameStateType, GameType } from '~/api';
@@ -48,6 +49,7 @@ const GameCardHeader = ({ league, className, ...props }: GameCardHeaderProps) =>
  * GameCard.Match
  * -----------------------------------------------------------------------------------------------*/
 interface GameCardMatchProps {
+  gameId: number;
   time: string;
   round: string;
   status: GameStateType;
@@ -55,7 +57,9 @@ interface GameCardMatchProps {
   team2: GameType['gameTeams'][0];
 }
 
-const GameCardMatch = ({ time, round, status, team1, team2 }: GameCardMatchProps) => {
+const GameCardMatch = ({ gameId, time, round, status, team1, team2 }: GameCardMatchProps) => {
+  const router = useRouter();
+
   const statusStyles = {
     PLAYING: {
       bg: 'rgba(52, 199, 89, 0.1)',
@@ -73,9 +77,31 @@ const GameCardMatch = ({ time, round, status, team1, team2 }: GameCardMatchProps
       time: 'white',
     },
   };
+
   const current = statusStyles[status];
   const showAccent = status === 'PLAYING';
 
+  const getWinnerInfo = () => {
+    if (status !== 'FINISHED') return null;
+
+    if ((team1.score ?? 0) > (team2.score ?? 0)) return 'team1';
+    if ((team1.score ?? 0) < (team2.score ?? 0)) return 'team2';
+
+    if ((team1.pkScore ?? 0) > (team2.pkScore ?? 0)) return 'team1';
+    if ((team1.pkScore ?? 0) < (team2.pkScore ?? 0)) return 'team2';
+
+    return 'draw';
+  };
+
+  const winner = getWinnerInfo();
+  const isFinished = status === 'FINISHED';
+
+  const getTeamNameColor = (target: 'team1' | 'team2') => {
+    if (!isFinished || winner === 'draw' || winner === null || winner === target) {
+      return '#000000';
+    }
+    return '#A3A3A3';
+  };
   return (
     <div className="my-2 flex overflow-hidden rounded-xl border border-neutral-100 bg-white shadow-sm transition-all hover:shadow-md">
       {showAccent && <div className="w-1.5" style={{ backgroundColor: current.accent }} />}
@@ -113,12 +139,16 @@ const GameCardMatch = ({ time, round, status, team1, team2 }: GameCardMatchProps
                   height={20}
                 />
               </div>
-              <Typography fontSize={15} weight="medium">
+              <Typography
+                fontSize={15}
+                weight="medium"
+                style={{ color: getTeamNameColor('team1') }}
+              >
                 {team1.gameTeamName}
               </Typography>
             </div>
             {team1.score !== undefined && (
-              <Typography fontSize={18} weight="bold">
+              <Typography fontSize={18} weight="bold" style={{ color: getTeamNameColor('team1') }}>
                 {team1.score}
               </Typography>
             )}
@@ -135,18 +165,16 @@ const GameCardMatch = ({ time, round, status, team1, team2 }: GameCardMatchProps
                   height={20}
                 />
               </div>
-              <Typography fontSize={15} weight="medium">
+              <Typography
+                fontSize={15}
+                weight="medium"
+                style={{ color: getTeamNameColor('team2') }}
+              >
                 {team2.gameTeamName}
               </Typography>
             </div>
             {team2.score !== undefined && (
-              <Typography
-                fontSize={18}
-                weight="bold"
-                className={twMerge(
-                  team1.score !== undefined && team2.score < team1.score && 'text-neutral-300',
-                )}
-              >
+              <Typography fontSize={18} weight="bold" style={{ color: getTeamNameColor('team2') }}>
                 {team2.score}
               </Typography>
             )}
@@ -161,6 +189,7 @@ const GameCardMatch = ({ time, round, status, team1, team2 }: GameCardMatchProps
                 size="sm"
                 color="black"
                 variant="subtle"
+                onClick={() => router.push(`/games/${gameId}`)}
                 className="h-8 rounded-lg border-neutral-200 px-4 font-semibold text-neutral-600 text-xs hover:bg-neutral-50"
               >
                 중계
@@ -169,6 +198,7 @@ const GameCardMatch = ({ time, round, status, team1, team2 }: GameCardMatchProps
                 size="sm"
                 color="black"
                 variant="subtle"
+                onClick={() => router.push(`/games/${gameId}?cheer=1`)}
                 className="h-8 rounded-lg border-neutral-200 px-4 font-semibold text-neutral-600 text-xs hover:bg-neutral-50"
               >
                 응원
@@ -180,6 +210,7 @@ const GameCardMatch = ({ time, round, status, team1, team2 }: GameCardMatchProps
               size="sm"
               color="black"
               variant="subtle"
+              onClick={() => router.push(`/games/${gameId}`)}
               className="h-8 rounded-lg border-neutral-200 px-4 font-semibold text-neutral-600 text-xs hover:bg-neutral-50"
             >
               기록
@@ -194,8 +225,4 @@ const GameCardMatch = ({ time, round, status, team1, team2 }: GameCardMatchProps
 export const GameCard = Object.assign(GameCardRoot, {
   Header: GameCardHeader,
   Match: GameCardMatch,
-  //   Teams: GameCardTeams,
-  //   Scorers: GameCardScorers,
-  //   Statistics: GameCardStatistics,
-  //   Divider: GameCardDivider,
 });

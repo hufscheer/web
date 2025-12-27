@@ -71,6 +71,7 @@ export const CalendarOverview = () => {
             {filteredGames.map(game => (
               <GameCard.Match
                 key={game.gameId}
+                gameId={game.gameId}
                 status={game.state}
                 time={game.startTime.split('T')[1].substring(0, 5)}
                 round={game.gameName}
