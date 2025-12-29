@@ -30,6 +30,7 @@ import type {
   TeamDetailType,
   TeamGamesPayload,
   TeamListPayload,
+  TeamPlayerType,
   TeamSummaryType,
   TeamType,
 } from './types';
@@ -102,6 +103,10 @@ const teamQueryKeys = createQueryKeys('teams', {
   games: (payload: TeamGamesPayload) => ({
     queryKey: [payload],
     queryFn: () => fetcher.get<GameType[]>(`teams/${payload.id}/games`),
+  }),
+  players: (payload: TeamDetailPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<TeamPlayerType[]>(`teams/${payload.id}/players`),
   }),
   summary: (payload: TeamListPayload) => ({
     queryKey: [payload],
