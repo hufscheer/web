@@ -3,10 +3,6 @@ import Image from 'next/image';
 import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 import type { TeamDetailType } from '~/api';
-import ScoreBadge from './score-badge';
-import Link from 'next/link';
-import { routes } from '~/constants/routes';
-import { ChevronForwardIcon } from '@hcc/icons';
 
 /* -------------------------------------------------------------------------------------------------
  * TeamCard
@@ -27,17 +23,13 @@ const TeamCardRoot = ({ children, className, ...props }: ComponentProps<'div'>) 
  * TeamCard.Header
  * -----------------------------------------------------------------------------------------------*/
 
-interface TeamCardHeaderProps extends ComponentProps<'a'> {
+interface TeamCardHeaderProps extends ComponentProps<'div'> {
   team: TeamDetailType;
 }
 
 const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
   return (
-    <Link
-      href={`/${routes.team(team.teamId)}`}
-      className={twMerge('row-between gap-3', className)}
-      {...props}
-    >
+    <div className={twMerge('row-between gap-3', className)} {...props}>
       <div className="center-y min-w-0 flex-1 gap-3">
         {team.logoImageUrl && (
           <div className="center relative h-8 w-8 overflow-hidden rounded-full bg-neutral-200">
@@ -54,14 +46,7 @@ const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
           {team.name}
         </Typography>
       </div>
-
-      <div className="flex flex-shrink-0 flex-row items-center gap-2 whitespace-nowrap">
-        <ScoreBadge team={team} />
-        <div className="center">
-          <ChevronForwardIcon size={24} />
-        </div>
-      </div>
-    </Link>
+    </div>
   );
 };
 
@@ -71,7 +56,7 @@ const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
 
 const TeamCardContent = ({ children, className, ...props }: ComponentProps<'div'>) => {
   return (
-    <div className={twMerge('grid grid-cols-2 gap-5', className)} {...props}>
+    <div className={twMerge('flex flex-col gap-5', className)} {...props}>
       {children}
     </div>
   );

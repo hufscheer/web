@@ -66,12 +66,14 @@ const GameCardContainer = ({ children, className, ...props }: ComponentProps<'di
 
 interface GameCardHeaderProps extends ComponentProps<'div'> {
   game: GameListType;
+  showLeagueName?: boolean;
 }
 
-const GameCardHeader = ({ game, className, ...props }: GameCardHeaderProps) => {
+const GameCardHeader = ({ game, showLeagueName, className, ...props }: GameCardHeaderProps) => {
   return (
     <div className={twMerge('row-between', className)} {...props}>
       <Typography color={colors.neutral500} fontSize={13} weight="medium">
+        {showLeagueName && `${game.leagueName} ‧ `}
         {game.round === 2 ? '결승' : `${game.round}강`}
         {' ‧ '}
         {formatTime(game.startTime, { format: 'MM.DD. HH:mm' })}
@@ -166,40 +168,59 @@ const GameCardScore = ({ game, className, ...props }: GameCardScoreProps) => {
 interface GameCardActionsProps extends ComponentProps<'div'> {
   onBroadcastClick?: () => void;
   onCheerClick?: () => void;
+  onStatsClick?: () => void;
 }
 
 const GameCardActions = ({
   onBroadcastClick,
   onCheerClick,
+  onStatsClick,
   className,
   ...props
 }: GameCardActionsProps) => {
   return (
     <div className={twMerge('center-y gap-2 self-center pt-2', className)} {...props}>
-      <Button
-        className="!border !border-neutral-100 min-w-12"
-        variant="ghost"
-        color="black"
-        size="xs"
-        onClick={e => {
-          e.stopPropagation();
-          onBroadcastClick?.();
-        }}
-      >
-        중계
-      </Button>
-      <Button
-        className="!border !border-neutral-100 min-w-12"
-        variant="ghost"
-        color="black"
-        size="xs"
-        onClick={e => {
-          e.stopPropagation();
-          onCheerClick?.();
-        }}
-      >
-        응원
-      </Button>
+      {onStatsClick ? (
+        <Button
+          className="!border !border-neutral-100 min-w-12"
+          variant="ghost"
+          color="black"
+          size="xs"
+          onClick={e => {
+            e.stopPropagation();
+            onStatsClick();
+          }}
+        >
+          기록
+        </Button>
+      ) : (
+        <>
+          <Button
+            className="!border !border-neutral-100 min-w-12"
+            variant="ghost"
+            color="black"
+            size="xs"
+            onClick={e => {
+              e.stopPropagation();
+              onBroadcastClick?.();
+            }}
+          >
+            중계
+          </Button>
+          <Button
+            className="!border !border-neutral-100 min-w-12"
+            variant="ghost"
+            color="black"
+            size="xs"
+            onClick={e => {
+              e.stopPropagation();
+              onCheerClick?.();
+            }}
+          >
+            응원
+          </Button>
+        </>
+      )}
     </div>
   );
 };
