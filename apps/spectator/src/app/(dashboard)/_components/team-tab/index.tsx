@@ -11,8 +11,9 @@ import { ScorersModal } from './score-modal';
 
 type ModalPayload = {
   teamName: string;
-  scorers: any[]; // 아래에서 실제 타입으로 바꿔도 됨
+  teamId: number;
 } | null;
+
 export const TeamTab = () => {
   const { selected } = useTeamUnits();
   const { data } = useSuspenseTeamsSummary({ units: selected });
@@ -36,8 +37,8 @@ export const TeamTab = () => {
                   className="w-full text-left"
                   onClick={() =>
                     setModal({
+                      teamId: team.teamDetail.teamId,
                       teamName: team.teamDetail.name,
-                      scorers: team.teamDetail.topScorers,
                     })
                   }
                 >
@@ -62,14 +63,20 @@ export const TeamTab = () => {
         </div>
       </div>
 
-      <ScorersModal
-        open={open}
-        onOpenChange={next => {
-          if (!next) setModal(null);
-        }}
-        teamName={modal?.teamName ?? ''}
-        scorers={modal?.scorers ?? []}
-      />
+      {modal && (
+        <ErrorBoundary fallback={null}>
+          <Suspense fallback={null}>
+            <ScorersModal
+              open={open}
+              onOpenChange={next => {
+                if (!next) setModal(null);
+              }}
+              teamId={modal.teamId}
+              teamName={modal.teamName}
+            />
+          </Suspense>
+        </ErrorBoundary>
+      )}
     </>
   );
 };

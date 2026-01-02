@@ -1,43 +1,41 @@
 import { Modal } from '@hcc/ui';
+import type { TeamPlayerType } from '~/api';
+import { useSuspenseTeamsPlayers } from '~/api/queries/useTeamPlayers';
 
-type TopScorer = {
-  studentNo?: string | number;
-  name: string;
-  goals: number;
-};
-
-type Row = TopScorer & {
+type Row = TeamPlayerType & {
   rank: number;
 };
 
 export type TopScorersModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  teamId: number;
   teamName: string;
-  scorers: TopScorer[];
 };
 
-export function ScorersModal({ open, onOpenChange, teamName, scorers }: TopScorersModalProps) {
-  // ✅ 공동 순위 포함해서 rank 계산 + 최대 20명
+export function ScorersModal({ open, onOpenChange, teamName, teamId }: TopScorersModalProps) {
+  const { data: players } = useSuspenseTeamsPlayers({ id: teamId });
   const rows: Row[] = (() => {
-    const sorted = [...(scorers ?? [])].sort((a, b) => b.goals - a.goals);
+    const sorted = [...(players ?? [])].sort((a, b) => b.totalGoalCount - a.totalGoalCount);
 
     let prevGoals: number | null = null;
     let rank = 0;
 
     return sorted.slice(0, 20).map((s, idx) => {
-      if (prevGoals === null || s.goals !== prevGoals) {
+      if (prevGoals === null || s.totalGoalCount !== prevGoals) {
         rank = idx + 1;
-        prevGoals = s.goals;
+        prevGoals = s.totalGoalCount;
       }
       return { ...s, rank };
     });
   })();
 
+  const formatStudentNumber = (num: string | null | undefined) => {
+    if (!num || num.length < 4) return '-';
+    return num.substring(2, 4);
+  };
   return (
     <Modal open={open} onOpenChange={onOpenChange}>
-      {/* Close 버튼 */}
-
       <Modal.Content className="relative max-h-[min(640px,calc(100vh-64px))] w-[min(560px,calc(100vw-32px))] overflow-hidden rounded-2xl bg-white px-4 pt-12 pb-4 shadow-xl">
         <Modal.Close asChild>
           <button
@@ -82,17 +80,30 @@ export function ScorersModal({ open, onOpenChange, teamName, scorers }: TopScore
               </thead>
 
               <tbody>
-                {rows.map((r, idx) => (
-                  <tr
-                    key={`${r.studentNo ?? 'na'}-${r.name}-${idx}`}
-                    className="border-neutral-100 border-b"
-                  >
-                    <td className="px-3 py-2 text-center text-neutral-900">{r.rank}</td>
-                    <td className="px-3 py-2 text-center text-neutral-900">{r.studentNo ?? '-'}</td>
-                    <td className="px-3 py-2 font-semibold text-neutral-900">{r.name}</td>
-                    <td className="px-3 py-2 text-right font-bold text-neutral-900">{r.goals}</td>
-                  </tr>
-                ))}
+                {rows.map((r, idx) => {
+                  const isTopThree = r.rank <= 3;
+                  const fontWeightClass = isTopThree ? 'font-semibold bg-gray-100' : 'font-medium';
+
+                  return (
+                    <tr
+                      key={`${r.studentNumber ?? 'na'}-${r.name}-${idx}`}
+                      className="border-neutral-100 border-b"
+                    >
+                      <td className={`px-3 py-2 text-center text-neutral-900 ${fontWeightClass}`}>
+                        {r.rank}
+                      </td>
+                      <td className={`px-3 py-2 text-center text-neutral-900 ${fontWeightClass}`}>
+                        {formatStudentNumber(r.studentNumber)}
+                      </td>
+                      <td className={`px-3 py-2 text-center text-neutral-900 ${fontWeightClass}`}>
+                        {r.name}
+                      </td>
+                      <td className={`px-3 py-2 text-center text-neutral-900 ${fontWeightClass}`}>
+                        {r.totalGoalCount}
+                      </td>
+                    </tr>
+                  );
+                })}
 
                 {rows.length === 0 && (
                   <tr>
