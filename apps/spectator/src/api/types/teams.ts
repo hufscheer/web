@@ -70,7 +70,7 @@ export type TrophyType = {
 };
 
 export type TeamDetailType = {
-  // teamId: number;
+  teamId: number;
   name: string;
   logoImageUrl: string;
   unit: string;

@@ -4,6 +4,9 @@ import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 import type { TeamDetailType } from '~/api';
 import ScoreBadge from './score-badge';
+import Link from 'next/link';
+import { routes } from '~/constants/routes';
+import { ChevronForwardIcon } from '@hcc/icons';
 
 /* -------------------------------------------------------------------------------------------------
  * TeamCard
@@ -50,9 +53,9 @@ const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
 
       <div className="flex flex-shrink-0 flex-row items-center gap-2 whitespace-nowrap">
         <ScoreBadge team={team} />
-        {/* <Link href={`/${routes.team(team.teamId)}`} className="center">
+        <Link href={`/${routes.team(team.teamId)}`} className="center">
           <ChevronForwardIcon size={24} />
-        </Link> */}
+        </Link>
       </div>
     </div>
   );
