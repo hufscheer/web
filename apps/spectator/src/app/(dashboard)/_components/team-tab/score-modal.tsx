@@ -80,15 +80,12 @@ export function ScorersModal({ open, onOpenChange, teamName, teamId }: TopScorer
               </thead>
 
               <tbody>
-                {rows.map((r, idx) => {
+                {rows.map(r => {
                   const isTopThree = r.rank <= 3;
                   const fontWeightClass = isTopThree ? 'font-semibold bg-gray-100' : 'font-medium';
 
                   return (
-                    <tr
-                      key={`${r.studentNumber ?? 'na'}-${r.name}-${idx}`}
-                      className="border-neutral-100 border-b"
-                    >
+                    <tr key={r.playerId} className="border-neutral-100 border-b">
                       <td className={`px-3 py-2 text-center text-neutral-900 ${fontWeightClass}`}>
                         {r.rank}
                       </td>

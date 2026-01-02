@@ -27,7 +27,7 @@ export const TeamTab = () => {
 
         <div className="column mb-5 gap-3 px-5">
           {data.map(team => (
-            <TeamCard key={team.teamDetail.name}>
+            <TeamCard key={team.teamDetail.teamId}>
               <TeamCard.Header team={team.teamDetail} />
               <TeamCard.Divider />
 
