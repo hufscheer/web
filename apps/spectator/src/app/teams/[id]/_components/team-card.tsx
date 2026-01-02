@@ -1,9 +1,8 @@
-import { formatTime } from '@hcc/toolkit';
-import { Badge, Button, colors, Typography } from '@hcc/ui';
+import { Typography } from '@hcc/ui';
 import Image from 'next/image';
 import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
-import type { GameListType, TeamDetailType } from '~/api';
+import type { TeamDetailType } from '~/api';
 
 /* -------------------------------------------------------------------------------------------------
  * TeamCard
@@ -64,58 +63,6 @@ const TeamCardContent = ({ children, className, ...props }: ComponentProps<'div'
 };
 
 /* -------------------------------------------------------------------------------------------------
- * GameCard.Header
- * -----------------------------------------------------------------------------------------------*/
-
-interface GameCardHeaderProps extends ComponentProps<'div'> {
-  game: GameListType;
-}
-
-const GameCardHeader = ({ game, className, ...props }: GameCardHeaderProps) => {
-  return (
-    <div className={twMerge('row-between', className)} {...props}>
-      <Typography color={colors.neutral500} fontSize={13} weight="medium">
-        {game.leagueName}
-        {' ‧ '}
-        {game.round === 2 ? '결승' : `${game.round}강`}
-        {' ‧ '}
-        {formatTime(game.startTime, { format: 'MM.DD. HH:mm' })}
-      </Typography>
-      <Badge size="sm">{game.gameQuarter}</Badge>
-    </div>
-  );
-};
-
-/* -------------------------------------------------------------------------------------------------
- * GameCard.Actions
- * -----------------------------------------------------------------------------------------------*/
-
-interface GameCardActionsProps extends ComponentProps<'div'> {
-  // onBroadcastClick?: () => void;
-  // onCheerClick?: () => void;
-  onStatsClick?: () => void;
-}
-
-const GameCardActions = ({ onStatsClick, className, ...props }: GameCardActionsProps) => {
-  return (
-    <div className={twMerge('center-y gap-2 self-center pt-2', className)} {...props}>
-      <Button
-        className="!border !border-neutral-100 min-w-12"
-        variant="ghost"
-        color="black"
-        size="xs"
-        onClick={e => {
-          e.stopPropagation();
-          onStatsClick?.();
-        }}
-      >
-        기록
-      </Button>
-    </div>
-  );
-};
-
-/* -------------------------------------------------------------------------------------------------
  * TeamCard.Section
  * -----------------------------------------------------------------------------------------------*/
 
@@ -149,8 +96,6 @@ const TeamCardDivider = ({ className, ...props }: ComponentProps<'hr'>) => {
 export const TeamCard = Object.assign(TeamCardRoot, {
   Header: TeamCardHeader,
   Content: TeamCardContent,
-  GameHeader: GameCardHeader,
-  Actions: GameCardActions,
   Section: TeamCardSection,
   Divider: TeamCardDivider,
 });
