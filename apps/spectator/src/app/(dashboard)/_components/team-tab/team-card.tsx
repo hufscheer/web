@@ -27,13 +27,17 @@ const TeamCardRoot = ({ children, className, ...props }: ComponentProps<'div'>) 
  * TeamCard.Header
  * -----------------------------------------------------------------------------------------------*/
 
-interface TeamCardHeaderProps extends ComponentProps<'div'> {
+interface TeamCardHeaderProps extends ComponentProps<'a'> {
   team: TeamDetailType;
 }
 
 const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
   return (
-    <div className={twMerge('row-between gap-3', className)} {...props}>
+    <Link
+      href={`/${routes.team(team.teamId)}`}
+      className={twMerge('row-between gap-3', className)}
+      {...props}
+    >
       <div className="center-y min-w-0 flex-1 gap-3">
         {team.logoImageUrl && (
           <div className="center relative h-8 w-8 overflow-hidden rounded-full bg-neutral-200">
@@ -53,11 +57,11 @@ const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
 
       <div className="flex flex-shrink-0 flex-row items-center gap-2 whitespace-nowrap">
         <ScoreBadge team={team} />
-        <Link href={`/${routes.team(team.teamId)}`} className="center">
+        <div className="center">
           <ChevronForwardIcon size={24} />
-        </Link>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
