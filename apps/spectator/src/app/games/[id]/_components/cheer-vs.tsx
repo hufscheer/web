@@ -1,6 +1,6 @@
 'use client';
 
-import { colors, Typography } from '@hcc/ui';
+import { colors, Typography, toast } from '@hcc/ui';
 import Image from 'next/image';
 import { useMemo, useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -24,6 +24,17 @@ export const CheerVS = ({ gameId }: Props) => {
   const [homeTeamCheer, awayTeamCheer] = cheerData;
   const [homeTeam, awayTeam] = gameData.gameTeams;
 
+  const isFinished = gameData.state === 'FINISHED';
+
+  const getBackgroundColor = (isHome: boolean) => {
+    if (isFinished) {
+      const cheerDiff = homeTeamCheer.cheerCount - awayTeamCheer.cheerCount;
+      if ((isHome && cheerDiff < 0) || (!isHome && cheerDiff > 0)) {
+        return 'bg-[#B8C0CC]';
+      }
+    }
+    return isHome ? 'bg-[#002843]' : 'bg-[#9C1714]';
+  };
   const { homeCheerRatio, awayCheerRatio } = useMemo(() => {
     const total = homeTeamCheer.cheerCount + awayTeamCheer.cheerCount;
 
@@ -44,7 +55,14 @@ export const CheerVS = ({ gameId }: Props) => {
   return (
     <div className="center-y m-4 gap-0.5">
       <div style={{ flexGrow: homeCheerRatio }}>
-        <CheerTeamBox gameId={gameId} direction="left" {...homeTeam} {...homeTeamCheer} />
+        <CheerTeamBox
+          gameId={gameId}
+          direction="left"
+          bgColor={getBackgroundColor(true)}
+          isFinished={isFinished}
+          {...homeTeam}
+          {...homeTeamCheer}
+        />
       </div>
 
       <div className="relative z-above shrink-0">
@@ -63,7 +81,14 @@ export const CheerVS = ({ gameId }: Props) => {
       </div>
 
       <div style={{ flexGrow: awayCheerRatio }}>
-        <CheerTeamBox gameId={gameId} direction="right" {...awayTeam} {...awayTeamCheer} />
+        <CheerTeamBox
+          gameId={gameId}
+          direction="right"
+          bgColor={getBackgroundColor(false)}
+          isFinished={isFinished}
+          {...awayTeam}
+          {...awayTeamCheer}
+        />
       </div>
     </div>
   );
@@ -72,6 +97,8 @@ export const CheerVS = ({ gameId }: Props) => {
 type CheerTeamBoxProps = (GameCheerType & GameTeamType) & {
   gameId: number;
   direction: 'left' | 'right';
+  bgColor: string;
+  isFinished: boolean;
 };
 
 const CheerTeamBox = ({
@@ -81,6 +108,8 @@ const CheerTeamBox = ({
   cheerCount,
   logoImageUrl,
   direction,
+  bgColor,
+  isFinished,
 }: CheerTeamBoxProps) => {
   const [pendingCount, setPendingCount] = useState(0);
   const pendingCountRef = useRef(0);
@@ -109,6 +138,11 @@ const CheerTeamBox = ({
   );
 
   const handleCheer = () => {
+    if (isFinished) {
+      toast.error('종료된 리그에는 응원탭을 누를 수 없어요');
+      return;
+    }
+
     pendingCountRef.current += 1;
     setPendingCount(prev => prev + 1);
   };
@@ -117,8 +151,12 @@ const CheerTeamBox = ({
     <button
       className={twMerge(
         'center-y relative h-14 w-full cursor-pointer gap-2 rounded-xl px-3 transition-all duration-150 active:scale-[0.995]',
-        direction === 'left' ? 'bg-[#002843]' : 'flex-row-reverse bg-[#9C1714]',
-        isPending && 'opacity-80',
+        !isFinished && 'active:scale-[0.995]',
+        isFinished && 'cursor-default',
+
+        bgColor,
+        direction === 'right' && 'flex-row-reverse',
+        (isPending || isFinished) && 'opacity-80',
       )}
       type="button"
       onClick={handleCheer}
