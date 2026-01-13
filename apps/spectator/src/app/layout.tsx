@@ -7,6 +7,7 @@ import { AnalyticsProvider } from '~/app/analytics';
 import { Layout } from '~/components/layout';
 import { Pretendard } from './_fonts';
 import { Provider } from './provider';
+import { Toaster } from '@hcc/ui';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.hufscheer.com'),
@@ -40,6 +41,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
         </Provider>
 
         <AnalyticsProvider />
+        <Toaster />
       </body>
     </html>
   );

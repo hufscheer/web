@@ -1,6 +1,6 @@
 'use client';
 
-import { colors, Typography } from '@hcc/ui';
+import { colors, Typography, toast } from '@hcc/ui';
 import Image from 'next/image';
 import { useMemo, useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -25,7 +25,7 @@ export const CheerVS = ({ gameId }: Props) => {
   const [homeTeam, awayTeam] = gameData.gameTeams;
 
   const isFinished = gameData.state === 'FINISHED';
-  console.log('isFinished:', isFinished);
+
   const getBackgroundColor = (isHome: boolean) => {
     if (isFinished) {
       const isHomeLosing = homeTeamCheer.cheerCount < awayTeamCheer.cheerCount;
@@ -140,7 +140,11 @@ const CheerTeamBox = ({
   );
 
   const handleCheer = () => {
-    if (isFinished) return;
+    if (isFinished) {
+      toast.error('종료된 리그에는 응원탭을 누를 수 없어요');
+      return;
+    }
+
     pendingCountRef.current += 1;
     setPendingCount(prev => prev + 1);
   };
@@ -149,13 +153,16 @@ const CheerTeamBox = ({
     <button
       className={twMerge(
         'center-y relative h-14 w-full cursor-pointer gap-2 rounded-xl px-3 transition-all duration-150 active:scale-[0.995]',
+        !isFinished && 'active:scale-[0.995]',
+        isFinished && 'cursor-default',
+
         bgColor ? bgColor : direction === 'left' ? 'bg-[#002843]' : 'bg-[#9C1714]',
         direction === 'right' && 'flex-row-reverse',
-        isPending && 'opacity-80',
+        (isPending || isFinished) && 'opacity-80',
       )}
       type="button"
       onClick={handleCheer}
-      disabled={isPending || isFinished}
+      disabled={isPending}
     >
       <Image
         className="h-9 w-9 rounded-full object-cover"
