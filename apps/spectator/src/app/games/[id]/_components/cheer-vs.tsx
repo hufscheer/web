@@ -28,10 +28,8 @@ export const CheerVS = ({ gameId }: Props) => {
 
   const getBackgroundColor = (isHome: boolean) => {
     if (isFinished) {
-      const isHomeLosing = homeTeamCheer.cheerCount < awayTeamCheer.cheerCount;
-      const isAwayLosing = awayTeamCheer.cheerCount < homeTeamCheer.cheerCount;
-
-      if ((isHome && isHomeLosing) || (!isHome && isAwayLosing)) {
+      const cheerDiff = homeTeamCheer.cheerCount - awayTeamCheer.cheerCount;
+      if ((isHome && cheerDiff < 0) || (!isHome && cheerDiff > 0)) {
         return 'bg-[#B8C0CC]';
       }
     }
@@ -156,7 +154,7 @@ const CheerTeamBox = ({
         !isFinished && 'active:scale-[0.995]',
         isFinished && 'cursor-default',
 
-        bgColor ? bgColor : direction === 'left' ? 'bg-[#002843]' : 'bg-[#9C1714]',
+        bgColor,
         direction === 'right' && 'flex-row-reverse',
         (isPending || isFinished) && 'opacity-80',
       )}
