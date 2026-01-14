@@ -5,6 +5,7 @@ import { GameCard } from '~/components/ui/game-card';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { routes } from '~/constants/routes';
+import { TeamTrophy } from './trophy';
 
 export const TeamInfo = ({ id }: { id: number }) => {
   const router = useRouter();
@@ -20,6 +21,7 @@ export const TeamInfo = ({ id }: { id: number }) => {
         <TeamCard>
           <TeamCard.Header team={team} />
           <TeamCard.Divider />
+          <TeamTrophy trophies={team.trophies} />
           <TeamCard.Content>
             {games.map(game => {
               const { gameId, gameTeams, state } = game;
