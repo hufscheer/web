@@ -7,6 +7,7 @@ import { useMemo, useState } from 'react';
 import { Drawer } from 'vaul';
 import { type LeagueFormType, useCreateLeagues } from '~/api/mutations/useCreateLeagues';
 import { SelectTeam } from '../_components/select-team';
+import { AlertDialog } from '~/components/ui';
 
 type RegisteredTeam = {
   affiliationName: string;
@@ -59,6 +60,19 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm }: Props) => {
       },
     });
   };
+  const isAllTeamsRegistered = registeredTeams.length === round;
+  const CreateButton = (
+    <Button
+      size="lg"
+      className="w-full"
+      color="primary"
+      disabled={isPending || registeredTeams.length === 0}
+      loading={isPending}
+      onClick={isAllTeamsRegistered ? handleCreateLeague : undefined}
+    >
+      대회 생성
+    </Button>
+  );
   return (
     <Drawer.Root open={isOpen} onOpenChange={setIsOpen}>
       <div className="flex h-full flex-col gap-4 bg-white p-5">
@@ -97,16 +111,18 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm }: Props) => {
           <Button size="lg" variant="subtle" className="w-full" onClick={onPrev}>
             이전 단계
           </Button>
-          <Button
-            size="lg"
-            className="w-full"
-            color="primary"
-            onClick={handleCreateLeague}
-            disabled={isPending || registeredTeams.length === 0}
-            loading={isPending}
-          >
-            대회 생성
-          </Button>
+          {isAllTeamsRegistered ? (
+            CreateButton
+          ) : (
+            <AlertDialog
+              title="아직 모든 팀이 등록되지 않았어요"
+              description="정말 생성할까요?"
+              primaryTitle="확인"
+              onPrimaryClick={handleCreateLeague}
+            >
+              {CreateButton}
+            </AlertDialog>
+          )}
         </div>
       </div>
 
