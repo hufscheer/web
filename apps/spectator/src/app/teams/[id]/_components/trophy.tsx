@@ -11,7 +11,10 @@ export const TeamTrophy: FC<Props> = ({ trophies }) => {
   return (
     <div className="scrollbar-hide flex w-full flex-row items-center justify-center gap-2 overflow-x-auto rounded-xl bg-neutral-100 px-2 py-1">
       {trophies.map(trophy => (
-        <div key={trophy.leagueId} className="flex-shrink-0 flex-col items-center gap-2 px-2 py-1">
+        <div
+          key={trophy.leagueId}
+          className="flex flex-shrink-0 flex-col items-center gap-2 px-2 py-1"
+        >
           <div className="text-center text-3xl">🏆</div>
           <div className="whitespace-nowrap text-neutral-700 text-xs">{trophy.leagueName}</div>
         </div>
