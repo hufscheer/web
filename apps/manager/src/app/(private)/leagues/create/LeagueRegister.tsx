@@ -7,9 +7,8 @@ import { useMemo, useState } from 'react';
 import { Drawer } from 'vaul';
 import { type LeagueFormType, useCreateLeagues } from '~/api/mutations/useCreateLeagues';
 import { SelectTeam } from '../_components/select-team';
+import { AlertDialog } from '~/components/ui';
 
-type Team = { id: number; name: string };
-type Affiliation = { id: number; name: string };
 type RegisteredTeam = {
   affiliationName: string;
   teamName: string;
@@ -20,28 +19,28 @@ type Props = {
   onPrev: () => void;
   round: number;
   leagueInfoForm: Omit<LeagueFormType, 'teamIds'>;
+  initialTeams?: RegisteredTeam[];
+  onSubmit?: (teamIds: number[]) => void;
 };
 
-const LeagueRegister = ({ onPrev, round, leagueInfoForm }: Props) => {
+const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSubmit }: Props) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const [registeredTeams, setRegisteredTeams] = useState<RegisteredTeam[]>([]);
+  const [registeredTeams, setRegisteredTeams] = useState<RegisteredTeam[]>(initialTeams);
   const { mutate, isPending } = useCreateLeagues();
   const maxTeams = useMemo(() => round ?? 32, [round]);
-  const isFull = registeredTeams.length >= maxTeams;
-  const handleRegisterTeam = ({ affiliation, team }: { affiliation: Affiliation; team: Team }) => {
-    // 중복 등록 방지
-    if (isFull) return;
-    if (!registeredTeams.find(rt => rt.teamId === team.id)) {
-      setRegisteredTeams(prevTeams => [
-        ...prevTeams,
-        {
-          affiliationName: affiliation.name,
-          teamName: team.name,
-          teamId: team.id,
-        },
-      ]);
-    }
+
+  const isEditMode = !!onSubmit;
+
+  const handleRegisterTeam = (newTeams: RegisteredTeam[]) => {
+    setRegisteredTeams(prevTeams => {
+      // 기존에 없던 팀들만 필터링하여 합치기 (중복 방지)
+      const uniqueNewTeams = newTeams.filter(nt => !prevTeams.some(pt => pt.teamId === nt.teamId));
+
+      // 최대 참가 팀 수 제한 체크
+      const combined = [...prevTeams, ...uniqueNewTeams];
+      return combined.slice(0, maxTeams);
+    });
     setIsOpen(false);
   };
 
@@ -51,6 +50,10 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm }: Props) => {
   const handleCreateLeague = () => {
     const teamIds = registeredTeams.map(team => team.teamId);
 
+    if (isEditMode) {
+      onSubmit(teamIds);
+      return;
+    }
     const payload: LeagueFormType = {
       ...leagueInfoForm,
       teamIds: teamIds,
@@ -65,6 +68,19 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm }: Props) => {
       },
     });
   };
+  const isAllTeamsRegistered = registeredTeams.length === round;
+  const CreateButton = (
+    <Button
+      size="lg"
+      className="w-full"
+      color="primary"
+      disabled={isPending || registeredTeams.length === 0}
+      loading={isPending}
+      onClick={isAllTeamsRegistered ? handleCreateLeague : undefined}
+    >
+      대회 생성
+    </Button>
+  );
   return (
     <Drawer.Root open={isOpen} onOpenChange={setIsOpen}>
       <div className="flex h-full flex-col gap-4 bg-white p-5">
@@ -103,16 +119,18 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm }: Props) => {
           <Button size="lg" variant="subtle" className="w-full" onClick={onPrev}>
             이전 단계
           </Button>
-          <Button
-            size="lg"
-            className="w-full"
-            color="primary"
-            onClick={handleCreateLeague}
-            disabled={isPending || registeredTeams.length === 0}
-            loading={isPending}
-          >
-            대회 생성
-          </Button>
+          {isAllTeamsRegistered ? (
+            CreateButton
+          ) : (
+            <AlertDialog
+              title="아직 모든 팀이 등록되지 않았어요"
+              description="정말 생성할까요?"
+              primaryTitle="확인"
+              onPrimaryClick={handleCreateLeague}
+            >
+              {CreateButton}
+            </AlertDialog>
+          )}
         </div>
       </div>
 
@@ -122,10 +140,12 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm }: Props) => {
           <div className="flex-1 rounded-t-lg p-4">
             <div className="mx-auto mb-4 h-1.5 w-12 flex-shrink-0 rounded-full bg-gray-300" />
             <Drawer.Title className="mb-4 text-start font-semibold text-2xl">팀 선택</Drawer.Title>
-            <Input size="lg" placeholder="팀 이름을 검색해주세요">
-              {/* 아이콘추가 */}
-            </Input>
-            <SelectTeam onClose={() => setIsOpen(false)} onRegister={handleRegisterTeam} />
+            <Input size="lg" placeholder="팀 이름을 검색해주세요" />
+            <SelectTeam
+              onClose={() => setIsOpen(false)}
+              onRegister={handleRegisterTeam}
+              maxSelectCount={maxTeams - registeredTeams.length}
+            />
           </div>
         </Drawer.Content>
       </Drawer.Portal>

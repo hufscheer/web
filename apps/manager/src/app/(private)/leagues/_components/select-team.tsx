@@ -6,8 +6,12 @@ import { useMemo, useState } from 'react';
 import type { TeamType } from '~/api';
 import { useTeams } from '~/api/queries/useTeams';
 
+type RegisteredTeam = {
+  affiliationName: string;
+  teamName: string;
+  teamId: number;
+};
 type Team = { id: number; name: string };
-type Affiliation = { id: number; name: string; teams: Team[] };
 
 type SelectItemProps = {
   name: string;
@@ -30,10 +34,11 @@ const SelectItem = ({ name, isSelected, onClick }: SelectItemProps) => (
 
 type TeamCreationFormProps = {
   onClose: () => void;
-  onRegister: (selection: { affiliation: Omit<Affiliation, 'teams'>; team: Team }) => void;
+  onRegister: (teams: RegisteredTeam[]) => void;
+  maxSelectCount: number;
 };
 
-export const SelectTeam = ({ onClose, onRegister }: TeamCreationFormProps) => {
+export const SelectTeam = ({ onClose, onRegister, maxSelectCount }: TeamCreationFormProps) => {
   const { data: teams = [], isLoading } = useTeams();
 
   const affiliations = useMemo(() => {
@@ -58,24 +63,41 @@ export const SelectTeam = ({ onClose, onRegister }: TeamCreationFormProps) => {
   const [selectedAffiliationId, setSelectedAffiliationId] = useState<string | null>(
     affiliations[0]?.name || null,
   );
-  const [selectedTeamId, setSelectedTeamId] = useState<number | null>(null);
-
+  const [selectedTeams, setSelectedTeams] = useState<RegisteredTeam[]>([]);
   const selectedAffiliation = useMemo(
     () => affiliations.find(aff => aff.name === selectedAffiliationId),
     [affiliations, selectedAffiliationId],
   );
+  const handleTeamClick = (team: Team) => {
+    if (!selectedAffiliation) return;
 
-  const handleRegister = () => {
-    const selectedTeam = selectedAffiliation?.teams.find(t => t.id === selectedTeamId);
-    if (selectedAffiliation && selectedTeam) {
-      const affiliationData = {
-        id: selectedAffiliation.id,
-        name: selectedAffiliation.name,
-      };
-      onRegister({ affiliation: affiliationData, team: selectedTeam });
+    const isAlreadySelected = selectedTeams.some(t => t.teamId === team.id);
+
+    if (isAlreadySelected) {
+      // 이미 선택된 팀이면 제거
+      setSelectedTeams(prev => prev.filter(t => t.teamId !== team.id));
+    } else {
+      // 새로운 팀 선택 시 최대 개수 제한 확인
+      if (selectedTeams.length >= maxSelectCount) {
+        alert(`최대 ${maxSelectCount}팀까지 선택할 수 있습니다.`);
+        return;
+      }
+      // 선택 목록에 추가
+      setSelectedTeams(prev => [
+        ...prev,
+        {
+          affiliationName: selectedAffiliation.name,
+          teamName: team.name,
+          teamId: team.id,
+        },
+      ]);
     }
   };
-
+  const handleRegister = () => {
+    if (selectedTeams.length > 0) {
+      onRegister(selectedTeams);
+    }
+  };
   if (isLoading) {
     return <div className="p-4 text-center">팀 정보를 불러오는 중입니다...</div>;
   }
@@ -97,7 +119,6 @@ export const SelectTeam = ({ onClose, onRegister }: TeamCreationFormProps) => {
                 isSelected={selectedAffiliationId === affiliation.name}
                 onClick={() => {
                   setSelectedAffiliationId(affiliation.name);
-                  setSelectedTeamId(null);
                 }}
               />
             ))}
@@ -112,8 +133,8 @@ export const SelectTeam = ({ onClose, onRegister }: TeamCreationFormProps) => {
               <SelectItem
                 key={team.id}
                 name={team.name}
-                isSelected={selectedTeamId === team.id}
-                onClick={() => setSelectedTeamId(team.id)}
+                isSelected={selectedTeams.some(t => t.teamId === team.id)}
+                onClick={() => handleTeamClick(team)}
               />
             ))}
           </div>
@@ -129,7 +150,7 @@ export const SelectTeam = ({ onClose, onRegister }: TeamCreationFormProps) => {
           className="w-full"
           color="black"
           onClick={handleRegister}
-          disabled={!selectedTeamId}
+          disabled={selectedTeams.length === 0}
         >
           등록
         </Button>

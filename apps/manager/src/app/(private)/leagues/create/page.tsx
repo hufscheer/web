@@ -4,24 +4,24 @@ import { Suspense } from '@suspensive/react';
 import { useMemo, useState } from 'react';
 import { Header } from '~/components/layout';
 import { StepProgress } from '~/components/ui';
-import LeagueInfo, { type LeagueForm } from './LeagueInfo';
+import LeagueInfo, { type LeagueInfoForm } from './LeagueInfo';
 import LeagueRegister from './LeagueRegister';
 
 const Page = () => {
   const [currentStep, setCurrentStep] = useState<1 | 2>(1);
 
-  const [form, setForm] = useState<LeagueForm>({
-    leagueName: '',
-    startDate: undefined,
-    endDate: undefined,
-    roundSize: undefined,
+  const [form, setForm] = useState<LeagueInfoForm>({
+    name: '',
+    startAt: undefined,
+    endAt: undefined,
+    maxRound: undefined,
   });
 
   const isFormValid = useMemo(() => {
-    return form.leagueName.trim() !== '' && !!form.startDate && !!form.endDate && !!form.roundSize;
+    return form.name.trim() !== '' && !!form.startAt && !!form.endAt && !!form.maxRound;
   }, [form]);
 
-  const handleFormChange = (patch: Partial<LeagueForm>) => {
+  const handleFormChange = (patch: Partial<LeagueInfoForm>) => {
     setForm(prev => ({ ...prev, ...patch }));
   };
 
@@ -32,10 +32,10 @@ const Page = () => {
 
   const leagueInfoForm = useMemo(
     () => ({
-      name: form.leagueName,
-      maxRound: form.roundSize!,
-      startAt: form.startDate?.toISOString() ?? '',
-      endAt: form.endDate?.toISOString() ?? '',
+      name: form.name,
+      maxRound: form.maxRound!,
+      startAt: form.startAt?.toISOString() ?? '',
+      endAt: form.endAt?.toISOString() ?? '',
     }),
     [form],
   );
@@ -63,7 +63,7 @@ const Page = () => {
             {currentStep === 2 && (
               <LeagueRegister
                 onPrev={() => setCurrentStep(1)}
-                round={form.roundSize ?? 0}
+                round={form.maxRound ?? 0}
                 leagueInfoForm={leagueInfoForm}
               />
             )}
