@@ -1,7 +1,13 @@
 'use client';
 
 import { toast } from '@hcc/ui';
-import { useSuspenseLeague, useLeagueTeams, useUpdateLeagues, type LeagueFormType } from '~/api';
+import {
+  useSuspenseLeague,
+  useLeagueTeams,
+  useUpdateLeagues,
+  type LeagueFormType,
+  useUpdateLeagueTeams,
+} from '~/api';
 import { useRouter } from 'next/navigation';
 import { LeagueForm } from '../../_components/league-form';
 
@@ -10,21 +16,24 @@ export const LeagueEditContainer = ({ leagueId }: { leagueId: number }) => {
 
   const { data: league } = useSuspenseLeague({ leagueId });
   const { data: teams } = useLeagueTeams({ leagueId });
-  const { mutate } = useUpdateLeagues();
+  const { mutateAsync: updateLeague } = useUpdateLeagues();
+  const { mutateAsync: updateLeagueTeams } = useUpdateLeagueTeams();
 
   const handleUpdate = async (data: LeagueFormType) => {
-    mutate(
-      { leagueId, ...data },
-      {
-        onSuccess: () => {
-          toast.success('대회 정보가 수정되었습니다.');
-          router.push(`/leagues/${leagueId}`);
-        },
-        onError: () => {
-          toast.error('대회 수정에 실패했습니다.');
-        },
-      },
-    );
+    try {
+      await updateLeague({
+        leagueId,
+        ...data,
+      });
+      await updateLeagueTeams({
+        leagueId,
+        teamIds: data.teamIds,
+      });
+      toast.success('대회 정보가 수정되었어요');
+      router.push(`/leagues/${leagueId}`);
+    } catch (_error) {
+      toast.error('대회 수정에 실패했어요');
+    }
   };
 
   return (

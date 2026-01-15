@@ -29,7 +29,12 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit, isEdit }: Prop
     endAt: initialData?.endAt ? new Date(initialData.endAt) : undefined,
     maxRound: initialData?.maxRound,
   });
-
+  const handleFormChange = (patch: Partial<LeagueInfoForm>) => {
+    setFormData(prev => ({
+      ...prev,
+      ...patch,
+    }));
+  };
   const handleUpdate = (teamIds: number[]) => {
     if (!formData.name || !formData.startAt || !formData.endAt || formData.maxRound === undefined) {
       return;
@@ -56,7 +61,7 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit, isEdit }: Prop
             0: (
               <LeagueInfo
                 form={formData}
-                onChange={patch => setFormData((prev: any) => ({ ...prev, ...patch }))}
+                onChange={handleFormChange}
                 onNext={() => setStep(1)}
                 isFormValid={!!formData.name && !!formData.startAt}
                 isEdit={isEdit}

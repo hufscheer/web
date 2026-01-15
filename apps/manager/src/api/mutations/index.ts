@@ -13,5 +13,6 @@ export * from './useUpdateCheerTalkBlock';
 export * from './useUpdateCheerTalkUnblock';
 export * from './useUpdateGames';
 export * from './useUpdateLeagues';
+export * from './useUpdateLeagueTeams';
 export * from './useUpdatePlayers';
 export * from './useUpdateTeams';

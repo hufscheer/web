@@ -30,6 +30,8 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
   const { mutate, isPending } = useCreateLeagues();
   const maxTeams = useMemo(() => round ?? 32, [round]);
 
+  const isEditMode = !!onSubmit;
+
   const handleRegisterTeam = (newTeams: RegisteredTeam[]) => {
     setRegisteredTeams(prevTeams => {
       // 기존에 없던 팀들만 필터링하여 합치기 (중복 방지)
@@ -48,7 +50,7 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
   const handleCreateLeague = () => {
     const teamIds = registeredTeams.map(team => team.teamId);
 
-    if (onSubmit) {
+    if (isEditMode) {
       onSubmit(teamIds);
       return;
     }

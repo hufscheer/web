@@ -44,7 +44,7 @@ export const AlertDialog = ({
 
   return (
     <Modal open={open} onOpenChange={setOpen}>
-      <Modal.Trigger>{children}</Modal.Trigger>
+      <Modal.Trigger asChild>{children}</Modal.Trigger>
       <Modal.Content className="w-full max-w-[320px] rounded-lg bg-white p-4">
         <Typography fontSize={18} weight="semibold" lineHeight="snug" asChild>
           <Modal.Title className="break-keep text-left">{title}</Modal.Title>
