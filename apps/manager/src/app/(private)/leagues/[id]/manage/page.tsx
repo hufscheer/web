@@ -16,7 +16,7 @@ const Page = async ({ params }: Props) => {
   return (
     <>
       <Header title="대회 정보 수정" arrow menu={<LeagueDeleteMenu leagueId={id} />} />
-      <LeagueEditContainer leagueId={id} />{' '}
+      <LeagueEditContainer leagueId={id} />
       {/* <div className="column h-full overflow-y-auto">{id}</div> */}
     </>
   );

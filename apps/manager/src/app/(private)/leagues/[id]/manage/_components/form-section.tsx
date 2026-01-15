@@ -21,14 +21,16 @@ export const LeagueEditContainer = ({ leagueId }: { leagueId: number }) => {
 
   const handleUpdate = async (data: LeagueFormType) => {
     try {
-      await updateLeague({
-        leagueId,
-        ...data,
-      });
-      await updateLeagueTeams({
-        leagueId,
-        teamIds: data.teamIds,
-      });
+      await Promise.all([
+        updateLeague({
+          leagueId,
+          ...data,
+        }),
+        updateLeagueTeams({
+          leagueId,
+          teamIds: data.teamIds,
+        }),
+      ]);
       toast.success('대회 정보가 수정되었어요');
       router.push(`/leagues/${leagueId}`);
     } catch (_error) {

@@ -18,8 +18,7 @@ export const LeagueDeleteMenu = ({ leagueId }: Props) => {
       await mutateAsync({ leagueId });
       toast.success('대회를 삭제했어요');
       router.push('/leagues');
-    } catch (error) {
-      console.error(`[manager/leagues/${leagueId}`, error);
+    } catch (_error) {
       toast.error('대회 삭제에 실패했어요');
     }
   };
