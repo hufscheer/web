@@ -17,11 +17,10 @@ type Props = {
   initialData?: Partial<LeagueFormType>;
   initialTeams?: RegisteredTeam[];
   onSubmit: (data: LeagueFormType) => Promise<void> | void;
-  isEdit?: boolean;
 } & Omit<ComponentProps<'form'>, 'onSubmit'>;
 const STEPS = ['기본 정보', '참가 팀 등록'];
 
-export const LeagueForm = ({ initialData, initialTeams, onSubmit, isEdit }: Props) => {
+export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
   const [step, setStep] = useState<0 | 1>(0);
   const [formData, setFormData] = useState<LeagueInfoForm>({
     name: initialData?.name ?? '',
@@ -64,7 +63,6 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit, isEdit }: Prop
                 onChange={handleFormChange}
                 onNext={() => setStep(1)}
                 isFormValid={!!formData.name && !!formData.startAt}
-                isEdit={isEdit}
               />
             ),
             1: (

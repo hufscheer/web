@@ -23,10 +23,10 @@ type LeagueInfoProps = {
   onChange: (patch: Partial<LeagueInfoForm>) => void;
   onNext: () => void;
   isFormValid: boolean;
-  isEdit?: boolean;
+  //isEdit?: boolean;
 };
 
-const LeagueInfo = ({ form, onChange, onNext, isFormValid, isEdit }: LeagueInfoProps) => {
+const LeagueInfo = ({ form, onChange, onNext, isFormValid }: LeagueInfoProps) => {
   return (
     <div className="column h-full gap-1.5 bg-white p-5">
       <Suspense clientOnly>
@@ -71,11 +71,9 @@ const LeagueInfo = ({ form, onChange, onNext, isFormValid, isEdit }: LeagueInfoP
           >
             다음 단계
           </Button>
-          {!isEdit && (
-            <Button size="lg" className="w-full" color="primary" disabled>
-              대회 생성
-            </Button>
-          )}
+          <Button size="lg" className="w-full" color="primary" disabled>
+            대회 생성
+          </Button>
         </div>
       </Suspense>
     </div>
