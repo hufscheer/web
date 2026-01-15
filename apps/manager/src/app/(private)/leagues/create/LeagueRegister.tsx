@@ -19,12 +19,14 @@ type Props = {
   onPrev: () => void;
   round: number;
   leagueInfoForm: Omit<LeagueFormType, 'teamIds'>;
+  initialTeams?: RegisteredTeam[];
+  onSubmit?: (teamIds: number[]) => void;
 };
 
-const LeagueRegister = ({ onPrev, round, leagueInfoForm }: Props) => {
+const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSubmit }: Props) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const [registeredTeams, setRegisteredTeams] = useState<RegisteredTeam[]>([]);
+  const [registeredTeams, setRegisteredTeams] = useState<RegisteredTeam[]>(initialTeams);
   const { mutate, isPending } = useCreateLeagues();
   const maxTeams = useMemo(() => round ?? 32, [round]);
 
@@ -46,6 +48,10 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm }: Props) => {
   const handleCreateLeague = () => {
     const teamIds = registeredTeams.map(team => team.teamId);
 
+    if (onSubmit) {
+      onSubmit(teamIds);
+      return;
+    }
     const payload: LeagueFormType = {
       ...leagueInfoForm,
       teamIds: teamIds,
