@@ -62,7 +62,9 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
                 form={formData}
                 onChange={handleFormChange}
                 onNext={() => setStep(1)}
-                isFormValid={!!formData.name && !!formData.startAt}
+                isFormValid={
+                  !!formData.name && !!formData.startAt && !!formData.endAt && !!formData.maxRound
+                }
               />
             ),
             1: (

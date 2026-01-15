@@ -15,7 +15,7 @@ export const useDeleteLeagues = () => {
   return useMutation({
     mutationFn: deleteLeagues,
     onSuccess: async () => {
-      await Promise.all([qc.invalidateQueries({ queryKey: queryKeys.leagues._def })]);
+      await qc.invalidateQueries({ queryKey: queryKeys.leagues._def });
     },
   });
 };
