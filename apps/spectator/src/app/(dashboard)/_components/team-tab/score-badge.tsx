@@ -9,48 +9,48 @@ type Props = {
 };
 
 const ScoreBadge: FC<Props> = ({ team }) => {
-  const trophies = team.trophies ?? [];
+  //const trophies = team.trophies ?? [];
 
-  if (trophies.length > 0) {
-    const winCount = trophies.filter(t => t.trophyType === '우승').length;
-    const runnerUpCount = trophies.filter(t => t.trophyType === '준우승').length;
+  // if (trophies.length > 0) {
+  //   const winCount = trophies.filter(t => t.trophyType === '우승').length;
+  //   const runnerUpCount = trophies.filter(t => t.trophyType === '준우승').length;
 
-    return (
-      <div className="flex items-center gap-2 whitespace-nowrap">
-        <div className="flex items-center gap-1 rounded-2xl bg-yellow-300 px-2 py-0.5">
-          <Typography fontSize={14} color="neutral-700">
-            🏆
-          </Typography>
-          <div className="rounded-2xl bg-white px-2">
-            <Typography fontSize={14} color="neutral-700">
-              x{winCount}
-            </Typography>
-          </div>
-        </div>
+  // return (
+  //   <div className="flex items-center gap-2 whitespace-nowrap">
+  //     <div className="flex items-center gap-1 rounded-2xl bg-yellow-300 px-2 py-0.5">
+  //       <Typography fontSize={14} color="neutral-700">
+  //         🏆
+  //       </Typography>
+  //       <div className="rounded-2xl bg-white px-2">
+  //         <Typography fontSize={14} color="neutral-700">
+  //           x{winCount}
+  //         </Typography>
+  //       </div>
+  //     </div>
 
-        <div className="flex items-center gap-1 rounded-2xl bg-neutral-200 px-2 py-0.5">
-          <Typography fontSize={14} color="neutral-700">
-            🥈
-          </Typography>
-          <div className="rounded-2xl bg-white px-2">
-            <Typography fontSize={14} color="neutral-700">
-              x{runnerUpCount}
-            </Typography>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  //     <div className="flex items-center gap-1 rounded-2xl bg-neutral-200 px-2 py-0.5">
+  //       <Typography fontSize={14} color="neutral-700">
+  //         🥈
+  //       </Typography>
+  //       <div className="rounded-2xl bg-white px-2">
+  //         <Typography fontSize={14} color="neutral-700">
+  //           x{runnerUpCount}
+  //         </Typography>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
+  // }
 
   return (
-    <div className="flex items-center gap-2 whitespace-nowrap">
-      <Typography fontSize={14} color="neutral-500">
+    <div className="flex items-center whitespace-nowrap">
+      <Typography fontSize={12} color="neutral-500">
         🟢{team.winCount}W
       </Typography>
-      <Typography fontSize={14} color="neutral-500">
+      <Typography fontSize={12} color="neutral-500">
         🟡{team.drawCount}D
       </Typography>
-      <Typography fontSize={14} color="neutral-500">
+      <Typography fontSize={12} color="neutral-500">
         🔴{team.loseCount}L
       </Typography>
     </div>
