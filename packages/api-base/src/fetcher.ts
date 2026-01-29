@@ -21,12 +21,11 @@ export const instance = ky.create({
           const currentPath = window.location.pathname;
 
           const isInternalNavigation = document?.referrer?.includes(window.location.host);
-          if (currentPath === '/' && !isInternalNavigation) {
-            window.location.href = '/auth/login';
-            return response;
+          if (currentPath !== '/' || isInternalNavigation) {
+            alert('로그인이 만료되었어요. 다시 로그인해주세요.');
           }
-          alert('로그인이 만료되었어요. 다시 로그인해주세요.');
           window.location.href = '/auth/login';
+          return response;
         }
         return response;
       },
