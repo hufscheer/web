@@ -15,7 +15,16 @@ export const instance = ky.create({
   hooks: {
     afterResponse: [
       async (request, _, response) => {
-        if (!response.ok && response.status === 401 && !request.url.includes('logout')) {
+        if (!response.ok && response.status === 401) {
+          if (request.url.includes('logout')) return response;
+
+          const currentPath = window.location.pathname;
+
+          const isInternalNavigation = document?.referrer?.includes(window.location.host);
+          if (currentPath === '/' && !isInternalNavigation) {
+            window.location.href = '/auth/login';
+            return response;
+          }
           alert('로그인이 만료되었어요. 다시 로그인해주세요.');
           window.location.href = '/auth/login';
         }
