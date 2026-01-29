@@ -35,12 +35,12 @@ const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
   return (
     <Link
       href={`/${routes.team(team.teamId)}`}
-      className={twMerge('row-between gap-3', className)}
+      className={twMerge('row-between gap-2', className)}
       {...props}
     >
-      <div className="center-y min-w-0 flex-1 gap-3">
+      <div className="center-y min-w-0 flex-1 gap-2">
         {team.logoImageUrl && (
-          <div className="center relative h-8 w-8 overflow-hidden rounded-full bg-neutral-200">
+          <div className="center relative h-8 w-8 flex-shrink-0 overflow-hidden rounded-full bg-neutral-200">
             <Image
               className="rounded-full object-cover"
               src={team.logoImageUrl}
@@ -55,7 +55,7 @@ const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
         </Typography>
       </div>
 
-      <div className="flex flex-shrink-0 flex-row items-center gap-2 whitespace-nowrap">
+      <div className="flex flex-shrink-0 flex-row items-center gap-1 whitespace-nowrap">
         <ScoreBadge team={team} />
         <div className="center">
           <ChevronForwardIcon size={24} />
