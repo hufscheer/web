@@ -75,8 +75,20 @@ export const CheerTalkList = ({
     return handleInitialScroll();
   }, [handleInitialScroll]);
 
-  const allMessages = [...cheerTalkList, ...socketTalkList];
+  // const allMessages = [...cheerTalkList, ...socketTalkList];
+  const allMessages = (() => {
+    const messageMap = new Map<number, GameCheerTalkWithTeamInfo>();
 
+    cheerTalkList.forEach(talk => {
+      messageMap.set(talk.cheerTalkId, talk);
+    });
+
+    socketTalkList.forEach(talk => {
+      messageMap.set(talk.cheerTalkId, talk);
+    });
+
+    return Array.from(messageMap.values()).sort((a, b) => a.cheerTalkId - b.cheerTalkId);
+  })();
   return (
     <Fragment>
       <div ref={scrollRef} className="w-full flex-1 overflow-y-auto">
