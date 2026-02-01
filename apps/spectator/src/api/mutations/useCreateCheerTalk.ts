@@ -11,7 +11,7 @@ const postCreateCheerTalk = (request: Request) => {
 export const useCreateCheerTalk = () =>
   useMutation({
     mutationFn: postCreateCheerTalk,
-    onError: (error: any) => {
+    onError: (error: { status?: number; response?: { status: number } }) => {
       const status = error.status || error.response?.status;
       if (status === 400) {
         toast.error('부적절한 단어가 포함되어 있어 전송할 수 없어요');
