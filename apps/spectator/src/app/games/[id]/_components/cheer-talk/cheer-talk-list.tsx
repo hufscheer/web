@@ -1,6 +1,6 @@
 'use client';
 import { Spinner } from '@hcc/ui';
-import { Fragment, useCallback, useEffect, useRef } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useRef } from 'react';
 import { type GameCheerTalkWithTeamInfo, useSuspenseGame } from '~/api';
 import useIntersectionObserver from '~/hooks/useIntersectionObserver';
 import { useThrottle } from '~/hooks/useThrottle';
@@ -76,19 +76,16 @@ export const CheerTalkList = ({
   }, [handleInitialScroll]);
 
   // const allMessages = [...cheerTalkList, ...socketTalkList];
-  const allMessages = (() => {
+  const allMessages = useMemo(() => {
     const messageMap = new Map<number, GameCheerTalkWithTeamInfo>();
-
     cheerTalkList.forEach(talk => {
       messageMap.set(talk.cheerTalkId, talk);
     });
-
     socketTalkList.forEach(talk => {
       messageMap.set(talk.cheerTalkId, talk);
     });
-
     return Array.from(messageMap.values()).sort((a, b) => a.cheerTalkId - b.cheerTalkId);
-  })();
+  }, [cheerTalkList, socketTalkList]);
   return (
     <Fragment>
       <div ref={scrollRef} className="w-full flex-1 overflow-y-auto">
