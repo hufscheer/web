@@ -21,6 +21,6 @@ export default function useCheerTalkById(gameId: number) {
         .reverse(),
       pageParams: [...data.pageParams].reverse(),
     }),
-    staleTime: 1000,
+    staleTime: Number.POSITIVE_INFINITY,
   });
 }

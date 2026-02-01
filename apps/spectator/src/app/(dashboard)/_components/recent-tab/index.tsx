@@ -38,6 +38,7 @@ export const RecentTab = () => {
 
                   <GameCard.Actions
                     onBroadcastClick={() => router.push(`/${routes.game(game.id)}`)}
+                    onCheerClick={() => router.push(`/${routes.game(game.id)}?cheer=1`)}
                   />
                 </GameCard.Container>
                 {index !== league.games.length - 1 && <GameCard.Divider />}
@@ -82,7 +83,7 @@ export const RecentTab = () => {
           fontSize={14}
           weight="medium"
         >
-          진행 중인 경기가 없어요. 💨
+          진행 중인 경기가 없어요 💨
         </Typography>
       )}
     </div>
