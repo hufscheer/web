@@ -16,6 +16,7 @@
     ]
   },
   "dependencies": {
+    "@base-ui/react": "^1.1.0",
     "@bprogress/next": "^3.2.12",
     "@egjs/conveyer": "^1.8.0",
     "@hcc/api-base": "workspace:*",
