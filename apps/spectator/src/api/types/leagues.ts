@@ -1,3 +1,5 @@
+import type { TeamUnitType, TopScorerType } from './teams';
+
 export type LeagueType = {
   leagueId: number;
   name: string;
@@ -25,6 +27,17 @@ export type LeagueDetailType = {
   inProgressRound: number;
   leagueProgress: string;
   leagueTeamCount: number;
+};
+
+export type LeagueRecentSummaryPayload = {
+  year?: number;
+  recordLimit?: number;
+  topScorerLimit?: number;
+};
+
+export type LeagueRecentSummaryType = {
+  records: LeagueType[];
+  topScorers: (TopScorerType & { unit: TeamUnitType })[];
 };
 
 export type StatisticTeamType = {
