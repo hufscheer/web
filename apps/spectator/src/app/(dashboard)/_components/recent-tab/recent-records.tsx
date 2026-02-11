@@ -1,10 +1,14 @@
 import { useSuspenseLeagueRecentSummary } from '~/api/queries/useLeagueRecentSummary';
-import { RankingBoard, RankingBoardTitle } from './ranking-board';
 import { Typography } from '@hcc/ui';
-import { RankingBoardItem, RankingBoardList } from '../ranking-board';
+import {
+  RankingBoard,
+  RankingBoardItem,
+  RankingBoardList,
+  RankingBoardTitle,
+} from '../ranking-board';
 
 export const RecentRecords = () => {
-  const { data: leagueRecentSummary } = useSuspenseLeagueRecentSummary({ year: 2025 });
+  const { data: leagueRecentSummary } = useSuspenseLeagueRecentSummary();
 
   if (!leagueRecentSummary.records.length) {
     return <RankingBoard className="h-40" />;
