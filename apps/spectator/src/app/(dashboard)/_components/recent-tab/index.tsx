@@ -21,7 +21,7 @@ export const RecentTab = () => {
 
   return (
     <div className="flex h-full flex-col gap-3 p-5">
-      <div className="flex-1">
+      <div className="flex flex-1 flex-col gap-3">
         {playing.map(league => (
           <GameCard key={league.leagueId}>
             <GameCard.League league={league} />
@@ -79,37 +79,41 @@ export const RecentTab = () => {
             })}
           </GameCard>
         ))}
-        {scheduled.length === 0 && playing.length === 0 && (
-          <Typography
-            className="p-5 text-center"
-            color={colors.neutral500}
-            fontSize={14}
-            weight="medium"
-          >
-            진행 중인 경기가 없어요 💨
-          </Typography>
-        )}
       </div>
 
-      <Suspense
-        fallback={
-          <RankingBoard>
-            <Spinner />
-          </RankingBoard>
-        }
-      >
-        <RecentRecords />
-      </Suspense>
+      {/* Fallback */}
+      {scheduled.length === 0 && playing.length === 0 && (
+        <Typography
+          className="p-5 text-center"
+          color={colors.neutral500}
+          fontSize={14}
+          weight="medium"
+        >
+          진행 중인 경기가 없어요 💨
+        </Typography>
+      )}
 
-      <Suspense
-        fallback={
-          <RankingBoard>
-            <Spinner />
-          </RankingBoard>
-        }
-      >
-        <BestScorer />
-      </Suspense>
+      <div className="flex flex-col gap-3">
+        <Suspense
+          fallback={
+            <RankingBoard>
+              <Spinner />
+            </RankingBoard>
+          }
+        >
+          <RecentRecords />
+        </Suspense>
+
+        <Suspense
+          fallback={
+            <RankingBoard>
+              <Spinner />
+            </RankingBoard>
+          }
+        >
+          <BestScorer />
+        </Suspense>
+      </div>
     </div>
   );
 };
