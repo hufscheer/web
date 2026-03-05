@@ -1,5 +1,5 @@
 import Conveyer from '@egjs/conveyer';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { FilterBadge } from '~/components/ui';
 
@@ -11,6 +11,7 @@ interface Props {
 
 export const YearFilter = ({ year }: Props) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const containerRef = useRef<HTMLDivElement>(null);
   const conveyerRef = useRef<Conveyer | null>(null);
@@ -33,7 +34,12 @@ export const YearFilter = ({ year }: Props) => {
   );
 
   const handleSelectYear = (selectedYear: number) => {
-    const params = new URLSearchParams(window.location.search);
+    // const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(searchParams.toString());
+    if (!params.has('tab')) {
+      params.set('tab', 'previous');
+    }
+
     params.set('year', selectedYear.toString());
     router.push(`?${params.toString()}`);
   };
