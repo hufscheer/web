@@ -9,14 +9,13 @@ export default function useIntersectionObserver<T extends HTMLElement>(
   const ref = useRef<T | null>(null);
   const callback = useCallback(
     (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) onIntersect(entry, observer);
       });
     },
     [onIntersect],
   );
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: options is unlikely to change
   useEffect(() => {
     if (!ref.current) return;
 

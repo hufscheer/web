@@ -43,8 +43,8 @@ export const PlayerList = ({ gameId }: Props) => {
           </div>
 
           {lineup[index].candidatePlayers
-            .filter(player => player.isReplaced)
-            .map(player => (
+            .filter((player) => player.isReplaced)
+            .map((player) => (
               <div key={player.id} className="center-y w-full gap-2">
                 <span className="center h-7 w-7 rounded-lg bg-neutral-100 font-medium text-neutral-500 text-sm">
                   {player.jerseyNumber}

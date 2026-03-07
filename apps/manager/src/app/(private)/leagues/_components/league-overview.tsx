@@ -14,7 +14,7 @@ export const LeagueOverview = () => {
   const router = useRouter();
   return (
     <Fragment>
-      {data.map(league => (
+      {data.map((league) => (
         <Link href={`/${routes.league(league.id)}`} key={league.id} className="w-full bg-white p-5">
           <div className="row-between w-full bg-white">
             <div className="center-y gap-1.5">
@@ -63,7 +63,7 @@ export const LeagueOverview = () => {
               size="sm"
               color="black"
               variant="subtle"
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
                 router.push(`/${routes.teams}`);
               }}
@@ -75,7 +75,7 @@ export const LeagueOverview = () => {
               size="sm"
               color="black"
               variant="subtle"
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
                 router.push(`/${routes.cheertalks}`);
               }}

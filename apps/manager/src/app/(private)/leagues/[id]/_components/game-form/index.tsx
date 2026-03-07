@@ -49,7 +49,7 @@ export const GameForm = ({ leagueId, className, onSubmit, initialData, ...props 
           <StepProgress
             currentStep={step}
             totalSteps={STEPS.length}
-            steps={STEPS.map(step => step.title)}
+            steps={STEPS.map((step) => step.title)}
           />
 
           <div className="mt-6 flex-1 overflow-hidden">

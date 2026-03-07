@@ -18,7 +18,7 @@ const QUARTER_LABELS = {
 };
 const quarterOptions: SelectOption[] = (
   Object.keys(QUARTER_LABELS) as Array<keyof typeof QUARTER_LABELS>
-).map(key => ({
+).map((key) => ({
   label: QUARTER_LABELS[key],
   value: QUARTER_TYPE[key],
 }));
@@ -43,7 +43,7 @@ export default function AddScoreSheet({
   const isPending = isScorePending || isPKPending;
   const { data: lineup } = useSuspenseGameLineupPlaying({ gameId });
   const teamOptions: SelectOption[] = useMemo(() => {
-    return lineup.map(team => ({
+    return lineup.map((team) => ({
       label: team.teamName,
       value: String(team.gameTeamId),
     }));
@@ -59,11 +59,11 @@ export default function AddScoreSheet({
     if (!team) return [];
 
     const selectedTeamId = Number(team.value);
-    const selectedTeam = lineup.find(t => t.gameTeamId === selectedTeamId);
+    const selectedTeam = lineup.find((t) => t.gameTeamId === selectedTeamId);
 
     if (!selectedTeam) return [];
 
-    return selectedTeam.gameTeamPlayers.map(p => ({
+    return selectedTeam.gameTeamPlayers.map((p) => ({
       label: `${p.jerseyNumber} ${p.playerName}`,
       value: String(p.id),
     }));
@@ -133,8 +133,8 @@ export default function AddScoreSheet({
         label="쿼터"
         options={quarterOptions}
         value={quarter?.value}
-        onValueChange={value => {
-          setQuarter(quarterOptions.find(opt => opt.value === value) || null);
+        onValueChange={(value) => {
+          setQuarter(quarterOptions.find((opt) => opt.value === value) || null);
           setIsSuccess(null); // 쿼터 변경 시 성공 여부 초기화
         }}
       />
@@ -143,8 +143,8 @@ export default function AddScoreSheet({
         label="팀 명"
         options={teamOptions}
         value={team?.value}
-        onValueChange={value => {
-          setTeam(teamOptions.find(opt => opt.value === value) || null);
+        onValueChange={(value) => {
+          setTeam(teamOptions.find((opt) => opt.value === value) || null);
           setPlayer(null); // 팀이 바뀌면 선수 초기화
         }}
       />
@@ -153,7 +153,9 @@ export default function AddScoreSheet({
         label="선수"
         options={playerOptions}
         value={player?.value}
-        onValueChange={value => setPlayer(playerOptions.find(opt => opt.value === value) || null)}
+        onValueChange={(value) =>
+          setPlayer(playerOptions.find((opt) => opt.value === value) || null)
+        }
         disabled={!team || playerOptions.length === 0}
       />
       {isPK && (
@@ -161,8 +163,8 @@ export default function AddScoreSheet({
           label="성공 여부"
           options={SUCCESS_OPTIONS}
           value={isSuccess?.value}
-          onValueChange={value =>
-            setIsSuccess(SUCCESS_OPTIONS.find(opt => opt.value === value) || null)
+          onValueChange={(value) =>
+            setIsSuccess(SUCCESS_OPTIONS.find((opt) => opt.value === value) || null)
           }
         />
       )}
@@ -170,7 +172,7 @@ export default function AddScoreSheet({
         placeholder="시간(분)"
         type="number"
         value={minute}
-        onChange={e => setMinute(e.target.value)}
+        onChange={(e) => setMinute(e.target.value)}
         min={0}
         // 🚨 승부차기일 경우 시간 입력 필드 비활성화
         disabled={isPK}

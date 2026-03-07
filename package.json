@@ -9,30 +9,32 @@
     "dev:spectator": "turbo dev --filter spectator",
     "build:manager": "turbo build --filter manager",
     "build:spectator": "turbo build --filter spectator",
-    "lint": "biome lint .",
-    "lint:fix": "biome lint . --fix",
-    "format": "biome format --write .",
+    "lint": "oxlint && turbo lint",
+    "lint:fix": "oxlint --fix && turbo lint:fix",
+    "format": "oxfmt && turbo format",
     "prepare": "husky"
   },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "biome lint --fix",
-      "biome format --write"
-    ],
-    "*.{json,yml}": [
-      "biome format --write"
-    ]
-  },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.4",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.3",
+    "oxfmt": "^0.36.0",
+    "oxlint": "^1.51.0",
+    "oxlint-tsgolint": "^0.16.0",
     "turbo": "^2.5.8"
   },
-  "packageManager": "pnpm@10.17.1",
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "pnpm lint",
+      "pnpm format"
+    ],
+    "*.{json,yml}": [
+      "pnpm format"
+    ]
+  },
   "engines": {
     "node": ">=20"
-  }
+  },
+  "packageManager": "pnpm@10.17.1"
 }

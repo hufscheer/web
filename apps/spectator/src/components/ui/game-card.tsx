@@ -186,7 +186,7 @@ const GameCardActions = ({
           variant="ghost"
           color="black"
           size="xs"
-          onClick={e => {
+          onClick={(e) => {
             e.stopPropagation();
             onStatsClick();
           }}
@@ -200,7 +200,7 @@ const GameCardActions = ({
             variant="ghost"
             color="black"
             size="xs"
-            onClick={e => {
+            onClick={(e) => {
               e.stopPropagation();
               onBroadcastClick?.();
             }}
@@ -212,7 +212,7 @@ const GameCardActions = ({
             variant="ghost"
             color="black"
             size="xs"
-            onClick={e => {
+            onClick={(e) => {
               e.stopPropagation();
               onCheerClick?.();
             }}

@@ -22,7 +22,7 @@ export const LoginForm = () => {
         onSuccess: () => {
           router.push(`/${routes.home}`);
         },
-        onError: error => {
+        onError: (error) => {
           console.error(`[hcc] ${error}`);
           toast.error('아이디 또는 비밀번호 오류');
         },

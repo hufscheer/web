@@ -80,7 +80,7 @@ export function ScorersModal({ open, onOpenChange, teamName, teamId }: TopScorer
               </thead>
 
               <tbody>
-                {rows.map(r => {
+                {rows.map((r) => {
                   const isTopThree = r.rank <= 3;
                   const fontWeightClass = isTopThree ? 'font-semibold bg-gray-100' : 'font-medium';
 

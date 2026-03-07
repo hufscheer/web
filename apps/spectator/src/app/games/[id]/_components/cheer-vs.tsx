@@ -128,7 +128,7 @@ const CheerTeamBox = ({
         {
           onError: () => {
             pendingCountRef.current += countToSubmit;
-            setPendingCount(prev => prev + countToSubmit);
+            setPendingCount((prev) => prev + countToSubmit);
           },
         },
       );
@@ -144,7 +144,7 @@ const CheerTeamBox = ({
     }
 
     pendingCountRef.current += 1;
-    setPendingCount(prev => prev + 1);
+    setPendingCount((prev) => prev + 1);
   };
 
   return (

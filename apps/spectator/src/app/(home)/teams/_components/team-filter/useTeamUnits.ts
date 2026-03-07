@@ -6,7 +6,7 @@ export const useTeamUnits = () => {
   const [units, setUnits] = useQueryState('units', parseAsArrayOf(parseAsString).withDefault([]));
 
   const selected = useMemo(
-    () => units.filter(u => TEAM_UNIT_LIST.includes(u as TeamUnitType)) as TeamUnitType[],
+    () => units.filter((u) => TEAM_UNIT_LIST.includes(u as TeamUnitType)) as TeamUnitType[],
     [units],
   );
 
@@ -19,7 +19,7 @@ export const useTeamUnits = () => {
     }
 
     const isActive = selected.includes(unit);
-    const updated = isActive ? selected.filter(u => u !== unit) : [...selected, unit];
+    const updated = isActive ? selected.filter((u) => u !== unit) : [...selected, unit];
 
     startTransition(() => {
       setUnits(updated, { scroll: false, history: 'replace' });

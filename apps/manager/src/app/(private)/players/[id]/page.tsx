@@ -17,7 +17,7 @@ const Page = async ({ params }: Props) => {
     notFound();
   }
 
-  const id: number = Number(_id);
+  const id = Number(_id);
 
   return (
     <>

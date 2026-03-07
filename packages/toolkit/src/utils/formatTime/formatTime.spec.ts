@@ -1,3 +1,4 @@
+// oxlint-disable typescript/no-explicit-any
 import { describe, expect, it } from 'vitest';
 import { type FormatTimeOptions, formatTime } from './formatTime';
 

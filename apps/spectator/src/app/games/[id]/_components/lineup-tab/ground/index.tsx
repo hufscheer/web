@@ -25,18 +25,18 @@ export const Ground = ({ gameId }: Props) => {
 
       <BaseGround className="order-2">
         <BaseGround.PlayerField>
-          {groupPlayers(homePlayers.starterPlayers).map(group => (
+          {groupPlayers(homePlayers.starterPlayers).map((group) => (
             <div key={uuid()} className="center-y w-full max-w-[420px]">
-              {group.map(player => (
+              {group.map((player) => (
                 <BaseGround.Player key={player.id} player={player} teamColor={homeTeamColor} />
               ))}
             </div>
           ))}
         </BaseGround.PlayerField>
         <BaseGround.PlayerField className="flex-col-reverse">
-          {groupPlayers(awayPlayers.starterPlayers).map(group => (
+          {groupPlayers(awayPlayers.starterPlayers).map((group) => (
             <div key={uuid()} className="center-y w-full max-w-[420px]">
-              {group.map(player => (
+              {group.map((player) => (
                 <BaseGround.Player key={player.id} player={player} teamColor={awayTeamColor} />
               ))}
             </div>

@@ -49,7 +49,7 @@ export default function TimelineClient({ gameId }: { gameId: number }) {
       </div>
       <Drawer.Root
         open={activeSheet !== null}
-        onOpenChange={isOpen => {
+        onOpenChange={(isOpen) => {
           if (!isOpen) close();
         }}
       >

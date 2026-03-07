@@ -3,7 +3,7 @@ import type { FieldErrors } from 'react-hook-form';
 
 export const handleFormError = (errors: FieldErrors) => {
   const messages = Object.values(errors)
-    .map(error => error?.message)
+    .map((error) => error?.message)
     .filter(Boolean);
 
   const [first, ...rest] = messages;

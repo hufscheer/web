@@ -5,7 +5,9 @@
   justify-content: center;
   cursor: pointer;
   opacity: 1;
-  transition: background-color 0.15s ease-in-out, transform 0.15s ease-in-out;
+  transition:
+    background-color 0.15s ease-in-out,
+    transform 0.15s ease-in-out;
 
   height: var(--hcc-button-height);
   color: var(--hcc-button-font-color);

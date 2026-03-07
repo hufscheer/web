@@ -54,7 +54,10 @@
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
-  transition: top 0.15s ease, transform 0.15s ease, font-size 0.15s ease;
+  transition:
+    top 0.15s ease,
+    transform 0.15s ease,
+    font-size 0.15s ease;
 
   color: var(--hcc-select-placeholder-color);
   font-size: var(--hcc-select-font-size);

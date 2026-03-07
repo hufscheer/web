@@ -23,7 +23,7 @@ export const TeamInfo = ({ id }: { id: number }) => {
           <TeamCard.Divider />
           <TeamTrophy trophies={team.trophies} />
           <TeamCard.Content>
-            {games.map(game => {
+            {games.map((game) => {
               const { gameId, gameTeams, state } = game;
               const [homeTeam, awayTeam] = gameTeams;
               const gameWithId = { ...game, id };

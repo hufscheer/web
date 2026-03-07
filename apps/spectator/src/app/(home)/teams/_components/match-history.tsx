@@ -13,7 +13,7 @@ interface MatchHistoryProps {
 export const MatchHistory = ({ games, teamName, limit = 3 }: MatchHistoryProps) => {
   return (
     <div className="column mt-2 gap-1.5">
-      {games.slice(0, limit).map(game => {
+      {games.slice(0, limit).map((game) => {
         if (game.gameTeams.length < 2) return null;
 
         const [home, away] =

@@ -30,7 +30,7 @@ export const CheerTalk = ({ gameId }: Props) => {
   const handleSocketMessage = (cheerTalk: CheerTalkType) => {
     if (cheerTalk) {
       const teamInfo = getTeamInfo(cheerTalk.gameTeamId);
-      setSocketTalkList(prev => [...prev, { ...cheerTalk, ...teamInfo }]);
+      setSocketTalkList((prev) => [...prev, { ...cheerTalk, ...teamInfo }]);
     }
   };
 

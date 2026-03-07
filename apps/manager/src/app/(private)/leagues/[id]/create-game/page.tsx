@@ -10,7 +10,7 @@ const Page = async ({ params }: Props) => {
   const { id: _id } = await params;
 
   if (!_id || Number.isNaN(Number(_id))) notFound();
-  const id: number = Number(_id);
+  const id = Number(_id);
 
   return (
     <>

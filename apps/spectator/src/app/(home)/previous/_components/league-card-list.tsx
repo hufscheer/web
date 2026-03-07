@@ -18,7 +18,7 @@ export const LeagueCardList = ({ year }: Props) => {
 
   return (
     <div className="column gap-3 px-5 pb-5">
-      {data.map(league => (
+      {data.map((league) => (
         <LeagueCard.Root league={league} key={league.leagueId}>
           <LeagueCard.Header />
 
@@ -30,7 +30,7 @@ export const LeagueCardList = ({ year }: Props) => {
 
               <div className="column w-full gap-4">
                 <LeagueCard.Scorers limit={3} />
-                <LeagueCard.Statistics limit={3} />
+                <LeagueCard.Statistics />
               </div>
             </Suspense>
           </ErrorBoundary>

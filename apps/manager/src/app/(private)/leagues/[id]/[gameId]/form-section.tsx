@@ -31,7 +31,7 @@ export const FormSection = ({ leagueId, gameId }: Props) => {
           toast.success('경기가 수정되었습니다.');
           router.back();
         },
-        onError: error => {
+        onError: (error) => {
           console.error(`[manager/leagues/${leagueId}]`, error);
           toast.error('경기 수정에 실패했습니다. 잠시 후 다시 시도해주세요.');
         },
@@ -61,8 +61,8 @@ export const FormSection = ({ leagueId, gameId }: Props) => {
           required
         >
           {roundOptions
-            .filter(item => league.maxRound >= item.round)
-            .map(item => (
+            .filter((item) => league.maxRound >= item.round)
+            .map((item) => (
               <option key={item.value} value={item.value}>
                 {item.label}
               </option>

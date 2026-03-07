@@ -19,7 +19,7 @@ export const RecentRecords = () => {
       <RankingBoardTitle>최근 대회 기록</RankingBoardTitle>
 
       <RankingBoardList>
-        {leagueRecentSummary.records.map(record => (
+        {leagueRecentSummary.records.map((record) => (
           <RankingBoardItem key={record.leagueId}>
             <Typography color="var(--color-greyscale-300)" fontSize={10}>
               {record.name}

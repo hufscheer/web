@@ -33,9 +33,11 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
   const isEditMode = !!onSubmit;
 
   const handleRegisterTeam = (newTeams: RegisteredTeam[]) => {
-    setRegisteredTeams(prevTeams => {
+    setRegisteredTeams((prevTeams) => {
       // 기존에 없던 팀들만 필터링하여 합치기 (중복 방지)
-      const uniqueNewTeams = newTeams.filter(nt => !prevTeams.some(pt => pt.teamId === nt.teamId));
+      const uniqueNewTeams = newTeams.filter(
+        (nt) => !prevTeams.some((pt) => pt.teamId === nt.teamId),
+      );
 
       // 최대 참가 팀 수 제한 체크
       const combined = [...prevTeams, ...uniqueNewTeams];
@@ -45,10 +47,10 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
   };
 
   const handleRemoveTeam = (teamId: number) => {
-    setRegisteredTeams(prevTeams => prevTeams.filter(team => team.teamId !== teamId));
+    setRegisteredTeams((prevTeams) => prevTeams.filter((team) => team.teamId !== teamId));
   };
   const handleCreateLeague = () => {
-    const teamIds = registeredTeams.map(team => team.teamId);
+    const teamIds = registeredTeams.map((team) => team.teamId);
 
     if (isEditMode) {
       onSubmit(teamIds);
@@ -63,7 +65,7 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
       onSuccess: () => {
         router.push('/leagues');
       },
-      onError: error => {
+      onError: (error) => {
         alert(`대회 생성에 실패했습니다: ${error.message}`);
       },
     });
@@ -95,7 +97,7 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
         </div>
 
         <div className="flex flex-row flex-wrap gap-3">
-          {registeredTeams.map(team => (
+          {registeredTeams.map((team) => (
             <Button
               key={team.teamId}
               variant="subtle"

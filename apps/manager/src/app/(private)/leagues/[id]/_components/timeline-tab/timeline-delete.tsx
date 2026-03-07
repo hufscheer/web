@@ -30,8 +30,8 @@ export const TimelineDeleteMenu = ({ gameId }: Props) => {
   };
 
   const { latestRecord, latestRecordId } = useMemo(() => {
-    const all = (timelineData ?? []).flatMap(q =>
-      (q.records ?? []).map(r => ({ ...r, __quarter: q.gameQuarter })),
+    const all = (timelineData ?? []).flatMap((q) =>
+      (q.records ?? []).map((r) => ({ ...r, __quarter: q.gameQuarter })),
     );
 
     const toNum = (v: unknown) => Number(v);

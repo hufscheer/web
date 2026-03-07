@@ -10,10 +10,10 @@ export default function useCheerTalkById(gameId: number) {
     ...queryKeys.games.cheertalk({ gameId }),
     initialPageParam: 0,
     getNextPageParam: (lastPage: CheerTalkType[]) => lastPage[0]?.cheerTalkId || null,
-    select: data => ({
+    select: (data) => ({
       pages: data.pages
-        .map(page =>
-          page.map(talk => ({
+        .map((page) =>
+          page.map((talk) => ({
             ...talk,
             ...getTeamInfo(talk.gameTeamId),
           })),

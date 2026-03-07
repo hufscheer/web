@@ -115,7 +115,7 @@ export const CheerTalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
 
   return (
     <div className="flex flex-col gap-2">
-      {cheerTalks.map(cheerTalk => (
+      {cheerTalks.map((cheerTalk) => (
         <div key={cheerTalk.cheerTalkId} className="flex flex-col gap-2">
           <CheerTalkCard cheerTalk={cheerTalk} lastAccessedAt={lastAccessedAt} />
           <div className="flex w-full items-center gap-2">{renderActions(cheerTalk)}</div>

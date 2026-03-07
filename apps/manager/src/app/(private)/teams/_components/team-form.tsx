@@ -52,7 +52,7 @@ export const TeamForm = ({ className, onSubmit, initialData, ...props }: Props) 
         <StepProgress
           currentStep={step}
           totalSteps={STEPS.length}
-          steps={STEPS.map(step => step.title)}
+          steps={STEPS.map((step) => step.title)}
         />
 
         <SwitchCase

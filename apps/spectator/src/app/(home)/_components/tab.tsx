@@ -22,7 +22,7 @@ export const RecentTab = () => {
   return (
     <div className="flex h-full flex-col gap-3 p-5">
       <div className="flex flex-1 flex-col gap-3">
-        {playing.map(league => (
+        {playing.map((league) => (
           <GameCard key={league.leagueId}>
             <GameCard.League league={league} />
             <GameCard.Divider />
@@ -52,7 +52,7 @@ export const RecentTab = () => {
             })}
           </GameCard>
         ))}
-        {scheduled.map(league => (
+        {scheduled.map((league) => (
           <GameCard key={league.leagueId}>
             <GameCard.League league={league} />
             <GameCard.Divider />

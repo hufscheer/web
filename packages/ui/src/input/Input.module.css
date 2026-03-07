@@ -54,7 +54,10 @@
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
-  transition: top 0.15s ease, transform 0.15s ease, font-size 0.15s ease;
+  transition:
+    top 0.15s ease,
+    transform 0.15s ease,
+    font-size 0.15s ease;
 
   color: var(--hcc-input-placeholder-color);
   font-size: var(--hcc-input-font-size);
@@ -62,7 +65,8 @@
   line-height: var(--hcc-input-line-height);
 }
 
-.wrapper:focus-within .label, .input:not(:placeholder-shown) ~ .label {
+.wrapper:focus-within .label,
+.input:not(:placeholder-shown) ~ .label {
   top: var(--hcc-label-position);
   transform: translateY(0);
   font-size: calc(var(--hcc-input-font-size) * 0.75);

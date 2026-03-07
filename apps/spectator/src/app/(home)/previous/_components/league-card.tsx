@@ -156,7 +156,7 @@ export const Scorers = ({ limit = 3, className, ...props }: LeagueCardScorersPro
         </Typography>
       ) : (
         <ul className="column mt-2 gap-1">
-          {data.slice(0, limit).map(scorer => (
+          {data.slice(0, limit).map((scorer) => (
             <li key={scorer.playerId} className="row-between">
               <Typography
                 className="flex-1"
@@ -194,11 +194,9 @@ export const Scorers = ({ limit = 3, className, ...props }: LeagueCardScorersPro
  * LeagueCard.Statistics
  * -----------------------------------------------------------------------------------------------*/
 
-interface LeagueCardStatisticsProps extends ComponentProps<'div'> {
-  limit?: number;
-}
+interface LeagueCardStatisticsProps extends ComponentProps<'div'> {}
 
-export const Statistics = ({ limit = 3, className, ...props }: LeagueCardStatisticsProps) => {
+export const Statistics = ({ className, ...props }: LeagueCardStatisticsProps) => {
   const { leagueId } = useLeagueCardContext();
   const { data } = useSuspenseLeagueStatistics({ leagueId });
 

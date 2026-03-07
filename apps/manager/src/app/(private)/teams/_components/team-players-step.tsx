@@ -20,7 +20,7 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
   const isValid = teamPlayers.length > 0;
 
   const handleAppendPlayer = (id: number) => {
-    if (teamPlayers.find(player => player.playerId === id)) {
+    if (teamPlayers.find((player) => player.playerId === id)) {
       toast.error('이 선수는 이미 추가되었어요.');
       return;
     }
@@ -51,7 +51,7 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
               <Input
                 size="lg"
                 placeholder="선수 이름"
-                value={data.find(player => player.playerId === field.playerId)?.name ?? '-'}
+                value={data.find((player) => player.playerId === field.playerId)?.name ?? '-'}
                 disabled
                 readOnly
               />
@@ -60,7 +60,7 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
                 size="lg"
                 placeholder="학번"
                 value={
-                  data.find(player => player.playerId === field.playerId)?.studentNumber ?? '-'
+                  data.find((player) => player.playerId === field.playerId)?.studentNumber ?? '-'
                 }
                 disabled
                 readOnly

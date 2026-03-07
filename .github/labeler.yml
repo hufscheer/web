@@ -1,28 +1,28 @@
-"package: api":
+'package: api':
   - any:
       - changed-files:
           - any-glob-to-any-file:
               - 'packages/api/**/*'
 
-"package: icon":
+'package: icon':
   - any:
       - changed-files:
           - any-glob-to-any-file:
               - 'packages/icon/**/*'
 
-"package: style":
+'package: style':
   - any:
       - changed-files:
           - any-glob-to-any-file:
               - 'packages/style/**/*'
 
-"package: ui":
+'package: ui':
   - any:
       - changed-files:
           - any-glob-to-any-file:
               - 'packages/ui/**/*'
 
-"eslint":
+'eslint':
   - any:
       - changed-files:
           - any-glob-to-any-file:
@@ -30,21 +30,21 @@
               - '.eslintrc*'
               - 'eslint.config.*'
 
-"tsconfig":
+'tsconfig':
   - any:
       - changed-files:
           - any-glob-to-any-file:
               - 'tooling/config-typescript/**/*'
               - 'tsconfig.json'
 
-"documentation":
+'documentation':
   - any:
       - changed-files:
           - any-glob-to-any-file:
               - 'docs/**/*'
               - 'README.md'
 
-"build":
+'build':
   - any:
       - changed-files:
           - any-glob-to-any-file:
@@ -53,19 +53,19 @@
               - 'packages/*/package.json'
               - 'apps/*/package.json'
 
-"workflows":
+'workflows':
   - any:
       - changed-files:
           - any-glob-to-any-file:
               - '.github/workflows/**/*'
 
-"app: spectator":
+'app: spectator':
   - any:
       - changed-files:
           - any-glob-to-any-file:
               - 'apps/spectator/**/*'
 
-"app: manager":
+'app: manager':
   - any:
       - changed-files:
           - any-glob-to-any-file:

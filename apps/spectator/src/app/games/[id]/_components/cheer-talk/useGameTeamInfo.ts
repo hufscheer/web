@@ -4,7 +4,7 @@ export const useSuspenseGameTeamInfo = (gameId: number) => {
   const { data } = useSuspenseGame({ gameId });
 
   const getTeamInfo = (gameTeamId: number) => {
-    const order = data.gameTeams.findIndex(team => team.gameTeamId === gameTeamId);
+    const order = data.gameTeams.findIndex((team) => team.gameTeamId === gameTeamId);
 
     if (order === -1) {
       throw new Error(`Team with id ${gameTeamId} not found in game ${data.gameId}.`);

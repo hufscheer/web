@@ -15,7 +15,7 @@ function createRollupConfig(options = {}) {
 
   function external(pkg) {
     const externals = Object.keys({ ...packageJSON.dependencies, ...packageJSON.peerDependencies });
-    return externals.some(externalPkg => {
+    return externals.some((externalPkg) => {
       return pkg.startsWith(externalPkg);
     });
   }

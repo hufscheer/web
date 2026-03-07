@@ -22,7 +22,7 @@ const Page = () => {
   }, [form]);
 
   const handleFormChange = (patch: Partial<LeagueInfoForm>) => {
-    setForm(prev => ({ ...prev, ...patch }));
+    setForm((prev) => ({ ...prev, ...patch }));
   };
 
   const goNext = () => {
@@ -33,7 +33,7 @@ const Page = () => {
   const leagueInfoForm = useMemo(
     () => ({
       name: form.name,
-      maxRound: form.maxRound!,
+      maxRound: form.maxRound ?? 0,
       startAt: form.startAt?.toISOString() ?? '',
       endAt: form.endAt?.toISOString() ?? '',
     }),

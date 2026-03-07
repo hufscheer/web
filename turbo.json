@@ -8,6 +8,10 @@
       "outputs": [".next/**", "lib/**", "dist/**"]
     },
     "lint": {},
+    "lint:fix": {
+      "dependsOn": ["lint"]
+    },
+    "format": {},
     "deploy": {
       "dependsOn": ["^build", "^lint"]
     },

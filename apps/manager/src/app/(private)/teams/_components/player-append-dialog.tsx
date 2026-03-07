@@ -33,14 +33,14 @@ export const PlayerAppendDialog = ({ children, onPlayerClick }: Props) => {
             className="w-full border border-neutral-100 px-3 py-3"
             placeholder="선수 이름을 검색하세요"
             value={query}
-            onChange={e => setQuery(e.target.value)}
+            onChange={(e) => setQuery(e.target.value)}
             type="text"
           />
         </Typography>
 
         <div className="column gap-1.5 overflow-y-auto px-4 py-2">
           {data
-            .filter(player => player.name.includes(query))
+            .filter((player) => player.name.includes(query))
             .map((player, index) => (
               <Fragment key={player.playerId}>
                 <button

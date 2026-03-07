@@ -35,14 +35,14 @@
   transition: transform 0.4s cubic-bezier(0.87, 0, 0.13, 1);
 }
 
-.trigger[data-state="open"] > svg {
+.trigger[data-state='open'] > svg {
   transform: rotate(180deg);
 }
 
-.content[data-state="open"] {
+.content[data-state='open'] {
   animation: slideDown 0.4s cubic-bezier(0.87, 0, 0.13, 1);
 }
 
-.content[data-state="closed"] {
+.content[data-state='closed'] {
   animation: slideUp 0.4s cubic-bezier(0.87, 0, 0.13, 1);
 }

@@ -3,6 +3,7 @@
 import { Tabs } from '@base-ui/react';
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
+import { cn } from '~/utils/cn';
 
 interface TabHeaderProps extends Tabs.Root.Props {}
 
@@ -32,7 +33,10 @@ export const TabHeader = ({ children, ...props }: TabHeaderProps) => {
 const Tab = ({ children, className, ...props }: Tabs.Tab.Props) => {
   return (
     <Tabs.Tab
-      className="cursor-pointer px-1.5 py-3 font-semibold text-neutral-950 text-sm transition-colors duration-150"
+      className={cn(
+        'cursor-pointer px-1.5 py-3 font-semibold text-neutral-950 text-sm transition-colors duration-150',
+        className,
+      )}
       {...props}
     >
       {children}

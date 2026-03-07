@@ -41,7 +41,7 @@ export const LeagueEditContainer = ({ leagueId }: { leagueId: number }) => {
   return (
     <LeagueForm
       initialData={league}
-      initialTeams={teams?.map(t => ({
+      initialTeams={teams?.map((t) => ({
         teamId: t.teamId,
         teamName: t.teamName,
         affiliationName: '',

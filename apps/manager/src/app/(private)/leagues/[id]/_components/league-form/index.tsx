@@ -29,7 +29,7 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
     maxRound: initialData?.maxRound,
   });
   const handleFormChange = (patch: Partial<LeagueInfoForm>) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       ...patch,
     }));
