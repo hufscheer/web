@@ -12,6 +12,20 @@ import { routes } from '~/constants/routes';
 
 export const LeagueCardContext = createContext<LeagueType>({} as LeagueType);
 
+const useLeagueCardContext = () => {
+  const context = useContext(LeagueCardContext);
+
+  if (!context) {
+    throw new Error('LeagueCard compound components must be used within <LeagueCard.Root>');
+  }
+
+  return context;
+};
+
+/* -------------------------------------------------------------------------------------------------
+ * LeagueCard.Root
+ * -----------------------------------------------------------------------------------------------*/
+
 interface LeagueCardRootProps extends ComponentProps<'div'> {
   league: LeagueType;
 }
@@ -36,7 +50,7 @@ export const Root = ({ league, className, children, ...props }: LeagueCardRootPr
 interface LeagueCardHeaderProps extends ComponentProps<'a'> {}
 
 export const Header = ({ className, ...props }: LeagueCardHeaderProps) => {
-  const { leagueId, name } = useContext(LeagueCardContext);
+  const { leagueId, name } = useLeagueCardContext();
 
   return (
     <Link
@@ -65,7 +79,7 @@ export const Header = ({ className, ...props }: LeagueCardHeaderProps) => {
 interface LeagueCardTeamsProps extends ComponentProps<'div'> {}
 
 export const Teams = ({ className, ...props }: LeagueCardTeamsProps) => {
-  const { leagueId } = useContext(LeagueCardContext);
+  const { leagueId } = useLeagueCardContext();
   const { data } = useSuspenseLeagueStatistics({ leagueId });
 
   return (
@@ -128,7 +142,7 @@ interface LeagueCardScorersProps extends ComponentProps<'div'> {
 }
 
 export const Scorers = ({ limit = 3, className, ...props }: LeagueCardScorersProps) => {
-  const { leagueId } = useContext(LeagueCardContext);
+  const { leagueId } = useLeagueCardContext();
   const { data } = useSuspenseLeagueTopScorers({ leagueId });
 
   return (
@@ -185,7 +199,7 @@ interface LeagueCardStatisticsProps extends ComponentProps<'div'> {
 }
 
 export const Statistics = ({ limit = 3, className, ...props }: LeagueCardStatisticsProps) => {
-  const { leagueId } = useContext(LeagueCardContext);
+  const { leagueId } = useLeagueCardContext();
   const { data } = useSuspenseLeagueStatistics({ leagueId });
 
   return (
