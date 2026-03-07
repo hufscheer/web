@@ -1,11 +1,12 @@
 import { Badge } from '@hcc/ui';
+
 import { LoginForm } from './login-form';
 
 const Page = () => {
   return (
     <div className="column-between h-full bg-white p-5">
       <div className="flex w-full justify-between">
-        <h1 className="font-semibold text-neutral-900 text-xl leading-tight">
+        <h1 className="text-xl leading-tight font-semibold text-neutral-900">
           Hufscheer
           <br />
           manager

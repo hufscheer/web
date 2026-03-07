@@ -1,7 +1,9 @@
 import { Spinner } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 import { notFound } from 'next/navigation';
+
 import { Header } from '~/components/layout';
+
 import { FormSection } from './form-section';
 import { TeamDeleteMenu } from './team-delete-menu';
 

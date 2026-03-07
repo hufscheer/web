@@ -2,6 +2,7 @@
 
 import { Typography } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
+
 import { PlayerDeleteDialog } from '../_components/player-delete-dialog';
 
 export const PlayerDeleteMenu = ({ id }: { id: number }) => {

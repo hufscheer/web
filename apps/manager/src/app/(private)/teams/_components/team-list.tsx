@@ -4,8 +4,10 @@ import { ChevronForwardIcon, DeleteForeverIcon } from '@hcc/icons';
 import { Typography } from '@hcc/ui';
 import Image from 'next/image';
 import Link from 'next/link';
+
 import { useSuspenseTeams } from '~/api';
 import { routes } from '~/constants/routes';
+
 import { TeamDeleteDialog } from './team-delete-dialog';
 
 type Props = {

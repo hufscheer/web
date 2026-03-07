@@ -1,5 +1,6 @@
 'use client';
 
+import { ChevronForwardIcon } from '@hcc/icons';
 import { colors, Typography } from '@hcc/ui';
 import { ErrorBoundary, Suspense } from '@suspensive/react';
 
@@ -7,7 +8,6 @@ import { useSuspenseLeagues } from '~/api';
 import { Skeleton } from '~/components/skeleton';
 
 import * as LeagueCard from './league-card';
-import { ChevronForwardIcon } from '@hcc/icons';
 
 interface Props {
   year: number;
@@ -61,7 +61,7 @@ const StatisticsErrorFallback = ({ reset }: { reset: () => void }) => {
         리그 데이터를 불러오는 중에 오류가 발생했어요.
       </Typography>
 
-      <button type="button" onClick={reset} className="center-y gap-1 text-blue-500 text-sm">
+      <button type="button" onClick={reset} className="center-y gap-1 text-sm text-blue-500">
         다시 시도하기
         <ChevronForwardIcon width={12} height={12} />
       </button>

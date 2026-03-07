@@ -34,7 +34,7 @@ export const CalendarGrid = ({
           aria-label="이전 달"
           className="rounded-full p-1 transition-colors hover:bg-neutral-100"
         >
-          <ChevronForwardIcon size={20} className="rotate-180 text-primary-600" />
+          <ChevronForwardIcon size={20} className="text-primary-600 rotate-180" />
         </button>
 
         <Typography fontSize={18} weight="bold">
@@ -53,7 +53,7 @@ export const CalendarGrid = ({
 
       {/* Grid Content */}
       <div className="rounded-lg border border-gray-100 bg-white p-4">
-        <div className="grid grid-cols-7 gap-2 text-center text-neutral-500 text-sm">
+        <div className="grid grid-cols-7 gap-2 text-center text-sm text-neutral-500">
           {['일', '월', '화', '수', '목', '금', '토'].map((d) => (
             <div key={d} className="py-2">
               {d}

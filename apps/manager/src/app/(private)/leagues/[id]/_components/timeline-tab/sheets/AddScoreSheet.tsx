@@ -2,10 +2,12 @@
 
 import { Button, Input, toast } from '@hcc/ui';
 import { useMemo, useState } from 'react';
+
+import type { ScoreType } from '~/api/types';
+
 import { useCreateTimelinePK } from '~/api/mutations/useCreateTimelinePK';
 import { useCreateTimelineScore } from '~/api/mutations/useCreateTimelineScore';
 import { useSuspenseGameLineupPlaying } from '~/api/queries/useGameLineupPlaying';
-import type { ScoreType } from '~/api/types';
 import { QUARTER_TYPE } from '~/api/types';
 import { InputSelect } from '~/components/ui/input-select';
 
@@ -127,7 +129,7 @@ export default function AddScoreSheet({
   };
   return (
     <div className="flex h-full flex-col gap-4 bg-white p-5">
-      <div className="font-medium text-base text-black">상황</div>
+      <div className="text-base font-medium text-black">상황</div>
 
       <InputSelect
         label="쿼터"
@@ -148,7 +150,7 @@ export default function AddScoreSheet({
           setPlayer(null); // 팀이 바뀌면 선수 초기화
         }}
       />
-      <div className="font-medium text-base text-black">득점 상세 정보</div>
+      <div className="text-base font-medium text-black">득점 상세 정보</div>
       <InputSelect
         label="선수"
         options={playerOptions}

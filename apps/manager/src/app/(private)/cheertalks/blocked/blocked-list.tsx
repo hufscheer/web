@@ -1,6 +1,7 @@
 'use client';
 
 import { useSuspenseCheerTalkBlock } from '~/api';
+
 import { CheerTalkList } from '../_components/cheertalk-list';
 
 export const BlockedList = () => {

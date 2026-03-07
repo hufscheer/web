@@ -2,7 +2,9 @@
 
 import { colors, Typography } from '@hcc/ui';
 import { Fragment } from 'react';
+
 import { useSuspenseGame, useSuspenseGameTimeline } from '~/api';
+
 import { getProgressSemantics } from './_utils';
 import { EventRecord } from './event-record';
 import { TextRecord } from './text-record';

@@ -1,6 +1,7 @@
-import { match } from 'ts-pattern';
 import { Slot } from '@radix-ui/react-slot';
 import { type ComponentPropsWithoutRef, forwardRef } from 'react';
+import { match } from 'ts-pattern';
+
 import { colors } from '../token';
 import styles from './Spinner.module.css';
 

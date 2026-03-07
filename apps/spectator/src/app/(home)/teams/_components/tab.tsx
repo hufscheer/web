@@ -1,13 +1,15 @@
 'use client';
 
 import { ErrorBoundary, Suspense } from '@suspensive/react';
+import { useState } from 'react';
+
 import { useSuspenseTeamsSummary } from '~/api';
+
 import { MatchHistory } from './match-history';
 import { ScoreList } from './score-list';
+import { ScorersModal } from './score-modal';
 import { TeamCard } from './team-card';
 import { TeamFilter, useTeamUnits } from './team-filter';
-import { useState } from 'react';
-import { ScorersModal } from './score-modal';
 
 type ModalPayload = {
   teamName: string;

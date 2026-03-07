@@ -2,15 +2,15 @@
 
 import { colors, Spinner, Typography } from '@hcc/ui';
 import Link from 'next/link';
-import { Fragment, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
+import { Fragment, Suspense } from 'react';
 
 import { useSuspenseGames } from '~/api';
 import { GameCard } from '~/components/ui';
 import { routes } from '~/constants/routes';
 
-import { RankingBoard } from './ranking-board';
 import { BestScorer } from './best-scorer';
+import { RankingBoard } from './ranking-board';
 import { RecentRecords } from './recent-records';
 
 export const RecentTab = () => {

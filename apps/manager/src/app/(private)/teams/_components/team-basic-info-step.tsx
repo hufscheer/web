@@ -3,7 +3,9 @@ import { Button, Input, Select, Typography } from '@hcc/ui';
 import { useRef } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
+
 import type { TeamFormType } from '~/api';
+
 import { ImageUploader } from '~/components/ui';
 import { categories, colorPalette } from '~/constants/teams';
 
@@ -34,7 +36,7 @@ export const TeamBasicInfoStep = ({ onNext }: Props) => {
                       <FilterHdrIcon size={40} />
 
                       <span
-                        className="absolute inset-0 h-20 w-20 bg-center bg-cover"
+                        className="absolute inset-0 h-20 w-20 bg-cover bg-center"
                         style={{
                           backgroundImage: `url(${
                             typeof field.value === 'string' ? `"${field.value}"` : src

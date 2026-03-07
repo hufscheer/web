@@ -3,10 +3,13 @@ import { Suspense } from '@suspensive/react';
 import { type ComponentProps, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
+
 import type { GameFormType } from '~/api';
+
 import { GameVideoStep } from '~/app/(private)/leagues/[id]/_components/game-form/game-video-step';
 import { SwitchCase } from '~/components/feature';
 import { handleFormError } from '~/utils/form-util';
+
 import { GameBasicInfoStep } from './game-basic-info-step';
 import { GameLineupStep } from './game-lineup-step';
 import { StepProgress } from './step-progress';

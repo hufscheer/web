@@ -19,17 +19,17 @@ export const InputSelect = ({ options, placeholder, label, ...props }: BoxSelect
         : false;
   return (
     <Select.Root {...props}>
-      <Select.Trigger className="group relative flex h-15 w-full items-center justify-between rounded-lg border border-neutral-100 bg-white px-4 font-medium text-base focus:outline-none">
+      <Select.Trigger className="group relative flex h-15 w-full items-center justify-between rounded-lg border border-neutral-100 bg-white px-4 text-base font-medium focus:outline-none">
         <div className="flex flex-col">
           <span
             className={`pointer-events-none absolute font-medium text-neutral-400 transition-all ${
-              hasValue ? 'top-2 text-xs' : '-translate-y-1/2 top-1/2 text-base'
-            } group-data-[state=open]:-translate-y-0 group-data-[state=open]:top-2 group-data-[state=open]:text-xs`}
+              hasValue ? 'top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
+            } group-data-[state=open]:top-2 group-data-[state=open]:-translate-y-0 group-data-[state=open]:text-xs`}
           >
             {label}
           </span>
           {hasValue ? (
-            <p className="pt-4 font-medium text-base text-black">
+            <p className="pt-4 text-base font-medium text-black">
               <Select.Value />
             </p>
           ) : (
@@ -51,7 +51,7 @@ export const InputSelect = ({ options, placeholder, label, ...props }: BoxSelect
               <Select.Item
                 key={option.value}
                 value={option.value}
-                className="relative flex cursor-pointer select-none items-center rounded-md py-2 pr-4 pl-8 text-base outline-none data-[highlighted]:bg-gray-100"
+                className="relative flex cursor-pointer items-center rounded-md py-2 pr-4 pl-8 text-base outline-none select-none data-[highlighted]:bg-gray-100"
               >
                 <Select.ItemIndicator className="absolute left-2">
                   <CheckSmallIcon />

@@ -1,7 +1,9 @@
 import { colors, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import Link from 'next/link';
+
 import type { GameType } from '~/api';
+
 import { routes } from '~/constants/routes';
 
 interface MatchHistoryProps {
@@ -30,7 +32,7 @@ export const MatchHistory = ({ games, teamName, limit = 3 }: MatchHistoryProps) 
             <div className="center-y gap-0.5 overflow-hidden">
               <div className="h-5 w-5 rounded-full border border-neutral-200">
                 <Image
-                  className="select-none rounded-full object-cover"
+                  className="rounded-full object-cover select-none"
                   src={home.logoImageUrl}
                   alt={`${home.gameTeamName} 팀 로고`}
                   width={20}
@@ -56,7 +58,7 @@ export const MatchHistory = ({ games, teamName, limit = 3 }: MatchHistoryProps) 
 
               <div className="h-5 w-5 rounded-full border border-neutral-200">
                 <Image
-                  className="select-none rounded-full object-cover"
+                  className="rounded-full object-cover select-none"
                   src={away.logoImageUrl}
                   alt={`${away.gameTeamName} 팀 로고`}
                   width={20}

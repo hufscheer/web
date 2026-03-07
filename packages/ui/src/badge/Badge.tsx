@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { type ComponentProps, type CSSProperties, forwardRef } from 'react';
 import { match } from 'ts-pattern';
+
 import { colors, type ResponsiveFontSize } from '../token';
 import { Typography } from '../typography';
 import styles from './Badge.module.css';

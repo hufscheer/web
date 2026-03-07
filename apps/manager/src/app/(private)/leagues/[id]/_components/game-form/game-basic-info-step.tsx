@@ -1,6 +1,7 @@
 import { Button, Input, Typography } from '@hcc/ui';
 import { useMemo } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+
 import { type GameFormType, useSuspenseLeague, useSuspenseLeagueTeams } from '~/api';
 import { InputSelect } from '~/components/ui/input-select';
 import { quarterOptions, roundOptions, stateOptions } from '~/constants/leagues';
@@ -169,7 +170,7 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
         </div>
       </div>
 
-      <div className="flex-shrink-0 border-gray-200 border-t bg-white pt-4">
+      <div className="flex-shrink-0 border-t border-gray-200 bg-white pt-4">
         <Button
           type="button"
           className="w-full"

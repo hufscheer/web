@@ -3,7 +3,9 @@
 import Conveyer from '@egjs/conveyer';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
+
 import type { LeagueTeamType } from '~/api';
+
 import { FilterBadge } from '~/components/ui';
 
 type Props = {

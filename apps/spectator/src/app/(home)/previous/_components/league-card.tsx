@@ -59,7 +59,7 @@ export const Header = ({ className, ...props }: LeagueCardHeaderProps) => {
       {...props}
     >
       <div className="center-y gap-3">
-        <div className="center relative h-8 w-8 select-none overflow-hidden rounded-full bg-neutral-200">
+        <div className="center relative h-8 w-8 overflow-hidden rounded-full bg-neutral-200 select-none">
           ⚽
         </div>
         <Typography weight="medium">{name}</Typography>

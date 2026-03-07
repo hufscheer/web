@@ -2,6 +2,7 @@ import { CancelIcon } from '@hcc/icons';
 import { Button, colors, Input, Typography, toast } from '@hcc/ui';
 import { Fragment } from 'react';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
+
 import { type TeamFormType, useSuspensePlayers } from '~/api';
 import { PlayerAppendDialog } from '~/app/(private)/teams/_components/player-append-dialog';
 

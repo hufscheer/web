@@ -3,6 +3,7 @@
 import { Tabs } from '@base-ui/react';
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
+
 import { cn } from '~/utils/cn';
 
 interface TabHeaderProps extends Tabs.Root.Props {}
@@ -13,7 +14,7 @@ export const TabHeader = ({ children, ...props }: TabHeaderProps) => {
 
   return (
     <Tabs.Root className="column h-full w-full bg-white" value={currentTab} {...props}>
-      <Tabs.List className="center sticky top-12 z-header h-12 gap-5 border-neutral-100 border-b bg-white">
+      <Tabs.List className="center sticky top-12 z-header h-12 gap-5 border-b border-neutral-100 bg-white">
         <Tab
           value="previous"
           render={<Link href="previous">이전 대회</Link>}
@@ -34,7 +35,7 @@ const Tab = ({ children, className, ...props }: Tabs.Tab.Props) => {
   return (
     <Tabs.Tab
       className={cn(
-        'cursor-pointer px-1.5 py-3 font-semibold text-neutral-950 text-sm transition-colors duration-150',
+        'cursor-pointer px-1.5 py-3 text-sm font-semibold text-neutral-950 transition-colors duration-150',
         className,
       )}
       {...props}

@@ -4,14 +4,14 @@
   "type": "module",
   "scripts": {
     "build": "turbo build",
+    "build:manager": "turbo build --filter manager",
+    "build:spectator": "turbo build --filter spectator",
     "dev": "turbo dev --parallel",
     "dev:manager": "turbo dev --filter manager",
     "dev:spectator": "turbo dev --filter spectator",
-    "build:manager": "turbo build --filter manager",
-    "build:spectator": "turbo build --filter spectator",
-    "lint": "oxlint && turbo lint",
-    "lint:fix": "oxlint --fix && turbo lint:fix",
-    "format": "oxfmt && turbo format",
+    "format": "turbo format",
+    "lint": "turbo lint",
+    "lint:fix": "turbo lint:fix",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -26,11 +26,11 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "pnpm lint",
-      "pnpm format"
+      "pnpm lint --",
+      "pnpm format --"
     ],
     "*.{json,yml}": [
-      "pnpm format"
+      "pnpm format --"
     ]
   },
   "engines": {

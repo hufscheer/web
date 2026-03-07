@@ -1,13 +1,15 @@
 import '@hcc/ui/styles.css';
 import '~/styles/globals.css';
-
 import type { Metadata } from 'next';
 import type { PropsWithChildren } from 'react';
+
+import { Toaster } from '@hcc/ui';
+
 import { AnalyticsProvider } from '~/app/analytics';
 import { Layout } from '~/components/layout';
+
 import { Pretendard } from './_fonts';
 import { Provider } from './provider';
-import { Toaster } from '@hcc/ui';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.hufscheer.com'),

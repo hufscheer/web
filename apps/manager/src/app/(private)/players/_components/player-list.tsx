@@ -4,8 +4,10 @@ import { ChevronForwardIcon, DeleteForeverIcon } from '@hcc/icons';
 import { Typography } from '@hcc/ui';
 import Link from 'next/link';
 import { Fragment, useState } from 'react';
+
 import { useSuspensePlayers } from '~/api';
 import { routes } from '~/constants/routes';
+
 import { PlayerDeleteDialog } from './player-delete-dialog';
 
 type Props = {

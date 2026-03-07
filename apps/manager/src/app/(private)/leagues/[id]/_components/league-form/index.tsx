@@ -1,9 +1,12 @@
 'use client';
 
 import { type ComponentProps, useState } from 'react';
-import { StepProgress } from '~/components/ui';
-import { SwitchCase } from '~/components/feature';
+
 import type { LeagueFormType } from '~/api';
+
+import { SwitchCase } from '~/components/feature';
+import { StepProgress } from '~/components/ui';
+
 import LeagueInfo, { type LeagueInfoForm } from '../../../create/LeagueInfo';
 import LeagueRegister from '../../../create/LeagueRegister';
 

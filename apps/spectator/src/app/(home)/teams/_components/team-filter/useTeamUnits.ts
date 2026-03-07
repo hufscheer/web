@@ -1,5 +1,6 @@
 import { parseAsArrayOf, parseAsString, useQueryState } from 'nuqs';
 import { startTransition, useMemo } from 'react';
+
 import { TEAM_UNIT_LIST, type TeamUnitType } from '~/api';
 
 export const useTeamUnits = () => {

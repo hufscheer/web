@@ -1,10 +1,13 @@
+import type { PropsWithChildren } from 'react';
+
 import { ChevronForwardIcon } from '@hcc/icons';
 import { formatTime } from '@hcc/toolkit';
 import { Badge, Button, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import Link from 'next/link';
-import type { PropsWithChildren } from 'react';
+
 import type { GameTeamType, GameType } from '~/api';
+
 import { routes } from '~/constants/routes';
 
 export const GameCardRoot = ({ children }: PropsWithChildren) => {

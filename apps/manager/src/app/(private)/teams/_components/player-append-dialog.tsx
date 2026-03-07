@@ -1,5 +1,6 @@
 import { colors, Modal, Typography } from '@hcc/ui';
 import { Fragment, type ReactNode, useState } from 'react';
+
 import { useSuspensePlayers } from '~/api';
 
 type Props = {

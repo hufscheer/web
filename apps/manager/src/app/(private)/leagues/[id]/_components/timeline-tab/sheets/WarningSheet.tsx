@@ -2,9 +2,11 @@
 
 import { Button, Input, toast } from '@hcc/ui';
 import { useMemo, useState } from 'react';
+
+import type { WarningType } from '~/api/types';
+
 import { useCreateTimelinesWarning } from '~/api/mutations/useCreateTimelineWarning';
 import { useSuspenseGameLineupPlaying } from '~/api/queries/useGameLineupPlaying';
-import type { WarningType } from '~/api/types';
 import { CARD_TYPE, QUARTER_TYPE } from '~/api/types';
 import { InputSelect } from '~/components/ui/input-select';
 
@@ -92,7 +94,7 @@ export default function WarningSheet({ gameId, onClose }: { gameId: number; onCl
 
   return (
     <div className="flex h-full flex-col gap-4 bg-white p-5">
-      <div className="font-medium text-base text-black">상황</div>
+      <div className="text-base font-medium text-black">상황</div>
 
       <InputSelect
         label="쿼터"
@@ -113,7 +115,7 @@ export default function WarningSheet({ gameId, onClose }: { gameId: number; onCl
         }}
       />
 
-      <div className="font-medium text-base text-black">경고 상세 정보</div>
+      <div className="text-base font-medium text-black">경고 상세 정보</div>
 
       <InputSelect
         label="선수"

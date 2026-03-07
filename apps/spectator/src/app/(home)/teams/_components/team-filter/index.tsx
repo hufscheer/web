@@ -1,9 +1,10 @@
 'use client';
 import Conveyer from '@egjs/conveyer';
-
 import { useEffect, useRef } from 'react';
+
 import { TEAM_UNIT_LIST, type TeamUnitType } from '~/api';
 import { FilterBadge } from '~/components/ui';
+
 import { useTeamUnits } from './useTeamUnits';
 
 export const TeamFilter = () => {

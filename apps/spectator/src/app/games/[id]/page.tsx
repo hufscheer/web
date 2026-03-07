@@ -1,15 +1,17 @@
 import * as Tabs from '@radix-ui/react-tabs';
 import { Suspense } from '@suspensive/react';
 import { redirect } from 'next/navigation';
+
 import { CheerVS } from '~/app/games/[id]/_components/cheer-vs';
 import { LineupTab } from '~/app/games/[id]/_components/lineup-tab';
 import { TimelineTab } from '~/app/games/[id]/_components/timeline-tab';
 import { VideoTab } from '~/app/games/[id]/_components/video-tab';
 import { Header } from '~/components/layout';
 import { TabTrigger } from '~/components/ui';
+import { routes } from '~/constants/routes';
+
 import { Banner } from './_components/banner';
 import { CheerTalk } from './_components/cheer-talk';
-import { routes } from '~/constants/routes';
 
 const validTabs = ['lineup', 'timeline', 'video'];
 
@@ -52,7 +54,7 @@ const Page = async ({ searchParams, params }: Props) => {
         <hr className="h-2 w-full border-none bg-neutral-50" />
 
         <Tabs.Root className="column w-full" defaultValue={tab}>
-          <Tabs.List className="center sticky top-12 z-10 h-12 gap-5 border-neutral-100 border-b bg-white">
+          <Tabs.List className="center sticky top-12 z-10 h-12 gap-5 border-b border-neutral-100 bg-white">
             <TabTrigger className="size-full" value="lineup">
               라인업
             </TabTrigger>

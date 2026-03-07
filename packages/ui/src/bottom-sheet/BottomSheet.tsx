@@ -10,6 +10,7 @@ import {
   type RefAttributes,
 } from 'react';
 import { Drawer as DrawerPrimitive } from 'vaul';
+
 import styles from './BottomSheet.module.css';
 
 const BottomSheetRoot = ({

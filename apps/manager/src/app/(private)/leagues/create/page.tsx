@@ -2,8 +2,10 @@
 
 import { Suspense } from '@suspensive/react';
 import { useMemo, useState } from 'react';
+
 import { Header } from '~/components/layout';
 import { StepProgress } from '~/components/ui';
+
 import LeagueInfo, { type LeagueInfoForm } from './LeagueInfo';
 import LeagueRegister from './LeagueRegister';
 

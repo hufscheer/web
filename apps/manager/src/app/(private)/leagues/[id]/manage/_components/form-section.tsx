@@ -1,6 +1,8 @@
 'use client';
 
 import { toast } from '@hcc/ui';
+import { useRouter } from 'next/navigation';
+
 import {
   useSuspenseLeague,
   useLeagueTeams,
@@ -8,7 +10,7 @@ import {
   type LeagueFormType,
   useUpdateLeagueTeams,
 } from '~/api';
-import { useRouter } from 'next/navigation';
+
 import { LeagueForm } from '../../_components/league-form';
 
 export const LeagueEditContainer = ({ leagueId }: { leagueId: number }) => {

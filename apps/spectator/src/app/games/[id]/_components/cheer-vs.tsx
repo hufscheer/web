@@ -4,6 +4,7 @@ import { colors, Typography, toast } from '@hcc/ui';
 import Image from 'next/image';
 import { useMemo, useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+
 import {
   type GameCheerType,
   type GameTeamType,

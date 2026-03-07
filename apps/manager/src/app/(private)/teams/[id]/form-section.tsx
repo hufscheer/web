@@ -2,9 +2,12 @@
 
 import { toast } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
-import { useSuspenseTeam, useUpdateTeams } from '~/api';
+
 import type { TeamFormType } from '~/api/mutations/useCreateTeams';
+
+import { useSuspenseTeam, useUpdateTeams } from '~/api';
 import { useImageUpload } from '~/hooks';
+
 import { TeamForm } from '../_components/team-form';
 
 type Props = {

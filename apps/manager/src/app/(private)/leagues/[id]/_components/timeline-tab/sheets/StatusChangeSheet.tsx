@@ -2,8 +2,10 @@
 
 import { Button, Input, toast } from '@hcc/ui';
 import { useState } from 'react';
-import { useCreateTimelinesProgress } from '~/api/mutations/useCreateTimelineStatus';
+
 import type { ProgressStateType } from '~/api/types';
+
+import { useCreateTimelinesProgress } from '~/api/mutations/useCreateTimelineStatus';
 import { PROGRESS_TYPE, QUARTER_TYPE } from '~/api/types';
 import { InputSelect } from '~/components/ui/input-select';
 
@@ -82,7 +84,7 @@ export default function StatusChangeSheet({
 
   return (
     <div className="flex h-full flex-col gap-4 bg-white p-5">
-      <div className="font-medium text-base text-black">상황</div>
+      <div className="text-base font-medium text-black">상황</div>
 
       <InputSelect
         label="쿼터"

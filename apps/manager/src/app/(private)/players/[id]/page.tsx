@@ -1,7 +1,9 @@
 import { Spinner } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 import { notFound } from 'next/navigation';
+
 import { Header } from '~/components/layout';
+
 import { TipBanner } from '../_components/tip-banner';
 import { FormSection } from './form-section';
 import { PlayerDeleteMenu } from './player-delete-menu';

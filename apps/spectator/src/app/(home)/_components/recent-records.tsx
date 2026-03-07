@@ -1,5 +1,7 @@
-import { useSuspenseLeagueRecentSummary } from '~/api/queries/useLeagueRecentSummary';
 import { Typography } from '@hcc/ui';
+
+import { useSuspenseLeagueRecentSummary } from '~/api/queries/useLeagueRecentSummary';
+
 import {
   RankingBoard,
   RankingBoardItem,

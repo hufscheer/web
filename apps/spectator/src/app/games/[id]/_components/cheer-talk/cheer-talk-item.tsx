@@ -2,6 +2,7 @@ import { formatTime } from '@hcc/toolkit';
 import { colors, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import { twMerge } from 'tailwind-merge';
+
 import type { TeamDirection } from '~/api';
 
 type Props = {

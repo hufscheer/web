@@ -1,6 +1,9 @@
 import { useSuspenseInfiniteQuery } from '@hcc/api-base';
+
 import type { CheerTalkType } from '~/api';
+
 import { queryKeys } from '~/api/queryKey';
+
 import { useSuspenseGameTeamInfo } from './useGameTeamInfo';
 
 export default function useCheerTalkById(gameId: number) {

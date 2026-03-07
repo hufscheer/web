@@ -1,8 +1,10 @@
 import { colors, Spinner, Typography } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 import Link from 'next/link';
+
 import { Header } from '~/components/layout';
 import { routes } from '~/constants/routes';
+
 import { CheerTalkTabs } from './_components/cheertalk-tab';
 
 const BlockedTalkMenu = () => (

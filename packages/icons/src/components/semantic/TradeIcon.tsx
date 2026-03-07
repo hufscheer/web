@@ -1,5 +1,6 @@
-import Icon from '../../icon';
 import type { IconProps } from '../../types';
+
+import Icon from '../../icon';
 
 export const TradeIcon = (props: IconProps) => (
   <Icon {...props}>

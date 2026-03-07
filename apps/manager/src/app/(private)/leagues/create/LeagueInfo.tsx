@@ -2,6 +2,7 @@
 
 import { Button, Input } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
+
 import { InputDate } from '~/components/ui/input-date';
 import { InputSelect } from '~/components/ui/input-select';
 
@@ -31,7 +32,7 @@ const LeagueInfo = ({ form, onChange, onNext, isFormValid }: LeagueInfoProps) =>
     <div className="column h-full gap-1.5 bg-white p-5">
       <Suspense clientOnly>
         <div className="flex flex-col gap-4">
-          <div className="font-semibold text-black text-lg">대회 정보</div>
+          <div className="text-lg font-semibold text-black">대회 정보</div>
           <Input
             name="name"
             size="xl"

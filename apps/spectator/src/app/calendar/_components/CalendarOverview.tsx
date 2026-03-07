@@ -1,10 +1,13 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+
+import type { GameType } from '~/api';
+
+import { useSuspenseGameSearch } from '~/api';
+
 import { CalendarGrid } from './calendar-grid';
 import { GameCard } from './GameCard';
-import { useSuspenseGameSearch } from '~/api';
-import type { GameType } from '~/api';
 
 export const CalendarOverview = () => {
   const [current, setCurrent] = useState(() => new Date());

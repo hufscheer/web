@@ -1,6 +1,7 @@
 'use client';
 
 import { type GameTeamPlayerType, useSuspenseGame, useSuspenseGameLineup } from '~/api';
+
 import { Ground as BaseGround } from './ground';
 import { TeamBox } from './team-box';
 

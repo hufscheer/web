@@ -3,12 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack --port 11114 --hostname 0.0.0.0",
     "build": "next build",
-    "start": "next start",
+    "dev": "next dev --turbopack --port 11114 --hostname 0.0.0.0",
+    "format": "oxfmt",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
-    "format": "oxfmt"
+    "start": "next start"
   },
   "dependencies": {
     "@bprogress/next": "^3.2.12",

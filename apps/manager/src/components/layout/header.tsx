@@ -1,10 +1,12 @@
 'use client';
 
+import type { ReactNode } from 'react';
+
 import { ArrowBackIcon, HCCLogo } from '@hcc/icons';
 import { Typography } from '@hcc/ui';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import type { ReactNode } from 'react';
+
 import { routes } from '~/constants/routes';
 
 type Props =
@@ -15,8 +17,8 @@ export const Header = ({ arrow, title, menu }: Props) => {
   const router = useRouter();
 
   return (
-    <header className="sticky top-0 z-header w-full border-neutral-100 border-b bg-white">
-      <div className="relative row-between h-12 w-full px-5">
+    <header className="sticky top-0 z-header w-full border-b border-neutral-100 bg-white">
+      <div className="row-between relative h-12 w-full px-5">
         {arrow ? (
           <>
             <button
@@ -28,7 +30,7 @@ export const Header = ({ arrow, title, menu }: Props) => {
               <ArrowBackIcon size={24} className="text-neutral-900" />
             </button>
             <Typography
-              className="-translate-x-1/2 -translate-y-1/2 pointer-events-none absolute top-1/2 left-1/2 truncate text-center text-neutral-900"
+              className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 truncate text-center text-neutral-900"
               fontSize={18}
               weight="semibold"
               asChild
@@ -39,9 +41,9 @@ export const Header = ({ arrow, title, menu }: Props) => {
           </>
         ) : (
           <>
-            <Link className="flex select-none items-end gap-2" href={routes.home}>
+            <Link className="flex items-end gap-2 select-none" href={routes.home}>
               <HCCLogo width="71.5" height="21" className="text-neutral-900" />
-              <span className="font-medium leading-none">매니저</span>
+              <span className="leading-none font-medium">매니저</span>
             </Link>
             <div className="center-y">{menu ?? null}</div>
           </>

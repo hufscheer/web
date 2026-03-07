@@ -2,8 +2,10 @@ import { colors, Typography } from '@hcc/ui';
 import { ErrorBoundary, Suspense } from '@suspensive/react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+
 import { Header } from '~/components/layout';
 import { routes } from '~/constants/routes';
+
 import { GameList, GameListError } from './_components/game-list';
 import { LeagueOverview, LeagueOverviewError } from './_components/league-overview';
 

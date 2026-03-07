@@ -1,4 +1,5 @@
 import { colors, Typography } from '@hcc/ui';
+
 import type { TopScorerType } from '~/api';
 
 interface ScoreListProps {

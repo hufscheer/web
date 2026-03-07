@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+
 import { useSuspenseCheerTalkReport } from '~/api/queries/useCheerTalkReport';
 import { useSuspenseCheerTalks } from '~/api/queries/useCheerTalks';
+
 import { CheerTalkList } from './cheertalk-list';
 
 type TabKey = 'ALL' | 'REPORTED';

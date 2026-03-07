@@ -2,9 +2,11 @@
 
 import { Button, Input, toast } from '@hcc/ui';
 import { useMemo, useState } from 'react';
+
+import type { ReplacementType } from '~/api/types';
+
 import { useCreateTimelinesReplace } from '~/api/mutations/useCreateTimelineReplacement';
 import { useSuspenseGameLineup } from '~/api/queries/useGameLineup';
-import type { ReplacementType } from '~/api/types';
 import { QUARTER_TYPE } from '~/api/types';
 import { InputSelect } from '~/components/ui/input-select';
 
@@ -100,7 +102,7 @@ export default function SubstituteSheet({
 
   return (
     <div className="flex h-full flex-col gap-4 bg-white p-5">
-      <div className="font-medium text-base text-black">상황</div>
+      <div className="text-base font-medium text-black">상황</div>
 
       <InputSelect
         label="쿼터"
@@ -121,7 +123,7 @@ export default function SubstituteSheet({
         }}
       />
 
-      <div className="font-medium text-base text-black">교체 상세 정보</div>
+      <div className="text-base font-medium text-black">교체 상세 정보</div>
 
       <InputSelect
         label="교체 투입 선수"

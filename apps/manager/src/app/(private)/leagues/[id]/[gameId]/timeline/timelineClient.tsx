@@ -3,6 +3,7 @@
 import { Spinner } from '@hcc/ui';
 import { lazy, Suspense, useCallback, useMemo, useState } from 'react';
 import { Drawer } from 'vaul';
+
 import { Timeline } from '../../_components/timeline';
 import { BottomButton, type BottomSheetType } from '../../_components/timeline-tab/bottom-button';
 
@@ -59,7 +60,7 @@ export default function TimelineClient({ gameId }: { gameId: number }) {
             <div className="flex-1 rounded-t-lg">
               <div className="mx-auto my-4 h-1.5 w-12 flex-shrink-0 rounded-full bg-gray-300" />
               {title && (
-                <Drawer.Title className="mb-4 px-5 text-start font-semibold text-2xl">
+                <Drawer.Title className="mb-4 px-5 text-start text-2xl font-semibold">
                   {title}
                 </Drawer.Title>
               )}

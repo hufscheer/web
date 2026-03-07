@@ -1,7 +1,9 @@
 import { notFound } from 'next/navigation';
+
 import { Header } from '~/components/layout';
-import { LeagueDeleteMenu } from './_components/league-delete';
+
 import { LeagueEditContainer } from './_components/form-section';
+import { LeagueDeleteMenu } from './_components/league-delete';
 
 type Props = {
   params: Promise<{ id: number }>;

@@ -22,11 +22,11 @@
     "./styles.css": "./dist/esm/index.css"
   },
   "scripts": {
-    "prebuild": "rm -rf dist",
     "build": "rollup -c rollup.config.cjs",
+    "format": "oxfmt",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
-    "format": "oxfmt"
+    "prebuild": "rm -rf dist"
   },
   "dependencies": {
     "@hcc/icons": "workspace:*",

@@ -3,8 +3,10 @@
 import { ChevronForwardIcon } from '@hcc/icons';
 import { Badge, Typography } from '@hcc/ui';
 import Link from 'next/link';
+
 import { useSuspenseLeaguesHome } from '~/api';
 import { routes } from '~/constants/routes';
+
 import { GameCard } from './game-card';
 
 export const MatchOverview = () => {

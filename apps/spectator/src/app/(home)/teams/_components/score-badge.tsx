@@ -1,7 +1,9 @@
 'use client';
 
-import { Typography } from '@hcc/ui';
 import type { FC } from 'react';
+
+import { Typography } from '@hcc/ui';
+
 import type { TeamDetailType } from '~/api';
 
 type Props = {

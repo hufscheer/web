@@ -6,6 +6,7 @@ import { Badge, Button, Typography } from '@hcc/ui';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Fragment } from 'react';
+
 import { useSuspenseLeaguesLeague } from '~/api';
 import { routes } from '~/constants/routes';
 

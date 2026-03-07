@@ -1,4 +1,5 @@
 import type { Options, ResponsePromise } from 'ky';
+
 import ky from 'ky';
 
 const API_URL = typeof window === 'undefined' ? 'https://api.hufscheer.com' : '/api';

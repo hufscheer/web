@@ -1,5 +1,7 @@
 import { Modal } from '@hcc/ui';
+
 import type { TeamPlayerType } from '~/api';
+
 import { useSuspenseTeamsPlayers } from '~/api/queries/useTeamPlayers';
 
 type Row = TeamPlayerType & {
@@ -55,7 +57,7 @@ export function ScorersModal({ open, onOpenChange, teamName, teamId }: TopScorer
         </VisuallyHidden>
 
         <div className="mb-3 rounded-xl bg-neutral-100 px-4 py-3">
-          <h2 className="text-center font-medium text-base text-neutral-900">
+          <h2 className="text-center text-base font-medium text-neutral-900">
             {teamName} <span className="font-semibold">득점왕</span> ⚽
           </h2>
         </div>
@@ -65,15 +67,15 @@ export function ScorersModal({ open, onOpenChange, teamName, teamId }: TopScorer
           <div className="max-h-[360px] overflow-auto">
             <table className="w-full border-collapse text-sm">
               <thead className="sticky top-0 z-10 bg-white">
-                <tr className="border-neutral-200 border-b">
-                  <th className="px-3 py-2 text-center font-bold text-[13px] text-blue-600">
+                <tr className="border-b border-neutral-200">
+                  <th className="px-3 py-2 text-center text-[13px] font-bold text-blue-600">
                     순위
                   </th>
                   <th className="px-3 py-2 text-center text-[13px] text-blue-600">학번</th>
-                  <th className="px-3 py-2 text-center font-bold text-[13px] text-blue-600">
+                  <th className="px-3 py-2 text-center text-[13px] font-bold text-blue-600">
                     이름
                   </th>
-                  <th className="px-3 py-2 text-center font-bold text-[13px] text-blue-600">
+                  <th className="px-3 py-2 text-center text-[13px] font-bold text-blue-600">
                     득점
                   </th>
                 </tr>
@@ -85,7 +87,7 @@ export function ScorersModal({ open, onOpenChange, teamName, teamId }: TopScorer
                   const fontWeightClass = isTopThree ? 'font-semibold bg-gray-100' : 'font-medium';
 
                   return (
-                    <tr key={r.playerId} className="border-neutral-100 border-b">
+                    <tr key={r.playerId} className="border-b border-neutral-100">
                       <td className={`px-3 py-2 text-center text-neutral-900 ${fontWeightClass}`}>
                         {r.rank}
                       </td>
@@ -115,7 +117,7 @@ export function ScorersModal({ open, onOpenChange, teamName, teamId }: TopScorer
         </div>
 
         {/* Footer note */}
-        <div className="py-3 text-center text-neutral-500 text-xs">
+        <div className="py-3 text-center text-xs text-neutral-500">
           <p>* 득점왕 순위는 최대 20명까지 표시합니다.</p>
           <p>** 모든 통계 기록은 리그가 종료된 이후 업데이트 됩니다.</p>
         </div>

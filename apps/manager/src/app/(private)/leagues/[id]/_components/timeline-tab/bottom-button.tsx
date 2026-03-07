@@ -9,7 +9,7 @@ export type BottomSheetType = 'addScore' | 'changeStatus' | 'substitute' | 'warn
 export function BottomButton({ onOpen }: { onOpen: (type: BottomSheetType) => void }) {
   const router = useRouter();
   return (
-    <div className="flex w-full flex-col gap-2 border-neutral-100 border-t bg-white p-5">
+    <div className="flex w-full flex-col gap-2 border-t border-neutral-100 bg-white p-5">
       <div className="row-between gap-2">
         <Button
           className="flex-1 gap-1"

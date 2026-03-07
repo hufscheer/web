@@ -1,5 +1,7 @@
 import * as Tabs from '@radix-ui/react-tabs';
+
 import type { LeagueDetailType } from '~/api';
+
 import { TabTrigger } from '~/components/ui';
 
 type Props = {
@@ -15,7 +17,7 @@ export const RoundFilter = ({ league, round }: Props) => {
 
   return (
     <Tabs.Root className="sticky top-12 z-header h-12 w-full" defaultValue={round.toString()}>
-      <Tabs.List className="center h-12 gap-5 border-neutral-100 border-b bg-white">
+      <Tabs.List className="center h-12 gap-5 border-b border-neutral-100 bg-white">
         {rounds.map((r) => (
           <TabTrigger className="min-w-14" key={r} value={r.toString()} queryKey="round">
             {r > 2 ? `${r}강` : '결승'}

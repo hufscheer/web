@@ -1,10 +1,12 @@
 'use client';
 import { Spinner } from '@hcc/ui';
 import { Fragment, useCallback, useEffect, useMemo, useRef } from 'react';
+
 import { type GameCheerTalkWithTeamInfo, useSuspenseGame } from '~/api';
 import useIntersectionObserver from '~/hooks/useIntersectionObserver';
 import { useThrottle } from '~/hooks/useThrottle';
 import { useTimeout } from '~/hooks/useTimeout';
+
 import { CheerTalkForm } from './cheer-talk-form';
 import CheerTalkItem from './cheer-talk-item';
 

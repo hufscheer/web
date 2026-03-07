@@ -1,12 +1,16 @@
+import type { ComponentProps } from 'react';
+
+import { ChevronForwardIcon } from '@hcc/icons';
 import { Typography } from '@hcc/ui';
 import Image from 'next/image';
-import type { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
-import type { TeamDetailType } from '~/api';
-import ScoreBadge from './score-badge';
 import Link from 'next/link';
+import { twMerge } from 'tailwind-merge';
+
+import type { TeamDetailType } from '~/api';
+
 import { routes } from '~/constants/routes';
-import { ChevronForwardIcon } from '@hcc/icons';
+
+import ScoreBadge from './score-badge';
 
 /* -------------------------------------------------------------------------------------------------
  * TeamCard
@@ -50,7 +54,7 @@ const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
             />
           </div>
         )}
-        <Typography className="whitespace-normal break-words" weight="medium">
+        <Typography className="break-words whitespace-normal" weight="medium">
           {team.name}
         </Typography>
       </div>

@@ -1,10 +1,12 @@
+import type { ComponentProps } from 'react';
+
 import { ChevronForwardIcon } from '@hcc/icons';
 import { Button, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
+
 import type { GameStateType, GameType } from '~/api';
 
 /* -------------------------------------------------------------------------------------------------
@@ -111,7 +113,7 @@ const GameCardMatch = ({ gameId, time, round, status, team1, team2 }: GameCardMa
           className={twMerge('flex h-full items-center transition-colors')}
           style={{ backgroundColor: current.bg }}
         >
-          <div className="column min-w-[64px] items-center justify-center border-neutral-50 border-r">
+          <div className="column min-w-[64px] items-center justify-center border-r border-neutral-50">
             <Typography
               fontSize={14}
               weight="bold"
@@ -190,7 +192,7 @@ const GameCardMatch = ({ gameId, time, round, status, team1, team2 }: GameCardMa
                 color="black"
                 variant="subtle"
                 onClick={() => router.push(`/games/${gameId}`)}
-                className="h-8 rounded-lg border-neutral-200 px-4 font-semibold text-neutral-600 text-xs hover:bg-neutral-50"
+                className="h-8 rounded-lg border-neutral-200 px-4 text-xs font-semibold text-neutral-600 hover:bg-neutral-50"
               >
                 중계
               </Button>
@@ -199,7 +201,7 @@ const GameCardMatch = ({ gameId, time, round, status, team1, team2 }: GameCardMa
                 color="black"
                 variant="subtle"
                 onClick={() => router.push(`/games/${gameId}?cheer=1`)}
-                className="h-8 rounded-lg border-neutral-200 px-4 font-semibold text-neutral-600 text-xs hover:bg-neutral-50"
+                className="h-8 rounded-lg border-neutral-200 px-4 text-xs font-semibold text-neutral-600 hover:bg-neutral-50"
               >
                 응원
               </Button>
@@ -211,7 +213,7 @@ const GameCardMatch = ({ gameId, time, round, status, team1, team2 }: GameCardMa
               color="black"
               variant="subtle"
               onClick={() => router.push(`/games/${gameId}`)}
-              className="h-8 rounded-lg border-neutral-200 px-4 font-semibold text-neutral-600 text-xs hover:bg-neutral-50"
+              className="h-8 rounded-lg border-neutral-200 px-4 text-xs font-semibold text-neutral-600 hover:bg-neutral-50"
             >
               기록
             </Button>

@@ -1,5 +1,7 @@
 import { useQuery, useSuspenseQuery } from '@hcc/api-base';
+
 import type { LeagueRecentSummaryPayload } from '~/api';
+
 import { queryKeys } from '../queryKey';
 
 export const useLeagueRecentSummary = (payload?: LeagueRecentSummaryPayload) =>

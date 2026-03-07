@@ -2,6 +2,7 @@
 
 import { Typography } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
+
 import { TeamDeleteDialog } from '../_components/team-delete-dialog';
 
 export const TeamDeleteMenu = ({ id }: { id: number }) => {
