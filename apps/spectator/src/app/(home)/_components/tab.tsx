@@ -9,9 +9,9 @@ import { useSuspenseGames } from '~/api';
 import { GameCard } from '~/components/ui';
 import { routes } from '~/constants/routes';
 
+import { RankingBoard } from './ranking-board';
 import { BestScorer } from './best-scorer';
 import { RecentRecords } from './recent-records';
-import { RankingBoard } from '../ranking-board';
 
 export const RecentTab = () => {
   const { data: scheduled } = useSuspenseGames({ state: 'SCHEDULED', size: 20 });

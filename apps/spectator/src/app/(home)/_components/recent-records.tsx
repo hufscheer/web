@@ -1,34 +1,30 @@
 import { useSuspenseLeagueRecentSummary } from '~/api/queries/useLeagueRecentSummary';
-
 import { Typography } from '@hcc/ui';
 import {
   RankingBoard,
   RankingBoardItem,
   RankingBoardList,
   RankingBoardTitle,
-} from '../ranking-board';
+} from './ranking-board';
 
-export const BestScorer = () => {
+export const RecentRecords = () => {
   const { data: leagueRecentSummary } = useSuspenseLeagueRecentSummary();
 
-  if (!leagueRecentSummary.topScorers.length) {
+  if (!leagueRecentSummary.records.length) {
     return <RankingBoard className="h-40" />;
   }
 
   return (
     <RankingBoard>
-      <RankingBoardTitle>득점왕</RankingBoardTitle>
+      <RankingBoardTitle>최근 대회 기록</RankingBoardTitle>
 
       <RankingBoardList>
-        {leagueRecentSummary.topScorers.map((scorer, index) => (
-          <RankingBoardItem key={scorer.playerId}>
+        {leagueRecentSummary.records.map(record => (
+          <RankingBoardItem key={record.leagueId}>
             <Typography color="var(--color-greyscale-300)" fontSize={10}>
-              #{index + 1}
+              {record.name}
             </Typography>
-            <Typography color="var(--color-greyscale-300)" fontSize={10}>
-              {scorer.unit}
-            </Typography>
-            <Typography fontSize={10}>{scorer.playerName}</Typography>
+            <Typography fontSize={10}>{record.winnerTeamName} 🏆</Typography>
           </RankingBoardItem>
         ))}
       </RankingBoardList>
