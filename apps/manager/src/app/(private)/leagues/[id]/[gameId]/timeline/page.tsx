@@ -1,6 +1,8 @@
 import { ErrorBoundary, Suspense } from '@suspensive/react';
 import { notFound } from 'next/navigation';
+
 import { Header } from '~/components/layout';
+
 import { TimelineDeleteMenu } from '../../_components/timeline-tab/timeline-delete';
 import TimelineClient from './timelineClient';
 

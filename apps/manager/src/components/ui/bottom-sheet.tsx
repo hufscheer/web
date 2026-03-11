@@ -22,7 +22,7 @@ export const BottomSheet = ({ children, title, ...props }: BottomSheetProps) => 
         <Drawer.Content className="fixed right-0 bottom-0 left-0 mt-24 flex flex-col rounded-t-[10px] bg-white">
           <div className="flex-1 rounded-t-[10px] p-4">
             <div className="mx-auto mb-4 h-1.5 w-12 flex-shrink-0 rounded-full bg-gray-300" />
-            <Drawer.Title className="mb-4 text-center font-semibold text-lg">{title}</Drawer.Title>
+            <Drawer.Title className="mb-4 text-center text-lg font-semibold">{title}</Drawer.Title>
             {content}
           </div>
         </Drawer.Content>

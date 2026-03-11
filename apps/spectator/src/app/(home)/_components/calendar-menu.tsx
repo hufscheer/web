@@ -1,6 +1,7 @@
 import { CalendarMonthIcon } from '@hcc/icons';
 import { Typography } from '@hcc/ui';
 import Link from 'next/link';
+
 import { routes } from '~/constants/routes';
 
 export const CalendarMenu = () => (

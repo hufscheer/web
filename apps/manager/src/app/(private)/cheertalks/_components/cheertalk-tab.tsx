@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+
 import { useSuspenseCheerTalkReport } from '~/api/queries/useCheerTalkReport';
 import { useSuspenseCheerTalks } from '~/api/queries/useCheerTalks';
+
 import { CheerTalkList } from './cheertalk-list';
 
 type TabKey = 'ALL' | 'REPORTED';
@@ -30,7 +32,7 @@ export const CheerTalkTabs = () => {
     <div className="flex h-screen flex-col gap-3">
       <div className="flex justify-center">
         <div className="relative flex w-full rounded-lg bg-gray-200 p-1">
-          {TABS_CONFIG.map(tab => (
+          {TABS_CONFIG.map((tab) => (
             <button
               key={tab.key}
               type="button"
@@ -49,7 +51,7 @@ export const CheerTalkTabs = () => {
       </div>
 
       <div className="flex-1 overflow-y-auto pb-[92px]">
-        {TABS_CONFIG.find(tab => tab.key === activeTab)?.renderer() || null}
+        {TABS_CONFIG.find((tab) => tab.key === activeTab)?.renderer() || null}
       </div>
     </div>
   );

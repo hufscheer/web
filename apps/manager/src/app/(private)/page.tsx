@@ -1,5 +1,7 @@
 import { ErrorBoundary, Suspense } from '@suspensive/react';
+
 import { Header } from '~/components/layout';
+
 import { BottomMenu } from './_components/bottom-menu';
 import { MatchOverview } from './_components/match-overview';
 

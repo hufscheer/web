@@ -3,6 +3,7 @@
 import { Typography, toast } from '@hcc/ui';
 import Image from 'next/image';
 import { useMemo } from 'react';
+
 import { type TimelineRecordType, useSuspenseGameTimeline } from '~/api';
 import { useDeleteTimeline } from '~/api/mutations/useDeleteTimeline';
 import { AlertDialog } from '~/components/ui';
@@ -30,8 +31,8 @@ export const TimelineDeleteMenu = ({ gameId }: Props) => {
   };
 
   const { latestRecord, latestRecordId } = useMemo(() => {
-    const all = (timelineData ?? []).flatMap(q =>
-      (q.records ?? []).map(r => ({ ...r, __quarter: q.gameQuarter })),
+    const all = (timelineData ?? []).flatMap((q) =>
+      (q.records ?? []).map((r) => ({ ...r, __quarter: q.gameQuarter })),
     );
 
     const toNum = (v: unknown) => Number(v);

@@ -3,7 +3,9 @@
 import { Button } from '@hcc/ui';
 import clsx from 'clsx';
 import { useMemo, useState } from 'react';
+
 import type { TeamType } from '~/api';
+
 import { useTeams } from '~/api/queries/useTeams';
 
 type RegisteredTeam = {
@@ -53,7 +55,7 @@ export const SelectTeam = ({ onClose, onRegister, maxSelectCount }: TeamCreation
     return Object.keys(units).map((unit, index) => ({
       id: index + 1,
       name: unit,
-      teams: units[unit].map(team => ({
+      teams: units[unit].map((team) => ({
         id: team.id,
         name: team.name,
       })),
@@ -65,17 +67,17 @@ export const SelectTeam = ({ onClose, onRegister, maxSelectCount }: TeamCreation
   );
   const [selectedTeams, setSelectedTeams] = useState<RegisteredTeam[]>([]);
   const selectedAffiliation = useMemo(
-    () => affiliations.find(aff => aff.name === selectedAffiliationId),
+    () => affiliations.find((aff) => aff.name === selectedAffiliationId),
     [affiliations, selectedAffiliationId],
   );
   const handleTeamClick = (team: Team) => {
     if (!selectedAffiliation) return;
 
-    const isAlreadySelected = selectedTeams.some(t => t.teamId === team.id);
+    const isAlreadySelected = selectedTeams.some((t) => t.teamId === team.id);
 
     if (isAlreadySelected) {
       // 이미 선택된 팀이면 제거
-      setSelectedTeams(prev => prev.filter(t => t.teamId !== team.id));
+      setSelectedTeams((prev) => prev.filter((t) => t.teamId !== team.id));
     } else {
       // 새로운 팀 선택 시 최대 개수 제한 확인
       if (selectedTeams.length >= maxSelectCount) {
@@ -83,7 +85,7 @@ export const SelectTeam = ({ onClose, onRegister, maxSelectCount }: TeamCreation
         return;
       }
       // 선택 목록에 추가
-      setSelectedTeams(prev => [
+      setSelectedTeams((prev) => [
         ...prev,
         {
           affiliationName: selectedAffiliation.name,
@@ -110,9 +112,9 @@ export const SelectTeam = ({ onClose, onRegister, maxSelectCount }: TeamCreation
       <div className="flex flex-grow flex-row overflow-hidden">
         {/* 왼쪽 열: 소속 */}
         <div className="flex-1 border-r">
-          <div className="w-full bg-[#EBECEE] p-3 text-left font-medium text-base">소속</div>
+          <div className="w-full bg-[#EBECEE] p-3 text-left text-base font-medium">소속</div>
           <div className="overflow-y-auto">
-            {affiliations.map(affiliation => (
+            {affiliations.map((affiliation) => (
               <SelectItem
                 key={affiliation.id}
                 name={affiliation.name}
@@ -127,13 +129,13 @@ export const SelectTeam = ({ onClose, onRegister, maxSelectCount }: TeamCreation
 
         {/* 오른쪽 열: 팀 */}
         <div className="flex flex-1 flex-col">
-          <div className="w-full bg-[#EBECEE] p-3 text-left font-medium text-base">팀 이름</div>
+          <div className="w-full bg-[#EBECEE] p-3 text-left text-base font-medium">팀 이름</div>
           <div className="overflow-y-auto">
-            {selectedAffiliation?.teams.map(team => (
+            {selectedAffiliation?.teams.map((team) => (
               <SelectItem
                 key={team.id}
                 name={team.name}
-                isSelected={selectedTeams.some(t => t.teamId === team.id)}
+                isSelected={selectedTeams.some((t) => t.teamId === team.id)}
                 onClick={() => handleTeamClick(team)}
               />
             ))}

@@ -1,11 +1,14 @@
+import type { ComponentProps } from 'react';
+
 import { ChevronForwardIcon } from '@hcc/icons';
 import { formatTime } from '@hcc/toolkit';
 import { Badge, Button, colors, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import Link from 'next/link';
-import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
+
 import type { GameListResponse, GameListType, GameTeamType } from '~/api';
+
 import { routes } from '~/constants/routes';
 
 /* -------------------------------------------------------------------------------------------------
@@ -35,7 +38,7 @@ const GameCardLeague = ({ league, className, ...props }: GameCardLeagueProps) =>
   return (
     <div className={twMerge('row-between gap-3', className)} {...props}>
       <div className="center-y gap-3">
-        <div className="center relative h-8 w-8 select-none overflow-hidden rounded-full bg-neutral-200">
+        <div className="center relative h-8 w-8 overflow-hidden rounded-full bg-neutral-200 select-none">
           ⚽
         </div>
         <Typography weight="medium">{league.leagueName}</Typography>
@@ -114,7 +117,7 @@ const GameCardTeam = ({ team, position, className, ...props }: GameCardTeamProps
         </Typography>
       )}
 
-      <div className="center h-7 w-7 select-none overflow-hidden rounded-full border border-neutral-100">
+      <div className="center h-7 w-7 overflow-hidden rounded-full border border-neutral-100 select-none">
         <Image
           className="rounded-full object-cover"
           src={team.logoImageUrl}
@@ -182,11 +185,11 @@ const GameCardActions = ({
     <div className={twMerge('center-y gap-2 self-center pt-2', className)} {...props}>
       {onStatsClick ? (
         <Button
-          className="!border !border-neutral-100 min-w-12"
+          className="min-w-12 !border !border-neutral-100"
           variant="ghost"
           color="black"
           size="xs"
-          onClick={e => {
+          onClick={(e) => {
             e.stopPropagation();
             onStatsClick();
           }}
@@ -196,11 +199,11 @@ const GameCardActions = ({
       ) : (
         <>
           <Button
-            className="!border !border-neutral-100 min-w-12"
+            className="min-w-12 !border !border-neutral-100"
             variant="ghost"
             color="black"
             size="xs"
-            onClick={e => {
+            onClick={(e) => {
               e.stopPropagation();
               onBroadcastClick?.();
             }}
@@ -208,11 +211,11 @@ const GameCardActions = ({
             중계
           </Button>
           <Button
-            className="!border !border-neutral-100 min-w-12"
+            className="min-w-12 !border !border-neutral-100"
             variant="ghost"
             color="black"
             size="xs"
-            onClick={e => {
+            onClick={(e) => {
               e.stopPropagation();
               onCheerClick?.();
             }}

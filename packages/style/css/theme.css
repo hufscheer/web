@@ -1,7 +1,7 @@
 :root {
   --color-transparent: transparent;
 
-  --color-white: #FFFFFF;
+  --color-white: #ffffff;
   --color-white-alpha-5: rgba(255, 255, 255, 0.05);
   --color-white-alpha-10: rgba(255, 255, 255, 0.1);
   --color-white-alpha-20: rgba(255, 255, 255, 0.2);
@@ -25,29 +25,29 @@
   --color-black-alpha-80: rgba(0, 0, 0, 0.8);
   --color-black-alpha-90: rgba(0, 0, 0, 0.9);
 
-  --color-primary-50: #F8FBFF;
-  --color-primary-100: #F2F8FF;
-  --color-primary-200: #E0EDFF;
-  --color-primary-300: #C7DBFF;
-  --color-primary-400: #A3C4FF;
-  --color-primary-500: #4D9FFF;
-  --color-primary-600: #007AFF;
-  --color-primary-700: #0056CC;
-  --color-primary-800: #003D99;
+  --color-primary-50: #f8fbff;
+  --color-primary-100: #f2f8ff;
+  --color-primary-200: #e0edff;
+  --color-primary-300: #c7dbff;
+  --color-primary-400: #a3c4ff;
+  --color-primary-500: #4d9fff;
+  --color-primary-600: #007aff;
+  --color-primary-700: #0056cc;
+  --color-primary-800: #003d99;
   --color-primary-900: #002466;
 
-  --color-danger-50: #FFF8F7;
-  --color-danger-100: #FFF0EF;
-  --color-danger-200: #FFE0DE;
-  --color-danger-300: #FFC7C4;
-  --color-danger-400: #FFA3A0;
-  --color-danger-500: #FE7A7A;
-  --color-danger-600: #FC5555;
-  --color-danger-700: #E63939;
-  --color-danger-800: #CC2626;
-  --color-danger-900: #991A1A;
+  --color-danger-50: #fff8f7;
+  --color-danger-100: #fff0ef;
+  --color-danger-200: #ffe0de;
+  --color-danger-300: #ffc7c4;
+  --color-danger-400: #ffa3a0;
+  --color-danger-500: #fe7a7a;
+  --color-danger-600: #fc5555;
+  --color-danger-700: #e63939;
+  --color-danger-800: #cc2626;
+  --color-danger-900: #991a1a;
 
-  --color-green-600: #1ADA3B;
+  --color-green-600: #1ada3b;
 
   --color-neutral-50: oklch(98.5% 0 0);
   --color-neutral-100: oklch(97% 0 0);
@@ -83,7 +83,8 @@
 }
 
 @layer base {
-  html, body {
+  html,
+  body {
     height: 100%;
   }
 
@@ -92,7 +93,22 @@
     flex-direction: column;
     min-height: 100%;
     padding-bottom: env(safe-area-inset-bottom);
-    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    font-family:
+      'Pretendard Variable',
+      Pretendard,
+      -apple-system,
+      BlinkMacSystemFont,
+      system-ui,
+      Roboto,
+      'Helvetica Neue',
+      'Segoe UI',
+      'Apple SD Gothic Neo',
+      'Noto Sans KR',
+      'Malgun Gothic',
+      'Apple Color Emoji',
+      'Segoe UI Emoji',
+      'Segoe UI Symbol',
+      sans-serif;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: 100%;

@@ -1,5 +1,6 @@
-import { colors, Typography } from '@hcc/ui';
 import type { ComponentProps } from 'react';
+
+import { colors, Typography } from '@hcc/ui';
 import { twMerge } from 'tailwind-merge';
 
 type Props = ComponentProps<'div'> & {

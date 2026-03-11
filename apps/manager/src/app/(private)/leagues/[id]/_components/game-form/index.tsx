@@ -3,10 +3,13 @@ import { Suspense } from '@suspensive/react';
 import { type ComponentProps, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
+
 import type { GameFormType } from '~/api';
+
 import { GameVideoStep } from '~/app/(private)/leagues/[id]/_components/game-form/game-video-step';
 import { SwitchCase } from '~/components/feature';
 import { handleFormError } from '~/utils/form-util';
+
 import { GameBasicInfoStep } from './game-basic-info-step';
 import { GameLineupStep } from './game-lineup-step';
 import { StepProgress } from './step-progress';
@@ -49,7 +52,7 @@ export const GameForm = ({ leagueId, className, onSubmit, initialData, ...props 
           <StepProgress
             currentStep={step}
             totalSteps={STEPS.length}
-            steps={STEPS.map(step => step.title)}
+            steps={STEPS.map((step) => step.title)}
           />
 
           <div className="mt-6 flex-1 overflow-hidden">

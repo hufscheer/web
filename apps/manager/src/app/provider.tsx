@@ -1,8 +1,9 @@
 'use client';
 
+import type { PropsWithChildren } from 'react';
+
 import { ProgressProvider } from '@bprogress/next/app';
 import { QueryClientProvider } from '@hcc/api-base';
-import type { PropsWithChildren } from 'react';
 
 export const Provider = ({ children }: PropsWithChildren) => {
   return (

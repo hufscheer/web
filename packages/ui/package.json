@@ -2,18 +2,9 @@
   "name": "@hcc/ui",
   "version": "0.0.1",
   "private": true,
-  "scripts": {
-    "prebuild": "rm -rf dist",
-    "build": "rollup -c rollup.config.cjs",
-    "lint": "biome lint .",
-    "format": "biome format --write ."
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "biome lint --fix",
-      "biome format --write"
-    ]
-  },
+  "files": [
+    "dist"
+  ],
   "sideEffects": [
     "*.css"
   ],
@@ -30,9 +21,13 @@
     },
     "./styles.css": "./dist/esm/index.css"
   },
-  "files": [
-    "dist"
-  ],
+  "scripts": {
+    "build": "rollup -c rollup.config.cjs",
+    "format": "oxfmt",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "prebuild": "rm -rf dist"
+  },
   "dependencies": {
     "@hcc/icons": "workspace:*",
     "@radix-ui/react-accordion": "^1.2.12",

@@ -34,7 +34,7 @@ export const CalendarGrid = ({
           aria-label="이전 달"
           className="rounded-full p-1 transition-colors hover:bg-neutral-100"
         >
-          <ChevronForwardIcon size={20} className="rotate-180 text-primary-600" />
+          <ChevronForwardIcon size={20} className="text-primary-600 rotate-180" />
         </button>
 
         <Typography fontSize={18} weight="bold">
@@ -53,8 +53,8 @@ export const CalendarGrid = ({
 
       {/* Grid Content */}
       <div className="rounded-lg border border-gray-100 bg-white p-4">
-        <div className="grid grid-cols-7 gap-2 text-center text-neutral-500 text-sm">
-          {['일', '월', '화', '수', '목', '금', '토'].map(d => (
+        <div className="grid grid-cols-7 gap-2 text-center text-sm text-neutral-500">
+          {['일', '월', '화', '수', '목', '금', '토'].map((d) => (
             <div key={d} className="py-2">
               {d}
             </div>
@@ -62,12 +62,15 @@ export const CalendarGrid = ({
         </div>
 
         <div className="mt-3 grid grid-cols-7 gap-3">
-          {days.map((d, i) => {
-            const isSelected = d === selectedDay;
-            const hasGame = d !== null && gameDates.includes(d);
+          {days.map((day) => {
+            const isSelected = day === selectedDay;
+            const hasGame = day !== null && gameDates.includes(day);
             return (
-              <div key={d ? `date-${year}-${month}-${d}` : `empty-${i}`} className="h-10">
-                {d ? (
+              <div
+                key={day ? `date-${year}-${month}-${day}` : `empty-${Date.now()}`}
+                className="h-10"
+              >
+                {day ? (
                   <div className="relative flex flex-col items-center justify-center">
                     <div className="flex items-center justify-center">
                       {hasGame && !isSelected && (
@@ -80,7 +83,7 @@ export const CalendarGrid = ({
                     </div>
                     <button
                       type="button"
-                      onClick={() => onDayClick(d)}
+                      onClick={() => onDayClick(day)}
                       className={twMerge(
                         'center h-10 w-10 rounded-full text-sm transition-all',
                         isSelected
@@ -88,7 +91,7 @@ export const CalendarGrid = ({
                           : 'hover:bg-neutral-100',
                       )}
                     >
-                      {d}
+                      {day}
                     </button>
                   </div>
                 ) : (

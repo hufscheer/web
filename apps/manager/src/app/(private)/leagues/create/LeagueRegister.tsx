@@ -5,9 +5,11 @@ import { Button, Input, Typography } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { Drawer } from 'vaul';
+
 import { type LeagueFormType, useCreateLeagues } from '~/api/mutations/useCreateLeagues';
-import { SelectTeam } from '../_components/select-team';
 import { AlertDialog } from '~/components/ui';
+
+import { SelectTeam } from '../_components/select-team';
 
 type RegisteredTeam = {
   affiliationName: string;
@@ -33,9 +35,11 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
   const isEditMode = !!onSubmit;
 
   const handleRegisterTeam = (newTeams: RegisteredTeam[]) => {
-    setRegisteredTeams(prevTeams => {
+    setRegisteredTeams((prevTeams) => {
       // 기존에 없던 팀들만 필터링하여 합치기 (중복 방지)
-      const uniqueNewTeams = newTeams.filter(nt => !prevTeams.some(pt => pt.teamId === nt.teamId));
+      const uniqueNewTeams = newTeams.filter(
+        (nt) => !prevTeams.some((pt) => pt.teamId === nt.teamId),
+      );
 
       // 최대 참가 팀 수 제한 체크
       const combined = [...prevTeams, ...uniqueNewTeams];
@@ -45,10 +49,10 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
   };
 
   const handleRemoveTeam = (teamId: number) => {
-    setRegisteredTeams(prevTeams => prevTeams.filter(team => team.teamId !== teamId));
+    setRegisteredTeams((prevTeams) => prevTeams.filter((team) => team.teamId !== teamId));
   };
   const handleCreateLeague = () => {
-    const teamIds = registeredTeams.map(team => team.teamId);
+    const teamIds = registeredTeams.map((team) => team.teamId);
 
     if (isEditMode) {
       onSubmit(teamIds);
@@ -63,7 +67,7 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
       onSuccess: () => {
         router.push('/leagues');
       },
-      onError: error => {
+      onError: (error) => {
         alert(`대회 생성에 실패했습니다: ${error.message}`);
       },
     });
@@ -85,8 +89,8 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
     <Drawer.Root open={isOpen} onOpenChange={setIsOpen}>
       <div className="flex h-full flex-col gap-4 bg-white p-5">
         <div className="flex flex-row items-center justify-between">
-          <div className="font-semibold text-black text-lg">참가 팀</div>
-          <span className="flex flex-row font-semibold text-base">
+          <div className="text-lg font-semibold text-black">참가 팀</div>
+          <span className="flex flex-row text-base font-semibold">
             <Typography color="var(--color-primary-600)" weight="semibold">
               {registeredTeams.length}
             </Typography>
@@ -95,7 +99,7 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
         </div>
 
         <div className="flex flex-row flex-wrap gap-3">
-          {registeredTeams.map(team => (
+          {registeredTeams.map((team) => (
             <Button
               key={team.teamId}
               variant="subtle"
@@ -139,7 +143,7 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
         <Drawer.Content className="fixed right-0 bottom-0 left-0 mt-24 flex flex-col rounded-t-lg bg-white">
           <div className="flex-1 rounded-t-lg p-4">
             <div className="mx-auto mb-4 h-1.5 w-12 flex-shrink-0 rounded-full bg-gray-300" />
-            <Drawer.Title className="mb-4 text-start font-semibold text-2xl">팀 선택</Drawer.Title>
+            <Drawer.Title className="mb-4 text-start text-2xl font-semibold">팀 선택</Drawer.Title>
             <Input size="lg" placeholder="팀 이름을 검색해주세요" />
             <SelectTeam
               onClose={() => setIsOpen(false)}

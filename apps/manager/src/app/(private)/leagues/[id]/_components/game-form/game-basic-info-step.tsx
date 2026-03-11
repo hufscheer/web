@@ -1,6 +1,7 @@
 import { Button, Input, Typography } from '@hcc/ui';
 import { useMemo } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+
 import { type GameFormType, useSuspenseLeague, useSuspenseLeagueTeams } from '~/api';
 import { InputSelect } from '~/components/ui/input-select';
 import { quarterOptions, roundOptions, stateOptions } from '~/constants/leagues';
@@ -28,19 +29,19 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
 
   const isValid = Boolean(
     name?.trim() &&
-      round &&
-      quarter &&
-      state &&
-      startTime &&
-      team1Id &&
-      team2Id &&
-      team1Id !== team2Id,
+    round &&
+    quarter &&
+    state &&
+    startTime &&
+    team1Id &&
+    team2Id &&
+    team1Id !== team2Id,
   );
   const roundFilteredOptions = useMemo(
     () =>
       roundOptions
-        .filter(item => league.maxRound >= item.round)
-        .map(item => ({ value: item.value.toString(), label: item.label })),
+        .filter((item) => league.maxRound >= item.round)
+        .map((item) => ({ value: item.value.toString(), label: item.label })),
     [league.maxRound],
   );
   const quarterListOptions = Object.entries(quarterOptions).map(([key, value]) => ({
@@ -53,13 +54,13 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
     label: value,
   }));
 
-  const teamOptions = teams.map(team => ({
+  const teamOptions = teams.map((team) => ({
     value: team.leagueTeamId.toString(),
     label: team.teamName,
   }));
 
   const handleTeamChange = (teamNum: 1 | 2, leagueTeamId: string) => {
-    const selectedTeam = teams.find(team => team.leagueTeamId.toString() === leagueTeamId);
+    const selectedTeam = teams.find((team) => team.leagueTeamId.toString() === leagueTeamId);
     if (selectedTeam) {
       setValue(`team${teamNum}.teamId`, selectedTeam.teamId);
       setValue(`team${teamNum}.leagueTeamId`, selectedTeam.leagueTeamId);
@@ -143,7 +144,7 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
                 label="팀 선택 1"
                 options={teamOptions}
                 value={field.value?.toString()}
-                onValueChange={val => {
+                onValueChange={(val) => {
                   field.onChange(val);
                   handleTeamChange(1, val);
                 }}
@@ -159,7 +160,7 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
                 label="팀 선택 2"
                 options={teamOptions}
                 value={field.value?.toString()}
-                onValueChange={val => {
+                onValueChange={(val) => {
                   field.onChange(val);
                   handleTeamChange(2, val);
                 }}
@@ -169,7 +170,7 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
         </div>
       </div>
 
-      <div className="flex-shrink-0 border-gray-200 border-t bg-white pt-4">
+      <div className="flex-shrink-0 border-t border-gray-200 bg-white pt-4">
         <Button
           type="button"
           className="w-full"

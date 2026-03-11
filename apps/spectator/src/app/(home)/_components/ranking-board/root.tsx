@@ -1,4 +1,5 @@
 import type { ComponentProps } from 'react';
+
 import { twMerge } from 'tailwind-merge';
 
 interface RankingBoardProps extends ComponentProps<'div'> {}

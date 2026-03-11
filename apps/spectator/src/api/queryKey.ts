@@ -1,6 +1,8 @@
 import { fetcher } from '@hcc/api-base';
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
+
 import type { TimelinePayload, TimelineType } from '~/api/types/timelines';
+
 import type {
   CheerTalkPayload,
   CheerTalkType,
@@ -92,7 +94,7 @@ const teamQueryKeys = createQueryKeys('teams', {
 
       if (payload.units) {
         const units = Array.isArray(payload.units) ? payload.units : [payload.units];
-        units.forEach(u => params.append('units', u));
+        units.forEach((u) => params.append('units', u));
       }
 
       return fetcher.get<TeamType[]>('teams', { searchParams: params });
@@ -117,7 +119,7 @@ const teamQueryKeys = createQueryKeys('teams', {
 
       if (payload.units) {
         const units = Array.isArray(payload.units) ? payload.units : [payload.units];
-        units.forEach(u => params.append('units', u));
+        units.forEach((u) => params.append('units', u));
       }
 
       return fetcher.get<TeamSummaryType[]>('teams/summary', {

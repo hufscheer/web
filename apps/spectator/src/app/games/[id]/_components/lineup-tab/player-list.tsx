@@ -4,6 +4,7 @@ import { TradeIcon } from '@hcc/icons';
 import { colors, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import { twMerge } from 'tailwind-merge';
+
 import { useSuspenseGame, useSuspenseGameLineup } from '~/api';
 
 type Props = {
@@ -43,10 +44,10 @@ export const PlayerList = ({ gameId }: Props) => {
           </div>
 
           {lineup[index].candidatePlayers
-            .filter(player => player.isReplaced)
-            .map(player => (
+            .filter((player) => player.isReplaced)
+            .map((player) => (
               <div key={player.id} className="center-y w-full gap-2">
-                <span className="center h-7 w-7 rounded-lg bg-neutral-100 font-medium text-neutral-500 text-sm">
+                <span className="center h-7 w-7 rounded-lg bg-neutral-100 text-sm font-medium text-neutral-500">
                   {player.jerseyNumber}
                 </span>
                 <div className="column gap-1">

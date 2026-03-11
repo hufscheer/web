@@ -2,6 +2,7 @@ import { Button, Input } from '@hcc/ui';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
+
 import { type GameFormType, useSuspenseLeagueTeams, useSuspenseLeagueTeamsPlayers } from '~/api';
 
 type Props = {
@@ -21,8 +22,8 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
   const [team1Id, team2Id] = watch(['team1.leagueTeamId', 'team2.leagueTeamId']);
 
   const { data: leagueTeams } = useSuspenseLeagueTeams({ leagueId });
-  const team1 = leagueTeams.find(team => team.leagueTeamId === Number(team1Id));
-  const team2 = leagueTeams.find(team => team.leagueTeamId === Number(team2Id));
+  const team1 = leagueTeams.find((team) => team.leagueTeamId === Number(team1Id));
+  const team2 = leagueTeams.find((team) => team.leagueTeamId === Number(team2Id));
 
   const { data: team1Players } = useSuspenseLeagueTeamsPlayers({
     leagueTeamId: team1?.leagueTeamId || 0,
@@ -37,7 +38,7 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
   const getPlayerName = useCallback(
     (teamPlayerId: number) => {
       const allPlayers = [...team1Players, ...team2Players];
-      const player = allPlayers.find(p => p.teamPlayerId === teamPlayerId);
+      const player = allPlayers.find((p) => p.teamPlayerId === teamPlayerId);
       return player?.name || `선수 ${teamPlayerId}`;
     },
     [team1Players, team2Players],
@@ -46,7 +47,7 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
   const [team1Selection, setTeam1Selection] = useState<PlayerSelectionState[]>(() => {
     const existing = getValues('team1.lineupPlayers') || [];
     return existing.length > 0
-      ? existing.map(p => ({
+      ? existing.map((p) => ({
           teamPlayerId: p.teamPlayerId,
           state: p.state,
           isCaptain: p.isCaptain,
@@ -57,7 +58,7 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
   const [team2Selection, setTeam2Selection] = useState<PlayerSelectionState[]>(() => {
     const existing = getValues('team2.lineupPlayers') || [];
     return existing.length > 0
-      ? existing.map(p => ({
+      ? existing.map((p) => ({
           teamPlayerId: p.teamPlayerId,
           state: p.state,
           isCaptain: p.isCaptain,
@@ -87,13 +88,13 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
   ) => {
     const setSelection = teamNumber === 1 ? setTeam1Selection : setTeam2Selection;
 
-    setSelection(prev => {
-      const existing = prev.find(p => p.teamPlayerId === teamPlayerId);
+    setSelection((prev) => {
+      const existing = prev.find((p) => p.teamPlayerId === teamPlayerId);
       if (existing) {
         if (existing.state === state) {
-          return prev.filter(p => p.teamPlayerId !== teamPlayerId);
+          return prev.filter((p) => p.teamPlayerId !== teamPlayerId);
         }
-        return prev.map(p =>
+        return prev.map((p) =>
           p.teamPlayerId === teamPlayerId
             ? {
                 ...p,
@@ -111,13 +112,13 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
     const setSelection = teamNumber === 1 ? setTeam1Selection : setTeam2Selection;
     const currentSelection = teamNumber === 1 ? team1Selection : team2Selection;
 
-    const playerInSelection = currentSelection.find(p => p.teamPlayerId === teamPlayerId);
+    const playerInSelection = currentSelection.find((p) => p.teamPlayerId === teamPlayerId);
     if (!playerInSelection || playerInSelection.state === 'CANDIDATE') {
       return;
     }
 
-    setSelection(prev =>
-      prev.map(p => ({
+    setSelection((prev) =>
+      prev.map((p) => ({
         ...p,
         isCaptain: p.teamPlayerId === teamPlayerId ? !p.isCaptain : false,
       })),
@@ -126,7 +127,7 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
 
   const getPlayerState = (teamNumber: 1 | 2, playerId: number) => {
     const selection = teamNumber === 1 ? team1Selection : team2Selection;
-    return selection.find(p => p.teamPlayerId === playerId);
+    return selection.find((p) => p.teamPlayerId === playerId);
   };
 
   const handleNext = () => {
@@ -135,10 +136,10 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
     onNext();
   };
 
-  const team1Starters = team1Selection.filter(p => p.state === 'STARTER');
-  const team2Starters = team2Selection.filter(p => p.state === 'STARTER');
-  const team1Captain = team1Selection.find(p => p.isCaptain);
-  const team2Captain = team2Selection.find(p => p.isCaptain);
+  const team1Starters = team1Selection.filter((p) => p.state === 'STARTER');
+  const team2Starters = team2Selection.filter((p) => p.state === 'STARTER');
+  const team1Captain = team1Selection.find((p) => p.isCaptain);
+  const team2Captain = team2Selection.find((p) => p.isCaptain);
 
   const isValid =
     team1Starters.length > 0 && team2Starters.length > 0 && team1Captain && team2Captain;
@@ -146,7 +147,7 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
     const currentPlayers = activeTab === 1 ? team1Players : team2Players;
     if (!currentPlayers) return [];
 
-    return currentPlayers.filter(player => {
+    return currentPlayers.filter((player) => {
       const playerName = getPlayerName(player.playerId).toLowerCase();
       return (
         playerName.includes(searchQuery.toLowerCase()) ||
@@ -161,7 +162,7 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
 
     return (
       <div className={twMerge('space-y-2')}>
-        {playersToShow.map(player => {
+        {playersToShow.map((player) => {
           const playerState = getPlayerState(teamNumber, player.teamPlayerId);
           return (
             <div
@@ -266,7 +267,7 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
           type="text"
           placeholder="선수 이름이나 등번호로 검색..."
           value={searchQuery}
-          onChange={e => setSearchQuery(e.target.value)}
+          onChange={(e) => setSearchQuery(e.target.value)}
           size="md"
         />
       </div>

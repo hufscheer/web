@@ -1,5 +1,7 @@
 import { fetcher, useMutation, useQueryClient } from '@hcc/api-base';
+
 import type { ProgressStateType } from '~/api';
+
 import { queryKeys } from '~/api/queryKey';
 
 export const postTimelineProgress = ({ gameId, ...request }: ProgressStateType) => {

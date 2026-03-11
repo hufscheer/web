@@ -1,6 +1,8 @@
 import { Spinner } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
+
 import { Header } from '~/components/layout';
+
 import { BlockedList } from './blocked-list';
 
 const Page = () => {

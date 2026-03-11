@@ -2,15 +2,15 @@
 
 import { colors, Spinner, Typography } from '@hcc/ui';
 import Link from 'next/link';
-import { Fragment, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
+import { Fragment, Suspense } from 'react';
 
 import { useSuspenseGames } from '~/api';
 import { GameCard } from '~/components/ui';
 import { routes } from '~/constants/routes';
 
-import { RankingBoard } from './ranking-board';
 import { BestScorer } from './best-scorer';
+import { RankingBoard } from './ranking-board';
 import { RecentRecords } from './recent-records';
 
 export const RecentTab = () => {
@@ -22,7 +22,7 @@ export const RecentTab = () => {
   return (
     <div className="flex h-full flex-col gap-3 p-5">
       <div className="flex flex-1 flex-col gap-3">
-        {playing.map(league => (
+        {playing.map((league) => (
           <GameCard key={league.leagueId}>
             <GameCard.League league={league} />
             <GameCard.Divider />
@@ -52,7 +52,7 @@ export const RecentTab = () => {
             })}
           </GameCard>
         ))}
-        {scheduled.map(league => (
+        {scheduled.map((league) => (
           <GameCard key={league.leagueId}>
             <GameCard.League league={league} />
             <GameCard.Divider />

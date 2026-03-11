@@ -1,6 +1,7 @@
 import { Slot } from '@radix-ui/react-slot';
 import { type ComponentPropsWithoutRef, forwardRef } from 'react';
 import { match } from 'ts-pattern';
+
 import { colors } from '../token';
 import styles from './Spinner.module.css';
 
@@ -25,7 +26,9 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
       '--hcc-spinner-bg-color': getBackgroundColor(color),
     };
 
-    return <Comp ref={ref} className={styles.spinner} style={style} {...props} />;
+    return (
+      <Comp ref={ref} className={`${styles.spinner} ${className ?? ''}`} style={style} {...props} />
+    );
   },
 );
 

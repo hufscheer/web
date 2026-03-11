@@ -4,8 +4,10 @@ import { ChevronForwardIcon, DeleteForeverIcon } from '@hcc/icons';
 import { Typography } from '@hcc/ui';
 import Image from 'next/image';
 import Link from 'next/link';
+
 import { useSuspenseTeams } from '~/api';
 import { routes } from '~/constants/routes';
+
 import { TeamDeleteDialog } from './team-delete-dialog';
 
 type Props = {
@@ -17,7 +19,7 @@ export const TeamList = ({ edit }: Props) => {
 
   return (
     <div className="column h-full gap-3 overflow-y-auto px-5 pt-5 pb-[92px]">
-      {data.map(team => (
+      {data.map((team) => (
         <div key={team.id} className="row-between rounded-lg border border-neutral-100 px-4 py-3">
           <div className="center-y gap-2">
             <div className="relative h-8 w-8 overflow-hidden rounded-lg bg-neutral-100">

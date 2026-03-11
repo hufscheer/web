@@ -1,6 +1,7 @@
 import { SendFillIcon } from '@hcc/icons';
 import { type FormEvent, useCallback, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+
 import { type GameStateType, type GameTeamType, useCreateCheerTalk } from '~/api';
 
 interface CheerTalkFormProps {
@@ -38,13 +39,13 @@ export const CheerTalkForm = ({ gameTeams, scrollToBottom, gameState }: CheerTal
   return (
     <form className="column w-full gap-1 bg-white p-4" onSubmit={handleSubmit}>
       <fieldset className="center-y gap-2" disabled={isFinished}>
-        {gameTeams.map(team => (
-          <label className="center-y gap-1 font-medium text-xs" key={team.gameTeamId}>
+        {gameTeams.map((team) => (
+          <label className="center-y gap-1 text-xs font-medium" key={team.gameTeamId}>
             <input
               type="radio"
               checked={teamId === team.gameTeamId}
               value={team.gameTeamId}
-              onChange={e => setTeamId(Number(e.target.value))}
+              onChange={(e) => setTeamId(Number(e.target.value))}
               disabled={isFinished}
             />
             {team.gameTeamName}
@@ -54,9 +55,9 @@ export const CheerTalkForm = ({ gameTeams, scrollToBottom, gameState }: CheerTal
 
       <div className="center-y w-full gap-2">
         <input
-          className="w-full rounded-lg bg-neutral-100 px-3 py-2 font-medium text-sm"
+          className="w-full rounded-lg bg-neutral-100 px-3 py-2 text-sm font-medium"
           value={message}
-          onChange={e => setMessage(e.target.value)}
+          onChange={(e) => setMessage(e.target.value)}
           placeholder={placeholder}
           aria-label="응원 메시지 입력"
           disabled={isFinished}

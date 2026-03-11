@@ -1,6 +1,8 @@
 import { useId } from 'react';
-import Icon from '../../icon';
+
 import type { IconProps } from '../../types';
+
+import Icon from '../../icon';
 
 export const SportsAndOutdoorsIcon = (props: IconProps) => {
   const id = useId();

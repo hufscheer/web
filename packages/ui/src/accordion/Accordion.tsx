@@ -2,6 +2,7 @@ import { KeyboardArrowDownIcon } from '@hcc/icons';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import { clsx } from 'clsx';
 import { type ComponentPropsWithoutRef, type ComponentRef, forwardRef } from 'react';
+
 import styles from './Accordion.module.css';
 
 const AccordionRoot = AccordionPrimitive.Root;

@@ -1,9 +1,11 @@
 'use client';
 
+import type { ComponentProps } from 'react';
+
 import { ArrowBackIcon } from '@hcc/icons';
 import { getBorderColor } from '@hcc/toolkit';
-import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
+
 import type { GameTeamPlayerType } from '~/api';
 
 const GroundBase = ({ className, children, ...props }: ComponentProps<'div'>) => {
@@ -55,16 +57,16 @@ const GroundPlayer = ({ player, teamColor, ...props }: PlayerProps) => {
     <span className="column-center z-above flex-1" {...props}>
       <span
         style={{ backgroundColor: teamColor, borderColor: borderColor }}
-        className="center relative h-8 w-8 rounded-full border font-medium text-sm text-white"
+        className="center relative h-8 w-8 rounded-full border text-sm font-medium text-white"
       >
         {player.jerseyNumber}
         {player.isReplaced && (
-          <i className="center -right-0.5 -bottom-0.5 absolute h-3 w-3 rounded-full border border-[var(--color-danger-600)] bg-[var(--color-danger-200)]">
+          <i className="center absolute -right-0.5 -bottom-0.5 h-3 w-3 rounded-full border border-[var(--color-danger-600)] bg-[var(--color-danger-200)]">
             <ArrowBackIcon className="text-[var(--color-danger-600)]" size={8} />
           </i>
         )}
       </span>
-      <span className="mt-1 rounded-lg border border-[#00000010] bg-[#00000030] px-1.5 py-0.5 font-medium text-white text-xs">
+      <span className="mt-1 rounded-lg border border-[#00000010] bg-[#00000030] px-1.5 py-0.5 text-xs font-medium text-white">
         {player.playerName}
       </span>
     </span>

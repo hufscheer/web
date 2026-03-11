@@ -1,5 +1,7 @@
 import { getQueryClient, useQuery, useSuspenseQuery } from '@hcc/api-base';
+
 import type { LeagueTeamsPayload } from '~/api';
+
 import { queryKeys } from '../queryKey';
 
 export const useLeagueTeams = (payload: LeagueTeamsPayload) =>

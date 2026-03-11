@@ -3,8 +3,10 @@ import { Button, Spinner, Typography } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 import Link from 'next/link';
 import { Fragment } from 'react';
+
 import { Header } from '~/components/layout';
 import { routes } from '~/constants/routes';
+
 import { PlayerList } from './_components/player-list';
 
 const PlayerEditMenu = ({ edit }: { edit: boolean }) => {

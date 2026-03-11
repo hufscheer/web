@@ -1,9 +1,10 @@
-import { toast } from '@hcc/ui';
 import type { FieldErrors } from 'react-hook-form';
+
+import { toast } from '@hcc/ui';
 
 export const handleFormError = (errors: FieldErrors) => {
   const messages = Object.values(errors)
-    .map(error => error?.message)
+    .map((error) => error?.message)
     .filter(Boolean);
 
   const [first, ...rest] = messages;

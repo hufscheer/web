@@ -2,20 +2,9 @@
   "name": "@hcc/toolkit",
   "version": "0.0.1",
   "private": true,
-  "scripts": {
-    "prebuild": "rm -rf dist",
-    "build": "rollup -c rollup.config.cjs",
-    "lint": "biome lint .",
-    "format": "biome format --write .",
-    "test": "vitest",
-    "test:run": "vitest run"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "biome lint --fix",
-      "biome format --write"
-    ]
-  },
+  "files": [
+    "dist"
+  ],
   "sideEffects": false,
   "exports": {
     ".": {
@@ -29,9 +18,15 @@
       }
     }
   },
-  "files": [
-    "dist"
-  ],
+  "scripts": {
+    "build": "rollup -c rollup.config.cjs",
+    "format": "oxfmt",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "prebuild": "rm -rf dist",
+    "test": "vitest",
+    "test:run": "vitest run"
+  },
   "dependencies": {
     "dayjs": "^1.11.18"
   },

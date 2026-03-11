@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Fragment } from 'react';
+
 import { type GameStateType, useSuspenseGames } from '~/api';
 import { GameCard } from '~/components/ui';
 import { routes } from '~/constants/routes';
@@ -29,7 +30,7 @@ const GameListContent = ({
   const router = useRouter();
   return (
     <Fragment>
-      {data.map(league =>
+      {data.map((league) =>
         league.games.map((game, index) => {
           if (game.gameTeams.length < 2) return null;
 
@@ -63,7 +64,7 @@ export const GameList = (props: Props) => {
 
   return (
     <div className="column gap-3 p-5">
-      {states.map(state => (
+      {states.map((state) => (
         <GameListContent key={state} state={state} {...props} />
       ))}
     </div>

@@ -2,7 +2,9 @@
 
 import { colors, Typography } from '@hcc/ui';
 import { Fragment } from 'react';
+
 import { useSuspenseGame, useSuspenseGameTimeline } from '~/api';
+
 import { getProgressSemantics } from './_utils';
 import { EventRecord } from './event-record';
 import { TextRecord } from './text-record';
@@ -41,10 +43,10 @@ export const TimelineTab = ({ gameId }: Props) => {
         </Fragment>
       )}
 
-      {data.map(timeline => (
+      {data.map((timeline) => (
         <div key={timeline.gameQuarter}>
           <Fragment key={timeline.gameQuarter}>
-            {timeline.records.map(record => {
+            {timeline.records.map((record) => {
               if (record.progressRecord?.gameProgressType) {
                 if (timeline.gameQuarter === '경기 종료' || timeline.gameQuarter === '경기후')
                   return null;

@@ -1,10 +1,12 @@
 'use client';
 import { Spinner } from '@hcc/ui';
 import { Fragment, useCallback, useEffect, useMemo, useRef } from 'react';
+
 import { type GameCheerTalkWithTeamInfo, useSuspenseGame } from '~/api';
 import useIntersectionObserver from '~/hooks/useIntersectionObserver';
 import { useThrottle } from '~/hooks/useThrottle';
 import { useTimeout } from '~/hooks/useTimeout';
+
 import { CheerTalkForm } from './cheer-talk-form';
 import CheerTalkItem from './cheer-talk-item';
 
@@ -61,12 +63,11 @@ export const CheerTalkList = ({
   const handleInitialScroll = useCallback(() => {
     if (cheerTalkList.length === 0 && socketTalkList.length === 0) return;
 
-    const timers = [100].map(delay => setTimeout(scrollToBottom, delay));
+    const timers = [100].map((delay) => setTimeout(scrollToBottom, delay));
 
     return () => timers.forEach(clearTimeout);
   }, [cheerTalkList.length, socketTalkList.length, scrollToBottom]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: handleNewMessages
   useEffect(() => {
     handleNewMessages();
   }, [cheerTalkList, socketTalkList, handleNewMessages]);
@@ -78,10 +79,10 @@ export const CheerTalkList = ({
   // const allMessages = [...cheerTalkList, ...socketTalkList];
   const allMessages = useMemo(() => {
     const messageMap = new Map<number, GameCheerTalkWithTeamInfo>();
-    cheerTalkList.forEach(talk => {
+    cheerTalkList.forEach((talk) => {
       messageMap.set(talk.cheerTalkId, talk);
     });
-    socketTalkList.forEach(talk => {
+    socketTalkList.forEach((talk) => {
       messageMap.set(talk.cheerTalkId, talk);
     });
     return Array.from(messageMap.values()).sort((a, b) => a.cheerTalkId - b.cheerTalkId);
@@ -94,7 +95,7 @@ export const CheerTalkList = ({
         {isFetchingNextPage && <Spinner color="primary" />}
 
         <div className="column gap-2.5 px-4">
-          {allMessages.map(talk => (
+          {allMessages.map((talk) => (
             <CheerTalkItem key={`socket-${talk.cheerTalkId}`} {...talk} />
           ))}
         </div>

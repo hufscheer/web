@@ -2,8 +2,10 @@ import { AddIcon } from '@hcc/icons';
 import { Button, Spinner, Typography } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 import Link from 'next/link';
+
 import { Header } from '~/components/layout';
 import { routes } from '~/constants/routes';
+
 import { TeamList } from './_components/team-list';
 
 const TeamEditMenu = ({ edit }: { edit: boolean }) => {

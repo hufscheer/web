@@ -2,14 +2,21 @@
 
 import { Button, Input, toast } from '@hcc/ui';
 import { useState } from 'react';
-import { useCreateTimelinesProgress } from '~/api/mutations/useCreateTimelineStatus';
+
 import type { ProgressStateType } from '~/api/types';
+
+import { useCreateTimelinesProgress } from '~/api/mutations/useCreateTimelineStatus';
 import { PROGRESS_TYPE, QUARTER_TYPE } from '~/api/types';
 import { InputSelect } from '~/components/ui/input-select';
 
 type SelectOption = { label: string; value: string };
 
-const QUARTER_LABELS: Partial<Record<keyof typeof QUARTER_TYPE, string>> = {
+type LabelType<T, K extends keyof T> = Pick<Record<keyof T, string>, K>;
+
+const QUARTER_LABELS: LabelType<
+  typeof QUARTER_TYPE,
+  Exclude<keyof typeof QUARTER_TYPE, 'POST_GAME'>
+> = {
   PRE_GAME: '경기 시작',
   FIRST_HALF: '전반',
   SECOND_HALF: '후반',
@@ -18,19 +25,19 @@ const QUARTER_LABELS: Partial<Record<keyof typeof QUARTER_TYPE, string>> = {
 };
 const quarterOptions: SelectOption[] = (
   Object.keys(QUARTER_LABELS) as Array<keyof typeof QUARTER_LABELS>
-).map(key => ({
-  label: QUARTER_LABELS[key]!,
+).map((key) => ({
+  label: QUARTER_LABELS[key],
   value: QUARTER_TYPE[key],
 }));
 
-const PROGRESS_LABELS: Partial<Record<keyof typeof PROGRESS_TYPE, string>> = {
+const PROGRESS_LABELS: LabelType<typeof PROGRESS_TYPE, 'QUARTER_START' | 'GAME_END'> = {
   QUARTER_START: '쿼터 시작',
   GAME_END: '경기 종료',
 };
 const progressOptions: SelectOption[] = (
   Object.keys(PROGRESS_LABELS) as Array<keyof typeof PROGRESS_LABELS>
-).map(key => ({
-  label: PROGRESS_LABELS[key]!,
+).map((key) => ({
+  label: PROGRESS_LABELS[key],
   value: PROGRESS_TYPE[key],
 }));
 
@@ -68,7 +75,7 @@ export default function StatusChangeSheet({
         toast.success('상태 변경이 등록되었습니다.');
         onClose();
       },
-      onError: error => {
+      onError: (error) => {
         console.log(error);
         toast.error('상태 변경 등록에 실패했습니다. 다시 시도해주세요.');
       },
@@ -77,20 +84,22 @@ export default function StatusChangeSheet({
 
   return (
     <div className="flex h-full flex-col gap-4 bg-white p-5">
-      <div className="font-medium text-base text-black">상황</div>
+      <div className="text-base font-medium text-black">상황</div>
 
       <InputSelect
         label="쿼터"
         options={quarterOptions}
         value={quarter?.value}
-        onValueChange={value => setQuarter(quarterOptions.find(opt => opt.value === value) || null)}
+        onValueChange={(value) =>
+          setQuarter(quarterOptions.find((opt) => opt.value === value) || null)
+        }
       />
       <InputSelect
         label="상황"
         options={progressOptions}
         value={progress?.value}
-        onValueChange={value =>
-          setProgress(progressOptions.find(opt => opt.value === value) || null)
+        onValueChange={(value) =>
+          setProgress(progressOptions.find((opt) => opt.value === value) || null)
         }
       />
 
@@ -98,7 +107,7 @@ export default function StatusChangeSheet({
         placeholder="시간(분)"
         type="number"
         value={minute}
-        onChange={e => setMinute(e.target.value)}
+        onChange={(e) => setMinute(e.target.value)}
         min={0}
       />
 

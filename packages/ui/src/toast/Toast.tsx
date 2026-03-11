@@ -1,6 +1,8 @@
-import { CheckCircleFillIcon, ErrorFillIcon } from '@hcc/icons';
 import type { CSSProperties } from 'react';
+
+import { CheckCircleFillIcon, ErrorFillIcon } from '@hcc/icons';
 import { Toaster as BaseToaster, toast } from 'sonner';
+
 import { colors } from '../token';
 import styles from './Toast.module.css';
 

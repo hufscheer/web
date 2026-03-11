@@ -1,4 +1,5 @@
 import { SportsAndOutdoorsIcon, TradeHorizontalIcon } from '@hcc/icons';
+
 import type { ProgressType, TimelineRecordType } from '~/api';
 
 export const getRecordIcon = (record: TimelineRecordType) => {

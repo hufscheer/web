@@ -2,9 +2,11 @@
 
 import { Button, Input, toast } from '@hcc/ui';
 import { useMemo, useState } from 'react';
+
+import type { ReplacementType } from '~/api/types';
+
 import { useCreateTimelinesReplace } from '~/api/mutations/useCreateTimelineReplacement';
 import { useSuspenseGameLineup } from '~/api/queries/useGameLineup';
-import type { ReplacementType } from '~/api/types';
 import { QUARTER_TYPE } from '~/api/types';
 import { InputSelect } from '~/components/ui/input-select';
 
@@ -17,7 +19,7 @@ const QUARTER_LABELS = {
 };
 const quarterOptions: SelectOption[] = (
   Object.keys(QUARTER_LABELS) as Array<keyof typeof QUARTER_LABELS>
-).map(key => ({
+).map((key) => ({
   label: QUARTER_LABELS[key],
   value: QUARTER_TYPE[key],
 }));
@@ -34,7 +36,7 @@ export default function SubstituteSheet({
   });
   const { data: lineup } = useSuspenseGameLineup({ gameId });
   const teamOptions: SelectOption[] = useMemo(() => {
-    return lineup.map(team => ({
+    return lineup.map((team) => ({
       label: team.teamName,
       value: String(team.gameTeamId),
     }));
@@ -49,12 +51,12 @@ export default function SubstituteSheet({
 
   const playerInOptions: SelectOption[] = useMemo(() => {
     if (!team) return [];
-    const selectedTeam = lineup.find(t => String(t.gameTeamId) === team.value);
+    const selectedTeam = lineup.find((t) => String(t.gameTeamId) === team.value);
     if (!selectedTeam) return [];
 
     return selectedTeam.candidatePlayers
-      .filter(p => p.state === 'CANDIDATE') // 후보 선수만 필터링
-      .map(p => ({
+      .filter((p) => p.state === 'CANDIDATE') // 후보 선수만 필터링
+      .map((p) => ({
         label: `${p.jerseyNumber} ${p.playerName}`,
         value: String(p.id),
       }));
@@ -62,12 +64,12 @@ export default function SubstituteSheet({
 
   const playerOutOptions: SelectOption[] = useMemo(() => {
     if (!team) return [];
-    const selectedTeam = lineup.find(t => String(t.gameTeamId) === team.value);
+    const selectedTeam = lineup.find((t) => String(t.gameTeamId) === team.value);
     if (!selectedTeam) return [];
 
     return selectedTeam.starterPlayers
-      .filter(p => p.state === 'STARTER') // 주전 선수만 필터링
-      .map(p => ({
+      .filter((p) => p.state === 'STARTER') // 주전 선수만 필터링
+      .map((p) => ({
         label: `${p.jerseyNumber} ${p.playerName}`,
         value: String(p.id),
       }));
@@ -100,33 +102,35 @@ export default function SubstituteSheet({
 
   return (
     <div className="flex h-full flex-col gap-4 bg-white p-5">
-      <div className="font-medium text-base text-black">상황</div>
+      <div className="text-base font-medium text-black">상황</div>
 
       <InputSelect
         label="쿼터"
         options={quarterOptions}
         value={quarter?.value}
-        onValueChange={value => setQuarter(quarterOptions.find(opt => opt.value === value) || null)}
+        onValueChange={(value) =>
+          setQuarter(quarterOptions.find((opt) => opt.value === value) || null)
+        }
       />
 
       <InputSelect
         label="팀 명"
         options={teamOptions}
         value={team?.value}
-        onValueChange={value => {
-          setTeam(teamOptions.find(opt => opt.value === value) || null);
+        onValueChange={(value) => {
+          setTeam(teamOptions.find((opt) => opt.value === value) || null);
           setPlayerIn(null); // 팀이 바뀌면 선수 초기화
         }}
       />
 
-      <div className="font-medium text-base text-black">교체 상세 정보</div>
+      <div className="text-base font-medium text-black">교체 상세 정보</div>
 
       <InputSelect
         label="교체 투입 선수"
         options={playerInOptions}
         value={playerIn?.value}
-        onValueChange={value =>
-          setPlayerIn(playerInOptions.find(opt => opt.value === value) || null)
+        onValueChange={(value) =>
+          setPlayerIn(playerInOptions.find((opt) => opt.value === value) || null)
         }
         disabled={!team || playerInOptions.length === 0}
       />
@@ -134,8 +138,8 @@ export default function SubstituteSheet({
         label="교체 아웃 선수"
         options={playerOutOptions}
         value={playerOut?.value}
-        onValueChange={value =>
-          setPlayerOut(playerOutOptions.find(opt => opt.value === value) || null)
+        onValueChange={(value) =>
+          setPlayerOut(playerOutOptions.find((opt) => opt.value === value) || null)
         }
         disabled={!team || playerOutOptions.length === 0}
       />
@@ -143,7 +147,7 @@ export default function SubstituteSheet({
         placeholder="시간(분)"
         type="number"
         value={minute}
-        onChange={e => setMinute(e.target.value)}
+        onChange={(e) => setMinute(e.target.value)}
         min={0}
       />
 

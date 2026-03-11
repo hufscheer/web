@@ -4,8 +4,10 @@ import { ChevronForwardIcon, DeleteForeverIcon } from '@hcc/icons';
 import { Typography } from '@hcc/ui';
 import Link from 'next/link';
 import { Fragment, useState } from 'react';
+
 import { useSuspensePlayers } from '~/api';
 import { routes } from '~/constants/routes';
+
 import { PlayerDeleteDialog } from './player-delete-dialog';
 
 type Props = {
@@ -23,15 +25,15 @@ export const PlayerList = ({ edit }: Props) => {
           className="my-4 w-full rounded-lg border border-neutral-100 px-3 py-2.5"
           placeholder="선수 검색"
           value={query}
-          onChange={e => setQuery(e.target.value)}
+          onChange={(e) => setQuery(e.target.value)}
           type="text"
         />
       </Typography>
 
       <div className="column h-full gap-3 overflow-y-auto pb-[92px]">
         {data
-          .filter(player => player.name.includes(query) || player.studentNumber.includes(query))
-          .map(player => (
+          .filter((player) => player.name.includes(query) || player.studentNumber.includes(query))
+          .map((player) => (
             <div
               key={player.playerId}
               className="row-between rounded-lg border border-neutral-100 px-4 py-3"
@@ -47,7 +49,7 @@ export const PlayerList = ({ edit }: Props) => {
                     weight="medium"
                     lineHeight="none"
                   >
-                    {player.teams.map(team => team.name).join(', ')}
+                    {player.teams.map((team) => team.name).join(', ')}
                   </Typography>
                 )}
               </div>

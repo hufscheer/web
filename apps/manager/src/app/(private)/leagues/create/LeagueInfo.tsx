@@ -2,6 +2,7 @@
 
 import { Button, Input } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
+
 import { InputDate } from '~/components/ui/input-date';
 import { InputSelect } from '~/components/ui/input-select';
 
@@ -13,7 +14,7 @@ export type LeagueInfoForm = {
 };
 
 const ROUND_SIZES = [32, 16, 8, 4, 2];
-const ROUND_OPTIONS = ROUND_SIZES.map(n => ({
+const ROUND_OPTIONS = ROUND_SIZES.map((n) => ({
   value: String(n),
   label: n === 2 ? '결승' : `${n}강`,
 }));
@@ -31,7 +32,7 @@ const LeagueInfo = ({ form, onChange, onNext, isFormValid }: LeagueInfoProps) =>
     <div className="column h-full gap-1.5 bg-white p-5">
       <Suspense clientOnly>
         <div className="flex flex-col gap-4">
-          <div className="font-semibold text-black text-lg">대회 정보</div>
+          <div className="text-lg font-semibold text-black">대회 정보</div>
           <Input
             name="name"
             size="xl"
@@ -39,26 +40,26 @@ const LeagueInfo = ({ form, onChange, onNext, isFormValid }: LeagueInfoProps) =>
             placeholder="대회 이름"
             autoComplete="name"
             value={form.name}
-            onChange={e => onChange({ name: e.target.value })}
+            onChange={(e) => onChange({ name: e.target.value })}
           />
 
           <InputDate
             label="시작 일"
             value={form.startAt}
-            onSelect={d => onChange({ startAt: d ?? undefined })}
+            onSelect={(d) => onChange({ startAt: d ?? undefined })}
           />
 
           <InputDate
             label="종료 일"
             value={form.endAt}
-            onSelect={d => onChange({ endAt: d ?? undefined })}
+            onSelect={(d) => onChange({ endAt: d ?? undefined })}
           />
 
           <InputSelect
             options={ROUND_OPTIONS}
             label="라운드"
             value={form.maxRound ? String(form.maxRound) : undefined}
-            onValueChange={v => onChange({ maxRound: Number(v) })}
+            onValueChange={(v) => onChange({ maxRound: Number(v) })}
           />
         </div>
         <div className="mt-auto flex flex-col gap-2">

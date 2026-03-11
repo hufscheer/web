@@ -1,7 +1,9 @@
 'use client';
 
 import { colors, Typography } from '@hcc/ui';
+
 import { type GameStateType, useSuspenseGames } from '~/api';
+
 import { GameCard } from '../../../_components/game-card';
 
 type Props = {
@@ -14,18 +16,18 @@ export const GameList = ({ id, state }: Props) => {
 
   return (
     <div>
-      <div className="border-neutral-50 border-b bg-white px-5 py-4">
+      <div className="border-b border-neutral-50 bg-white px-5 py-4">
         <Typography weight="semibold" lineHeight="none">
           {state === 'PLAYING' ? '진행 중' : state === 'FINISHED' ? '종료' : '예정'}
         </Typography>
       </div>
 
       {data.length > 0 && data[0]?.games?.length > 0 ? (
-        data[0].games.map(game => (
+        data[0].games.map((game) => (
           <GameCard key={game.id}>
             <GameCard.Header {...game} leagueId={id} />
             <GameCard.TeamGroup>
-              {game.gameTeams.map(team => (
+              {game.gameTeams.map((team) => (
                 <GameCard.Team key={team.gameTeamId} {...team} />
               ))}
             </GameCard.TeamGroup>

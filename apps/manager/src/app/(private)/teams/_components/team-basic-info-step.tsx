@@ -3,7 +3,9 @@ import { Button, Input, Select, Typography } from '@hcc/ui';
 import { useRef } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
+
 import type { TeamFormType } from '~/api';
+
 import { ImageUploader } from '~/components/ui';
 import { categories, colorPalette } from '~/constants/teams';
 
@@ -28,13 +30,13 @@ export const TeamBasicInfoStep = ({ onNext }: Props) => {
           render={({ field }) => {
             return (
               <div className="flex w-full justify-between rounded-lg border border-neutral-100 p-4">
-                <ImageUploader onChange={file => field.onChange(file)}>
-                  {src => (
+                <ImageUploader onChange={(file) => field.onChange(file)}>
+                  {(src) => (
                     <span className="center relative h-20 w-20 cursor-pointer overflow-hidden rounded-lg bg-neutral-50">
                       <FilterHdrIcon size={40} />
 
                       <span
-                        className="absolute inset-0 h-20 w-20 bg-center bg-cover"
+                        className="absolute inset-0 h-20 w-20 bg-cover bg-center"
                         style={{
                           backgroundImage: `url(${
                             typeof field.value === 'string' ? `"${field.value}"` : src
@@ -72,7 +74,7 @@ export const TeamBasicInfoStep = ({ onNext }: Props) => {
           placeholder="소속"
           required
         >
-          {categories.map(category => (
+          {categories.map((category) => (
             <option key={category} value={category}>
               {category}
             </option>
@@ -90,7 +92,7 @@ export const TeamBasicInfoStep = ({ onNext }: Props) => {
         rules={{ required: '팀 색상을 선택해주세요' }}
         render={({ field: { value, onChange } }) => (
           <div className="grid grid-cols-4 gap-3">
-            {colorPalette.map(c => {
+            {colorPalette.map((c) => {
               const selected = value === c;
               return (
                 <button
@@ -137,7 +139,7 @@ export const TeamBasicInfoStep = ({ onNext }: Props) => {
                     ref={colorInputRef}
                     type="color"
                     className="invisible absolute inset-0"
-                    onChange={e => onChange(e.target.value)}
+                    onChange={(e) => onChange(e.target.value)}
                   />
                 </div>
               );

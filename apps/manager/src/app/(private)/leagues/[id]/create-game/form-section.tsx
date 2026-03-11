@@ -2,7 +2,9 @@
 
 import { toast } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
+
 import { type GameFormType, useCreateGames } from '~/api';
+
 import { GameForm } from '../_components/game-form';
 
 type Props = {
@@ -21,7 +23,7 @@ export const FormSection = ({ leagueId }: Props) => {
           toast.success('경기가 생성되었습니다.');
           router.back();
         },
-        onError: error => {
+        onError: (error) => {
           console.error(`[manager/leagues/${leagueId}/create-game]`, error);
           toast.error('경기 생성에 실패했습니다. 잠시 후 다시 시도해주세요.');
         },

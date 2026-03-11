@@ -7,7 +7,15 @@
       "dependsOn": ["^build"],
       "outputs": [".next/**", "lib/**", "dist/**"]
     },
-    "lint": {},
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "lint:fix": {
+      "dependsOn": ["^lint:fix"]
+    },
+    "format": {
+      "dependsOn": ["^format"]
+    },
     "deploy": {
       "dependsOn": ["^build", "^lint"]
     },

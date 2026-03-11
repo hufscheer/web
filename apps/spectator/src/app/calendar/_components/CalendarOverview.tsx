@@ -1,10 +1,13 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+
+import type { GameType } from '~/api';
+
+import { useSuspenseGameSearch } from '~/api';
+
 import { CalendarGrid } from './calendar-grid';
 import { GameCard } from './GameCard';
-import { useSuspenseGameSearch } from '~/api';
-import type { GameType } from '~/api';
 
 export const CalendarOverview = () => {
   const [current, setCurrent] = useState(() => new Date());
@@ -40,7 +43,7 @@ export const CalendarOverview = () => {
   const { gamesByDate, gameDates } = useMemo(() => {
     const group: Record<number, GameType[]> = {};
 
-    games.forEach(game => {
+    games.forEach((game) => {
       const dateObj = new Date(game.startTime);
       if (dateObj.getFullYear() === year && dateObj.getMonth() === month) {
         const date = dateObj.getDate();
@@ -79,7 +82,7 @@ export const CalendarOverview = () => {
         {filteredGames.length > 0 ? (
           <>
             <GameCard.Header league={filteredGames[0]} className="px-1 py-2" />
-            {filteredGames.map(game => (
+            {filteredGames.map((game) => (
               <GameCard.Match
                 key={game.gameId}
                 gameId={game.gameId}

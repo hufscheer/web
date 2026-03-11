@@ -4,6 +4,7 @@ import { colors, Typography, toast } from '@hcc/ui';
 import Image from 'next/image';
 import { useMemo, useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+
 import {
   type GameCheerType,
   type GameTeamType,
@@ -128,7 +129,7 @@ const CheerTeamBox = ({
         {
           onError: () => {
             pendingCountRef.current += countToSubmit;
-            setPendingCount(prev => prev + countToSubmit);
+            setPendingCount((prev) => prev + countToSubmit);
           },
         },
       );
@@ -144,7 +145,7 @@ const CheerTeamBox = ({
     }
 
     pendingCountRef.current += 1;
-    setPendingCount(prev => prev + 1);
+    setPendingCount((prev) => prev + 1);
   };
 
   return (

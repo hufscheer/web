@@ -1,7 +1,9 @@
-import { Button, Input, Typography, toast } from '@hcc/ui';
 import type { ComponentProps } from 'react';
+
+import { Button, Input, Typography, toast } from '@hcc/ui';
 import { type FieldErrors, useForm } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
+
 import type { PlayerFormType, TeamType } from '~/api';
 
 type Props = {
@@ -29,7 +31,7 @@ export const PlayerForm = ({ className, onSubmit, initialData, ...props }: Props
 
   const handleFormError = (errors: FieldErrors<PlayerFormType>) => {
     const messages = Object.values(errors)
-      .map(error => error?.message)
+      .map((error) => error?.message)
       .filter(Boolean);
 
     const [first, ...rest] = messages;
@@ -72,7 +74,7 @@ export const PlayerForm = ({ className, onSubmit, initialData, ...props }: Props
           placeholder="팀"
           defaultValue={
             initialData?.teams && initialData.teams.length > 0
-              ? initialData.teams.map(team => team.name).join(', ')
+              ? initialData.teams.map((team) => team.name).join(', ')
               : '소속팀이 존재하지 않아요.'
           }
           readOnly

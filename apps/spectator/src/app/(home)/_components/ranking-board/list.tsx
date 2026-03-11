@@ -1,5 +1,6 @@
-import { useRender } from '@base-ui/react';
 import type { ComponentProps } from 'react';
+
+import { useRender } from '@base-ui/react';
 import { twMerge } from 'tailwind-merge';
 
 interface ListProps extends useRender.ComponentProps<'ul'> {}

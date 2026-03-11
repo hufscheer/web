@@ -1,11 +1,12 @@
 import { GroupIcon, PersonIcon, RewardedAdsIcon, SmsIcon } from '@hcc/icons';
 import { Button } from '@hcc/ui';
 import Link from 'next/link';
+
 import { routes } from '~/constants/routes';
 
 export const BottomMenu = () => {
   return (
-    <div className="w-full gap-2 border-neutral-100 border-t bg-white p-5">
+    <div className="w-full gap-2 border-t border-neutral-100 bg-white p-5">
       <div className="row-between mb-2 gap-2">
         <Button className="flex-1 gap-1" variant="subtle" asChild>
           <Link href={`/${routes.leagues}`}>

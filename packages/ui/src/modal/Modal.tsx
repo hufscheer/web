@@ -1,6 +1,7 @@
 import * as ModalPrimitive from '@radix-ui/react-dialog';
 import { clsx as cn } from 'clsx';
 import { type ComponentPropsWithoutRef, type ComponentRef, forwardRef } from 'react';
+
 import styles from './Modal.module.css';
 
 const ModalContent = forwardRef<

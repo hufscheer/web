@@ -1,5 +1,6 @@
 'use client';
 
+import { ChevronForwardIcon } from '@hcc/icons';
 import { colors, Typography } from '@hcc/ui';
 import { ErrorBoundary, Suspense } from '@suspensive/react';
 
@@ -7,7 +8,6 @@ import { useSuspenseLeagues } from '~/api';
 import { Skeleton } from '~/components/skeleton';
 
 import * as LeagueCard from './league-card';
-import { ChevronForwardIcon } from '@hcc/icons';
 
 interface Props {
   year: number;
@@ -18,7 +18,7 @@ export const LeagueCardList = ({ year }: Props) => {
 
   return (
     <div className="column gap-3 px-5 pb-5">
-      {data.map(league => (
+      {data.map((league) => (
         <LeagueCard.Root league={league} key={league.leagueId}>
           <LeagueCard.Header />
 
@@ -30,7 +30,7 @@ export const LeagueCardList = ({ year }: Props) => {
 
               <div className="column w-full gap-4">
                 <LeagueCard.Scorers limit={3} />
-                <LeagueCard.Statistics limit={3} />
+                <LeagueCard.Statistics />
               </div>
             </Suspense>
           </ErrorBoundary>
@@ -61,7 +61,7 @@ const StatisticsErrorFallback = ({ reset }: { reset: () => void }) => {
         리그 통계 데이터가 집계되지 않았어요.
       </Typography>
 
-      <button type="button" onClick={reset} className="center-y gap-1 text-blue-500 text-sm">
+      <button type="button" onClick={reset} className="center-y gap-1 text-sm text-blue-500">
         다시 시도하기
         <ChevronForwardIcon width={12} height={12} />
       </button>

@@ -1,5 +1,7 @@
 import { Suspense } from '@suspensive/react';
+
 import { Header } from '~/components/layout';
+
 import { TeamInfo } from './_components/team-info';
 
 interface Props {

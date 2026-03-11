@@ -1,11 +1,15 @@
-import { Suspense } from '@suspensive/react';
 import type { ComponentProps } from 'react';
+
+import { Suspense } from '@suspensive/react';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
+
 import type { TeamFormType } from '~/api';
+
 import { SwitchCase } from '~/components/feature';
 import { handleFormError } from '~/utils/form-util';
+
 import { StepProgress } from './step-progress';
 import { TeamBasicInfoStep } from './team-basic-info-step';
 import { TeamPlayersStep } from './team-players-step';
@@ -52,7 +56,7 @@ export const TeamForm = ({ className, onSubmit, initialData, ...props }: Props) 
         <StepProgress
           currentStep={step}
           totalSteps={STEPS.length}
-          steps={STEPS.map(step => step.title)}
+          steps={STEPS.map((step) => step.title)}
         />
 
         <SwitchCase

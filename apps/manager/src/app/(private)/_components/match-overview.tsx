@@ -3,8 +3,10 @@
 import { ChevronForwardIcon } from '@hcc/icons';
 import { Badge, Typography } from '@hcc/ui';
 import Link from 'next/link';
+
 import { useSuspenseLeaguesHome } from '~/api';
 import { routes } from '~/constants/routes';
+
 import { GameCard } from './game-card';
 
 export const MatchOverview = () => {
@@ -12,7 +14,7 @@ export const MatchOverview = () => {
 
   return (
     <div className="column w-full flex-1 gap-1.5 overflow-y-auto pt-1.5">
-      {data.map(league => (
+      {data.map((league) => (
         <div key={league.id}>
           <div className="row-between w-full bg-white px-5 py-3">
             <div className="center-y gap-2">
@@ -30,11 +32,11 @@ export const MatchOverview = () => {
 
           <hr className="h-[1px] w-full border-none bg-neutral-100" />
 
-          {league.inProgressGames.map(game => (
+          {league.inProgressGames.map((game) => (
             <GameCard key={game.id}>
               <GameCard.Header leagueId={league.id} {...game} />
               <GameCard.TeamGroup>
-                {game.gameTeams.map(team => (
+                {game.gameTeams.map((team) => (
                   <GameCard.Team key={team.gameTeamId} {...team} />
                 ))}
               </GameCard.TeamGroup>

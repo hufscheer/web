@@ -1,7 +1,9 @@
+import type { ComponentProps } from 'react';
+
 import { Typography } from '@hcc/ui';
 import Image from 'next/image';
-import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
+
 import type { TeamDetailType } from '~/api';
 
 /* -------------------------------------------------------------------------------------------------
@@ -42,7 +44,7 @@ const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
             />
           </div>
         )}
-        <Typography className="whitespace-normal break-words" weight="medium">
+        <Typography className="break-words whitespace-normal" weight="medium">
           {team.name}
         </Typography>
       </div>

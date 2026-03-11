@@ -2,8 +2,10 @@
 
 import { Suspense } from '@suspensive/react';
 import { useMemo, useState } from 'react';
+
 import { Header } from '~/components/layout';
 import { StepProgress } from '~/components/ui';
+
 import LeagueInfo, { type LeagueInfoForm } from './LeagueInfo';
 import LeagueRegister from './LeagueRegister';
 
@@ -22,7 +24,7 @@ const Page = () => {
   }, [form]);
 
   const handleFormChange = (patch: Partial<LeagueInfoForm>) => {
-    setForm(prev => ({ ...prev, ...patch }));
+    setForm((prev) => ({ ...prev, ...patch }));
   };
 
   const goNext = () => {
@@ -33,7 +35,7 @@ const Page = () => {
   const leagueInfoForm = useMemo(
     () => ({
       name: form.name,
-      maxRound: form.maxRound!,
+      maxRound: form.maxRound ?? 0,
       startAt: form.startAt?.toISOString() ?? '',
       endAt: form.endAt?.toISOString() ?? '',
     }),

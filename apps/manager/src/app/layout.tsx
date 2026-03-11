@@ -1,11 +1,13 @@
 import '@hcc/ui/styles.css';
 import '~/styles/globals.css';
+import type { Metadata } from 'next';
+import type { PropsWithChildren } from 'react';
 
 import { Toaster } from '@hcc/ui';
 import { Analytics } from '@vercel/analytics/next';
-import type { Metadata } from 'next';
-import type { PropsWithChildren } from 'react';
+
 import { Layout } from '~/components/layout';
+
 import { Pretendard } from './_fonts';
 import { Provider } from './provider';
 

@@ -1,5 +1,6 @@
 import { formatTime } from '@hcc/toolkit';
 import { colors, Typography } from '@hcc/ui';
+
 import type { CheerTalkType } from '~/api';
 
 type Props = {

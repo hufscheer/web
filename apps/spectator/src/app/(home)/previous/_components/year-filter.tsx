@@ -1,4 +1,5 @@
 import Link from 'next/link';
+
 import { FilterBadge } from '~/components/ui';
 
 const SERVICE_START_YEAR = 2024;
@@ -18,7 +19,7 @@ export const YearFilter = ({ selectedYear }: Props) => {
   return (
     <div className="sticky top-24 z-header flex overflow-hidden bg-white py-3">
       <div className="flex gap-2 overflow-x-scroll [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*:first-child]:pl-5 [&>*:last-child]:pr-5">
-        {years.map(_year => {
+        {years.map((_year) => {
           return (
             <div key={_year} className="flex shrink-0 items-center gap-2">
               <FilterBadge

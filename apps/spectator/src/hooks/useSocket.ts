@@ -27,7 +27,7 @@ export default function useSocket<T>({ url, destination, callback }: useSocketPa
 
     clientRef.current.activate();
     clientRef.current.onConnect = () => {
-      clientRef.current?.subscribe(destination, message => {
+      clientRef.current?.subscribe(destination, (message) => {
         try {
           callbackRef.current(JSON.parse(message.body));
         } catch (error) {

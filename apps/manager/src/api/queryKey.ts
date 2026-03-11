@@ -1,5 +1,6 @@
 import { fetcher } from '@hcc/api-base';
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
+
 import type {
   CheerTalkPayload,
   CheerTalkType,

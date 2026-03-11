@@ -1,0 +1,72 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "react", "unicorn", "jsx-a11y"],
+  "categories": {
+    "correctness": "warn"
+  },
+  "rules": {
+    "typescript/no-floating-promises": "error",
+    "typescript/no-unsafe-assignment": "warn",
+    "unicorn/prefer-node-protocol": "off",
+    "typescript/no-non-null-assertion": "warn",
+    "eslint/prefer-template": "warn",
+    "typescript/consistent-type-imports": "error",
+    "typescript/consistent-type-exports": "error",
+    "eslint/no-param-reassign": "error",
+    "typescript/prefer-as-const": "error",
+    "eslint/default-param-last": "error",
+    "typescript/prefer-enum-initializers": "error",
+    "react/self-closing-comp": "error",
+    "eslint/one-var": ["error", "never"],
+    "unicorn/prefer-number-properties": "error",
+    "typescript/no-inferrable-types": "error",
+    "eslint/no-else-return": "error",
+    "eslint/dot-notation": "off",
+    "typescript/ban-types": "off",
+    "unicorn/no-array-for-each": "off",
+    "react-hooks/exhaustive-deps": "warn",
+    "typescript/no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_", "caughtErrors": "none" }
+    ],
+    "react/no-danger": "warn",
+    "typescript/no-explicit-any": "warn",
+    "react/no-array-index-key": "warn",
+    "jsx-a11y/button-has-type": "off",
+    "jsx-a11y/click-events-have-key-events": "off"
+  },
+  "settings": {
+    "jsx-a11y": {
+      "polymorphicPropName": null,
+      "components": {},
+      "attributes": {}
+    },
+    "next": {
+      "rootDir": []
+    },
+    "react": {
+      "formComponents": [],
+      "linkComponents": [],
+      "version": null,
+      "componentWrapperFunctions": []
+    },
+    "jsdoc": {
+      "ignorePrivate": false,
+      "ignoreInternal": false,
+      "ignoreReplacesDocs": true,
+      "overrideReplacesDocs": true,
+      "augmentsExtendsReplacesDocs": false,
+      "implementsReplacesDocs": false,
+      "exemptDestructuredRootsFromChecks": false,
+      "tagNamePreference": {}
+    },
+    "vitest": {
+      "typecheck": false
+    }
+  },
+  "env": {
+    "builtin": true
+  },
+  "globals": {},
+  "ignorePatterns": []
+}

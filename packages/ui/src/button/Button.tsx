@@ -2,6 +2,7 @@ import { Slot } from '@radix-ui/react-slot';
 import { clsx } from 'clsx';
 import { type ComponentProps, type CSSProperties, forwardRef } from 'react';
 import { match } from 'ts-pattern';
+
 import { Spinner } from '../spinner';
 import { colors, fontWeight as fontWeightToken } from '../token';
 import styles from './Button.module.css';

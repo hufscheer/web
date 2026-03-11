@@ -1,7 +1,9 @@
 import { Suspense } from '@suspensive/react';
 import { notFound } from 'next/navigation';
+
 import { GameDeleteMenu } from '~/app/(private)/leagues/[id]/[gameId]/game-delete-menu';
 import { Header } from '~/components/layout';
+
 import { FormSection } from './form-section';
 
 type Props = {

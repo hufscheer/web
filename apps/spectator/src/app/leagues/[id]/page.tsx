@@ -1,11 +1,15 @@
+import type { Metadata } from 'next';
+
 import { dehydrate, getQueryClient, HydrationBoundary } from '@hcc/api-base';
 import { Suspense } from '@suspensive/react';
-import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+
 import type { LeagueDetailType, LeagueTeamType } from '~/api';
+
 import { fetchLeague, fetchLeagueTeams } from '~/api';
 import { Header } from '~/components/layout';
 import { routes } from '~/constants/routes';
+
 import { GameList } from './_components/game-list';
 import { RoundFilter } from './_components/round-filter';
 import { TeamFilter } from './_components/team-filter';

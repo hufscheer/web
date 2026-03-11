@@ -1,6 +1,7 @@
 'use client';
 
 import { colors, Typography } from '@hcc/ui';
+
 import { useSuspenseGameVideo } from '~/api';
 
 type Props = {

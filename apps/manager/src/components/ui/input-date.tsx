@@ -27,12 +27,12 @@ export const InputDate = ({ label, value, onSelect }: InputDateProps) => {
           <div className="w-full">
             <p
               className={`pointer-events-none absolute font-medium text-neutral-400 transition-all ${
-                value ? 'top-2 text-xs' : '-translate-y-1/2 top-1/2 text-base'
-              } group-data-[state=open]:-translate-y-0 group-data-[state=open]:top-2 group-data-[state=open]:text-xs`}
+                value ? 'top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
+              } group-data-[state=open]:top-2 group-data-[state=open]:-translate-y-0 group-data-[state=open]:text-xs`}
             >
               {label}
             </p>
-            {value && <p className="pt-4 font-medium text-base text-black">{formattedDate}</p>}
+            {value && <p className="pt-4 text-base font-medium text-black">{formattedDate}</p>}
           </div>
           <CalendarMonthIcon className={value ? 'text-black' : 'text-gray-500'} />
         </button>
@@ -43,7 +43,7 @@ export const InputDate = ({ label, value, onSelect }: InputDateProps) => {
         <Drawer.Content className="fixed right-0 bottom-0 left-0 mt-24 flex flex-col rounded-t-lg bg-white">
           <div className="flex-1 rounded-t-lg p-4">
             <div className="mx-auto mb-4 h-1.5 w-12 flex-shrink-0 rounded-full bg-gray-300" />
-            <Drawer.Title className="mb-4 text-center font-semibold text-lg">{label}</Drawer.Title>
+            <Drawer.Title className="mb-4 text-center text-lg font-semibold">{label}</Drawer.Title>
             <div className="flex justify-center">
               <DayPicker locale={ko} mode="single" selected={value} onSelect={onSelect} />
             </div>

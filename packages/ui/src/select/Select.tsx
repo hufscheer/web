@@ -1,13 +1,13 @@
 import { clsx } from 'clsx';
 import { type ComponentProps, type CSSProperties, forwardRef, useId } from 'react';
 import { match } from 'ts-pattern';
+
 import {
   colors,
   type FontWeight,
   fontWeight as fontWeightToken,
   type LineHeight,
   lineHeight as lineHeightToken,
-  type ResponsiveFontSize,
 } from '../token';
 import styles from './Select.module.css';
 
@@ -15,7 +15,6 @@ type SelectSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export interface SelectProps extends Omit<ComponentProps<'select'>, 'size'> {
   size?: SelectSize;
-  fontSize?: ResponsiveFontSize;
   weight?: FontWeight;
   lineHeight?: LineHeight;
   placeholder?: string;
@@ -29,7 +28,6 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       children,
       placeholder,
       size = 'md',
-      fontSize = 16,
       weight = 'medium',
       lineHeight = 'normal',
       style: _style,

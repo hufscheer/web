@@ -22,7 +22,7 @@ export const StepProgress = ({ steps, currentStep }: StepProgressProps) => {
             <div className="flex flex-row items-center gap-2">
               <div
                 className={clsx(
-                  'flex h-6 w-6 items-center justify-center rounded-full border font-semibold text-sm transition-all',
+                  'flex h-6 w-6 items-center justify-center rounded-full border text-sm font-semibold transition-all',
                   {
                     // 완료된 단계 (체크 아이콘) or 비활성 단계
                     'bg-gray-400 text-white': !isActive,
@@ -33,7 +33,7 @@ export const StepProgress = ({ steps, currentStep }: StepProgressProps) => {
               >
                 {isCompleted ? <CheckSmallIcon width={20} height={20} /> : stepNumber}
               </div>
-              <span className={'whitespace-nowrap text-black text-sm'}>{step}</span>
+              <span className={'text-sm whitespace-nowrap text-black'}>{step}</span>
             </div>
 
             {stepNumber < steps.length && <div className="h-px flex-grow bg-gray-300" />}

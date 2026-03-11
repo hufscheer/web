@@ -5,6 +5,7 @@ import { Badge, Typography } from '@hcc/ui';
 import { Sofia_Sans } from 'next/font/google';
 import Image from 'next/image';
 import { twMerge } from 'tailwind-merge';
+
 import { type GameTeamType, useSuspenseGame } from '~/api';
 
 const Sofia = Sofia_Sans({ subsets: ['latin'] });
@@ -51,10 +52,10 @@ export const Banner = ({ gameId }: Props) => {
           </span>
         </div>
         <div className="column-center-x whitespace-nowrap text-neutral-500">
-          <time className="font-semibold text-xs">
+          <time className="text-xs font-semibold">
             {formatTime(data.startTime, { format: 'YYYY.MM.DD. (ddd)' })}
           </time>
-          <time className="font-semibold text-xs">
+          <time className="text-xs font-semibold">
             {formatTime(data.startTime, { format: 'HH:mm' })}
           </time>
         </div>

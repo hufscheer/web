@@ -3,6 +3,7 @@ import { colors, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import { Fragment } from 'react';
 import { twMerge } from 'tailwind-merge';
+
 import { type TimelineRecordType, useSuspenseGameTimeline } from '~/api';
 import { useSuspenseGameTeamInfo } from '~/app/games/[id]/_components/cheer-talk/useGameTeamInfo';
 
@@ -49,7 +50,7 @@ const Score = ({ recordedAt, teamImageUrl, teamName, playerName }: TimelineRecor
         {recordedAt}'
       </Typography>
 
-      <div className="center-y -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 gap-2">
+      <div className="center-y absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 gap-2">
         <SportsAndOutdoorsIcon className="text-white" size={18} />
         <div className="column-center-x">
           <Typography color={colors.white} fontSize={12} weight="medium">
@@ -86,7 +87,7 @@ const Replacement = ({
         {recordedAt}'
       </Typography>
 
-      <div className="center-y -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 gap-2">
+      <div className="center-y absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 gap-2">
         <TradeIcon size={18} />
         <div className="column-center-x">
           <Typography color={colors.white} fontSize={12} weight="medium">

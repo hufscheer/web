@@ -1,5 +1,6 @@
-import { Typography } from '@hcc/ui';
 import type { ComponentProps } from 'react';
+
+import { Typography } from '@hcc/ui';
 
 interface RankingBoardTitleProps extends ComponentProps<'p'> {}
 

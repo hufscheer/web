@@ -1,6 +1,8 @@
-import { Header } from '~/components/layout';
-import { CalendarOverview } from './_components/CalendarOverview';
 import { Suspense } from '@suspensive/react';
+
+import { Header } from '~/components/layout';
+
+import { CalendarOverview } from './_components/CalendarOverview';
 
 const Page = () => {
   return (

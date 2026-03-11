@@ -2,10 +2,13 @@
 
 import { ChatFillIcon } from '@hcc/icons';
 import { BottomSheet, colors, Typography } from '@hcc/ui';
-import { useMemo, useState, useEffect, useCallback } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useMemo, useState, useEffect, useCallback } from 'react';
+
 import type { CheerTalkType, GameCheerTalkWithTeamInfo } from '~/api';
+
 import useSocket from '~/hooks/useSocket';
+
 import { CheerTalkList } from './cheer-talk-list';
 import { CheerTalkTimeline } from './cheer-talk-timeline';
 import useCheerTalkById from './useCheerTalkById';
@@ -30,7 +33,7 @@ export const CheerTalk = ({ gameId }: Props) => {
   const handleSocketMessage = (cheerTalk: CheerTalkType) => {
     if (cheerTalk) {
       const teamInfo = getTeamInfo(cheerTalk.gameTeamId);
-      setSocketTalkList(prev => [...prev, { ...cheerTalk, ...teamInfo }]);
+      setSocketTalkList((prev) => [...prev, { ...cheerTalk, ...teamInfo }]);
     }
   };
 
@@ -65,7 +68,7 @@ export const CheerTalk = ({ gameId }: Props) => {
   );
 
   return (
-    <div className="column gap-2 border-neutral-100 border-t p-4">
+    <div className="column gap-2 border-t border-neutral-100 p-4">
       <div className="flex flex-row justify-between gap-2">
         <div>
           <BottomSheet open={isOpen} onOpenChange={handleOpenChange}>

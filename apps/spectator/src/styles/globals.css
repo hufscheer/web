@@ -1,6 +1,6 @@
-@import "tailwindcss";
-@import "@hcc/style/utilities.css";
-@import "@hcc/style/theme.css";
+@import 'tailwindcss';
+@import '@hcc/style/utilities.css';
+@import '@hcc/style/theme.css';
 
 @theme {
   /* new */

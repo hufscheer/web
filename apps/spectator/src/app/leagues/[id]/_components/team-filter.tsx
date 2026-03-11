@@ -3,7 +3,9 @@
 import Conveyer from '@egjs/conveyer';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
+
 import type { LeagueTeamType } from '~/api';
+
 import { FilterBadge } from '~/components/ui';
 
 type Props = {
@@ -34,7 +36,7 @@ export const TeamFilter = ({ teams, selectedTeams }: Props) => {
     const currentTeams = selectedTeams || [];
     const isActive = currentTeams.includes(leagueTeamId);
     const updatedTeams = isActive
-      ? currentTeams.filter(id => id !== leagueTeamId)
+      ? currentTeams.filter((id) => id !== leagueTeamId)
       : [...currentTeams, leagueTeamId];
 
     if (updatedTeams.length === 0) sp.delete('teams');
@@ -49,7 +51,7 @@ export const TeamFilter = ({ teams, selectedTeams }: Props) => {
         ref={containerRef}
         className="flex gap-2 overflow-x-scroll [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*:first-child]:pl-5 [&>*:last-child]:pr-5"
       >
-        {teams.map(item => {
+        {teams.map((item) => {
           const isActive = selectedTeams.includes(item.leagueTeamId);
 
           return (

@@ -2,6 +2,7 @@
 
 import { Accordion, Typography } from '@hcc/ui';
 import { twMerge } from 'tailwind-merge';
+
 import { useSuspenseGame, useSuspenseGameLineup } from '~/api';
 
 type Props = {
@@ -34,10 +35,10 @@ export const CandidateList = ({ gameId }: Props) => {
                 className={twMerge('column w-full gap-3 px-5', index === 0 ? 'order-1' : 'order-3')}
               >
                 {lineup[index].candidatePlayers
-                  .filter(player => !player.isReplaced)
-                  .map(player => (
+                  .filter((player) => !player.isReplaced)
+                  .map((player) => (
                     <div key={player.id} className="center-y w-full gap-2">
-                      <span className="center h-7 w-7 rounded-lg bg-neutral-100 font-medium text-neutral-500 text-sm">
+                      <span className="center h-7 w-7 rounded-lg bg-neutral-100 text-sm font-medium text-neutral-500">
                         {player.jerseyNumber}
                       </span>
                       <Typography fontSize={14} weight="medium" lineHeight="none" asChild>

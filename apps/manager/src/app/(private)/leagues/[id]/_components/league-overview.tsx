@@ -3,6 +3,7 @@
 import { formatTime } from '@hcc/toolkit';
 import { colors, Typography } from '@hcc/ui';
 import Link from 'next/link';
+
 import { useSuspenseLeague } from '~/api';
 import { routes } from '~/constants/routes';
 

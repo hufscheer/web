@@ -1,7 +1,9 @@
+import type { ComponentProps } from 'react';
+
 import { Typography } from '@hcc/ui';
 import Image from 'next/image';
-import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
+
 import type { GameTeamType } from '~/api';
 
 interface TeamBoxProps extends ComponentProps<'div'> {

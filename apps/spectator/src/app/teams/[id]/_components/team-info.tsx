@@ -1,10 +1,12 @@
 'use client';
-import { useSuspenseTeamGames, useSuspenseTeam } from '~/api';
-import { TeamCard } from './team-card';
-import { GameCard } from '~/components/ui/game-card';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+
+import { useSuspenseTeamGames, useSuspenseTeam } from '~/api';
+import { GameCard } from '~/components/ui/game-card';
 import { routes } from '~/constants/routes';
+
+import { TeamCard } from './team-card';
 import { TeamTrophy } from './trophy';
 
 export const TeamInfo = ({ id }: { id: number }) => {
@@ -23,7 +25,7 @@ export const TeamInfo = ({ id }: { id: number }) => {
           <TeamCard.Divider />
           <TeamTrophy trophies={team.trophies} />
           <TeamCard.Content>
-            {games.map(game => {
+            {games.map((game) => {
               const { gameId, gameTeams, state } = game;
               const [homeTeam, awayTeam] = gameTeams;
               const gameWithId = { ...game, id };

@@ -1,5 +1,7 @@
 import { useQuery, useSuspenseQuery } from '@hcc/api-base';
+
 import type { PlayerDetailPayload } from '~/api';
+
 import { queryKeys } from '../queryKey';
 
 export const usePlayer = (payload: PlayerDetailPayload) =>

@@ -1,5 +1,7 @@
 import { fetcher, useMutation, useQueryClient } from '@hcc/api-base';
+
 import type { ScoreType } from '~/api';
+
 import { queryKeys } from '~/api/queryKey';
 
 export const postTimelineScore = ({ gameId, ...request }: ScoreType) => {

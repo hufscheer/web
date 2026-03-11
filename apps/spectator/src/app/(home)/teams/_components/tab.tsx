@@ -1,13 +1,15 @@
 'use client';
 
 import { ErrorBoundary, Suspense } from '@suspensive/react';
+import { useState } from 'react';
+
 import { useSuspenseTeamsSummary } from '~/api';
+
 import { MatchHistory } from './match-history';
 import { ScoreList } from './score-list';
+import { ScorersModal } from './score-modal';
 import { TeamCard } from './team-card';
 import { TeamFilter, useTeamUnits } from './team-filter';
-import { useState } from 'react';
-import { ScorersModal } from './score-modal';
 
 type ModalPayload = {
   teamName: string;
@@ -26,7 +28,7 @@ export const TeamTab = () => {
         <TeamFilter />
 
         <div className="column mb-5 gap-3 px-5">
-          {data.map(team => (
+          {data.map((team) => (
             <TeamCard key={team.teamDetail.teamId}>
               <TeamCard.Header team={team.teamDetail} />
               <TeamCard.Divider />
@@ -68,7 +70,7 @@ export const TeamTab = () => {
           <Suspense fallback={null}>
             <ScorersModal
               open={open}
-              onOpenChange={next => {
+              onOpenChange={(next) => {
                 if (!next) setModal(null);
               }}
               teamId={modal.teamId}

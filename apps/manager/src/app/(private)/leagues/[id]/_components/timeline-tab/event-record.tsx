@@ -1,6 +1,8 @@
 import { colors, Typography } from '@hcc/ui';
 import { twMerge } from 'tailwind-merge';
+
 import type { TimelineRecordType } from '~/api';
+
 import { getRecordIcon, getRecordSubtitle, getRecordTitle } from './_utils';
 
 type Props = {
