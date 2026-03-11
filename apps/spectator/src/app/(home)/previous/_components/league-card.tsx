@@ -1,24 +1,45 @@
+'use client';
+
 import { ChevronForwardIcon } from '@hcc/icons';
 import { Badge, colors, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import Link from 'next/link';
-import type { ComponentProps } from 'react';
+import { type ComponentProps, createContext, useContext } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { type LeagueType, useSuspenseLeagueStatistics, useSuspenseLeagueTopScorers } from '~/api';
+
+import { useSuspenseLeagueStatistics, useSuspenseLeagueTopScorers, type LeagueType } from '~/api';
 import { routes } from '~/constants/routes';
 
+export const LeagueCardContext = createContext<LeagueType>({} as LeagueType);
+
+const useLeagueCardContext = () => {
+  const context = useContext(LeagueCardContext);
+
+  if (!context) {
+    throw new Error('LeagueCard compound components must be used within <LeagueCard.Root>');
+  }
+
+  return context;
+};
+
 /* -------------------------------------------------------------------------------------------------
- * LeagueCard
+ * LeagueCard.Root
  * -----------------------------------------------------------------------------------------------*/
 
-const LeagueCardRoot = ({ children, className, ...props }: ComponentProps<'div'>) => {
+interface LeagueCardRootProps extends ComponentProps<'div'> {
+  league: LeagueType;
+}
+
+export const Root = ({ league, className, children, ...props }: LeagueCardRootProps) => {
   return (
-    <div
-      className={twMerge('column gap-3 rounded-lg border border-gray-100 p-4', className)}
-      {...props}
-    >
-      {children}
-    </div>
+    <LeagueCardContext.Provider value={league}>
+      <div
+        className={twMerge('column gap-3 rounded-lg border border-gray-100 p-4', className)}
+        {...props}
+      >
+        {children}
+      </div>
+    </LeagueCardContext.Provider>
   );
 };
 
@@ -26,14 +47,14 @@ const LeagueCardRoot = ({ children, className, ...props }: ComponentProps<'div'>
  * LeagueCard.Header
  * -----------------------------------------------------------------------------------------------*/
 
-interface LeagueCardHeaderProps extends ComponentProps<'a'> {
-  league: LeagueType;
-}
+interface LeagueCardHeaderProps extends ComponentProps<'a'> {}
 
-const LeagueCardHeader = ({ league, className, ...props }: LeagueCardHeaderProps) => {
+export const Header = ({ className, ...props }: LeagueCardHeaderProps) => {
+  const { leagueId, name } = useLeagueCardContext();
+
   return (
     <Link
-      href={`/${routes.league(league.leagueId)}`}
+      href={`/${routes.league(leagueId)}`}
       className={twMerge('row-between gap-3', className)}
       {...props}
     >
@@ -41,7 +62,7 @@ const LeagueCardHeader = ({ league, className, ...props }: LeagueCardHeaderProps
         <div className="center relative h-8 w-8 select-none overflow-hidden rounded-full bg-neutral-200">
           ⚽
         </div>
-        <Typography weight="medium">{league.name}</Typography>
+        <Typography weight="medium">{name}</Typography>
       </div>
 
       <div className="center">
@@ -55,11 +76,10 @@ const LeagueCardHeader = ({ league, className, ...props }: LeagueCardHeaderProps
  * LeagueCard.Teams
  * -----------------------------------------------------------------------------------------------*/
 
-interface LeagueCardTeamsProps extends ComponentProps<'div'> {
-  leagueId: number;
-}
+interface LeagueCardTeamsProps extends ComponentProps<'div'> {}
 
-const LeagueCardTeams = ({ leagueId, className, ...props }: LeagueCardTeamsProps) => {
+export const Teams = ({ className, ...props }: LeagueCardTeamsProps) => {
+  const { leagueId } = useLeagueCardContext();
   const { data } = useSuspenseLeagueStatistics({ leagueId });
 
   return (
@@ -118,16 +138,11 @@ const LeagueCardTeams = ({ leagueId, className, ...props }: LeagueCardTeamsProps
  * -----------------------------------------------------------------------------------------------*/
 
 interface LeagueCardScorersProps extends ComponentProps<'div'> {
-  leagueId: number;
   limit?: number;
 }
 
-const LeagueCardScorers = ({
-  leagueId,
-  limit = 3,
-  className,
-  ...props
-}: LeagueCardScorersProps) => {
+export const Scorers = ({ limit = 3, className, ...props }: LeagueCardScorersProps) => {
+  const { leagueId } = useLeagueCardContext();
   const { data } = useSuspenseLeagueTopScorers({ leagueId });
 
   return (
@@ -176,20 +191,15 @@ const LeagueCardScorers = ({
 };
 
 /* -------------------------------------------------------------------------------------------------
- * LeagueCard.Scorers
+ * LeagueCard.Statistics
  * -----------------------------------------------------------------------------------------------*/
 
 interface LeagueCardStatisticsProps extends ComponentProps<'div'> {
-  leagueId: number;
   limit?: number;
 }
 
-const LeagueCardStatistics = ({
-  leagueId,
-  limit = 3,
-  className,
-  ...props
-}: LeagueCardStatisticsProps) => {
+export const Statistics = ({ limit = 3, className, ...props }: LeagueCardStatisticsProps) => {
+  const { leagueId } = useLeagueCardContext();
   const { data } = useSuspenseLeagueStatistics({ leagueId });
 
   return (
@@ -260,16 +270,6 @@ const LeagueCardStatistics = ({
  * LeagueCard.Divider
  * -----------------------------------------------------------------------------------------------*/
 
-const LeagueCardDivider = ({ className, ...props }: ComponentProps<'hr'>) => {
+export const Divider = ({ className, ...props }: ComponentProps<'hr'>) => {
   return <hr className={twMerge('h-px w-full border-none bg-gray-100', className)} {...props} />;
 };
-
-/* -----------------------------------------------------------------------------------------------*/
-
-export const LeagueCard = Object.assign(LeagueCardRoot, {
-  Header: LeagueCardHeader,
-  Teams: LeagueCardTeams,
-  Scorers: LeagueCardScorers,
-  Statistics: LeagueCardStatistics,
-  Divider: LeagueCardDivider,
-});
