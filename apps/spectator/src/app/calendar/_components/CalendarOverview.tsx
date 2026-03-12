@@ -134,7 +134,7 @@ export const CalendarOverview = () => {
               ))}
             </>
           ) : (
-            <div className="py-10 text-center text-neutral-400">해당 날짜에 경기가 없습니다.</div>
+            <div className="py-10 text-center text-neutral-400">해당 날짜에 경기가 없어요</div>
           )}
         </div>
       </div>
