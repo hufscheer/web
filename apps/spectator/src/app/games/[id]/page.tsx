@@ -13,7 +13,7 @@ import { routes } from '~/constants/routes';
 import { Banner } from './_components/banner';
 import { CheerTalk } from './_components/cheer-talk';
 
-const validTabs = ['lineup', 'timeline', 'video'];
+const validTabs = ['cheer', 'lineup', 'timeline', 'video'];
 
 type Props = {
   searchParams: Promise<{ tab?: string }>;
@@ -29,16 +29,17 @@ const Page = async ({ searchParams, params }: Props) => {
   }
 
   const { tab: _tab } = await searchParams;
-  const tab = validTabs.includes(_tab || '') ? _tab : 'lineup';
+  const tab = validTabs.includes(_tab || '') ? _tab : 'cheer';
 
   if (_tab && !validTabs.includes(_tab)) {
-    redirect('?tab=lineup');
+    redirect('?tab=cheer');
   }
 
   return (
-    <>
+    <div className="flex h-screen flex-col overflow-hidden bg-white">
       <Header arrow />
-      <div className="w-full">
+
+      <div className="flex-shrink-0">
         <Suspense clientOnly>
           <Banner gameId={id} />
         </Suspense>
@@ -47,45 +48,52 @@ const Page = async ({ searchParams, params }: Props) => {
           <CheerVS gameId={id} />
         </Suspense>
 
-        <Suspense clientOnly>
-          <CheerTalk gameId={id} />
-        </Suspense>
-
         <hr className="h-2 w-full border-none bg-neutral-50" />
-
-        <Tabs.Root className="column w-full" defaultValue={tab}>
-          <Tabs.List className="center sticky top-12 z-10 h-12 gap-5 border-b border-neutral-100 bg-white">
-            <TabTrigger className="size-full" value="lineup">
-              라인업
-            </TabTrigger>
-            <TabTrigger className="size-full" value="timeline">
-              타임라인
-            </TabTrigger>
-            <TabTrigger className="size-full" value="video">
-              영상
-            </TabTrigger>
-          </Tabs.List>
-
-          <Tabs.Content value="lineup">
-            <Suspense clientOnly>
-              <LineupTab gameId={id} />
-            </Suspense>
-          </Tabs.Content>
-
-          <Tabs.Content value="timeline">
-            <Suspense clientOnly>
-              <TimelineTab gameId={id} />
-            </Suspense>
-          </Tabs.Content>
-
-          <Tabs.Content value="video">
-            <Suspense clientOnly>
-              <VideoTab gameId={id} />
-            </Suspense>
-          </Tabs.Content>
-        </Tabs.Root>
       </div>
-    </>
+
+      <Tabs.Root className="flex min-h-0 flex-1 flex-col" defaultValue={tab}>
+        <Tabs.List className="center sticky top-0 z-10 flex h-12 flex-shrink-0 gap-5 border-b border-neutral-100 bg-white">
+          <TabTrigger className="size-full" value="cheer">
+            응원
+          </TabTrigger>
+          <TabTrigger className="size-full" value="lineup">
+            라인업
+          </TabTrigger>
+          <TabTrigger className="size-full" value="timeline">
+            타임라인
+          </TabTrigger>
+          <TabTrigger className="size-full" value="video">
+            영상
+          </TabTrigger>
+        </Tabs.List>
+
+        <Tabs.Content
+          value="cheer"
+          className="flex min-h-0 flex-1 flex-col overflow-hidden outline-none"
+        >
+          <Suspense clientOnly>
+            <CheerTalk gameId={id} />
+          </Suspense>
+        </Tabs.Content>
+        <Tabs.Content value="lineup" className="min-h-0 flex-1 overflow-y-auto outline-none">
+          <Suspense clientOnly>
+            <LineupTab gameId={id} />
+          </Suspense>
+        </Tabs.Content>
+
+        <Tabs.Content value="timeline" className="min-h-0 flex-1 overflow-y-auto outline-none">
+          <Suspense clientOnly>
+            <TimelineTab gameId={id} />
+          </Suspense>
+        </Tabs.Content>
+
+        <Tabs.Content value="video" className="min-h-0 flex-1 overflow-y-auto outline-none">
+          <Suspense clientOnly>
+            <VideoTab gameId={id} />
+          </Suspense>
+        </Tabs.Content>
+      </Tabs.Root>
+    </div>
   );
 };
 

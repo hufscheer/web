@@ -76,7 +76,6 @@ export const CheerTalkList = ({
     return handleInitialScroll();
   }, [handleInitialScroll]);
 
-  // const allMessages = [...cheerTalkList, ...socketTalkList];
   const allMessages = useMemo(() => {
     const messageMap = new Map<number, GameCheerTalkWithTeamInfo>();
     cheerTalkList.forEach((talk) => {
@@ -87,27 +86,32 @@ export const CheerTalkList = ({
     });
     return Array.from(messageMap.values()).sort((a, b) => a.cheerTalkId - b.cheerTalkId);
   }, [cheerTalkList, socketTalkList]);
+
   return (
     <Fragment>
-      <div ref={scrollRef} className="w-full flex-1 overflow-y-auto">
-        <div ref={intersectionRef} />
+      <div ref={scrollRef} className="scrollbar-hide w-full flex-1 overflow-y-auto">
+        <div ref={intersectionRef} className="h-1" />
+        {isFetchingNextPage && (
+          <div className="flex justify-center py-2">
+            <Spinner color="primary" />
+          </div>
+        )}
 
-        {isFetchingNextPage && <Spinner color="primary" />}
-
-        <div className="column gap-2.5 px-4">
+        <div className="column gap-2.5 px-4 py-4">
           {allMessages.map((talk) => (
-            <CheerTalkItem key={`socket-${talk.cheerTalkId}`} {...talk} />
+            <CheerTalkItem key={`talk-${talk.cheerTalkId}`} {...talk} />
           ))}
         </div>
 
         <div ref={bottomRef} />
       </div>
-
-      <CheerTalkForm
-        gameTeams={game.gameTeams}
-        scrollToBottom={scrollToBottomWithDelay}
-        gameState={game.state}
-      />
+      <div className="pb-safe flex-shrink-0 border-t border-neutral-100 bg-white">
+        <CheerTalkForm
+          gameTeams={game.gameTeams}
+          scrollToBottom={scrollToBottomWithDelay}
+          gameState={game.state}
+        />
+      </div>
     </Fragment>
   );
 };
