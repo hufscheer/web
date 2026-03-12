@@ -13,6 +13,7 @@ interface CalendarGridProps {
   onPrev: () => void;
   onNext: () => void;
   gameDates: number[];
+  isLoading?: boolean;
 }
 
 export const CalendarGrid = ({
@@ -24,6 +25,7 @@ export const CalendarGrid = ({
   onPrev,
   onNext,
   gameDates,
+  isLoading = false,
 }: CalendarGridProps) => {
   return (
     <div className="flex flex-col gap-4">
@@ -32,7 +34,8 @@ export const CalendarGrid = ({
           type="button"
           onClick={onPrev}
           aria-label="이전 달"
-          className="rounded-full p-1 transition-colors hover:bg-neutral-100"
+          disabled={isLoading}
+          className="rounded-full p-1 transition-colors hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <ChevronForwardIcon size={20} className="text-primary-600 rotate-180" />
         </button>
@@ -45,7 +48,8 @@ export const CalendarGrid = ({
           type="button"
           onClick={onNext}
           aria-label="다음 달"
-          className="rounded-full p-1 transition-colors hover:bg-neutral-100"
+          disabled={isLoading}
+          className="rounded-full p-1 transition-colors hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <ChevronForwardIcon size={20} className="text-primary-600" />
         </button>
