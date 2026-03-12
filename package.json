@@ -27,7 +27,11 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "pnpm lint --"
+      "pnpm lint --",
+      "pnpm format --"
+    ],
+    "*.{json,yml}": [
+      "pnpm format --"
     ]
   },
   "engines": {

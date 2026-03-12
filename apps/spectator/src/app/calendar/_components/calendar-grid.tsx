@@ -62,14 +62,11 @@ export const CalendarGrid = ({
         </div>
 
         <div className="mt-3 grid grid-cols-7 gap-3">
-          {days.map((day) => {
+          {days.map((day, i) => {
             const isSelected = day === selectedDay;
             const hasGame = day !== null && gameDates.includes(day);
             return (
-              <div
-                key={day ? `date-${year}-${month}-${day}` : `empty-${new Date().getTime()}`}
-                className="h-10"
-              >
+              <div key={day ? `date-${year}-${month}-${day}` : `empty-${i}`} className="h-10">
                 {day ? (
                   <div className="relative flex flex-col items-center justify-center">
                     <div className="flex items-center justify-center">
