@@ -37,9 +37,7 @@
     "typescript/no-explicit-any": "warn",
     "react/no-array-index-key": "warn",
     "jsx-a11y/button-has-type": "off",
-    "jsx-a11y/click-events-have-key-events": "off",
-    "jsx-a11y/label-has-associated-control": "off",
-    "jsx-a11y/alt-text": "off"
+    "jsx-a11y/click-events-have-key-events": "off"
   },
   "settings": {
     "jsx-a11y": {

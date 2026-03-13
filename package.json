@@ -17,7 +17,6 @@
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
-    "@oxlint/binding-win32-x64-msvc": "^1.51.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.3",
     "oxfmt": "^0.36.0",
