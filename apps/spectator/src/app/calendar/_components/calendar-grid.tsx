@@ -13,7 +13,6 @@ interface CalendarGridProps {
   onPrev: () => void;
   onNext: () => void;
   gameDates: number[];
-  isLoading?: boolean;
 }
 
 export const CalendarGrid = ({
@@ -25,7 +24,6 @@ export const CalendarGrid = ({
   onPrev,
   onNext,
   gameDates,
-  isLoading = false,
 }: CalendarGridProps) => {
   return (
     <div className="flex flex-col gap-4">
@@ -34,8 +32,7 @@ export const CalendarGrid = ({
           type="button"
           onClick={onPrev}
           aria-label="이전 달"
-          disabled={isLoading}
-          className="rounded-full p-1 transition-colors hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-full p-1 transition-colors hover:bg-neutral-100"
         >
           <ChevronForwardIcon size={20} className="text-primary-600 rotate-180" />
         </button>
@@ -48,8 +45,7 @@ export const CalendarGrid = ({
           type="button"
           onClick={onNext}
           aria-label="다음 달"
-          disabled={isLoading}
-          className="rounded-full p-1 transition-colors hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-full p-1 transition-colors hover:bg-neutral-100"
         >
           <ChevronForwardIcon size={20} className="text-primary-600" />
         </button>
@@ -66,11 +62,12 @@ export const CalendarGrid = ({
         </div>
 
         <div className="mt-3 grid grid-cols-7 gap-3">
-          {days.map((day, i) => {
+          {days.map((day, index) => {
             const isSelected = day === selectedDay;
             const hasGame = day !== null && gameDates.includes(day);
+            const cellKey = day ? `date-${year}-${month}-${day}` : `empty-${index}`;
             return (
-              <div key={day ? `date-${year}-${month}-${day}` : `empty-${i}`} className="h-10">
+              <div key={cellKey} className="h-10">
                 {day ? (
                   <div className="relative flex flex-col items-center justify-center">
                     <div className="flex items-center justify-center">

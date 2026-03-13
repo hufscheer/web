@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState, useTransition } from 'react';
+import { useMemo, useState } from 'react';
 
 import type { GameType } from '~/api';
 
@@ -12,8 +12,6 @@ import { GameCard } from './GameCard';
 export const CalendarOverview = () => {
   const [current, setCurrent] = useState(() => new Date());
   const [selectedDay, setSelectedDay] = useState<number | null>(new Date().getDate());
-  const [isPending, startTransition] = useTransition();
-  const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
 
   const year = current.getFullYear();
   const month = current.getMonth();
@@ -33,19 +31,13 @@ export const CalendarOverview = () => {
   }, [year, month]);
 
   const goPrev = () => {
-    setSlideDirection('left');
-    startTransition(() => {
-      setCurrent(new Date(year, month - 1, 1));
-      setSelectedDay(null);
-    });
+    setCurrent(new Date(year, month - 1, 1));
+    setSelectedDay(null);
   };
 
   const goNext = () => {
-    setSlideDirection('right');
-    startTransition(() => {
-      setCurrent(new Date(year, month + 1, 1));
-      setSelectedDay(null);
-    });
+    setCurrent(new Date(year, month + 1, 1));
+    setSelectedDay(null);
   };
 
   const { gamesByDate, gameDates } = useMemo(() => {
@@ -75,68 +67,36 @@ export const CalendarOverview = () => {
 
   return (
     <div className="flex w-full flex-col gap-4 p-5">
-      <style jsx>{`
-        @keyframes slideInRight {
-          from {
-            opacity: 0;
-            transform: translateX(100%);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-        @keyframes slideInLeft {
-          from {
-            opacity: 0;
-            transform: translateX(-100%);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-        .slide-animate {
-          animation: ${slideDirection === 'right' ? 'slideInRight' : 'slideInLeft'}
-            0.3s ease-out;
-        }
-      `}</style>
+      <CalendarGrid
+        year={year}
+        month={month}
+        days={days}
+        gameDates={gameDates}
+        selectedDay={selectedDay}
+        onDayClick={setSelectedDay}
+        onPrev={goPrev}
+        onNext={goNext}
+      />
 
-      <div className={!isPending ? 'slide-animate' : ''}>
-        <CalendarGrid
-          year={year}
-          month={month}
-          days={days}
-          gameDates={gameDates}
-          selectedDay={selectedDay}
-          onDayClick={setSelectedDay}
-          onPrev={goPrev}
-          onNext={goNext}
-          isLoading={isPending}
-        />
-      </div>
-
-      <div className={!isPending ? 'slide-animate' : ''}>
-        <div className="flex flex-col gap-2">
-          {filteredGames.length > 0 ? (
-            <>
-              <GameCard.Header league={filteredGames[0]} className="px-1 py-2" />
-              {filteredGames.map((game) => (
-                <GameCard.Match
-                  key={game.gameId}
-                  gameId={game.gameId}
-                  status={game.state}
-                  time={new Date(game.startTime).toTimeString().slice(0, 5)}
-                  round={game.gameName}
-                  team1={game.gameTeams[0]}
-                  team2={game.gameTeams[1]}
-                />
-              ))}
-            </>
-          ) : (
-            <div className="py-10 text-center text-neutral-400">해당 날짜에 경기가 없어요</div>
-          )}
-        </div>
+      <div className="flex flex-col gap-2">
+        {filteredGames.length > 0 ? (
+          <>
+            <GameCard.Header league={filteredGames[0]} className="px-1 py-2" />
+            {filteredGames.map((game) => (
+              <GameCard.Match
+                key={game.gameId}
+                gameId={game.gameId}
+                status={game.state}
+                time={new Date(game.startTime).toTimeString().slice(0, 5)}
+                round={game.gameName}
+                team1={game.gameTeams[0]}
+                team2={game.gameTeams[1]}
+              />
+            ))}
+          </>
+        ) : (
+          <div className="py-10 text-center text-neutral-400">해당 날짜에 경기가 없습니다.</div>
+        )}
       </div>
     </div>
   );
