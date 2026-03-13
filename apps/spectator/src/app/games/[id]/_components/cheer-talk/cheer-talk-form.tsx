@@ -10,6 +10,8 @@ interface CheerTalkFormProps {
   gameState: GameStateType;
 }
 
+const RECOMMENDED_MESSAGES = ['가즈아🔥', '나이스👍', '까비😭️'];
+
 export const CheerTalkForm = ({ gameTeams, scrollToBottom, gameState }: CheerTalkFormProps) => {
   const { mutate } = useCreateCheerTalk();
   const [message, setMessage] = useState('');
@@ -19,15 +21,16 @@ export const CheerTalkForm = ({ gameTeams, scrollToBottom, gameState }: CheerTal
   const canSubmit = message.trim() && !isFinished;
 
   const handleSubmit = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (!canSubmit) return;
+    (e?: FormEvent<HTMLFormElement>, customMessage?: string) => {
+      e?.preventDefault();
 
-      mutate({ gameTeamId: teamId, content: message }, { onSuccess: () => scrollToBottom() });
+      const content = customMessage || message;
+      if (!content.trim() || isFinished) return;
+      mutate({ gameTeamId: teamId, content }, { onSuccess: () => scrollToBottom() });
 
       setMessage('');
     },
-    [canSubmit, mutate, teamId, message, scrollToBottom],
+    [isFinished, mutate, teamId, message, scrollToBottom],
   );
 
   const placeholder = isFinished
@@ -37,25 +40,47 @@ export const CheerTalkForm = ({ gameTeams, scrollToBottom, gameState }: CheerTal
   if (gameTeams.length === 0) return null;
 
   return (
-    <form className="column w-full gap-1 bg-white p-4" onSubmit={handleSubmit}>
-      <fieldset className="center-y gap-2" disabled={isFinished}>
-        {gameTeams.map((team) => (
-          <label className="center-y gap-1 text-xs font-medium" key={team.gameTeamId}>
-            <input
-              type="radio"
-              checked={teamId === team.gameTeamId}
-              value={team.gameTeamId}
-              onChange={(e) => setTeamId(Number(e.target.value))}
+    <form className="column w-full gap-1 bg-[#F7F8FB] px-4 py-3" onSubmit={handleSubmit}>
+      <div className="center-y w-full gap-3 overflow-hidden">
+        <fieldset
+          className="center-y flex-shrink-0 gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1.5"
+          disabled={isFinished}
+        >
+          {gameTeams.map((team) => (
+            <label className="center-y font-Regular gap-1 text-xs" key={team.gameTeamId}>
+              <input
+                type="radio"
+                checked={teamId === team.gameTeamId}
+                value={team.gameTeamId}
+                onChange={(e) => setTeamId(Number(e.target.value))}
+                disabled={isFinished}
+              />
+              {team.gameTeamName}
+            </label>
+          ))}
+        </fieldset>
+
+        <div className="scrollbar-hide flex gap-1.5 overflow-x-auto py-1">
+          {RECOMMENDED_MESSAGES.map((msg) => (
+            <button
+              key={msg}
+              type="button"
               disabled={isFinished}
-            />
-            {team.gameTeamName}
-          </label>
-        ))}
-      </fieldset>
+              onClick={() => handleSubmit(undefined, msg)}
+              className={twMerge(
+                'flex-shrink-0 whitespace-nowrap rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-xs font-Regular text-neutral-600 transition-colors',
+                'hover:bg-neutral-50 active:bg-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed',
+              )}
+            >
+              {msg}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="center-y w-full gap-2">
         <input
-          className="w-full rounded-lg bg-neutral-100 px-3 py-2 text-sm font-medium"
+          className="w-full rounded-3xl border-1 border-neutral-200 bg-neutral-100 px-3 py-2 text-sm font-medium"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder={placeholder}

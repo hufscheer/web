@@ -69,7 +69,7 @@ const Page = async ({ searchParams, params }: Props) => {
 
         <Tabs.Content
           value="cheer"
-          className="flex min-h-0 flex-1 flex-col overflow-hidden outline-none"
+          className="flex min-h-0 flex-1 flex-col overflow-hidden bg-[#EBEBEB] outline-none"
         >
           <Suspense clientOnly>
             <CheerTalk gameId={id} />
