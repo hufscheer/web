@@ -6,7 +6,7 @@ import { TeamTab } from './_components/tab';
 
 export default function Page() {
   return (
-    <Tabs.Panel value="teams" className="flex-1" keepMounted>
+    <Tabs.Panel value="teams" className="flex-1">
       <ErrorBoundary fallback={<ErrorMessage />}>
         <Suspense clientOnly>
           <TeamTab />
