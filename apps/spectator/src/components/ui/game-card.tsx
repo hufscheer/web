@@ -92,43 +92,24 @@ const GameCardHeader = ({ game, showLeagueName, className, ...props }: GameCardH
 
 interface GameCardTeamProps extends ComponentProps<'div'> {
   team: GameTeamType;
-  position: 'home' | 'away';
 }
 
-const GameCardTeam = ({ team, position, className, ...props }: GameCardTeamProps) => {
-  const isHome = position === 'home';
-
+const GameCardTeam = ({ team, className, ...props }: GameCardTeamProps) => {
   return (
     <div
-      className={twMerge(
-        'center-y flex-1 gap-1 overflow-hidden',
-        isHome && 'justify-end',
-        className,
-      )}
+      className={twMerge('center-y flex-1 justify-between overflow-hidden', className)}
       {...props}
     >
-      {isHome && (
-        <Typography
-          className="overflow-hidden text-ellipsis whitespace-nowrap"
-          fontSize={14}
-          weight="medium"
-        >
-          {team.gameTeamName}
-        </Typography>
-      )}
-
-      <div className="center h-7 w-7 overflow-hidden rounded-full border border-neutral-100 select-none">
+      <div className="flex items-center gap-2">
         <Image
-          className="rounded-full object-cover"
+          className="center h-7 w-7 overflow-hidden rounded-full border border-neutral-100 object-cover select-none"
           src={team.logoImageUrl}
           alt={`${team.gameTeamName} 로고`}
           width={28}
           height={28}
           draggable={false}
         />
-      </div>
 
-      {!isHome && (
         <Typography
           className="overflow-hidden text-ellipsis whitespace-nowrap"
           fontSize={14}
@@ -136,7 +117,9 @@ const GameCardTeam = ({ team, position, className, ...props }: GameCardTeamProps
         >
           {team.gameTeamName}
         </Typography>
-      )}
+      </div>
+
+      <Typography weight="medium">{team.score}</Typography>
     </div>
   );
 };
@@ -182,7 +165,7 @@ const GameCardActions = ({
   ...props
 }: GameCardActionsProps) => {
   return (
-    <div className={twMerge('center-y gap-2 self-center pt-2', className)} {...props}>
+    <div className={twMerge('column center-y gap-2 self-center pt-2', className)} {...props}>
       {onStatsClick ? (
         <Button
           className="min-w-12 !border !border-neutral-100"

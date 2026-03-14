@@ -1,17 +1,13 @@
 'use client';
 
-import { colors, Spinner, Typography } from '@hcc/ui';
+import { colors, Typography } from '@hcc/ui';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Fragment, Suspense } from 'react';
+import { Fragment } from 'react';
 
 import { useSuspenseGames } from '~/api';
 import { GameCard } from '~/components/ui';
 import { routes } from '~/constants/routes';
-
-import { BestScorer } from './best-scorer';
-import { RankingBoard } from './ranking-board';
-import { RecentRecords } from './recent-records';
 
 export const RecentTab = () => {
   const { data: scheduled } = useSuspenseGames({ state: 'SCHEDULED', size: 20 });
@@ -20,7 +16,7 @@ export const RecentTab = () => {
   const router = useRouter();
 
   return (
-    <div className="flex h-full flex-col gap-3 p-5">
+    <div>
       <div className="flex flex-1 flex-col gap-3">
         {playing.map((league) => (
           <GameCard key={league.leagueId}>
@@ -32,19 +28,22 @@ export const RecentTab = () => {
 
               return (
                 <Fragment key={game.id}>
-                  <GameCard.Container>
+                  <GameCard.Container className="gap-4">
                     <GameCard.Header game={game} />
 
-                    <Link href={`/${routes.game(game.id)}`} className="row-between pt-2">
-                      <GameCard.Team team={game.gameTeams[0]} position="home" />
-                      <GameCard.Score game={game} />
-                      <GameCard.Team team={game.gameTeams[1]} position="away" />
-                    </Link>
+                    <div className="flex gap-4">
+                      <Link href={`/${routes.game(game.id)}`} className="column flex-1 gap-2">
+                        <GameCard.Team team={game.gameTeams[0]} />
+                        <GameCard.Team team={game.gameTeams[1]} />
+                      </Link>
 
-                    <GameCard.Actions
-                      onBroadcastClick={() => router.push(`/${routes.game(game.id)}`)}
-                      onCheerClick={() => router.push(`/${routes.game(game.id)}?cheer=1`)}
-                    />
+                      <div role="separator" className="w-px bg-gray-100" />
+
+                      <GameCard.Actions
+                        onBroadcastClick={() => router.push(`/${routes.game(game.id)}`)}
+                        onCheerClick={() => router.push(`/${routes.game(game.id)}?cheer=1`)}
+                      />
+                    </div>
                   </GameCard.Container>
                   {index !== league.games.length - 1 && <GameCard.Divider />}
                 </Fragment>
@@ -62,16 +61,21 @@ export const RecentTab = () => {
 
               return (
                 <Fragment key={game.id}>
-                  <GameCard.Container>
+                  <GameCard.Container className="gap-4">
                     <GameCard.Header game={game} />
-                    <Link href={`/${routes.game(game.id)}`} className="row-between pt-2">
-                      <GameCard.Team team={game.gameTeams[0]} position="home" />
-                      <GameCard.Score game={game} />
-                      <GameCard.Team team={game.gameTeams[1]} position="away" />
-                    </Link>
-                    <GameCard.Actions
-                      onBroadcastClick={() => router.push(`/${routes.game(game.id)}`)}
-                    />
+
+                    <div className="relative flex w-full flex-1 gap-4">
+                      <Link href={`/${routes.game(game.id)}`} className="column flex-1 gap-2">
+                        <GameCard.Team team={game.gameTeams[0]} />
+                        <GameCard.Team team={game.gameTeams[1]} />
+                      </Link>
+
+                      <div role="separator" className="w-px bg-gray-100" />
+
+                      <GameCard.Actions
+                        onBroadcastClick={() => router.push(`/${routes.game(game.id)}`)}
+                      />
+                    </div>
                   </GameCard.Container>
                   {index !== league.games.length - 1 && <GameCard.Divider />}
                 </Fragment>
@@ -92,28 +96,6 @@ export const RecentTab = () => {
           진행 중인 경기가 없어요 💨
         </Typography>
       )}
-
-      <div className="flex flex-col gap-3">
-        <Suspense
-          fallback={
-            <RankingBoard>
-              <Spinner />
-            </RankingBoard>
-          }
-        >
-          <RecentRecords />
-        </Suspense>
-
-        <Suspense
-          fallback={
-            <RankingBoard>
-              <Spinner />
-            </RankingBoard>
-          }
-        >
-          <BestScorer />
-        </Suspense>
-      </div>
     </div>
   );
 };

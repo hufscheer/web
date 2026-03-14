@@ -1,3 +1,5 @@
+'use client';
+
 import { Typography } from '@hcc/ui';
 
 import { useSuspenseLeagueRecentSummary } from '~/api/queries/useLeagueRecentSummary';
@@ -11,10 +13,6 @@ import {
 
 export const RecentRecords = () => {
   const { data: leagueRecentSummary } = useSuspenseLeagueRecentSummary();
-
-  if (!leagueRecentSummary.records.length) {
-    return <RankingBoard className="h-40" />;
-  }
 
   return (
     <RankingBoard>
