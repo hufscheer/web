@@ -67,7 +67,7 @@ export const CalendarGrid = ({
             const hasGame = day !== null && gameDates.includes(day);
             return (
               <div
-                key={day ? `date-${year}-${month}-${day}` : `empty-${new Date().getTime()}`}
+                key={day ? `date-${year}-${month}-${day}` : `empty-${Date.now()}`}
                 className="h-10"
               >
                 {day ? (
