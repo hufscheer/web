@@ -8,11 +8,17 @@ interface CheerTalkFormProps {
   gameTeams: GameTeamType[];
   scrollToBottom: () => void;
   gameState: GameStateType;
+  onInputFocus: () => void;
 }
 
 const RECOMMENDED_MESSAGES = ['가즈아🔥', '나이스👍', '까비😭️'];
 
-export const CheerTalkForm = ({ gameTeams, scrollToBottom, gameState }: CheerTalkFormProps) => {
+export const CheerTalkForm = ({
+  gameTeams,
+  scrollToBottom,
+  gameState,
+  onInputFocus,
+}: CheerTalkFormProps) => {
   const { mutate } = useCreateCheerTalk();
   const [message, setMessage] = useState('');
   const [teamId, setTeamId] = useState(gameTeams[0]?.gameTeamId ?? 0);
@@ -38,9 +44,8 @@ export const CheerTalkForm = ({ gameTeams, scrollToBottom, gameState }: CheerTal
     : '응원톡을 남겨보세요!';
 
   if (gameTeams.length === 0) return null;
-
   return (
-    <form className="column w-full gap-1 bg-[#F7F8FB] px-4 py-3" onSubmit={handleSubmit}>
+    <form className="column relative w-full gap-1 bg-[#F7F8FB] px-4 py-3" onSubmit={handleSubmit}>
       <div className="center-y w-full gap-3 overflow-hidden">
         <fieldset
           className="center-y flex-shrink-0 gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1.5"
@@ -83,6 +88,7 @@ export const CheerTalkForm = ({ gameTeams, scrollToBottom, gameState }: CheerTal
           className="w-full rounded-3xl border-1 border-neutral-200 bg-neutral-100 px-3 py-2 text-sm font-medium"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          onFocus={onInputFocus}
           placeholder={placeholder}
           aria-label="응원 메시지 입력"
           disabled={isFinished}

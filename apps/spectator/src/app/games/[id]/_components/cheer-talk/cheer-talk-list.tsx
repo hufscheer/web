@@ -1,6 +1,7 @@
 'use client';
-import { Spinner } from '@hcc/ui';
-import { Fragment, useCallback, useEffect, useMemo, useRef } from 'react';
+import { CloseIcon } from '@hcc/icons';
+import { colors, Spinner, Typography } from '@hcc/ui';
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { type GameCheerTalkWithTeamInfo, useSuspenseGame } from '~/api';
 import useIntersectionObserver from '~/hooks/useIntersectionObserver';
@@ -30,6 +31,7 @@ export const CheerTalkList = ({
   isFetchingNextPage,
 }: CheerTalkListProps) => {
   const { data: game } = useSuspenseGame({ gameId });
+  const [isNoticeVisible, setIsNoticeVisible] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -89,7 +91,7 @@ export const CheerTalkList = ({
 
   return (
     <Fragment>
-      <div ref={scrollRef} className="scrollbar-hide w-full flex-1 overflow-y-auto">
+      <div ref={scrollRef} className="scrollbar-hide relative w-full flex-1 overflow-y-auto">
         <div ref={intersectionRef} className="h-1" />
         {isFetchingNextPage && (
           <div className="flex justify-center py-2">
@@ -105,11 +107,29 @@ export const CheerTalkList = ({
 
         <div ref={bottomRef} />
       </div>
+      {isNoticeVisible && (
+        <div className="right-4 bottom-2 left-4 z-20 mx-4 mb-2">
+          <div className="animate-in fade-in slide-in-from-bottom-2 flex items-center justify-between rounded-lg border border-neutral-100 bg-white p-3 shadow-lg">
+            <Typography fontSize={12} color={colors.neutral700} className="leading-5">
+              타인에게 불쾌감을 주거나 법령을 위반하는 활동을 할 경우, 운영정책에 따라 메시지 삭제
+              및 서비스 이용이 제한 될 수 있습니다.
+            </Typography>
+            <button
+              type="button"
+              onClick={() => setIsNoticeVisible(false)}
+              className="text-neutral-400 hover:text-neutral-600"
+            >
+              <CloseIcon size={16} />
+            </button>
+          </div>
+        </div>
+      )}
       <div className="pb-safe flex-shrink-0 border-t border-neutral-100 bg-white">
         <CheerTalkForm
           gameTeams={game.gameTeams}
           scrollToBottom={scrollToBottomWithDelay}
           gameState={game.state}
+          onInputFocus={() => setIsNoticeVisible(true)}
         />
       </div>
     </Fragment>
