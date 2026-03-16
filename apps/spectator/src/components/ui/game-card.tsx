@@ -1,55 +1,69 @@
-import type { ComponentProps } from 'react';
+'use client';
 
-import { ChevronForwardIcon } from '@hcc/icons';
 import { formatTime } from '@hcc/toolkit';
 import { Badge, Button, colors, Typography } from '@hcc/ui';
 import Image from 'next/image';
-import Link from 'next/link';
+import { createContext, useContext, type ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import type { GameListResponse, GameListType, GameTeamType } from '~/api';
+import type { GameListType } from '~/api';
 
-import { routes } from '~/constants/routes';
+import { cn } from '~/utils/cn';
+
+type GameType = { game: GameListType };
+
+const GameCardContext = createContext<GameListType>({} as GameListType);
+
+const useGameCardContext = () => {
+  const context = useContext(GameCardContext);
+
+  if (!context) {
+    throw new Error('GameCard components must be used within a GameCard');
+  }
+
+  return context;
+};
 
 /* -------------------------------------------------------------------------------------------------
  * GameCard
  * -----------------------------------------------------------------------------------------------*/
 
-const GameCardRoot = ({ children, className, ...props }: ComponentProps<'div'>) => {
+interface GameCardProps extends ComponentProps<'div'>, GameType {}
+
+const GameCardRoot = ({ game, children, className, ...props }: GameCardProps) => {
   return (
-    <div
-      className={twMerge('column gap-3 rounded-lg border border-gray-100 p-4', className)}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-};
-
-/* -------------------------------------------------------------------------------------------------
- * GameCard.League
- * -----------------------------------------------------------------------------------------------*/
-
-interface GameCardLeagueProps extends ComponentProps<'div'> {
-  league: GameListResponse;
-}
-
-const GameCardLeague = ({ league, className, ...props }: GameCardLeagueProps) => {
-  return (
-    <div className={twMerge('row-between gap-3', className)} {...props}>
-      <div className="center-y gap-3">
-        <div className="center relative h-8 w-8 overflow-hidden rounded-full bg-neutral-200 select-none">
-          ⚽
-        </div>
-        <Typography weight="medium">{league.leagueName}</Typography>
+    <GameCardContext.Provider value={game}>
+      <div className={twMerge('column gap-3 p-2', className)} {...props}>
+        {children}
       </div>
-
-      <Link href={`/${routes.league(league.leagueId)}`} className="center">
-        <ChevronForwardIcon size={24} />
-      </Link>
-    </div>
+    </GameCardContext.Provider>
   );
 };
+
+// /* -------------------------------------------------------------------------------------------------
+//  * GameCard.League
+//  * -----------------------------------------------------------------------------------------------*/
+
+// interface GameCardLeagueProps extends ComponentProps<'div'> {
+//   league: GameListResponse;
+// }
+
+// const GameCardLeague = ({ league, className, ...props }: GameCardLeagueProps) => {
+//   return (
+//     <div className={twMerge('row-between gap-3', className)} {...props}>
+//       <div className="center-y gap-3">
+//         <div className="center relative h-8 w-8 overflow-hidden rounded-full bg-neutral-200 select-none">
+//           ⚽
+//         </div>
+//         <Typography weight="medium">{league.leagueName}</Typography>
+//       </div>
+
+//       <Link href={`/${routes.league(league.leagueId)}`} className="center">
+//         <ChevronForwardIcon size={24} />
+//       </Link>
+//     </div>
+//   );
+// };
 
 /* -------------------------------------------------------------------------------------------------
  * GameCard.Container
@@ -57,7 +71,7 @@ const GameCardLeague = ({ league, className, ...props }: GameCardLeagueProps) =>
 
 const GameCardContainer = ({ children, className, ...props }: ComponentProps<'div'>) => {
   return (
-    <div className={twMerge('column', className)} {...props}>
+    <div className={cn('column', className)} {...props}>
       {children}
     </div>
   );
@@ -68,20 +82,22 @@ const GameCardContainer = ({ children, className, ...props }: ComponentProps<'di
  * -----------------------------------------------------------------------------------------------*/
 
 interface GameCardHeaderProps extends ComponentProps<'div'> {
-  game: GameListType;
+  // game: GameListType;
   showLeagueName?: boolean;
 }
 
-const GameCardHeader = ({ game, showLeagueName, className, ...props }: GameCardHeaderProps) => {
+const GameCardHeader = ({ showLeagueName, className, ...props }: GameCardHeaderProps) => {
+  const { leagueName, round, startTime, gameQuarter } = useGameCardContext();
+
   return (
     <div className={twMerge('row-between', className)} {...props}>
       <Typography color={colors.neutral500} fontSize={13} weight="medium">
-        {showLeagueName && `${game.leagueName} ‧ `}
-        {game.round === 2 ? '결승' : `${game.round}강`}
+        {showLeagueName && `${leagueName} ‧ `}
+        {round === 2 ? '결승' : `${round}강`}
         {' ‧ '}
-        {formatTime(game.startTime, { format: 'MM.DD. HH:mm' })}
+        {formatTime(startTime, { format: 'MM.DD. HH:mm' })}
       </Typography>
-      <Badge size="sm">{game.gameQuarter}</Badge>
+      <Badge size="sm">{gameQuarter}</Badge>
     </div>
   );
 };
@@ -91,10 +107,13 @@ const GameCardHeader = ({ game, showLeagueName, className, ...props }: GameCardH
  * -----------------------------------------------------------------------------------------------*/
 
 interface GameCardTeamProps extends ComponentProps<'div'> {
-  team: GameTeamType;
+  index: 1 | 2;
 }
 
-const GameCardTeam = ({ team, className, ...props }: GameCardTeamProps) => {
+const GameCardTeam = ({ index, className, ...props }: GameCardTeamProps) => {
+  const { gameTeams } = useGameCardContext();
+  const team = index === 1 ? gameTeams[0] : gameTeams[1];
+
   return (
     <div
       className={twMerge('center-y flex-1 justify-between overflow-hidden', className)}
@@ -124,28 +143,28 @@ const GameCardTeam = ({ team, className, ...props }: GameCardTeamProps) => {
   );
 };
 
-/* -------------------------------------------------------------------------------------------------
- * GameCard.Score
- * -----------------------------------------------------------------------------------------------*/
+// /* -------------------------------------------------------------------------------------------------
+//  * GameCard.Score
+//  * -----------------------------------------------------------------------------------------------*/
 
-interface GameCardScoreProps extends ComponentProps<'div'> {
-  game: GameListType;
-}
+// interface GameCardScoreProps extends ComponentProps<'div'> {
+//   game: GameListType;
+// }
 
-const GameCardScore = ({ game, className, ...props }: GameCardScoreProps) => {
-  if (game.gameTeams.length < 2) return null;
+// const GameCardScore = ({ game, className, ...props }: GameCardScoreProps) => {
+//   if (game.gameTeams.length < 2) return null;
 
-  const home = game.gameTeams[0];
-  const away = game.gameTeams[1];
+//   const home = game.gameTeams[0];
+//   const away = game.gameTeams[1];
 
-  return (
-    <div className={twMerge('center min-w-18', className)} {...props}>
-      <Typography weight="medium">
-        {home.score} : {away.score}
-      </Typography>
-    </div>
-  );
-};
+//   return (
+//     <div className={twMerge('center min-w-18', className)} {...props}>
+//       <Typography weight="medium">
+//         {home.score} : {away.score}
+//       </Typography>
+//     </div>
+//   );
+// };
 
 /* -------------------------------------------------------------------------------------------------
  * GameCard.Actions
@@ -222,11 +241,11 @@ const GameCardDivider = ({ className, ...props }: ComponentProps<'hr'>) => {
 /* -----------------------------------------------------------------------------------------------*/
 
 export const GameCard = Object.assign(GameCardRoot, {
-  League: GameCardLeague,
+  // League: GameCardLeague,
   Container: GameCardContainer,
   Header: GameCardHeader,
   Team: GameCardTeam,
-  Score: GameCardScore,
+  // Score: GameCardScore,
   Actions: GameCardActions,
   Divider: GameCardDivider,
 });
