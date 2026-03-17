@@ -40,31 +40,6 @@ const GameCardRoot = ({ game, children, className, ...props }: GameCardProps) =>
   );
 };
 
-// /* -------------------------------------------------------------------------------------------------
-//  * GameCard.League
-//  * -----------------------------------------------------------------------------------------------*/
-
-// interface GameCardLeagueProps extends ComponentProps<'div'> {
-//   league: GameListResponse;
-// }
-
-// const GameCardLeague = ({ league, className, ...props }: GameCardLeagueProps) => {
-//   return (
-//     <div className={twMerge('row-between gap-3', className)} {...props}>
-//       <div className="center-y gap-3">
-//         <div className="center relative h-8 w-8 overflow-hidden rounded-full bg-neutral-200 select-none">
-//           ⚽
-//         </div>
-//         <Typography weight="medium">{league.leagueName}</Typography>
-//       </div>
-
-//       <Link href={`/${routes.league(league.leagueId)}`} className="center">
-//         <ChevronForwardIcon size={24} />
-//       </Link>
-//     </div>
-//   );
-// };
-
 /* -------------------------------------------------------------------------------------------------
  * GameCard.Container
  * -----------------------------------------------------------------------------------------------*/
@@ -142,29 +117,6 @@ const GameCardTeam = ({ index, className, ...props }: GameCardTeamProps) => {
     </div>
   );
 };
-
-// /* -------------------------------------------------------------------------------------------------
-//  * GameCard.Score
-//  * -----------------------------------------------------------------------------------------------*/
-
-// interface GameCardScoreProps extends ComponentProps<'div'> {
-//   game: GameListType;
-// }
-
-// const GameCardScore = ({ game, className, ...props }: GameCardScoreProps) => {
-//   if (game.gameTeams.length < 2) return null;
-
-//   const home = game.gameTeams[0];
-//   const away = game.gameTeams[1];
-
-//   return (
-//     <div className={twMerge('center min-w-18', className)} {...props}>
-//       <Typography weight="medium">
-//         {home.score} : {away.score}
-//       </Typography>
-//     </div>
-//   );
-// };
 
 /* -------------------------------------------------------------------------------------------------
  * GameCard.Actions
