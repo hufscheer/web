@@ -20,7 +20,6 @@ type Props = {
 
 export const CheerTalk = ({ gameId }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
   const [socketTalkList, setSocketTalkList] = useState<GameCheerTalkWithTeamInfo[]>([]);
   const { getTeamInfo } = useSuspenseGameTeamInfo(gameId);
 
@@ -69,49 +68,48 @@ export const CheerTalk = ({ gameId }: Props) => {
 
   return (
     <div className="column gap-2 border-t border-neutral-100 p-4">
-      <div className="flex flex-row justify-between gap-2">
-        <div>
-          <BottomSheet open={isOpen} onOpenChange={handleOpenChange}>
-            <Typography color={colors.neutral900} weight="semibold">
+      <BottomSheet open={isOpen} onOpenChange={handleOpenChange}>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="min-w-0 flex-1">
+            <Typography color={colors.neutral900} weight="semibold" className="sm:text-2xl text-xl">
               실시간 응원톡
             </Typography>
+            <Typography
+              fontSize={12}
+              weight="medium"
+              className="sm:text-base text-sm leading-relaxed break-keep"
+            >
+              응원톡에 들어가 여러분의 팀을 응원해보세요! 🙌
+            </Typography>
+          </div>
 
-            <BottomSheet.Trigger className="cursor-pointer">
-              <div className="row-between gap-2">
-                <Typography
-                  fontSize={14}
-                  weight="medium"
-                  // className="rounded-full bg-neutral-100 px-3 py-2"
-                >
-                  응원톡에 들어가 여러분의 팀을 응원해보세요! 🙌
-                </Typography>
-              </div>
-            </BottomSheet.Trigger>
-            <BottomSheet.Portal>
-              <BottomSheet.Content className="!h-full max-h-[90%]">
-                <BottomSheet.Title className="sr-only">응원톡 작성</BottomSheet.Title>
-                <div className="column-between h-full overflow-hidden">
-                  <CheerTalkTimeline gameId={gameId} />
-                  <CheerTalkList
-                    gameId={gameId}
-                    cheerTalkList={cheerTalks}
-                    socketTalkList={socketTalkList}
-                    {...rest}
-                  />
-                </div>
-              </BottomSheet.Content>
-            </BottomSheet.Portal>
-          </BottomSheet>
+          <BottomSheet.Trigger asChild>
+            <button
+              type="button"
+              className="
+                  center sm:px-3.5 sm:py-2 my-1 flex shrink-0 flex-row items-center gap-1 rounded-full bg-[var(--color-primary-600)] px-3 py-2 text-sm font-bold whitespace-nowrap text-white
+                  transition-opacity hover:opacity-90
+                "
+            >
+              <ChatFillIcon className="shrink-0 text-white" />
+              <span className="whitespace-nowrap">입장하기</span>
+            </button>
+          </BottomSheet.Trigger>
         </div>
-        <button
-          type="button"
-          onClick={() => setIsOpen(true)}
-          className="center flex-row gap-1 rounded-full bg-[var(--color-primary-600)] p-3 text-white transition-opacity hover:opacity-90"
-        >
-          <ChatFillIcon className="text-white" />
-          입장하기
-        </button>
-      </div>
+
+        <BottomSheet.Content className="!h-full max-h-[90%]">
+          <BottomSheet.Title className="sr-only">응원톡 작성</BottomSheet.Title>
+          <div className="column-between h-full overflow-hidden">
+            <CheerTalkTimeline gameId={gameId} />
+            <CheerTalkList
+              gameId={gameId}
+              cheerTalkList={cheerTalks}
+              socketTalkList={socketTalkList}
+              {...rest}
+            />
+          </div>
+        </BottomSheet.Content>
+      </BottomSheet>
     </div>
   );
 };
