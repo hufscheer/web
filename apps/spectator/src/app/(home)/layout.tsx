@@ -5,15 +5,17 @@ import type { PropsWithChildren } from 'react';
 import { Header } from '~/components/layout';
 
 import { CalendarMenu } from './_components/calendar-menu';
-import { TabHeader } from './_components/tab-header';
+import { NavigationBar } from './_components/navigation-bar';
 
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
-    <>
+    <div className="relative">
       <Header menu={<CalendarMenu />} />
 
-      <TabHeader>{children}</TabHeader>
-    </>
+      <div className="pb-(--hcc-navbar-height)">{children}</div>
+
+      <NavigationBar />
+    </div>
   );
 };
 

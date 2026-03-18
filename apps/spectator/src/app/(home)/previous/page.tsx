@@ -1,4 +1,3 @@
-import { Tabs } from '@base-ui/react';
 import { ErrorBoundary, Suspense } from '@suspensive/react';
 
 import { ErrorMessage } from '../_components/error-message';
@@ -14,7 +13,7 @@ export default async function Page({ searchParams }: PageProps) {
   const selectedYear = Number((await searchParams).year) || currentYear;
 
   return (
-    <Tabs.Panel value="previous" className="flex-1">
+    <div className="flex-1">
       <YearFilter selectedYear={selectedYear} />
 
       <div className="column">
@@ -24,6 +23,6 @@ export default async function Page({ searchParams }: PageProps) {
           </Suspense>
         </ErrorBoundary>
       </div>
-    </Tabs.Panel>
+    </div>
   );
 }

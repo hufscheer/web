@@ -29,8 +29,8 @@ export const RecentTab = () => {
               games={league.games}
               trailing={
                 index === 0 && (
-                  <Button size="sm" color="primary">
-                    지금 같이 응원하기
+                  <Button size="sm" color="primary" asChild>
+                    <Link href={`/${routes.league(league.leagueId)}`}>지금 같이 응원하기</Link>
                   </Button>
                 )
               }
@@ -46,11 +46,13 @@ export const RecentTab = () => {
               leagueName={league.leagueName}
               games={league.games}
               trailing={
-                index === 0 && (
-                  <Button variant="ghost" size="sm" color="primary" className="gap">
-                    지금 같이 응원하기
-                    {/* <ChevronForwardIcon className="transition-transform duration-300 " /> */}
-                    <ChevronForwardIcon className="animate-[arrow_1s_ease-in-out_infinite] " />
+                index === 0 &&
+                playing.length === 0 && (
+                  <Button asChild variant="ghost" size="sm" color="primary" className="gap">
+                    <Link href={`/${routes.league(league.leagueId)}`}>
+                      결승 경기 다시보기
+                      <ChevronForwardIcon className="animate-[arrow_1s_ease-in-out_infinite] " />
+                    </Link>
                   </Button>
                 )
               }

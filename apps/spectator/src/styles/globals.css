@@ -18,6 +18,8 @@
   --color-greyscale-25: #f5f5f7;
   --color-white: #ffffff;
 
+  --hcc-navbar-height: 4rem;
+
   @keyframes arrow {
     0%,
     100% {
