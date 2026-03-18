@@ -1,16 +1,20 @@
 import { CancelIcon } from '@hcc/icons';
 import { Button, colors, Input, Typography, toast } from '@hcc/ui';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 
 import { type TeamFormType, useSuspensePlayers } from '~/api';
 import { PlayerAppendDialog } from '~/app/(private)/teams/_components/player-append-dialog';
+
+import { AddPlayerBottomSheet } from './assistants/add-player-bottom-sheet';
+import { FloatingActionButton } from './assistants/floating-action-button';
 
 type Props = {
   onPrevious: () => void;
 };
 
 export const TeamPlayersStep = ({ onPrevious }: Props) => {
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const { control, watch } = useFormContext<TeamFormType>();
   const { fields, append, remove } = useFieldArray({ control, name: 'teamPlayers' });
 
@@ -99,7 +103,13 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
           </Typography>
         )}
       </div>
+      <FloatingActionButton onClick={() => setIsBottomSheetOpen(true)} />
 
+      <AddPlayerBottomSheet
+        isOpen={isBottomSheetOpen}
+        onOpenChange={setIsBottomSheetOpen}
+        // messages={messages}
+      />
       <div className="column mt-6 w-full gap-2">
         <Button type="button" onClick={onPrevious} variant="subtle" color="black" size="lg">
           이전 단계
