@@ -13,48 +13,29 @@ import { GameCard } from '~/components/ui';
 import { routes } from '~/constants/routes';
 
 export const RecentTab = () => {
-  const { data: scheduled } = useSuspenseGames({ state: 'SCHEDULED', size: 20 });
   const { data: playing } = useSuspenseGames({ state: 'PLAYING', size: 20 });
+  const { data: finished } = useSuspenseGames({ state: 'FINISHED', size: 9999 });
+
+  const hasPlayingGames = playing.length !== 0;
+  const recentFinished = finished.sort((a, b) => a.leagueId - b.leagueId).at(-1);
+  const displayedGame = hasPlayingGames ? playing.at(-1) : recentFinished;
+
+  if (!displayedGame) return null;
 
   return (
     <>
       <div className="flex flex-1 flex-col gap-3">
-        {playing.map((league, index) => {
-          return (
-            <GameList
-              key={league.leagueId}
-              leagueId={league.leagueId}
-              leagueName={league.leagueName}
-              games={league.games}
-              trailing={
-                index === 0 && (
-                  <Button size="sm" color="primary">
-                    지금 같이 응원하기
-                  </Button>
-                )
-              }
-            />
-          );
-        })}
-
-        {scheduled.map((league, index) => {
-          return (
-            <GameList
-              key={league.leagueId}
-              leagueId={league.leagueId}
-              leagueName={league.leagueName}
-              games={league.games}
-              trailing={
-                index === 0 && (
-                  <Button variant="ghost" size="sm" color="primary" className="gap">
-                    지금 같이 응원하기
-                    <ChevronForwardIcon className="animate-[arrow_1s_ease-in-out_infinite] " />
-                  </Button>
-                )
-              }
-            />
-          );
-        })}
+        <GameList
+          leagueId={displayedGame.leagueId}
+          leagueName={displayedGame.leagueName}
+          games={displayedGame.games}
+          trailing={
+            <Button variant="ghost" size="sm" color="primary" className="gap">
+              {hasPlayingGames ? '응원하러 가기' : '지난 경기 보러가기'}
+              <ChevronForwardIcon className="animate-[arrow_1s_ease-in-out_infinite] " />
+            </Button>
+          }
+        />
       </div>
     </>
   );
@@ -110,7 +91,7 @@ const GameList = ({ leagueId, leagueName, games, trailing }: GameListProps) => {
               </GameCard.Container>
             </GameCard>
             {index !== games.length - 1 && <GameCard.Divider />}
-            {trailing}
+            {index === 0 && trailing}
           </Fragment>
         );
       })}
