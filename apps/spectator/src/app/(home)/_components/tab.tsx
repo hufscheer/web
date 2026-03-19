@@ -15,7 +15,6 @@ import { routes } from '~/constants/routes';
 export const RecentTab = () => {
   const { data: scheduled } = useSuspenseGames({ state: 'SCHEDULED', size: 20 });
   const { data: playing } = useSuspenseGames({ state: 'PLAYING', size: 20 });
-  const { data: finished } = useSuspenseGames({ state: 'FINISHED', size: 20 });
 
   return (
     <>
@@ -49,22 +48,10 @@ export const RecentTab = () => {
                 index === 0 && (
                   <Button variant="ghost" size="sm" color="primary" className="gap">
                     지금 같이 응원하기
-                    {/* <ChevronForwardIcon className="transition-transform duration-300 " /> */}
                     <ChevronForwardIcon className="animate-[arrow_1s_ease-in-out_infinite] " />
                   </Button>
                 )
               }
-            />
-          );
-        })}
-
-        {finished.map((league) => {
-          return (
-            <GameList
-              key={league.leagueId}
-              leagueId={league.leagueId}
-              leagueName={league.leagueName}
-              games={league.games}
             />
           );
         })}
