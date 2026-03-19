@@ -12,7 +12,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
     <div className="relative">
       <Header menu={<CalendarMenu />} />
 
-      <div className="pb-(--hcc-navbar-height)">{children}</div>
+      <div className="pb-navbar-height">{children}</div>
 
       <NavigationBar />
     </div>

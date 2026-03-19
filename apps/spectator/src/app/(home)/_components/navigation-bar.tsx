@@ -22,7 +22,7 @@ export const NavigationBar = ({ 'aria-label': ariaLabel = 'Main', className, ...
     <nav
       aria-label={ariaLabel}
       className={cn(
-        'fixed bottom-0 flex h-(--hcc-navbar-height) w-full max-w-(--app-max-width) items-center justify-around gap-4 border-t border-t-greyscale-100 bg-white px-5',
+        'fixed bottom-0 flex h-navbar-height w-full max-w-(--app-max-width) items-center justify-around gap-4 border-t border-t-greyscale-100 bg-white px-5',
         className,
       )}
       {...props}
