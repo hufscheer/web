@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@hcc/ui';
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
@@ -119,20 +120,21 @@ export const ChatMessage = ({
             )}
 
             <div className="flex gap-2">
-              <button
-                type="button"
+              <Button
+                color="primary"
+                variant="ghost"
                 onClick={onEdit}
                 className="flex-1 rounded-lg border border-gray-300 py-2 text-sm text-gray-700"
               >
                 수정
-              </button>
-              <button
-                type="button"
+              </Button>
+              <Button
+                color="primary"
                 onClick={onConfirm}
-                className="bg-primary flex-1 rounded-lg py-2 text-sm text-white"
+                className="flex-1 rounded-lg border border-gray-300 py-2 text-sm text-gray-700"
               >
                 확인
-              </button>
+              </Button>
             </div>
           </div>
         )}

@@ -16,6 +16,7 @@ type Props = {
 export const TeamPlayersStep = ({ onPrevious }: Props) => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const { control, watch } = useFormContext<TeamFormType>();
+  const teamName = watch('name');
   const { fields, append, remove } = useFieldArray({ control, name: 'teamPlayers' });
 
   const { data } = useSuspensePlayers();
@@ -108,7 +109,7 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
       <AddPlayerBottomSheet
         isOpen={isBottomSheetOpen}
         onOpenChange={setIsBottomSheetOpen}
-        // messages={messages}
+        teamName={teamName}
       />
       <div className="column mt-6 w-full gap-2">
         <Button type="button" onClick={onPrevious} variant="subtle" color="black" size="lg">

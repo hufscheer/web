@@ -3,42 +3,34 @@ export type NLMessage = {
   content: string;
 };
 
-export type ProcessNLPayload = {
+export type ParseNLPayload = {
   history: NLMessage[];
-  leagueId: number;
-  teamId: number;
   message: string;
+};
+
+export type ParseNLResponse = {
+  displayMessage: string;
+  preview: ParseNLPreview;
+  total: number;
+  parseFailedLines: string[];
+};
+
+export type ParseNLPreview = {
+  players: ParsedPlayer[];
 };
 
 export type ParsedPlayer = {
   name: string;
   studentNumber: string;
   jerseyNumber: number;
-  status?: 'NEW' | 'EXISTS';
-  existingPlayerId?: number | null;
+  // status?: 'NEW' | 'EXISTS';
+  // existingPlayerId?: number | null;
+  // error?: string;
 };
 
-export type ProcessNLPreview = {
-  type: 'REGISTER_PLAYERS_BULK';
+export type RegisterNLResponse = {
+  displayMessage: string;
   teamId: number;
-  teamName: string;
-  players: ParsedPlayer[];
-  summary: {
-    total: number;
-    newPlayers: number;
-    existingPlayers: number;
-    alreadyInTeam: number;
-  };
-  parseFailedLines: string[];
-};
-
-export type ProcessNLResponse = {
-  displayMessage: string;
-  preview: ProcessNLPreview;
-};
-
-export type ExecuteNLResponse = {
-  displayMessage: string;
   result: {
     created: number;
     assigned: number;
@@ -46,8 +38,14 @@ export type ExecuteNLResponse = {
   };
 };
 
-export type ExecuteNLPayload = {
-  teamId: number;
+export type RegisterNLPayload = {
+  team: ParsedTeam;
   players: ParsedPlayer[];
-  leagueId: number;
+};
+
+export type ParsedTeam = {
+  name: string;
+  unit: string;
+  teamColor: string;
+  logoImageUrl: string;
 };
