@@ -26,17 +26,21 @@ export const CheerTalkForm = ({
   const isFinished = gameState === 'FINISHED';
   const canSubmit = message.trim() && !isFinished;
 
-  const handleSubmit = useCallback(
-    (e?: FormEvent<HTMLFormElement>, customMessage?: string) => {
-      e?.preventDefault();
-
-      const content = customMessage || message;
+  const sendMessage = useCallback(
+    (content: string) => {
       if (!content.trim() || isFinished) return;
       mutate({ gameTeamId: teamId, content }, { onSuccess: () => scrollToBottom() });
-
       setMessage('');
     },
-    [isFinished, mutate, teamId, message, scrollToBottom],
+    [isFinished, mutate, teamId, scrollToBottom],
+  );
+
+  const handleSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      sendMessage(message);
+    },
+    [sendMessage, message],
   );
 
   const placeholder = isFinished
@@ -48,7 +52,7 @@ export const CheerTalkForm = ({
     <form className="column relative w-full gap-1 bg-[#F7F8FB] px-4 py-3" onSubmit={handleSubmit}>
       <div className="center-y w-full gap-3 overflow-hidden">
         <fieldset
-          className="center-y flex-shrink-0 gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1.5"
+          className="center-y shrink-0 gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1.5"
           disabled={isFinished}
         >
           {gameTeams.map((team) => (
@@ -71,9 +75,9 @@ export const CheerTalkForm = ({
               key={msg}
               type="button"
               disabled={isFinished}
-              onClick={() => handleSubmit(undefined, msg)}
+              onClick={() => sendMessage(msg)}
               className={twMerge(
-                'flex-shrink-0 whitespace-nowrap rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-xs font-Regular text-neutral-600 transition-colors',
+                'shrink-0 whitespace-nowrap rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-xs font-Regular text-neutral-600 transition-colors',
                 'hover:bg-neutral-50 active:bg-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed',
               )}
             >
