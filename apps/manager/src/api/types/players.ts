@@ -11,3 +11,8 @@ export type PlayerType = {
 export type PlayerDetailPayload = {
   id: number;
 };
+
+export type TeamPlayer = {
+  playerId: number;
+  jerseyNumber: number;
+};

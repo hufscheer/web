@@ -85,6 +85,11 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
                     size="lg"
                     type="number"
                     placeholder="등번호"
+                    value={f.value ?? ''}
+                    onChange={(e) => {
+                      const num = e.target.valueAsNumber;
+                      f.onChange(Number.isNaN(num) ? '' : num);
+                    }}
                   />
                 )}
               />
@@ -117,7 +122,7 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
         teamColor={teamColor}
         logoImageUrl={logoImageUrl}
       />
-      <div className="column mt-6 w-full gap-2">
+      <div className="column sticky bottom-0 w-full gap-2 bg-white pt-3 pb-5">
         <Button type="button" onClick={onPrevious} variant="subtle" color="black" size="lg">
           이전 단계
         </Button>
