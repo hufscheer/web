@@ -1,17 +1,27 @@
 'use client';
 
-import { Button } from '@hcc/ui';
+import { Button, colors, Typography } from '@hcc/ui';
 import { useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import type { ParsedPlayer } from '~/api/types/nl';
+import type { ParsedPlayer, PlayerData } from '~/api/types/nl';
 
-type PlayerData = {
-  name: string;
-  studentNumber: string;
-  jerseyNumber: number | null;
-  error?: string;
+/* -------------------------------------------------------------------------------------------------
+ * Shared helpers
+ * -----------------------------------------------------------------------------------------------*/
+
+const toggleSet = (prev: Set<string>, item: string): Set<string> => {
+  const next = new Set(prev);
+  if (next.has(item)) next.delete(item);
+  else next.add(item);
+  return next;
 };
+
+const PlayerCell = ({ children, className }: { children: React.ReactNode; className?: string }) => (
+  <div className={twMerge('rounded border border-gray-200 px-2 py-1 text-center', className)}>
+    {children}
+  </div>
+);
 
 /* -------------------------------------------------------------------------------------------------
  * RegistrationUI Root
@@ -104,24 +114,18 @@ const ParseResultCard = ({
     }, 0);
   };
 
-  const handleSave = () => {
-    onEdit?.(editedPlayers);
-    setIsEditing(false);
-  };
-
-  const handleConfirm = () => {
-    const selected = players.map((p) => ({ studentNumber: p.studentNumber }));
-    onConfirm?.(selected);
-  };
-
   const displayPlayers = isEditing ? editedPlayers : players;
   const hasError = players.some((p) => p.error);
 
   return (
     <div className="flex flex-col gap-3 rounded-lg border border-gray-200 bg-white p-4">
       <div>
-        <p className="text-sm font-semibold text-gray-900">{teamName}의 선수 명단</p>
-        <p className="text-primary text-xs">총 {players.length}명의 선수를 인식했어요.</p>
+        <Typography fontSize={14} className="text-xs font-semibold text-gray-900">
+          {teamName}의 선수 명단
+        </Typography>
+        <Typography fontSize={12} weight="medium" color={colors.primary600}>
+          총 {players.length}명의 선수를 인식했어요.
+        </Typography>
       </div>
 
       <table className="w-full text-center text-xs">
@@ -147,9 +151,7 @@ const ParseResultCard = ({
                     className="w-full rounded border border-blue-300 px-2 py-1 text-center text-xs"
                   />
                 ) : (
-                  <div className="rounded border border-gray-200 px-2 py-1 text-center">
-                    {player.name}
-                  </div>
+                  <PlayerCell>{player.name}</PlayerCell>
                 )}
               </td>
               <td className="py-1 pr-2">
@@ -164,13 +166,9 @@ const ParseResultCard = ({
                     className="w-full rounded border border-blue-300 px-2 py-1 text-center text-xs"
                   />
                 ) : (
-                  <div
-                    className={`rounded border px-2 py-1 text-center ${
-                      player.error ? 'border-red-400 bg-red-50' : 'border-gray-200'
-                    }`}
-                  >
+                  <PlayerCell className={player.error ? 'border-red-400 bg-red-50' : undefined}>
                     {player.studentNumber}
-                  </div>
+                  </PlayerCell>
                 )}
               </td>
               <td className="py-1">
@@ -187,9 +185,7 @@ const ParseResultCard = ({
                     className="w-full rounded border border-blue-300 px-2 py-1 text-center text-xs"
                   />
                 ) : (
-                  <div className="rounded border border-gray-200 px-2 py-1 text-center">
-                    {player.jerseyNumber ?? ''}
-                  </div>
+                  <PlayerCell>{player.jerseyNumber ?? ''}</PlayerCell>
                 )}
               </td>
             </tr>
@@ -237,7 +233,10 @@ const ParseResultCard = ({
           </Button>
           <Button
             color="primary"
-            onClick={handleSave}
+            onClick={() => {
+              onEdit?.(editedPlayers);
+              setIsEditing(false);
+            }}
             className="flex-1 rounded border border-blue-400 bg-blue-50 px-3 py-2 text-sm text-blue-700"
           >
             저장
@@ -246,6 +245,8 @@ const ParseResultCard = ({
       ) : (
         <div className="flex gap-2">
           <Button
+            color="primary"
+            variant="ghost"
             onClick={() => setIsEditing(true)}
             className="flex-1 rounded border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
           >
@@ -253,7 +254,7 @@ const ParseResultCard = ({
           </Button>
           {!hasError && (
             <Button
-              onClick={handleConfirm}
+              onClick={() => onConfirm?.(players.map((p) => ({ studentNumber: p.studentNumber })))}
               className="bg-primary flex-1 rounded px-3 py-2 text-sm text-white hover:opacity-90"
             >
               확인
@@ -281,12 +282,7 @@ const DuplicateCheckCard = ({
   newPlayers,
   onSelectDuplicates,
 }: DuplicateCheckCardProps) => {
-  const [selectedDuplicates, setSelectedDuplicates] = useState<Set<string>>(new Set());
-
-  const handleConfirm = () => {
-    const selected = duplicates.filter((p) => selectedDuplicates.has(p.studentNumber));
-    onSelectDuplicates?.(selected);
-  };
+  const [selected, setSelected] = useState<Set<string>>(new Set());
 
   return (
     <div className="flex flex-col gap-3">
@@ -308,35 +304,19 @@ const DuplicateCheckCard = ({
             {duplicates.map((player) => (
               <tr key={player.studentNumber}>
                 <td className="py-1 pr-1">
-                  <div className="rounded border border-gray-200 px-2 py-1 text-center">
-                    {player.name}
-                  </div>
+                  <PlayerCell>{player.name}</PlayerCell>
                 </td>
                 <td className="py-1 pr-1">
-                  <div className="rounded border border-gray-200 px-2 py-1 text-center">
-                    {player.studentNumber}
-                  </div>
+                  <PlayerCell>{player.studentNumber}</PlayerCell>
                 </td>
                 <td className="py-1 pr-1">
-                  <div className="rounded border border-gray-200 px-2 py-1 text-center">
-                    {player.jerseyNumber ?? ''}
-                  </div>
+                  <PlayerCell>{player.jerseyNumber ?? ''}</PlayerCell>
                 </td>
                 <td className="py-1 text-center">
                   <input
                     type="checkbox"
-                    checked={selectedDuplicates.has(player.studentNumber)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedDuplicates((prev) => new Set([...prev, player.studentNumber]));
-                      } else {
-                        setSelectedDuplicates((prev) => {
-                          const next = new Set(prev);
-                          next.delete(player.studentNumber);
-                          return next;
-                        });
-                      }
-                    }}
+                    checked={selected.has(player.studentNumber)}
+                    onChange={() => setSelected((prev) => toggleSet(prev, player.studentNumber))}
                     className="accent-primary h-4 w-4"
                   />
                 </td>
@@ -346,7 +326,9 @@ const DuplicateCheckCard = ({
         </table>
 
         <Button
-          onClick={handleConfirm}
+          onClick={() =>
+            onSelectDuplicates?.(duplicates.filter((p) => selected.has(p.studentNumber)))
+          }
           className="bg-primary mt-3 w-full rounded px-3 py-2 text-sm text-white hover:opacity-90"
         >
           확인
@@ -381,16 +363,9 @@ interface FinalConfirmCardProps {
 }
 
 const FinalConfirmCard = ({ players, teamName, onConfirm }: FinalConfirmCardProps) => {
-  const [selectedForRegister, setSelectedForRegister] = useState<Set<string>>(
+  const [selected, setSelected] = useState<Set<string>>(
     new Set(players.map((p) => p.studentNumber)),
   );
-
-  const handleConfirm = () => {
-    const selected = Array.from(selectedForRegister).map((studentNumber) => ({
-      studentNumber,
-    }));
-    onConfirm?.(selected);
-  };
 
   return (
     <div className="flex flex-col gap-3 rounded-lg border border-gray-200 bg-white p-4">
@@ -412,35 +387,19 @@ const FinalConfirmCard = ({ players, teamName, onConfirm }: FinalConfirmCardProp
           {players.map((player) => (
             <tr key={player.studentNumber}>
               <td className="py-1 pr-2">
-                <div className="rounded border border-gray-200 px-2 py-1 text-center">
-                  {player.name}
-                </div>
+                <PlayerCell>{player.name}</PlayerCell>
               </td>
               <td className="py-1 pr-2">
-                <div className="rounded border border-gray-200 px-2 py-1 text-center">
-                  {player.studentNumber}
-                </div>
+                <PlayerCell>{player.studentNumber}</PlayerCell>
               </td>
               <td className="py-1 pr-2">
-                <div className="rounded border border-gray-200 px-2 py-1 text-center">
-                  {player.jerseyNumber ?? ''}
-                </div>
+                <PlayerCell>{player.jerseyNumber ?? ''}</PlayerCell>
               </td>
               <td className="py-1 text-center">
                 <input
                   type="checkbox"
-                  checked={selectedForRegister.has(player.studentNumber)}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedForRegister((prev) => new Set([...prev, player.studentNumber]));
-                    } else {
-                      setSelectedForRegister((prev) => {
-                        const next = new Set(prev);
-                        next.delete(player.studentNumber);
-                        return next;
-                      });
-                    }
-                  }}
+                  checked={selected.has(player.studentNumber)}
+                  onChange={() => setSelected((prev) => toggleSet(prev, player.studentNumber))}
                   className="accent-primary h-4 w-4"
                 />
               </td>
@@ -450,7 +409,9 @@ const FinalConfirmCard = ({ players, teamName, onConfirm }: FinalConfirmCardProp
       </table>
 
       <Button
-        onClick={handleConfirm}
+        onClick={() =>
+          onConfirm?.(Array.from(selected).map((studentNumber) => ({ studentNumber })))
+        }
         className="bg-primary w-full rounded px-3 py-3 text-sm font-medium text-white hover:opacity-90"
       >
         확인

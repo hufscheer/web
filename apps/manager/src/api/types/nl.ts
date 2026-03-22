@@ -10,9 +10,17 @@ export type ParseNLPayload = {
 
 export type ParseNLResponse = {
   displayMessage: string;
-  preview: ParseNLPreview;
+  preview: ParseNLPreview | null;
   total: number;
   parseFailedLines: string[];
+};
+
+// UI 편집용 선수 타입 (jerseyNumber null 허용, error 포함)
+export type PlayerData = {
+  name: string;
+  studentNumber: string;
+  jerseyNumber: number | null;
+  error?: string;
 };
 
 export type ParseNLPreview = {
