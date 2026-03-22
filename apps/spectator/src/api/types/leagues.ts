@@ -40,6 +40,14 @@ export type LeagueRecentSummaryType = {
   topScorers: (TopScorerType & { unit: TeamUnitType })[];
 };
 
+export type LeagueCheerCountPayload = {
+  leagueId: number;
+};
+
+export type LeagueCheerCountType = {
+  cheerTalkCount: number;
+};
+
 export type StatisticTeamType = {
   teamId: number;
   leagueTeamId: number;
