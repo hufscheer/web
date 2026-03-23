@@ -148,7 +148,7 @@ export const TeamBasicInfoStep = ({ onNext }: Props) => {
         )}
       />
 
-      <div className="sticky bottom-0 bg-white pt-3 pb-5">
+      <div className="bottom-0 bg-white py-5">
         <Button
           type="button"
           className="w-full"
