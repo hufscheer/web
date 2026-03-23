@@ -32,7 +32,7 @@ export const PlayerList = ({ edit }: Props) => {
 
       <div className="column h-full gap-3 overflow-y-auto pb-[92px]">
         {data
-          .filter((player) => player.name.includes(query) || player.studentNumber.includes(query))
+          .filter((player) => player.name?.includes(query) || player.studentNumber?.includes(query))
           .map((player) => (
             <div
               key={player.playerId}
