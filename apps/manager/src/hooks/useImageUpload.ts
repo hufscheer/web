@@ -7,11 +7,11 @@ export const useImageUpload = () => {
   const uploadImage = async (file: File): Promise<string> => {
     const extension = file.name.split('.').pop() || '';
 
-    const url: URL = new URL(await generatePresignedUrlMutation({ extension }));
+    const presignedUrl: URL = new URL(await generatePresignedUrlMutation({ extension }));
 
-    await uploadImageMutation({ url: url.pathname + url.search, file });
+    await uploadImageMutation({ url: presignedUrl.href, file });
 
-    return url.origin + url.pathname;
+    return presignedUrl.origin + presignedUrl.pathname;
   };
 
   return { uploadImage };
