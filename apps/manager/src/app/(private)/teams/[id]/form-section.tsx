@@ -27,8 +27,13 @@ export const FormSection = ({ id }: Props) => {
       imageUrl = data.logoImageUrl;
     }
 
+    const teamPlayers = data.teamPlayers?.map(({ playerId, jerseyNumber }) => ({
+      playerId,
+      jerseyNumber,
+    }));
+
     try {
-      await mutateAsync({ id, ...data, logoImageUrl: imageUrl });
+      await mutateAsync({ id, ...data, logoImageUrl: imageUrl, teamPlayers });
       toast.success('팀이 수정되었어요.');
       router.back();
     } catch (error) {
@@ -39,5 +44,5 @@ export const FormSection = ({ id }: Props) => {
 
   const { data } = useSuspenseTeam({ id });
 
-  return <TeamForm className="p-5" onSubmit={handleSubmit} initialData={data} />;
+  return <TeamForm onSubmit={handleSubmit} initialData={data} />;
 };

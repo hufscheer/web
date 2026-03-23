@@ -1,17 +1,25 @@
 import { CancelIcon } from '@hcc/icons';
 import { Button, colors, Input, Typography, toast } from '@hcc/ui';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 
 import { type TeamFormType, useSuspensePlayers } from '~/api';
 import { PlayerAppendDialog } from '~/app/(private)/teams/_components/player-append-dialog';
+
+import { AddPlayerBottomSheet } from './assistants/add-player-bottom-sheet';
+import { FloatingActionButton } from './assistants/floating-action-button';
 
 type Props = {
   onPrevious: () => void;
 };
 
 export const TeamPlayersStep = ({ onPrevious }: Props) => {
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const { control, watch } = useFormContext<TeamFormType>();
+  const teamName = watch('name');
+  const teamUnit = watch('unit');
+  const teamColor = watch('teamColor');
+  const logoImageUrl = watch('logoImageUrl');
   const { fields, append, remove } = useFieldArray({ control, name: 'teamPlayers' });
 
   const { data } = useSuspensePlayers();
@@ -77,6 +85,11 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
                     size="lg"
                     type="number"
                     placeholder="등번호"
+                    value={f.value ?? ''}
+                    onChange={(e) => {
+                      const num = e.target.valueAsNumber;
+                      f.onChange(Number.isNaN(num) ? '' : num);
+                    }}
                   />
                 )}
               />
@@ -99,8 +112,17 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
           </Typography>
         )}
       </div>
+      <FloatingActionButton onClick={() => setIsBottomSheetOpen(true)} />
 
-      <div className="column mt-6 w-full gap-2">
+      <AddPlayerBottomSheet
+        isOpen={isBottomSheetOpen}
+        onOpenChange={setIsBottomSheetOpen}
+        teamName={teamName}
+        teamUnit={teamUnit}
+        teamColor={teamColor}
+        logoImageUrl={logoImageUrl}
+      />
+      <div className="column sticky bottom-0 w-full gap-2 bg-white pt-3 pb-5">
         <Button type="button" onClick={onPrevious} variant="subtle" color="black" size="lg">
           이전 단계
         </Button>

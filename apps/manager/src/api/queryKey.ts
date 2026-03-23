@@ -69,6 +69,10 @@ const teamQueryKeys = createQueryKeys('teams', {
     queryKey: [payload],
     queryFn: () => fetcher.get<TeamType>(`teams/${payload.id}`),
   }),
+  teamplayers: (payload: { id: number }) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<PlayerType[]>(`teams/${payload.id}/players`),
+  }),
 });
 
 const gameQueryKeys = createQueryKeys('games', {

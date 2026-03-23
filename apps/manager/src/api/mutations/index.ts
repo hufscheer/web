@@ -16,3 +16,4 @@ export * from './useUpdateLeagues';
 export * from './useUpdateLeagueTeams';
 export * from './useUpdatePlayers';
 export * from './useUpdateTeams';
+export * from './useUpdateTeamPlayers';
