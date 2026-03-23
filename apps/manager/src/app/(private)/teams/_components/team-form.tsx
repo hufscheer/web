@@ -1,5 +1,6 @@
 import type { ComponentProps } from 'react';
 
+import { Spinner } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -29,12 +30,11 @@ export const TeamForm = ({ className, onSubmit, initialData, ...props }: Props) 
 
   const form = useForm<TeamFormType>({
     defaultValues: {
-      name: '',
-      logoImageUrl: '',
-      unit: '',
-      teamColor: '',
-      teamPlayers: [],
-      ...initialData,
+      name: initialData?.name ?? '',
+      logoImageUrl: initialData?.logoImageUrl ?? '',
+      unit: initialData?.unit ?? '',
+      teamColor: initialData?.teamColor ?? '',
+      teamPlayers: initialData?.teamPlayers ?? [],
     },
   });
 
@@ -49,27 +49,31 @@ export const TeamForm = ({ className, onSubmit, initialData, ...props }: Props) 
   return (
     <FormProvider {...form}>
       <form
-        className={twMerge('column w-full bg-white', className)}
+        className={twMerge('column w-full bg-white h-full overflow-hidden', className)}
         onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)}
         {...props}
       >
-        <StepProgress
-          currentStep={step}
-          totalSteps={STEPS.length}
-          steps={STEPS.map((step) => step.title)}
-        />
+        <div className="shrink-0 px-5 pt-5">
+          <StepProgress
+            currentStep={step}
+            totalSteps={STEPS.length}
+            steps={STEPS.map((step) => step.title)}
+          />
+        </div>
 
-        <SwitchCase
-          value={step}
-          caseBy={{
-            0: <TeamBasicInfoStep onNext={() => (step === 0 ? setStep(1) : undefined)} />,
-            1: (
-              <Suspense fallback={<div>로딩중...</div>} clientOnly>
-                <TeamPlayersStep onPrevious={() => (step === 1 ? setStep(0) : undefined)} />
-              </Suspense>
-            ),
-          }}
-        />
+        <div className="flex-1 overflow-y-auto px-5 pt-3">
+          <SwitchCase
+            value={step}
+            caseBy={{
+              0: <TeamBasicInfoStep onNext={() => (step === 0 ? setStep(1) : undefined)} />,
+              1: (
+                <Suspense fallback={<Spinner />} clientOnly>
+                  <TeamPlayersStep onPrevious={() => (step === 1 ? setStep(0) : undefined)} />
+                </Suspense>
+              ),
+            }}
+          />
+        </div>
       </form>
     </FormProvider>
   );

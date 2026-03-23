@@ -18,6 +18,8 @@ import type {
   GameType,
   GameVideoPayload,
   GameVideoType,
+  LeagueCheerCountPayload,
+  LeagueCheerCountType,
   LeagueDetailPayload,
   LeagueDetailType,
   LeagueListPayload,
@@ -142,6 +144,10 @@ const leagueQueryKeys = createQueryKeys('leagues', {
     queryKey: [payload],
     queryFn: () =>
       fetcher.get<LeagueRecentSummaryType>('leagues/recent-summary', { searchParams: payload }),
+  }),
+  cheerTalks: (payload: LeagueCheerCountPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<LeagueCheerCountType>(`leagues/${payload.leagueId}/cheer-count`),
   }),
   statistics: (payload: LeagueStatisticsPayload) => ({
     queryKey: [payload],

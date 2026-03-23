@@ -9,7 +9,7 @@ type Request = {
 const postUploadImage = async ({ url, file }: Request) => {
   const arrayBuffer = await file.arrayBuffer();
 
-  return ky.put(`/api/images/${url}`, {
+  return ky.put(url, {
     body: arrayBuffer,
     headers: { 'Content-Type': file.type },
   });

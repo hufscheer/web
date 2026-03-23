@@ -33,5 +33,5 @@ export function FormSection() {
     }
   };
 
-  return <TeamForm className="p-5" onSubmit={handleSubmit} />;
+  return <TeamForm onSubmit={handleSubmit} />;
 }

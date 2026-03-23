@@ -148,16 +148,18 @@ export const TeamBasicInfoStep = ({ onNext }: Props) => {
         )}
       />
 
-      <Button
-        type="button"
-        className="mt-6 w-full"
-        size="lg"
-        color="black"
-        onClick={onNext}
-        disabled={!isValid}
-      >
-        다음 단계
-      </Button>
+      <div className="bottom-0 bg-white py-5">
+        <Button
+          type="button"
+          className="w-full"
+          size="lg"
+          color="black"
+          onClick={onNext}
+          disabled={!isValid}
+        >
+          다음 단계
+        </Button>
+      </div>
     </>
   );
 };

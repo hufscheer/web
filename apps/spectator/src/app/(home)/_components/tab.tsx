@@ -1,14 +1,16 @@
 'use client';
 
 import { ChevronForwardIcon } from '@hcc/icons';
-import { Button, Typography } from '@hcc/ui';
+import { Badge, Button, Typography } from '@hcc/ui';
+import NumberFlow from '@number-flow/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Fragment } from 'react';
 
-import type { GameListType } from '~/api';
+import type { GameListType, LeagueCheerCountType } from '~/api';
 
 import { useSuspenseGames } from '~/api';
+import { useSuspenseLeagueCheerCount } from '~/api/queries/useLeagueCheerCount';
 import { GameCard } from '~/components/ui';
 import { routes } from '~/constants/routes';
 
@@ -22,10 +24,16 @@ export const RecentTab = () => {
 
   if (!displayedGame) return null;
 
+  const { data: cheerCount } = useSuspenseLeagueCheerCount(
+    { leagueId: displayedGame?.leagueId },
+    { refetchInterval: hasPlayingGames ? 10000 : false },
+  );
+
   return (
     <>
       <div className="flex flex-1 flex-col gap-3">
         <GameList
+          cheerCount={cheerCount.cheerTalkCount}
           leagueId={displayedGame.leagueId}
           leagueName={displayedGame.leagueName}
           games={displayedGame.games}
@@ -45,10 +53,11 @@ interface GameListProps {
   leagueId: number;
   leagueName: string;
   games: GameListType[];
+  cheerCount: LeagueCheerCountType['cheerTalkCount'];
   trailing?: React.ReactNode;
 }
 
-const GameList = ({ leagueId, leagueName, games, trailing }: GameListProps) => {
+const GameList = ({ leagueId, leagueName, games, cheerCount, trailing }: GameListProps) => {
   const router = useRouter();
 
   return (
@@ -60,6 +69,10 @@ const GameList = ({ leagueId, leagueName, games, trailing }: GameListProps) => {
             ⚽
           </div>
           <Typography weight="medium">{leagueName}</Typography>
+          <Badge variant="primary" size="sm">
+            <NumberFlow format={{ notation: 'compact' }} value={cheerCount} />
+            개의 응원톡 💬
+          </Badge>
         </div>
 
         <ChevronForwardIcon size={24} />
