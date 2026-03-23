@@ -13,6 +13,7 @@ import { useSuspenseGames } from '~/api';
 import { useSuspenseLeagueCheerCount } from '~/api/queries/useLeagueCheerCount';
 import { GameCard } from '~/components/ui';
 import { routes } from '~/constants/routes';
+import { useTracker } from '~/hooks/useTracker';
 
 export const RecentTab = () => {
   const { data: playing } = useSuspenseGames({ state: 'PLAYING', size: 20 });
@@ -21,6 +22,7 @@ export const RecentTab = () => {
   const hasPlayingGames = playing.length !== 0;
   const recentFinished = finished.sort((a, b) => a.leagueId - b.leagueId).at(-1);
   const displayedGame = hasPlayingGames ? playing.at(-1) : recentFinished;
+  const buttonLabel = hasPlayingGames ? '응원하러 가기' : '지난 경기 보러가기';
 
   if (!displayedGame) return null;
 
@@ -37,12 +39,7 @@ export const RecentTab = () => {
           leagueId={displayedGame.leagueId}
           leagueName={displayedGame.leagueName}
           games={displayedGame.games}
-          trailing={
-            <Button variant="ghost" size="sm" color="primary" className="gap">
-              {hasPlayingGames ? '응원하러 가기' : '지난 경기 보러가기'}
-              <ChevronForwardIcon className="animate-[arrow_1s_ease-in-out_infinite] " />
-            </Button>
-          }
+          buttonLabel={buttonLabel}
         />
       </div>
     </>
@@ -54,10 +51,11 @@ interface GameListProps {
   leagueName: string;
   games: GameListType[];
   cheerCount: LeagueCheerCountType['cheerTalkCount'];
-  trailing?: React.ReactNode;
+  buttonLabel: string;
 }
 
-const GameList = ({ leagueId, leagueName, games, cheerCount, trailing }: GameListProps) => {
+const GameList = ({ leagueId, leagueName, games, cheerCount, buttonLabel }: GameListProps) => {
+  const sendEvent = useTracker({ category: 'Home' });
   const router = useRouter();
 
   return (
@@ -104,7 +102,20 @@ const GameList = ({ leagueId, leagueName, games, cheerCount, trailing }: GameLis
               </GameCard.Container>
             </GameCard>
             {index !== games.length - 1 && <GameCard.Divider />}
-            {index === 0 && trailing}
+
+            <Button
+              asChild
+              variant="ghost"
+              size="sm"
+              color="primary"
+              className="gap"
+              onClick={() => sendEvent({ action: 'click', value: buttonLabel })}
+            >
+              <Link href={{ pathname: `/games/${game.id}`, query: { tab: 'cheer' } }}>
+                {buttonLabel}
+                <ChevronForwardIcon className="animate-[arrow_1s_ease-in-out_infinite] " />
+              </Link>
+            </Button>
           </Fragment>
         );
       })}
