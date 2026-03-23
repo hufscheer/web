@@ -28,34 +28,36 @@ const GameListContent = ({
     size: 20,
   });
   const router = useRouter();
-  return (
-    <Fragment>
-      {data.map((league) =>
-        league.games.map((game, index) => {
-          if (game.gameTeams.length < 2) return null;
 
-          return (
-            <Fragment key={game.id}>
-              <GameCard.Container>
-                <GameCard.Header game={game} />
+  return data.map((league) =>
+    league.games.map((game, index) => {
+      if (game.gameTeams.length < 2) return null;
 
-                <Link href={`/${routes.game(game.id)}`} className="row-between pt-2">
-                  <GameCard.Team team={game.gameTeams[0]} position="home" />
-                  <GameCard.Score game={game} />
-                  <GameCard.Team team={game.gameTeams[1]} position="away" />
+      return (
+        <Fragment key={game.id}>
+          <GameCard game={game}>
+            <GameCard.Container className="gap-4">
+              <GameCard.Header />
+
+              <div className="flex gap-4">
+                <Link href={`/${routes.game(game.id)}`} className="column flex-1 gap-2">
+                  <GameCard.Team index={1} />
+                  <GameCard.Team index={2} />
                 </Link>
+
+                <div role="separator" className="w-px bg-gray-100" />
 
                 <GameCard.Actions
                   onBroadcastClick={() => router.push(`/${routes.game(game.id)}`)}
                   onCheerClick={() => router.push(`/${routes.game(game.id)}?cheer=1`)}
                 />
-              </GameCard.Container>
-              {index !== league.games.length - 1 && <GameCard.Divider />}
-            </Fragment>
-          );
-        }),
-      )}
-    </Fragment>
+              </div>
+            </GameCard.Container>
+          </GameCard>
+          {index !== league.games.length - 1 && <GameCard.Divider />}
+        </Fragment>
+      );
+    }),
   );
 };
 

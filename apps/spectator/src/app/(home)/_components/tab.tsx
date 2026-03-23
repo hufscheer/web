@@ -1,119 +1,113 @@
 'use client';
 
-import { colors, Spinner, Typography } from '@hcc/ui';
+import { ChevronForwardIcon } from '@hcc/icons';
+import { Badge, Button, Typography } from '@hcc/ui';
+import NumberFlow from '@number-flow/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Fragment, Suspense } from 'react';
+import { Fragment } from 'react';
+
+import type { GameListType, LeagueCheerCountType } from '~/api';
 
 import { useSuspenseGames } from '~/api';
+import { useSuspenseLeagueCheerCount } from '~/api/queries/useLeagueCheerCount';
 import { GameCard } from '~/components/ui';
 import { routes } from '~/constants/routes';
 
-import { BestScorer } from './best-scorer';
-import { RankingBoard } from './ranking-board';
-import { RecentRecords } from './recent-records';
-
 export const RecentTab = () => {
-  const { data: scheduled } = useSuspenseGames({ state: 'SCHEDULED', size: 20 });
   const { data: playing } = useSuspenseGames({ state: 'PLAYING', size: 20 });
+  const { data: finished } = useSuspenseGames({ state: 'FINISHED', size: 9999 });
 
+  const hasPlayingGames = playing.length !== 0;
+  const recentFinished = finished.sort((a, b) => a.leagueId - b.leagueId).at(-1);
+  const displayedGame = hasPlayingGames ? playing.at(-1) : recentFinished;
+
+  if (!displayedGame) return null;
+
+  const { data: cheerCount } = useSuspenseLeagueCheerCount(
+    { leagueId: displayedGame?.leagueId },
+    { refetchInterval: hasPlayingGames ? 10000 : false },
+  );
+
+  return (
+    <>
+      <div className="flex flex-1 flex-col gap-3">
+        <GameList
+          cheerCount={cheerCount.cheerTalkCount}
+          leagueId={displayedGame.leagueId}
+          leagueName={displayedGame.leagueName}
+          games={displayedGame.games}
+          trailing={
+            <Button variant="ghost" size="sm" color="primary" className="gap">
+              {hasPlayingGames ? '응원하러 가기' : '지난 경기 보러가기'}
+              <ChevronForwardIcon className="animate-[arrow_1s_ease-in-out_infinite] " />
+            </Button>
+          }
+        />
+      </div>
+    </>
+  );
+};
+
+interface GameListProps {
+  leagueId: number;
+  leagueName: string;
+  games: GameListType[];
+  cheerCount: LeagueCheerCountType['cheerTalkCount'];
+  trailing?: React.ReactNode;
+}
+
+const GameList = ({ leagueId, leagueName, games, cheerCount, trailing }: GameListProps) => {
   const router = useRouter();
 
   return (
-    <div className="flex h-full flex-col gap-3 p-5">
-      <div className="flex flex-1 flex-col gap-3">
-        {playing.map((league) => (
-          <GameCard key={league.leagueId}>
-            <GameCard.League league={league} />
-            <GameCard.Divider />
+    <>
+      <GameCard.Divider />
+      <Link href={`/${routes.league(leagueId)}`} className="row-between">
+        <div className="center-y gap-3">
+          <div className="center relative h-8 w-8 overflow-hidden rounded-full bg-neutral-200 select-none">
+            ⚽
+          </div>
+          <Typography weight="medium">{leagueName}</Typography>
+          <Badge variant="primary" size="sm">
+            <NumberFlow format={{ notation: 'compact' }} value={cheerCount} />
+            개의 응원톡 💬
+          </Badge>
+        </div>
 
-            {league.games.map((game, index) => {
-              if (game.gameTeams.length < 2) return null;
+        <ChevronForwardIcon size={24} />
+      </Link>
+      <GameCard.Divider />
 
-              return (
-                <Fragment key={game.id}>
-                  <GameCard.Container>
-                    <GameCard.Header game={game} />
+      {games.map((game, index) => {
+        if (game.gameTeams.length < 2) return null;
 
-                    <Link href={`/${routes.game(game.id)}`} className="row-between pt-2">
-                      <GameCard.Team team={game.gameTeams[0]} position="home" />
-                      <GameCard.Score game={game} />
-                      <GameCard.Team team={game.gameTeams[1]} position="away" />
-                    </Link>
+        return (
+          <Fragment key={game.id}>
+            <GameCard game={game}>
+              <GameCard.Container className="gap-4">
+                <GameCard.Header />
 
-                    <GameCard.Actions
-                      onBroadcastClick={() => router.push(`/${routes.game(game.id)}`)}
-                      onCheerClick={() => router.push(`/${routes.game(game.id)}?cheer=1`)}
-                    />
-                  </GameCard.Container>
-                  {index !== league.games.length - 1 && <GameCard.Divider />}
-                </Fragment>
-              );
-            })}
-          </GameCard>
-        ))}
-        {scheduled.map((league) => (
-          <GameCard key={league.leagueId}>
-            <GameCard.League league={league} />
-            <GameCard.Divider />
+                <div className="flex gap-4">
+                  <Link href={`/${routes.game(game.id)}`} className="column flex-1 gap-2">
+                    <GameCard.Team index={1} />
+                    <GameCard.Team index={2} />
+                  </Link>
 
-            {league.games.map((game, index) => {
-              if (game.gameTeams.length < 2) return null;
+                  <div role="separator" className="w-px bg-gray-100" />
 
-              return (
-                <Fragment key={game.id}>
-                  <GameCard.Container>
-                    <GameCard.Header game={game} />
-                    <Link href={`/${routes.game(game.id)}`} className="row-between pt-2">
-                      <GameCard.Team team={game.gameTeams[0]} position="home" />
-                      <GameCard.Score game={game} />
-                      <GameCard.Team team={game.gameTeams[1]} position="away" />
-                    </Link>
-                    <GameCard.Actions
-                      onBroadcastClick={() => router.push(`/${routes.game(game.id)}`)}
-                    />
-                  </GameCard.Container>
-                  {index !== league.games.length - 1 && <GameCard.Divider />}
-                </Fragment>
-              );
-            })}
-          </GameCard>
-        ))}
-      </div>
-
-      {/* Fallback */}
-      {scheduled.length === 0 && playing.length === 0 && (
-        <Typography
-          className="p-5 text-center"
-          color={colors.neutral500}
-          fontSize={14}
-          weight="medium"
-        >
-          진행 중인 경기가 없어요 💨
-        </Typography>
-      )}
-
-      <div className="flex flex-col gap-3">
-        <Suspense
-          fallback={
-            <RankingBoard>
-              <Spinner />
-            </RankingBoard>
-          }
-        >
-          <RecentRecords />
-        </Suspense>
-
-        <Suspense
-          fallback={
-            <RankingBoard>
-              <Spinner />
-            </RankingBoard>
-          }
-        >
-          <BestScorer />
-        </Suspense>
-      </div>
-    </div>
+                  <GameCard.Actions
+                    onBroadcastClick={() => router.push(`/${routes.game(game.id)}`)}
+                    onCheerClick={() => router.push(`/${routes.game(game.id)}?cheer=1`)}
+                  />
+                </div>
+              </GameCard.Container>
+            </GameCard>
+            {index !== games.length - 1 && <GameCard.Divider />}
+            {index === 0 && trailing}
+          </Fragment>
+        );
+      })}
+    </>
   );
 };

@@ -14,7 +14,7 @@ export default async function Page({ searchParams }: PageProps) {
   const selectedYear = Number((await searchParams).year) || currentYear;
 
   return (
-    <Tabs.Panel value="previous" className="flex-1" keepMounted>
+    <Tabs.Panel value="previous" className="flex-1">
       <YearFilter selectedYear={selectedYear} />
 
       <div className="column">

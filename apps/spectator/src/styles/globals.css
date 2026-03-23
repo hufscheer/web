@@ -17,4 +17,14 @@
   --color-greyscale-50: #ebecee;
   --color-greyscale-25: #f5f5f7;
   --color-white: #ffffff;
+
+  @keyframes arrow {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(4px);
+    }
+  }
 }

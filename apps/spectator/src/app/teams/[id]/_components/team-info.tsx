@@ -26,37 +26,40 @@ export const TeamInfo = ({ id }: { id: number }) => {
           <TeamTrophy trophies={team.trophies} />
           <TeamCard.Content>
             {games.map((game) => {
-              const { gameId, gameTeams, state } = game;
-              const [homeTeam, awayTeam] = gameTeams;
+              const { gameId, state } = game;
               const gameWithId = { ...game, id };
 
               return (
-                <GameCard key={gameId}>
-                  <GameCard.Container>
-                    <GameCard.Header game={gameWithId} showLeagueName />
-                    <Link href={`/${routes.game(gameId)}`} className="row-between pt-2">
-                      {homeTeam && <GameCard.Team team={homeTeam} position="home" />}
-                      <GameCard.Score game={gameWithId} />
-                      {awayTeam && <GameCard.Team team={awayTeam} position="away" />}
-                    </Link>
+                <GameCard key={gameId} game={gameWithId}>
+                  <GameCard.Container className="gap-4">
+                    <GameCard.Header showLeagueName />
 
-                    <GameCard.Actions
-                      onStatsClick={
-                        state === 'FINISHED'
-                          ? () => router.push(`/${routes.game(gameId)}`)
-                          : undefined
-                      }
-                      onBroadcastClick={
-                        state !== 'FINISHED'
-                          ? () => router.push(`/${routes.game(gameId)}`)
-                          : undefined
-                      }
-                      onCheerClick={
-                        state !== 'FINISHED'
-                          ? () => router.push(`/${routes.game(gameId)}?cheer=1`)
-                          : undefined
-                      }
-                    />
+                    <div className="flex gap-4">
+                      <Link href={`/${routes.game(gameId)}`} className="column flex-1 gap-2">
+                        <GameCard.Team index={1} />
+                        <GameCard.Team index={2} />
+                      </Link>
+
+                      <div role="separator" className="w-px bg-gray-100" />
+
+                      <GameCard.Actions
+                        onStatsClick={
+                          state === 'FINISHED'
+                            ? () => router.push(`/${routes.game(gameId)}`)
+                            : undefined
+                        }
+                        onBroadcastClick={
+                          state !== 'FINISHED'
+                            ? () => router.push(`/${routes.game(gameId)}`)
+                            : undefined
+                        }
+                        onCheerClick={
+                          state !== 'FINISHED'
+                            ? () => router.push(`/${routes.game(gameId)}?cheer=1`)
+                            : undefined
+                        }
+                      />
+                    </div>
                   </GameCard.Container>
                 </GameCard>
               );
