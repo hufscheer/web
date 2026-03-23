@@ -1,9 +1,6 @@
 'use client';
 
-import { ChatFillIcon } from '@hcc/icons';
-import { BottomSheet, colors, Typography } from '@hcc/ui';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useMemo, useState, useEffect, useCallback } from 'react';
+import { useMemo, useState } from 'react';
 
 import type { CheerTalkType, GameCheerTalkWithTeamInfo } from '~/api';
 
@@ -19,7 +16,6 @@ type Props = {
 };
 
 export const CheerTalk = ({ gameId }: Props) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [socketTalkList, setSocketTalkList] = useState<GameCheerTalkWithTeamInfo[]>([]);
   const { getTeamInfo } = useSuspenseGameTeamInfo(gameId);
 
@@ -42,74 +38,18 @@ export const CheerTalk = ({ gameId }: Props) => {
     callback: handleSocketMessage,
   });
 
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const pathname = usePathname();
-
-  useEffect(() => {
-    if (searchParams.get('cheer')) {
-      setIsOpen(true);
-    }
-  }, [searchParams]);
-
-  const handleOpenChange = useCallback(
-    (open: boolean) => {
-      setIsOpen(open);
-
-      if (!open && searchParams.get('cheer')) {
-        const sp = new URLSearchParams(Array.from(searchParams.entries()));
-        sp.delete('cheer');
-        const search = sp.toString();
-        router.replace(search ? `${pathname}?${search}` : pathname);
-      }
-    },
-    [searchParams, router, pathname],
-  );
-
   return (
-    <div className="column gap-2 border-t border-neutral-100 p-4">
-      <BottomSheet open={isOpen} onOpenChange={handleOpenChange}>
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="min-w-0 flex-1">
-            <Typography color={colors.neutral900} weight="semibold" className="sm:text-2xl text-xl">
-              실시간 응원톡
-            </Typography>
-            <Typography
-              fontSize={12}
-              weight="medium"
-              className="sm:text-base text-sm leading-relaxed break-keep"
-            >
-              응원톡에 들어가 여러분의 팀을 응원해보세요! 🙌
-            </Typography>
-          </div>
+    <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex-shrink-0">
+        <CheerTalkTimeline gameId={gameId} />
+      </div>
 
-          <BottomSheet.Trigger asChild>
-            <button
-              type="button"
-              className="
-                  center sm:px-3.5 sm:py-2 my-1 flex shrink-0 flex-row items-center gap-1 rounded-full bg-[var(--color-primary-600)] px-3 py-2 text-sm font-bold whitespace-nowrap text-white
-                  transition-opacity hover:opacity-90
-                "
-            >
-              <ChatFillIcon className="shrink-0 text-white" />
-              <span className="whitespace-nowrap">입장하기</span>
-            </button>
-          </BottomSheet.Trigger>
-        </div>
-
-        <BottomSheet.Content className="!h-full max-h-[90%]">
-          <BottomSheet.Title className="sr-only">응원톡 작성</BottomSheet.Title>
-          <div className="column-between h-full overflow-hidden">
-            <CheerTalkTimeline gameId={gameId} />
-            <CheerTalkList
-              gameId={gameId}
-              cheerTalkList={cheerTalks}
-              socketTalkList={socketTalkList}
-              {...rest}
-            />
-          </div>
-        </BottomSheet.Content>
-      </BottomSheet>
+      <CheerTalkList
+        gameId={gameId}
+        cheerTalkList={cheerTalks}
+        socketTalkList={socketTalkList}
+        {...rest}
+      />
     </div>
   );
 };
