@@ -1,5 +1,7 @@
 export type TeamPlayerType = {
   playerId: number;
+  name?: string;
+  studentNumber?: string;
   jerseyNumber: number;
 };
 
