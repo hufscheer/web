@@ -5,6 +5,7 @@ import { Typography } from '@hcc/ui';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import { useTracker } from '~/hooks/useTracker';
 import { cn } from '~/utils/cn';
 
 const NAVBAR_ITEMS = [
@@ -16,6 +17,7 @@ const NAVBAR_ITEMS = [
 interface Props extends React.ComponentProps<'nav'> {}
 
 export const NavigationBar = ({ 'aria-label': ariaLabel = 'Main', className, ...props }: Props) => {
+  const sendEvent = useTracker({ category: 'NavigationBar' });
   const pathname = usePathname();
 
   return (
@@ -39,6 +41,7 @@ export const NavigationBar = ({ 'aria-label': ariaLabel = 'Main', className, ...
               'center-y flex flex-col gap-1',
               isCurrentPath && 'text-(--color-primary-600)',
             )}
+            onClick={() => sendEvent({ action: 'click', value: label })}
           >
             <Icon size={20} />
             <Typography fontSize={14}>{label}</Typography>
