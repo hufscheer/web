@@ -116,6 +116,7 @@ const ParseResultCard = ({
 
   const displayPlayers = isEditing ? editedPlayers : players;
   const hasError = players.some((p) => p.error);
+  const hasMissingJerseyNumber = players.some((p) => p.jerseyNumber == null);
 
   return (
     <div className="flex flex-col gap-3 rounded-lg border border-gray-200 bg-white p-4">
@@ -194,7 +195,7 @@ const ParseResultCard = ({
       </table>
 
       {/* 에러 표시 */}
-      {displayPlayers.some((p) => p.error) && (
+      {(displayPlayers.some((p) => p.error) || hasMissingJerseyNumber) && (
         <ul className="flex flex-col gap-1">
           {displayPlayers
             .filter((p) => p.error)
@@ -203,6 +204,11 @@ const ParseResultCard = ({
                 {p.error}
               </li>
             ))}
+          {hasMissingJerseyNumber && (
+            <li className="text-xs text-red-500">
+              등번호가 없는 선수가 있습니다. 등록할 수 없습니다.
+            </li>
+          )}
         </ul>
       )}
 
@@ -252,7 +258,7 @@ const ParseResultCard = ({
           >
             수정
           </Button>
-          {!hasError && (
+          {!hasError && !hasMissingJerseyNumber && (
             <Button
               onClick={() => onConfirm?.(players.map((p) => ({ studentNumber: p.studentNumber })))}
               className="bg-primary flex-1 rounded px-3 py-2 text-sm text-white hover:opacity-90"
