@@ -49,15 +49,21 @@ export type GameDetailPayload = { gameId: number };
 
 export type GameLineupPayload = { gameId: number };
 
-export type GameTeamPlayerType = {
+export type ReplacedPlayerType = {
   id: number;
+  number: number;
+  playerName: string;
+};
+
+export type GameTeamPlayerType = {
+  lineupPlayerId: number;
+  playerId: number;
   playerName: string;
   description?: string;
-  number: number;
-  jerseyNumber?: number;
+  jerseyNumber: number;
   isCaptain: boolean;
   isReplaced: boolean;
-  replacedPlayer: Pick<GameTeamPlayerType, 'id' | 'number' | 'playerName'> | null;
+  replacedPlayer: ReplacedPlayerType | null;
   state: 'STARTER' | 'CANDIDATE';
 };
 
@@ -72,4 +78,10 @@ export type GameLineupPlayingType = {
   gameTeamId: number;
   teamName: string;
   gameTeamPlayers: GameTeamPlayerType[];
+};
+export type GameTeamLineupCreateRequest = {
+  teamPlayerId: number;
+  state: 'STARTER' | 'CANDIDATE';
+  isCaptain: boolean;
+  gameTeamId: number;
 };

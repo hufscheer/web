@@ -16,17 +16,27 @@ export const instance = ky.create({
   hooks: {
     afterResponse: [
       async (request, _, response) => {
-        if (!response.ok && response.status === 401) {
-          if (request.url.includes('logout')) return response;
+        if (!response.ok) {
+          if (response.status === 401) {
+            if (request.url.includes('logout')) return response;
 
-          const currentPath = window.location.pathname;
+            const currentPath = window.location.pathname;
 
-          const isInternalNavigation = document?.referrer?.includes(window.location.host);
-          if (currentPath !== '/' || isInternalNavigation) {
-            alert('로그인이 만료되었어요. 다시 로그인해주세요.');
+            const isInternalNavigation = document?.referrer?.includes(window.location.host);
+            if (currentPath !== '/' || isInternalNavigation) {
+              alert('로그인이 만료되었어요. 다시 로그인해주세요.');
+            }
+            window.location.href = '/auth/login';
+            return response;
           }
-          window.location.href = '/auth/login';
-          return response;
+
+          try {
+            const cloned = response.clone();
+            const body = await cloned.json().catch(() => cloned.text());
+            console.error(`[API Error] ${response.status} ${request.method} ${request.url}`, body);
+          } catch {
+            console.error(`[API Error] ${response.status} ${request.method} ${request.url}`);
+          }
         }
         return response;
       },

@@ -17,3 +17,7 @@ export * from './useUpdateLeagueTeams';
 export * from './useUpdatePlayers';
 export * from './useUpdateTeams';
 export * from './useUpdateTeamPlayers';
+export * from './useCreateGameTeamsLineup';
+export * from './useDeleteGameTeamsLineup';
+export * from './useUpdateGamesCandidate';
+export * from './useUpdateGamesStarter';

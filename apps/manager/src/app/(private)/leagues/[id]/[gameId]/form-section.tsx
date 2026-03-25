@@ -1,32 +1,205 @@
 'use client';
 
-import { Button, Input, Select, Typography, toast } from '@hcc/ui';
+import { Button, Input, Spinner, Typography, toast } from '@hcc/ui';
+import { Suspense } from '@suspensive/react';
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { useState } from 'react';
+import { Controller, FormProvider, useForm, useFormContext } from 'react-hook-form';
+import { twMerge } from 'tailwind-merge';
 
 import { type GameUpdateFormType, useSuspenseGame, useSuspenseLeague, useUpdateGames } from '~/api';
+import { InputSelect } from '~/components/ui/input-select';
 import { quarterOptions, roundOptions, stateOptions } from '~/constants/leagues';
 import { handleFormError } from '~/utils/form-util';
+
+import { StepProgress } from '../_components/game-form/step-progress';
+import { GameLineupEditSection } from './game-lineup-edit-section';
 
 type Props = {
   leagueId: number;
   gameId: number;
 };
 
-export const FormSection = ({ leagueId, gameId }: Props) => {
-  const router = useRouter();
+const STEPS = [
+  { id: 'basic', title: '경기 정보' },
+  { id: 'lineup', title: '라인업' },
+  { id: 'video', title: '경기 영상' },
+] as const;
+
+// ── Step 0: 경기 기본 정보 ──────────────────────────────────────────────────
+type BasicStepProps = {
+  leagueId: number;
+  onNext: () => void;
+};
+
+const GameEditBasicStep = ({ leagueId, onNext }: BasicStepProps) => {
+  const { register, watch, control } = useFormContext<GameUpdateFormType>();
   const { data: league } = useSuspenseLeague({ leagueId });
+
+  const [name, round, quarter, state, startTime] = watch([
+    'name',
+    'round',
+    'quarter',
+    'state',
+    'startTime',
+  ]);
+
+  const isValid = Boolean(name?.trim() && round && quarter && state && startTime);
+
+  const roundOptions_ = roundOptions
+    .filter((item) => league.maxRound >= item.round)
+    .map((item) => ({ value: item.value.toString(), label: item.label }));
+
+  const quarterListOptions = Object.entries(quarterOptions).map(([key, value]) => ({
+    value: key,
+    label: value,
+  }));
+
+  const stateListOptions = Object.entries(stateOptions).map(([key, value]) => ({
+    value: key,
+    label: value,
+  }));
+
+  return (
+    <div className="flex h-full flex-col">
+      <div className="flex-1 overflow-y-auto">
+        <Typography weight="semibold">경기 정보</Typography>
+
+        <div className="column mt-4 gap-3">
+          <Input
+            {...register('name', { required: '명칭은 필수 입력값이에요.' })}
+            size="lg"
+            type="text"
+            placeholder="명칭"
+          />
+
+          <Controller
+            name="round"
+            control={control}
+            render={({ field }) => (
+              <InputSelect
+                label="라운드"
+                options={roundOptions_}
+                value={field.value?.toString()}
+                onValueChange={field.onChange}
+              />
+            )}
+          />
+
+          <Controller
+            name="quarter"
+            control={control}
+            render={({ field }) => (
+              <InputSelect
+                label="쿼터"
+                options={quarterListOptions}
+                value={field.value}
+                onValueChange={field.onChange}
+              />
+            )}
+          />
+
+          <Controller
+            name="state"
+            control={control}
+            render={({ field }) => (
+              <InputSelect
+                label="상황"
+                options={stateListOptions}
+                value={field.value}
+                onValueChange={field.onChange}
+              />
+            )}
+          />
+
+          <Input
+            {...register('startTime', { required: '시작 일시는 필수 입력값이에요.' })}
+            size="lg"
+            type="datetime-local"
+            placeholder="시작 일시"
+            required
+          />
+        </div>
+      </div>
+
+      <div className="flex-shrink-0 border-t border-gray-200 bg-white pt-4">
+        <Button
+          type="button"
+          className="w-full"
+          size="lg"
+          color="black"
+          onClick={onNext}
+          disabled={!isValid}
+        >
+          다음 단계
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+// ── Step 2: 경기 영상 ──────────────────────────────────────────────────────
+type VideoStepProps = {
+  onPrevious: () => void;
+};
+
+const GameEditVideoStep = ({ onPrevious }: VideoStepProps) => {
+  const { register } = useFormContext<GameUpdateFormType>();
+
+  return (
+    <div className="flex h-full flex-col">
+      <div className="flex-1 overflow-y-auto">
+        <Typography weight="semibold">영상</Typography>
+
+        <div className="column mt-4 gap-3">
+          <Input size="lg" type="text" placeholder="영상 URL" {...register('videoId')} />
+        </div>
+      </div>
+
+      <div className={twMerge('flex-shrink-0 border-t border-gray-200 bg-white pt-4')}>
+        <div className="flex gap-3">
+          <Button
+            type="button"
+            className="flex-1"
+            size="lg"
+            color="primary"
+            variant="ghost"
+            onClick={onPrevious}
+          >
+            이전 단계
+          </Button>
+          <Button type="submit" className="flex-1" size="lg" color="black">
+            경기 수정
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ── FormSection (메인) ─────────────────────────────────────────────────────
+const FormSectionInner = ({ leagueId, gameId }: Props) => {
+  const router = useRouter();
   const { data } = useSuspenseGame({ gameId });
 
-  const { register, handleSubmit } = useForm<GameUpdateFormType>({
-    defaultValues: { ...data, name: data.gameName, quarter: data.gameQuarter },
+  const [step, setStep] = useState<0 | 1 | 2>(0);
+
+  const form = useForm<GameUpdateFormType>({
+    defaultValues: {
+      name: data.gameName,
+      round: data.round,
+      quarter: data.gameQuarter,
+      state: data.state,
+      startTime: data.startTime,
+      videoId: data.videoId,
+    },
   });
 
   const { mutate } = useUpdateGames();
 
-  const handleFormSubmit = (data: GameUpdateFormType) => {
+  const handleFormSubmit = (formData: GameUpdateFormType) => {
     mutate(
-      { ...data, leagueId, gameId },
+      { ...formData, leagueId, gameId },
       {
         onSuccess: () => {
           toast.success('경기가 수정되었습니다.');
@@ -41,73 +214,44 @@ export const FormSection = ({ leagueId, gameId }: Props) => {
   };
 
   return (
-    <form
-      className="w-full bg-white p-4"
-      onSubmit={handleSubmit(handleFormSubmit, handleFormError)}
-    >
-      <Typography weight="semibold">경기 정보</Typography>
-
-      <div className="column mt-4 gap-3">
-        <Input
-          {...register('name', { required: '명칭은 필수 입력값이에요.' })}
-          size="lg"
-          type="text"
-          placeholder="명칭"
+    <FormProvider {...form}>
+      <form
+        className="flex h-full w-full flex-col bg-white p-4"
+        onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)}
+      >
+        <StepProgress
+          currentStep={step}
+          totalSteps={STEPS.length}
+          steps={STEPS.map((s) => s.title)}
         />
 
-        <Select
-          {...register('round', { required: '라운드는 필수 입력값이에요.' })}
-          size="lg"
-          placeholder="라운드"
-          required
-        >
-          {roundOptions
-            .filter((item) => league.maxRound >= item.round)
-            .map((item) => (
-              <option key={item.value} value={item.value}>
-                {item.label}
-              </option>
-            ))}
-        </Select>
+        <div className="mt-6 flex-1 overflow-hidden">
+          {step === 0 && (
+            <Suspense fallback={<Spinner className="self-center" />} clientOnly>
+              <GameEditBasicStep leagueId={leagueId} onNext={() => setStep(1)} />
+            </Suspense>
+          )}
 
-        <Select
-          {...register('quarter', { required: '쿼터는 필수 입력값이에요.' })}
-          size="lg"
-          placeholder="쿼터"
-          required
-        >
-          {Object.entries(quarterOptions).map(([quarter, value]) => (
-            <option key={quarter} value={quarter}>
-              {value}
-            </option>
-          ))}
-        </Select>
+          {step === 1 && (
+            <GameLineupEditSection
+              gameId={gameId}
+              leagueId={leagueId}
+              onNext={() => setStep(2)}
+              onPrevious={() => setStep(0)}
+            />
+          )}
 
-        <Select
-          {...register('state', { required: '상황은 필수 입력값이에요.' })}
-          size="lg"
-          placeholder="상황"
-          required
-        >
-          {Object.entries(stateOptions).map(([state, value]) => (
-            <option key={state} value={state}>
-              {value}
-            </option>
-          ))}
-        </Select>
+          {step === 2 && <GameEditVideoStep onPrevious={() => setStep(1)} />}
+        </div>
+      </form>
+    </FormProvider>
+  );
+};
 
-        <Input
-          {...register('startTime', { required: '시작 일시는 필수 입력값이에요.' })}
-          size="lg"
-          type="datetime-local"
-          placeholder="시작 일시"
-          required
-        />
-      </div>
-
-      <Button className="mt-4 w-full" color="black" type="submit" size="lg">
-        경기 수정
-      </Button>
-    </form>
+export const FormSection = ({ leagueId, gameId }: Props) => {
+  return (
+    <Suspense clientOnly>
+      <FormSectionInner leagueId={leagueId} gameId={gameId} />
+    </Suspense>
   );
 };
