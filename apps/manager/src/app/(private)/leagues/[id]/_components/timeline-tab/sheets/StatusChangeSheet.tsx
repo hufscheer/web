@@ -20,8 +20,8 @@ type ErrorResponseBody = {
 const getErrorMessage = async (error: unknown) => {
   if (!error || typeof error !== 'object' || !('response' in error)) return null;
 
-  const response = (error as { response?: Response }).response;
-  if (!response) return null;
+  const { response } = error as { response: unknown };
+  if (!(response instanceof Response)) return null;
 
   try {
     const contentType = response.headers.get('content-type') ?? '';
