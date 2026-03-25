@@ -12,6 +12,30 @@ import { InputSelect } from '~/components/ui/input-select';
 type SelectOption = { label: string; value: string };
 
 type LabelType<T, K extends keyof T> = Pick<Record<keyof T, string>, K>;
+type ErrorResponseBody = {
+  message?: string;
+  error?: string;
+};
+
+const getErrorMessage = async (error: unknown) => {
+  if (!error || typeof error !== 'object' || !('response' in error)) return null;
+
+  const response = (error as { response?: Response }).response;
+  if (!response) return null;
+
+  try {
+    const contentType = response.headers.get('content-type') ?? '';
+    if (contentType.includes('application/json') || contentType.includes('+json')) {
+      const data = (await response.clone().json()) as ErrorResponseBody;
+      return data.message ?? data.error ?? null;
+    }
+
+    const text = await response.clone().text();
+    return text || null;
+  } catch {
+    return null;
+  }
+};
 
 const QUARTER_LABELS: LabelType<
   typeof QUARTER_TYPE,
@@ -75,9 +99,9 @@ export default function StatusChangeSheet({
         toast.success('상태 변경이 등록되었습니다.');
         onClose();
       },
-      onError: (error) => {
-        console.log(error);
-        toast.error('상태 변경 등록에 실패했습니다. 다시 시도해주세요.');
+      onError: async (error) => {
+        const serverMessage = await getErrorMessage(error);
+        toast.error(serverMessage ?? '상태 변경 등록에 실패했습니다. 다시 시도해주세요.');
       },
     });
   };
