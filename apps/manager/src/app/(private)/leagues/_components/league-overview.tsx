@@ -64,7 +64,7 @@ export const LeagueOverview = () => {
           </Link>
 
           <div className="row-between mt-4 gap-2.5">
-            <Button
+            {/* <Button
               className="flex-1"
               size="sm"
               color="black"
@@ -72,7 +72,7 @@ export const LeagueOverview = () => {
               onClick={() => router.push(`/${routes.teams}`)}
             >
               참가 팀 관리
-            </Button>
+            </Button> */}
             <Button
               className="flex-1"
               size="sm"
