@@ -10,10 +10,6 @@ export const postGameTeamsLineup = ({ gameTeamId, ...request }: GameTeamLineupCr
     state: request.state,
     isCaptain: request.isCaptain,
   };
-  console.log('[API] 라인업에 선수 추가 (POST /lineup-players):', {
-    url: `game-teams/${gameTeamId}/lineup-players`,
-    body: payload,
-  });
   return fetcher.post<void>(`game-teams/${gameTeamId}/lineup-players`, { json: payload });
 };
 

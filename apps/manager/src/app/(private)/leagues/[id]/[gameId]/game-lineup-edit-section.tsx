@@ -160,12 +160,6 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
     originalSelection: PlayerSelectionState[],
     newSelection: PlayerSelectionState[],
   ) => {
-    console.log('[경기 라인업 편집] applyTeamChanges 시작:', {
-      gameTeamId,
-      originalSelection,
-      newSelection,
-    });
-
     const originalMap = new Map(originalSelection.map((p) => [p.teamPlayerId, p]));
     const newMap = new Map(newSelection.map((p) => [p.teamPlayerId, p]));
 
@@ -175,21 +169,11 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
       if (!next) {
         // 라인업에서 제거 → DELETE
         if (orig.lineupPlayerId !== undefined) {
-          console.log('[경기 라인업 편집] 선수 제거:', {
-            teamPlayerId: orig.teamPlayerId,
-            lineupPlayerId: orig.lineupPlayerId,
-          });
           await deleteLineupPlayer({ gameTeamId, lineupPlayerId: orig.lineupPlayerId });
         }
       } else if (orig.state !== next.state && orig.isCaptain === next.isCaptain) {
         // 선발 ↔ 후보 상태만 변경 → PATCH (lineupPlayerId 유지)
         if (orig.lineupPlayerId !== undefined) {
-          console.log('[경기 라인업 편집] 선수 상태 변경:', {
-            teamPlayerId: orig.teamPlayerId,
-            lineupPlayerId: orig.lineupPlayerId,
-            from: orig.state,
-            to: next.state,
-          });
           if (next.state === 'STARTER') {
             await patchStarter({ gameId, lineupPlayerId: orig.lineupPlayerId });
           } else {
@@ -199,17 +183,8 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
       } else if (orig.state !== next.state || orig.isCaptain !== next.isCaptain) {
         // 주장 변경 포함 → DELETE + POST (주장 변경 전용 PATCH 없음)
         if (orig.lineupPlayerId !== undefined) {
-          console.log('[경기 라인업 편집] 주장 변경 - 선수 제거:', {
-            teamPlayerId: orig.teamPlayerId,
-            lineupPlayerId: orig.lineupPlayerId,
-          });
           await deleteLineupPlayer({ gameTeamId, lineupPlayerId: orig.lineupPlayerId });
         }
-        console.log('[경기 라인업 편집] 주장 변경 - 선수 추가:', {
-          teamPlayerId: next.teamPlayerId,
-          state: next.state,
-          isCaptain: next.isCaptain,
-        });
         await createLineup({
           gameTeamId,
           teamPlayerId: next.teamPlayerId,
@@ -223,11 +198,6 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
     for (const next of newSelection) {
       if (!originalMap.has(next.teamPlayerId)) {
         // 새로 추가된 선수 → POST
-        console.log('[경기 라인업 편집] 선수 추가:', {
-          teamPlayerId: next.teamPlayerId,
-          state: next.state,
-          isCaptain: next.isCaptain,
-        });
         await createLineup({
           gameTeamId,
           teamPlayerId: next.teamPlayerId,
@@ -240,31 +210,14 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
 
   const handleSaveAndNext = async () => {
     if (!gameTeam1 || !gameTeam2) return;
-    console.log('[경기 라인업 편집] 저장 시작:', {
-      team1GameTeamId: gameTeam1.gameTeamId,
-      team2GameTeamId: gameTeam2.gameTeamId,
-    });
     setSaving(true);
     try {
-      console.log('[경기 라인업 편집] Team 1 라인업 적용:', {
-        gameTeamId: gameTeam1.gameTeamId,
-        originalCount: originalTeam1Selection.length,
-        newCount: team1Selection.length,
-      });
       await applyTeamChanges(gameTeam1.gameTeamId, originalTeam1Selection, team1Selection);
-
-      console.log('[경기 라인업 편집] Team 2 라인업 적용:', {
-        gameTeamId: gameTeam2.gameTeamId,
-        originalCount: originalTeam2Selection.length,
-        newCount: team2Selection.length,
-      });
       await applyTeamChanges(gameTeam2.gameTeamId, originalTeam2Selection, team2Selection);
 
-      console.log('[경기 라인업 편집] 라인업 저장 완료');
       toast.success('라인업이 수정되었습니다.');
       onNext();
     } catch (error) {
-      console.error('[경기 라인업 편집] 라인업 수정 실패:', error);
       toast.error('라인업 수정에 실패했습니다. 잠시 후 다시 시도해주세요.');
     } finally {
       setSaving(false);

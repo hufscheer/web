@@ -8,10 +8,6 @@ type Request = {
 };
 
 export const deleteGameTeamsLineup = ({ gameTeamId, lineupPlayerId }: Request) => {
-  console.log('[API] 라인업에서 선수 제거 (DELETE /lineup-players):', {
-    gameTeamId,
-    lineupPlayerId,
-  });
   return fetcher.delete<void>(`game-teams/${gameTeamId}/lineup-players/${lineupPlayerId}`, {
     json: null,
   });

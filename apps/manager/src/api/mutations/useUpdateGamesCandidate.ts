@@ -10,7 +10,6 @@ export const patchTeamPlayers = ({
   gameId,
   lineupPlayerId,
 }: Request & { lineupPlayerId: number }) => {
-  console.log('[API] 선수를 후보로 변경 (PATCH /candidate):', { gameId, lineupPlayerId });
   return fetcher.patch<void>(`games/${gameId}/lineup-players/${lineupPlayerId}/candidate`, {
     json: null,
   });
