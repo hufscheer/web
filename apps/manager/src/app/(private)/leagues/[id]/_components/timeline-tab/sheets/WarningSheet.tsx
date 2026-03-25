@@ -63,7 +63,7 @@ export default function WarningSheet({ gameId, onClose }: { gameId: number; onCl
 
     return selectedTeam.gameTeamPlayers.map((p) => ({
       label: `${p.jerseyNumber} ${p.playerName}`,
-      value: String(p.id),
+      value: String(p.lineupPlayerId),
     }));
   }, [lineup, team]);
   const isFormValid = quarter && team && player && card && minute;
