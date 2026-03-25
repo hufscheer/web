@@ -6,7 +6,7 @@ type Request = {
   gameId: number;
 };
 
-export const patchTeamPlayers = ({
+export const patchLineupPlayerToCandidate = ({
   gameId,
   lineupPlayerId,
 }: Request & { lineupPlayerId: number }) => {
@@ -19,7 +19,7 @@ export const useUpdateGamesCandidate = () => {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: patchTeamPlayers,
+    mutationFn: patchLineupPlayerToCandidate,
     onSuccess: async () => {
       await qc.invalidateQueries({ queryKey: queryKeys.games.lineup._def });
     },

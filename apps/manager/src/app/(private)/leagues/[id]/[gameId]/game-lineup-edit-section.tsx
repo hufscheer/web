@@ -57,8 +57,8 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
   const { data: lineup } = useSuspenseGameLineup({ gameId });
   const { data: leagueTeams } = useSuspenseLeagueTeams({ leagueId });
 
-  const gameTeam1 = game.gameTeams[0];
-  const gameTeam2 = game.gameTeams[1];
+  const gameTeam1 = game.gameTeams?.[0];
+  const gameTeam2 = game.gameTeams?.[1];
 
   // gameTeamId로 lineup 매칭 (가장 신뢰할 수 있는 방법)
   const lineup1 = lineup.find((l) => l.gameTeamId === gameTeam1?.gameTeamId);

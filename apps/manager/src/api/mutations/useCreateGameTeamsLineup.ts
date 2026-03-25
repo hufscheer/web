@@ -5,12 +5,7 @@ import { queryKeys } from '~/api/queryKey';
 import type { GameTeamLineupCreateRequest } from '../types/games';
 
 export const postGameTeamsLineup = ({ gameTeamId, ...request }: GameTeamLineupCreateRequest) => {
-  const payload = {
-    teamPlayerId: request.teamPlayerId,
-    state: request.state,
-    isCaptain: request.isCaptain,
-  };
-  return fetcher.post<void>(`game-teams/${gameTeamId}/lineup-players`, { json: payload });
+  return fetcher.post<void>(`game-teams/${gameTeamId}/lineup-players`, { json: request });
 };
 
 export const useCreateGameTeamsLineup = () => {

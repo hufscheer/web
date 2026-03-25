@@ -113,7 +113,7 @@ const cheerTalkQueryKeys = createQueryKeys('cheertalks', {
   }),
 });
 
-const GameTeamLineypQueryKeys = createQueryKeys('gameteamslineup', {
+const GameTeamLineupQueryKeys = createQueryKeys('gameteamslineup', {
   create: {
     queryKey: null,
   },
@@ -124,5 +124,5 @@ export const queryKeys = mergeQueryKeys(
   teamQueryKeys,
   cheerTalkQueryKeys,
   gameQueryKeys,
-  GameTeamLineypQueryKeys,
+  GameTeamLineupQueryKeys,
 );
