@@ -21,3 +21,5 @@ export * from './useCreateGameTeamsLineup';
 export * from './useDeleteGameTeamsLineup';
 export * from './useUpdateGamesCandidate';
 export * from './useUpdateGamesStarter';
+export * from './useUpdateGamesCaptainRegister';
+export * from './useUpdateGamesCaptainRevoke';

@@ -9,6 +9,8 @@ import {
   useCreateGameTeamsLineup,
   useDeleteGameTeamsLineup,
   useUpdateGamesCandidate,
+  useUpdateGamesCaptainRegister,
+  useUpdateGamesCaptainRevoke,
   useUpdateGamesStarter,
   useSuspenseGame,
   useSuspenseGameLineup,
@@ -113,6 +115,8 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
   const { mutateAsync: deleteLineupPlayer } = useDeleteGameTeamsLineup();
   const { mutateAsync: patchStarter } = useUpdateGamesStarter();
   const { mutateAsync: patchCandidate } = useUpdateGamesCandidate();
+  const { mutateAsync: patchCaptainRegister } = useUpdateGamesCaptainRegister();
+  const { mutateAsync: patchCaptainRevoke } = useUpdateGamesCaptainRevoke();
 
   const getPlayerState = (teamNumber: 1 | 2, teamPlayerId: number) => {
     const selection = teamNumber === 1 ? team1Selection : team2Selection;
@@ -172,7 +176,7 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
           await deleteLineupPlayer({ gameTeamId, lineupPlayerId: orig.lineupPlayerId });
         }
       } else if (orig.state !== next.state && orig.isCaptain === next.isCaptain) {
-        // 선발 ↔ 후보 상태만 변경 → PATCH (lineupPlayerId 유지)
+        // 선발 ↔ 후보 상태만 변경 → PATCH starter/candidate
         if (orig.lineupPlayerId !== undefined) {
           if (next.state === 'STARTER') {
             await patchStarter({ gameId, lineupPlayerId: orig.lineupPlayerId });
@@ -180,8 +184,17 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
             await patchCandidate({ gameId, lineupPlayerId: orig.lineupPlayerId });
           }
         }
-      } else if (orig.state !== next.state || orig.isCaptain !== next.isCaptain) {
-        // 주장 변경 포함 → DELETE + POST (주장 변경 전용 PATCH 없음)
+      } else if (orig.state === next.state && orig.isCaptain !== next.isCaptain) {
+        // 주장만 변경 → PATCH captain/register or revoke
+        if (orig.lineupPlayerId !== undefined) {
+          if (next.isCaptain) {
+            await patchCaptainRegister({ gameId, lineupPlayerId: orig.lineupPlayerId });
+          } else {
+            await patchCaptainRevoke({ gameId, lineupPlayerId: orig.lineupPlayerId });
+          }
+        }
+      } else if (orig.state !== next.state && orig.isCaptain !== next.isCaptain) {
+        // 상태 + 주장 동시 변경 → DELETE + POST
         if (orig.lineupPlayerId !== undefined) {
           await deleteLineupPlayer({ gameTeamId, lineupPlayerId: orig.lineupPlayerId });
         }
