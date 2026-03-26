@@ -21,8 +21,12 @@ export const RecentTab = () => {
 
   if (!displayedGame) return null;
 
-  const hasPlayingGames = displayedGame.games.some((game) => game.state === 'PLAYING');
+  const hasPlayingGames = displayedGame.games.some((game) => game.gameState === 'PLAYING');
   const buttonLabel = hasPlayingGames ? '응원하러 가기' : '지난 경기 보러가기';
+
+  const sortedGames = [...displayedGame.games].sort(
+    (a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime(),
+  );
 
   const { data: cheerCount } = useSuspenseLeagueCheerCount(
     { leagueId: displayedGame?.leagueId },
@@ -35,7 +39,7 @@ export const RecentTab = () => {
         cheerCount={cheerCount.cheerTalkCount}
         leagueId={displayedGame.leagueId}
         leagueName={displayedGame.leagueName}
-        games={displayedGame.games}
+        games={sortedGames}
         buttonLabel={buttonLabel}
       />
     </div>
