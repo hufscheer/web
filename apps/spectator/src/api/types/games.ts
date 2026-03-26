@@ -35,11 +35,13 @@ export type GameListPayload = {
 
 export type GameListType = {
   id: number;
+  gameState: GameStateType;
 } & GameData;
 
 export type GameListResponse = {
   leagueId: number;
   leagueName: string;
+  leagueProgress: 'BEFORE_START' | 'IN_PROGRESS' | 'FINISHED';
   games: GameListType[];
 };
 

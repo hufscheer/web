@@ -9,22 +9,24 @@ import { Fragment } from 'react';
 
 import type { GameListType, LeagueCheerCountType } from '~/api';
 
-import { useSuspenseGames } from '~/api';
 import { useSuspenseLeagueCheerCount } from '~/api/queries/useLeagueCheerCount';
+import { useSuspenseLeagueRecentGames } from '~/api/queries/useLeagueRecentGames';
 import { GameCard } from '~/components/ui';
 import { routes } from '~/constants/routes';
 import { useTracker } from '~/hooks/useTracker';
 
 export const RecentTab = () => {
-  const { data: playing } = useSuspenseGames({ state: 'PLAYING', size: 20 });
-  const { data: finished } = useSuspenseGames({ state: 'FINISHED', size: 9999 });
-
-  const hasPlayingGames = playing.length !== 0;
-  const recentFinished = finished.sort((a, b) => a.leagueId - b.leagueId).at(-1);
-  const displayedGame = hasPlayingGames ? playing.at(-1) : recentFinished;
-  const buttonLabel = hasPlayingGames ? '응원하러 가기' : '지난 경기 보러가기';
+  const { data: recentGames } = useSuspenseLeagueRecentGames();
+  const displayedGame = recentGames.at(0);
 
   if (!displayedGame) return null;
+
+  const hasPlayingGames = displayedGame.games.some((game) => game.gameState === 'PLAYING');
+  const buttonLabel = hasPlayingGames ? '응원하러 가기' : '지난 경기 보러가기';
+
+  const sortedGames = [...displayedGame.games].sort(
+    (a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime(),
+  );
 
   const { data: cheerCount } = useSuspenseLeagueCheerCount(
     { leagueId: displayedGame?.leagueId },
@@ -32,17 +34,15 @@ export const RecentTab = () => {
   );
 
   return (
-    <>
-      <div className="flex flex-1 flex-col gap-3">
-        <GameList
-          cheerCount={cheerCount.cheerTalkCount}
-          leagueId={displayedGame.leagueId}
-          leagueName={displayedGame.leagueName}
-          games={displayedGame.games}
-          buttonLabel={buttonLabel}
-        />
-      </div>
-    </>
+    <div className="flex flex-1 flex-col gap-3">
+      <GameList
+        cheerCount={cheerCount.cheerTalkCount}
+        leagueId={displayedGame.leagueId}
+        leagueName={displayedGame.leagueName}
+        games={sortedGames}
+        buttonLabel={buttonLabel}
+      />
+    </div>
   );
 };
 
@@ -102,20 +102,21 @@ const GameList = ({ leagueId, leagueName, games, cheerCount, buttonLabel }: Game
               </GameCard.Container>
             </GameCard>
             {index !== games.length - 1 && <GameCard.Divider />}
-
-            <Button
-              asChild
-              variant="ghost"
-              size="sm"
-              color="primary"
-              className="gap"
-              onClick={() => sendEvent({ action: 'click', value: buttonLabel })}
-            >
-              <Link href={{ pathname: `/games/${game.id}`, query: { tab: 'cheer' } }}>
-                {buttonLabel}
-                <ChevronForwardIcon className="animate-[arrow_1s_ease-in-out_infinite] " />
-              </Link>
-            </Button>
+            {index === 0 && (
+              <Button
+                asChild
+                variant="ghost"
+                size="sm"
+                color="primary"
+                className="gap"
+                onClick={() => sendEvent({ action: 'click', value: buttonLabel })}
+              >
+                <Link href={{ pathname: `/games/${game.id}`, query: { tab: 'cheer' } }}>
+                  {buttonLabel}
+                  <ChevronForwardIcon className="animate-[arrow_1s_ease-in-out_infinite] " />
+                </Link>
+              </Button>
+            )}
           </Fragment>
         );
       })}

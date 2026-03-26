@@ -29,8 +29,11 @@ const GameListContent = ({
   });
   const router = useRouter();
 
-  return data.map((league) =>
-    league.games.map((game, index) => {
+  return data.map((league) => {
+    const sortedGames = [...league.games].sort(
+      (a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime(),
+    );
+    return sortedGames.map((game, index) => {
       if (game.gameTeams.length < 2) return null;
 
       return (
@@ -54,11 +57,11 @@ const GameListContent = ({
               </div>
             </GameCard.Container>
           </GameCard>
-          {index !== league.games.length - 1 && <GameCard.Divider />}
+          {index !== sortedGames.length - 1 && <GameCard.Divider />}
         </Fragment>
       );
-    }),
-  );
+    });
+  });
 };
 
 export const GameList = (props: Props) => {

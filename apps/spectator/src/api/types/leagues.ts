@@ -9,10 +9,10 @@ export type LeagueType = {
 };
 
 export type LeagueListPayload = {
-  year: number;
+  year?: number;
   leagueProgress?: 'BEFORE_START' | 'IN_PROGRESS' | 'FINISHED';
   cursor?: number;
-  size: number;
+  size?: number;
 };
 
 export type LeagueDetailPayload = {

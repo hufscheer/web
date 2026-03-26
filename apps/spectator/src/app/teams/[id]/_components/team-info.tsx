@@ -27,7 +27,7 @@ export const TeamInfo = ({ id }: { id: number }) => {
           <TeamCard.Content>
             {games.map((game) => {
               const { gameId, state } = game;
-              const gameWithId = { ...game, id };
+              const gameWithId = { ...game, id, gameState: state };
 
               return (
                 <GameCard key={gameId} game={gameWithId}>
