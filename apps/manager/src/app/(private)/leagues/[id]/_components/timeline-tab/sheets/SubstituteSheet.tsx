@@ -58,7 +58,7 @@ export default function SubstituteSheet({
       .filter((p) => p.state === 'CANDIDATE') // 후보 선수만 필터링
       .map((p) => ({
         label: `${p.jerseyNumber} ${p.playerName}`,
-        value: String(p.id),
+        value: String(p.lineupPlayerId),
       }));
   }, [lineup, team]);
 
@@ -71,7 +71,7 @@ export default function SubstituteSheet({
       .filter((p) => p.state === 'STARTER') // 주전 선수만 필터링
       .map((p) => ({
         label: `${p.jerseyNumber} ${p.playerName}`,
-        value: String(p.id),
+        value: String(p.lineupPlayerId),
       }));
   }, [lineup, team]);
   const isFormValid = quarter && team && playerOut && playerIn && minute;

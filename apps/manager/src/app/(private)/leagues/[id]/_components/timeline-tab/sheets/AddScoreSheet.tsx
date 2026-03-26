@@ -67,7 +67,7 @@ export default function AddScoreSheet({
 
     return selectedTeam.gameTeamPlayers.map((p) => ({
       label: `${p.jerseyNumber} ${p.playerName}`,
-      value: String(p.id),
+      value: String(p.lineupPlayerId),
     }));
   }, [lineup, team]);
 

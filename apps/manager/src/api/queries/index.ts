@@ -2,6 +2,7 @@ export * from './useCheerTalkBlock';
 export * from './useCheerTalkReport';
 export * from './useCheerTalks';
 export * from './useGame';
+export * from './useGameLineup';
 export * from './useGames';
 export * from './useGameTimeLine';
 export * from './useLeague';

@@ -26,7 +26,15 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
 
   const teamPlayers = watch('teamPlayers') || [];
 
-  const isValid = teamPlayers.length > 0;
+  const isValid =
+    teamPlayers.length > 0 &&
+    teamPlayers.every(
+      (player) =>
+        !!player.name?.trim() &&
+        !!player.studentNumber?.trim() &&
+        player.jerseyNumber !== undefined &&
+        player.jerseyNumber !== null,
+    );
 
   const handleAppendPlayer = (id: number) => {
     if (teamPlayers.find((player) => player.playerId === id)) {
@@ -34,7 +42,14 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
       return;
     }
 
-    append({ playerId: id, jerseyNumber: 0 });
+    const selectedPlayer = data?.find((player) => player.playerId === id);
+
+    append({
+      playerId: id,
+      name: selectedPlayer?.name ?? '',
+      studentNumber: selectedPlayer?.studentNumber ?? '',
+      jerseyNumber: 0,
+    });
   };
 
   return (
@@ -57,22 +72,38 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
         {fields.map((field, index) => (
           <div key={field.id} className="center-y gap-3">
             <div className="center-y flex-1 gap-3">
-              <Input
-                size="lg"
-                placeholder="선수 이름"
-                value={data.find((player) => player.playerId === field.playerId)?.name ?? '-'}
-                disabled
-                readOnly
+              <Controller
+                name={`teamPlayers.${index}.name`}
+                control={control}
+                render={({ field: f }) => (
+                  <Input
+                    {...f}
+                    size="lg"
+                    placeholder="선수 이름"
+                    value={
+                      f.value ??
+                      data.find((player) => player.playerId === field.playerId)?.name ??
+                      '-'
+                    }
+                  />
+                )}
               />
 
-              <Input
-                size="lg"
-                placeholder="학번"
-                value={
-                  data.find((player) => player.playerId === field.playerId)?.studentNumber ?? '-'
-                }
-                disabled
-                readOnly
+              <Controller
+                name={`teamPlayers.${index}.studentNumber`}
+                control={control}
+                render={({ field: f }) => (
+                  <Input
+                    {...f}
+                    size="lg"
+                    placeholder="학번"
+                    value={
+                      f.value ??
+                      data.find((player) => player.playerId === field.playerId)?.studentNumber ??
+                      '-'
+                    }
+                  />
+                )}
               />
 
               <Controller
