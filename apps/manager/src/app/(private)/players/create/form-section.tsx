@@ -1,6 +1,7 @@
 'use client';
 
 import { toast } from '@hcc/ui';
+import { HTTPError } from 'ky';
 import { useRouter } from 'next/navigation';
 
 import { type PlayerFormType, useCreatePlayers } from '~/api';
@@ -17,8 +18,14 @@ export const FormSection = () => {
       toast.success('선수가 생성되었어요.');
       router.back();
     } catch (error) {
-      console.error(error);
-      toast.error('선수 생성에 실패했어요.');
+      if (error instanceof HTTPError) {
+        const body = await error.response
+          .json<{ message?: string }>()
+          .catch((): { message?: string } => ({}));
+        toast.error(body.message ?? '선수 생성에 실패했어요.');
+      } else {
+        toast.error('선수 생성에 실패했어요.');
+      }
     }
   };
 
