@@ -211,6 +211,21 @@ export const AddPlayerBottomSheet = ({
       return;
     }
 
+    if (!logoImageUrl) {
+      setDisplayMessages((prev) => [
+        ...prev,
+        {
+          id: `${Date.now()}`,
+          type: 'assistant',
+          stage: 'complete',
+          message:
+            '팀 로고 이미지가 등록되지 않았어요.\n팀 정보에서 로고 이미지를 먼저 등록해주세요.',
+        },
+      ]);
+      scrollToBottom();
+      return;
+    }
+
     setIsClosing(true);
 
     let imageUrl: string;
@@ -281,6 +296,7 @@ export const AddPlayerBottomSheet = ({
     registerNL,
     router,
     onOpenChange,
+    scrollToBottom,
     isClosing,
     isRegistering,
   ]);
