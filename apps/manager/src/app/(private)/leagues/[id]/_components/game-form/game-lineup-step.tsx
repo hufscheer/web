@@ -147,14 +147,12 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
     const currentPlayers = activeTab === 1 ? team1Players : team2Players;
     if (!currentPlayers) return [];
 
-    return currentPlayers.filter((player) => {
-      const playerName = getPlayerName(player.playerId).toLowerCase();
-      return (
-        playerName.includes(searchQuery.toLowerCase()) ||
-        player.jerseyNumber.toString().includes(searchQuery)
-      );
-    });
-  }, [activeTab, team1Players, team2Players, searchQuery, getPlayerName]);
+    return currentPlayers.filter(
+      (player) =>
+        player.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        player.jerseyNumber.toString().includes(searchQuery),
+    );
+  }, [activeTab, team1Players, team2Players, searchQuery]);
 
   const renderPlayerList = (teamNumber: 1 | 2) => {
     const playersData = teamNumber === 1 ? team1Players : team2Players;
@@ -268,6 +266,9 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
           placeholder="선수 이름이나 등번호로 검색..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') e.preventDefault();
+          }}
           size="md"
         />
       </div>

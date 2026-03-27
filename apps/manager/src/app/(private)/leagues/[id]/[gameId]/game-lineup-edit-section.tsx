@@ -356,6 +356,9 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
           placeholder="선수 이름이나 등번호로 검색..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') e.preventDefault();
+          }}
           size="md"
         />
       </div>

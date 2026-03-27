@@ -438,6 +438,7 @@ interface CompleteCardProps {
 const CompleteCard = ({ onClose }: CompleteCardProps) => {
   return (
     <Button
+      type="button"
       onClick={onClose}
       className="bg-primary w-full rounded px-3 py-3 text-sm font-medium text-white hover:opacity-90"
     >

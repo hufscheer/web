@@ -379,7 +379,14 @@ export const AddPlayerBottomSheet = ({
           <BottomSheet.Title className={twMerge('px-6')}>훕치치 어시스턴트</BottomSheet.Title>
         </BottomSheet.Header>
 
-        <div className={twMerge('px-6 h-[60vh] overflow-y-auto flex flex-col')}>
+        <div
+          className={twMerge('px-6 h-[60vh] overflow-y-auto flex flex-col')}
+          role="presentation"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') e.preventDefault();
+          }}
+        >
+          {' '}
           <div className={twMerge('flex-1 overflow-y-auto')}>
             {displayMessages.map((msg) => {
               if (msg.type === 'assistant' && msg.stage && msg.stage !== 'input') {
