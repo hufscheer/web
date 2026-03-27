@@ -218,6 +218,9 @@ const FormSectionInner = ({ leagueId, gameId }: Props) => {
       <form
         className="flex h-full w-full flex-col bg-white p-4"
         onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') e.preventDefault();
+        }}
       >
         <StepProgress
           currentStep={step}

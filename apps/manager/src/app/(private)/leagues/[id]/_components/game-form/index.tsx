@@ -46,6 +46,9 @@ export const GameForm = ({ leagueId, className, onSubmit, initialData, ...props 
       <form
         className={twMerge('flex h-full w-full flex-col bg-white p-4', className)}
         onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') e.preventDefault();
+        }}
         {...props}
       >
         <div className="mx-auto flex h-full w-full max-w-4xl flex-col">
