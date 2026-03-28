@@ -230,6 +230,7 @@ const ParseResultCard = ({
       {isEditing ? (
         <div className="flex gap-2">
           <Button
+            type="button"
             color="primary"
             variant="ghost"
             onClick={() => setIsEditing(false)}
@@ -238,6 +239,7 @@ const ParseResultCard = ({
             취소
           </Button>
           <Button
+            type="button"
             color="primary"
             onClick={() => {
               onEdit?.(editedPlayers);
@@ -251,6 +253,7 @@ const ParseResultCard = ({
       ) : (
         <div className="flex gap-2">
           <Button
+            type="button"
             color="primary"
             variant="ghost"
             onClick={() => setIsEditing(true)}
@@ -260,6 +263,7 @@ const ParseResultCard = ({
           </Button>
           {!hasError && !hasMissingJerseyNumber && (
             <Button
+              type="button"
               onClick={() => onConfirm?.(players.map((p) => ({ studentNumber: p.studentNumber })))}
               className="bg-primary flex-1 rounded px-3 py-2 text-sm text-white hover:opacity-90"
             >
@@ -332,6 +336,7 @@ const DuplicateCheckCard = ({
         </table>
 
         <Button
+          type="button"
           onClick={() =>
             onSelectDuplicates?.(duplicates.filter((p) => selected.has(p.studentNumber)))
           }
@@ -415,6 +420,7 @@ const FinalConfirmCard = ({ players, teamName, onConfirm }: FinalConfirmCardProp
       </table>
 
       <Button
+        type="button"
         onClick={() =>
           onConfirm?.(Array.from(selected).map((studentNumber) => ({ studentNumber })))
         }
