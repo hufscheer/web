@@ -1,12 +1,14 @@
 'use client';
 
+import type { BadgeProps } from '@hcc/ui';
+
 import { formatTime } from '@hcc/toolkit';
 import { Badge, Button, colors, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import { createContext, useContext, type ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import type { GameListType } from '~/api';
+import type { GameListType, GameStateType } from '~/api';
 
 import { cn } from '~/utils/cn';
 
@@ -57,12 +59,13 @@ const GameCardContainer = ({ children, className, ...props }: ComponentProps<'di
  * -----------------------------------------------------------------------------------------------*/
 
 interface GameCardHeaderProps extends ComponentProps<'div'> {
-  // game: GameListType;
+  state?: GameStateType;
   showLeagueName?: boolean;
 }
 
-const GameCardHeader = ({ showLeagueName, className, ...props }: GameCardHeaderProps) => {
-  const { leagueName, round, startTime, gameQuarter } = useGameCardContext();
+const GameCardHeader = ({ showLeagueName, className, state, ...props }: GameCardHeaderProps) => {
+  const { leagueName, round, startTime, gameState } = useGameCardContext();
+  const { label, variant } = getGameStateInfo(state ?? gameState);
 
   return (
     <div className={twMerge('row-between', className)} {...props}>
@@ -72,9 +75,27 @@ const GameCardHeader = ({ showLeagueName, className, ...props }: GameCardHeaderP
         {' ‧ '}
         {formatTime(startTime, { format: 'MM.DD. HH:mm' })}
       </Typography>
-      <Badge size="sm">{gameQuarter}</Badge>
+
+      <Badge size="sm" variant={variant}>
+        {label}
+      </Badge>
     </div>
   );
+};
+
+const getGameStateInfo = (
+  gameState: GameStateType,
+): { label: string; variant: BadgeProps['variant'] } => {
+  switch (gameState) {
+    case 'SCHEDULED':
+      return { label: '예정', variant: 'primary' };
+    case 'PLAYING':
+      return { label: '🔴 Live', variant: 'danger' };
+    case 'FINISHED':
+      return { label: '경기 종료', variant: 'default' };
+    default:
+      return { label: gameState, variant: 'default' };
+  }
 };
 
 /* -------------------------------------------------------------------------------------------------
