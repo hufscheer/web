@@ -90,7 +90,7 @@ const getGameStateInfo = (
     case 'SCHEDULED':
       return { label: '예정', variant: 'primary' };
     case 'PLAYING':
-      return { label: '🔴 Live', variant: 'danger' };
+      return { label: 'Live', variant: 'danger' };
     case 'FINISHED':
       return { label: '경기 종료', variant: 'default' };
     default:
