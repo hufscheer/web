@@ -76,7 +76,7 @@ const GameCardHeader = ({ showLeagueName, className, state, ...props }: GameCard
         {formatTime(startTime, { format: 'MM.DD. HH:mm' })}
       </Typography>
 
-      <Badge size="sm" variant={variant}>
+      <Badge size="sm" variant={variant} className={cn(variant === 'danger' && 'shimmer-overlay')}>
         {label}
       </Badge>
     </div>
