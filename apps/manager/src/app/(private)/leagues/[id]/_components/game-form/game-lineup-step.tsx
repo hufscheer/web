@@ -150,7 +150,7 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
     return currentPlayers.filter(
       (player) =>
         player.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        player.jerseyNumber.toString().includes(searchQuery),
+        player.jerseyNumber?.toString().includes(searchQuery),
     );
   }, [activeTab, team1Players, team2Players, searchQuery]);
 
@@ -266,9 +266,6 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
           placeholder="선수 이름이나 등번호로 검색..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') e.preventDefault();
-          }}
           size="md"
         />
       </div>

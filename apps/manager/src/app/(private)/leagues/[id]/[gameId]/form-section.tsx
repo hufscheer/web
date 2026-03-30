@@ -141,9 +141,10 @@ const GameEditBasicStep = ({ leagueId, onNext }: BasicStepProps) => {
 // ── Step 2: 경기 영상 ──────────────────────────────────────────────────────
 type VideoStepProps = {
   onPrevious: () => void;
+  onSubmit: () => void;
 };
 
-const GameEditVideoStep = ({ onPrevious }: VideoStepProps) => {
+const GameEditVideoStep = ({ onPrevious, onSubmit }: VideoStepProps) => {
   const { register } = useFormContext<GameUpdateFormType>();
 
   return (
@@ -168,7 +169,7 @@ const GameEditVideoStep = ({ onPrevious }: VideoStepProps) => {
           >
             이전 단계
           </Button>
-          <Button type="submit" className="flex-1" size="lg" color="black">
+          <Button type="button" className="flex-1" size="lg" color="black" onClick={onSubmit}>
             경기 수정
           </Button>
         </div>
@@ -217,10 +218,7 @@ const FormSectionInner = ({ leagueId, gameId }: Props) => {
     <FormProvider {...form}>
       <form
         className="flex h-full w-full flex-col bg-white p-4"
-        onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') e.preventDefault();
-        }}
+        onSubmit={(e) => e.preventDefault()}
       >
         <StepProgress
           currentStep={step}
@@ -244,7 +242,12 @@ const FormSectionInner = ({ leagueId, gameId }: Props) => {
             />
           )}
 
-          {step === 2 && <GameEditVideoStep onPrevious={() => setStep(1)} />}
+          {step === 2 && (
+            <GameEditVideoStep
+              onPrevious={() => setStep(1)}
+              onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)}
+            />
+          )}
         </div>
       </form>
     </FormProvider>

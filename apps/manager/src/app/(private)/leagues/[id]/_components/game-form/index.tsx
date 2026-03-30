@@ -45,7 +45,7 @@ export const GameForm = ({ leagueId, className, onSubmit, initialData, ...props 
     <FormProvider {...form}>
       <form
         className={twMerge('flex h-full w-full flex-col bg-white p-4', className)}
-        onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)}
+        onSubmit={(e) => e.preventDefault()}
         {...props}
       >
         <div className="mx-auto flex h-full w-full max-w-4xl flex-col">
@@ -76,7 +76,12 @@ export const GameForm = ({ leagueId, className, onSubmit, initialData, ...props 
                     />
                   </Suspense>
                 ),
-                2: <GameVideoStep onPrevious={() => (step === 2 ? setStep(1) : undefined)} />,
+                2: (
+                  <GameVideoStep
+                    onPrevious={() => (step === 2 ? setStep(1) : undefined)}
+                    onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)}
+                  />
+                ),
               }}
             />
           </div>

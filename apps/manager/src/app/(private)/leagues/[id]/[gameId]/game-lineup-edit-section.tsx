@@ -245,7 +245,7 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
       activeTeamPlayers.filter(
         (p) =>
           p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          p.jerseyNumber.toString().includes(searchQuery),
+          p.jerseyNumber?.toString().includes(searchQuery),
       ),
     [activeTeamPlayers, searchQuery],
   );
