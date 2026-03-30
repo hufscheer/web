@@ -19,6 +19,7 @@
   --color-white: #ffffff;
 
   --spacing-navbar-height: 4rem;
+  --animate-shimmer: shimmer 1.5s ease-in-out infinite;
 
   @keyframes arrow {
     0%,
@@ -29,4 +30,29 @@
       transform: translateX(4px);
     }
   }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -6.25rem 0;
+    }
+    100% {
+      background-position: 6.25rem 0;
+    }
+  }
+}
+
+.shimmer-overlay {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background: linear-gradient(90deg, transparent 0%, rgb(255 255 255 / 38%) 50%, transparent 100%);
+  background-size: 6.25rem 100%;
+  animation: var(--animate-shimmer);
 }

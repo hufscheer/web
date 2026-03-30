@@ -40,7 +40,7 @@ const GameListContent = ({
         <Fragment key={game.id}>
           <GameCard game={game}>
             <GameCard.Container className="gap-4">
-              <GameCard.Header />
+              <GameCard.Header state={state} />
 
               <div className="flex gap-4">
                 <Link href={`/${routes.game(game.id)}`} className="column flex-1 gap-2">
