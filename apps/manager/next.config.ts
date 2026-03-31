@@ -1,5 +1,7 @@
 import type { NextConfig } from 'next';
 
+const apiBaseUrl = process.env.API_BASE_URL ?? '';
+
 const nextConfig: NextConfig = {
   output: 'standalone',
   images: {
@@ -36,7 +38,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: '/api/:path*',
-        destination: 'https://api.hufscheer.com/:path*',
+        destination: `${apiBaseUrl}/:path*`,
       },
     ];
   },

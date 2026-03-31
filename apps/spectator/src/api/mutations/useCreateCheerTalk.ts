@@ -1,7 +1,9 @@
-import { fetcher, useMutation } from '@hcc/api-base';
+import { useMutation } from '@hcc/api-base';
 import { toast } from '@hcc/ui'; // 토스트 메시지를 위한 import
 
 import type { CheerTalkType } from '~/api';
+
+import { fetcher } from '../queryKey';
 
 type Request = Pick<CheerTalkType, 'gameTeamId' | 'content'>;
 

@@ -1,4 +1,6 @@
-import { fetcher, useMutation } from '@hcc/api-base';
+import { useMutation } from '@hcc/api-base';
+
+import { fetcher } from '../queryKey';
 
 type Request = {
   cheerTalkId: number;

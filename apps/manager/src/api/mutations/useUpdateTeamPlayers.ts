@@ -1,8 +1,8 @@
-import { fetcher, useMutation, useQueryClient } from '@hcc/api-base';
+import { useMutation, useQueryClient } from '@hcc/api-base';
 
 import type { TeamPlayer } from '~/api';
 
-import { queryKeys } from '~/api/queryKey';
+import { fetcher, queryKeys } from '~/api/queryKey';
 
 type Request = {
   teamId: number;

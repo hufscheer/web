@@ -1,6 +1,6 @@
-import { fetcher, useMutation, useQueryClient } from '@hcc/api-base';
+import { useMutation, useQueryClient } from '@hcc/api-base';
 
-import { queryKeys } from '~/api/queryKey';
+import { fetcher, queryKeys } from '~/api/queryKey';
 
 type Request = {
   leagueId: number;

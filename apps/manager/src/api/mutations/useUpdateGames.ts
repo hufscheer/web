@@ -1,8 +1,8 @@
-import { fetcher, useMutation, useQueryClient } from '@hcc/api-base';
+import { useMutation, useQueryClient } from '@hcc/api-base';
 
 import type { GameStateType } from '~/api';
 
-import { queryKeys } from '~/api/queryKey';
+import { fetcher, queryKeys } from '~/api/queryKey';
 
 export type GameUpdateFormType = {
   leagueId: number;

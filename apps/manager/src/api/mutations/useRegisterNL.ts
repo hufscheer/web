@@ -1,8 +1,8 @@
-import { fetcher, useMutation, useQueryClient } from '@hcc/api-base';
+import { useMutation, useQueryClient } from '@hcc/api-base';
 
 import type { RegisterNLResponse, RegisterNLPayload } from '~/api/types/nl';
 
-import { queryKeys } from '~/api/queryKey';
+import { fetcher, queryKeys } from '~/api/queryKey';
 
 const postRegisterNL = (payload: RegisterNLPayload) => {
   return fetcher.post<RegisterNLResponse>(`nl/register-team`, { json: payload });

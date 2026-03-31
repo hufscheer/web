@@ -2,48 +2,50 @@ import type { Options, ResponsePromise } from 'ky';
 
 import ky from 'ky';
 
-const API_URL = typeof window === 'undefined' ? 'https://api.hufscheer.com' : '/api';
-
 const defaultOption: Options = {
   retry: 0,
   timeout: 30000,
   credentials: 'include',
 };
 
-export const instance = ky.create({
-  prefixUrl: API_URL,
-  headers: { 'Content-Type': 'application/json' },
-  hooks: {
-    afterResponse: [
-      async (request, _, response) => {
-        if (!response.ok) {
-          if (response.status === 401) {
-            if (request.url.includes('logout')) return response;
+export const getInstance = (apiUrl?: string) =>
+  ky.create({
+    prefixUrl: apiUrl,
+    headers: { 'Content-Type': 'application/json' },
+    hooks: {
+      afterResponse: [
+        async (request, _, response) => {
+          if (!response.ok) {
+            if (response.status === 401) {
+              if (request.url.includes('logout')) return response;
 
-            const currentPath = window.location.pathname;
+              const currentPath = window.location.pathname;
 
-            const isInternalNavigation = document?.referrer?.includes(window.location.host);
-            if (currentPath !== '/' || isInternalNavigation) {
-              alert('로그인이 만료되었어요. 다시 로그인해주세요.');
+              const isInternalNavigation = document?.referrer?.includes(window.location.host);
+              if (currentPath !== '/' || isInternalNavigation) {
+                alert('로그인이 만료되었어요. 다시 로그인해주세요.');
+              }
+              window.location.href = '/auth/login';
+              return response;
             }
-            window.location.href = '/auth/login';
-            return response;
-          }
 
-          try {
-            const cloned = response.clone();
-            const body = await cloned.json().catch(() => cloned.text());
-            console.error(`[API Error] ${response.status} ${request.method} ${request.url}`, body);
-          } catch {
-            console.error(`[API Error] ${response.status} ${request.method} ${request.url}`);
+            try {
+              const cloned = response.clone();
+              const body: unknown = await cloned.json().catch(() => cloned.text());
+              console.error(
+                `[API Error] ${response.status} ${request.method} ${request.url}`,
+                body,
+              );
+            } catch {
+              console.error(`[API Error] ${response.status} ${request.method} ${request.url}`);
+            }
           }
-        }
-        return response;
-      },
-    ],
-  },
-  ...defaultOption,
-});
+          return response;
+        },
+      ],
+    },
+    ...defaultOption,
+  });
 
 export async function resultify<T>(response: ResponsePromise) {
   const res = await response;
@@ -59,12 +61,14 @@ export async function resultify<T>(response: ResponsePromise) {
   return (await res.text()) as unknown as T;
 }
 
-export const fetcher = {
-  get: <T>(pathname: string, options?: Options) => resultify<T>(instance.get(pathname, options)),
-  post: <T>(pathname: string, options?: Options) => resultify<T>(instance.post(pathname, options)),
-  put: <T>(pathname: string, options?: Options) => resultify<T>(instance.put(pathname, options)),
-  patch: <T>(pathname: string, options?: Options) =>
-    resultify<T>(instance.patch(pathname, options)),
-  delete: <T>(pathname: string, options?: Options) =>
-    resultify<T>(instance.delete(pathname, options)),
+export const getFetcher = (apiUrl: string) => {
+  const { get, post, put, patch, delete: del } = getInstance(apiUrl);
+
+  return {
+    get: <T>(pathname: string, options?: Options) => resultify<T>(get(pathname, options)),
+    post: <T>(pathname: string, options?: Options) => resultify<T>(post(pathname, options)),
+    put: <T>(pathname: string, options?: Options) => resultify<T>(put(pathname, options)),
+    patch: <T>(pathname: string, options?: Options) => resultify<T>(patch(pathname, options)),
+    delete: <T>(pathname: string, options?: Options) => resultify<T>(del(pathname, options)),
+  };
 };
