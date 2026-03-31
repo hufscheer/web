@@ -1,4 +1,4 @@
-import { fetcher } from '@hcc/api-base';
+import { getFetcher } from '@hcc/api-base';
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
 
 import type {
@@ -24,6 +24,9 @@ import type {
   TimelinePayload,
   TimelineType,
 } from './types';
+
+const apiBaseUrl = process.env.API_BASE_URL ?? '/api';
+export const fetcher = getFetcher(apiBaseUrl);
 
 const leagueQueryKeys = createQueryKeys('leagues', {
   home: {

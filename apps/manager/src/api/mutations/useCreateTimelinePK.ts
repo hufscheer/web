@@ -1,8 +1,8 @@
-import { fetcher, useMutation, useQueryClient } from '@hcc/api-base';
+import { useMutation, useQueryClient } from '@hcc/api-base';
 
 import type { PkType } from '~/api';
 
-import { queryKeys } from '~/api/queryKey';
+import { fetcher, queryKeys } from '~/api/queryKey';
 
 export const postTimelinePK = ({ gameId, ...request }: PkType) => {
   return fetcher.post<void>(`games/${gameId}/timelines/pk`, {
