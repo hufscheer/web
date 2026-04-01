@@ -1,4 +1,4 @@
-import { Spinner } from '@hcc/ui';
+import { Spinner, toast } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 import { type ComponentProps, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -34,6 +34,11 @@ export const GameForm = ({ leagueId, className, onSubmit, initialData, ...props 
   });
 
   const handleFormSubmit = async (data: GameFormType) => {
+    if (step !== 2) {
+      toast.warning('모든 단계를 완료해야 경기 생성이 가능합니다.');
+      return;
+    }
+
     const result = onSubmit(data);
     if (result instanceof Promise) {
       return result;
@@ -45,7 +50,7 @@ export const GameForm = ({ leagueId, className, onSubmit, initialData, ...props 
     <FormProvider {...form}>
       <form
         className={twMerge('flex h-full w-full flex-col bg-white p-4', className)}
-        onSubmit={(e) => e.preventDefault()}
+        onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)}
         {...props}
       >
         <div className="mx-auto flex h-full w-full max-w-4xl flex-col">
@@ -76,12 +81,7 @@ export const GameForm = ({ leagueId, className, onSubmit, initialData, ...props 
                     />
                   </Suspense>
                 ),
-                2: (
-                  <GameVideoStep
-                    onPrevious={() => (step === 2 ? setStep(1) : undefined)}
-                    onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)}
-                  />
-                ),
+                2: <GameVideoStep onPrevious={() => (step === 2 ? setStep(1) : undefined)} />,
               }}
             />
           </div>
