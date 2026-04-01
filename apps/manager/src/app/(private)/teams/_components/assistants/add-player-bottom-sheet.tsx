@@ -386,7 +386,6 @@ export const AddPlayerBottomSheet = ({
             if (e.key === 'Enter') e.preventDefault();
           }}
         >
-          {' '}
           <div className={twMerge('flex-1 overflow-y-auto')}>
             {displayMessages.map((msg) => {
               if (msg.type === 'assistant' && msg.stage && msg.stage !== 'input') {

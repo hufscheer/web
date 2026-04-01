@@ -141,9 +141,10 @@ const GameEditBasicStep = ({ leagueId, onNext }: BasicStepProps) => {
 // ── Step 2: 경기 영상 ──────────────────────────────────────────────────────
 type VideoStepProps = {
   onPrevious: () => void;
+  onSubmit: () => void;
 };
 
-const GameEditVideoStep = ({ onPrevious }: VideoStepProps) => {
+const GameEditVideoStep = ({ onPrevious, onSubmit }: VideoStepProps) => {
   const { register } = useFormContext<GameUpdateFormType>();
 
   return (
@@ -168,7 +169,7 @@ const GameEditVideoStep = ({ onPrevious }: VideoStepProps) => {
           >
             이전 단계
           </Button>
-          <Button type="submit" className="flex-1" size="lg" color="black">
+          <Button type="button" className="flex-1" size="lg" color="black" onClick={onSubmit}>
             경기 수정
           </Button>
         </div>
@@ -250,7 +251,12 @@ const FormSectionInner = ({ leagueId, gameId }: Props) => {
             />
           )}
 
-          {step === 2 && <GameEditVideoStep onPrevious={() => setStep(1)} />}
+          {step === 2 && (
+            <GameEditVideoStep
+              onPrevious={() => setStep(1)}
+              onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)}
+            />
+          )}
         </div>
       </form>
     </FormProvider>

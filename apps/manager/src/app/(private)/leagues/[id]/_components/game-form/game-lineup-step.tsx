@@ -150,7 +150,7 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
     return currentPlayers.filter(
       (player) =>
         player.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        player.jerseyNumber.toString().includes(searchQuery),
+        player.jerseyNumber?.toString().includes(searchQuery),
     );
   }, [activeTab, team1Players, team2Players, searchQuery]);
 

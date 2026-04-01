@@ -5,9 +5,10 @@ import type { GameFormType } from '~/api';
 
 type Props = {
   onPrevious: () => void;
+  onSubmit: () => void;
 };
 
-export const GameVideoStep = ({ onPrevious }: Props) => {
+export const GameVideoStep = ({ onPrevious, onSubmit }: Props) => {
   const { register } = useFormContext<GameFormType>();
 
   return (
@@ -24,7 +25,7 @@ export const GameVideoStep = ({ onPrevious }: Props) => {
         <Button type="button" onClick={onPrevious} variant="subtle" color="black" size="lg">
           이전 단계
         </Button>
-        <Button type="submit" size="lg" color="black">
+        <Button type="button" size="lg" color="black" onClick={onSubmit}>
           완료
         </Button>
       </div>
