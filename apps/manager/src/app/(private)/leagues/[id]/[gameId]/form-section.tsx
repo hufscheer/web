@@ -198,6 +198,15 @@ const FormSectionInner = ({ leagueId, gameId }: Props) => {
   const { mutate } = useUpdateGames();
 
   const handleFormSubmit = (formData: GameUpdateFormType) => {
+    if (step !== 2) {
+      toast.warning('모든 단계를 완료해야 경기 수정이 가능해요');
+      return;
+    }
+    if (!form.formState.isValid) {
+      toast.error('입력값을 확인해주세요. 모든 단계의 입력값이 유효해야 해요.');
+      return;
+    }
+
     mutate(
       { ...formData, leagueId, gameId },
       {
@@ -218,9 +227,6 @@ const FormSectionInner = ({ leagueId, gameId }: Props) => {
       <form
         className="flex h-full w-full flex-col bg-white p-4"
         onSubmit={form.handleSubmit(handleFormSubmit, handleFormError)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') e.preventDefault();
-        }}
       >
         <StepProgress
           currentStep={step}
