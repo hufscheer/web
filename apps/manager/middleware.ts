@@ -25,17 +25,7 @@ export default function middleware(req: NextRequest) {
 }
 
 function getTokenFromCookies(request: NextRequest) {
-  const cookiesHeader = request.headers.get('cookie');
-  if (!cookiesHeader) return null;
-
-  const cookies = new Map(
-    cookiesHeader.split('; ').map((cookie) => {
-      const [key, ...rest] = cookie.split('=');
-      return [key, rest.join('=')] as [string, string];
-    }),
-  );
-
-  return cookies.get(COOKIE_NAME);
+  return request.cookies.get(COOKIE_NAME)?.value;
 }
 
 export const config = {

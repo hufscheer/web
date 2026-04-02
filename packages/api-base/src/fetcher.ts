@@ -8,6 +8,8 @@ const defaultOption: Options = {
   credentials: 'include',
 };
 
+let isRedirecting = false;
+
 export const getInstance = (apiUrl?: string) =>
   ky.create({
     prefixUrl: apiUrl,
@@ -19,8 +21,11 @@ export const getInstance = (apiUrl?: string) =>
             if (response.status === 401) {
               if (request.url.includes('logout')) return response;
 
-              alert('로그인이 만료되었어요. 다시 로그인해주세요.');
-              window.location.href = '/auth/login';
+              if (!isRedirecting) {
+                isRedirecting = true;
+                alert('로그인이 만료되었어요. 다시 로그인해주세요.');
+                window.location.href = '/auth/login';
+              }
               return response;
             }
 
