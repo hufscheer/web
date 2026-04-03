@@ -270,6 +270,7 @@ const ParseResultCard = ({
       {isEditing ? (
         <div className="flex gap-2">
           <Button
+            type="button"
             color="primary"
             variant="ghost"
             onClick={() => setIsEditing(false)}
@@ -278,6 +279,7 @@ const ParseResultCard = ({
             취소
           </Button>
           <Button
+            type="button"
             color="primary"
             onClick={() => {
               onEdit?.(editedPlayers);
@@ -291,6 +293,7 @@ const ParseResultCard = ({
       ) : (
         <div className="flex gap-2">
           <Button
+            type="button"
             color="primary"
             variant="ghost"
             onClick={() => {
@@ -373,6 +376,7 @@ const FinalConfirmCard = ({ players, teamName, onConfirm }: FinalConfirmCardProp
       </table>
 
       <Button
+        type="button"
         onClick={() =>
           onConfirm?.(Array.from(selected).map((studentNumber) => ({ studentNumber })))
         }
@@ -396,6 +400,7 @@ interface CompleteCardProps {
 const CompleteCard = ({ onClose }: CompleteCardProps) => {
   return (
     <Button
+      type="button"
       onClick={onClose}
       className="bg-primary w-full rounded px-3 py-3 text-sm font-medium text-white hover:opacity-90"
     >

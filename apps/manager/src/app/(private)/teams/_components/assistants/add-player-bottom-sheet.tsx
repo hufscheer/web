@@ -247,6 +247,21 @@ export const AddPlayerBottomSheet = ({
       return;
     }
 
+    if (!logoImageUrl) {
+      setDisplayMessages((prev) => [
+        ...prev,
+        {
+          id: `${Date.now()}`,
+          type: 'assistant',
+          stage: 'complete',
+          message:
+            '팀 로고 이미지가 등록되지 않았어요.\n팀 정보에서 로고 이미지를 먼저 등록해주세요.',
+        },
+      ]);
+      scrollToBottom();
+      return;
+    }
+
     setIsClosing(true);
 
     let imageUrl: string;
@@ -323,6 +338,7 @@ export const AddPlayerBottomSheet = ({
     registerNL,
     router,
     onOpenChange,
+    scrollToBottom,
     isClosing,
     isRegistering,
   ]);
@@ -405,7 +421,13 @@ export const AddPlayerBottomSheet = ({
           <BottomSheet.Title className={twMerge('px-6')}>훕치치 어시스턴트</BottomSheet.Title>
         </BottomSheet.Header>
 
-        <div className={twMerge('px-6 h-[60vh] overflow-y-auto flex flex-col')}>
+        <div
+          className={twMerge('px-6 h-[60vh] overflow-y-auto flex flex-col')}
+          role="presentation"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') e.preventDefault();
+          }}
+        >
           <div className={twMerge('flex-1 overflow-y-auto')}>
             {displayMessages.map((msg) => {
               if (msg.type === 'assistant' && msg.stage && msg.stage !== 'input') {
