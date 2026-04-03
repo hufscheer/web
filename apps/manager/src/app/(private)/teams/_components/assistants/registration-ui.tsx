@@ -61,7 +61,9 @@ const Wrapper = ({ logo, message, content }: WrapperProps) => {
         </div>
       )}
       <div className="flex max-w-[40ch] flex-col gap-3">
-        <div className="text-sm break-words whitespace-pre-line text-gray-900">{message}</div>
+        <Typography fontSize={12} className="break-words whitespace-pre-line text-gray-900">
+          {message}
+        </Typography>
         {content}
       </div>
     </>
