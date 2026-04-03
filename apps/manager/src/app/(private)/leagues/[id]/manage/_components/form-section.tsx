@@ -24,13 +24,16 @@ export const LeagueEditContainer = ({ leagueId }: { leagueId: number }) => {
   const { mutateAsync: deleteLeagueTeams } = useDeleteLeagueTeams();
 
   const handleUpdate = async (data: LeagueFormType) => {
-    try {
-      const existingTeams = teams ?? [];
-      const existingTeamIds = new Set(existingTeams.map((t) => t.teamId));
-      const newTeamIds = data.teamIds.filter((id) => !existingTeamIds.has(id));
-      const removedTeams = existingTeams.filter((t) => !data.teamIds.includes(t.teamId));
+    if (!teams) return;
 
-      const removedTeamIds = removedTeams.map((t) => t.teamId);
+    try {
+      const existingTeams = teams;
+      const existingTeamIds = new Set(existingTeams.map((t) => t.teamId));
+      const submittedTeamIds = new Set(data.teamIds);
+      const newTeamIds = data.teamIds.filter((id) => !existingTeamIds.has(id));
+      const removedTeamIds = existingTeams
+        .map((t) => t.teamId)
+        .filter((id) => !submittedTeamIds.has(id));
 
       await Promise.all([
         updateLeague({ leagueId, ...data }),
