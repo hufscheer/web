@@ -3,6 +3,7 @@ export * from './useCreateLeagues';
 export * from './useCreatePlayers';
 export * from './useCreateTeams';
 export * from './useDeleteGames';
+export * from './useDeleteLeagueTeams';
 export * from './useDeleteLeagues';
 export * from './useDeletePlayers';
 export * from './useDeleteTeams';
