@@ -9,6 +9,7 @@ import { twMerge } from 'tailwind-merge';
 
 import type { ParseNLPreview, ParsedPlayer, PlayerData } from '~/api/types/nl';
 
+import { useCheckDuplicateNL } from '~/api/mutations/useCheckDuplicateNL';
 import { useParseNL } from '~/api/mutations/useParseNL';
 import { useRegisterNL } from '~/api/mutations/useRegisterNL';
 import hccLogo from '~/app/icon.png';
@@ -75,6 +76,7 @@ export const AddPlayerBottomSheet = ({
   const [displayMessages, setDisplayMessages] = useState<ChatMessageType[]>([]);
 
   const { mutate: parseNL, isPending: isParsing } = useParseNL();
+  const { mutate: checkDuplicateNL, isPending: isCheckingDuplicate } = useCheckDuplicateNL();
   const { uploadImage } = useImageUpload();
   const { mutate: registerNL, isPending: isRegistering } = useRegisterNL();
 
@@ -109,7 +111,7 @@ export const AddPlayerBottomSheet = ({
     }
   }, [isOpen, teamName, scrollToBottom]);
 
-  // 1단계: Parse 결과 확인
+  // 1단계: Parse 결과 확인 → check-duplicate API 호출
   const handleConfirmParseResult = useCallback(
     (selected: { studentNumber: string }[]) => {
       if (!latestPreview) return;
@@ -118,16 +120,72 @@ export const AddPlayerBottomSheet = ({
         selected.some((s) => s.studentNumber === p.studentNumber),
       );
 
-      addMessages('확인', {
-        stage: 'final-confirm',
-        // [어시스턴트 멘트 3] parse 결과 확인 후 최종 명단 안내
-        message: '이제 거의 다 왔어요! \n마지막으로 매니저님의 확인이 필요한 내용이 있어요.',
-        players: selectedPlayers,
-      });
-      setFinalPlayers(selectedPlayers);
-      setStage('final-confirm');
+      checkDuplicateNL(
+        { players: selectedPlayers },
+        {
+          onSuccess: (data) => {
+            const existPlayers = data.players.filter((p) => p.status === 'EXISTS');
+
+            if (existPlayers.length > 0) {
+              // 중복 선수가 있으면 parse-result로 돌아가서 에러 표시
+              const playersWithErrors: PlayerData[] = data.players.map((p) => ({
+                name: p.name,
+                studentNumber: p.studentNumber,
+                jerseyNumber: p.jerseyNumber,
+                error:
+                  p.status === 'EXISTS'
+                    ? '이미 등록된 학번입니다. 수정 후 다시 확인해주세요.'
+                    : undefined,
+              }));
+
+              setLatestPreview({
+                players: data.players.map((p) => ({
+                  name: p.name,
+                  studentNumber: p.studentNumber,
+                  jerseyNumber: p.jerseyNumber,
+                })),
+              });
+
+              addMessages('확인', {
+                stage: 'parse-result',
+                // [어시스턴트 멘트 3] 중복 학번 있을 때 수정 요청
+                message: '중복된 학번이 있어요.\n해당 학번을 수정 후 다시 확인해주세요.',
+                players: playersWithErrors,
+              });
+              setStage('parse-result');
+            } else {
+              const newPlayers = data.players.map((p) => ({
+                name: p.name,
+                studentNumber: p.studentNumber,
+                jerseyNumber: p.jerseyNumber,
+              }));
+              setFinalPlayers(newPlayers);
+              addMessages('확인', {
+                stage: 'final-confirm',
+                // [어시스턴트 멘트 3] 중복 없을 때 최종 명단 안내
+                message:
+                  '이제 거의 다 왔어요! \n마지막으로 매니저님의 확인이 필요한 내용이 있어요.',
+                players: newPlayers,
+              });
+              setStage('final-confirm');
+            }
+          },
+          onError: (error) => {
+            console.error('[CheckDuplicateNL Error]', error);
+            setDisplayMessages((prev) => [
+              ...prev,
+              {
+                id: `${Date.now() + 1}`,
+                type: 'assistant',
+                stage: 'parse-result',
+                message: '죄송해요. 중복 확인 중 오류가 발생했어요. 다시 시도해주세요.',
+              },
+            ]);
+          },
+        },
+      );
     },
-    [latestPreview, addMessages],
+    [latestPreview, checkDuplicateNL, addMessages],
   );
 
   // 1-2단계: Parse 결과 수정
@@ -138,37 +196,34 @@ export const AddPlayerBottomSheet = ({
         // [어시스턴트 멘트 4] 선수 명단 수정 후 재확인 안내
         message: `확인 감사해요. \n확인해주신 정보가 아래 정보가 맞는지 확인해주세요! \n
       추가 수정이 필요하다면 '수정'을, 정확하다면 '확인'을 눌러주세요.`,
-        players: edited.map((p) => ({ ...p, jerseyNumber: p.jerseyNumber ?? 0 })),
+        players: edited.map((p) => ({ ...p, jerseyNumber: p.jerseyNumber ?? 0, error: undefined })),
       });
       setLatestPreview((prev) => {
         if (!prev) return null;
         return {
           ...prev,
-          players: edited.map((p) => ({ ...p, jerseyNumber: p.jerseyNumber ?? 0 })),
+          // error 필드 제거: 수정 후에는 중복 에러 초기화
+          players: edited.map((p) => ({
+            name: p.name,
+            studentNumber: p.studentNumber,
+            jerseyNumber: p.jerseyNumber ?? 0,
+          })),
         };
       });
     },
     [addMessages],
   );
 
-  // 2단계: 중복 선수 선택
-  const handleSelectDuplicates = useCallback(
-    (selected: ParsedPlayer[]) => {
-      setDuplicatePlayers(selected);
-      const combinedPlayers = [...finalPlayers, ...selected];
-      const names = selected.map((p) => p.name).join(', ');
-
-      addMessages(selected.map((p) => `${p.name} 등록`).join('\n'), {
-        stage: 'final-confirm',
-        // [어시스턴트 멘트 5] 중복 선수 선택 후 최종 명단 안내
-        message: `${names}을 ${teamName} 선수 명단에 추가했어요. 수고하셨어요!\n최종 확인 후에 선수 명단을 최종 등록할게요.`,
-        players: combinedPlayers,
-      });
-      setFinalPlayers(combinedPlayers);
-      setStage('final-confirm');
-    },
-    [finalPlayers, teamName, addMessages],
-  );
+  // 2단계: 중복 선수 확인 후 넘어가기 (finalPlayers는 이미 NEW 선수만 세팅된 상태)
+  const handleDuplicateAcknowledge = useCallback(() => {
+    addMessages('확인', {
+      stage: 'final-confirm',
+      // [어시스턴트 멘트 5] 중복 확인 후 최종 명단 안내
+      message: '이제 거의 다 왔어요! \n마지막으로 매니저님의 확인이 필요한 내용이 있어요.',
+      players: finalPlayers,
+    });
+    setStage('final-confirm');
+  }, [finalPlayers, addMessages]);
 
   // 3단계: 최종 확인 → final-list 단계
   const handleFinalConfirm = useCallback(
@@ -256,16 +311,23 @@ export const AddPlayerBottomSheet = ({
           router.push('/teams');
         }, 500);
       },
-      onError: (error) => {
+      onError: async (error) => {
         console.error('[RegisterNL Error]', error);
+        let errorMessage = '죄송해요. 등록 중 오류가 발생했어요. 다시 시도해주세요.';
+        try {
+          const body = await (error as { response?: Response }).response?.json();
+          if (body?.displayMessage) errorMessage = body.displayMessage;
+          else if (body?.message) errorMessage = body.message;
+        } catch {
+          /* ignore */
+        }
         setDisplayMessages((prev) => [
           ...prev,
           {
             id: `${Date.now() + 1}`,
             type: 'assistant',
             stage: 'complete',
-            // [어시스턴트 멘트 8] 등록 실패 에러 메시지
-            message: '죄송해요. 등록 중 오류가 발생했어요. 다시 시도해주세요.',
+            message: errorMessage,
           },
         ]);
         setIsClosing(false);
@@ -385,7 +447,7 @@ export const AddPlayerBottomSheet = ({
                           <RegistrationUI.DuplicateCheck
                             duplicates={duplicatePlayers}
                             newPlayers={finalPlayers}
-                            onSelectDuplicates={handleSelectDuplicates}
+                            onAcknowledge={handleDuplicateAcknowledge}
                           />
                         ) : msg.stage === 'final-confirm' && msg.players ? (
                           <RegistrationUI.FinalConfirm
@@ -418,7 +480,7 @@ export const AddPlayerBottomSheet = ({
                 />
               );
             })}
-            {isParsing && <TypingIndicator />}
+            {(isParsing || isCheckingDuplicate) && <TypingIndicator />}
             <div ref={messagesEndRef} />
           </div>
         </div>
