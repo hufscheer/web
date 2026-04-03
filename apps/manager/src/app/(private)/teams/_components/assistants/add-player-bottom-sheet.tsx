@@ -431,22 +431,24 @@ export const AddPlayerBottomSheet = ({
   return (
     <>
       <Modal open={showLeaveModal} onOpenChange={setShowLeaveModal}>
-        <Modal.Content className="w-[80vw] rounded-2xl bg-white p-6">
+        <Modal.Content className="w-[80vw] rounded-lg bg-white p-6">
           <Modal.Title className="mb-2 text-lg font-bold text-gray-900">
             아직 정보가 저장되지 않았어요
           </Modal.Title>
-          <Modal.Description className="mb-6 text-sm text-gray-500">
+          <Modal.Description className="text-md mb-6 text-gray-500">
             지금 나가면 정보가 저장되지 않아요.{'\n'}정말 나가시겠습니까?
           </Modal.Description>
           <div className="flex gap-3">
             <Button
               variant="ghost"
+              color="black"
               onClick={() => setShowLeaveModal(false)}
               className="flex-1 rounded-xl border border-gray-200 py-3 text-sm font-medium text-gray-700"
             >
               취소
             </Button>
             <Button
+              color="black"
               onClick={handleLeaveConfirm}
               className="flex-1 rounded-xl bg-gray-900 py-3 text-sm font-medium text-white"
             >
