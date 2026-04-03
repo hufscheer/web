@@ -28,13 +28,7 @@ export type ChatMessageType = {
   failedLines?: string[];
 };
 
-type RegistrationStage =
-  | 'input'
-  | 'parse-result'
-  | 'duplicate-check'
-  | 'final-confirm'
-  | 'final-list'
-  | 'complete';
+type RegistrationStage = 'input' | 'parse-result' | 'final-confirm' | 'final-list' | 'complete';
 
 type Props = {
   isOpen: boolean;
@@ -70,7 +64,6 @@ export const AddPlayerBottomSheet = ({
   const [inputValue, setInputValue] = useState('');
   const [stage, setStage] = useState<RegistrationStage>('input');
   const [latestPreview, setLatestPreview] = useState<ParseNLPreview | null>(null);
-  const [duplicatePlayers, setDuplicatePlayers] = useState<ParsedPlayer[]>([]);
   const [finalPlayers, setFinalPlayers] = useState<ParsedPlayer[]>([]);
   const [isClosing, setIsClosing] = useState(false);
   const [displayMessages, setDisplayMessages] = useState<ChatMessageType[]>([]);
@@ -104,7 +97,6 @@ export const AddPlayerBottomSheet = ({
     } else {
       setStage('input');
       setLatestPreview(null);
-      setDuplicatePlayers([]);
       setFinalPlayers([]);
       setIsClosing(false);
       setDisplayMessages([INITIAL_MESSAGE(teamName)]);
@@ -214,18 +206,7 @@ export const AddPlayerBottomSheet = ({
     [addMessages],
   );
 
-  // 2단계: 중복 선수 확인 후 넘어가기 (finalPlayers는 이미 NEW 선수만 세팅된 상태)
-  const handleDuplicateAcknowledge = useCallback(() => {
-    addMessages('확인', {
-      stage: 'final-confirm',
-      // [어시스턴트 멘트 5] 중복 확인 후 최종 명단 안내
-      message: '이제 거의 다 왔어요! \n마지막으로 매니저님의 확인이 필요한 내용이 있어요.',
-      players: finalPlayers,
-    });
-    setStage('final-confirm');
-  }, [finalPlayers, addMessages]);
-
-  // 3단계: 최종 확인 → final-list 단계
+  // 2단계: 최종 확인 → final-list 단계
   const handleFinalConfirm = useCallback(
     (selected: { studentNumber: string }[]) => {
       if (finalPlayers.length === 0) return;
@@ -303,7 +284,6 @@ export const AddPlayerBottomSheet = ({
         setTimeout(() => {
           setStage('input');
           setLatestPreview(null);
-          setDuplicatePlayers([]);
           setFinalPlayers([]);
           setIsClosing(false);
           setDisplayMessages([]);
@@ -442,12 +422,6 @@ export const AddPlayerBottomSheet = ({
                             teamName={teamName}
                             onConfirm={handleConfirmParseResult}
                             onEdit={handleEditParseResult}
-                          />
-                        ) : msg.stage === 'duplicate-check' ? (
-                          <RegistrationUI.DuplicateCheck
-                            duplicates={duplicatePlayers}
-                            newPlayers={finalPlayers}
-                            onAcknowledge={handleDuplicateAcknowledge}
                           />
                         ) : msg.stage === 'final-confirm' && msg.players ? (
                           <RegistrationUI.FinalConfirm

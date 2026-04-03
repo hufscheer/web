@@ -4,7 +4,7 @@ import { Button, colors, Typography } from '@hcc/ui';
 import { useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import type { ParsedPlayer, PlayerData } from '~/api/types/nl';
+import type { PlayerData } from '~/api/types/nl';
 
 /* -------------------------------------------------------------------------------------------------
  * Shared helpers
@@ -314,84 +314,6 @@ const ParseResultCard = ({
 };
 
 /* -------------------------------------------------------------------------------------------------
- * RegistrationUI.DuplicateCheckCard
- * 2단계: 중복 선수 확인
- * -----------------------------------------------------------------------------------------------*/
-
-interface DuplicateCheckCardProps {
-  duplicates: ParsedPlayer[];
-  newPlayers: ParsedPlayer[];
-  onAcknowledge?: () => void;
-}
-
-const DuplicateCheckCard = ({ duplicates, newPlayers, onAcknowledge }: DuplicateCheckCardProps) => {
-  return (
-    <div className="flex flex-col gap-3">
-      {duplicates.length > 0 && (
-        <div className="rounded-lg border border-orange-200 bg-orange-50 p-4">
-          <p className="mb-3 text-sm font-semibold text-orange-800">
-            이미 등록된 선수 - 등록에서 제외됩니다
-          </p>
-
-          <table className="w-full text-center text-xs">
-            <thead>
-              <tr className="text-left text-gray-500">
-                <th className="pb-2 font-medium">선수이름</th>
-                <th className="pb-2 font-medium">학번</th>
-                <th className="pb-2 font-medium">등번호</th>
-              </tr>
-            </thead>
-            <tbody>
-              {duplicates.map((player) => (
-                <tr key={player.studentNumber}>
-                  <td className="py-1 pr-1">
-                    <PlayerCell className="border-orange-200 bg-orange-100">
-                      {player.name}
-                    </PlayerCell>
-                  </td>
-                  <td className="py-1 pr-1">
-                    <PlayerCell className="border-orange-200 bg-orange-100">
-                      {player.studentNumber}
-                    </PlayerCell>
-                  </td>
-                  <td className="py-1">
-                    <PlayerCell className="border-orange-200 bg-orange-100">
-                      {player.jerseyNumber ?? ''}
-                    </PlayerCell>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {newPlayers.length > 0 && (
-        <div className="rounded-lg border border-gray-200 bg-white p-4 text-sm">
-          <p className="mb-2 font-semibold text-gray-900">
-            새로 등록될 선수 ({newPlayers.length}명)
-          </p>
-          <ul className="flex flex-col gap-1">
-            {newPlayers.map((p) => (
-              <li key={p.studentNumber} className="text-gray-700">
-                {p.name} ({p.studentNumber})
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      <Button
-        onClick={onAcknowledge}
-        className="bg-primary w-full rounded px-3 py-2 text-sm text-white hover:opacity-90"
-      >
-        확인
-      </Button>
-    </div>
-  );
-};
-
-/* -------------------------------------------------------------------------------------------------
  * RegistrationUI.FinalConfirmCard
  * 3단계: 최종 확인 - 등록 체크박스 포함
  * -----------------------------------------------------------------------------------------------*/
@@ -488,7 +410,6 @@ const CompleteCard = ({ onClose }: CompleteCardProps) => {
 export const RegistrationUI = Object.assign(RegistrationUIRoot, {
   Wrapper,
   ParseResult: ParseResultCard,
-  DuplicateCheck: DuplicateCheckCard,
   FinalConfirm: FinalConfirmCard,
   Complete: CompleteCard,
 });
