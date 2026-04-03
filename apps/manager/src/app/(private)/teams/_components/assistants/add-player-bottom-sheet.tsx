@@ -1,7 +1,7 @@
 'use client';
 
 import { SendFillIcon } from '@hcc/icons';
-import { BottomSheet, toast } from '@hcc/ui';
+import { BottomSheet, Button, Modal, toast } from '@hcc/ui';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef, useEffect, useState, useCallback } from 'react';
@@ -67,6 +67,7 @@ export const AddPlayerBottomSheet = ({
   const [finalPlayers, setFinalPlayers] = useState<ParsedPlayer[]>([]);
   const [isClosing, setIsClosing] = useState(false);
   const [displayMessages, setDisplayMessages] = useState<ChatMessageType[]>([]);
+  const [showLeaveModal, setShowLeaveModal] = useState(false);
 
   const { mutate: parseNL, isPending: isParsing } = useParseNL();
   const { mutate: checkDuplicateNL, isPending: isCheckingDuplicate } = useCheckDuplicateNL();
@@ -414,108 +415,148 @@ export const AddPlayerBottomSheet = ({
     [inputValue, isParsing, parseNL, scrollToBottom],
   );
 
+  const handleOpenChange = (open: boolean) => {
+    if (!open && stage !== 'input' && stage !== 'complete') {
+      setShowLeaveModal(true);
+      return;
+    }
+    onOpenChange(open);
+  };
+
+  const handleLeaveConfirm = () => {
+    setShowLeaveModal(false);
+    onOpenChange(false);
+  };
+
   return (
-    <BottomSheet open={isOpen} onOpenChange={onOpenChange}>
-      <BottomSheet.Content className="!bg-[#EBEBEB]">
-        <BottomSheet.Header className={twMerge('mb-6')}>
-          <BottomSheet.Title className={twMerge('px-6')}>훕치치 어시스턴트</BottomSheet.Title>
-        </BottomSheet.Header>
-
-        <div
-          className={twMerge('px-6 h-[60vh] overflow-y-auto flex flex-col')}
-          role="presentation"
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') e.preventDefault();
-          }}
-        >
-          <div className={twMerge('flex-1 overflow-y-auto')}>
-            {displayMessages.map((msg) => {
-              if (msg.type === 'assistant' && msg.stage && msg.stage !== 'input') {
-                return (
-                  <RegistrationUI key={msg.id} variant={msg.stage}>
-                    <RegistrationUI.Wrapper
-                      logo={assistantLogo}
-                      message={msg.message}
-                      content={
-                        msg.stage === 'parse-result' && msg.players ? (
-                          <RegistrationUI.ParseResult
-                            players={msg.players}
-                            failedLines={msg.failedLines}
-                            teamName={teamName}
-                            onConfirm={handleConfirmParseResult}
-                            onEdit={handleEditParseResult}
-                          />
-                        ) : msg.stage === 'final-confirm' && msg.players ? (
-                          <RegistrationUI.FinalConfirm
-                            players={msg.players}
-                            teamName={teamName}
-                            onConfirm={handleFinalConfirm}
-                          />
-                        ) : msg.stage === 'final-list' && msg.players ? (
-                          <RegistrationUI.ParseResult
-                            players={msg.players}
-                            teamName={teamName}
-                            onConfirm={handleFinalListConfirm}
-                            onEdit={handleEditParseResult}
-                          />
-                        ) : msg.stage === 'complete' ? (
-                          <RegistrationUI.Complete onClose={handleClose} />
-                        ) : null
-                      }
-                    />
-                  </RegistrationUI>
-                );
-              }
-
-              return (
-                <ChatMessage
-                  key={msg.id}
-                  type={msg.type}
-                  message={msg.message}
-                  assistantLogo={assistantLogo}
-                />
-              );
-            })}
-            {(isParsing || isCheckingDuplicate) && <TypingIndicator />}
-            <div ref={messagesEndRef} />
+    <>
+      <Modal open={showLeaveModal} onOpenChange={setShowLeaveModal}>
+        <Modal.Content className="w-[80vw] rounded-2xl bg-white p-6">
+          <Modal.Title className="mb-2 text-lg font-bold text-gray-900">
+            아직 정보가 저장되지 않았어요
+          </Modal.Title>
+          <Modal.Description className="mb-6 text-sm text-gray-500">
+            지금 나가면 정보가 저장되지 않아요.{'\n'}정말 나가시겠습니까?
+          </Modal.Description>
+          <div className="flex gap-3">
+            <Button
+              variant="ghost"
+              onClick={() => setShowLeaveModal(false)}
+              className="flex-1 rounded-xl border border-gray-200 py-3 text-sm font-medium text-gray-700"
+            >
+              취소
+            </Button>
+            <Button
+              onClick={handleLeaveConfirm}
+              className="flex-1 rounded-xl bg-gray-900 py-3 text-sm font-medium text-white"
+            >
+              나가기
+            </Button>
           </div>
-        </div>
+        </Modal.Content>
+      </Modal>
+      <BottomSheet open={isOpen} onOpenChange={handleOpenChange}>
+        <BottomSheet.Content className="!bg-[#EBEBEB]">
+          <BottomSheet.Header className={twMerge('mb-6')}>
+            <BottomSheet.Title className={twMerge('px-6')}>훕치치 어시스턴트</BottomSheet.Title>
+          </BottomSheet.Header>
 
-        {/* 입력창은 complete 단계 제외하고 항상 표시 */}
-        {stage !== 'complete' && (
-          <form
-            onSubmit={handleSubmit}
-            className={twMerge('border-t border-gray-200 pt-4 px-6 pb-4')}
+          <div
+            className={twMerge('px-6 h-[60vh] overflow-y-auto flex flex-col')}
+            role="presentation"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') e.preventDefault();
+            }}
           >
-            <div className={twMerge('flex items-center gap-2')}>
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder="훕치치 어시스턴트를 활용해보세요"
-                disabled={isParsing || stage !== 'input'}
-                className={twMerge(
-                  'flex-1 rounded-lg bg-gray-100 px-3 py-2 text-sm',
-                  'focus:outline-none focus:ring-2 focus:ring-primary',
-                  'disabled:opacity-50 disabled:cursor-not-allowed',
-                )}
-              />
-              <button
-                type="submit"
-                disabled={!inputValue.trim() || isParsing || stage !== 'input'}
-                className={twMerge(
-                  'p-2 rounded-full text-primary transition-colors',
-                  'hover:bg-gray-100 disabled:text-gray-300 disabled:cursor-not-allowed',
-                )}
-              >
-                <SendFillIcon size={20} />
-              </button>
-            </div>
-          </form>
-        )}
+            <div className={twMerge('flex-1 overflow-y-auto')}>
+              {displayMessages.map((msg) => {
+                if (msg.type === 'assistant' && msg.stage && msg.stage !== 'input') {
+                  return (
+                    <RegistrationUI key={msg.id} variant={msg.stage}>
+                      <RegistrationUI.Wrapper
+                        logo={assistantLogo}
+                        message={msg.message}
+                        content={
+                          msg.stage === 'parse-result' && msg.players ? (
+                            <RegistrationUI.ParseResult
+                              players={msg.players}
+                              failedLines={msg.failedLines}
+                              teamName={teamName}
+                              onConfirm={handleConfirmParseResult}
+                              onEdit={handleEditParseResult}
+                            />
+                          ) : msg.stage === 'final-confirm' && msg.players ? (
+                            <RegistrationUI.FinalConfirm
+                              players={msg.players}
+                              teamName={teamName}
+                              onConfirm={handleFinalConfirm}
+                            />
+                          ) : msg.stage === 'final-list' && msg.players ? (
+                            <RegistrationUI.ParseResult
+                              players={msg.players}
+                              teamName={teamName}
+                              onConfirm={handleFinalListConfirm}
+                              onEdit={handleEditParseResult}
+                            />
+                          ) : msg.stage === 'complete' ? (
+                            <RegistrationUI.Complete onClose={handleClose} />
+                          ) : null
+                        }
+                      />
+                    </RegistrationUI>
+                  );
+                }
 
-        {children && <div className={twMerge('border-t border-gray-200 pt-4')}>{children}</div>}
-      </BottomSheet.Content>
-    </BottomSheet>
+                return (
+                  <ChatMessage
+                    key={msg.id}
+                    type={msg.type}
+                    message={msg.message}
+                    assistantLogo={assistantLogo}
+                  />
+                );
+              })}
+              {(isParsing || isCheckingDuplicate) && <TypingIndicator />}
+              <div ref={messagesEndRef} />
+            </div>
+          </div>
+
+          {/* 입력창은 complete 단계 제외하고 항상 표시 */}
+          {stage !== 'complete' && (
+            <form
+              onSubmit={handleSubmit}
+              className={twMerge('border-t border-gray-200 pt-4 px-6 pb-4')}
+            >
+              <div className={twMerge('flex items-center gap-2')}>
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  placeholder="훕치치 어시스턴트를 활용해보세요"
+                  disabled={isParsing || stage !== 'input'}
+                  className={twMerge(
+                    'flex-1 rounded-lg bg-gray-100 px-3 py-2 text-sm',
+                    'focus:outline-none focus:ring-2 focus:ring-primary',
+                    'disabled:opacity-50 disabled:cursor-not-allowed',
+                  )}
+                />
+                <button
+                  type="submit"
+                  disabled={!inputValue.trim() || isParsing || stage !== 'input'}
+                  className={twMerge(
+                    'p-2 rounded-full text-primary transition-colors',
+                    'hover:bg-gray-100 disabled:text-gray-300 disabled:cursor-not-allowed',
+                  )}
+                >
+                  <SendFillIcon size={20} />
+                </button>
+              </div>
+            </form>
+          )}
+
+          {children && <div className={twMerge('border-t border-gray-200 pt-4')}>{children}</div>}
+        </BottomSheet.Content>
+      </BottomSheet>
+    </>
   );
 };
