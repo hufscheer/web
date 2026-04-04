@@ -68,7 +68,10 @@ export const TeamForm = ({ className, onSubmit, initialData, ...props }: Props) 
               0: <TeamBasicInfoStep onNext={() => (step === 0 ? setStep(1) : undefined)} />,
               1: (
                 <Suspense fallback={<Spinner />} clientOnly>
-                  <TeamPlayersStep onPrevious={() => (step === 1 ? setStep(0) : undefined)} />
+                  <TeamPlayersStep
+                    onPrevious={() => (step === 1 ? setStep(0) : undefined)}
+                    onRequestSubmit={form.handleSubmit(handleFormSubmit, handleFormError)}
+                  />
                 </Suspense>
               ),
             }}

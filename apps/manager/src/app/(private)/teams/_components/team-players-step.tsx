@@ -1,6 +1,6 @@
 import { CancelIcon } from '@hcc/icons';
 import { Button, colors, Input, Typography, toast } from '@hcc/ui';
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 
 import { type TeamFormType, useSuspensePlayers } from '~/api';
@@ -12,11 +12,11 @@ import { FloatingActionButton } from './assistants/floating-action-button';
 
 type Props = {
   onPrevious: () => void;
+  onRequestSubmit: () => void;
 };
 
-export const TeamPlayersStep = ({ onPrevious }: Props) => {
+export const TeamPlayersStep = ({ onPrevious, onRequestSubmit }: Props) => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
-  const submitButtonRef = useRef<HTMLButtonElement>(null);
   const { control, watch } = useFormContext<TeamFormType>();
   const teamName = watch('name');
   const teamUnit = watch('unit');
@@ -152,8 +152,6 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
         teamColor={teamColor}
         logoImageUrl={logoImageUrl}
       />
-      <button ref={submitButtonRef} type="submit" className="hidden" />
-
       <div className="column sticky bottom-0 w-full gap-2 bg-white pt-3 pb-5">
         <Button type="button" onClick={onPrevious} variant="subtle" color="black" size="lg">
           이전 단계
@@ -163,14 +161,20 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
             title="등록되지 않은 학번이 있어요"
             description="종합 기록에 반영되지 않을 수 있어요"
             primaryTitle="확인"
-            onPrimaryClick={() => submitButtonRef.current?.click()}
+            onPrimaryClick={onRequestSubmit}
           >
             <Button type="button" size="lg" color="black" disabled={!isValid}>
               완료
             </Button>
           </AlertDialog>
         ) : (
-          <Button type="submit" size="lg" color="black" disabled={!isValid}>
+          <Button
+            type="button"
+            size="lg"
+            color="black"
+            disabled={!isValid}
+            onClick={onRequestSubmit}
+          >
             완료
           </Button>
         )}
