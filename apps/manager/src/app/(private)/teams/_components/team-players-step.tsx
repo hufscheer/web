@@ -5,17 +5,15 @@ import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 
 import { type TeamFormType, useSuspensePlayers } from '~/api';
 import { PlayerAppendDialog } from '~/app/(private)/teams/_components/player-append-dialog';
-import { AlertDialog } from '~/components/ui';
 
 import { AddPlayerBottomSheet } from './assistants/add-player-bottom-sheet';
 import { FloatingActionButton } from './assistants/floating-action-button';
 
 type Props = {
   onPrevious: () => void;
-  onRequestSubmit: () => void;
 };
 
-export const TeamPlayersStep = ({ onPrevious, onRequestSubmit }: Props) => {
+export const TeamPlayersStep = ({ onPrevious }: Props) => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const { control, watch } = useFormContext<TeamFormType>();
   const teamName = watch('name');
@@ -71,38 +69,28 @@ export const TeamPlayersStep = ({ onPrevious, onRequestSubmit }: Props) => {
         {fields.map((field, index) => (
           <div key={field.id} className="center-y gap-3">
             <div className="center-y flex-1 gap-3">
-              <Controller
-                name={`teamPlayers.${index}.name`}
-                control={control}
-                render={({ field: f }) => (
-                  <Input
-                    {...f}
-                    size="lg"
-                    placeholder="선수 이름"
-                    value={
-                      f.value ??
-                      data.find((player) => player.playerId === field.playerId)?.name ??
-                      '-'
-                    }
-                  />
-                )}
+              <Input
+                size="lg"
+                placeholder="선수 이름"
+                value={field.name || '-'}
+                readOnly
+                onClick={() =>
+                  toast.info('이름과 학번은 선수 관리에서 수정할 수 있어요', {
+                    id: 'readonly-player-field',
+                  })
+                }
               />
 
-              <Controller
-                name={`teamPlayers.${index}.studentNumber`}
-                control={control}
-                render={({ field: f }) => (
-                  <Input
-                    {...f}
-                    size="lg"
-                    placeholder="학번"
-                    value={
-                      f.value ??
-                      data.find((player) => player.playerId === field.playerId)?.studentNumber ??
-                      '-'
-                    }
-                  />
-                )}
+              <Input
+                size="lg"
+                placeholder="학번"
+                value={field.studentNumber || '-'}
+                readOnly
+                onClick={() =>
+                  toast.info('이름과 학번은 선수 관리에서 수정할 수 있어요', {
+                    id: 'readonly-player-field',
+                  })
+                }
               />
 
               <Controller
@@ -156,28 +144,9 @@ export const TeamPlayersStep = ({ onPrevious, onRequestSubmit }: Props) => {
         <Button type="button" onClick={onPrevious} variant="subtle" color="black" size="lg">
           이전 단계
         </Button>
-        {teamPlayers.some((player) => !player.studentNumber?.trim()) ? (
-          <AlertDialog
-            title="등록되지 않은 학번이 있어요"
-            description="종합 기록에 반영되지 않을 수 있어요"
-            primaryTitle="확인"
-            onPrimaryClick={onRequestSubmit}
-          >
-            <Button type="button" size="lg" color="black" disabled={!isValid}>
-              완료
-            </Button>
-          </AlertDialog>
-        ) : (
-          <Button
-            type="button"
-            size="lg"
-            color="black"
-            disabled={!isValid}
-            onClick={onRequestSubmit}
-          >
-            완료
-          </Button>
-        )}
+        <Button type="submit" size="lg" color="black" disabled={!isValid}>
+          완료
+        </Button>
       </div>
     </Fragment>
   );

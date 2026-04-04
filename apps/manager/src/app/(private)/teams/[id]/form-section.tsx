@@ -34,11 +34,11 @@ export const FormSection = ({ id }: Props) => {
 
     try {
       await mutateAsync({ id, ...data, logoImageUrl: imageUrl, teamPlayers });
-      toast.success('팀이 수정되었어요.');
+      toast.success('팀이 수정되었어요');
       router.back();
     } catch (error) {
       console.error(error);
-      toast.error('팀 수정에 실패했어요.');
+      toast.error('팀 수정에 실패했어요');
     }
   };
 
