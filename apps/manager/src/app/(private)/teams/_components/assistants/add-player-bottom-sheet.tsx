@@ -1,7 +1,7 @@
 'use client';
 
 import { SendFillIcon } from '@hcc/icons';
-import { BottomSheet, toast } from '@hcc/ui';
+import { BottomSheet, Button, Modal, toast } from '@hcc/ui';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef, useEffect, useState, useCallback } from 'react';
@@ -9,6 +9,7 @@ import { twMerge } from 'tailwind-merge';
 
 import type { ParseNLPreview, ParsedPlayer, PlayerData } from '~/api/types/nl';
 
+import { useCheckDuplicateNL } from '~/api/mutations/useCheckDuplicateNL';
 import { useParseNL } from '~/api/mutations/useParseNL';
 import { useRegisterNL } from '~/api/mutations/useRegisterNL';
 import hccLogo from '~/app/icon.png';
@@ -27,13 +28,7 @@ export type ChatMessageType = {
   failedLines?: string[];
 };
 
-type RegistrationStage =
-  | 'input'
-  | 'parse-result'
-  | 'duplicate-check'
-  | 'final-confirm'
-  | 'final-list'
-  | 'complete';
+type RegistrationStage = 'input' | 'parse-result' | 'final-confirm' | 'final-list' | 'complete';
 
 type Props = {
   isOpen: boolean;
@@ -69,12 +64,13 @@ export const AddPlayerBottomSheet = ({
   const [inputValue, setInputValue] = useState('');
   const [stage, setStage] = useState<RegistrationStage>('input');
   const [latestPreview, setLatestPreview] = useState<ParseNLPreview | null>(null);
-  const [duplicatePlayers, setDuplicatePlayers] = useState<ParsedPlayer[]>([]);
   const [finalPlayers, setFinalPlayers] = useState<ParsedPlayer[]>([]);
   const [isClosing, setIsClosing] = useState(false);
   const [displayMessages, setDisplayMessages] = useState<ChatMessageType[]>([]);
+  const [showLeaveModal, setShowLeaveModal] = useState(false);
 
   const { mutate: parseNL, isPending: isParsing } = useParseNL();
+  const { mutate: checkDuplicateNL, isPending: isCheckingDuplicate } = useCheckDuplicateNL();
   const { uploadImage } = useImageUpload();
   const { mutate: registerNL, isPending: isRegistering } = useRegisterNL();
 
@@ -102,14 +98,13 @@ export const AddPlayerBottomSheet = ({
     } else {
       setStage('input');
       setLatestPreview(null);
-      setDuplicatePlayers([]);
       setFinalPlayers([]);
       setIsClosing(false);
       setDisplayMessages([INITIAL_MESSAGE(teamName)]);
     }
   }, [isOpen, teamName, scrollToBottom]);
 
-  // 1단계: Parse 결과 확인
+  // 1단계: Parse 결과 확인 → check-duplicate API 호출
   const handleConfirmParseResult = useCallback(
     (selected: { studentNumber: string }[]) => {
       if (!latestPreview) return;
@@ -118,16 +113,72 @@ export const AddPlayerBottomSheet = ({
         selected.some((s) => s.studentNumber === p.studentNumber),
       );
 
-      addMessages('확인', {
-        stage: 'final-confirm',
-        // [어시스턴트 멘트 3] parse 결과 확인 후 최종 명단 안내
-        message: '이제 거의 다 왔어요! \n마지막으로 매니저님의 확인이 필요한 내용이 있어요.',
-        players: selectedPlayers,
-      });
-      setFinalPlayers(selectedPlayers);
-      setStage('final-confirm');
+      checkDuplicateNL(
+        { players: selectedPlayers },
+        {
+          onSuccess: (data) => {
+            const existPlayers = data.players.filter((p) => p.status === 'EXISTS');
+
+            if (existPlayers.length > 0) {
+              // 중복 선수가 있으면 parse-result로 돌아가서 에러 표시
+              const playersWithErrors: PlayerData[] = data.players.map((p) => ({
+                name: p.name,
+                studentNumber: p.studentNumber,
+                jerseyNumber: p.jerseyNumber,
+                error:
+                  p.status === 'EXISTS'
+                    ? '이미 등록된 학번입니다. 수정 후 다시 확인해주세요.'
+                    : undefined,
+              }));
+
+              setLatestPreview({
+                players: data.players.map((p) => ({
+                  name: p.name,
+                  studentNumber: p.studentNumber,
+                  jerseyNumber: p.jerseyNumber,
+                })),
+              });
+
+              addMessages('확인', {
+                stage: 'parse-result',
+                // [어시스턴트 멘트 3] 중복 학번 있을 때 수정 요청
+                message: '중복된 학번이 있어요.\n해당 학번을 수정 후 다시 확인해주세요.',
+                players: playersWithErrors,
+              });
+              setStage('parse-result');
+            } else {
+              const newPlayers = data.players.map((p) => ({
+                name: p.name,
+                studentNumber: p.studentNumber,
+                jerseyNumber: p.jerseyNumber,
+              }));
+              setFinalPlayers(newPlayers);
+              addMessages('확인', {
+                stage: 'final-confirm',
+                // [어시스턴트 멘트 3] 중복 없을 때 최종 명단 안내
+                message:
+                  '이제 거의 다 왔어요! \n마지막으로 매니저님의 확인이 필요한 내용이 있어요.',
+                players: newPlayers,
+              });
+              setStage('final-confirm');
+            }
+          },
+          onError: (error) => {
+            console.error('[CheckDuplicateNL Error]', error);
+            setDisplayMessages((prev) => [
+              ...prev,
+              {
+                id: `${Date.now() + 1}`,
+                type: 'assistant',
+                stage: 'parse-result',
+                message: '죄송해요. 중복 확인 중 오류가 발생했어요. 다시 시도해주세요.',
+              },
+            ]);
+          },
+        },
+      );
     },
-    [latestPreview, addMessages],
+    [latestPreview, checkDuplicateNL, addMessages],
   );
 
   // 1-2단계: Parse 결과 수정
@@ -138,39 +189,25 @@ export const AddPlayerBottomSheet = ({
         // [어시스턴트 멘트 4] 선수 명단 수정 후 재확인 안내
         message: `확인 감사해요. \n확인해주신 정보가 아래 정보가 맞는지 확인해주세요! \n
       추가 수정이 필요하다면 '수정'을, 정확하다면 '확인'을 눌러주세요.`,
-        players: edited.map((p) => ({ ...p, jerseyNumber: p.jerseyNumber ?? 0 })),
+        players: edited.map((p) => ({ ...p, jerseyNumber: p.jerseyNumber ?? 0, error: undefined })),
       });
       setLatestPreview((prev) => {
         if (!prev) return null;
         return {
           ...prev,
-          players: edited.map((p) => ({ ...p, jerseyNumber: p.jerseyNumber ?? 0 })),
+          // error 필드 제거: 수정 후에는 중복 에러 초기화
+          players: edited.map((p) => ({
+            name: p.name,
+            studentNumber: p.studentNumber,
+            jerseyNumber: p.jerseyNumber ?? 0,
+          })),
         };
       });
     },
     [addMessages],
   );
 
-  // 2단계: 중복 선수 선택
-  const handleSelectDuplicates = useCallback(
-    (selected: ParsedPlayer[]) => {
-      setDuplicatePlayers(selected);
-      const combinedPlayers = [...finalPlayers, ...selected];
-      const names = selected.map((p) => p.name).join(', ');
-
-      addMessages(selected.map((p) => `${p.name} 등록`).join('\n'), {
-        stage: 'final-confirm',
-        // [어시스턴트 멘트 5] 중복 선수 선택 후 최종 명단 안내
-        message: `${names}을 ${teamName} 선수 명단에 추가했어요. 수고하셨어요!\n최종 확인 후에 선수 명단을 최종 등록할게요.`,
-        players: combinedPlayers,
-      });
-      setFinalPlayers(combinedPlayers);
-      setStage('final-confirm');
-    },
-    [finalPlayers, teamName, addMessages],
-  );
-
-  // 3단계: 최종 확인 → final-list 단계
+  // 2단계: 최종 확인 → final-list 단계
   const handleFinalConfirm = useCallback(
     (selected: { studentNumber: string }[]) => {
       if (finalPlayers.length === 0) return;
@@ -263,7 +300,6 @@ export const AddPlayerBottomSheet = ({
         setTimeout(() => {
           setStage('input');
           setLatestPreview(null);
-          setDuplicatePlayers([]);
           setFinalPlayers([]);
           setIsClosing(false);
           setDisplayMessages([]);
@@ -271,16 +307,23 @@ export const AddPlayerBottomSheet = ({
           router.push('/teams');
         }, 500);
       },
-      onError: (error) => {
+      onError: async (error) => {
         console.error('[RegisterNL Error]', error);
+        let errorMessage = '죄송해요. 등록 중 오류가 발생했어요. 다시 시도해주세요.';
+        try {
+          const body = await (error as { response?: Response }).response?.json();
+          if (body?.displayMessage) errorMessage = body.displayMessage;
+          else if (body?.message) errorMessage = body.message;
+        } catch {
+          /* ignore */
+        }
         setDisplayMessages((prev) => [
           ...prev,
           {
             id: `${Date.now() + 1}`,
             type: 'assistant',
             stage: 'complete',
-            // [어시스턴트 멘트 8] 등록 실패 에러 메시지
-            message: '죄송해요. 등록 중 오류가 발생했어요. 다시 시도해주세요.',
+            message: errorMessage,
           },
         ]);
         setIsClosing(false);
@@ -372,114 +415,150 @@ export const AddPlayerBottomSheet = ({
     [inputValue, isParsing, parseNL, scrollToBottom],
   );
 
+  const handleOpenChange = (open: boolean) => {
+    if (!open && stage !== 'input' && stage !== 'complete') {
+      setShowLeaveModal(true);
+      return;
+    }
+    onOpenChange(open);
+  };
+
+  const handleLeaveConfirm = () => {
+    setShowLeaveModal(false);
+    onOpenChange(false);
+  };
+
   return (
-    <BottomSheet open={isOpen} onOpenChange={onOpenChange}>
-      <BottomSheet.Content className="!bg-[#EBEBEB]">
-        <BottomSheet.Header className={twMerge('mb-6')}>
-          <BottomSheet.Title className={twMerge('px-6')}>훕치치 어시스턴트</BottomSheet.Title>
-        </BottomSheet.Header>
-
-        <div
-          className={twMerge('px-6 h-[60vh] overflow-y-auto flex flex-col')}
-          role="presentation"
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') e.preventDefault();
-          }}
-        >
-          <div className={twMerge('flex-1 overflow-y-auto')}>
-            {displayMessages.map((msg) => {
-              if (msg.type === 'assistant' && msg.stage && msg.stage !== 'input') {
-                return (
-                  <RegistrationUI key={msg.id} variant={msg.stage}>
-                    <RegistrationUI.Wrapper
-                      logo={assistantLogo}
-                      message={msg.message}
-                      content={
-                        msg.stage === 'parse-result' && msg.players ? (
-                          <RegistrationUI.ParseResult
-                            players={msg.players}
-                            failedLines={msg.failedLines}
-                            teamName={teamName}
-                            onConfirm={handleConfirmParseResult}
-                            onEdit={handleEditParseResult}
-                          />
-                        ) : msg.stage === 'duplicate-check' ? (
-                          <RegistrationUI.DuplicateCheck
-                            duplicates={duplicatePlayers}
-                            newPlayers={finalPlayers}
-                            onSelectDuplicates={handleSelectDuplicates}
-                          />
-                        ) : msg.stage === 'final-confirm' && msg.players ? (
-                          <RegistrationUI.FinalConfirm
-                            players={msg.players}
-                            teamName={teamName}
-                            onConfirm={handleFinalConfirm}
-                          />
-                        ) : msg.stage === 'final-list' && msg.players ? (
-                          <RegistrationUI.ParseResult
-                            players={msg.players}
-                            teamName={teamName}
-                            onConfirm={handleFinalListConfirm}
-                            onEdit={handleEditParseResult}
-                          />
-                        ) : msg.stage === 'complete' ? (
-                          <RegistrationUI.Complete onClose={handleClose} />
-                        ) : null
-                      }
-                    />
-                  </RegistrationUI>
-                );
-              }
-
-              return (
-                <ChatMessage
-                  key={msg.id}
-                  type={msg.type}
-                  message={msg.message}
-                  assistantLogo={assistantLogo}
-                />
-              );
-            })}
-            {isParsing && <TypingIndicator />}
-            <div ref={messagesEndRef} />
+    <>
+      <Modal open={showLeaveModal} onOpenChange={setShowLeaveModal}>
+        <Modal.Content className="w-[80vw] rounded-lg bg-white p-6">
+          <Modal.Title className="mb-2 text-lg font-bold text-gray-900">
+            아직 정보가 저장되지 않았어요
+          </Modal.Title>
+          <Modal.Description className="text-md mb-6 text-gray-500">
+            지금 나가면 정보가 저장되지 않아요.{'\n'}정말 나가시겠습니까?
+          </Modal.Description>
+          <div className="flex gap-3">
+            <Button
+              variant="ghost"
+              color="black"
+              onClick={() => setShowLeaveModal(false)}
+              className="flex-1 rounded-xl border border-gray-200 py-3 text-sm font-medium text-gray-700"
+            >
+              취소
+            </Button>
+            <Button
+              color="black"
+              onClick={handleLeaveConfirm}
+              className="flex-1 rounded-xl bg-gray-900 py-3 text-sm font-medium text-white"
+            >
+              나가기
+            </Button>
           </div>
-        </div>
+        </Modal.Content>
+      </Modal>
+      <BottomSheet open={isOpen} onOpenChange={handleOpenChange}>
+        <BottomSheet.Content className="!bg-[#EBEBEB]">
+          <BottomSheet.Header className={twMerge('mb-6')}>
+            <BottomSheet.Title className={twMerge('px-6')}>훕치치 어시스턴트</BottomSheet.Title>
+          </BottomSheet.Header>
 
-        {/* 입력창은 complete 단계 제외하고 항상 표시 */}
-        {stage !== 'complete' && (
-          <form
-            onSubmit={handleSubmit}
-            className={twMerge('border-t border-gray-200 pt-4 px-6 pb-4')}
+          <div
+            className={twMerge('px-6 h-[60vh] overflow-y-auto flex flex-col')}
+            role="presentation"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') e.preventDefault();
+            }}
           >
-            <div className={twMerge('flex items-center gap-2')}>
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder="훕치치 어시스턴트를 활용해보세요"
-                disabled={isParsing || stage !== 'input'}
-                className={twMerge(
-                  'flex-1 rounded-lg bg-gray-100 px-3 py-2 text-sm',
-                  'focus:outline-none focus:ring-2 focus:ring-primary',
-                  'disabled:opacity-50 disabled:cursor-not-allowed',
-                )}
-              />
-              <button
-                type="submit"
-                disabled={!inputValue.trim() || isParsing || stage !== 'input'}
-                className={twMerge(
-                  'p-2 rounded-full text-primary transition-colors',
-                  'hover:bg-gray-100 disabled:text-gray-300 disabled:cursor-not-allowed',
-                )}
-              >
-                <SendFillIcon size={20} />
-              </button>
-            </div>
-          </form>
-        )}
+            <div className={twMerge('flex-1 overflow-y-auto')}>
+              {displayMessages.map((msg) => {
+                if (msg.type === 'assistant' && msg.stage && msg.stage !== 'input') {
+                  return (
+                    <RegistrationUI key={msg.id} variant={msg.stage}>
+                      <RegistrationUI.Wrapper
+                        logo={assistantLogo}
+                        message={msg.message}
+                        content={
+                          msg.stage === 'parse-result' && msg.players ? (
+                            <RegistrationUI.ParseResult
+                              players={msg.players}
+                              failedLines={msg.failedLines}
+                              teamName={teamName}
+                              onConfirm={handleConfirmParseResult}
+                              onEdit={handleEditParseResult}
+                            />
+                          ) : msg.stage === 'final-confirm' && msg.players ? (
+                            <RegistrationUI.FinalConfirm
+                              players={msg.players}
+                              teamName={teamName}
+                              onConfirm={handleFinalConfirm}
+                            />
+                          ) : msg.stage === 'final-list' && msg.players ? (
+                            <RegistrationUI.ParseResult
+                              players={msg.players}
+                              teamName={teamName}
+                              onConfirm={handleFinalListConfirm}
+                              onEdit={handleEditParseResult}
+                            />
+                          ) : msg.stage === 'complete' ? (
+                            <RegistrationUI.Complete onClose={handleClose} />
+                          ) : null
+                        }
+                      />
+                    </RegistrationUI>
+                  );
+                }
 
-        {children && <div className={twMerge('border-t border-gray-200 pt-4')}>{children}</div>}
-      </BottomSheet.Content>
-    </BottomSheet>
+                return (
+                  <ChatMessage
+                    key={msg.id}
+                    type={msg.type}
+                    message={msg.message}
+                    assistantLogo={assistantLogo}
+                  />
+                );
+              })}
+              {(isParsing || isCheckingDuplicate) && <TypingIndicator />}
+              <div ref={messagesEndRef} />
+            </div>
+          </div>
+
+          {/* 입력창은 complete 단계 제외하고 항상 표시 */}
+          {stage !== 'complete' && (
+            <form
+              onSubmit={handleSubmit}
+              className={twMerge('border-t border-gray-200 pt-4 px-6 pb-4')}
+            >
+              <div className={twMerge('flex items-center gap-2')}>
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  placeholder="훕치치 어시스턴트를 활용해보세요"
+                  disabled={isParsing || stage !== 'input'}
+                  className={twMerge(
+                    'flex-1 rounded-lg bg-gray-100 px-3 py-2 text-sm',
+                    'focus:outline-none focus:ring-2 focus:ring-primary',
+                    'disabled:opacity-50 disabled:cursor-not-allowed',
+                  )}
+                />
+                <button
+                  type="submit"
+                  disabled={!inputValue.trim() || isParsing || stage !== 'input'}
+                  className={twMerge(
+                    'p-2 rounded-full text-primary transition-colors',
+                    'hover:bg-gray-100 disabled:text-gray-300 disabled:cursor-not-allowed',
+                  )}
+                >
+                  <SendFillIcon size={20} />
+                </button>
+              </div>
+            </form>
+          )}
+
+          {children && <div className={twMerge('border-t border-gray-200 pt-4')}>{children}</div>}
+        </BottomSheet.Content>
+      </BottomSheet>
+    </>
   );
 };
