@@ -27,14 +27,14 @@ export const RecentTab = () => {
   const buttonLabel = hasPlayingGames ? '응원하러 가기' : '지난 경기 보러가기';
 
   // gameState가 PLAYING인 경기, SCHEDULED인 경기, FINISHED인 경기 순으로 정렬
-  // 각 경기 상태 내에서는 시작 시간이 빠른 순으로 정렬
+  // 각 경기 상태 내에서는 시작 시간이 느린 순으로 정렬
   const sortedGames = [...games].sort((a, b) => {
     const gameStateOrder = { PLAYING: 0, SCHEDULED: 1, FINISHED: 2 };
     const aOrder = gameStateOrder[a.gameState];
     const bOrder = gameStateOrder[b.gameState];
 
     if (aOrder !== bOrder) return aOrder - bOrder;
-    return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
+    return new Date(b.startTime).getTime() - new Date(a.startTime).getTime();
   });
 
   const { data: cheerCount } = useSuspenseLeagueCheerCount(
