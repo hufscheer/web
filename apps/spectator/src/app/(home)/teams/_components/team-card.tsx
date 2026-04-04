@@ -10,8 +10,6 @@ import type { TeamDetailType } from '~/api';
 
 import { routes } from '~/constants/routes';
 
-import ScoreBadge from './score-badge';
-
 /* -------------------------------------------------------------------------------------------------
  * TeamCard
  * -----------------------------------------------------------------------------------------------*/
@@ -59,11 +57,8 @@ const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
         </Typography>
       </div>
 
-      <div className="flex flex-shrink-0 flex-row items-center gap-1 whitespace-nowrap">
-        <ScoreBadge team={team} />
-        <div className="center">
-          <ChevronForwardIcon size={24} />
-        </div>
+      <div className="center">
+        <ChevronForwardIcon size={24} />
       </div>
     </Link>
   );
