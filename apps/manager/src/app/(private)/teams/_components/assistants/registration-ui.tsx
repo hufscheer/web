@@ -4,7 +4,7 @@ import { Button, colors, Typography } from '@hcc/ui';
 import { useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import type { ParsedPlayer, PlayerData } from '~/api/types/nl';
+import type { PlayerData } from '~/api/types/nl';
 
 /* -------------------------------------------------------------------------------------------------
  * Shared helpers
@@ -61,7 +61,9 @@ const Wrapper = ({ logo, message, content }: WrapperProps) => {
         </div>
       )}
       <div className="flex max-w-[40ch] flex-col gap-3">
-        <div className="text-sm break-words whitespace-pre-line text-gray-900">{message}</div>
+        <Typography fontSize={12} className="break-words whitespace-pre-line text-gray-900">
+          {message}
+        </Typography>
         {content}
       </div>
     </>
@@ -90,6 +92,7 @@ const ParseResultCard = ({
 }: ParseResultCardProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedPlayers, setEditedPlayers] = useState<PlayerData[]>(players);
+  const [invalidStudentNumbers, setInvalidStudentNumbers] = useState<Set<string>>(new Set());
   const inputRefs = useRef<Map<string, HTMLInputElement>>(new Map());
 
   const handleUpdate = (index: number, field: keyof PlayerData, value: string) => {
@@ -115,8 +118,28 @@ const ParseResultCard = ({
   };
 
   const displayPlayers = isEditing ? editedPlayers : players;
-  const hasError = players.some((p) => p.error);
+  const errorPlayers = players.filter((p) => p.error);
+  const validPlayers = players.filter((p) => !p.error);
+  const hasError = errorPlayers.length > 0;
   const hasMissingJerseyNumber = players.some((p) => p.jerseyNumber == null);
+  // 에러(중복)가 있어도 유효한 선수가 있고 유효한 선수에 등번호가 있으면 확인 가능
+  const canConfirmWithExclusion =
+    hasError && validPlayers.length > 0 && !validPlayers.some((p) => p.jerseyNumber == null);
+
+  const handleConfirmClick = () => {
+    const playersToConfirm = canConfirmWithExclusion ? validPlayers : players;
+    const invalid = new Set<string>(
+      playersToConfirm
+        .filter((p) => p.studentNumber && !/^\d{9}$/.test(p.studentNumber))
+        .map((p) => p.studentNumber),
+    );
+    if (invalid.size > 0) {
+      setInvalidStudentNumbers(invalid);
+      return;
+    }
+    setInvalidStudentNumbers(new Set());
+    onConfirm?.(playersToConfirm.map((p) => ({ studentNumber: p.studentNumber })));
+  };
 
   return (
     <div className="flex flex-col gap-3 rounded-lg border border-gray-200 bg-white p-4">
@@ -167,7 +190,15 @@ const ParseResultCard = ({
                     className="w-full rounded border border-blue-300 px-2 py-1 text-center text-xs"
                   />
                 ) : (
-                  <PlayerCell className={player.error ? 'border-red-400 bg-red-50' : undefined}>
+                  <PlayerCell
+                    className={
+                      player.error ||
+                      !player.studentNumber ||
+                      invalidStudentNumbers.has(player.studentNumber)
+                        ? 'border-red-400 bg-red-50'
+                        : undefined
+                    }
+                  >
                     {player.studentNumber}
                   </PlayerCell>
                 )}
@@ -186,7 +217,11 @@ const ParseResultCard = ({
                     className="w-full rounded border border-blue-300 px-2 py-1 text-center text-xs"
                   />
                 ) : (
-                  <PlayerCell>{player.jerseyNumber ?? ''}</PlayerCell>
+                  <PlayerCell
+                    className={player.jerseyNumber == null ? 'border-red-400 bg-red-50' : undefined}
+                  >
+                    {player.jerseyNumber ?? ''}
+                  </PlayerCell>
                 )}
               </td>
             </tr>
@@ -195,19 +230,24 @@ const ParseResultCard = ({
       </table>
 
       {/* 에러 표시 */}
-      {(displayPlayers.some((p) => p.error) || hasMissingJerseyNumber) && (
+      {(displayPlayers.some((p) => p.error) ||
+        hasMissingJerseyNumber ||
+        invalidStudentNumbers.size > 0) && (
         <ul className="flex flex-col gap-1">
-          {displayPlayers
-            .filter((p) => p.error)
-            .map((p) => (
-              <li key={p.studentNumber} className="text-xs text-red-500">
-                {p.error}
+          {Array.from(new Set(displayPlayers.filter((p) => p.error).map((p) => p.error))).map(
+            (errorMsg) => (
+              <li key={errorMsg} className="text-xs text-red-500">
+                {errorMsg}
               </li>
-            ))}
+            ),
+          )}
           {hasMissingJerseyNumber && (
             <li className="text-xs text-red-500">
               등번호가 없는 선수가 있습니다. 등록할 수 없습니다.
             </li>
+          )}
+          {invalidStudentNumbers.size > 0 && (
+            <li className="text-xs text-red-500">학번은 9자리 숫자여야 합니다.</li>
           )}
         </ul>
       )}
@@ -256,106 +296,22 @@ const ParseResultCard = ({
             type="button"
             color="primary"
             variant="ghost"
-            onClick={() => setIsEditing(true)}
+            onClick={() => {
+              setIsEditing(true);
+              setInvalidStudentNumbers(new Set());
+            }}
             className="flex-1 rounded border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
           >
             수정
           </Button>
-          {!hasError && !hasMissingJerseyNumber && (
+          {(!hasError && !hasMissingJerseyNumber) || canConfirmWithExclusion ? (
             <Button
-              type="button"
-              onClick={() => onConfirm?.(players.map((p) => ({ studentNumber: p.studentNumber })))}
+              onClick={handleConfirmClick}
               className="bg-primary flex-1 rounded px-3 py-2 text-sm text-white hover:opacity-90"
             >
               확인
             </Button>
-          )}
-        </div>
-      )}
-    </div>
-  );
-};
-
-/* -------------------------------------------------------------------------------------------------
- * RegistrationUI.DuplicateCheckCard
- * 2단계: 중복 선수 확인
- * -----------------------------------------------------------------------------------------------*/
-
-interface DuplicateCheckCardProps {
-  duplicates: ParsedPlayer[];
-  newPlayers: PlayerData[];
-  onSelectDuplicates?: (selected: ParsedPlayer[]) => void;
-}
-
-const DuplicateCheckCard = ({
-  duplicates,
-  newPlayers,
-  onSelectDuplicates,
-}: DuplicateCheckCardProps) => {
-  const [selected, setSelected] = useState<Set<string>>(new Set());
-
-  return (
-    <div className="flex flex-col gap-3">
-      <div className="rounded-lg border border-gray-200 bg-white p-4">
-        <p className="mb-3 text-sm font-semibold text-gray-900">
-          이미 등록된 선수들 - 중복 등록 하시겠습니까?
-        </p>
-
-        <table className="w-full text-center text-xs">
-          <thead>
-            <tr className="text-left text-gray-500">
-              <th className="pb-2 font-medium">선수이름</th>
-              <th className="pb-2 font-medium">학번</th>
-              <th className="pb-2 font-medium">등번호</th>
-              <th className="pb-2 text-center font-medium">선택</th>
-            </tr>
-          </thead>
-          <tbody>
-            {duplicates.map((player) => (
-              <tr key={player.studentNumber}>
-                <td className="py-1 pr-1">
-                  <PlayerCell>{player.name}</PlayerCell>
-                </td>
-                <td className="py-1 pr-1">
-                  <PlayerCell>{player.studentNumber}</PlayerCell>
-                </td>
-                <td className="py-1 pr-1">
-                  <PlayerCell>{player.jerseyNumber ?? ''}</PlayerCell>
-                </td>
-                <td className="py-1 text-center">
-                  <input
-                    type="checkbox"
-                    checked={selected.has(player.studentNumber)}
-                    onChange={() => setSelected((prev) => toggleSet(prev, player.studentNumber))}
-                    className="accent-primary h-4 w-4"
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <Button
-          type="button"
-          onClick={() =>
-            onSelectDuplicates?.(duplicates.filter((p) => selected.has(p.studentNumber)))
-          }
-          className="bg-primary mt-3 w-full rounded px-3 py-2 text-sm text-white hover:opacity-90"
-        >
-          확인
-        </Button>
-      </div>
-
-      {newPlayers.length > 0 && (
-        <div className="rounded-lg border border-gray-200 bg-white p-4 text-sm">
-          <p className="mb-2 font-semibold text-gray-900">새로 추가될 선수</p>
-          <ul className="flex flex-col gap-1">
-            {newPlayers.map((p) => (
-              <li key={p.studentNumber} className="text-gray-700">
-                {p.name} ({p.studentNumber})
-              </li>
-            ))}
-          </ul>
+          ) : null}
         </div>
       )}
     </div>
@@ -461,7 +417,6 @@ const CompleteCard = ({ onClose }: CompleteCardProps) => {
 export const RegistrationUI = Object.assign(RegistrationUIRoot, {
   Wrapper,
   ParseResult: ParseResultCard,
-  DuplicateCheck: DuplicateCheckCard,
   FinalConfirm: FinalConfirmCard,
   Complete: CompleteCard,
 });

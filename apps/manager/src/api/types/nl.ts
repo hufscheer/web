@@ -57,3 +57,19 @@ export type ParsedTeam = {
   teamColor: string;
   logoImageUrl: string;
 };
+
+export type CheckDuplicateNLResponse = {
+  players: {
+    name: string;
+    studentNumber: string;
+    jerseyNumber: number;
+    status: 'NEW' | 'EXISTS';
+    existingPlayerId: number | null;
+  }[];
+  summary: {
+    total: number;
+    newPlayers: number;
+    existingPlayers: number;
+    alreadyInTeam: number;
+  };
+};

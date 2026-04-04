@@ -24,3 +24,4 @@ export * from './useUpdateGamesCandidate';
 export * from './useUpdateGamesStarter';
 export * from './useUpdateGamesCaptainRegister';
 export * from './useUpdateGamesCaptainRevoke';
+export * from './useCheckDuplicateNL';
