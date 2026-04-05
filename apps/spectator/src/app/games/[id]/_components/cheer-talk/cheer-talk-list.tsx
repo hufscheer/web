@@ -129,7 +129,7 @@ export const CheerTalkList = ({
             gameTeams={game.gameTeams}
             scrollToBottom={scrollToBottomWithDelay}
             gameState={game.state}
-            onInputFocus={() => {}}
+            onInputFocus={() => setIsNoticeVisible(true)}
           />
         </div>
       </div>
