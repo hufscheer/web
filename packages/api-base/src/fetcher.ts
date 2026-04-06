@@ -6,10 +6,10 @@ const defaultOption: Options = {
   retry: 0,
   timeout: 30000,
   credentials: 'include',
+  throwHttpErrors: false,
 };
 
 let isRedirecting = false;
-
 export const getInstance = (apiUrl?: string) =>
   ky.create({
     prefixUrl: apiUrl,
@@ -24,7 +24,8 @@ export const getInstance = (apiUrl?: string) =>
               if (!isRedirecting) {
                 isRedirecting = true;
                 alert('로그인이 만료되었어요. 다시 로그인해주세요.');
-                window.location.href = '/auth/login';
+                await fetch('/api/logout', { method: 'POST' });
+                window.location.replace('/auth/login?expired=1');
               }
               return response;
             }
@@ -50,6 +51,14 @@ export const getInstance = (apiUrl?: string) =>
 export async function resultify<T>(response: ResponsePromise) {
   const res = await response;
 
+  if (res.status === 401) {
+    return undefined as T;
+  }
+
+  if (!res.ok) {
+    throw new Error(`Request failed: ${res.status}`);
+  }
+
   if (res.status === 204) {
     return undefined as unknown as T;
   }
@@ -60,7 +69,6 @@ export async function resultify<T>(response: ResponsePromise) {
   }
   return (await res.text()) as unknown as T;
 }
-
 export const getFetcher = (apiUrl: string) => {
   const { get, post, put, patch, delete: del } = getInstance(apiUrl);
 
