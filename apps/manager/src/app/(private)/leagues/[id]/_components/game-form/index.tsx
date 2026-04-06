@@ -1,4 +1,4 @@
-import { Spinner } from '@hcc/ui';
+import { Spinner, toast } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 import { type ComponentProps, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -34,6 +34,11 @@ export const GameForm = ({ leagueId, className, onSubmit, initialData, ...props 
   });
 
   const handleFormSubmit = async (data: GameFormType) => {
+    if (step !== 2) {
+      toast.warning('모든 단계를 완료해야 경기 생성이 가능합니다.');
+      return;
+    }
+
     const result = onSubmit(data);
     if (result instanceof Promise) {
       return result;

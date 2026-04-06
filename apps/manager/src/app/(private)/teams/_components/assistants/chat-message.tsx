@@ -1,5 +1,6 @@
 'use client';
 
+import { Typography } from '@hcc/ui';
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
@@ -28,23 +29,30 @@ export const ChatMessage = ({ type, message, assistantLogo }: ChatMessageProps) 
       <div
         className={twMerge('flex flex-col gap-3', isAssistant ? 'max-w-[40ch]' : 'max-w-[30ch]')}
       >
-        <div
-          className={twMerge(
-            'text-sm break-words whitespace-pre-line',
-            isAssistant ? 'text-gray-900' : 'rounded-lg bg-[#F2F8FF] text-gray-900 p-2',
-          )}
-        >
-          {displayMessage}
-          {isTruncatable && (
-            <button
-              type="button"
-              onClick={() => setIsExpanded((prev) => !prev)}
-              className="text-primary mt-1 block w-full text-right text-xs"
-            >
-              {isExpanded ? '접기' : '더보기'}
-            </button>
-          )}
-        </div>
+        {isAssistant ? (
+          <Typography fontSize={12} className="break-words whitespace-pre-line text-gray-900">
+            {displayMessage}
+          </Typography>
+        ) : (
+          <Typography
+            asChild
+            fontSize={12}
+            className="rounded-lg bg-[#F2F8FF] p-2 break-words whitespace-pre-line text-gray-900"
+          >
+            <div>
+              {displayMessage}
+              {isTruncatable && (
+                <button
+                  type="button"
+                  onClick={() => setIsExpanded((prev) => !prev)}
+                  className="text-primary mt-1 block w-full text-right text-xs"
+                >
+                  {isExpanded ? '접기' : '더보기'}
+                </button>
+              )}
+            </div>
+          </Typography>
+        )}
       </div>
     </div>
   );

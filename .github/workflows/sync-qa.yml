@@ -1,0 +1,33 @@
+name: Synchronize QA Branch
+
+on:
+  push:
+    branches:
+      - wip-v2
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sync-qa:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Synchronize
+        run: |
+          git fetch origin wip-v2 dev
+          git checkout -B dev origin/dev
+          git merge --no-ff --no-edit origin/wip-v2
+          git push origin dev
