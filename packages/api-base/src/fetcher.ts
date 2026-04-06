@@ -6,7 +6,7 @@ const defaultOption: Options = {
   retry: 0,
   timeout: 30000,
   credentials: 'include',
-  throwHttpErrors: false,
+  throwHttpErrors: true,
 };
 
 let isRedirecting = false;
