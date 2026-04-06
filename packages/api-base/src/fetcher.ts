@@ -17,22 +17,24 @@ export const getInstance = (apiUrl?: string) =>
     hooks: {
       afterResponse: [
         async (request, _, response) => {
-          if (!response.ok) {
-            if (response.status === 401) {
-              if (request.url.includes('logout')) return response;
+          if (response.status === 401) {
+            if (request.url.includes('logout')) return;
 
-              if (!isRedirecting) {
-                isRedirecting = true;
-                alert('로그인이 만료되었어요. 다시 로그인해주세요.');
-                await fetch('/api/logout', { method: 'POST' });
-                window.location.replace('/auth/login?expired=1');
-              }
-              return response;
+            if (!isRedirecting && typeof window !== 'undefined') {
+              isRedirecting = true;
+
+              alert('로그인이 만료되었어요. 다시 로그인해주세요.');
+
+              await fetch('/api/logout', { method: 'POST' });
+              window.location.replace('/auth/login');
             }
+          }
 
+          if (!response.ok) {
             try {
               const cloned = response.clone();
               const body: unknown = await cloned.json().catch(() => cloned.text());
+
               console.error(
                 `[API Error] ${response.status} ${request.method} ${request.url}`,
                 body,
@@ -41,7 +43,6 @@ export const getInstance = (apiUrl?: string) =>
               console.error(`[API Error] ${response.status} ${request.method} ${request.url}`);
             }
           }
-          return response;
         },
       ],
     },
@@ -50,14 +51,6 @@ export const getInstance = (apiUrl?: string) =>
 
 export async function resultify<T>(response: ResponsePromise) {
   const res = await response;
-
-  if (res.status === 401) {
-    return undefined as T;
-  }
-
-  if (!res.ok) {
-    throw new Error(`Request failed: ${res.status}`);
-  }
 
   if (res.status === 204) {
     return undefined as unknown as T;
