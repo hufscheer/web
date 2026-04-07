@@ -19,11 +19,11 @@ export const TeamDeleteDialog = ({ id, children, onSuccess, onError, onSettle }:
   const handleTeamDelete = async (): Promise<void> => {
     try {
       await mutateAsync({ id });
-      toast.success('팀이 삭제되었어요.');
+      toast.success('팀이 삭제되었어요');
       onSuccess?.();
     } catch (error) {
       console.error(error);
-      toast.error('팀 삭제에 실패했어요.');
+      toast.error('팀 삭제에 실패했어요');
       onError?.(error);
     } finally {
       onSettle?.();
