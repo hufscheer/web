@@ -30,10 +30,7 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
     teamPlayers.length > 0 &&
     teamPlayers.every(
       (player) =>
-        !!player.name?.trim() &&
-        !!player.studentNumber?.trim() &&
-        player.jerseyNumber !== undefined &&
-        player.jerseyNumber !== null,
+        !!player.name?.trim() && player.jerseyNumber !== undefined && player.jerseyNumber !== null,
     );
 
   const handleAppendPlayer = (id: number) => {
@@ -72,38 +69,28 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
         {fields.map((field, index) => (
           <div key={field.id} className="center-y gap-3">
             <div className="center-y flex-1 gap-3">
-              <Controller
-                name={`teamPlayers.${index}.name`}
-                control={control}
-                render={({ field: f }) => (
-                  <Input
-                    {...f}
-                    size="lg"
-                    placeholder="선수 이름"
-                    value={
-                      f.value ??
-                      data.find((player) => player.playerId === field.playerId)?.name ??
-                      '-'
-                    }
-                  />
-                )}
+              <Input
+                size="lg"
+                placeholder="선수 이름"
+                value={field.name || '-'}
+                readOnly
+                onClick={() =>
+                  toast.info('이름과 학번은 선수 관리에서 수정할 수 있어요', {
+                    id: 'readonly-player-field',
+                  })
+                }
               />
 
-              <Controller
-                name={`teamPlayers.${index}.studentNumber`}
-                control={control}
-                render={({ field: f }) => (
-                  <Input
-                    {...f}
-                    size="lg"
-                    placeholder="학번"
-                    value={
-                      f.value ??
-                      data.find((player) => player.playerId === field.playerId)?.studentNumber ??
-                      '-'
-                    }
-                  />
-                )}
+              <Input
+                size="lg"
+                placeholder="학번"
+                value={field.studentNumber || '-'}
+                readOnly
+                onClick={() =>
+                  toast.info('이름과 학번은 선수 관리에서 수정할 수 있어요', {
+                    id: 'readonly-player-field',
+                  })
+                }
               />
 
               <Controller
