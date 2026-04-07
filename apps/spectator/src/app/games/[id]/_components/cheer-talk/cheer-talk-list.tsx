@@ -42,7 +42,7 @@ export const CheerTalkList = ({
   const [isNoticeVisible, setIsNoticeVisible] = useState(false);
 
   const formWrapperRef = useRef<HTMLDivElement>(null);
-  const hasScrolledToBottom = useRef(false);
+  const hasFirstFocused = useRef(false);
 
   const [formHeight, setFormHeight] = useState(0);
 
@@ -79,12 +79,6 @@ export const CheerTalkList = ({
 
     return () => observer.disconnect();
   }, []);
-
-  useEffect(() => {
-    if (cheerTalkList.length === 0 || hasScrolledToBottom.current) return;
-    hasScrolledToBottom.current = true;
-    scrollToBottom();
-  }, [cheerTalkList, scrollToBottom]);
 
   useEffect(() => {
     if (socketTalkList.length === 0) return;
@@ -146,7 +140,13 @@ export const CheerTalkList = ({
             gameTeams={game.gameTeams}
             scrollToBottom={scrollToBottomWithDelay}
             gameState={game.state}
-            onInputFocus={() => setIsNoticeVisible(true)}
+            onInputFocus={() => {
+              setIsNoticeVisible(true);
+              if (!hasFirstFocused.current) {
+                hasFirstFocused.current = true;
+                scrollToBottom();
+              }
+            }}
           />
         </div>
       </div>
