@@ -6,7 +6,7 @@ import { Badge, Button, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import type { GameTeamType, GameType } from '~/api';
+import type { GameQuarterType, GameTeamType, GameType } from '~/api';
 
 import { routes } from '~/constants/routes';
 
@@ -16,14 +16,14 @@ export const GameCardRoot = ({ children }: PropsWithChildren) => {
 
 type GameHeaderProps = {
   leagueId: number;
-  gameQuarter?: string;
+  gameQuarter?: GameQuarterType;
 } & Pick<GameType, 'id' | 'state' | 'startTime'>;
 
 const GameHeader = ({ leagueId, id: gameId, gameQuarter, state, startTime }: GameHeaderProps) => {
   return (
     <div className="row-between">
       <Badge size="sm" variant={state === 'PLAYING' ? 'danger' : 'default'}>
-        {state ?? gameQuarter}
+        {state ?? gameQuarter?.label}
       </Badge>
       <Typography className="center-y" color="var(--color-neutral-500)" fontSize={14} asChild>
         <Link href={`/${routes.game(leagueId, gameId)}`}>
