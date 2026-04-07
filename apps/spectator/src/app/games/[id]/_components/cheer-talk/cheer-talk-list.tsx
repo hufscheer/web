@@ -98,7 +98,7 @@ export const CheerTalkList = ({
 
   return (
     <Fragment>
-      <div className="relative w-full px-4 py-4" style={{ paddingBottom: formHeight + 16 }}>
+      <div className="relative w-full px-4 py-4">
         <div ref={intersectionRef} className="h-1" />
         {isFetchingNextPage && (
           <div className="flex justify-center py-2">
@@ -111,6 +111,7 @@ export const CheerTalkList = ({
             <CheerTalkItem key={`talk-${talk.cheerTalkId}`} {...talk} />
           ))}
         </div>
+        <div style={{ height: formHeight }} />
       </div>
 
       <div
