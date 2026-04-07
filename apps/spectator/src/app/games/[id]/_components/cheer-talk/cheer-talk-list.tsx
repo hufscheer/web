@@ -1,7 +1,15 @@
 'use client';
 import { CloseIcon } from '@hcc/icons';
 import { colors, Spinner, Typography } from '@hcc/ui';
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import { type GameCheerTalkWithTeamInfo, useSuspenseGame } from '~/api';
 import useIntersectionObserver from '~/hooks/useIntersectionObserver';
@@ -33,13 +41,18 @@ export const CheerTalkList = ({
   const { data: game } = useSuspenseGame({ gameId });
   const [isNoticeVisible, setIsNoticeVisible] = useState(false);
 
-  const bottomRef = useRef<HTMLDivElement>(null);
   const formWrapperRef = useRef<HTMLDivElement>(null);
+  const hasScrolledToBottom = useRef(false);
 
-  const [formHeight, setFormHeight] = useState(88);
+  const [formHeight, setFormHeight] = useState(0);
+
+  const isNearBottom = useCallback(
+    () => window.innerHeight + window.scrollY >= document.body.scrollHeight - formHeight,
+    [formHeight],
+  );
 
   const scrollToBottom = useCallback(() => {
-    bottomRef.current?.scrollIntoView({ block: 'end' });
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' });
   }, []);
 
   const [scrollToBottomWithDelay] = useTimeout(scrollToBottom, 100);
@@ -52,11 +65,11 @@ export const CheerTalkList = ({
     }
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!formWrapperRef.current) return;
 
     const updateHeight = () => {
-      setFormHeight(formWrapperRef.current?.offsetHeight ?? 88);
+      setFormHeight(formWrapperRef.current?.offsetHeight ?? 0);
     };
 
     updateHeight();
@@ -68,9 +81,15 @@ export const CheerTalkList = ({
   }, []);
 
   useEffect(() => {
-    if (socketTalkList.length === 0) return;
+    if (cheerTalkList.length === 0 || hasScrolledToBottom.current) return;
+    hasScrolledToBottom.current = true;
     scrollToBottom();
-  }, [socketTalkList, scrollToBottom]);
+  }, [cheerTalkList, scrollToBottom]);
+
+  useEffect(() => {
+    if (socketTalkList.length === 0) return;
+    if (isNearBottom()) scrollToBottom();
+  }, [socketTalkList, scrollToBottom, isNearBottom]);
 
   const allMessages = useMemo(() => {
     const messageMap = new Map<number, GameCheerTalkWithTeamInfo>();
@@ -98,8 +117,6 @@ export const CheerTalkList = ({
             <CheerTalkItem key={`talk-${talk.cheerTalkId}`} {...talk} />
           ))}
         </div>
-
-        <div ref={bottomRef} />
       </div>
 
       <div
