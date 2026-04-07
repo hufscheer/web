@@ -6,9 +6,24 @@ const defaultOption: Options = {
   retry: 0,
   timeout: 30000,
   credentials: 'include',
+  throwHttpErrors: true,
 };
 
+type ErrorHandler = (request: Request, response: Response) => void | Promise<void>;
+
 let isRedirecting = false;
+
+const errorHandlers: Partial<Record<number, ErrorHandler>> = {
+  401: async (request) => {
+    if (request.url.includes('logout')) return;
+    if (isRedirecting || typeof window === 'undefined') return;
+
+    isRedirecting = true;
+    alert('로그인이 만료되었어요. 다시 로그인해주세요.');
+    await fetch('/api/logout', { method: 'POST' });
+    window.location.replace('/auth/login');
+  },
+};
 
 export const getInstance = (apiUrl?: string) =>
   ky.create({
@@ -18,29 +33,8 @@ export const getInstance = (apiUrl?: string) =>
       afterResponse: [
         async (request, _, response) => {
           if (!response.ok) {
-            if (response.status === 401) {
-              if (request.url.includes('logout')) return response;
-
-              if (!isRedirecting) {
-                isRedirecting = true;
-                alert('로그인이 만료되었어요. 다시 로그인해주세요.');
-                window.location.href = '/auth/login';
-              }
-              return response;
-            }
-
-            try {
-              const cloned = response.clone();
-              const body: unknown = await cloned.json().catch(() => cloned.text());
-              console.error(
-                `[API Error] ${response.status} ${request.method} ${request.url}`,
-                body,
-              );
-            } catch {
-              console.error(`[API Error] ${response.status} ${request.method} ${request.url}`);
-            }
+            await errorHandlers[response.status]?.(request, response);
           }
-          return response;
         },
       ],
     },
@@ -60,7 +54,6 @@ export async function resultify<T>(response: ResponsePromise) {
   }
   return (await res.text()) as unknown as T;
 }
-
 export const getFetcher = (apiUrl: string) => {
   const { get, post, put, patch, delete: del } = getInstance(apiUrl);
 
