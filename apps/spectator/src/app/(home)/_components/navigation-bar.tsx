@@ -11,7 +11,7 @@ import { cn } from '~/utils/cn';
 const NAVBAR_ITEMS = [
   { label: '홈', href: '/', icon: HomeIcon },
   { label: '대회', href: '/previous', icon: TrophyIcon },
-  { label: '학과', href: '/teams', icon: UsersIcon },
+  { label: '팀', href: '/teams', icon: UsersIcon },
 ];
 
 interface Props extends React.ComponentProps<'nav'> {}
