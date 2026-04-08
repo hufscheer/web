@@ -2,13 +2,24 @@ import type { GameTeamType } from '~/api';
 
 export type GameStateType = 'SCHEDULED' | 'PLAYING' | 'FINISHED';
 
+const quarters = [
+  { key: 'PRE_GAME', label: '경기전' },
+  { key: 'FIRST_HALF', label: '전반전' },
+  { key: 'SECOND_HALF', label: '후반전' },
+  { key: 'EXTRA_TIME', label: '연장전' },
+  { key: 'PENALTY_SHOOTOUT', label: '승부차기' },
+  { key: 'POST_GAME', label: '경기후' },
+] as const;
+
+export type GameQuarterType = (typeof quarters)[number];
+
 export type GameType = {
   id: number;
   isPkTaken: boolean;
   startTime: string;
   state: GameStateType;
   gameName: string;
-  gameQuarter: string;
+  gameQuarter: GameQuarterType;
   round: number;
   videoId: string;
   gameTeams: GameTeamType[];
@@ -16,7 +27,7 @@ export type GameType = {
 
 export type GameData = {
   startTime: string;
-  gameQuarter: string;
+  gameQuarter: GameQuarterType;
   gameName: string;
   round: number;
   videoId: string;

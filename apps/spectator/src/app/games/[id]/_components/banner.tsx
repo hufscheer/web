@@ -26,7 +26,7 @@ export const Banner = ({ gameId }: Props) => {
       </div>
 
       <div className="column-center-x gap-2">
-        <Badge size="sm">{data.gameQuarter}</Badge>
+        <Badge size="sm">{data.gameQuarter.label}</Badge>
         <div className="center h-9 gap-4">
           <span
             className={twMerge(

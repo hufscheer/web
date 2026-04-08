@@ -189,7 +189,7 @@ const FormSectionInner = ({ leagueId, gameId }: Props) => {
     defaultValues: {
       name: data.gameName,
       round: data.round,
-      quarter: data.gameQuarter,
+      quarter: data.gameQuarter.key,
       state: data.state,
       startTime: data.startTime,
       videoId: data.videoId,

@@ -1,3 +1,5 @@
+import type { GameQuarterType } from './games';
+
 export const PROGRESS_TYPE = {
   GAME_START: 'GAME_START',
   QUARTER_START: 'QUARTER_START',
@@ -84,6 +86,6 @@ export type TimelinePayload = {
 };
 
 export type TimelineType = {
-  gameQuarter: string;
+  gameQuarter: GameQuarterType;
   records: TimelineRecordType[];
 };
