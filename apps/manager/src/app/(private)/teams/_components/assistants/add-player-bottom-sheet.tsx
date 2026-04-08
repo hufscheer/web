@@ -66,6 +66,7 @@ export const AddPlayerBottomSheet = ({
   const [latestPreview, setLatestPreview] = useState<ParseNLPreview | null>(null);
   const [finalPlayers, setFinalPlayers] = useState<ParsedPlayer[]>([]);
   const [pendingNewPlayers, setPendingNewPlayers] = useState<ParsedPlayer[]>([]);
+  const [existsPlayers, setExistsPlayers] = useState<PlayerData[]>([]);
   const [isClosing, setIsClosing] = useState(false);
   const [displayMessages, setDisplayMessages] = useState<ChatMessageType[]>([]);
   const [showLeaveModal, setShowLeaveModal] = useState(false);
@@ -101,6 +102,7 @@ export const AddPlayerBottomSheet = ({
       setLatestPreview(null);
       setFinalPlayers([]);
       setPendingNewPlayers([]);
+      setExistsPlayers([]);
       setIsClosing(false);
       setDisplayMessages([INITIAL_MESSAGE(teamName)]);
     }
@@ -131,6 +133,13 @@ export const AddPlayerBottomSheet = ({
             if (existsPlayers.length > 0) {
               // 중복 선수가 있으면 duplicate-confirm 단계로
               setPendingNewPlayers(newPlayers);
+              setExistsPlayers(
+                existsPlayers.map((p) => ({
+                  name: p.name,
+                  studentNumber: p.studentNumber,
+                  jerseyNumber: p.jerseyNumber,
+                })),
+              );
               addMessages('확인', {
                 stage: 'duplicate-confirm',
                 message:
@@ -200,11 +209,6 @@ export const AddPlayerBottomSheet = ({
   // duplicate-confirm 단계: 사용자가 선택한 EXISTS 선수 + NEW 선수 합쳐서 final-confirm으로
   const handleDuplicateConfirm = useCallback(
     (selected: { studentNumber: string }[]) => {
-      const lastDuplicateMsg = displayMessages
-        .filter((m) => m.stage === 'duplicate-confirm' && m.players)
-        .at(-1);
-      const existsPlayers = lastDuplicateMsg?.players ?? [];
-
       const selectedExists: ParsedPlayer[] = existsPlayers
         .filter((p) => selected.some((s) => s.studentNumber === p.studentNumber))
         .map((p) => ({
@@ -232,7 +236,7 @@ export const AddPlayerBottomSheet = ({
       });
       setStage('final-list');
     },
-    [pendingNewPlayers, displayMessages, teamName, addMessages],
+    [pendingNewPlayers, existsPlayers, teamName, addMessages],
   );
 
   // 최종 명단 확인 → complete 단계
