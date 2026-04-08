@@ -116,9 +116,9 @@ export const CheerTalkList = ({
 
       <div
         ref={formWrapperRef}
-        className="pb-safe fixed right-0 bottom-0 left-0 z-20 border-t border-neutral-100 bg-white"
+        className="pb-safe fixed inset-x-0 bottom-0 z-20 mx-auto w-full max-w-(--app-max-width) border-t border-neutral-100 bg-white"
       >
-        <div className="max-w-screen-sm relative mx-auto w-full">
+        <div className="relative w-full">
           {isNoticeVisible && (
             <div className="absolute right-4 bottom-full left-4 z-20 mb-2">
               <div className="animate-in fade-in slide-in-from-bottom-2 flex items-center justify-between rounded-lg border border-neutral-100 bg-white p-3 shadow-lg">
