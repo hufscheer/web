@@ -28,7 +28,7 @@ const PlayerCell = ({ children, className }: { children: React.ReactNode; classN
  * -----------------------------------------------------------------------------------------------*/
 
 interface RegistrationUIRootProps {
-  variant: 'parse-result' | 'duplicate-check' | 'final-confirm' | 'final-list' | 'complete';
+  variant: 'parse-result' | 'duplicate-confirm' | 'final-confirm' | 'final-list' | 'complete';
   children: React.ReactNode;
   className?: string;
 }
@@ -389,6 +389,73 @@ const FinalConfirmCard = ({ players, teamName, onConfirm }: FinalConfirmCardProp
 };
 
 /* -------------------------------------------------------------------------------------------------
+ * RegistrationUI.DuplicateConfirmCard
+ * 중복 선수 확인 - 선수별 취소/등록 버튼
+ * -----------------------------------------------------------------------------------------------*/
+
+interface DuplicateConfirmCardProps {
+  players: PlayerData[];
+  onConfirm?: (selected: { studentNumber: string }[]) => void;
+}
+
+const DuplicateConfirmCard = ({ players, onConfirm }: DuplicateConfirmCardProps) => {
+  const [selected, setSelected] = useState<Set<string>>(
+    new Set(players.map((p) => p.studentNumber)),
+  );
+
+  return (
+    <div className="flex flex-col gap-3 rounded-lg border border-gray-200 bg-white p-4">
+      <p className="text-sm font-semibold text-gray-900">
+        다음 선수들은 이미 다른 팀에 등록되어 있어요.{'\n'}중복 등록 하시겠습니까?
+      </p>
+      <table className="w-full text-center text-xs">
+        <thead>
+          <tr className="text-left text-gray-500">
+            <th className="pb-2 font-medium">선수이름</th>
+            <th className="pb-2 font-medium">학번</th>
+            <th className="pb-2 font-medium">등번호</th>
+            <th className="pb-2 text-center font-medium">등록</th>
+          </tr>
+        </thead>
+        <tbody>
+          {players.map((player) => (
+            <tr key={player.studentNumber}>
+              <td className="py-1 pr-2">
+                <PlayerCell>{player.name}</PlayerCell>
+              </td>
+              <td className="py-1 pr-2">
+                <PlayerCell>{player.studentNumber}</PlayerCell>
+              </td>
+              <td className="py-1 pr-2">
+                <PlayerCell>{player.jerseyNumber ?? ''}</PlayerCell>
+              </td>
+              <td className="py-1 text-center">
+                <input
+                  type="checkbox"
+                  checked={selected.has(player.studentNumber)}
+                  onChange={() => setSelected((prev) => toggleSet(prev, player.studentNumber))}
+                  className="accent-primary h-4 w-4"
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <Button
+        type="button"
+        onClick={() =>
+          onConfirm?.(Array.from(selected).map((studentNumber) => ({ studentNumber })))
+        }
+        className="bg-primary w-full rounded px-3 py-3 text-sm font-medium text-white hover:opacity-90"
+      >
+        확인
+      </Button>
+    </div>
+  );
+};
+
+/* -------------------------------------------------------------------------------------------------
  * RegistrationUI.CompleteCard
  * 4단계: 완료 - 종료 버튼
  * -----------------------------------------------------------------------------------------------*/
@@ -417,6 +484,7 @@ const CompleteCard = ({ onClose }: CompleteCardProps) => {
 export const RegistrationUI = Object.assign(RegistrationUIRoot, {
   Wrapper,
   ParseResult: ParseResultCard,
+  DuplicateConfirm: DuplicateConfirmCard,
   FinalConfirm: FinalConfirmCard,
   Complete: CompleteCard,
 });

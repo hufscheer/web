@@ -28,7 +28,7 @@ export type ChatMessageType = {
   failedLines?: string[];
 };
 
-type RegistrationStage = 'input' | 'parse-result' | 'final-confirm' | 'final-list' | 'complete';
+type RegistrationStage = 'input' | 'parse-result' | 'duplicate-confirm' | 'final-list' | 'complete';
 
 type Props = {
   isOpen: boolean;
@@ -65,6 +65,8 @@ export const AddPlayerBottomSheet = ({
   const [stage, setStage] = useState<RegistrationStage>('input');
   const [latestPreview, setLatestPreview] = useState<ParseNLPreview | null>(null);
   const [finalPlayers, setFinalPlayers] = useState<ParsedPlayer[]>([]);
+  const [pendingNewPlayers, setPendingNewPlayers] = useState<ParsedPlayer[]>([]);
+  const [existsPlayers, setExistsPlayers] = useState<PlayerData[]>([]);
   const [isClosing, setIsClosing] = useState(false);
   const [displayMessages, setDisplayMessages] = useState<ChatMessageType[]>([]);
   const [showLeaveModal, setShowLeaveModal] = useState(false);
@@ -99,6 +101,8 @@ export const AddPlayerBottomSheet = ({
       setStage('input');
       setLatestPreview(null);
       setFinalPlayers([]);
+      setPendingNewPlayers([]);
+      setExistsPlayers([]);
       setIsClosing(false);
       setDisplayMessages([INITIAL_MESSAGE(teamName)]);
     }
@@ -117,50 +121,45 @@ export const AddPlayerBottomSheet = ({
         { players: selectedPlayers },
         {
           onSuccess: (data) => {
-            const existPlayers = data.players.filter((p) => p.status === 'EXISTS');
-
-            if (existPlayers.length > 0) {
-              // 중복 선수가 있으면 parse-result로 돌아가서 에러 표시
-              const playersWithErrors: PlayerData[] = data.players.map((p) => ({
+            const existsPlayers = data.players.filter((p) => p.status === 'EXISTS');
+            const newPlayers = data.players
+              .filter((p) => p.status === 'NEW')
+              .map((p) => ({
                 name: p.name,
                 studentNumber: p.studentNumber,
                 jerseyNumber: p.jerseyNumber,
-                error:
-                  p.status === 'EXISTS'
-                    ? '이미 등록된 학번입니다. 수정 후 다시 확인해주세요.'
-                    : undefined,
               }));
 
-              setLatestPreview({
-                players: data.players.map((p) => ({
+            if (existsPlayers.length > 0) {
+              // 중복 선수가 있으면 duplicate-confirm 단계로
+              setPendingNewPlayers(newPlayers);
+              setExistsPlayers(
+                existsPlayers.map((p) => ({
+                  name: p.name,
+                  studentNumber: p.studentNumber,
+                  jerseyNumber: p.jerseyNumber,
+                })),
+              );
+              addMessages('확인', {
+                stage: 'duplicate-confirm',
+                message:
+                  '이제 거의 다 왔어요! \n마지막으로 매니저님의 확인이 필요한 내용이 있어요.',
+                players: existsPlayers.map((p) => ({
                   name: p.name,
                   studentNumber: p.studentNumber,
                   jerseyNumber: p.jerseyNumber,
                 })),
               });
-
-              addMessages('확인', {
-                stage: 'parse-result',
-                // [어시스턴트 멘트 3] 중복 학번 있을 때 수정 요청
-                message: '중복된 학번이 있어요.\n해당 학번을 수정 후 다시 확인해주세요.',
-                players: playersWithErrors,
-              });
-              setStage('parse-result');
+              setStage('duplicate-confirm');
             } else {
-              const newPlayers = data.players.map((p) => ({
-                name: p.name,
-                studentNumber: p.studentNumber,
-                jerseyNumber: p.jerseyNumber,
-              }));
+              const names = newPlayers.map((p) => p.name).join(', ');
               setFinalPlayers(newPlayers);
-              addMessages('확인', {
-                stage: 'final-confirm',
-                // [어시스턴트 멘트 3] 중복 없을 때 최종 명단 안내
-                message:
-                  '이제 거의 다 왔어요! \n마지막으로 매니저님의 확인이 필요한 내용이 있어요.',
+              addMessages(newPlayers.map((p) => `${p.name} 등록`).join('\n'), {
+                stage: 'final-list',
+                message: `${names}을 ${teamName} 선수 명단에 추가하겠어요. 수고하셨어요!\n최종 확인 후에 선수 명단을 최종 등록할게요.`,
                 players: newPlayers,
               });
-              setStage('final-confirm');
+              setStage('final-list');
             }
           },
           onError: (error) => {
@@ -207,29 +206,40 @@ export const AddPlayerBottomSheet = ({
     [addMessages],
   );
 
-  // 2단계: 최종 확인 → final-list 단계
-  const handleFinalConfirm = useCallback(
+  // duplicate-confirm 단계: 사용자가 선택한 EXISTS 선수 + NEW 선수 합쳐서 final-confirm으로
+  const handleDuplicateConfirm = useCallback(
     (selected: { studentNumber: string }[]) => {
-      if (finalPlayers.length === 0) return;
+      const selectedExists: ParsedPlayer[] = existsPlayers
+        .filter((p) => selected.some((s) => s.studentNumber === p.studentNumber))
+        .map((p) => ({
+          name: p.name,
+          studentNumber: p.studentNumber,
+          jerseyNumber: p.jerseyNumber ?? 0,
+        }));
 
-      const selectedPlayers = finalPlayers.filter((p) =>
-        selected.some((s) => s.studentNumber === p.studentNumber),
+      const rejectedExists = existsPlayers.filter(
+        (p) => !selected.some((s) => s.studentNumber === p.studentNumber),
       );
-      const names = selectedPlayers.map((p) => p.name).join(', ');
 
-      addMessages(selectedPlayers.map((p) => `${p.name} 등록`).join('\n'), {
+      const userMessage = [
+        ...selectedExists.map((p) => `${p.name} 등록`),
+        ...rejectedExists.map((p) => `${p.name} 취소`),
+      ].join('\n');
+
+      const merged = [...pendingNewPlayers, ...selectedExists];
+      const names = merged.map((p) => p.name).join(', ');
+      setFinalPlayers(merged);
+      addMessages(userMessage, {
         stage: 'final-list',
-        // [어시스턴트 멘트 6] 최종 확인 전 선수 명단 재확인 안내
         message: `${names}을 ${teamName} 선수 명단에 추가하겠어요. 수고하셨어요!\n최종 확인 후에 선수 명단을 최종 등록할게요.`,
-        players: selectedPlayers,
+        players: merged,
       });
-      setFinalPlayers(selectedPlayers);
       setStage('final-list');
     },
-    [finalPlayers, teamName, addMessages],
+    [pendingNewPlayers, existsPlayers, teamName, addMessages],
   );
 
-  // 4단계: 최종 명단 확인 → complete 단계
+  // 최종 명단 확인 → complete 단계
   const handleFinalListConfirm = useCallback(() => {
     addMessages('확인', {
       stage: 'complete',
@@ -296,7 +306,7 @@ export const AddPlayerBottomSheet = ({
             message: data.displayMessage,
           },
         ]);
-        toast.success('팀 등록이 완료되었습니다!');
+        toast.success('팀 등록을 완료했어요');
         setTimeout(() => {
           setStage('input');
           setLatestPreview(null);
@@ -487,11 +497,10 @@ export const AddPlayerBottomSheet = ({
                               onConfirm={handleConfirmParseResult}
                               onEdit={handleEditParseResult}
                             />
-                          ) : msg.stage === 'final-confirm' && msg.players ? (
-                            <RegistrationUI.FinalConfirm
+                          ) : msg.stage === 'duplicate-confirm' && msg.players ? (
+                            <RegistrationUI.DuplicateConfirm
                               players={msg.players}
-                              teamName={teamName}
-                              onConfirm={handleFinalConfirm}
+                              onConfirm={handleDuplicateConfirm}
                             />
                           ) : msg.stage === 'final-list' && msg.players ? (
                             <RegistrationUI.ParseResult
