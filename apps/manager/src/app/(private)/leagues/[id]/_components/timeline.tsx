@@ -43,16 +43,15 @@ export const Timeline = ({ gameId }: Props) => {
       )}
 
       {data.map((timeline) => (
-        <div key={timeline.gameQuarter}>
-          <Fragment key={timeline.gameQuarter}>
+        <div key={timeline.gameQuarter.key}>
+          <Fragment key={timeline.gameQuarter.key}>
             {timeline.records.map((record) => {
               if (record.progressRecord?.gameProgressType) {
-                if (timeline.gameQuarter === '경기 종료' || timeline.gameQuarter === '경기후')
-                  return null;
+                if (timeline.gameQuarter.key === 'POST_GAME') return null;
 
                 return (
                   <TextRecord key={record.recordId} showDividerLine>
-                    {timeline.gameQuarter}이(가)&nbsp;
+                    {timeline.gameQuarter.label}이(가)&nbsp;
                     {getProgressSemantics(record.progressRecord.gameProgressType)}
                     되었습니다.
                   </TextRecord>
