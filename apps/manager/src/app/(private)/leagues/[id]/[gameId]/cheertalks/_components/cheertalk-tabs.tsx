@@ -1,12 +1,12 @@
 'use client';
 
-import { useSuspenseGamesCheerTalks } from '~/api/queries/useGameCheerTalk';
+import { useSuspenseGamesCheerTalks } from '~/api/queries/useGameCheerTalks';
 import { useSuspenseGamesCheerTalkReport } from '~/api/queries/useGamesCheerTalkReport';
 import { CheerTalkList } from '~/app/(private)/_components/cheertalk/cheertalk-list';
 import { CheerTalkTabs as CheerTalkTabsBase } from '~/app/(private)/_components/cheertalk/cheertalk-tabs';
 
-const AllContent = ({ gameId: _ }: { gameId: number }) => {
-  const { data } = useSuspenseGamesCheerTalks({ gameId: _, cursor: 1, size: 20 });
+const AllContent = ({ gameId }: { gameId: number }) => {
+  const { data } = useSuspenseGamesCheerTalks({ gameId, cursor: 1, size: 20 });
   return <CheerTalkList cheerTalks={data} status="all" />;
 };
 
