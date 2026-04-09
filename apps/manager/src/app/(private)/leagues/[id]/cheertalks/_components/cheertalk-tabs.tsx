@@ -1,16 +1,18 @@
 'use client';
 
+import { useSuspenseLeagueCheerTalkReport } from '~/api/queries/useLeagueCheerTalkReport';
+import { useSuspenseLeagueCheerTalks } from '~/api/queries/useLeagueCheerTalks';
 import { CheerTalkList } from '~/app/(private)/_components/cheertalk/cheertalk-list';
 import { CheerTalkTabs as CheerTalkTabsBase } from '~/app/(private)/_components/cheertalk/cheertalk-tabs';
 
-// TODO: useSuspenseLeagueCheerTalks로 교체 (API 추가 후)
-const AllContent = ({ leagueId: _ }: { leagueId: number }) => {
-  return <CheerTalkList cheerTalks={[]} status="all" />;
+const AllContent = ({ leagueId }: { leagueId: number }) => {
+  const { data } = useSuspenseLeagueCheerTalks({ leagueId, cursor: 1, size: 20 });
+  return <CheerTalkList cheerTalks={data} status="all" />;
 };
 
-// TODO: useSuspenseLeagueCheerTalkReport로 교체 (API 추가 후)
-const ReportedContent = ({ leagueId: _ }: { leagueId: number }) => {
-  return <CheerTalkList cheerTalks={[]} status="reported" />;
+const ReportedContent = ({ leagueId }: { leagueId: number }) => {
+  const { data } = useSuspenseLeagueCheerTalkReport({ leagueId, cursor: 1, size: 20 });
+  return <CheerTalkList cheerTalks={data} status="reported" />;
 };
 
 type Props = { leagueId: number };

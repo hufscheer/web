@@ -1,16 +1,18 @@
 'use client';
 
+import { useSuspenseGamesCheerTalks } from '~/api/queries/useGameCheerTalk';
+import { useSuspenseGamesCheerTalkReport } from '~/api/queries/useGamesCheerTalkReport';
 import { CheerTalkList } from '~/app/(private)/_components/cheertalk/cheertalk-list';
 import { CheerTalkTabs as CheerTalkTabsBase } from '~/app/(private)/_components/cheertalk/cheertalk-tabs';
 
-// TODO: useSuspenseGameCheerTalks로 교체 (API 추가 후)
 const AllContent = ({ gameId: _ }: { gameId: number }) => {
-  return <CheerTalkList cheerTalks={[]} status="all" />;
+  const { data } = useSuspenseGamesCheerTalks({ gameId: _, cursor: 1, size: 20 });
+  return <CheerTalkList cheerTalks={data} status="all" />;
 };
 
-// TODO: useSuspenseGameCheerTalkReport로 교체 (API 추가 후)
-const ReportedContent = ({ gameId: _ }: { gameId: number }) => {
-  return <CheerTalkList cheerTalks={[]} status="reported" />;
+const ReportedContent = ({ gameId }: { gameId: number }) => {
+  const { data } = useSuspenseGamesCheerTalkReport({ gameId, cursor: 1, size: 20 });
+  return <CheerTalkList cheerTalks={data} status="reported" />;
 };
 
 type Props = { gameId: number };

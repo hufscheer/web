@@ -14,3 +14,11 @@ export type CheerTalkPayload = {
   cursor: number;
   size: number;
 };
+
+export type LeagueCheerTalkPayload = CheerTalkPayload & {
+  leagueId: number;
+};
+
+export type GameCheerTalkPayload = CheerTalkPayload & {
+  gameId: number;
+};

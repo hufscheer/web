@@ -14,7 +14,7 @@ const StatusChangeSheet = lazy(
 const SubstituteSheet = lazy(() => import('../../_components/timeline-tab/sheets/SubstituteSheet'));
 const WarningSheet = lazy(() => import('../../_components/timeline-tab/sheets/WarningSheet'));
 
-export default function TimelineClient({ gameId }: { gameId: number }) {
+export default function TimelineClient({ leagueId, gameId }: { leagueId: number; gameId: number }) {
   const [activeSheet, setActiveSheet] = useState<BottomSheetType | null>(null);
   const close = useCallback(() => setActiveSheet(null), []);
   const sheetMap = useMemo(
@@ -46,7 +46,7 @@ export default function TimelineClient({ gameId }: { gameId: number }) {
     <>
       <div className="flex h-full flex-col justify-between bg-white">
         <Timeline gameId={gameId} />
-        <BottomButton onOpen={setActiveSheet} />
+        <BottomButton leagueId={leagueId} gameId={gameId} onOpen={setActiveSheet} />
       </div>
       <Drawer.Root
         open={activeSheet !== null}

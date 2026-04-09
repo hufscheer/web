@@ -4,9 +4,19 @@ import { AddCircleIcon, ErrorIcon, SettingsIcon, SmsIcon, TradeIcon } from '@hcc
 import { Button } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
 
+import { routes } from '~/constants/routes';
+
 export type BottomSheetType = 'addScore' | 'changeStatus' | 'substitute' | 'warning';
 
-export function BottomButton({ onOpen }: { onOpen: (type: BottomSheetType) => void }) {
+export function BottomButton({
+  leagueId,
+  gameId,
+  onOpen,
+}: {
+  leagueId: number;
+  gameId: number;
+  onOpen: (type: BottomSheetType) => void;
+}) {
   const router = useRouter();
   return (
     <div className="flex w-full flex-col gap-2 border-t border-neutral-100 bg-white p-5">
@@ -52,7 +62,7 @@ export function BottomButton({ onOpen }: { onOpen: (type: BottomSheetType) => vo
           color="black"
           variant="ghost"
           size="sm"
-          onClick={() => router.push('/cheertalks')}
+          onClick={() => router.push(`/${routes.game_cheertalks(leagueId, gameId)}`)}
         >
           <SmsIcon /> 응원톡
         </Button>
