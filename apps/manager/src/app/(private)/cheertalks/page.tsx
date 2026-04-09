@@ -1,5 +1,4 @@
-import { colors, Spinner, Typography } from '@hcc/ui';
-import { Suspense } from '@suspensive/react';
+import { colors, Typography } from '@hcc/ui';
 import Link from 'next/link';
 
 import { Header } from '~/components/layout';
@@ -19,16 +18,7 @@ const Page = () => {
       <Header title="응원톡 관리" menu={<BlockedTalkMenu />} arrow />
 
       <div className="column h-full gap-2 overflow-hidden bg-white px-5 py-4">
-        <Suspense
-          fallback={
-            <div className="center p-5">
-              <Spinner size="lg" color="neutral" />
-            </div>
-          }
-          clientOnly
-        >
-          <CheerTalkTabs />
-        </Suspense>
+        <CheerTalkTabs />
       </div>
     </>
   );

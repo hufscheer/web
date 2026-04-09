@@ -20,4 +20,7 @@ export const routes = {
 
   cheertalks: 'cheertalks',
   cheertalk_block: 'cheertalks/blocked',
+
+  league_cheertalks: (id: number) => `leagues/${id}/cheertalks`,
+  game_cheertalks: (leagueId: number, gameId: number) => `leagues/${leagueId}/${gameId}/cheertalks`,
 } as const;
