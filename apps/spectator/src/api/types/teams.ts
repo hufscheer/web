@@ -8,6 +8,7 @@ export type TeamType = {
   logoImageUrl: string;
   unit: string;
   teamColor: string;
+  sportType: SportType;
 };
 
 export const TEAM_UNIT_LIST = [
@@ -78,6 +79,7 @@ export type TeamDetailType = {
   logoImageUrl: string;
   unit: string;
   teamColor: string;
+  sportType: SportType;
   teamPlayers: TeamPlayerType[];
   winCount: number;
   drawCount: number;

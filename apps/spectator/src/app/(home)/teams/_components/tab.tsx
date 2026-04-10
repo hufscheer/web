@@ -21,6 +21,7 @@ export const TeamTab = () => {
   const { selected } = useTeamUnits();
   const { sport } = useSportType();
   const { data } = useSuspenseTeamsSummary({ units: selected, sportType: sport });
+  const filteredData = data.filter((team) => team.teamDetail.sportType === sport);
 
   const [modal, setModal] = useState<ModalPayload>(null);
   const open = modal !== null;
@@ -30,7 +31,7 @@ export const TeamTab = () => {
         <TeamFilter />
 
         <div className="column mb-5 gap-3 px-5">
-          {data.map((team) => (
+          {filteredData.map((team) => (
             <TeamCard key={team.teamDetail.teamId}>
               <TeamCard.Header team={team.teamDetail} />
               <TeamCard.Divider />
