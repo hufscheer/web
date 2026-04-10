@@ -10,5 +10,5 @@ export const useLeagueRecentGame = (payload?: { sportType?: SportType }) =>
 export const useSuspenseLeagueRecentGames = (payload?: { sportType?: SportType }) =>
   useSuspenseQuery(queryKeys.leagues.recentGames(payload));
 
-export const fetchLeagueRecentGames = async () =>
-  await getQueryClient().fetchQuery(queryKeys.leagues.recentGames());
+export const fetchLeagueRecentGames = async (payload?: { sportType?: SportType }) =>
+  await getQueryClient().fetchQuery(queryKeys.leagues.recentGames(payload));

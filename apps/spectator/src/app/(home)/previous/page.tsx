@@ -15,16 +15,15 @@ export default async function Page({ searchParams }: PageProps) {
 
   return (
     <div className="flex-1">
-      <YearFilter selectedYear={selectedYear} />
-
-      <div className="column">
-        <ErrorBoundary fallback={<ErrorMessage />}>
-          <Suspense clientOnly>
-            <SportTab />
+      <ErrorBoundary fallback={<ErrorMessage />}>
+        <Suspense clientOnly>
+          <SportTab />
+          <YearFilter selectedYear={selectedYear} />
+          <div className="column">
             <LeagueCardList year={selectedYear} />
-          </Suspense>
-        </ErrorBoundary>
-      </div>
+          </div>
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import * as Tabs from '@radix-ui/react-tabs';
-import { startTransition, useEffect } from 'react';
+import { startTransition } from 'react';
 
 import type { SportType } from '~/api/types';
 
@@ -15,14 +15,9 @@ const SPORT_TABS: { value: SportType; label: string; emoji: string }[] = [
 export const SportTab = () => {
   const { sport, setSport } = useSportType();
 
-  useEffect(() => {
-    setSport(sport, { scroll: false, history: 'replace', clearOnDefault: false });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const handleChange = (value: string) => {
     startTransition(() => {
-      setSport(value as SportType, { scroll: false, history: 'replace', clearOnDefault: false });
+      setSport(value as SportType, { scroll: false, history: 'replace' });
     });
   };
 
