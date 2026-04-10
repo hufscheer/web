@@ -1,10 +1,11 @@
 'use client';
 
 import * as Tabs from '@radix-ui/react-tabs';
-import { parseAsStringLiteral, useQueryState } from 'nuqs';
 import { startTransition, useEffect } from 'react';
 
 import type { SportType } from '~/api/types';
+
+import { useSportType } from '~/hooks/useSportType';
 
 const SPORT_TABS: { value: SportType; label: string; emoji: string }[] = [
   { value: 'SOCCER', label: '축구', emoji: '⚽' },
@@ -12,10 +13,7 @@ const SPORT_TABS: { value: SportType; label: string; emoji: string }[] = [
 ];
 
 export const SportTab = () => {
-  const [sport, setSport] = useQueryState(
-    'sport',
-    parseAsStringLiteral(['SOCCER', 'BASKETBALL'] as const).withDefault('SOCCER'),
-  );
+  const { sport, setSport } = useSportType();
 
   useEffect(() => {
     setSport(sport, { scroll: false, history: 'replace', clearOnDefault: false });
