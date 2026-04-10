@@ -2,23 +2,27 @@ import { Spinner } from '@hcc/ui';
 import { ErrorBoundary, Suspense } from '@suspensive/react';
 
 import { ErrorMessage } from './_components/error-message';
+import { SportTab } from './_components/sport-tab';
 import { RecentTab } from './_components/tab';
 
 export default function Page() {
   return (
-    <div className="flex flex-col justify-between gap-3 p-5">
-      <ErrorBoundary fallback={<ErrorMessage />}>
-        <Suspense
-          clientOnly
-          fallback={
-            <div className="flex justify-center py-12">
-              <Spinner />
-            </div>
-          }
-        >
-          <RecentTab />
-        </Suspense>
-      </ErrorBoundary>
+    <div className="flex flex-col justify-between gap-3">
+      <SportTab />
+      <div className="px-5">
+        <ErrorBoundary fallback={<ErrorMessage />}>
+          <Suspense
+            clientOnly
+            fallback={
+              <div className="flex justify-center py-12">
+                <Spinner />
+              </div>
+            }
+          >
+            <RecentTab />
+          </Suspense>
+        </ErrorBoundary>
+      </div>
     </div>
   );
 }
