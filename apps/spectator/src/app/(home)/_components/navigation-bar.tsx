@@ -3,7 +3,7 @@
 import { HomeIcon, TrophyIcon, UsersIcon } from '@hcc/icons';
 import { Typography } from '@hcc/ui';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 import { useTracker } from '~/hooks/useTracker';
 import { cn } from '~/utils/cn';
@@ -19,6 +19,8 @@ interface Props extends React.ComponentProps<'nav'> {}
 export const NavigationBar = ({ 'aria-label': ariaLabel = 'Main', className, ...props }: Props) => {
   const sendEvent = useTracker({ category: 'NavigationBar' });
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const sport = searchParams.get('sport');
 
   return (
     <nav
@@ -32,10 +34,12 @@ export const NavigationBar = ({ 'aria-label': ariaLabel = 'Main', className, ...
       {NAVBAR_ITEMS.map(({ label, href, icon: Icon }) => {
         const isCurrentPath = href === '/' ? pathname === '/' : pathname.startsWith(href);
 
+        const hrefWithSport = sport ? { pathname: href, query: { sport } } : href;
+
         return (
           <Link
             key={href}
-            href={href}
+            href={hrefWithSport}
             aria-current={isCurrentPath ? 'page' : undefined}
             className={cn(
               'center-y flex flex-col gap-1',
