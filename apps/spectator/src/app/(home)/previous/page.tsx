@@ -15,12 +15,12 @@ export default async function Page({ searchParams }: PageProps) {
 
   return (
     <div className="flex-1">
-      <SportTab />
       <YearFilter selectedYear={selectedYear} />
 
       <div className="column">
         <ErrorBoundary fallback={<ErrorMessage />}>
           <Suspense clientOnly>
+            <SportTab />
             <LeagueCardList year={selectedYear} />
           </Suspense>
         </ErrorBoundary>

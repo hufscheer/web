@@ -1,5 +1,7 @@
 import type { GameType } from '~/api';
 
+import type { SportType } from './leagues';
+
 export type TeamType = {
   id: number;
   name: string;
@@ -93,4 +95,4 @@ export type TeamSummaryType = {
   recentGames: GameType[];
 };
 
-export type SportType = 'SOCCER' | 'BASKETBALL';
+export type { SportType } from './leagues';

@@ -8,21 +8,21 @@ import { RecentTab } from './_components/tab';
 export default function Page() {
   return (
     <div className="flex flex-col justify-between gap-3">
-      <SportTab />
-      <div className="px-5">
-        <ErrorBoundary fallback={<ErrorMessage />}>
-          <Suspense
-            clientOnly
-            fallback={
-              <div className="flex justify-center py-12">
-                <Spinner />
-              </div>
-            }
-          >
+      <ErrorBoundary fallback={<ErrorMessage />}>
+        <Suspense
+          clientOnly
+          fallback={
+            <div className="flex justify-center py-12">
+              <Spinner />
+            </div>
+          }
+        >
+          <SportTab />
+          <div className="px-5">
             <RecentTab />
-          </Suspense>
-        </ErrorBoundary>
-      </div>
+          </div>
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 }
