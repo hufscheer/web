@@ -89,7 +89,7 @@ export const CheerTalkForm = ({
 
       <div className="center-y w-full gap-2">
         <input
-          className="w-full rounded-3xl border border-neutral-200 bg-neutral-100 px-3 py-2 text-sm font-medium"
+          className="w-full rounded-3xl border border-neutral-200 bg-neutral-100 px-3 py-2 text-base font-medium"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onFocus={onInputFocus}
