@@ -34,7 +34,7 @@ const Page = async ({ params }: Props) => {
       <div className="flex-1 overflow-y-auto">
         <ErrorBoundary fallback={<div>오류</div>}>
           <Suspense clientOnly>
-            <TimelineClient key={gameId} gameId={gameId} />
+            <TimelineClient key={gameId} leagueId={leagueId} gameId={gameId} />
           </Suspense>
         </ErrorBoundary>
       </div>

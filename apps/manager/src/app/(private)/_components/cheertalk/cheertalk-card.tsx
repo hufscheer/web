@@ -7,6 +7,7 @@ type Props = {
   cheerTalk: CheerTalkType;
   lastAccessedAt: string;
 };
+
 const CheerTalkCard = ({ cheerTalk, lastAccessedAt }: Props) => {
   const cheerTalkDate = new Date(cheerTalk.createdAt);
   const lastAccessedDate = new Date(lastAccessedAt);
