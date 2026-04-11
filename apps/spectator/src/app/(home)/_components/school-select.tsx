@@ -16,7 +16,7 @@ const SchoolSelectContent = () => {
   const [dropdownStyle, setDropdownStyle] = useState({ top: 0, left: 0, width: 0 });
 
   useEffect(() => {
-    if (organizationId === null && organizations.length > 0) {
+    if (!organizations.some((org) => org.id === organizationId) && organizations.length > 0) {
       setOrganizationId(organizations[0].id, { scroll: false, history: 'replace' });
     }
   }, [organizationId, organizations, setOrganizationId]);
@@ -44,6 +44,8 @@ const SchoolSelectContent = () => {
         ref={buttonRef}
         type="button"
         onClick={handleOpen}
+        aria-haspopup="listbox"
+        aria-expanded={open}
         className="center-y cursor-pointer gap-4 rounded-xl bg-(--color-talk) px-2 py-1 text-sm font-medium text-neutral-800"
       >
         {selectedOrg?.name ?? '학교 선택'}
@@ -58,6 +60,7 @@ const SchoolSelectContent = () => {
           <>
             <div className="fixed inset-0 z-50" onClick={() => setOpen(false)} />
             <ul
+              role="listbox"
               className="fixed z-50 overflow-hidden rounded-xl border border-neutral-100 bg-white py-1 shadow-lg"
               style={{
                 top: dropdownStyle.top,
@@ -66,7 +69,7 @@ const SchoolSelectContent = () => {
               }}
             >
               {organizations.map((org) => (
-                <li key={org.id}>
+                <li key={org.id} role="option" aria-selected={org.id === organizationId}>
                   <button
                     type="button"
                     onClick={() => handleSelect(org.id)}
@@ -93,7 +96,7 @@ const SchoolSelectContent = () => {
 };
 
 export const SchoolSelect = () => (
-  <Suspense fallback={<div className="h-7 w-24 animate-pulse rounded-md bg-neutral-100" />}>
+  <Suspense fallback={<div className="animate-pulse rounded-xl bg-neutral-100" />}>
     <SchoolSelectContent />
   </Suspense>
 );
