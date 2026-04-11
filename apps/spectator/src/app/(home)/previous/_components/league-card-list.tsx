@@ -6,6 +6,7 @@ import { ErrorBoundary, Suspense } from '@suspensive/react';
 
 import { useSuspenseLeagues } from '~/api';
 import { Skeleton } from '~/components/skeleton';
+import { useSportType } from '~/hooks/useSportType';
 
 import * as LeagueCard from './league-card';
 
@@ -14,7 +15,8 @@ interface Props {
 }
 
 export const LeagueCardList = ({ year }: Props) => {
-  const { data } = useSuspenseLeagues({ year, size: 50 });
+  const { sport } = useSportType();
+  const { data } = useSuspenseLeagues({ year, size: 50, sportType: sport });
 
   return (
     <div className="column gap-3 px-5 pb-5">
