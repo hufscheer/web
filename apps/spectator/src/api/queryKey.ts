@@ -32,7 +32,6 @@ import type {
   LeagueTopScorersPayload,
   LeagueTopScorersType,
   LeagueType,
-  SportType,
   TeamDetailPayload,
   TeamDetailType,
   TeamGamesPayload,
@@ -103,8 +102,6 @@ const teamQueryKeys = createQueryKeys('teams', {
         units.forEach((u) => params.append('units', u));
       }
 
-      if (payload.sportType) params.append('sportType', payload.sportType);
-
       return fetcher.get<TeamType[]>('teams', { searchParams: params });
     },
   }),
@@ -130,8 +127,6 @@ const teamQueryKeys = createQueryKeys('teams', {
         units.forEach((u) => params.append('units', u));
       }
 
-      if (payload.sportType) params.append('sportType', payload.sportType);
-
       return fetcher.get<TeamSummaryType[]>('teams/summary', {
         searchParams: params,
       });
@@ -148,10 +143,9 @@ const leagueQueryKeys = createQueryKeys('leagues', {
     queryKey: [payload],
     queryFn: () => fetcher.get<LeagueDetailType>(`leagues/${payload.leagueId}`),
   }),
-  recentGames: (payload?: { sportType?: SportType }) => ({
-    queryKey: ['recent-games', payload],
-    queryFn: () =>
-      fetcher.get<GameListResponse[]>(`leagues/recent/games`, { searchParams: payload }),
+  recentGames: () => ({
+    queryKey: ['recent-games'],
+    queryFn: () => fetcher.get<GameListResponse[]>(`leagues/recent/games`),
   }),
   recentSummary: (payload?: LeagueRecentSummaryPayload) => ({
     queryKey: [payload],

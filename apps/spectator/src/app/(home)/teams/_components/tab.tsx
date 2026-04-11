@@ -4,7 +4,6 @@ import { ErrorBoundary, Suspense } from '@suspensive/react';
 import { useState } from 'react';
 
 import { useSuspenseTeamsSummary } from '~/api';
-import { useSportType } from '~/hooks/useSportType';
 
 import { MatchHistory } from './match-history';
 import { ScoreList } from './score-list';
@@ -19,9 +18,7 @@ type ModalPayload = {
 
 export const TeamTab = () => {
   const { selected } = useTeamUnits();
-  const { sport } = useSportType();
-  const { data } = useSuspenseTeamsSummary({ units: selected, sportType: sport });
-  const filteredData = data.filter((team) => team.teamDetail.sportType === sport);
+  const { data } = useSuspenseTeamsSummary({ units: selected });
 
   const [modal, setModal] = useState<ModalPayload>(null);
   const open = modal !== null;
@@ -31,7 +28,7 @@ export const TeamTab = () => {
         <TeamFilter />
 
         <div className="column mb-5 gap-3 px-5">
-          {filteredData.map((team) => (
+          {data.map((team) => (
             <TeamCard key={team.teamDetail.teamId}>
               <TeamCard.Header team={team.teamDetail} />
               <TeamCard.Divider />
