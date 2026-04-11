@@ -149,7 +149,7 @@ const leagueQueryKeys = createQueryKeys('leagues', {
     queryKey: [payload],
     queryFn: () => fetcher.get<LeagueDetailType>(`leagues/${payload.leagueId}`),
   }),
-  recentGames: (payload?: { sportType?: SportType }) => ({
+  recentGames: (payload?: { sportType?: SportType; organizationId?: number }) => ({
     queryKey: ['recent-games', payload],
     queryFn: () =>
       fetcher.get<GameListResponse[]>(`leagues/recent/games`, { searchParams: payload }),

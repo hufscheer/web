@@ -13,12 +13,17 @@ import { useSuspenseLeagueCheerCount } from '~/api/queries/useLeagueCheerCount';
 import { useSuspenseLeagueRecentGames } from '~/api/queries/useLeagueRecentGames';
 import { GameCard } from '~/components/ui';
 import { routes } from '~/constants/routes';
+import { useOrganizationId } from '~/hooks/useOrganizationId';
 import { useSportType } from '~/hooks/useSportType';
 import { useTracker } from '~/hooks/useTracker';
 
 export const RecentTab = () => {
   const { sport } = useSportType();
-  const { data: recentGames } = useSuspenseLeagueRecentGames({ sportType: sport });
+  const { organizationId } = useOrganizationId();
+  const { data: recentGames } = useSuspenseLeagueRecentGames({
+    sportType: sport,
+    ...(organizationId !== null && { organizationId }),
+  });
   const displayedGame = recentGames.find((league) => league.sportType === sport);
 
   if (!displayedGame) return null;
