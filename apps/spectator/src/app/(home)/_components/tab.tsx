@@ -13,16 +13,32 @@ import { useSuspenseLeagueCheerCount } from '~/api/queries/useLeagueCheerCount';
 import { useSuspenseLeagueRecentGames } from '~/api/queries/useLeagueRecentGames';
 import { GameCard } from '~/components/ui';
 import { routes } from '~/constants/routes';
+import { useSportType } from '~/hooks/useSportType';
 import { useTracker } from '~/hooks/useTracker';
 
 export const RecentTab = () => {
-  const { data: recentGames } = useSuspenseLeagueRecentGames();
-  const displayedGame = recentGames.at(0);
+  const { sport } = useSportType();
+  const { data: recentGames } = useSuspenseLeagueRecentGames({ sportType: sport });
+  const displayedGame = recentGames.find((league) => league.sportType === sport);
 
   if (!displayedGame) return null;
 
-  const { games, leagueId, leagueName } = displayedGame;
+  return (
+    <LeagueGameList
+      leagueId={displayedGame.leagueId}
+      leagueName={displayedGame.leagueName}
+      games={displayedGame.games}
+    />
+  );
+};
 
+interface LeagueGameListProps {
+  leagueId: number;
+  leagueName: string;
+  games: GameListType[];
+}
+
+const LeagueGameList = ({ leagueId, leagueName, games }: LeagueGameListProps) => {
   const hasPlayingGames = !games.every(({ gameState }) => gameState === 'FINISHED');
   const buttonLabel = hasPlayingGames ? '응원하러 가기' : '지난 경기 보러가기';
 
@@ -38,7 +54,7 @@ export const RecentTab = () => {
   });
 
   const { data: cheerCount } = useSuspenseLeagueCheerCount(
-    { leagueId: displayedGame?.leagueId },
+    { leagueId },
     { refetchInterval: hasPlayingGames ? 10000 : false },
   );
 
