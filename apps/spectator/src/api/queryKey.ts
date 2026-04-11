@@ -103,6 +103,8 @@ const teamQueryKeys = createQueryKeys('teams', {
         units.forEach((u) => params.append('units', u));
       }
 
+      if (payload.sportType) params.append('sportType', payload.sportType);
+
       return fetcher.get<TeamType[]>('teams', { searchParams: params });
     },
   }),
@@ -127,6 +129,8 @@ const teamQueryKeys = createQueryKeys('teams', {
         const units = Array.isArray(payload.units) ? payload.units : [payload.units];
         units.forEach((u) => params.append('units', u));
       }
+
+      if (payload.sportType) params.append('sportType', payload.sportType);
 
       return fetcher.get<TeamSummaryType[]>('teams/summary', {
         searchParams: params,
