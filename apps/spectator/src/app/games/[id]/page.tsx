@@ -36,23 +36,21 @@ const Page = async ({ searchParams, params }: Props) => {
   }
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-white">
+    <div className="flex min-h-dvh flex-col bg-white">
       <Header arrow />
 
-      <div className="flex-shrink-0">
-        <Suspense clientOnly>
-          <Banner gameId={id} />
-        </Suspense>
+      <Suspense clientOnly>
+        <Banner gameId={id} />
+      </Suspense>
 
-        <Suspense clientOnly>
-          <CheerVS gameId={id} />
-        </Suspense>
+      <Suspense clientOnly>
+        <CheerVS gameId={id} />
+      </Suspense>
 
-        <hr className="h-2 w-full border-none bg-neutral-50" />
-      </div>
+      <hr className="h-2 w-full border-none bg-neutral-50" />
 
-      <Tabs.Root className="flex min-h-0 flex-1 flex-col" defaultValue={tab}>
-        <Tabs.List className="center sticky top-0 z-10 flex h-12 flex-shrink-0 gap-5 border-b border-neutral-100 bg-white">
+      <Tabs.Root className="flex flex-col" defaultValue={tab}>
+        <Tabs.List className="sticky top-0 z-10 flex h-12 flex-shrink-0 gap-5 border-b border-neutral-100 bg-white">
           <TabTrigger className="size-full" value="cheer">
             응원
           </TabTrigger>
@@ -67,27 +65,25 @@ const Page = async ({ searchParams, params }: Props) => {
           </TabTrigger>
         </Tabs.List>
 
-        <Tabs.Content
-          value="cheer"
-          className="flex min-h-0 flex-1 flex-col overflow-hidden bg-[#EBEBEB] outline-none"
-        >
+        <Tabs.Content value="cheer" className="min-h-dvh bg-[#EBEBEB] outline-none">
           <Suspense clientOnly>
             <CheerTalk gameId={id} />
           </Suspense>
         </Tabs.Content>
-        <Tabs.Content value="lineup" className="min-h-0 flex-1 overflow-y-auto outline-none">
+
+        <Tabs.Content value="lineup" className="outline-none">
           <Suspense clientOnly>
             <LineupTab gameId={id} />
           </Suspense>
         </Tabs.Content>
 
-        <Tabs.Content value="timeline" className="min-h-0 flex-1 overflow-y-auto outline-none">
+        <Tabs.Content value="timeline" className="outline-none">
           <Suspense clientOnly>
             <TimelineTab gameId={id} />
           </Suspense>
         </Tabs.Content>
 
-        <Tabs.Content value="video" className="min-h-0 flex-1 overflow-y-auto outline-none">
+        <Tabs.Content value="video" className="outline-none">
           <Suspense clientOnly>
             <VideoTab gameId={id} />
           </Suspense>
