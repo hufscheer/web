@@ -2,6 +2,7 @@
 
 import { CheckSmallIcon, KeyboardArrowDownIcon } from '@hcc/icons';
 import { startTransition, Suspense, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 import { useSuspenseOrganizations } from '~/api/queries/useOrganizations';
 import { useOrganizationId } from '~/hooks/useOrganizationId';
@@ -11,7 +12,8 @@ const SchoolSelectContent = () => {
   const { data: organizations } = useSuspenseOrganizations();
   const { organizationId, setOrganizationId } = useOrganizationId();
   const [open, setOpen] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [dropdownStyle, setDropdownStyle] = useState({ top: 0, left: 0, width: 0 });
 
   useEffect(() => {
     if (organizationId === null && organizations.length > 0) {
@@ -21,6 +23,14 @@ const SchoolSelectContent = () => {
 
   const selectedOrg = organizations.find((org) => org.id === organizationId) ?? organizations[0];
 
+  const handleOpen = () => {
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setDropdownStyle({ top: rect.bottom + 4, left: rect.left, width: rect.width });
+    }
+    setOpen((prev) => !prev);
+  };
+
   const handleSelect = (id: number) => {
     startTransition(() => {
       setOrganizationId(id, { scroll: false, history: 'replace' });
@@ -29,10 +39,11 @@ const SchoolSelectContent = () => {
   };
 
   return (
-    <div ref={containerRef} className="relative">
+    <div className="relative">
       <button
+        ref={buttonRef}
         type="button"
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={handleOpen}
         className="center-y cursor-pointer gap-4 rounded-xl bg-(--color-talk) px-2 py-1 text-sm font-medium text-neutral-800"
       >
         {selectedOrg?.name ?? '학교 선택'}
@@ -42,32 +53,41 @@ const SchoolSelectContent = () => {
         />
       </button>
 
-      {open && (
-        <>
-          <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
-          <ul className="absolute top-full left-0 z-20 mt-1 w-full overflow-hidden rounded-xl border border-neutral-100 bg-white py-1 shadow-lg">
-            {organizations.map((org) => (
-              <li key={org.id}>
-                <button
-                  type="button"
-                  onClick={() => handleSelect(org.id)}
-                  className={cn(
-                    'row-between w-full cursor-pointer px-2 py-2.5 text-sm hover:bg-neutral-50',
-                    org.id === organizationId
-                      ? 'font-semibold text-(--color-primary-600)'
-                      : 'text-neutral-700',
-                  )}
-                >
-                  {org.name}
-                  {org.id === organizationId && (
-                    <CheckSmallIcon size={16} className="text-(--color-primary-600)" />
-                  )}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+      {open &&
+        createPortal(
+          <>
+            <div className="fixed inset-0 z-50" onClick={() => setOpen(false)} />
+            <ul
+              className="fixed z-50 overflow-hidden rounded-xl border border-neutral-100 bg-white py-1 shadow-lg"
+              style={{
+                top: dropdownStyle.top,
+                left: dropdownStyle.left,
+                width: dropdownStyle.width,
+              }}
+            >
+              {organizations.map((org) => (
+                <li key={org.id}>
+                  <button
+                    type="button"
+                    onClick={() => handleSelect(org.id)}
+                    className={cn(
+                      'row-between w-full cursor-pointer px-2 py-2.5 text-sm hover:bg-neutral-50',
+                      org.id === organizationId
+                        ? 'font-semibold text-(--color-primary-600)'
+                        : 'text-neutral-700',
+                    )}
+                  >
+                    {org.name}
+                    {org.id === organizationId && (
+                      <CheckSmallIcon size={16} className="text-(--color-primary-600)" />
+                    )}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </>,
+          document.body,
+        )}
     </div>
   );
 };
