@@ -1,6 +1,7 @@
 import { ErrorBoundary, Suspense } from '@suspensive/react';
 
 import { ErrorMessage } from '../_components/error-message';
+import { SportTab } from '../_components/sport-tab';
 import { LeagueCardList } from './_components/league-card-list';
 import { YearFilter } from './_components/year-filter';
 
@@ -14,15 +15,15 @@ export default async function Page({ searchParams }: PageProps) {
 
   return (
     <div className="flex-1">
-      <YearFilter selectedYear={selectedYear} />
-
-      <div className="column">
-        <ErrorBoundary fallback={<ErrorMessage />}>
-          <Suspense clientOnly>
+      <ErrorBoundary fallback={<ErrorMessage />}>
+        <Suspense clientOnly>
+          <SportTab />
+          <YearFilter selectedYear={selectedYear} />
+          <div className="column">
             <LeagueCardList year={selectedYear} />
-          </Suspense>
-        </ErrorBoundary>
-      </div>
+          </div>
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 }

@@ -3,7 +3,8 @@
 import { HomeIcon, TrophyIcon, UsersIcon } from '@hcc/icons';
 import { Typography } from '@hcc/ui';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
 import { useTracker } from '~/hooks/useTracker';
 import { cn } from '~/utils/cn';
@@ -16,26 +17,22 @@ const NAVBAR_ITEMS = [
 
 interface Props extends React.ComponentProps<'nav'> {}
 
-export const NavigationBar = ({ 'aria-label': ariaLabel = 'Main', className, ...props }: Props) => {
+const NavItems = () => {
   const sendEvent = useTracker({ category: 'NavigationBar' });
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const sport = searchParams.get('sport');
 
   return (
-    <nav
-      aria-label={ariaLabel}
-      className={cn(
-        'fixed bottom-0 flex h-navbar-height w-full max-w-(--app-max-width) items-center justify-around gap-4 border-t border-t-greyscale-100 bg-white px-5',
-        className,
-      )}
-      {...props}
-    >
+    <>
       {NAVBAR_ITEMS.map(({ label, href, icon: Icon }) => {
         const isCurrentPath = href === '/' ? pathname === '/' : pathname.startsWith(href);
+        const hrefWithSport = sport ? { pathname: href, query: { sport } } : href;
 
         return (
           <Link
             key={href}
-            href={href}
+            href={hrefWithSport}
             aria-current={isCurrentPath ? 'page' : undefined}
             className={cn(
               'center-y flex flex-col gap-1',
@@ -48,6 +45,23 @@ export const NavigationBar = ({ 'aria-label': ariaLabel = 'Main', className, ...
           </Link>
         );
       })}
+    </>
+  );
+};
+
+export const NavigationBar = ({ 'aria-label': ariaLabel = 'Main', className, ...props }: Props) => {
+  return (
+    <nav
+      aria-label={ariaLabel}
+      className={cn(
+        'fixed bottom-0 flex h-navbar-height w-full max-w-(--app-max-width) items-center justify-around gap-4 border-t border-t-greyscale-100 bg-white px-5',
+        className,
+      )}
+      {...props}
+    >
+      <Suspense>
+        <NavItems />
+      </Suspense>
     </nav>
   );
 };
