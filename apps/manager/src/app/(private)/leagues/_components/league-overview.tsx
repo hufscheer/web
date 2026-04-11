@@ -78,7 +78,7 @@ export const LeagueOverview = () => {
               size="sm"
               color="black"
               variant="subtle"
-              onClick={() => router.push(`/${routes.cheertalks}`)}
+              onClick={() => router.push(`/${routes.league_cheertalks(league.id)}`)}
             >
               응원톡 관리
             </Button>

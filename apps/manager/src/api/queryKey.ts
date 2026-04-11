@@ -4,7 +4,9 @@ import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory'
 import type {
   CheerTalkPayload,
   CheerTalkType,
+  GameCheerTalkPayload,
   GameDetailPayload,
+  LeagueCheerTalkPayload,
   GameLineupPayload,
   GameLineupPlayingType,
   GameLineupType,
@@ -49,6 +51,18 @@ const leagueQueryKeys = createQueryKeys('leagues', {
     queryKey: [payload],
     queryFn: () =>
       fetcher.get<LeagueTeamsPlayerType[]>(`leagues/teams/${payload.leagueTeamId}/players`),
+  }),
+  cheerTalks: (payload: LeagueCheerTalkPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<CheerTalkType[]>(`leagues/${payload.leagueId}/cheer-talks`),
+  }),
+  cheerTalksBlocked: (payload: LeagueCheerTalkPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<CheerTalkType[]>(`leagues/${payload.leagueId}/cheer-talks/blocked`),
+  }),
+  cheerTalksReported: (payload: LeagueCheerTalkPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<CheerTalkType[]>(`leagues/${payload.leagueId}/cheer-talks/reported`),
   }),
 });
 
@@ -98,6 +112,18 @@ const gameQueryKeys = createQueryKeys('games', {
   lineupPlaying: (payload: GameLineupPayload) => ({
     queryKey: [payload],
     queryFn: () => fetcher.get<GameLineupPlayingType[]>(`games/${payload.gameId}/lineup/playing`),
+  }),
+  cheerTalks: (payload: GameCheerTalkPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<CheerTalkType[]>(`games/${payload.gameId}/cheer-talks`),
+  }),
+  cheerTalksBlocked: (payload: GameCheerTalkPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<CheerTalkType[]>(`games/${payload.gameId}/cheer-talks/blocked`),
+  }),
+  cheerTalksReported: (payload: GameCheerTalkPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<CheerTalkType[]>(`games/${payload.gameId}/cheer-talks/reported`),
   }),
 });
 
