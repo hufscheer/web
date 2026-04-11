@@ -1,7 +1,5 @@
 import type { GameTeamType } from '~/api';
 
-import type { SportType } from './leagues';
-
 const quarters = [
   { key: 'PRE_GAME', label: '경기전' },
   { key: 'FIRST_HALF', label: '전반전' },
@@ -55,7 +53,6 @@ export type GameListResponse = {
   leagueId: number;
   leagueName: string;
   leagueProgress: 'BEFORE_START' | 'IN_PROGRESS' | 'FINISHED';
-  sportType: SportType;
   games: GameListType[];
 };
 
