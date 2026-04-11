@@ -1,9 +1,10 @@
 import { getFetcher } from '@hcc/api-base';
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
 
-import type { TimelinePayload, TimelineType } from '~/api/types/timelines';
-
 import type {
+  OrganizationType,
+  TimelinePayload,
+  TimelineType,
   CheerTalkPayload,
   CheerTalkType,
   GameCheerPayload,
@@ -179,4 +180,16 @@ const leagueQueryKeys = createQueryKeys('leagues', {
   }),
 });
 
-export const queryKeys = mergeQueryKeys(gameQueryKeys, teamQueryKeys, leagueQueryKeys);
+const organizationQueryKeys = createQueryKeys('organizations', {
+  list: {
+    queryKey: null,
+    queryFn: () => fetcher.get<OrganizationType[]>('organizations'),
+  },
+});
+
+export const queryKeys = mergeQueryKeys(
+  gameQueryKeys,
+  teamQueryKeys,
+  leagueQueryKeys,
+  organizationQueryKeys,
+);

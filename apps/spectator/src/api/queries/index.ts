@@ -1,5 +1,6 @@
 export * from './useGame';
 export * from './useGameCheer';
+export * from './useOrganizations';
 export * from './useGameLineup';
 export * from './useGameLineupPlaying';
 export * from './useGames';
