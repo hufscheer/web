@@ -23,12 +23,12 @@ export const SportTab = () => {
 
   return (
     <Tabs.Root value={sport} onValueChange={handleChange}>
-      <Tabs.List className="flex gap-1 border-b border-neutral-100 px-8">
+      <Tabs.List className="flex items-center justify-center gap-1 border-b border-neutral-100 px-8">
         {SPORT_TABS.map(({ value, label, emoji }) => (
           <Tabs.Trigger
             key={value}
             value={value}
-            className="flex cursor-pointer items-center gap-1.5 border-b-1 px-4 py-3 text-sm font-semibold transition-colors duration-150 data-[state=active]:border-(--color-primary-600) data-[state=active]:text-(--color-primary-600) data-[state=inactive]:border-transparent data-[state=inactive]:text-(--color-greyscale-300)"
+            className="flex w-100 cursor-pointer justify-center gap-1.5 border-b-1 px-4 py-3 text-sm font-semibold transition-colors duration-150 data-[state=active]:border-(--color-primary-600) data-[state=active]:text-(--color-primary-600) data-[state=inactive]:border-transparent data-[state=inactive]:text-(--color-greyscale-300)"
           >
             <span>{emoji}</span>
             {label}
