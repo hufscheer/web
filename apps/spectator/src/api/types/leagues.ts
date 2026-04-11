@@ -1,7 +1,5 @@
 import type { TeamUnitType, TopScorerType } from './teams';
 
-export type SportType = 'SOCCER' | 'BASKETBALL';
-
 export type LeagueType = {
   leagueId: number;
   name: string;
@@ -15,7 +13,6 @@ export type LeagueListPayload = {
   leagueProgress?: 'BEFORE_START' | 'IN_PROGRESS' | 'FINISHED';
   cursor?: number;
   size?: number;
-  sportType?: SportType;
 };
 
 export type LeagueDetailPayload = {

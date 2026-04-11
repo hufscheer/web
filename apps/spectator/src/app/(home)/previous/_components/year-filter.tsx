@@ -1,7 +1,4 @@
-'use client';
-
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 
 import { FilterBadge } from '~/components/ui';
 
@@ -13,8 +10,6 @@ interface Props {
 
 export const YearFilter = ({ selectedYear }: Props) => {
   const currentYear = new Date().getFullYear();
-  const searchParams = useSearchParams();
-  const sport = searchParams.get('sport');
 
   const years = Array.from(
     { length: currentYear - SERVICE_START_YEAR + 1 },
@@ -28,7 +23,7 @@ export const YearFilter = ({ selectedYear }: Props) => {
           return (
             <div key={_year} className="flex shrink-0 items-center gap-2">
               <FilterBadge
-                render={<Link href={{ query: { year: _year, ...(sport && { sport }) } }} />}
+                render={<Link href={{ query: { year: _year } }} />}
                 isActive={selectedYear === _year}
               >
                 {_year}
