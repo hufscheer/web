@@ -3,6 +3,8 @@
 import { ErrorBoundary, Suspense } from '@suspensive/react';
 import { useState } from 'react';
 
+import type { TeamUnitType } from '~/api/types/teams';
+
 import { useSuspenseTeamsSummary } from '~/api';
 import { useSportType } from '~/hooks/useSportType';
 
@@ -20,7 +22,7 @@ type ModalPayload = {
 export const TeamTab = () => {
   const { selected } = useTeamUnits();
   const { sport } = useSportType();
-  const { data } = useSuspenseTeamsSummary({ units: selected, sportType: sport });
+  const { data } = useSuspenseTeamsSummary({ units: selected as TeamUnitType[], sportType: sport });
   const filteredData = data.filter((team) => team.teamDetail.sportType === sport);
 
   const [modal, setModal] = useState<ModalPayload>(null);
