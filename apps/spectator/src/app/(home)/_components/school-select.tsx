@@ -1,6 +1,7 @@
 'use client';
 
 import { CheckSmallIcon, KeyboardArrowDownIcon } from '@hcc/icons';
+import { ErrorBoundary } from '@suspensive/react';
 import { startTransition, Suspense, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -95,8 +96,21 @@ const SchoolSelectContent = () => {
   );
 };
 
+const DEFAULT_ORGANIZATION_ID = 1;
+const SchoolSelectErrorFallback = () => {
+  const { setOrganizationId } = useOrganizationId();
+
+  useEffect(() => {
+    setOrganizationId(DEFAULT_ORGANIZATION_ID, { scroll: false, history: 'replace' });
+  }, [setOrganizationId]);
+
+  return null;
+};
+
 export const SchoolSelect = () => (
-  <Suspense fallback={<div className="animate-pulse rounded-xl bg-neutral-100" />}>
-    <SchoolSelectContent />
-  </Suspense>
+  <ErrorBoundary fallback={<SchoolSelectErrorFallback />}>
+    <Suspense fallback={<div className="animate-pulse rounded-xl bg-neutral-100" />}>
+      <SchoolSelectContent />
+    </Suspense>
+  </ErrorBoundary>
 );
