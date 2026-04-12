@@ -10,10 +10,10 @@ import { SchoolSelect } from './_components/school-select';
 
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
-    <div className="relative">
+    <div className="relative flex min-h-svh flex-col">
       <Header center={<SchoolSelect />} menu={<CalendarMenu />} />
 
-      <div className="pb-navbar-height">{children}</div>
+      <div className="flex flex-1 flex-col pb-navbar-height">{children}</div>
 
       <NavigationBar />
     </div>
