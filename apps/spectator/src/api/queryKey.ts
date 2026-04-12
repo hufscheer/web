@@ -41,6 +41,8 @@ import type {
   TeamPlayerType,
   TeamSummaryType,
   TeamType,
+  TeamUnitAvailabilityType,
+  TeamUnitsPayload,
 } from './types';
 
 const apiBaseUrl = process.env.API_BASE_URL ?? '/api';
@@ -137,6 +139,11 @@ const teamQueryKeys = createQueryKeys('teams', {
         searchParams: params,
       });
     },
+  }),
+  units: (payload: TeamUnitsPayload) => ({
+    queryKey: [payload],
+    queryFn: () =>
+      fetcher.get<TeamUnitAvailabilityType[]>('teams/units', { searchParams: payload }),
   }),
 });
 

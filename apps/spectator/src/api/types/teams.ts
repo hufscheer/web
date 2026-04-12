@@ -97,4 +97,14 @@ export type TeamSummaryType = {
   recentGames: GameType[];
 };
 
+export type TeamUnitsPayload = {
+  sportType: SportType;
+};
+
+export type TeamUnitAvailabilityType = {
+  unit: string;
+  unitName: string;
+  hasTeam: boolean;
+};
+
 export type { SportType } from './leagues';
