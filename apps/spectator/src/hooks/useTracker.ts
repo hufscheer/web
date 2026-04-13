@@ -7,5 +7,6 @@ type GAEventParams = {
 };
 
 export const useTracker = ({ category }: TrackerParams) => {
-  return (...value: GAEventParams[]) => sendGAEvent({ category, events: value });
+  return ({ action, value }: GAEventParams) =>
+    sendGAEvent('event', `${category} ${action}`, { value });
 };
