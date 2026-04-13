@@ -29,7 +29,14 @@ export const Select = <T extends string | number>({
   const selectedOption = options.find((opt) => opt.value === value);
 
   return (
-    <BaseSelect.Root value={value} onValueChange={onChange}>
+    <BaseSelect.Root
+      value={value}
+      onValueChange={(nextValue) => {
+        if (nextValue !== null) {
+          onChange(nextValue);
+        }
+      }}
+    >
       <BaseSelect.Trigger
         className={twMerge(
           'center-y cursor-pointer gap-4 rounded-xl bg-(--color-talk) px-2 py-1 text-sm font-medium text-neutral-800',
