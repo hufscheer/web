@@ -8,6 +8,7 @@ import type { TeamUnitType } from '~/api/types/teams';
 import { useSuspenseTeamsSummary } from '~/api';
 import { useSportType } from '~/hooks/useSportType';
 
+import { EmptyTeam } from './empty-team';
 import { MatchHistory } from './match-history';
 import { ScoreList } from './score-list';
 import { ScorersModal } from './score-modal';
@@ -29,10 +30,15 @@ export const TeamTab = () => {
   const open = modal !== null;
   return (
     <>
-      <div className="column">
+      <div className="column flex-1">
         <TeamFilter />
 
-        <div className="column mb-5 gap-3 px-5">
+        <div
+          className={
+            filteredData.length === 0 ? 'flex flex-1 flex-col px-5' : 'column mb-5 gap-3 px-5'
+          }
+        >
+          {filteredData.length === 0 && <EmptyTeam />}
           {filteredData.map((team) => (
             <TeamCard key={team.teamDetail.teamId}>
               <TeamCard.Header team={team.teamDetail} />
