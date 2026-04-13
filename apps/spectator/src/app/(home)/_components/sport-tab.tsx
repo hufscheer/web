@@ -16,8 +16,8 @@ export const SportTab = () => {
   const { sport, setSport } = useSportType();
 
   const handleChange = (value: string) => {
-    startTransition(() => {
-      setSport(value as SportType, { scroll: false, history: 'replace' });
+    startTransition(async () => {
+      await setSport(value as SportType, { scroll: false, history: 'replace' });
     });
   };
 

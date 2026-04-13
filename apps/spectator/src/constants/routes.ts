@@ -1,3 +1,7 @@
+import type { SportType } from '~/api';
+
+type GamesRouteParams = { id: number; sport: SportType };
+
 export const routes = {
   home: '',
   calendar: 'calendar',
@@ -6,7 +10,7 @@ export const routes = {
   team: (id: number) => `teams/${id}`,
 
   games: 'games',
-  game: (id: number) => `games/${id}`,
+  game: ({ id, sport }: GamesRouteParams) => `games/${sport.toLocaleLowerCase()}/${id}`,
 
   leagues: 'leagues',
   league: (id: number) => `leagues/${id}`,

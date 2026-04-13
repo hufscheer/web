@@ -35,6 +35,7 @@ const GameListContent = ({
     );
     return sortedGames.map((game, index) => {
       if (game.gameTeams.length < 2) return null;
+      const link = routes.game({ id: game.id, sport: league.sportType });
 
       return (
         <Fragment key={game.id}>
@@ -43,7 +44,7 @@ const GameListContent = ({
               <GameCard.Header state={state} />
 
               <div className="flex gap-4">
-                <Link href={`/${routes.game(game.id)}`} className="column flex-1 gap-2">
+                <Link href={link} className="column flex-1 gap-2">
                   <GameCard.Team index={1} />
                   <GameCard.Team index={2} />
                 </Link>
@@ -51,8 +52,8 @@ const GameListContent = ({
                 <div role="separator" className="w-px bg-gray-100" />
 
                 <GameCard.Actions
-                  onBroadcastClick={() => router.push(`/${routes.game(game.id)}`)}
-                  onCheerClick={() => router.push(`/${routes.game(game.id)}?cheer=1`)}
+                  onBroadcastClick={() => router.push(link)}
+                  onCheerClick={() => router.push(`/${link}?cheer=1`)}
                 />
               </div>
             </GameCard.Container>

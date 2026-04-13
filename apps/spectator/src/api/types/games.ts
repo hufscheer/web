@@ -68,6 +68,24 @@ export type GameCheerType = {
   cheerCount: number;
 };
 
+export type QuarterType =
+  | 'FIRST_QUARTER'
+  | 'SECOND_QUARTER'
+  | 'THIRD_QUARTER'
+  | 'FOURTH_QUARTER'
+  | 'OVERTIME';
+
+export type ScoreType = {
+  gameTeamId: number;
+  score: number;
+};
+
+export type GameQuarterScoresType = {
+  quarter: QuarterType;
+  displayName: string;
+  scores: ScoreType[];
+}[];
+
 export type GameLineupPayload = { gameId: number };
 
 export type GameTeamPlayerType = {
