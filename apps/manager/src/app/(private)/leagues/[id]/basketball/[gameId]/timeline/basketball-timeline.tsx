@@ -36,7 +36,7 @@ export const BasketballTimeline = ({ gameId }: Props) => {
     );
   }
 
-  const homeTeamId: number = game.gameTeams?.[0]?.gameTeamId;
+  const homeTeamId = game.gameTeams?.[0]?.gameTeamId;
   const activeTimeline = visibleQuarters.find((t) => t.gameQuarter.key === activeQuarterKey);
 
   // 쿼터별 점수 계산 (마지막 득점 이벤트의 snapshot 사용)
