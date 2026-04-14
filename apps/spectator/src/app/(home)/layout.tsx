@@ -13,7 +13,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
     <div className="relative">
       <Header center={<SchoolSelect />} menu={<CalendarMenu />} />
 
-      <div className="pb-navbar-height">{children}</div>
+      <div className="flex flex-1 flex-col pb-navbar-height">{children}</div>
 
       <NavigationBar />
     </div>

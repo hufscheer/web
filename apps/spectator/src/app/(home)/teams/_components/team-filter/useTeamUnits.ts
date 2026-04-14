@@ -1,17 +1,12 @@
 import { parseAsArrayOf, parseAsString, useQueryState } from 'nuqs';
 import { startTransition, useMemo } from 'react';
 
-import { TEAM_UNIT_LIST, type TeamUnitType } from '~/api';
-
 export const useTeamUnits = () => {
   const [units, setUnits] = useQueryState('units', parseAsArrayOf(parseAsString).withDefault([]));
 
-  const selected = useMemo(
-    () => units.filter((u) => TEAM_UNIT_LIST.includes(u as TeamUnitType)) as TeamUnitType[],
-    [units],
-  );
+  const selected = useMemo(() => units.filter(Boolean), [units]);
 
-  const toggle = (unit: TeamUnitType | null) => {
+  const toggle = (unit: string | null) => {
     if (unit === null) {
       startTransition(() => {
         setUnits([], { scroll: false, history: 'replace' });
@@ -29,9 +24,15 @@ export const useTeamUnits = () => {
 
   const clear = () => setUnits([], { scroll: false, history: 'replace' });
 
+  const filterUnits = (keep: string[]) =>
+    startTransition(() => {
+      setUnits(keep, { scroll: false, history: 'replace' });
+    });
+
   return {
     selected,
     toggle,
     clear,
+    filterUnits,
   };
 };

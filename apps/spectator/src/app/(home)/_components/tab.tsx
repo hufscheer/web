@@ -17,6 +17,8 @@ import { useOrganizationId } from '~/hooks/useOrganizationId';
 import { useSportType } from '~/hooks/useSportType';
 import { useTracker } from '~/hooks/useTracker';
 
+import { EmptyLeague } from './empty-league';
+
 export const RecentTab = () => {
   const { sport } = useSportType();
   const { organizationId } = useOrganizationId();
@@ -26,7 +28,7 @@ export const RecentTab = () => {
   });
   const displayedGame = recentGames.find((league) => league.sportType === sport);
 
-  if (!displayedGame) return null;
+  if (!displayedGame) return <EmptyLeague />;
 
   return (
     <LeagueGameList

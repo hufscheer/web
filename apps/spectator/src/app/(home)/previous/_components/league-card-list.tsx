@@ -9,6 +9,7 @@ import { Skeleton } from '~/components/skeleton';
 import { useOrganizationId } from '~/hooks/useOrganizationId';
 import { useSportType } from '~/hooks/useSportType';
 
+import { EmptyLeague } from '../../_components/empty-league';
 import * as LeagueCard from './league-card';
 
 interface Props {
@@ -26,7 +27,7 @@ export const LeagueCardList = ({ year }: Props) => {
   });
 
   return (
-    <div className="column gap-3 px-5 pb-5">
+    <div className="column gap-3 pb-5">
       {data.map((league) => (
         <LeagueCard.Root league={league} key={league.leagueId}>
           <LeagueCard.Header />

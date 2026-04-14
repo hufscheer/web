@@ -14,5 +14,6 @@ export * from './useLeagueTeams';
 export * from './useLeagueTopScorers';
 export * from './useTeam';
 export * from './useTeamGames';
+export * from './useTeamUnitAvailability';
 export * from './useTeams';
 export * from './useTeamsSummary';
