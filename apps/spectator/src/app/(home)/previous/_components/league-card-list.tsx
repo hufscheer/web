@@ -26,8 +26,6 @@ export const LeagueCardList = ({ year }: Props) => {
     ...(organizationId !== null && { organizationId }),
   });
 
-  if (data.length === 0) return <EmptyLeague />;
-
   return (
     <div className="column gap-3 pb-5">
       {data.map((league) => (
