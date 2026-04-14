@@ -1,16 +1,17 @@
 import { colors, Typography } from '@hcc/ui';
 import { twMerge } from 'tailwind-merge';
 
-import type { TimelineRecordType } from '~/api';
+import type { SportType, TimelineRecordType } from '~/api';
 
 import { getRecordIcon, getRecordSubtitle, getRecordTitle } from './_utils';
 
 type Props = {
   record: TimelineRecordType;
   homeTeamId: number;
+  sportType: SportType;
 };
 
-export const EventRecord = ({ record, homeTeamId }: Props) => {
+export const EventRecord = ({ record, homeTeamId, sportType }: Props) => {
   const isAway = record.gameTeamId !== homeTeamId;
 
   return (
@@ -25,13 +26,13 @@ export const EventRecord = ({ record, homeTeamId }: Props) => {
       >
         {record.type === 'PK' ? 'P.S' : `${record.recordedAt}'`}
       </Typography>
-      {getRecordIcon(record)}
+      {getRecordIcon(record, sportType)}
       <div className="column gap-1">
         <Typography color={colors.neutral900} fontSize={14} weight="medium" lineHeight="none">
           {getRecordTitle(record)}
         </Typography>
         <Typography color={colors.neutral500} fontSize={12} weight="medium" lineHeight="none">
-          {getRecordSubtitle(record)}
+          {getRecordSubtitle(record, sportType)}
         </Typography>
       </div>
       <div
