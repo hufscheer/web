@@ -19,11 +19,13 @@ export type ScoreRecordType = {
   scoreRecordId: number;
   score: number;
   snapshot: ScoreSnapshotType[];
+  assistPlayerName: string | null;
 };
 
 export type ReplacementRecordType = {
   replacementRecordId: number;
   replacedPlayerName: string;
+  isFoulOut: boolean | null;
 };
 
 export type ProgressRecordType = {
@@ -42,8 +44,10 @@ type CommonTimelineRecordFields = {
 export const RecordType = {
   SCORE: 'SCORE',
   REPLACEMENT: 'REPLACEMENT',
+  BASKETBALL_REPLACEMENT: 'BASKETBALL_REPLACEMENT',
   PROGRESS: 'GAME_PROGRESS',
   PK: 'PK',
+  WARNING_CARD: 'WARNING_CARD',
 } as const;
 
 export type PkRecordType = {
@@ -51,13 +55,18 @@ export type PkRecordType = {
   isSuccess: boolean;
 };
 
+export type WarningCardRecordType = {
+  warningCardType: 'YELLOW' | 'RED';
+};
+
 export type TimelineRecordType =
   | (CommonTimelineRecordFields & {
       type: typeof RecordType.SCORE;
-      scoreRecord: ScoreRecordType[];
+      scoreRecord: ScoreRecordType;
       replacementRecord: undefined;
       progressRecord: undefined;
       pkRecord: undefined;
+      warningCardRecord: undefined;
     })
   | (CommonTimelineRecordFields & {
       type: typeof RecordType.REPLACEMENT;
@@ -65,6 +74,15 @@ export type TimelineRecordType =
       replacementRecord: ReplacementRecordType;
       progressRecord: undefined;
       pkRecord: undefined;
+      warningCardRecord: undefined;
+    })
+  | (CommonTimelineRecordFields & {
+      type: typeof RecordType.BASKETBALL_REPLACEMENT;
+      scoreRecord: undefined;
+      replacementRecord: ReplacementRecordType;
+      progressRecord: undefined;
+      pkRecord: undefined;
+      warningCardRecord: undefined;
     })
   | (CommonTimelineRecordFields & {
       type: typeof RecordType.PROGRESS;
@@ -72,6 +90,7 @@ export type TimelineRecordType =
       replacementRecord: undefined;
       progressRecord: ProgressRecordType;
       pkRecord: undefined;
+      warningCardRecord: undefined;
     })
   | (CommonTimelineRecordFields & {
       type: typeof RecordType.PK;
@@ -79,6 +98,15 @@ export type TimelineRecordType =
       replacementRecord: undefined;
       progressRecord: undefined;
       pkRecord: PkRecordType;
+      warningCardRecord: undefined;
+    })
+  | (CommonTimelineRecordFields & {
+      type: typeof RecordType.WARNING_CARD;
+      scoreRecord: undefined;
+      replacementRecord: undefined;
+      progressRecord: undefined;
+      pkRecord: undefined;
+      warningCardRecord: WarningCardRecordType;
     });
 
 export type TimelinePayload = {
