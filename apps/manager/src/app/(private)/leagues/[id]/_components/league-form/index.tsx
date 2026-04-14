@@ -49,7 +49,7 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
       startAt: formData.startAt.toISOString(),
       endAt: formData.endAt.toISOString(),
       teamIds,
-      sportType: initialData?.sportType ?? 'SOCCER',
+      sportType: formData.sportType ?? 'SOCCER',
     };
 
     onSubmit(payload);
@@ -81,7 +81,7 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
                   maxRound: formData.maxRound ?? 0,
                   startAt: formData.startAt?.toISOString() ?? '',
                   endAt: formData.endAt?.toISOString() ?? '',
-                  sportType: initialData?.sportType ?? 'SOCCER',
+                  sportType: formData?.sportType ?? 'SOCCER',
                 }}
                 initialTeams={initialTeams}
                 onSubmit={handleUpdate}
