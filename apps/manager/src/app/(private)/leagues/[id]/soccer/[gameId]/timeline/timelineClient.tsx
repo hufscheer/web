@@ -4,15 +4,20 @@ import { Spinner } from '@hcc/ui';
 import { lazy, Suspense, useCallback, useMemo, useState } from 'react';
 import { Drawer } from 'vaul';
 
-import { Timeline } from '../../_components/timeline';
-import { BottomButton, type BottomSheetType } from '../../_components/timeline-tab/bottom-button';
+import { Timeline } from '../../../_components/timeline';
+import {
+  BottomButton,
+  type BottomSheetType,
+} from '../../../_components/timeline-tab/bottom-button';
 
-const AddScoreSheet = lazy(() => import('../../_components/timeline-tab/sheets/AddScoreSheet'));
+const AddScoreSheet = lazy(() => import('../../../_components/timeline-tab/sheets/AddScoreSheet'));
 const StatusChangeSheet = lazy(
-  () => import('../../_components/timeline-tab/sheets/StatusChangeSheet'),
+  () => import('../../../_components/timeline-tab/sheets/StatusChangeSheet'),
 );
-const SubstituteSheet = lazy(() => import('../../_components/timeline-tab/sheets/SubstituteSheet'));
-const WarningSheet = lazy(() => import('../../_components/timeline-tab/sheets/WarningSheet'));
+const SubstituteSheet = lazy(
+  () => import('../../../_components/timeline-tab/sheets/SubstituteSheet'),
+);
+const WarningSheet = lazy(() => import('../../../_components/timeline-tab/sheets/WarningSheet'));
 
 export default function TimelineClient({ leagueId, gameId }: { leagueId: number; gameId: number }) {
   const [activeSheet, setActiveSheet] = useState<BottomSheetType | null>(null);
@@ -46,7 +51,12 @@ export default function TimelineClient({ leagueId, gameId }: { leagueId: number;
     <>
       <div className="flex h-full flex-col justify-between bg-white">
         <Timeline gameId={gameId} />
-        <BottomButton leagueId={leagueId} gameId={gameId} onOpen={setActiveSheet} />
+        <BottomButton
+          leagueId={leagueId}
+          gameId={gameId}
+          sportType="SOCCER"
+          onOpen={setActiveSheet}
+        />
       </div>
       <Drawer.Root
         open={activeSheet !== null}
