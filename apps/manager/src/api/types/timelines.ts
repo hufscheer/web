@@ -1,4 +1,5 @@
 import type { GameQuarterType } from './games';
+import type { SportType } from './leagues';
 
 export const PROGRESS_TYPE = {
   GAME_START: 'GAME_START',
@@ -26,10 +27,12 @@ export type ScoreType = {
   recordedAt: number;
   gameTeamId: number;
   scoreLineupPlayerId: number;
+  sportType: SportType;
 };
 
 export type ReplacementType = {
   gameId?: number;
+  sportType: SportType;
   recordedQuarter: QuarterType;
   recordedAt: number;
   gameTeamId: number;
@@ -39,6 +42,7 @@ export type ReplacementType = {
 
 export type ProgressStateType = {
   gameId?: number;
+  sportType: SportType;
   recordedQuarter: QuarterType;
   recordedAt: number;
   gameProgressType: ProgressType;
@@ -46,6 +50,7 @@ export type ProgressStateType = {
 
 export type PkType = {
   gameId: number;
+  sportType: SportType;
   recordedQuarter: QuarterType;
   recordedAt: number;
   gameTeamId: number;
