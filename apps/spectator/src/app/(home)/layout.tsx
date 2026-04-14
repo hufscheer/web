@@ -6,13 +6,14 @@ import { Header } from '~/components/layout';
 
 import { CalendarMenu } from './_components/calendar-menu';
 import { NavigationBar } from './_components/navigation-bar';
+import { SchoolSelect } from './_components/school-select';
 
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <div className="relative">
-      <Header menu={<CalendarMenu />} />
+      <Header center={<SchoolSelect />} menu={<CalendarMenu />} />
 
-      <div className="pb-navbar-height">{children}</div>
+      <div className="flex flex-1 flex-col pb-navbar-height">{children}</div>
 
       <NavigationBar />
     </div>

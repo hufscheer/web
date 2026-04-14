@@ -7,7 +7,7 @@ import { RecentTab } from './_components/tab';
 
 export default function Page() {
   return (
-    <div className="flex flex-col justify-between gap-3">
+    <div className="flex flex-1 flex-col justify-between gap-3">
       <ErrorBoundary fallback={<ErrorMessage />}>
         <Suspense
           clientOnly
@@ -18,7 +18,7 @@ export default function Page() {
           }
         >
           <SportTab />
-          <div className="px-5">
+          <div className="flex flex-1 px-5">
             <RecentTab />
           </div>
         </Suspense>

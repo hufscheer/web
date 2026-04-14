@@ -12,14 +12,14 @@ const Page = async ({ params }: Props) => {
   const { id: _id } = await params;
   const id = Number(_id);
   return (
-    <>
+    <div className="flex min-h-svh flex-col">
       <Header arrow />
-      <div className="column-between w-full">
+      <div className="flex flex-1 flex-col">
         <Suspense clientOnly>
           <TeamInfo id={id} />
         </Suspense>
       </div>
-    </>
+    </div>
   );
 };
 

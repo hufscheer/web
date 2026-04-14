@@ -16,6 +16,7 @@ export type LeagueListPayload = {
   cursor?: number;
   size?: number;
   sportType?: SportType;
+  organizationId?: number;
 };
 
 export type LeagueDetailPayload = {
