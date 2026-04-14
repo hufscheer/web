@@ -2,7 +2,9 @@
 
 import { Button } from '@hcc/ui';
 
-export default function BasketballFoulSheet() {
+type Props = { leagueId: number; gameId: number; onClose: () => void };
+
+export default function BasketballFoulSheet(_: Props) {
   return (
     <div className="flex h-full flex-col gap-4 bg-white p-5">
       <div className="text-base font-medium text-black">상황</div>
