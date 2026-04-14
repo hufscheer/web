@@ -70,6 +70,7 @@ export type WarningType = {
   gameTeamId: number;
   warnedLineupPlayerId: number;
   cardType: CardType;
+  sportType: SportType;
 };
 
 type ScoreSnapshotType = {

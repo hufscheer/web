@@ -30,6 +30,7 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
     startAt: initialData?.startAt ? new Date(initialData.startAt) : undefined,
     endAt: initialData?.endAt ? new Date(initialData.endAt) : undefined,
     maxRound: initialData?.maxRound,
+    sportType: initialData?.sportType ?? 'SOCCER',
   });
   const handleFormChange = (patch: Partial<LeagueInfoForm>) => {
     setFormData((prev) => ({
@@ -48,6 +49,7 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
       startAt: formData.startAt.toISOString(),
       endAt: formData.endAt.toISOString(),
       teamIds,
+      sportType: initialData?.sportType ?? 'SOCCER',
     };
 
     onSubmit(payload);
@@ -79,6 +81,7 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
                   maxRound: formData.maxRound ?? 0,
                   startAt: formData.startAt?.toISOString() ?? '',
                   endAt: formData.endAt?.toISOString() ?? '',
+                  sportType: initialData?.sportType ?? 'SOCCER',
                 }}
                 initialTeams={initialTeams}
                 onSubmit={handleUpdate}

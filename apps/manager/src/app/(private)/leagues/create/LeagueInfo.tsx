@@ -3,6 +3,8 @@
 import { Button, Input } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 
+import type { SportType } from '~/api/types';
+
 import { InputDate } from '~/components/ui/input-date';
 import { InputSelect } from '~/components/ui/input-select';
 
@@ -11,6 +13,7 @@ export type LeagueInfoForm = {
   startAt?: Date;
   endAt?: Date;
   maxRound?: number | undefined;
+  sportType: SportType;
 };
 
 const ROUND_SIZES = [32, 16, 8, 4, 2];
@@ -32,6 +35,16 @@ const LeagueInfo = ({ form, onChange, onNext, isFormValid }: LeagueInfoProps) =>
     <div className="column h-full gap-1.5 bg-white p-5">
       <Suspense clientOnly>
         <div className="flex flex-col gap-4">
+          <div className="text-lg font-semibold text-black">대회 구분</div>
+          <InputSelect
+            options={[
+              { value: 'SOCCER', label: '축구' },
+              { value: 'BASKETBALL', label: '농구' },
+            ]}
+            label="대회 구분"
+            value={form.sportType}
+            onValueChange={(v) => onChange({ sportType: v as SportType })}
+          />
           <div className="text-lg font-semibold text-black">대회 정보</div>
           <Input
             name="name"

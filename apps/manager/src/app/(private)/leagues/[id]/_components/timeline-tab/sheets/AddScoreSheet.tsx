@@ -8,6 +8,7 @@ import type { ScoreType } from '~/api/types';
 import { useCreateTimelinePK } from '~/api/mutations/useCreateTimelinePK';
 import { useCreateTimelineScore } from '~/api/mutations/useCreateTimelineScore';
 import { useSuspenseGameLineupPlaying } from '~/api/queries/useGameLineupPlaying';
+import { useSuspenseLeague } from '~/api/queries/useLeague';
 import { QUARTER_TYPE } from '~/api/types';
 import { InputSelect } from '~/components/ui/input-select';
 
@@ -30,12 +31,16 @@ const SUCCESS_OPTIONS: SelectOption[] = [
 ];
 
 export default function AddScoreSheet({
+  leagueId,
   gameId,
   onClose,
 }: {
+  leagueId: number;
   gameId: number;
   onClose: () => void;
 }) {
+  const { data: league } = useSuspenseLeague({ leagueId });
+  const sportType = league.sportType;
   const { mutate: createScore, isPending: isScorePending } = useCreateTimelineScore({
     gameId,
   });
@@ -100,6 +105,7 @@ export default function AddScoreSheet({
         recordedAt: 0,
         scorerId: Number(player.value),
         isSuccess: isSuccess.value === 'true',
+        sportType,
       };
 
       createPK(pkRequest, {
@@ -117,6 +123,7 @@ export default function AddScoreSheet({
         ...commonData,
         recordedAt: Number(minute),
         scoreLineupPlayerId: Number(player.value),
+        sportType,
       };
 
       createScore(scoreRequest, {
