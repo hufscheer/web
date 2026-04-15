@@ -5,6 +5,7 @@ import Link from 'next/link';
 import type { GameType } from '~/api';
 
 import { routes } from '~/constants/routes';
+import { useSportType } from '~/hooks/useSportType';
 
 interface MatchHistoryProps {
   games: GameType[];
@@ -13,6 +14,8 @@ interface MatchHistoryProps {
 }
 
 export const MatchHistory = ({ games, teamName, limit = 3 }: MatchHistoryProps) => {
+  const { sport } = useSportType();
+
   return (
     <div className="column mt-2 gap-1.5">
       {games.slice(0, limit).map((game) => {
@@ -26,7 +29,7 @@ export const MatchHistory = ({ games, teamName, limit = 3 }: MatchHistoryProps) 
         return (
           <Link
             key={game.gameId}
-            href={`/${routes.game(game.gameId)}`}
+            href={routes.game({ id: game.gameId, sport })}
             className="center-y gap-1.5 rounded-sm transition-colors duration-150 hover:bg-neutral-100"
           >
             <div className="center-y gap-0.5 overflow-hidden">

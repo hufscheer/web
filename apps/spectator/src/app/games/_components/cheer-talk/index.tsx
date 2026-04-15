@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 
-import type { CheerTalkType, GameCheerTalkWithTeamInfo } from '~/api';
+import type { CheerTalkType, GameCheerTalkWithTeamInfo, SportType } from '~/api';
 
 import useSocket from '~/hooks/useSocket';
 
@@ -13,9 +13,10 @@ import { useSuspenseGameTeamInfo } from './useGameTeamInfo';
 
 type Props = {
   gameId: number;
+  sportType: SportType;
 };
 
-export const CheerTalk = ({ gameId }: Props) => {
+export const CheerTalk = ({ gameId, sportType }: Props) => {
   const [socketTalkList, setSocketTalkList] = useState<GameCheerTalkWithTeamInfo[]>([]);
   const { getTeamInfo } = useSuspenseGameTeamInfo(gameId);
 
@@ -41,7 +42,7 @@ export const CheerTalk = ({ gameId }: Props) => {
   return (
     <div className="flex flex-col">
       <div className="flex-shrink-0">
-        <CheerTalkTimeline gameId={gameId} />
+        <CheerTalkTimeline gameId={gameId} sportType={sportType} />
       </div>
 
       <CheerTalkList

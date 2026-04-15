@@ -36,7 +36,7 @@ interface TeamCardHeaderProps extends ComponentProps<'a'> {
 const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
   return (
     <Link
-      href={`/${routes.team(team.teamId)}`}
+      href={routes.team(team.teamId)}
       className={twMerge('row-between gap-2', className)}
       {...props}
     >

@@ -2,16 +2,17 @@ import * as Tabs from '@radix-ui/react-tabs';
 import { Suspense } from '@suspensive/react';
 import { redirect } from 'next/navigation';
 
-import { CheerVS } from '~/app/games/[id]/_components/cheer-vs';
-import { LineupTab } from '~/app/games/[id]/_components/lineup-tab';
-import { TimelineTab } from '~/app/games/[id]/_components/timeline-tab';
-import { VideoTab } from '~/app/games/[id]/_components/video-tab';
+import { CheerVS } from '~/app/games/_components/cheer-vs';
+import { LineupTab } from '~/app/games/_components/lineup-tab';
+import { TimelineTab } from '~/app/games/_components/timeline-tab';
+import { VideoTab } from '~/app/games/_components/video-tab';
 import { Header } from '~/components/layout';
 import { TabTrigger } from '~/components/ui';
 import { routes } from '~/constants/routes';
 
-import { Banner } from './_components/banner';
-import { CheerTalk } from './_components/cheer-talk';
+import { Banner } from '../../_components/banner';
+import { CheerTalk } from '../../_components/cheer-talk';
+import { ScoreBoard } from '../_components/score-board';
 
 const validTabs = ['cheer', 'lineup', 'timeline', 'video'];
 
@@ -25,7 +26,7 @@ const Page = async ({ searchParams, params }: Props) => {
   const id = Number(_id);
 
   if (Number.isNaN(id) || id <= 0) {
-    redirect(`/${routes.home}`);
+    redirect(routes.home);
   }
 
   const { tab: _tab } = await searchParams;
@@ -45,6 +46,10 @@ const Page = async ({ searchParams, params }: Props) => {
 
       <Suspense clientOnly>
         <CheerVS gameId={id} />
+      </Suspense>
+
+      <Suspense clientOnly>
+        <ScoreBoard gameId={id} />
       </Suspense>
 
       <hr className="h-2 w-full border-none bg-neutral-50" />
@@ -67,7 +72,7 @@ const Page = async ({ searchParams, params }: Props) => {
 
         <Tabs.Content value="cheer" className="min-h-dvh bg-[#EBEBEB] outline-none">
           <Suspense clientOnly>
-            <CheerTalk gameId={id} />
+            <CheerTalk gameId={id} sportType="BASKETBALL" />
           </Suspense>
         </Tabs.Content>
 
@@ -79,7 +84,7 @@ const Page = async ({ searchParams, params }: Props) => {
 
         <Tabs.Content value="timeline" className="outline-none">
           <Suspense clientOnly>
-            <TimelineTab gameId={id} />
+            <TimelineTab gameId={id} sportType="BASKETBALL" />
           </Suspense>
         </Tabs.Content>
 

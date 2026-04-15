@@ -54,7 +54,7 @@ export const Header = ({ className, ...props }: LeagueCardHeaderProps) => {
 
   return (
     <Link
-      href={`/${routes.league(leagueId)}`}
+      href={routes.league(leagueId)}
       className={twMerge('row-between gap-3', className)}
       {...props}
     >

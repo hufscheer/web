@@ -1,17 +1,26 @@
+'use client';
+
 import { SportsAndOutdoorsIcon, TradeIcon } from '@hcc/icons';
 import { colors, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import { Fragment } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import { type TimelineRecordType, useSuspenseGameTimeline } from '~/api';
-import { useSuspenseGameTeamInfo } from '~/app/games/[id]/_components/cheer-talk/useGameTeamInfo';
+import { type SportType, type TimelineRecordType, useSuspenseGameTimeline } from '~/api';
+import { useSuspenseGameTeamInfo } from '~/app/games/_components/cheer-talk/useGameTeamInfo';
 
 type Props = {
   gameId: number;
+  sportType: SportType;
 };
 
-export const CheerTalkTimeline = ({ gameId }: Props) => {
+type ScoreRecord = Extract<TimelineRecordType, { type: 'SCORE' }>;
+type AnyReplacementRecord = Extract<
+  TimelineRecordType,
+  { type: 'REPLACEMENT' | 'BASKETBALL_REPLACEMENT' }
+>;
+
+export const CheerTalkTimeline = ({ gameId, sportType }: Props) => {
   const { data: timelines } = useSuspenseGameTimeline({ gameId });
   const { getTeamInfo } = useSuspenseGameTeamInfo(gameId);
 
@@ -19,7 +28,12 @@ export const CheerTalkTimeline = ({ gameId }: Props) => {
 
   const lastRecord = timelines[0].records[0];
   if (!lastRecord) return null;
-  if (lastRecord.type !== 'SCORE' && lastRecord.type !== 'REPLACEMENT') return null;
+
+  const isScore = lastRecord.type === 'SCORE';
+  const isReplacement =
+    lastRecord.type === 'REPLACEMENT' || lastRecord.type === 'BASKETBALL_REPLACEMENT';
+
+  if (!isScore && !isReplacement) return null;
 
   const direction = getTeamInfo(lastRecord.gameTeamId).direction;
 
@@ -31,14 +45,38 @@ export const CheerTalkTimeline = ({ gameId }: Props) => {
           direction === 'HOME' ? 'bg-[#002843]' : 'bg-[#9C1714]',
         )}
       >
-        {lastRecord.type === 'SCORE' && <Score {...lastRecord} />}
-        {lastRecord.type === 'REPLACEMENT' && <Replacement {...lastRecord} />}
+        {lastRecord.type === 'SCORE' && <Score record={lastRecord} sportType={sportType} />}
+        {(lastRecord.type === 'REPLACEMENT' || lastRecord.type === 'BASKETBALL_REPLACEMENT') && (
+          <Replacement record={lastRecord} sportType={sportType} />
+        )}
       </div>
     </div>
   );
 };
 
-const Score = ({ recordedAt, teamImageUrl, teamName, playerName }: TimelineRecordType) => {
+const Score = ({ record, sportType }: { record: ScoreRecord; sportType: SportType }) => {
+  const { recordedAt, teamImageUrl, teamName, playerName, scoreRecord } = record;
+
+  if (sportType === 'BASKETBALL') {
+    return (
+      <div className="center-y absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 gap-1.5">
+        <span role="img" aria-label="농구공">
+          🏀
+        </span>
+        <Typography color={colors.white} fontSize={12} weight="medium">
+          {teamName} {playerName} {scoreRecord.score}점슛 성공!
+        </Typography>
+        <Image
+          className="overflow-hidden rounded-full object-cover"
+          src={teamImageUrl}
+          alt={`${teamName} 로고`}
+          width={18}
+          height={18}
+        />
+      </div>
+    );
+  }
+
   return (
     <Fragment>
       <Typography
@@ -70,12 +108,17 @@ const Score = ({ recordedAt, teamImageUrl, teamName, playerName }: TimelineRecor
 };
 
 const Replacement = ({
-  recordedAt,
-  playerName,
-  teamImageUrl,
-  teamName,
-  replacementRecord,
-}: TimelineRecordType) => {
+  record,
+  sportType,
+}: {
+  record: AnyReplacementRecord;
+  sportType: SportType;
+}) => {
+  const { recordedAt, playerName, teamImageUrl, teamName, replacementRecord } = record;
+
+  const replacementLabel =
+    sportType === 'BASKETBALL' && replacementRecord.isFoulOut ? '파울 아웃 교체' : '선수 교체';
+
   return (
     <Fragment>
       <Typography
@@ -91,10 +134,10 @@ const Replacement = ({
         <TradeIcon size={18} />
         <div className="column-center-x">
           <Typography color={colors.white} fontSize={12} weight="medium">
-            {replacementRecord?.replacedPlayerName} 선수 투입
+            {replacementRecord.replacedPlayerName} 선수 투입
           </Typography>
           <Typography color={colors.white} fontSize={10} weight="medium">
-            {playerName} 선수 교체
+            {playerName} {replacementLabel}
           </Typography>
         </div>
         <Image
