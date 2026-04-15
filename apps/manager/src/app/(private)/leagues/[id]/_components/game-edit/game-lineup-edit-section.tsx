@@ -62,11 +62,9 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
   const gameTeam1 = game.gameTeams?.[0];
   const gameTeam2 = game.gameTeams?.[1];
 
-  // gameTeamId로 lineup 매칭 (가장 신뢰할 수 있는 방법)
   const lineup1 = lineup.find((l) => l.gameTeamId === gameTeam1?.gameTeamId);
   const lineup2 = lineup.find((l) => l.gameTeamId === gameTeam2?.gameTeamId);
 
-  // lineup의 teamName을 우선 사용, 없으면 gameTeamName으로 fallback
   const team1Name = lineup1?.teamName ?? gameTeam1?.gameTeamName ?? '';
   const team2Name = lineup2?.teamName ?? gameTeam2?.gameTeamName ?? '';
 
@@ -80,7 +78,6 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
     leagueTeamId: leagueTeam2?.leagueTeamId ?? 0,
   });
 
-  // playerId → LeagueTeamsPlayerType 매핑
   const team1PlayerByPlayerId = useMemo(() => {
     const map = new Map<number, LeagueTeamsPlayerType>();
     team1Players.forEach((p) => map.set(p.playerId, p));
@@ -93,7 +90,6 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
     return map;
   }, [team2Players]);
 
-  // 마운트 시 lineup API 데이터로 초기 선택 상태 설정
   const [originalTeam1Selection] = useState<PlayerSelectionState[]>(() =>
     initializeSelection(lineup1, team1PlayerByPlayerId),
   );
@@ -171,12 +167,10 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
       const next = newMap.get(orig.teamPlayerId);
 
       if (!next) {
-        // 라인업에서 제거 → DELETE
         if (orig.lineupPlayerId !== undefined) {
           await deleteLineupPlayer({ gameTeamId, lineupPlayerId: orig.lineupPlayerId });
         }
       } else if (orig.state !== next.state && orig.isCaptain === next.isCaptain) {
-        // 선발 ↔ 후보 상태만 변경 → PATCH starter/candidate
         if (orig.lineupPlayerId !== undefined) {
           if (next.state === 'STARTER') {
             await patchStarter({ gameId, lineupPlayerId: orig.lineupPlayerId });
@@ -185,7 +179,6 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
           }
         }
       } else if (orig.state === next.state && orig.isCaptain !== next.isCaptain) {
-        // 주장만 변경 → PATCH captain/register or revoke
         if (orig.lineupPlayerId !== undefined) {
           if (next.isCaptain) {
             await patchCaptainRegister({ gameId, lineupPlayerId: orig.lineupPlayerId });
@@ -194,7 +187,6 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
           }
         }
       } else if (orig.state !== next.state && orig.isCaptain !== next.isCaptain) {
-        // 상태 + 주장 동시 변경 → DELETE + POST
         if (orig.lineupPlayerId !== undefined) {
           await deleteLineupPlayer({ gameTeamId, lineupPlayerId: orig.lineupPlayerId });
         }
@@ -205,12 +197,10 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
           isCaptain: next.isCaptain,
         });
       }
-      // 변경 없음 → skip
     }
 
     for (const next of newSelection) {
       if (!originalMap.has(next.teamPlayerId)) {
-        // 새로 추가된 선수 → POST
         await createLineup({
           gameTeamId,
           teamPlayerId: next.teamPlayerId,
@@ -255,7 +245,6 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
   const team1Captain = team1Selection.find((p) => p.isCaptain);
   const team2Captain = team2Selection.find((p) => p.isCaptain);
 
-  // 선발 / 후보 / 미등록 선수 분리
   const starters = filteredAll.filter(
     (p) => activeSelection.find((s) => s.teamPlayerId === p.teamPlayerId)?.state === 'STARTER',
   );
@@ -317,7 +306,6 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
 
   return (
     <div className={twMerge('flex h-full flex-col')}>
-      {/* 팀 탭 */}
       <div className={twMerge('mb-4 flex border-gray-200 border-b')}>
         {([1, 2] as const).map((tab) => {
           const name = tab === 1 ? team1Name : team2Name;
@@ -349,7 +337,6 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
         })}
       </div>
 
-      {/* 검색 */}
       <div className="mb-4">
         <Input
           type="text"
@@ -360,9 +347,7 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
         />
       </div>
 
-      {/* 선수 목록 (섹션별 분리) */}
       <div className="flex-1 space-y-4 overflow-y-auto pb-4">
-        {/* 선발 선수 */}
         {starters.length > 0 && (
           <section>
             <p className="mb-2 text-sm font-medium text-gray-700">
@@ -372,7 +357,6 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
           </section>
         )}
 
-        {/* 후보 선수 */}
         {candidates.length > 0 && (
           <section>
             <p className="mb-2 text-sm font-medium text-gray-700">
@@ -382,7 +366,6 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
           </section>
         )}
 
-        {/* 미등록 선수 */}
         {unregistered.length > 0 && (
           <section>
             <p className="mb-2 text-sm font-medium text-gray-700">
@@ -399,7 +382,6 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
         )}
       </div>
 
-      {/* 하단 버튼 */}
       <div className={twMerge('flex-shrink-0 border-gray-200 border-t bg-white pt-4')}>
         <div className="flex gap-3">
           <Button

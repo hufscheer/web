@@ -34,13 +34,13 @@ export const MatchOverview = () => {
 
           {league.inProgressGames.map((game) => (
             <GameCard key={game.id}>
-              <GameCard.Header leagueId={league.id} {...game} />
+              <GameCard.Header leagueId={league.id} sportType={league.sportType} {...game} />
               <GameCard.TeamGroup>
                 {game.gameTeams.map((team) => (
                   <GameCard.Team key={team.gameTeamId} {...team} />
                 ))}
               </GameCard.TeamGroup>
-              <GameCard.Menu leagueId={league.id} id={game.id} />
+              <GameCard.Menu leagueId={league.id} id={game.id} sportType={league.sportType} />
             </GameCard>
           ))}
 
