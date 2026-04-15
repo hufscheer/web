@@ -72,7 +72,7 @@ const Page = async ({ searchParams, params }: Props) => {
 
         <Tabs.Content value="cheer" className="min-h-dvh bg-[#EBEBEB] outline-none">
           <Suspense clientOnly>
-            <CheerTalk gameId={id} />
+            <CheerTalk gameId={id} sportType="BASKETBALL" />
           </Suspense>
         </Tabs.Content>
 
