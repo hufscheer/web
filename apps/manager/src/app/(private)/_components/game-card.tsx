@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import type { GameQuarterType, GameTeamType, GameType } from '~/api';
+import type { SportType } from '~/api/types';
 
 import { routes } from '~/constants/routes';
 
@@ -16,17 +17,25 @@ export const GameCardRoot = ({ children }: PropsWithChildren) => {
 
 type GameHeaderProps = {
   leagueId: number;
+  sportType: SportType;
   gameQuarter?: GameQuarterType;
 } & Pick<GameType, 'id' | 'state' | 'startTime'>;
 
-const GameHeader = ({ leagueId, id: gameId, gameQuarter, state, startTime }: GameHeaderProps) => {
+const GameHeader = ({
+  leagueId,
+  id: gameId,
+  sportType,
+  gameQuarter,
+  state,
+  startTime,
+}: GameHeaderProps) => {
   return (
     <div className="row-between">
       <Badge size="sm" variant={state === 'PLAYING' ? 'danger' : 'default'}>
         {state ?? gameQuarter?.label}
       </Badge>
       <Typography className="center-y" color="var(--color-neutral-500)" fontSize={14} asChild>
-        <Link href={`/${routes.game(leagueId, gameId)}`}>
+        <Link href={`/${routes.game(leagueId, gameId, sportType)}`}>
           {formatTime(startTime, { format: 'YYYY.MM.DD. HH:mm' })}
           <ChevronForwardIcon size={20} />
         </Link>
@@ -60,17 +69,17 @@ const GameTeam = ({ gameTeamName, logoImageUrl, score }: GameTeamType) => {
 type GameMenuProps = {
   leagueId: number;
   id: number;
+  sportType: SportType;
 };
 
-const GameMenu = ({ leagueId, id }: GameMenuProps) => {
+const GameMenu = ({ leagueId, id, sportType }: GameMenuProps) => {
   return (
     <div className="row-between mt-4 gap-2.5">
       <Button className="flex-1" size="sm" color="black" variant="subtle" asChild>
-        {/* <Link href={`/${routes.game_timeline(leagueId, id)}`}>경기 진행</Link> */}
-        <Link href={`/${routes.game_timeline(leagueId, id)}`}>경기 진행</Link>
+        <Link href={`/${routes.game_timeline(leagueId, id, sportType)}`}>경기 진행</Link>
       </Button>
       <Button className="flex-1" size="sm" color="black" variant="subtle" asChild>
-        <Link href={`/${routes.game(leagueId, id)}`}>경기 정보 수정</Link>
+        <Link href={`/${routes.game(leagueId, id, sportType)}`}>경기 정보 수정</Link>
       </Button>
     </div>
   );

@@ -4,10 +4,10 @@ import { notFound } from 'next/navigation';
 
 import { Header } from '~/components/layout';
 
-import { BlockedList } from './blocked-list';
+import { BlockedList } from '../../../../_components/game-cheertalk/blocked-list';
 
 type Props = {
-  params: Promise<{ id: number; gameId: number }>;
+  params: Promise<{ id: string; gameId: string }>;
 };
 
 const Page = async ({ params }: Props) => {

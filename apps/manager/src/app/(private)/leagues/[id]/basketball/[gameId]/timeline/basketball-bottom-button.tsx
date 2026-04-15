@@ -4,22 +4,18 @@ import { AddCircleIcon, ErrorIcon, SettingsIcon, SmsIcon, TradeIcon } from '@hcc
 import { Button } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
 
-import type { SportType } from '~/api/types';
-
 import { routes } from '~/constants/routes';
 
-export type BottomSheetType = 'addScore' | 'changeStatus' | 'substitute' | 'warning';
+export type BasketballBottomSheetType = 'addScore' | 'changeStatus' | 'substitute' | 'foul';
 
-export function BottomButton({
+export function BasketballBottomButton({
   leagueId,
   gameId,
-  sportType,
   onOpen,
 }: {
   leagueId: number;
   gameId: number;
-  sportType: SportType;
-  onOpen: (type: BottomSheetType) => void;
+  onOpen: (type: BasketballBottomSheetType) => void;
 }) {
   const router = useRouter();
   return (
@@ -53,20 +49,20 @@ export function BottomButton({
           <TradeIcon /> 교체
         </Button>
         <Button
-          className="flex-1 gap-1 border"
+          className="flex-1 gap-1 border border-orange-400 text-orange-500"
           color="black"
           variant="ghost"
           size="sm"
-          onClick={() => onOpen('warning')}
+          onClick={() => onOpen('foul')}
         >
-          <ErrorIcon className="text-red-500" /> 경고
+          <ErrorIcon color="#FFDF2A" /> 파울
         </Button>
         <Button
           className="flex-1 gap-1"
           color="black"
           variant="ghost"
           size="sm"
-          onClick={() => router.push(`/${routes.game_cheertalks(leagueId, gameId, sportType)}`)}
+          onClick={() => router.push(`/${routes.game_cheertalks(leagueId, gameId, 'BASKETBALL')}`)}
         >
           <SmsIcon /> 응원톡
         </Button>

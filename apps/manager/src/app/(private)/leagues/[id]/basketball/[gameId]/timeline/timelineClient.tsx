@@ -4,39 +4,38 @@ import { Spinner } from '@hcc/ui';
 import { lazy, Suspense, useCallback, useMemo, useState } from 'react';
 import { Drawer } from 'vaul';
 
-import { Timeline } from '../../_components/timeline';
-import { BottomButton, type BottomSheetType } from '../../_components/timeline-tab/bottom-button';
+import { BasketballBottomButton, type BasketballBottomSheetType } from './basketball-bottom-button';
+import { BasketballTimeline } from './basketball-timeline';
 
-const AddScoreSheet = lazy(() => import('../../_components/timeline-tab/sheets/AddScoreSheet'));
-const StatusChangeSheet = lazy(
-  () => import('../../_components/timeline-tab/sheets/StatusChangeSheet'),
-);
-const SubstituteSheet = lazy(() => import('../../_components/timeline-tab/sheets/SubstituteSheet'));
-const WarningSheet = lazy(() => import('../../_components/timeline-tab/sheets/WarningSheet'));
+const BasketballAddScoreSheet = lazy(() => import('./sheets/BasketballAddScoreSheet'));
+const BasketballStatusChangeSheet = lazy(() => import('./sheets/BasketballStatusChangeSheet'));
+const BasketballSubstituteSheet = lazy(() => import('./sheets/BasketballSubstituteSheet'));
+const BasketballFoulSheet = lazy(() => import('./sheets/BasketballFoulSheet'));
 
 export default function TimelineClient({ leagueId, gameId }: { leagueId: number; gameId: number }) {
-  const [activeSheet, setActiveSheet] = useState<BottomSheetType | null>(null);
+  const [activeSheet, setActiveSheet] = useState<BasketballBottomSheetType | null>(null);
   const close = useCallback(() => setActiveSheet(null), []);
+
   const sheetMap = useMemo(
     () => ({
       addScore: {
         title: '득점 추가',
-        node: <AddScoreSheet leagueId={leagueId} gameId={gameId} onClose={close} />,
+        node: <BasketballAddScoreSheet leagueId={leagueId} gameId={gameId} onClose={close} />,
       },
       changeStatus: {
         title: '상태 변경',
-        node: <StatusChangeSheet leagueId={leagueId} gameId={gameId} onClose={close} />,
+        node: <BasketballStatusChangeSheet leagueId={leagueId} gameId={gameId} onClose={close} />,
       },
       substitute: {
         title: '교체 추가',
-        node: <SubstituteSheet leagueId={leagueId} gameId={gameId} onClose={close} />,
+        node: <BasketballSubstituteSheet leagueId={leagueId} gameId={gameId} onClose={close} />,
       },
-      warning: {
-        title: '경고 추가',
-        node: <WarningSheet leagueId={leagueId} gameId={gameId} onClose={close} />,
+      foul: {
+        title: '파울 추가',
+        node: <BasketballFoulSheet leagueId={leagueId} gameId={gameId} onClose={close} />,
       },
     }),
-    [gameId, close],
+    [leagueId, gameId, close],
   );
 
   const title = activeSheet ? sheetMap[activeSheet].title : null;
@@ -45,8 +44,8 @@ export default function TimelineClient({ leagueId, gameId }: { leagueId: number;
   return (
     <>
       <div className="flex h-full flex-col justify-between bg-white">
-        <Timeline gameId={gameId} />
-        <BottomButton leagueId={leagueId} gameId={gameId} onOpen={setActiveSheet} />
+        <BasketballTimeline gameId={gameId} />
+        <BasketballBottomButton leagueId={leagueId} gameId={gameId} onOpen={setActiveSheet} />
       </div>
       <Drawer.Root
         open={activeSheet !== null}
