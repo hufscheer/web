@@ -5,6 +5,7 @@ import { colors, Typography } from '@hcc/ui';
 import Link from 'next/link';
 
 import { useSuspenseLeague } from '~/api';
+import { getRoundLabel } from '~/constants/leagues';
 import { routes } from '~/constants/routes';
 
 type Props = {
@@ -44,7 +45,7 @@ export const LeagueOverview = ({ id }: Props) => {
           lineHeight="none"
         >
           <strong>라운드</strong>
-          {data.maxRound}강
+          {getRoundLabel(data.maxRound, data.sportType)}
         </Typography>
         <Typography
           className="center-y gap-2"

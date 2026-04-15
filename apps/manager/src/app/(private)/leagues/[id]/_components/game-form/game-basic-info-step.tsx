@@ -4,7 +4,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { type GameFormType, useSuspenseLeague, useSuspenseLeagueTeams } from '~/api';
 import { InputSelect } from '~/components/ui/input-select';
-import { quarterOptions, roundOptions, stateOptions } from '~/constants/leagues';
+import { getRoundOptions, quarterOptions, stateOptions } from '~/constants/leagues';
 
 type Props = {
   leagueId: number;
@@ -39,10 +39,10 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
   );
   const roundFilteredOptions = useMemo(
     () =>
-      roundOptions
+      getRoundOptions(league.sportType)
         .filter((item) => league.maxRound >= item.round)
         .map((item) => ({ value: item.value.toString(), label: item.label })),
-    [league.maxRound],
+    [league.maxRound, league.sportType],
   );
   const quarterListOptions = Object.entries(quarterOptions).map(([key, value]) => ({
     value: key,

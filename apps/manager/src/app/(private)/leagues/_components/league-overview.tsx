@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { Fragment } from 'react';
 
 import { useSuspenseLeaguesLeague } from '~/api';
+import { getRoundLabel } from '~/constants/leagues';
 import { routes } from '~/constants/routes';
 
 export const LeagueOverview = () => {
@@ -50,7 +51,7 @@ export const LeagueOverview = () => {
                 weight="medium"
                 lineHeight="none"
               >
-                <strong>라운드</strong> {league.maxRound}강
+                <strong>라운드</strong> {getRoundLabel(league.maxRound, league.sportType)}
               </Typography>
               <Typography
                 color="var(--color-neutral-500)"

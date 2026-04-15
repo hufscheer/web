@@ -9,7 +9,7 @@ import { twMerge } from 'tailwind-merge';
 
 import { type GameUpdateFormType, useSuspenseGame, useSuspenseLeague, useUpdateGames } from '~/api';
 import { InputSelect } from '~/components/ui/input-select';
-import { quarterOptions, roundOptions, stateOptions } from '~/constants/leagues';
+import { getRoundOptions, quarterOptions, stateOptions } from '~/constants/leagues';
 import { handleFormError } from '~/utils/form-util';
 
 import { StepProgress } from '../game-form/step-progress';
@@ -45,7 +45,7 @@ const GameEditBasicStep = ({ leagueId, onNext }: BasicStepProps) => {
 
   const isValid = Boolean(name?.trim() && round && quarter && state && startTime);
 
-  const roundOptions_ = roundOptions
+  const roundOptions_ = getRoundOptions(league.sportType)
     .filter((item) => league.maxRound >= item.round)
     .map((item) => ({ value: item.value.toString(), label: item.label }));
 

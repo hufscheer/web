@@ -10,12 +10,25 @@ export const quarterOptions = {
 export type QuarterType = keyof typeof quarterOptions;
 
 export const roundOptions = [
-  { value: '32', label: '32강', round: 32 },
-  { value: '16', label: '16강', round: 16 },
-  { value: '8', label: '8강', round: 8 },
-  { value: '4', label: '4강', round: 4 },
-  { value: '2', label: '결승', round: 2 },
+  { value: '32', label: '32강', basketballLabel: '예선', round: 32 },
+  { value: '16', label: '16강', basketballLabel: '16강', round: 16 },
+  { value: '8', label: '8강', basketballLabel: '8강', round: 8 },
+  { value: '4', label: '4강', basketballLabel: '4강', round: 4 },
+  { value: '2', label: '결승', basketballLabel: '결승', round: 2 },
 ] as const;
+
+export const getRoundOptions = (sportType: 'SOCCER' | 'BASKETBALL') =>
+  roundOptions.map((item) => ({
+    value: item.value,
+    label: sportType === 'BASKETBALL' ? item.basketballLabel : item.label,
+    round: item.round,
+  }));
+
+export const getRoundLabel = (round: number, sportType: 'SOCCER' | 'BASKETBALL') => {
+  const option = roundOptions.find((item) => item.round === round);
+  if (!option) return `${round}강`;
+  return sportType === 'BASKETBALL' ? option.basketballLabel : option.label;
+};
 
 export const stateOptions = {
   PLAYING: '진행 중',
