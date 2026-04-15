@@ -14,6 +14,7 @@ import {
   useUpdateGamesStarter,
   useSuspenseGame,
   useSuspenseGameLineup,
+  useSuspenseLeague,
   useSuspenseLeagueTeams,
   useSuspenseLeagueTeamsPlayers,
   type GameLineupType,
@@ -55,6 +56,7 @@ const initializeSelection = (
 };
 
 const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
+  const { data: league } = useSuspenseLeague({ leagueId });
   const { data: game } = useSuspenseGame({ gameId });
   const { data: lineup } = useSuspenseGameLineup({ gameId });
   const { data: leagueTeams } = useSuspenseLeagueTeams({ leagueId });
@@ -125,6 +127,18 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
     newState: 'STARTER' | 'CANDIDATE',
   ) => {
     const setSelection = teamNumber === 1 ? setTeam1Selection : setTeam2Selection;
+    const currentSelection = teamNumber === 1 ? team1Selection : team2Selection;
+
+    if (league.sportType === 'BASKETBALL' && newState === 'STARTER') {
+      const currentStarters = currentSelection.filter((p) => p.state === 'STARTER');
+      const isAlreadyStarter =
+        currentSelection.find((p) => p.teamPlayerId === teamPlayerId)?.state === 'STARTER';
+      if (!isAlreadyStarter && currentStarters.length >= 5) {
+        toast.warning('선발 인원이 다 찼어요');
+        return;
+      }
+    }
+
     setSelection((prev) => {
       const existing = prev.find((p) => p.teamPlayerId === teamPlayerId);
       if (existing) {

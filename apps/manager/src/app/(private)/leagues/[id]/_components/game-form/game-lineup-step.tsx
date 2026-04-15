@@ -1,9 +1,14 @@
-import { Button, Input } from '@hcc/ui';
+import { Button, Input, toast } from '@hcc/ui';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
-import { type GameFormType, useSuspenseLeagueTeams, useSuspenseLeagueTeamsPlayers } from '~/api';
+import {
+  type GameFormType,
+  useSuspenseLeague,
+  useSuspenseLeagueTeams,
+  useSuspenseLeagueTeamsPlayers,
+} from '~/api';
 
 type Props = {
   leagueId: number;
@@ -19,6 +24,7 @@ type PlayerSelectionState = {
 
 export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
   const { watch, setValue, getValues } = useFormContext<GameFormType>();
+  const { data: league } = useSuspenseLeague({ leagueId });
   const [team1Id, team2Id] = watch(['team1.leagueTeamId', 'team2.leagueTeamId']);
 
   const { data: leagueTeams } = useSuspenseLeagueTeams({ leagueId });
@@ -87,6 +93,17 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
     state: 'STARTER' | 'CANDIDATE',
   ) => {
     const setSelection = teamNumber === 1 ? setTeam1Selection : setTeam2Selection;
+    const currentSelection = teamNumber === 1 ? team1Selection : team2Selection;
+
+    if (league.sportType === 'BASKETBALL' && state === 'STARTER') {
+      const currentStarters = currentSelection.filter((p) => p.state === 'STARTER');
+      const isAlreadyStarter =
+        currentSelection.find((p) => p.teamPlayerId === teamPlayerId)?.state === 'STARTER';
+      if (!isAlreadyStarter && currentStarters.length >= 5) {
+        toast.warning('선발인원이 모두 찼어요');
+        return;
+      }
+    }
 
     setSelection((prev) => {
       const existing = prev.find((p) => p.teamPlayerId === teamPlayerId);
