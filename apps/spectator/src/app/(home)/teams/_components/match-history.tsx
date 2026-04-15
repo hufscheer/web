@@ -29,7 +29,7 @@ export const MatchHistory = ({ games, teamName, limit = 3 }: MatchHistoryProps) 
         return (
           <Link
             key={game.gameId}
-            href={`/${routes.game({ id: game.gameId, sport })}`}
+            href={routes.game({ id: game.gameId, sport })}
             className="center-y gap-1.5 rounded-sm transition-colors duration-150 hover:bg-neutral-100"
           >
             <div className="center-y gap-0.5 overflow-hidden">

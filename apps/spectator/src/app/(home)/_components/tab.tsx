@@ -87,7 +87,7 @@ const GameList = ({ leagueId, leagueName, games, cheerCount, buttonLabel }: Game
   return (
     <>
       <GameCard.Divider />
-      <Link href={`/${routes.league(leagueId)}`} className="row-between">
+      <Link href={routes.league(leagueId)} className="row-between">
         <div className="center-y gap-3">
           <div className="center relative h-8 w-8 overflow-hidden rounded-full bg-neutral-200 select-none">
             ⚽
@@ -138,7 +138,9 @@ const GameList = ({ leagueId, leagueName, games, cheerCount, buttonLabel }: Game
                 className="gap"
                 onClick={() => sendEvent({ action: 'click', value: buttonLabel })}
               >
-                <Link href={{ pathname: `/games/${game.id}`, query: { tab: 'cheer' } }}>
+                <Link
+                  href={{ pathname: routes.game({ id: game.id, sport }), query: { tab: 'cheer' } }}
+                >
                   {buttonLabel}
                   <ChevronForwardIcon className="animate-[arrow_1s_ease-in-out_infinite] " />
                 </Link>
