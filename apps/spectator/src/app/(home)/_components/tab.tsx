@@ -13,15 +13,22 @@ import { useSuspenseLeagueCheerCount } from '~/api/queries/useLeagueCheerCount';
 import { useSuspenseLeagueRecentGames } from '~/api/queries/useLeagueRecentGames';
 import { GameCard } from '~/components/ui';
 import { routes } from '~/constants/routes';
+import { useOrganizationId } from '~/hooks/useOrganizationId';
 import { useSportType } from '~/hooks/useSportType';
 import { useTracker } from '~/hooks/useTracker';
 
+import { EmptyLeague } from './empty-league';
+
 export const RecentTab = () => {
   const { sport } = useSportType();
-  const { data: recentGames } = useSuspenseLeagueRecentGames({ sportType: sport });
+  const { organizationId } = useOrganizationId();
+  const { data: recentGames } = useSuspenseLeagueRecentGames({
+    sportType: sport,
+    ...(organizationId !== null && { organizationId }),
+  });
   const displayedGame = recentGames.find((league) => league.sportType === sport);
 
-  if (!displayedGame) return null;
+  if (!displayedGame) return <EmptyLeague />;
 
   return (
     <LeagueGameList
@@ -87,7 +94,7 @@ const GameList = ({ leagueId, leagueName, games, cheerCount, buttonLabel }: Game
   return (
     <>
       <GameCard.Divider />
-      <Link href={`/${routes.league(leagueId)}`} className="row-between">
+      <Link href={routes.league(leagueId)} className="row-between">
         <div className="center-y gap-3">
           <div className="center relative h-8 w-8 overflow-hidden rounded-full bg-neutral-200 select-none">
             ⚽
@@ -138,7 +145,9 @@ const GameList = ({ leagueId, leagueName, games, cheerCount, buttonLabel }: Game
                 className="gap"
                 onClick={() => sendEvent({ action: 'click', value: buttonLabel })}
               >
-                <Link href={{ pathname: `/games/${game.id}`, query: { tab: 'cheer' } }}>
+                <Link
+                  href={{ pathname: routes.game({ id: game.id, sport }), query: { tab: 'cheer' } }}
+                >
                   {buttonLabel}
                   <ChevronForwardIcon className="animate-[arrow_1s_ease-in-out_infinite] " />
                 </Link>

@@ -53,7 +53,7 @@ const GameListContent = ({
 
                 <GameCard.Actions
                   onBroadcastClick={() => router.push(link)}
-                  onCheerClick={() => router.push(`/${link}?cheer=1`)}
+                  onCheerClick={() => router.push(`${link}?cheer=1`)}
                 />
               </div>
             </GameCard.Container>

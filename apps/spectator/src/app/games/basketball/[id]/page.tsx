@@ -26,7 +26,7 @@ const Page = async ({ searchParams, params }: Props) => {
   const id = Number(_id);
 
   if (Number.isNaN(id) || id <= 0) {
-    redirect(`/${routes.home}`);
+    redirect(routes.home);
   }
 
   const { tab: _tab } = await searchParams;

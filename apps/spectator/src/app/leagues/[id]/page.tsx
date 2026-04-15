@@ -26,7 +26,7 @@ const Page = async ({ searchParams, params }: Props) => {
   const id = Number(_id);
 
   if (!_id || Number.isNaN(id) || id <= 0) {
-    redirect(`/${routes.home}`);
+    redirect(routes.home);
   }
 
   const league: LeagueDetailType = await fetchLeague({ leagueId: id });
@@ -62,7 +62,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
   const league: LeagueDetailType = await fetchLeague({ leagueId: id });
   const title = league ? league.name : '';
-  const url = `/${routes.league(id)}`;
+  const url = routes.league(id);
 
   return {
     title,

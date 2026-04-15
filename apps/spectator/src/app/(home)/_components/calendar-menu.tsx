@@ -6,7 +6,7 @@ import { routes } from '~/constants/routes';
 
 export const CalendarMenu = () => (
   <Typography weight="semibold" asChild>
-    <Link href={`/${routes.calendar}`}>
+    <Link href={routes.calendar}>
       <CalendarMonthIcon size={24} />
     </Link>
   </Typography>
