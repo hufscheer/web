@@ -15,6 +15,7 @@ import type {
   GameLineupType,
   GameListPayload,
   GameListResponse,
+  GameQuarterScoresType,
   GameSearchPayload,
   GameType,
   GameVideoPayload,
@@ -92,6 +93,10 @@ const gameQueryKeys = createQueryKeys('games', {
         searchParams: { cursor, size: 20 },
       });
     },
+  }),
+  quarterScores: (payload: GameDetailPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<GameQuarterScoresType>(`games/${payload.gameId}/quarter-scores`),
   }),
 });
 

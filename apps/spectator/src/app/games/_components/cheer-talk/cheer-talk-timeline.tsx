@@ -5,7 +5,7 @@ import { Fragment } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import { type TimelineRecordType, useSuspenseGameTimeline } from '~/api';
-import { useSuspenseGameTeamInfo } from '~/app/games/[id]/_components/cheer-talk/useGameTeamInfo';
+import { useSuspenseGameTeamInfo } from '~/app/games/_components/cheer-talk/useGameTeamInfo';
 
 type Props = {
   gameId: number;

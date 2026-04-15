@@ -9,7 +9,6 @@ import { Skeleton } from '~/components/skeleton';
 import { useOrganizationId } from '~/hooks/useOrganizationId';
 import { useSportType } from '~/hooks/useSportType';
 
-import { EmptyLeague } from '../../_components/empty-league';
 import * as LeagueCard from './league-card';
 
 interface Props {

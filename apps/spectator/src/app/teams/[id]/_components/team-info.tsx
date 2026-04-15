@@ -35,6 +35,7 @@ export const TeamInfo = ({ id }: { id: number }) => {
           {games.map((game) => {
             const { gameId, state } = game;
             const gameWithId = { ...game, id, gameState: state };
+            const link = routes.game({ id: gameId, sport: team.sportType });
 
             return (
               <GameCard key={gameId} game={gameWithId}>
@@ -42,7 +43,7 @@ export const TeamInfo = ({ id }: { id: number }) => {
                   <GameCard.Header showLeagueName />
 
                   <div className="flex gap-4">
-                    <Link href={`/${routes.game(gameId)}`} className="column flex-1 gap-2">
+                    <Link href={link} className="column flex-1 gap-2">
                       <GameCard.Team index={1} />
                       <GameCard.Team index={2} />
                     </Link>
@@ -50,20 +51,10 @@ export const TeamInfo = ({ id }: { id: number }) => {
                     <div role="separator" className="w-px bg-gray-100" />
 
                     <GameCard.Actions
-                      onStatsClick={
-                        state === 'FINISHED'
-                          ? () => router.push(`/${routes.game(gameId)}`)
-                          : undefined
-                      }
-                      onBroadcastClick={
-                        state !== 'FINISHED'
-                          ? () => router.push(`/${routes.game(gameId)}`)
-                          : undefined
-                      }
+                      onStatsClick={state === 'FINISHED' ? () => router.push(link) : undefined}
+                      onBroadcastClick={state !== 'FINISHED' ? () => router.push(link) : undefined}
                       onCheerClick={
-                        state !== 'FINISHED'
-                          ? () => router.push(`/${routes.game(gameId)}?cheer=1`)
-                          : undefined
+                        state !== 'FINISHED' ? () => router.push(`/${link}?cheer=1`) : undefined
                       }
                     />
                   </div>
