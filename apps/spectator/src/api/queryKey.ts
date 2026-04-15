@@ -1,9 +1,10 @@
 import { getFetcher } from '@hcc/api-base';
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
 
-import type { TimelinePayload, TimelineType } from '~/api/types/timelines';
-
 import type {
+  OrganizationType,
+  TimelinePayload,
+  TimelineType,
   CheerTalkPayload,
   CheerTalkType,
   GameCheerPayload,
@@ -41,6 +42,8 @@ import type {
   TeamPlayerType,
   TeamSummaryType,
   TeamType,
+  TeamUnitAvailabilityType,
+  TeamUnitsPayload,
 } from './types';
 
 const apiBaseUrl = process.env.API_BASE_URL ?? '/api';
@@ -142,6 +145,11 @@ const teamQueryKeys = createQueryKeys('teams', {
       });
     },
   }),
+  units: (payload: TeamUnitsPayload) => ({
+    queryKey: [payload],
+    queryFn: () =>
+      fetcher.get<TeamUnitAvailabilityType[]>('teams/units', { searchParams: payload }),
+  }),
 });
 
 const leagueQueryKeys = createQueryKeys('leagues', {
@@ -153,7 +161,7 @@ const leagueQueryKeys = createQueryKeys('leagues', {
     queryKey: [payload],
     queryFn: () => fetcher.get<LeagueDetailType>(`leagues/${payload.leagueId}`),
   }),
-  recentGames: (payload?: { sportType?: SportType }) => ({
+  recentGames: (payload?: { sportType?: SportType; organizationId?: number }) => ({
     queryKey: ['recent-games', payload],
     queryFn: () =>
       fetcher.get<GameListResponse[]>(`leagues/recent/games`, { searchParams: payload }),
@@ -184,4 +192,16 @@ const leagueQueryKeys = createQueryKeys('leagues', {
   }),
 });
 
-export const queryKeys = mergeQueryKeys(gameQueryKeys, teamQueryKeys, leagueQueryKeys);
+const organizationQueryKeys = createQueryKeys('organizations', {
+  list: {
+    queryKey: null,
+    queryFn: () => fetcher.get<OrganizationType[]>('organizations'),
+  },
+});
+
+export const queryKeys = mergeQueryKeys(
+  gameQueryKeys,
+  teamQueryKeys,
+  leagueQueryKeys,
+  organizationQueryKeys,
+);

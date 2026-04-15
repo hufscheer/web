@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { useSuspenseTeamGames, useSuspenseTeam } from '~/api';
-import { GameCard } from '~/components/ui/game-card';
+import { GameCard } from '~/components/ui';
 import { routes } from '~/constants/routes';
 
 import { TeamCard } from './team-card';
