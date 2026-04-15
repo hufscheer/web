@@ -1,3 +1,5 @@
+import type { SportType } from './leagues';
+
 export type TeamPlayerType = {
   playerId: number;
   name?: string;
@@ -11,6 +13,7 @@ export type TeamType = {
   logoImageUrl: string;
   unit: string;
   teamColor: string;
+  sportType: SportType;
   teamPlayers?: TeamPlayerType[];
 };
 

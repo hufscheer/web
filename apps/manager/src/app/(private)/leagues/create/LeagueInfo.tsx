@@ -3,14 +3,22 @@
 import { Button, Input } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 
+import type { SportType } from '~/api/types';
+
 import { InputDate } from '~/components/ui/input-date';
 import { InputSelect } from '~/components/ui/input-select';
+
+const SPORT_OPTIONS: { value: SportType; label: string; emoji: string }[] = [
+  { value: 'SOCCER', label: '축구', emoji: '⚽' },
+  { value: 'BASKETBALL', label: '농구', emoji: '🏀' },
+];
 
 export type LeagueInfoForm = {
   name: string;
   startAt?: Date;
   endAt?: Date;
   maxRound?: number | undefined;
+  sportType: SportType;
 };
 
 const ROUND_SIZES = [32, 16, 8, 4, 2];
@@ -32,6 +40,20 @@ const LeagueInfo = ({ form, onChange, onNext, isFormValid }: LeagueInfoProps) =>
     <div className="column h-full gap-1.5 bg-white p-5">
       <Suspense clientOnly>
         <div className="flex flex-col gap-4">
+          <div className="text-lg font-semibold text-black">대회 구분</div>
+          <div className="grid grid-cols-2 gap-2">
+            {SPORT_OPTIONS.map((opt) => (
+              <Button
+                key={opt.value}
+                size="md"
+                color={form.sportType === opt.value ? 'primary' : 'black'}
+                variant={form.sportType === opt.value ? 'solid' : 'subtle'}
+                onClick={() => onChange({ sportType: opt.value })}
+              >
+                {opt.emoji} {opt.label}
+              </Button>
+            ))}
+          </div>
           <div className="text-lg font-semibold text-black">대회 정보</div>
           <Input
             name="name"

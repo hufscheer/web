@@ -7,6 +7,7 @@ import type { WarningType } from '~/api/types';
 
 import { useCreateTimelinesWarning } from '~/api/mutations/useCreateTimelineWarning';
 import { useSuspenseGameLineupPlaying } from '~/api/queries/useGameLineupPlaying';
+import { useSuspenseLeague } from '~/api/queries/useLeague';
 import { CARD_TYPE, QUARTER_TYPE } from '~/api/types';
 import { InputSelect } from '~/components/ui/input-select';
 
@@ -34,7 +35,17 @@ const cardOptions: SelectOption[] = (Object.keys(CARD_TYPE) as Array<keyof typeo
     value: CARD_TYPE[key],
   }),
 );
-export default function WarningSheet({ gameId, onClose }: { gameId: number; onClose: () => void }) {
+export default function WarningSheet({
+  leagueId,
+  gameId,
+  onClose,
+}: {
+  leagueId: number;
+  gameId: number;
+  onClose: () => void;
+}) {
+  const { data: league } = useSuspenseLeague({ leagueId });
+  const sportType = league.sportType;
   const { mutate: createWarning, isPending } = useCreateTimelinesWarning({
     gameId,
   });
@@ -80,6 +91,7 @@ export default function WarningSheet({ gameId, onClose }: { gameId: number; onCl
       recordedQuarter: quarter.value,
       recordedAt: Number(minute),
       cardType: card.value,
+      sportType,
     };
 
     createWarning(request, {

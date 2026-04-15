@@ -21,19 +21,19 @@ export default function TimelineClient({ leagueId, gameId }: { leagueId: number;
     () => ({
       addScore: {
         title: '득점 추가',
-        node: <AddScoreSheet gameId={gameId} onClose={close} />,
+        node: <AddScoreSheet leagueId={leagueId} gameId={gameId} onClose={close} />,
       },
       changeStatus: {
         title: '상태 변경',
-        node: <StatusChangeSheet gameId={gameId} onClose={close} />,
+        node: <StatusChangeSheet leagueId={leagueId} gameId={gameId} onClose={close} />,
       },
       substitute: {
         title: '교체 추가',
-        node: <SubstituteSheet gameId={gameId} onClose={close} />,
+        node: <SubstituteSheet leagueId={leagueId} gameId={gameId} onClose={close} />,
       },
       warning: {
         title: '경고 추가',
-        node: <WarningSheet gameId={gameId} onClose={close} />,
+        node: <WarningSheet leagueId={leagueId} gameId={gameId} onClose={close} />,
       },
     }),
     [gameId, close],
