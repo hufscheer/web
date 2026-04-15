@@ -22,12 +22,17 @@ const NavItems = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const sport = searchParams.get('sport');
+  const organizationId = searchParams.get('organizationId');
 
   return (
     <>
       {NAVBAR_ITEMS.map(({ label, href, icon: Icon }) => {
         const isCurrentPath = href === '/' ? pathname === '/' : pathname.startsWith(href);
-        const hrefWithSport = sport ? { pathname: href, query: { sport } } : href;
+        const query = {
+          ...(sport && { sport }),
+          ...(organizationId && { organizationId }),
+        };
+        const hrefWithSport = Object.keys(query).length > 0 ? { pathname: href, query } : href;
 
         return (
           <Link

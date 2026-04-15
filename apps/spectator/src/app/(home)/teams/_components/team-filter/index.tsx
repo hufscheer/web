@@ -2,15 +2,27 @@
 import Conveyer from '@egjs/conveyer';
 import { useEffect, useRef } from 'react';
 
-import { TEAM_UNIT_LIST, type TeamUnitType } from '~/api';
+import { useSuspenseTeamUnitAvailability } from '~/api/queries/useTeamUnitAvailability';
 import { FilterBadge } from '~/components/ui';
+import { useSportType } from '~/hooks/useSportType';
 
 import { useTeamUnits } from './useTeamUnits';
 
 export const TeamFilter = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const conveyerRef = useRef<Conveyer | null>(null);
-  const { selected, toggle } = useTeamUnits();
+  const { selected, toggle, filterUnits } = useTeamUnits();
+  const { sport } = useSportType();
+  const { data: unitAvailability } = useSuspenseTeamUnitAvailability({ sportType: sport });
+
+  // 종목 전환 시 hasTeam: false 된 항목 선택 해제
+  useEffect(() => {
+    const unavailable = unitAvailability.filter((u) => !u.hasTeam).map((u) => u.unitName);
+    const nextSelected = selected.filter((u) => !unavailable.includes(u));
+    if (nextSelected.length !== selected.length) {
+      filterUnits(nextSelected);
+    }
+  }, [sport]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -24,14 +36,22 @@ export const TeamFilter = () => {
   }, []);
 
   const isEmpty = selected.length === 0;
-  const allUnits = ['전체', ...TEAM_UNIT_LIST];
+
+  type UnitItem =
+    | { isAll: true; unit: '전체'; unitName: '전체'; hasTeam: true }
+    | { isAll: false; unit: string; unitName: string; hasTeam: boolean };
+
+  const allUnits: UnitItem[] = [
+    { isAll: true, unit: '전체', unitName: '전체', hasTeam: true },
+    ...unitAvailability.map((u) => ({ isAll: false as const, ...u })),
+  ];
 
   const sortedUnits = [...allUnits].sort((a, b) => {
-    if (a === '전체') return isEmpty ? -1 : 1;
-    if (b === '전체') return isEmpty ? 1 : -1;
+    if (a.isAll) return isEmpty ? -1 : 1;
+    if (b.isAll) return isEmpty ? 1 : -1;
 
-    const aSelected = selected.includes(a as TeamUnitType);
-    const bSelected = selected.includes(b as TeamUnitType);
+    const aSelected = !a.isAll && selected.includes(a.unitName);
+    const bSelected = !b.isAll && selected.includes(b.unitName);
 
     if (aSelected && !bSelected) return -1;
     if (!aSelected && bSelected) return 1;
@@ -44,24 +64,28 @@ export const TeamFilter = () => {
         ref={containerRef}
         className="flex gap-2 overflow-x-scroll [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*:first-child]:pl-5 [&>*:last-child]:pr-5"
       >
-        {sortedUnits.map((unit, idx) => {
-          const isAll = unit === '전체';
-          const isActive = isAll ? isEmpty : selected.includes(unit as TeamUnitType);
+        {sortedUnits.map((item, idx) => {
+          const isActive = item.isAll ? isEmpty : selected.includes(item.unitName);
 
-          const prevUnit = sortedUnits[idx - 1];
-          const wasPrevAll = prevUnit === '전체';
-          const wasPrevActive = wasPrevAll ? isEmpty : selected.includes(prevUnit as TeamUnitType);
+          const prevItem = sortedUnits[idx - 1];
+          const wasPrevActive = prevItem?.isAll
+            ? isEmpty
+            : selected.includes(prevItem?.unitName ?? '');
 
           const showDivider = idx > 0 && wasPrevActive && !isActive;
 
           return (
-            <div key={unit} className="flex shrink-0 items-center gap-2">
+            <div key={item.unit} className="flex shrink-0 items-center gap-2">
               {showDivider && <div className="h-6 w-px bg-neutral-100" aria-hidden="true" />}
               <FilterBadge
                 isActive={isActive}
-                onClick={() => toggle(isAll ? null : (unit as TeamUnitType))}
+                disabled={!item.hasTeam}
+                onClick={() =>
+                  item.hasTeam ? toggle(item.isAll ? null : item.unitName) : undefined
+                }
+                className={!item.hasTeam ? 'cursor-not-allowed opacity-40' : undefined}
               >
-                {unit}
+                {item.unitName}
               </FilterBadge>
             </div>
           );

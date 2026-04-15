@@ -14,12 +14,12 @@ export default async function Page({ searchParams }: PageProps) {
   const selectedYear = Number((await searchParams).year) || currentYear;
 
   return (
-    <div className="flex-1">
+    <div className="flex flex-1 flex-col">
       <ErrorBoundary fallback={<ErrorMessage />}>
         <Suspense clientOnly>
           <SportTab />
           <YearFilter selectedYear={selectedYear} />
-          <div className="column">
+          <div className="column flex-1 px-5">
             <LeagueCardList year={selectedYear} />
           </div>
         </Suspense>
