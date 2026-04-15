@@ -1,13 +1,20 @@
-import { SportsAndOutdoorsIcon, TradeHorizontalIcon } from '@hcc/icons';
+import { BasketballIcon, FoulIcon, SportsAndOutdoorsIcon, TradeHorizontalIcon } from '@hcc/icons';
 
-import type { ProgressType, TimelineRecordType } from '~/api';
+import type { ProgressType, SportType, TimelineRecordType } from '~/api';
 
-export const getRecordIcon = (record: TimelineRecordType) => {
+export const getRecordIcon = (record: TimelineRecordType, sportType: SportType) => {
   switch (record.type) {
     case 'SCORE':
-      return <SportsAndOutdoorsIcon size={16} />;
+      return sportType === 'BASKETBALL' ? (
+        <BasketballIcon size={16} />
+      ) : (
+        <SportsAndOutdoorsIcon size={16} />
+      );
     case 'REPLACEMENT':
+    case 'BASKETBALL_REPLACEMENT':
       return <TradeHorizontalIcon size={16} />;
+    case 'WARNING_CARD':
+      return <FoulIcon size={16} />;
     case 'PK':
       return record.pkRecord.isSuccess ? (
         <SportsAndOutdoorsIcon size={16} className="text-[var(--color-green-600)]" />
@@ -20,18 +27,25 @@ export const getRecordIcon = (record: TimelineRecordType) => {
 };
 
 export const getRecordTitle = (record: TimelineRecordType) => {
-  if (record.type === 'REPLACEMENT') {
+  if (record.type === 'REPLACEMENT' || record.type === 'BASKETBALL_REPLACEMENT') {
     return `${record.replacementRecord.replacedPlayerName} IN`;
   }
   return record.playerName;
 };
 
-export const getRecordSubtitle = (record: TimelineRecordType) => {
+export const getRecordSubtitle = (record: TimelineRecordType, sportType: SportType) => {
   switch (record.type) {
     case 'SCORE':
+      if (sportType === 'BASKETBALL') {
+        const score = record.scoreRecord.score;
+        return score === 1 ? '자유투' : `${score}점슛`;
+      }
       return '득점';
     case 'REPLACEMENT':
+    case 'BASKETBALL_REPLACEMENT':
       return `${record.playerName} OUT`;
+    case 'WARNING_CARD':
+      return '파울';
     case 'PK':
       return record.pkRecord.isSuccess ? '성공' : '실축';
     default:

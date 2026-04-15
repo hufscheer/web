@@ -79,7 +79,7 @@ const Page = async ({ searchParams, params }: Props) => {
 
         <Tabs.Content value="timeline" className="outline-none">
           <Suspense clientOnly>
-            <TimelineTab gameId={id} />
+            <TimelineTab gameId={id} sportType="SOCCER" />
           </Suspense>
         </Tabs.Content>
 
