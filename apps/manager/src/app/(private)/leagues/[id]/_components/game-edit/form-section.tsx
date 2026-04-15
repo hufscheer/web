@@ -12,7 +12,7 @@ import { InputSelect } from '~/components/ui/input-select';
 import { quarterOptions, roundOptions, stateOptions } from '~/constants/leagues';
 import { handleFormError } from '~/utils/form-util';
 
-import { StepProgress } from '../_components/game-form/step-progress';
+import { StepProgress } from '../game-form/step-progress';
 import { GameLineupEditSection } from './game-lineup-edit-section';
 
 type Props = {
@@ -26,7 +26,6 @@ const STEPS = [
   { id: 'video', title: '경기 영상' },
 ] as const;
 
-// ── Step 0: 경기 기본 정보 ──────────────────────────────────────────────────
 type BasicStepProps = {
   leagueId: number;
   onNext: () => void;
@@ -138,7 +137,6 @@ const GameEditBasicStep = ({ leagueId, onNext }: BasicStepProps) => {
   );
 };
 
-// ── Step 2: 경기 영상 ──────────────────────────────────────────────────────
 type VideoStepProps = {
   onPrevious: () => void;
   onSubmit: () => void;
@@ -178,7 +176,6 @@ const GameEditVideoStep = ({ onPrevious, onSubmit }: VideoStepProps) => {
   );
 };
 
-// ── FormSection (메인) ─────────────────────────────────────────────────────
 const FormSectionInner = ({ leagueId, gameId }: Props) => {
   const router = useRouter();
   const { data } = useSuspenseGame({ gameId });
@@ -212,12 +209,12 @@ const FormSectionInner = ({ leagueId, gameId }: Props) => {
       { ...formData, leagueId, gameId },
       {
         onSuccess: () => {
-          toast.success('경기가 수정되었습니다.');
+          toast.success('경기가 수정되었어요');
           router.back();
         },
         onError: (error) => {
           console.error(`[manager/leagues/${leagueId}]`, error);
-          toast.error('경기 수정에 실패했습니다. 잠시 후 다시 시도해주세요.');
+          toast.error('경기 수정에 실패했어요. 잠시 후 다시 시도해주세요.');
         },
       },
     );

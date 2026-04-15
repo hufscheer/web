@@ -2,7 +2,7 @@
 
 import { colors, Typography } from '@hcc/ui';
 
-import { type GameStateType, useSuspenseGames } from '~/api';
+import { type GameStateType, useSuspenseGames, useSuspenseLeague } from '~/api';
 
 import { GameCard } from '../../../_components/game-card';
 
@@ -13,6 +13,7 @@ type Props = {
 
 export const GameList = ({ id, state }: Props) => {
   const { data } = useSuspenseGames({ league_id: id, state, size: 100 });
+  const { data: league } = useSuspenseLeague({ leagueId: id });
 
   return (
     <div>
@@ -25,13 +26,13 @@ export const GameList = ({ id, state }: Props) => {
       {data.length > 0 && data[0]?.games?.length > 0 ? (
         data[0].games.map((game) => (
           <GameCard key={game.id}>
-            <GameCard.Header {...game} leagueId={id} />
+            <GameCard.Header {...game} leagueId={id} sportType={league.sportType} />
             <GameCard.TeamGroup>
               {game.gameTeams.map((team) => (
                 <GameCard.Team key={team.gameTeamId} {...team} />
               ))}
             </GameCard.TeamGroup>
-            <GameCard.Menu leagueId={id} id={game.id} />
+            <GameCard.Menu leagueId={id} id={game.id} sportType={league.sportType} />
           </GameCard>
         ))
       ) : (

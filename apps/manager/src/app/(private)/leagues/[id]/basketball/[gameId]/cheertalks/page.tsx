@@ -5,10 +5,10 @@ import { notFound } from 'next/navigation';
 import { Header } from '~/components/layout';
 import { routes } from '~/constants/routes';
 
-import { GameCheerTalkTabs } from './_components/cheertalk-tabs';
+import { GameCheerTalkTabs } from '../../../_components/game-cheertalk/cheertalk-tabs';
 
 type Props = {
-  params: Promise<{ id: number; gameId: number }>;
+  params: Promise<{ id: string; gameId: string }>;
 };
 
 const Page = async ({ params }: Props) => {
@@ -21,7 +21,7 @@ const Page = async ({ params }: Props) => {
 
   const BlockedTalkMenu = () => (
     <Typography color={colors.neutral500} weight="semibold" asChild>
-      <Link href={`/${routes.game_cheertalk_block(id, gameId)}`}>가려진 목록</Link>
+      <Link href={`/${routes.game_cheertalk_block(id, gameId, 'BASKETBALL')}`}>가려진 목록</Link>
     </Typography>
   );
 
