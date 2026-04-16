@@ -134,7 +134,7 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
       const isAlreadyStarter =
         currentSelection.find((p) => p.teamPlayerId === teamPlayerId)?.state === 'STARTER';
       if (!isAlreadyStarter && currentStarters.length >= 5) {
-        toast.warning('선발 인원이 다 찼어요');
+        toast.error('선발 인원이 다 찼어요');
         return;
       }
     }
@@ -320,35 +320,33 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
 
   return (
     <div className={twMerge('flex h-full flex-col')}>
-      <div className={twMerge('mb-4 flex border-gray-200 border-b')}>
-        {([1, 2] as const).map((tab) => {
-          const name = tab === 1 ? team1Name : team2Name;
-          const starters_ = tab === 1 ? team1Starters : team2Starters;
-          const captain_ = tab === 1 ? team1Captain : team2Captain;
-          return (
-            <button
-              key={tab}
-              type="button"
-              className={twMerge(
-                'flex-1 border-b-2 px-4 py-3 text-center font-medium transition-colors',
-                activeTab === tab
-                  ? 'border-black text-black'
-                  : 'border-transparent text-gray-500 hover:text-gray-700',
-              )}
-              onClick={() => {
-                setActiveTab(tab);
-                setSearchQuery('');
-              }}
-            >
-              <div className="flex flex-col items-center gap-1">
+      <div className="mb-4 rounded-xl bg-neutral-100 p-1">
+        <div className="flex">
+          {([1, 2] as const).map((tab) => {
+            const name = tab === 1 ? team1Name : team2Name;
+            const starters_ = tab === 1 ? team1Starters : team2Starters;
+            const captain_ = tab === 1 ? team1Captain : team2Captain;
+            return (
+              <button
+                key={tab}
+                type="button"
+                className={twMerge(
+                  'flex flex-1 flex-col items-center gap-0.5 rounded-lg px-4 py-2 text-sm font-medium transition-all',
+                  activeTab === tab ? 'bg-white text-black shadow-sm' : 'text-gray-500',
+                )}
+                onClick={() => {
+                  setActiveTab(tab);
+                  setSearchQuery('');
+                }}
+              >
                 <span>{name}</span>
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-gray-400">
                   선발 {starters_.length}명 · 주장 {captain_ ? '✓' : '✗'}
                 </span>
-              </div>
-            </button>
-          );
-        })}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div className="mb-4">
