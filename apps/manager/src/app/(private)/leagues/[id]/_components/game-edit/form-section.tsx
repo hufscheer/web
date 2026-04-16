@@ -9,7 +9,7 @@ import { twMerge } from 'tailwind-merge';
 
 import { type GameUpdateFormType, useSuspenseGame, useSuspenseLeague, useUpdateGames } from '~/api';
 import { InputSelect } from '~/components/ui/input-select';
-import { quarterOptions, roundOptions, stateOptions } from '~/constants/leagues';
+import { getRoundOptions } from '~/constants/leagues';
 import { handleFormError } from '~/utils/form-util';
 
 import { StepProgress } from '../game-form/step-progress';
@@ -35,29 +35,13 @@ const GameEditBasicStep = ({ leagueId, onNext }: BasicStepProps) => {
   const { register, watch, control } = useFormContext<GameUpdateFormType>();
   const { data: league } = useSuspenseLeague({ leagueId });
 
-  const [name, round, quarter, state, startTime] = watch([
-    'name',
-    'round',
-    'quarter',
-    'state',
-    'startTime',
-  ]);
+  const [name, round, startTime] = watch(['name', 'round', 'startTime']);
 
-  const isValid = Boolean(name?.trim() && round && quarter && state && startTime);
+  const isValid = Boolean(name?.trim() && round && startTime);
 
-  const roundOptions_ = roundOptions
+  const roundOptions_ = getRoundOptions(league.sportType)
     .filter((item) => league.maxRound >= item.round)
     .map((item) => ({ value: item.value.toString(), label: item.label }));
-
-  const quarterListOptions = Object.entries(quarterOptions).map(([key, value]) => ({
-    value: key,
-    label: value,
-  }));
-
-  const stateListOptions = Object.entries(stateOptions).map(([key, value]) => ({
-    value: key,
-    label: value,
-  }));
 
   return (
     <div className="flex h-full flex-col">
@@ -80,32 +64,6 @@ const GameEditBasicStep = ({ leagueId, onNext }: BasicStepProps) => {
                 label="라운드"
                 options={roundOptions_}
                 value={field.value?.toString()}
-                onValueChange={field.onChange}
-              />
-            )}
-          />
-
-          <Controller
-            name="quarter"
-            control={control}
-            render={({ field }) => (
-              <InputSelect
-                label="쿼터"
-                options={quarterListOptions}
-                value={field.value}
-                onValueChange={field.onChange}
-              />
-            )}
-          />
-
-          <Controller
-            name="state"
-            control={control}
-            render={({ field }) => (
-              <InputSelect
-                label="상황"
-                options={stateListOptions}
-                value={field.value}
                 onValueChange={field.onChange}
               />
             )}
@@ -189,7 +147,7 @@ const FormSectionInner = ({ leagueId, gameId }: Props) => {
       quarter: data.gameQuarter.key,
       state: data.state,
       startTime: data.startTime,
-      videoId: data.videoId,
+      //videoId: data.videoId,
     },
   });
 
@@ -198,10 +156,6 @@ const FormSectionInner = ({ leagueId, gameId }: Props) => {
   const handleFormSubmit = (formData: GameUpdateFormType) => {
     if (step !== 2) {
       toast.warning('모든 단계를 완료해야 경기 수정이 가능해요');
-      return;
-    }
-    if (!form.formState.isValid) {
-      toast.error('입력값을 확인해주세요. 모든 단계의 입력값이 유효해야 해요.');
       return;
     }
 

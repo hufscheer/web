@@ -14,11 +14,13 @@ import {
   useUpdateGamesStarter,
   useSuspenseGame,
   useSuspenseGameLineup,
+  useSuspenseLeague,
   useSuspenseLeagueTeams,
   useSuspenseLeagueTeamsPlayers,
   type GameLineupType,
   type LeagueTeamsPlayerType,
 } from '~/api';
+import { getStarterLimit } from '~/constants/leagues';
 
 type PlayerSelectionState = {
   teamPlayerId: number;
@@ -55,6 +57,7 @@ const initializeSelection = (
 };
 
 const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
+  const { data: league } = useSuspenseLeague({ leagueId });
   const { data: game } = useSuspenseGame({ gameId });
   const { data: lineup } = useSuspenseGameLineup({ gameId });
   const { data: leagueTeams } = useSuspenseLeagueTeams({ leagueId });
@@ -125,6 +128,19 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
     newState: 'STARTER' | 'CANDIDATE',
   ) => {
     const setSelection = teamNumber === 1 ? setTeam1Selection : setTeam2Selection;
+    const currentSelection = teamNumber === 1 ? team1Selection : team2Selection;
+
+    if (newState === 'STARTER') {
+      const starterLimit = getStarterLimit(league.sportType);
+      const currentStarters = currentSelection.filter((p) => p.state === 'STARTER');
+      const isAlreadyStarter =
+        currentSelection.find((p) => p.teamPlayerId === teamPlayerId)?.state === 'STARTER';
+      if (!isAlreadyStarter && currentStarters.length >= starterLimit) {
+        toast.error('선발 인원이 다 찼어요');
+        return;
+      }
+    }
+
     setSelection((prev) => {
       const existing = prev.find((p) => p.teamPlayerId === teamPlayerId);
       if (existing) {
@@ -218,10 +234,10 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
       await applyTeamChanges(gameTeam1.gameTeamId, originalTeam1Selection, team1Selection);
       await applyTeamChanges(gameTeam2.gameTeamId, originalTeam2Selection, team2Selection);
 
-      toast.success('라인업이 수정되었습니다.');
+      toast.success('라인업을 수정했어요');
       onNext();
     } catch (error) {
-      toast.error('라인업 수정에 실패했습니다. 잠시 후 다시 시도해주세요.');
+      toast.error('라인업 수정에 실패했어요 잠시 후 다시 시도해주세요');
     } finally {
       setSaving(false);
     }
@@ -306,35 +322,33 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
 
   return (
     <div className={twMerge('flex h-full flex-col')}>
-      <div className={twMerge('mb-4 flex border-gray-200 border-b')}>
-        {([1, 2] as const).map((tab) => {
-          const name = tab === 1 ? team1Name : team2Name;
-          const starters_ = tab === 1 ? team1Starters : team2Starters;
-          const captain_ = tab === 1 ? team1Captain : team2Captain;
-          return (
-            <button
-              key={tab}
-              type="button"
-              className={twMerge(
-                'flex-1 border-b-2 px-4 py-3 text-center font-medium transition-colors',
-                activeTab === tab
-                  ? 'border-black text-black'
-                  : 'border-transparent text-gray-500 hover:text-gray-700',
-              )}
-              onClick={() => {
-                setActiveTab(tab);
-                setSearchQuery('');
-              }}
-            >
-              <div className="flex flex-col items-center gap-1">
+      <div className="mb-4 rounded-xl bg-neutral-100 p-1">
+        <div className="flex">
+          {([1, 2] as const).map((tab) => {
+            const name = tab === 1 ? team1Name : team2Name;
+            const starters_ = tab === 1 ? team1Starters : team2Starters;
+            const captain_ = tab === 1 ? team1Captain : team2Captain;
+            return (
+              <button
+                key={tab}
+                type="button"
+                className={twMerge(
+                  'flex flex-1 flex-col items-center gap-0.5 rounded-lg px-4 py-2 text-sm font-medium transition-all',
+                  activeTab === tab ? 'bg-white text-black shadow-sm' : 'text-gray-500',
+                )}
+                onClick={() => {
+                  setActiveTab(tab);
+                  setSearchQuery('');
+                }}
+              >
                 <span>{name}</span>
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-gray-400">
                   선발 {starters_.length}명 · 주장 {captain_ ? '✓' : '✗'}
                 </span>
-              </div>
-            </button>
-          );
-        })}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div className="mb-4">
