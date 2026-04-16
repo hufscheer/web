@@ -33,7 +33,7 @@ export const quarterOptions = {
 export type QuarterType = keyof typeof quarterOptions;
 
 export const roundOptions = [
-  { value: '32', label: '32강', basketballLabel: '예선', round: 32 },
+  { value: '32', label: '예선', basketballLabel: '예선', round: 32 },
   { value: '16', label: '16강', basketballLabel: '16강', round: 16 },
   { value: '8', label: '8강', basketballLabel: '8강', round: 8 },
   { value: '4', label: '4강', basketballLabel: '4강', round: 4 },
