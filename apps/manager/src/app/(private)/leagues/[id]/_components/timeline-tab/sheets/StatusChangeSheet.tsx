@@ -40,7 +40,7 @@ const getErrorMessage = async (error: unknown) => {
 
 const QUARTER_LABELS: LabelType<
   typeof QUARTER_TYPE,
-  Exclude<keyof typeof QUARTER_TYPE, 'POST_GAME'>
+  'PRE_GAME' | 'FIRST_HALF' | 'SECOND_HALF' | 'EXTRA_TIME' | 'PENALTY_SHOOTOUT'
 > = {
   PRE_GAME: '경기 시작',
   FIRST_HALF: '전반',

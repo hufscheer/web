@@ -123,6 +123,7 @@ export default function AddScoreSheet({
         ...commonData,
         recordedAt: Number(minute),
         scoreLineupPlayerId: Number(player.value),
+        assistLineupPlayerId: null,
         sportType,
       };
 

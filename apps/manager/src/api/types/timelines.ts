@@ -17,6 +17,12 @@ export const QUARTER_TYPE = {
   EXTRA_TIME: 'EXTRA_TIME',
   PENALTY_SHOOTOUT: 'PENALTY_SHOOTOUT',
   POST_GAME: 'POST_GAME',
+  // basketball
+  FIRST_QUARTER: 'FIRST_QUARTER',
+  SECOND_QUARTER: 'SECOND_QUARTER',
+  THIRD_QUARTER: 'THIRD_QUARTER',
+  FOURTH_QUARTER: 'FOURTH_QUARTER',
+  OVERTIME: 'OVERTIME',
 };
 
 export type QuarterType = (typeof QUARTER_TYPE)[keyof typeof QUARTER_TYPE];
@@ -28,6 +34,8 @@ export type ScoreType = {
   gameTeamId: number;
   scoreLineupPlayerId: number;
   sportType: SportType;
+  assistLineupPlayerId: number | null;
+  score?: number;
 };
 
 export type ReplacementType = {
