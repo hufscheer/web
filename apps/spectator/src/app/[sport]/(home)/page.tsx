@@ -9,6 +9,7 @@ export default function Page() {
   return (
     <div className="flex flex-1 flex-col justify-between gap-3">
       <ErrorBoundary fallback={<ErrorMessage />}>
+        <SportTab />
         <Suspense
           clientOnly
           fallback={
@@ -17,7 +18,6 @@ export default function Page() {
             </div>
           }
         >
-          <SportTab />
           <div className="flex flex-1 px-5">
             <RecentTab />
           </div>

@@ -7,9 +7,10 @@ import { TeamTab } from './_components/tab';
 export default function Page() {
   return (
     <div className="flex flex-1 flex-col">
+      <SportTab />
+
       <ErrorBoundary fallback={<ErrorMessage />}>
         <Suspense clientOnly>
-          <SportTab />
           <TeamTab />
         </Suspense>
       </ErrorBoundary>

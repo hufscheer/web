@@ -15,9 +15,10 @@ export default async function Page({ searchParams }: PageProps) {
 
   return (
     <div className="flex flex-1 flex-col">
+      <SportTab />
+
       <ErrorBoundary fallback={<ErrorMessage />}>
         <Suspense clientOnly>
-          <SportTab />
           <YearFilter selectedYear={selectedYear} />
           <div className="column flex-1 px-5">
             <LeagueCardList year={selectedYear} />
