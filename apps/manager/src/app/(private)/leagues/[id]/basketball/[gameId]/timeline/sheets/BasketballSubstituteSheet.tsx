@@ -2,7 +2,6 @@
 
 import { Button, toast } from '@hcc/ui';
 import { useMemo, useState } from 'react';
-import { twMerge } from 'tailwind-merge';
 
 import type { ReplacementType } from '~/api/types';
 
@@ -10,6 +9,7 @@ import { useCreateTimelinesReplace } from '~/api/mutations/useCreateTimelineRepl
 import { useSuspenseGameLineup } from '~/api/queries/useGameLineup';
 import { useSuspenseLeague } from '~/api/queries/useLeague';
 import { QUARTER_TYPE } from '~/api/types';
+import { TeamSegmentedControl } from '~/components/ui';
 import { InputSelect } from '~/components/ui/input-select';
 
 type SelectOption = { label: string; value: string };
@@ -114,28 +114,15 @@ export default function BasketballSubstituteSheet({ leagueId, gameId, onClose }:
 
       <div className="text-base font-medium text-black">교체 상세 정보</div>
 
-      {/* 팀 segmented control */}
-      <div className="flex overflow-hidden rounded-xl bg-neutral-100 p-1">
-        {lineup.map((team) => (
-          <button
-            key={team.gameTeamId}
-            type="button"
-            className={twMerge(
-              'flex flex-1 items-center justify-center rounded-lg py-3 text-sm font-medium transition-colors',
-              selectedTeamId === team.gameTeamId
-                ? 'bg-white text-black shadow-sm'
-                : 'text-neutral-400',
-            )}
-            onClick={() => {
-              setSelectedTeamId(team.gameTeamId);
-              setPlayerIn(null);
-              setPlayerOut(null);
-            }}
-          >
-            {team.teamName}
-          </button>
-        ))}
-      </div>
+      <TeamSegmentedControl
+        teams={lineup}
+        value={selectedTeamId}
+        onChange={(teamId) => {
+          setSelectedTeamId(teamId);
+          setPlayerIn(null);
+          setPlayerOut(null);
+        }}
+      />
 
       <InputSelect
         label="교체 투입 선수"

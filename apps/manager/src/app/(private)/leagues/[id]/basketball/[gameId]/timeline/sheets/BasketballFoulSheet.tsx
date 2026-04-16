@@ -2,7 +2,6 @@
 
 import { Button, toast } from '@hcc/ui';
 import { useMemo, useState } from 'react';
-import { twMerge } from 'tailwind-merge';
 
 import type { FoulType } from '~/api/types';
 
@@ -10,6 +9,7 @@ import { useCreateTimelineFoul } from '~/api/mutations/useCreateTimelineFoul';
 import { useSuspenseGameLineupPlaying } from '~/api/queries/useGameLineupPlaying';
 import { useSuspenseLeague } from '~/api/queries/useLeague';
 import { QUARTER_TYPE } from '~/api/types';
+import { TeamSegmentedControl } from '~/components/ui';
 import { InputSelect } from '~/components/ui/input-select';
 
 type SelectOption = { label: string; value: string };
@@ -95,27 +95,14 @@ export default function BasketballFoulSheet({ leagueId, gameId, onClose }: Props
 
       <div className="text-base font-medium text-black">경고 상세 정보</div>
 
-      {/* 팀 segmented control */}
-      <div className="flex overflow-hidden rounded-xl bg-[#E9EBEE] p-1">
-        {lineup.map((team) => (
-          <button
-            key={team.gameTeamId}
-            type="button"
-            className={twMerge(
-              'flex flex-1 items-center justify-center rounded-lg py-3 text-sm font-medium transition-colors',
-              selectedTeamId === team.gameTeamId
-                ? 'bg-white text-black shadow-sm'
-                : 'text-neutral-400',
-            )}
-            onClick={() => {
-              setSelectedTeamId(team.gameTeamId);
-              setPlayer(null);
-            }}
-          >
-            {team.teamName}
-          </button>
-        ))}
-      </div>
+      <TeamSegmentedControl
+        teams={lineup}
+        value={selectedTeamId}
+        onChange={(teamId) => {
+          setSelectedTeamId(teamId);
+          setPlayer(null);
+        }}
+      />
 
       <InputSelect
         label="선수"

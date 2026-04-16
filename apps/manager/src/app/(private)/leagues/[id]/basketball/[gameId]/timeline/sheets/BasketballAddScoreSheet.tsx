@@ -2,7 +2,6 @@
 
 import { Button, toast } from '@hcc/ui';
 import { useMemo, useState } from 'react';
-import { twMerge } from 'tailwind-merge';
 
 import type { ScoreType } from '~/api/types';
 
@@ -10,7 +9,7 @@ import { useCreateTimelineScore } from '~/api/mutations/useCreateTimelineScore';
 import { useSuspenseGameLineupPlaying } from '~/api/queries/useGameLineupPlaying';
 import { useSuspenseLeague } from '~/api/queries/useLeague';
 import { QUARTER_TYPE } from '~/api/types';
-import { ScoreSelector } from '~/components/ui';
+import { ScoreSelector, TeamSegmentedControl } from '~/components/ui';
 import { InputSelect } from '~/components/ui/input-select';
 
 type SelectOption = { label: string; value: string };
@@ -105,27 +104,14 @@ export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: P
 
       <div className="text-base font-medium text-black">득점 상세 정보</div>
 
-      {/* 팀 segmented control */}
-      <div className="flex overflow-hidden rounded-xl bg-[#E9EBEE] p-1">
-        {lineup.map((team) => (
-          <button
-            key={team.gameTeamId}
-            type="button"
-            className={twMerge(
-              'flex flex-1 items-center justify-center rounded-lg py-3 text-sm font-medium transition-colors',
-              selectedTeamId === team.gameTeamId
-                ? 'bg-white text-black shadow-sm'
-                : 'text-neutral-400',
-            )}
-            onClick={() => {
-              setSelectedTeamId(team.gameTeamId);
-              setPlayer(null);
-            }}
-          >
-            {team.teamName}
-          </button>
-        ))}
-      </div>
+      <TeamSegmentedControl
+        teams={lineup}
+        value={selectedTeamId}
+        onChange={(teamId) => {
+          setSelectedTeamId(teamId);
+          setPlayer(null);
+        }}
+      />
 
       <InputSelect
         label="선수"
