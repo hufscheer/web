@@ -189,7 +189,7 @@ const FormSectionInner = ({ leagueId, gameId }: Props) => {
       quarter: data.gameQuarter.key,
       state: data.state,
       startTime: data.startTime,
-      videoId: data.videoId,
+      //videoId: data.videoId,
     },
   });
 
@@ -201,7 +201,7 @@ const FormSectionInner = ({ leagueId, gameId }: Props) => {
       return;
     }
     if (!form.formState.isValid) {
-      toast.error('입력값을 확인해주세요. 모든 단계의 입력값이 유효해야 해요.');
+      toast.error('입력값을 확인해주세요 모든 단계의 입력값이 유효해야 해요');
       return;
     }
 

@@ -232,10 +232,10 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
       await applyTeamChanges(gameTeam1.gameTeamId, originalTeam1Selection, team1Selection);
       await applyTeamChanges(gameTeam2.gameTeamId, originalTeam2Selection, team2Selection);
 
-      toast.success('라인업이 수정되었습니다.');
+      toast.success('라인업을 수정했어요');
       onNext();
     } catch (error) {
-      toast.error('라인업 수정에 실패했습니다. 잠시 후 다시 시도해주세요.');
+      toast.error('라인업 수정에 실패했어요 잠시 후 다시 시도해주세요');
     } finally {
       setSaving(false);
     }
