@@ -1,0 +1,109 @@
+import * as Tabs from '@radix-ui/react-tabs';
+import { Suspense } from '@suspensive/react';
+import { redirect } from 'next/navigation';
+
+import { CheerVS } from '~/app/[sport]/games/_components/cheer-vs';
+import { LineupTab } from '~/app/[sport]/games/_components/lineup-tab';
+import { TimelineTab } from '~/app/[sport]/games/_components/timeline-tab';
+import { VideoTab } from '~/app/[sport]/games/_components/video-tab';
+import { Header } from '~/components/layout';
+import { TabTrigger } from '~/components/ui';
+import { routes } from '~/constants/routes';
+import { DEFAULT_SPORT, normalizeSportParam } from '~/utils/sport-route';
+
+import { Banner } from '../_components/banner';
+import { CheerTalk } from '../_components/cheer-talk';
+import { ScoreBoard } from '../_components/score-board';
+
+const validTabs = ['cheer', 'lineup', 'timeline', 'video'];
+
+type Props = {
+  searchParams: Promise<{ tab?: string }>;
+  params: Promise<{ id: string; sport: string }>;
+};
+
+const Page = async ({ searchParams, params }: Props) => {
+  const { id: _id, sport: _sport } = await params;
+  const id = Number(_id);
+  const sportType = normalizeSportParam(_sport);
+
+  if (Number.isNaN(id) || id <= 0) {
+    redirect(routes.home({ sport: DEFAULT_SPORT }));
+  }
+
+  if (!sportType) {
+    redirect(routes.home({ sport: DEFAULT_SPORT }));
+  }
+
+  const { tab: _tab } = await searchParams;
+  const tab = validTabs.includes(_tab || '') ? _tab : 'cheer';
+
+  if (_tab && !validTabs.includes(_tab)) {
+    redirect('?tab=cheer');
+  }
+
+  return (
+    <div className="flex min-h-dvh flex-col bg-white">
+      <Header arrow />
+
+      <Suspense clientOnly>
+        <Banner gameId={id} />
+      </Suspense>
+
+      <Suspense clientOnly>
+        <CheerVS gameId={id} />
+      </Suspense>
+
+      {sportType === 'BASKETBALL' && (
+        <Suspense clientOnly>
+          <ScoreBoard gameId={id} />
+        </Suspense>
+      )}
+
+      <hr className="h-2 w-full border-none bg-neutral-50" />
+
+      <Tabs.Root className="flex flex-col" defaultValue={tab}>
+        <Tabs.List className="sticky top-0 z-10 flex h-12 flex-shrink-0 gap-5 border-b border-neutral-100 bg-white">
+          <TabTrigger className="size-full" value="cheer">
+            응원
+          </TabTrigger>
+          <TabTrigger className="size-full" value="lineup">
+            라인업
+          </TabTrigger>
+          <TabTrigger className="size-full" value="timeline">
+            타임라인
+          </TabTrigger>
+          <TabTrigger className="size-full" value="video">
+            영상
+          </TabTrigger>
+        </Tabs.List>
+
+        <Tabs.Content value="cheer" className="min-h-dvh bg-[#EBEBEB] outline-none">
+          <Suspense clientOnly>
+            <CheerTalk gameId={id} sportType={sportType} />
+          </Suspense>
+        </Tabs.Content>
+
+        <Tabs.Content value="lineup" className="outline-none">
+          <Suspense clientOnly>
+            <LineupTab gameId={id} />
+          </Suspense>
+        </Tabs.Content>
+
+        <Tabs.Content value="timeline" className="outline-none">
+          <Suspense clientOnly>
+            <TimelineTab gameId={id} sportType={sportType} />
+          </Suspense>
+        </Tabs.Content>
+
+        <Tabs.Content value="video" className="outline-none">
+          <Suspense clientOnly>
+            <VideoTab gameId={id} />
+          </Suspense>
+        </Tabs.Content>
+      </Tabs.Root>
+    </div>
+  );
+};
+
+export default Page;

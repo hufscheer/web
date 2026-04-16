@@ -1,18 +1,22 @@
 import type { SportType } from '~/api';
 
+type SportRouteParams = { sport: SportType };
+type TeamRouteParams = { id: number; sport: SportType };
 type GamesRouteParams = { id: number; sport: SportType };
 type LeaguesRouteParams = { id: number; sport: SportType };
 
 export const routes = {
-  home: '/',
-  calendar: '/calendar',
+  root: '/',
+  home: ({ sport }: SportRouteParams) => `/${sport.toLocaleLowerCase()}`,
+  calendar: ({ sport }: SportRouteParams) => `/${sport.toLocaleLowerCase()}/calendar`,
 
-  teams: '/teams',
-  team: (id: number) => `/teams/${id}`,
+  teams: ({ sport }: SportRouteParams) => `/${sport.toLocaleLowerCase()}/teams`,
+  team: ({ id, sport }: TeamRouteParams) => `/${sport.toLocaleLowerCase()}/teams/${id}`,
 
-  games: '/games',
-  game: ({ id, sport }: GamesRouteParams) => `/games/${sport.toLocaleLowerCase()}/${id}`,
+  games: ({ sport }: SportRouteParams) => `/${sport.toLocaleLowerCase()}/games`,
+  game: ({ id, sport }: GamesRouteParams) => `/${sport.toLocaleLowerCase()}/games/${id}`,
 
-  leagues: '/leagues',
-  league: ({ id, sport }: LeaguesRouteParams) => `/leagues/${sport.toLocaleLowerCase()}/${id}`,
+  previous: ({ sport }: SportRouteParams) => `/${sport.toLocaleLowerCase()}/previous`,
+  leagues: ({ sport }: SportRouteParams) => `/${sport.toLocaleLowerCase()}/leagues`,
+  league: ({ id, sport }: LeaguesRouteParams) => `/${sport.toLocaleLowerCase()}/leagues/${id}`,
 };
