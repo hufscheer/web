@@ -18,11 +18,11 @@ export const GameDeleteMenu = ({ leagueId, gameId }: Props) => {
   const handleGameDelete = async (): Promise<void> => {
     try {
       await mutateAsync({ leagueId, gameId });
-      toast.success('게임이 삭제되었어요.');
+      toast.success('게임이 삭제되었어요');
       router.back();
     } catch (error) {
       console.error(`[manager/leagues/${leagueId}/${gameId}`, error);
-      toast.error('게임 삭제에 실패했어요.');
+      toast.error('게임 삭제에 실패했어요');
     }
   };
 

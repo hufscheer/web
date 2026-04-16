@@ -6,6 +6,7 @@ import { useState } from 'react';
 import type { ProgressStateType } from '~/api/types';
 
 import { useCreateTimelinesProgress } from '~/api/mutations/useCreateTimelineStatus';
+import { useSuspenseLeague } from '~/api/queries/useLeague';
 import { PROGRESS_TYPE, QUARTER_TYPE } from '~/api/types';
 import { InputSelect } from '~/components/ui/input-select';
 
@@ -39,7 +40,7 @@ const getErrorMessage = async (error: unknown) => {
 
 const QUARTER_LABELS: LabelType<
   typeof QUARTER_TYPE,
-  Exclude<keyof typeof QUARTER_TYPE, 'POST_GAME'>
+  'PRE_GAME' | 'FIRST_HALF' | 'SECOND_HALF' | 'EXTRA_TIME' | 'PENALTY_SHOOTOUT'
 > = {
   PRE_GAME: '경기 시작',
   FIRST_HALF: '전반',
@@ -66,12 +67,16 @@ const progressOptions: SelectOption[] = (
 }));
 
 export default function StatusChangeSheet({
+  leagueId,
   gameId,
   onClose,
 }: {
+  leagueId: number;
   gameId: number;
   onClose: () => void;
 }) {
+  const { data: league } = useSuspenseLeague({ leagueId });
+  const sportType = league.sportType;
   const { mutate: createProgress, isPending } = useCreateTimelinesProgress({
     gameId,
   });
@@ -92,6 +97,7 @@ export default function StatusChangeSheet({
       recordedQuarter: quarter.value,
       gameProgressType: progress.value as keyof typeof PROGRESS_TYPE,
       recordedAt: Number(minute),
+      sportType,
     };
 
     createProgress(request, {

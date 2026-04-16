@@ -17,7 +17,7 @@ export const FormSection = ({ leagueId }: Props) => {
 
   const handleSubmit = async (data: GameFormType) => {
     mutate(
-      { ...data, leagueId },
+      { ...data, leagueId, quarter: 'PRE_GAME', state: 'SCHEDULED' },
       {
         onSuccess: () => {
           toast.success('경기가 생성되었습니다.');

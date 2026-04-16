@@ -9,10 +9,10 @@ import { twMerge } from 'tailwind-merge';
 
 import { type GameUpdateFormType, useSuspenseGame, useSuspenseLeague, useUpdateGames } from '~/api';
 import { InputSelect } from '~/components/ui/input-select';
-import { quarterOptions, roundOptions, stateOptions } from '~/constants/leagues';
+import { getRoundOptions } from '~/constants/leagues';
 import { handleFormError } from '~/utils/form-util';
 
-import { StepProgress } from '../_components/game-form/step-progress';
+import { StepProgress } from '../game-form/step-progress';
 import { GameLineupEditSection } from './game-lineup-edit-section';
 
 type Props = {
@@ -26,7 +26,6 @@ const STEPS = [
   { id: 'video', title: '경기 영상' },
 ] as const;
 
-// ── Step 0: 경기 기본 정보 ──────────────────────────────────────────────────
 type BasicStepProps = {
   leagueId: number;
   onNext: () => void;
@@ -36,29 +35,13 @@ const GameEditBasicStep = ({ leagueId, onNext }: BasicStepProps) => {
   const { register, watch, control } = useFormContext<GameUpdateFormType>();
   const { data: league } = useSuspenseLeague({ leagueId });
 
-  const [name, round, quarter, state, startTime] = watch([
-    'name',
-    'round',
-    'quarter',
-    'state',
-    'startTime',
-  ]);
+  const [name, round, startTime] = watch(['name', 'round', 'startTime']);
 
-  const isValid = Boolean(name?.trim() && round && quarter && state && startTime);
+  const isValid = Boolean(name?.trim() && round && startTime);
 
-  const roundOptions_ = roundOptions
+  const roundOptions_ = getRoundOptions(league.sportType)
     .filter((item) => league.maxRound >= item.round)
     .map((item) => ({ value: item.value.toString(), label: item.label }));
-
-  const quarterListOptions = Object.entries(quarterOptions).map(([key, value]) => ({
-    value: key,
-    label: value,
-  }));
-
-  const stateListOptions = Object.entries(stateOptions).map(([key, value]) => ({
-    value: key,
-    label: value,
-  }));
 
   return (
     <div className="flex h-full flex-col">
@@ -81,32 +64,6 @@ const GameEditBasicStep = ({ leagueId, onNext }: BasicStepProps) => {
                 label="라운드"
                 options={roundOptions_}
                 value={field.value?.toString()}
-                onValueChange={field.onChange}
-              />
-            )}
-          />
-
-          <Controller
-            name="quarter"
-            control={control}
-            render={({ field }) => (
-              <InputSelect
-                label="쿼터"
-                options={quarterListOptions}
-                value={field.value}
-                onValueChange={field.onChange}
-              />
-            )}
-          />
-
-          <Controller
-            name="state"
-            control={control}
-            render={({ field }) => (
-              <InputSelect
-                label="상황"
-                options={stateListOptions}
-                value={field.value}
                 onValueChange={field.onChange}
               />
             )}
@@ -138,7 +95,6 @@ const GameEditBasicStep = ({ leagueId, onNext }: BasicStepProps) => {
   );
 };
 
-// ── Step 2: 경기 영상 ──────────────────────────────────────────────────────
 type VideoStepProps = {
   onPrevious: () => void;
   onSubmit: () => void;
@@ -178,7 +134,6 @@ const GameEditVideoStep = ({ onPrevious, onSubmit }: VideoStepProps) => {
   );
 };
 
-// ── FormSection (메인) ─────────────────────────────────────────────────────
 const FormSectionInner = ({ leagueId, gameId }: Props) => {
   const router = useRouter();
   const { data } = useSuspenseGame({ gameId });
@@ -192,7 +147,7 @@ const FormSectionInner = ({ leagueId, gameId }: Props) => {
       quarter: data.gameQuarter.key,
       state: data.state,
       startTime: data.startTime,
-      videoId: data.videoId,
+      //videoId: data.videoId,
     },
   });
 
@@ -203,21 +158,17 @@ const FormSectionInner = ({ leagueId, gameId }: Props) => {
       toast.warning('모든 단계를 완료해야 경기 수정이 가능해요');
       return;
     }
-    if (!form.formState.isValid) {
-      toast.error('입력값을 확인해주세요. 모든 단계의 입력값이 유효해야 해요.');
-      return;
-    }
 
     mutate(
       { ...formData, leagueId, gameId },
       {
         onSuccess: () => {
-          toast.success('경기가 수정되었습니다.');
+          toast.success('경기가 수정되었어요');
           router.back();
         },
         onError: (error) => {
           console.error(`[manager/leagues/${leagueId}]`, error);
-          toast.error('경기 수정에 실패했습니다. 잠시 후 다시 시도해주세요.');
+          toast.error('경기 수정에 실패했어요. 잠시 후 다시 시도해주세요.');
         },
       },
     );

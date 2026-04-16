@@ -4,7 +4,7 @@ import { Button } from '@hcc/ui';
 import clsx from 'clsx';
 import { useMemo, useState } from 'react';
 
-import type { TeamType } from '~/api';
+import type { SportType, TeamType } from '~/api';
 
 import { useTeams } from '~/api/queries/useTeams';
 
@@ -38,13 +38,20 @@ type TeamCreationFormProps = {
   onClose: () => void;
   onRegister: (teams: RegisteredTeam[]) => void;
   maxSelectCount: number;
+  sportType: SportType;
 };
 
-export const SelectTeam = ({ onClose, onRegister, maxSelectCount }: TeamCreationFormProps) => {
+export const SelectTeam = ({
+  onClose,
+  onRegister,
+  maxSelectCount,
+  sportType,
+}: TeamCreationFormProps) => {
   const { data: teams = [], isLoading } = useTeams();
 
   const affiliations = useMemo(() => {
-    const units = teams.reduce<Record<string, TeamType[]>>((acc, team) => {
+    const filtered = teams.filter((team) => team.sportType === sportType);
+    const units = filtered.reduce<Record<string, TeamType[]>>((acc, team) => {
       if (!acc[team.unit]) {
         acc[team.unit] = [];
       }

@@ -1,9 +1,15 @@
-import { Button, Input } from '@hcc/ui';
+import { Button, Input, toast } from '@hcc/ui';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
-import { type GameFormType, useSuspenseLeagueTeams, useSuspenseLeagueTeamsPlayers } from '~/api';
+import {
+  type GameFormType,
+  useSuspenseLeague,
+  useSuspenseLeagueTeams,
+  useSuspenseLeagueTeamsPlayers,
+} from '~/api';
+import { getStarterLimit } from '~/constants/leagues';
 
 type Props = {
   leagueId: number;
@@ -19,6 +25,7 @@ type PlayerSelectionState = {
 
 export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
   const { watch, setValue, getValues } = useFormContext<GameFormType>();
+  const { data: league } = useSuspenseLeague({ leagueId });
   const [team1Id, team2Id] = watch(['team1.leagueTeamId', 'team2.leagueTeamId']);
 
   const { data: leagueTeams } = useSuspenseLeagueTeams({ leagueId });
@@ -87,6 +94,18 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
     state: 'STARTER' | 'CANDIDATE',
   ) => {
     const setSelection = teamNumber === 1 ? setTeam1Selection : setTeam2Selection;
+    const currentSelection = teamNumber === 1 ? team1Selection : team2Selection;
+
+    if (state === 'STARTER') {
+      const starterLimit = getStarterLimit(league.sportType);
+      const currentStarters = currentSelection.filter((p) => p.state === 'STARTER');
+      const isAlreadyStarter =
+        currentSelection.find((p) => p.teamPlayerId === teamPlayerId)?.state === 'STARTER';
+      if (!isAlreadyStarter && currentStarters.length >= starterLimit) {
+        toast.error('선발인원이 모두 찼어요');
+        return;
+      }
+    }
 
     setSelection((prev) => {
       const existing = prev.find((p) => p.teamPlayerId === teamPlayerId);
@@ -215,49 +234,33 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
   };
 
   return (
-    <div className={twMerge('w-full')}>
-      <div className={twMerge('mb-4')}>
-        <div className={twMerge('flex border-gray-200 border-b')}>
-          <button
-            type="button"
-            className={twMerge(
-              'flex-1 border-b-2 px-4 py-3 text-center font-medium transition-colors',
-              activeTab === 1
-                ? 'border-black text-black'
-                : 'border-transparent text-gray-500 hover:text-gray-700',
-            )}
-            onClick={() => {
-              setActiveTab(1);
-              setSearchQuery('');
-            }}
-          >
-            <div className="flex flex-col items-center gap-1">
-              <span>{team1?.teamName}</span>
-              <span className={twMerge('text-gray-500 text-xs')}>
-                선발: {team1Starters.length}명, 주장: {team1Captain ? '✓' : '✗'}
-              </span>
-            </div>
-          </button>
-          <button
-            type="button"
-            className={twMerge(
-              'flex-1 border-b-2 px-4 py-3 text-center font-medium transition-colors',
-              activeTab === 2
-                ? 'border-black text-black'
-                : 'border-transparent text-gray-500 hover:text-gray-700',
-            )}
-            onClick={() => {
-              setActiveTab(2);
-              setSearchQuery('');
-            }}
-          >
-            <div className="flex flex-col items-center gap-1">
-              <span>{team2?.teamName}</span>
-              <span className={twMerge('text-gray-500 text-xs')}>
-                선발: {team2Starters.length}명, 주장: {team2Captain ? '✓' : '✗'}
-              </span>
-            </div>
-          </button>
+    <div className={twMerge('flex h-full flex-col')}>
+      <div className="mb-4 rounded-xl bg-neutral-100 p-1">
+        <div className="flex">
+          {([1, 2] as const).map((tab) => {
+            const team = tab === 1 ? team1 : team2;
+            const starters = tab === 1 ? team1Starters : team2Starters;
+            const captain = tab === 1 ? team1Captain : team2Captain;
+            return (
+              <button
+                key={tab}
+                type="button"
+                className={twMerge(
+                  'flex flex-1 flex-col items-center gap-0.5 rounded-lg px-4 py-2 text-sm font-medium transition-all',
+                  activeTab === tab ? 'bg-white text-black shadow-sm' : 'text-gray-500',
+                )}
+                onClick={() => {
+                  setActiveTab(tab);
+                  setSearchQuery('');
+                }}
+              >
+                <span>{team?.teamName}</span>
+                <span className="text-xs text-gray-400">
+                  선발 {starters.length}명 · 주장 {captain ? '✓' : '✗'}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
       <div className={twMerge('mb-4')}>
@@ -270,10 +273,8 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
         />
       </div>
 
-      <div className={twMerge('mb-6')} style={{ maxHeight: '500px', overflowY: 'auto' }}>
-        {renderPlayerList(activeTab)}
-      </div>
-      <div className={twMerge('sticky bottom-0 border-gray-200 border-t bg-white pt-4')}>
+      <div className={twMerge('mb-6 flex-1 overflow-y-auto')}>{renderPlayerList(activeTab)}</div>
+      <div className={twMerge('flex-shrink-0 border-gray-200 border-t bg-white pt-4')}>
         <div className={twMerge('flex gap-3')}>
           <Button
             type="button"

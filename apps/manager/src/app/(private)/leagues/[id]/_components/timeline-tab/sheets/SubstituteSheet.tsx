@@ -7,6 +7,7 @@ import type { ReplacementType } from '~/api/types';
 
 import { useCreateTimelinesReplace } from '~/api/mutations/useCreateTimelineReplacement';
 import { useSuspenseGameLineup } from '~/api/queries/useGameLineup';
+import { useSuspenseLeague } from '~/api/queries/useLeague';
 import { QUARTER_TYPE } from '~/api/types';
 import { InputSelect } from '~/components/ui/input-select';
 
@@ -25,12 +26,16 @@ const quarterOptions: SelectOption[] = (
 }));
 
 export default function SubstituteSheet({
+  leagueId,
   gameId,
   onClose,
 }: {
+  leagueId: number;
   gameId: number;
   onClose: () => void;
 }) {
+  const { data: league } = useSuspenseLeague({ leagueId });
+  const sportType = league.sportType;
   const { mutate: createReplacement, isPending } = useCreateTimelinesReplace({
     gameId,
   });
@@ -88,6 +93,7 @@ export default function SubstituteSheet({
       recordedAt: Number(minute),
       originLineupPlayerId: Number(playerOut?.value),
       replacementLineupPlayerId: Number(playerIn?.value),
+      sportType,
     };
 
     createReplacement(request, {

@@ -1,4 +1,5 @@
 import type { GameQuarterType } from './games';
+import type { SportType } from './leagues';
 
 export const PROGRESS_TYPE = {
   GAME_START: 'GAME_START',
@@ -16,6 +17,12 @@ export const QUARTER_TYPE = {
   EXTRA_TIME: 'EXTRA_TIME',
   PENALTY_SHOOTOUT: 'PENALTY_SHOOTOUT',
   POST_GAME: 'POST_GAME',
+  // basketball
+  FIRST_QUARTER: 'FIRST_QUARTER',
+  SECOND_QUARTER: 'SECOND_QUARTER',
+  THIRD_QUARTER: 'THIRD_QUARTER',
+  FOURTH_QUARTER: 'FOURTH_QUARTER',
+  OVERTIME: 'OVERTIME',
 };
 
 export type QuarterType = (typeof QUARTER_TYPE)[keyof typeof QUARTER_TYPE];
@@ -26,32 +33,58 @@ export type ScoreType = {
   recordedAt: number;
   gameTeamId: number;
   scoreLineupPlayerId: number;
+  sportType: SportType;
+  assistLineupPlayerId: number | null;
+  score?: number;
 };
 
 export type ReplacementType = {
   gameId?: number;
+  sportType: SportType;
   recordedQuarter: QuarterType;
   recordedAt: number;
   gameTeamId: number;
   originLineupPlayerId: number;
   replacementLineupPlayerId: number;
+  isFoulOut?: boolean;
 };
 
 export type ProgressStateType = {
   gameId?: number;
+  sportType: SportType;
   recordedQuarter: QuarterType;
-  recordedAt: number;
+  recordedAt: number | null;
   gameProgressType: ProgressType;
+};
+
+export type ProgressAvailableAction = {
+  quarter: QuarterType;
+  gameProgressType: ProgressType;
+  displayName: string;
+};
+
+export type ProgressAvailableActionsResponse = {
+  availableActions: ProgressAvailableAction[];
 };
 
 export type PkType = {
   gameId: number;
+  sportType: SportType;
   recordedQuarter: QuarterType;
   recordedAt: number;
   gameTeamId: number;
   scorerId: number;
   isSuccess: boolean;
 };
+export type FoulType = {
+  gameId?: number;
+  recordedQuarter: QuarterType;
+  recordedAt: number;
+  gameTeamId: number;
+  offenderLineupPlayerId: number;
+  sportType: SportType;
+};
+
 export const CARD_TYPE = {
   YELLOW: 'YELLOW',
   RED: 'RED',
@@ -65,6 +98,7 @@ export type WarningType = {
   gameTeamId: number;
   warnedLineupPlayerId: number;
   cardType: CardType;
+  sportType: SportType;
 };
 
 type ScoreSnapshotType = {
