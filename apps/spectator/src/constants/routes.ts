@@ -1,6 +1,7 @@
 import type { SportType } from '~/api';
 
 type GamesRouteParams = { id: number; sport: SportType };
+type LeaguesRouteParams = { id: number; sport: SportType };
 
 export const routes = {
   home: '/',
@@ -13,5 +14,5 @@ export const routes = {
   game: ({ id, sport }: GamesRouteParams) => `/games/${sport.toLocaleLowerCase()}/${id}`,
 
   leagues: '/leagues',
-  league: (id: number) => `/leagues/${id}`,
+  league: ({ id, sport }: LeaguesRouteParams) => `/leagues/${sport.toLocaleLowerCase()}/${id}`,
 };

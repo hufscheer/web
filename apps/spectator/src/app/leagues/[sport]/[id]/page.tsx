@@ -5,27 +5,42 @@ import { Suspense } from '@suspensive/react';
 import { redirect } from 'next/navigation';
 
 import type { LeagueDetailType, LeagueTeamType } from '~/api';
+import type { SportType } from '~/api/types';
 
 import { fetchLeague, fetchLeagueTeams } from '~/api';
 import { Header } from '~/components/layout';
 import { routes } from '~/constants/routes';
 
-import { GameList } from './_components/game-list';
-import { RoundFilter } from './_components/round-filter';
-import { TeamFilter } from './_components/team-filter';
+import { GameList } from '../_components/game-list';
+import { RoundFilter } from '../_components/round-filter';
+import { TeamFilter } from '../_components/team-filter';
+
+// URL의 lowercase sport를 uppercase로 변환하는 함수
+const normalizeSportType = (sport: string): SportType | null => {
+  const normalized = sport.toUpperCase();
+  if (normalized === 'SOCCER' || normalized === 'BASKETBALL') {
+    return normalized as SportType;
+  }
+  return null;
+};
 
 type Props = {
   searchParams: Promise<{ round: number; teams: string }>;
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; sport: string }>;
 };
 
 const Page = async ({ searchParams, params }: Props) => {
   const qc = getQueryClient();
 
-  const { id: _id } = await params;
+  const { id: _id, sport: _sport } = await params;
   const id = Number(_id);
+  const sportType = normalizeSportType(_sport);
 
   if (!_id || Number.isNaN(id) || id <= 0) {
+    redirect(routes.home);
+  }
+
+  if (!sportType) {
     redirect(routes.home);
   }
 
@@ -46,7 +61,7 @@ const Page = async ({ searchParams, params }: Props) => {
       {league && round && <RoundFilter league={league} round={round} />}
       {teams && <TeamFilter teams={teams} selectedTeams={selectedTeams} />}
       <Suspense clientOnly>
-        <GameList leagueId={id} round={round} selectedTeams={selectedTeams} />
+        <GameList leagueId={id} round={round} selectedTeams={selectedTeams} sportType={sportType} />
       </Suspense>
     </HydrationBoundary>
   );
@@ -55,14 +70,15 @@ const Page = async ({ searchParams, params }: Props) => {
 export default Page;
 
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
-  const { id: _id } = await params;
+  const { id: _id, sport: _sport } = await params;
   const id = Number(_id);
+  const sportType = normalizeSportType(_sport);
 
-  if (!_id || Number.isNaN(id) || id <= 0) return {};
+  if (!_id || Number.isNaN(id) || id <= 0 || !sportType) return {};
 
   const league: LeagueDetailType = await fetchLeague({ leagueId: id });
   const title = league ? league.name : '';
-  const url = routes.league(id);
+  const url = routes.league({ id, sport: sportType });
 
   return {
     title,

@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Fragment } from 'react';
 
+import type { SportType } from '~/api/types';
+
 import { type GameStateType, useSuspenseGames } from '~/api';
 import { GameCard } from '~/components/ui';
 import { routes } from '~/constants/routes';
@@ -12,12 +14,14 @@ type Props = {
   leagueId: number;
   round: number;
   selectedTeams: number[];
+  sportType: SportType;
 };
 
 const GameListContent = ({
   state,
   leagueId,
   round,
+  sportType,
   selectedTeams,
 }: Props & { state: GameStateType }) => {
   const { data } = useSuspenseGames({
@@ -35,7 +39,7 @@ const GameListContent = ({
     );
     return sortedGames.map((game, index) => {
       if (game.gameTeams.length < 2) return null;
-      const link = routes.game({ id: game.id, sport: league.sportType });
+      const link = routes.game({ id: game.id, sport: sportType });
 
       return (
         <Fragment key={game.id}>

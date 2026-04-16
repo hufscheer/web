@@ -28,7 +28,7 @@ export const LeagueCardList = ({ year }: Props) => {
   return (
     <div className="column gap-3 pb-5">
       {data.map((league) => (
-        <LeagueCard.Root league={league} key={league.leagueId}>
+        <LeagueCard.Root league={league} sportType={sport} key={league.leagueId}>
           <LeagueCard.Header />
 
           <LeagueCard.Divider />

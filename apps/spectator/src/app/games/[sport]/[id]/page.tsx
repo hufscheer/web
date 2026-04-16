@@ -2,6 +2,8 @@ import * as Tabs from '@radix-ui/react-tabs';
 import { Suspense } from '@suspensive/react';
 import { redirect } from 'next/navigation';
 
+import type { SportType } from '~/api/types';
+
 import { CheerVS } from '~/app/games/_components/cheer-vs';
 import { LineupTab } from '~/app/games/_components/lineup-tab';
 import { TimelineTab } from '~/app/games/_components/timeline-tab';
@@ -16,16 +18,30 @@ import { ScoreBoard } from '../_components/score-board';
 
 const validTabs = ['cheer', 'lineup', 'timeline', 'video'];
 
+// URL의 lowercase sport를 uppercase로 변환하는 함수
+const normalizeSportType = (sport: string): SportType | null => {
+  const normalized = sport.toUpperCase();
+  if (normalized === 'SOCCER' || normalized === 'BASKETBALL') {
+    return normalized as SportType;
+  }
+  return null;
+};
+
 type Props = {
   searchParams: Promise<{ tab?: string }>;
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; sport: string }>;
 };
 
 const Page = async ({ searchParams, params }: Props) => {
-  const { id: _id } = await params;
+  const { id: _id, sport: _sport } = await params;
   const id = Number(_id);
+  const sportType = normalizeSportType(_sport);
 
   if (Number.isNaN(id) || id <= 0) {
+    redirect(routes.home);
+  }
+
+  if (!sportType) {
     redirect(routes.home);
   }
 
@@ -48,9 +64,11 @@ const Page = async ({ searchParams, params }: Props) => {
         <CheerVS gameId={id} />
       </Suspense>
 
-      <Suspense clientOnly>
-        <ScoreBoard gameId={id} />
-      </Suspense>
+      {sportType === 'BASKETBALL' && (
+        <Suspense clientOnly>
+          <ScoreBoard gameId={id} />
+        </Suspense>
+      )}
 
       <hr className="h-2 w-full border-none bg-neutral-50" />
 
@@ -72,7 +90,7 @@ const Page = async ({ searchParams, params }: Props) => {
 
         <Tabs.Content value="cheer" className="min-h-dvh bg-[#EBEBEB] outline-none">
           <Suspense clientOnly>
-            <CheerTalk gameId={id} sportType="BASKETBALL" />
+            <CheerTalk gameId={id} sportType={sportType} />
           </Suspense>
         </Tabs.Content>
 
@@ -84,7 +102,7 @@ const Page = async ({ searchParams, params }: Props) => {
 
         <Tabs.Content value="timeline" className="outline-none">
           <Suspense clientOnly>
-            <TimelineTab gameId={id} sportType="BASKETBALL" />
+            <TimelineTab gameId={id} sportType={sportType} />
           </Suspense>
         </Tabs.Content>
 

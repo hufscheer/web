@@ -1,11 +1,9 @@
-import { useId } from 'react';
-
 import type { IconProps } from '../../types';
 
 import Icon from '../../icon';
 
 export const ArrowBackIcon = (props: IconProps) => {
-  const id = useId();
+  const id = 'arrow-back';
   return (
     <Icon {...props}>
       <svg

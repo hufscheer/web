@@ -94,7 +94,7 @@ const GameList = ({ leagueId, leagueName, games, cheerCount, buttonLabel }: Game
   return (
     <>
       <GameCard.Divider />
-      <Link href={routes.league(leagueId)} className="row-between">
+      <Link href={routes.league({ id: leagueId, sport })} className="row-between">
         <div className="center-y gap-3">
           <div className="center relative h-8 w-8 overflow-hidden rounded-full bg-neutral-200 select-none">
             ⚽

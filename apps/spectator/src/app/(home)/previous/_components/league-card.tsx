@@ -7,10 +7,16 @@ import Link from 'next/link';
 import { type ComponentProps, createContext, useContext } from 'react';
 import { twMerge } from 'tailwind-merge';
 
+import type { SportType } from '~/api/types';
+
 import { useSuspenseLeagueStatistics, useSuspenseLeagueTopScorers, type LeagueType } from '~/api';
 import { routes } from '~/constants/routes';
 
-export const LeagueCardContext = createContext<LeagueType>({} as LeagueType);
+interface LeagueCardContextType extends LeagueType {
+  sportType: SportType;
+}
+
+export const LeagueCardContext = createContext<LeagueCardContextType>({} as LeagueCardContextType);
 
 const useLeagueCardContext = () => {
   const context = useContext(LeagueCardContext);
@@ -28,11 +34,12 @@ const useLeagueCardContext = () => {
 
 interface LeagueCardRootProps extends ComponentProps<'div'> {
   league: LeagueType;
+  sportType: SportType;
 }
 
-export const Root = ({ league, className, children, ...props }: LeagueCardRootProps) => {
+export const Root = ({ league, sportType, className, children, ...props }: LeagueCardRootProps) => {
   return (
-    <LeagueCardContext.Provider value={league}>
+    <LeagueCardContext.Provider value={{ ...league, sportType }}>
       <div
         className={twMerge('column gap-3 rounded-lg border border-gray-100 p-4', className)}
         {...props}
@@ -50,11 +57,11 @@ export const Root = ({ league, className, children, ...props }: LeagueCardRootPr
 interface LeagueCardHeaderProps extends ComponentProps<'a'> {}
 
 export const Header = ({ className, ...props }: LeagueCardHeaderProps) => {
-  const { leagueId, name } = useLeagueCardContext();
+  const { leagueId, name, sportType } = useLeagueCardContext();
 
   return (
     <Link
-      href={routes.league(leagueId)}
+      href={routes.league({ id: leagueId, sport: sportType })}
       className={twMerge('row-between gap-3', className)}
       {...props}
     >
