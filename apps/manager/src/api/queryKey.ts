@@ -22,6 +22,7 @@ import type {
   LeagueType,
   PlayerDetailPayload,
   PlayerType,
+  ProgressAvailableActionsResponse,
   TeamType,
   TimelinePayload,
   TimelineType,
@@ -112,6 +113,11 @@ const gameQueryKeys = createQueryKeys('games', {
   lineupPlaying: (payload: GameLineupPayload) => ({
     queryKey: [payload],
     queryFn: () => fetcher.get<GameLineupPlayingType[]>(`games/${payload.gameId}/lineup/playing`),
+  }),
+  progressAvailable: (payload: TimelinePayload) => ({
+    queryKey: [payload],
+    queryFn: () =>
+      fetcher.get<ProgressAvailableActionsResponse>(`games/${payload.gameId}/available-progress`),
   }),
   cheerTalks: (payload: GameCheerTalkPayload) => ({
     queryKey: [payload],
