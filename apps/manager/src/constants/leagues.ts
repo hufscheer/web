@@ -1,3 +1,26 @@
+export const soccerQuarterOptions = {
+  PRE_GAME: '경기 전',
+  FIRST_HALF: '전반전',
+  SECOND_HALF: '후반전',
+  EXTRA_TIME: '연장전',
+  PENALTY_SHOOTOUT: '승부차기',
+  POST_GAME: '경기 후',
+} as const;
+
+export const basketballQuarterOptions = {
+  PRE_GAME: '경기 전',
+  FIRST_QUARTER: '1쿼터',
+  SECOND_QUARTER: '2쿼터',
+  THIRD_QUARTER: '3쿼터',
+  FOURTH_QUARTER: '4쿼터',
+  OVERTIME: '연장전',
+  POST_GAME: '경기 후',
+} as const;
+
+export const getQuarterOptions = (sportType: 'SOCCER' | 'BASKETBALL') =>
+  sportType === 'BASKETBALL' ? basketballQuarterOptions : soccerQuarterOptions;
+
+/** @deprecated Use getQuarterOptions(sportType) instead */
 export const quarterOptions = {
   경기전: '경기전',
   전반전: '전반전',

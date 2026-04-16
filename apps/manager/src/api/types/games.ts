@@ -9,6 +9,11 @@ const quarters = [
   { key: 'EXTRA_TIME', label: '연장전' },
   { key: 'PENALTY_SHOOTOUT', label: '승부차기' },
   { key: 'POST_GAME', label: '경기후' },
+  { key: 'FIRST_QUARTER', label: '1쿼터' },
+  { key: 'SECOND_QUARTER', label: '2쿼터' },
+  { key: 'THIRD_QUARTER', label: '3쿼터' },
+  { key: 'FOURTH_QUARTER', label: '4쿼터' },
+  { key: 'OVERTIME', label: '연장전' },
 ] as const;
 
 export type GameQuarterType = (typeof quarters)[number];
