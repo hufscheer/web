@@ -17,11 +17,11 @@ type Props = { leagueId: number; gameId: number; onClose: () => void };
 export default function BasketballStatusChangeSheet({ leagueId, gameId, onClose }: Props) {
   const { data: league } = useSuspenseLeague({ leagueId });
   const { data } = useSuspenseGameTimelineProgressAvailable({ gameId });
-  const { mutateAsync: createProgress } = useCreateTimelinesProgress({ gameId });
+  const { mutate: createProgress, isPending } = useCreateTimelinesProgress({ gameId });
 
   const [selected, setSelected] = useState<ProgressAvailableAction | null>(null);
 
-  const submit = async () => {
+  const submit = () => {
     if (!selected) return;
 
     const request: ProgressStateType = {
@@ -32,7 +32,7 @@ export default function BasketballStatusChangeSheet({ leagueId, gameId, onClose 
       sportType: league.sportType,
     };
 
-    await createProgress(request, {
+    createProgress(request, {
       onSuccess: () => {
         toast.success('상태가 변경되었어요');
         onClose();
@@ -83,7 +83,7 @@ export default function BasketballStatusChangeSheet({ leagueId, gameId, onClose 
         primaryTitle="등록"
         onPrimaryClick={submit}
       >
-        <Button color="black" size="lg" disabled={!selected}>
+        <Button color="black" size="lg" disabled={!selected || isPending} loading={isPending}>
           타임라인 등록
         </Button>
       </AlertDialog>

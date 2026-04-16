@@ -149,7 +149,7 @@ export default function BasketballSubstituteSheet({ leagueId, gameId, onClose }:
           type="checkbox"
           checked={isFoulOut}
           onChange={(e) => setIsFoulOut(e.target.checked)}
-          className="var(--color-point) h-5 w-5 rounded"
+          className="h-5 w-5 rounded accent-[var(--color-point)]"
         />
         <span className="text-sm font-medium text-black">파울 아웃으로 교체</span>
       </label>

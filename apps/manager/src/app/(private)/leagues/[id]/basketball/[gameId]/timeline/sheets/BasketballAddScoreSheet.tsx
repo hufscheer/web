@@ -128,7 +128,13 @@ export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: P
         rows={[{ id: 'score', value: score, onChange: setScore }]}
       />
 
-      <Button color="black" size="lg" onClick={submit} loading={isPending}>
+      <Button
+        color="black"
+        size="lg"
+        onClick={submit}
+        loading={isPending}
+        disabled={!isFormValid || isPending}
+      >
         타임라인 등록
       </Button>
     </div>
