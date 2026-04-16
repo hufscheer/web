@@ -10,21 +10,19 @@ import type { ProgressAvailableAction, ProgressStateType } from '~/api/types';
 import { useCreateTimelinesProgress } from '~/api/mutations/useCreateTimelineStatus';
 import { useSuspenseGameTimelineProgressAvailable } from '~/api/queries/useGameTimelineProgressAvailable';
 import { useSuspenseLeague } from '~/api/queries/useLeague';
+import { AlertDialog } from '~/components/ui';
 
 type Props = { leagueId: number; gameId: number; onClose: () => void };
 
 export default function BasketballStatusChangeSheet({ leagueId, gameId, onClose }: Props) {
   const { data: league } = useSuspenseLeague({ leagueId });
   const { data } = useSuspenseGameTimelineProgressAvailable({ gameId });
-  const { mutate: createProgress, isPending } = useCreateTimelinesProgress({ gameId });
+  const { mutateAsync: createProgress } = useCreateTimelinesProgress({ gameId });
 
   const [selected, setSelected] = useState<ProgressAvailableAction | null>(null);
 
-  const submit = () => {
-    if (!selected) {
-      toast('상태를 선택해주세요.');
-      return;
-    }
+  const submit = async () => {
+    if (!selected) return;
 
     const request: ProgressStateType = {
       gameId,
@@ -34,7 +32,7 @@ export default function BasketballStatusChangeSheet({ leagueId, gameId, onClose 
       sportType: league.sportType,
     };
 
-    createProgress(request, {
+    await createProgress(request, {
       onSuccess: () => {
         toast.success('상태가 변경되었어요');
         onClose();
@@ -79,15 +77,16 @@ export default function BasketballStatusChangeSheet({ leagueId, gameId, onClose 
         })}
       </div>
 
-      <Button
-        color="black"
-        size="lg"
-        onClick={submit}
-        loading={isPending}
-        disabled={!selected || isPending}
+      <AlertDialog
+        title={`${selected?.displayName} 처리 할게요`}
+        description="변경된 상태는 수정이 불가할 수 있어요"
+        primaryTitle="등록"
+        onPrimaryClick={submit}
       >
-        타임라인 등록
-      </Button>
+        <Button color="black" size="lg" disabled={!selected}>
+          타임라인 등록
+        </Button>
+      </AlertDialog>
     </div>
   );
 }
