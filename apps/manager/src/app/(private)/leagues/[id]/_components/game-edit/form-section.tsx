@@ -158,10 +158,6 @@ const FormSectionInner = ({ leagueId, gameId }: Props) => {
       toast.warning('모든 단계를 완료해야 경기 수정이 가능해요');
       return;
     }
-    if (!form.formState.isValid) {
-      toast.error('입력값을 확인해주세요 모든 단계의 입력값이 유효해야 해요');
-      return;
-    }
 
     mutate(
       { ...formData, leagueId, gameId },
