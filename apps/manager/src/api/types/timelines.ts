@@ -65,6 +65,15 @@ export type PkType = {
   scorerId: number;
   isSuccess: boolean;
 };
+export type FoulType = {
+  gameId?: number;
+  recordedQuarter: QuarterType;
+  recordedAt: number;
+  gameTeamId: number;
+  offenderLineupPlayerId: number;
+  sportType: SportType;
+};
+
 export const CARD_TYPE = {
   YELLOW: 'YELLOW',
   RED: 'RED',

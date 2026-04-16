@@ -26,7 +26,7 @@ const QUARTER_LABELS: Partial<Record<keyof typeof QUARTER_TYPE, string>> = {
 const quarterOptions: SelectOption[] = (
   Object.keys(QUARTER_LABELS) as Array<keyof typeof QUARTER_LABELS>
 ).map((key) => ({
-  label: QUARTER_LABELS[key]!,
+  label: QUARTER_LABELS[key] ?? '',
   value: QUARTER_TYPE[key],
 }));
 
