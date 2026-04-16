@@ -53,8 +53,18 @@ export type ProgressStateType = {
   gameId?: number;
   sportType: SportType;
   recordedQuarter: QuarterType;
-  recordedAt: number;
+  recordedAt: number | null;
   gameProgressType: ProgressType;
+};
+
+export type ProgressAvailableAction = {
+  quarter: QuarterType;
+  gameProgressType: ProgressType;
+  displayName: string;
+};
+
+export type ProgressAvailableActionsResponse = {
+  availableActions: ProgressAvailableAction[];
 };
 
 export type PkType = {
