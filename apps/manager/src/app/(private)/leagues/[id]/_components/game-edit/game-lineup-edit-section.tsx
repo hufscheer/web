@@ -20,6 +20,7 @@ import {
   type GameLineupType,
   type LeagueTeamsPlayerType,
 } from '~/api';
+import { getStarterLimit } from '~/constants/leagues';
 
 type PlayerSelectionState = {
   teamPlayerId: number;
@@ -129,11 +130,12 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
     const setSelection = teamNumber === 1 ? setTeam1Selection : setTeam2Selection;
     const currentSelection = teamNumber === 1 ? team1Selection : team2Selection;
 
-    if (league.sportType === 'BASKETBALL' && newState === 'STARTER') {
+    if (newState === 'STARTER') {
+      const starterLimit = getStarterLimit(league.sportType);
       const currentStarters = currentSelection.filter((p) => p.state === 'STARTER');
       const isAlreadyStarter =
         currentSelection.find((p) => p.teamPlayerId === teamPlayerId)?.state === 'STARTER';
-      if (!isAlreadyStarter && currentStarters.length >= 5) {
+      if (!isAlreadyStarter && currentStarters.length >= starterLimit) {
         toast.error('선발 인원이 다 찼어요');
         return;
       }

@@ -53,6 +53,13 @@ export const getRoundLabel = (round: number, sportType: 'SOCCER' | 'BASKETBALL')
   return sportType === 'BASKETBALL' ? option.basketballLabel : option.label;
 };
 
+export const STARTER_LIMITS = {
+  SOCCER: 11,
+  BASKETBALL: 5,
+} as const;
+
+export const getStarterLimit = (sportType: 'SOCCER' | 'BASKETBALL') => STARTER_LIMITS[sportType];
+
 export const stateOptions = {
   PLAYING: '진행 중',
   SCHEDULED: '시작 전',

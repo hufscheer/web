@@ -9,6 +9,7 @@ import {
   useSuspenseLeagueTeams,
   useSuspenseLeagueTeamsPlayers,
 } from '~/api';
+import { getStarterLimit } from '~/constants/leagues';
 
 type Props = {
   leagueId: number;
@@ -95,11 +96,12 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
     const setSelection = teamNumber === 1 ? setTeam1Selection : setTeam2Selection;
     const currentSelection = teamNumber === 1 ? team1Selection : team2Selection;
 
-    if (league.sportType === 'BASKETBALL' && state === 'STARTER') {
+    if (state === 'STARTER') {
+      const starterLimit = getStarterLimit(league.sportType);
       const currentStarters = currentSelection.filter((p) => p.state === 'STARTER');
       const isAlreadyStarter =
         currentSelection.find((p) => p.teamPlayerId === teamPlayerId)?.state === 'STARTER';
-      if (!isAlreadyStarter && currentStarters.length >= 5) {
+      if (!isAlreadyStarter && currentStarters.length >= starterLimit) {
         toast.error('선발인원이 모두 찼어요');
         return;
       }
