@@ -56,7 +56,7 @@ export default function BasketballFoulSheet({ leagueId, gameId, onClose }: Props
 
   const submit = () => {
     if (!isFormValid) {
-      toast('모든 항목을 입력해주세요.');
+      toast('모든 항목을 입력해주세요');
       return;
     }
 
@@ -96,7 +96,7 @@ export default function BasketballFoulSheet({ leagueId, gameId, onClose }: Props
       <div className="text-base font-medium text-black">경고 상세 정보</div>
 
       {/* 팀 segmented control */}
-      <div className="flex overflow-hidden rounded-xl bg-neutral-100 p-1">
+      <div className="flex overflow-hidden rounded-xl bg-[#E9EBEE] p-1">
         {lineup.map((team) => (
           <button
             key={team.gameTeamId}

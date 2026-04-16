@@ -46,6 +46,7 @@ export type ReplacementType = {
   gameTeamId: number;
   originLineupPlayerId: number;
   replacementLineupPlayerId: number;
+  isFoulOut?: boolean;
 };
 
 export type ProgressStateType = {
