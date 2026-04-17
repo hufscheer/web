@@ -12,7 +12,7 @@ type Props = {
 export const RoundFilter = ({ league, round }: Props) => {
   const getLabel = (r: number) => {
     if (r > 16) return '예선';
-    if (r === 1) return '결승';
+    if (r === 2) return '결승';
     return `${r}강`;
   };
 
@@ -39,8 +39,8 @@ const getRounds = (league: LeagueDetailType) => {
     rounds.push(league.maxRound);
   }
 
-  // 16강, 8강, 4강, 2강, 결승
-  [16, 8, 4, 2, 1].forEach((r) => {
+  // 16강, 8강, 4강, 결승
+  [16, 8, 4, 2].forEach((r) => {
     if (r <= league.maxRound) {
       rounds.push(r);
     }
