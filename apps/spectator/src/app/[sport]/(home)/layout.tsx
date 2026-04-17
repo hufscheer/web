@@ -7,9 +7,9 @@ import { Header } from '~/components/layout';
 import { NavigationBar } from './_components/navigation-bar';
 import { SchoolSelect } from './_components/school-select';
 
-type Props = PropsWithChildren<{ params: Promise<{ sport: string }> }>;
+type Props = PropsWithChildren;
 
-const RootLayout = async ({ children }: Props) => {
+const RootLayout = ({ children }: Props) => {
   return (
     <div className="relative">
       <Header center={<SchoolSelect />} />
