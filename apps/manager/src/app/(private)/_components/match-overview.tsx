@@ -40,7 +40,12 @@ export const MatchOverview = () => {
                   <GameCard.Team key={team.gameTeamId} {...team} />
                 ))}
               </GameCard.TeamGroup>
-              <GameCard.Menu leagueId={league.id} id={game.id} sportType={league.sportType} />
+              <GameCard.Menu
+                state={game.state}
+                leagueId={league.id}
+                id={game.id}
+                sportType={league.sportType}
+              />
             </GameCard>
           ))}
 
