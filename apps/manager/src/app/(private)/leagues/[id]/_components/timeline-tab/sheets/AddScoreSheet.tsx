@@ -154,9 +154,11 @@ export default function AddScoreSheet({
         label="선수"
         options={playerOptions}
         value={player?.value}
-        onValueChange={(value) =>
-          setPlayer(playerOptions.find((opt) => opt.value === value) || null)
-        }
+        onValueChange={(value) => {
+          const selectedScorer = playerOptions.find((opt) => opt.value === value) || null;
+          setPlayer(selectedScorer);
+          if (selectedScorer?.value === assistPlayer?.value) setAssistPlayer(null);
+        }}
         disabled={selectedTeamId === null || playerOptions.length === 0}
       />
 
@@ -186,7 +188,7 @@ export default function AddScoreSheet({
             <>
               <InputSelect
                 label="어시스트 선수"
-                options={playerOptions}
+                options={playerOptions.filter((opt) => opt.value !== player?.value)}
                 value={assistPlayer?.value}
                 onValueChange={(value) =>
                   setAssistPlayer(playerOptions.find((opt) => opt.value === value) || null)
