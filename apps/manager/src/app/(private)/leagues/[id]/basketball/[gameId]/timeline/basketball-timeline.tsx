@@ -47,8 +47,8 @@ export const BasketballTimeline = ({ gameId }: Props) => {
     let homeScore = 0;
     let awayScore = 0;
     for (const record of quarter.records) {
-      if (record.type === 'SCORE' && record.scoreRecord.length > 0) {
-        const snap = record.scoreRecord[record.scoreRecord.length - 1]?.snapshot;
+      if (record.type === 'SCORE') {
+        const snap = record.scoreRecord?.snapshot;
         if (snap && snap.length >= 2) {
           homeScore = snap[0]?.score ?? homeScore;
           awayScore = snap[1]?.score ?? awayScore;
@@ -111,7 +111,7 @@ export const BasketballTimeline = ({ gameId }: Props) => {
           </Typography>
         ) : (
           activeTimeline.records.map((record) => {
-            if (record.progressRecord?.gameProgressType) {
+            if (record.type === 'GAME_PROGRESS') {
               if (activeTimeline.gameQuarter.key === 'POST_GAME') return null;
               return (
                 <TextRecord key={record.recordId} showDividerLine>
@@ -121,13 +121,20 @@ export const BasketballTimeline = ({ gameId }: Props) => {
                 </TextRecord>
               );
             }
-            return (
-              <BasketballEventRecord
-                key={record.recordId}
-                record={record}
-                homeTeamId={homeTeamId}
-              />
-            );
+            if (
+              record.type === 'SCORE' ||
+              record.type === 'BASKETBALL_REPLACEMENT' ||
+              record.type === 'WARNING_CARD' ||
+              record.type === 'FOUL'
+            ) {
+              return (
+                <BasketballEventRecord
+                  key={record.recordId}
+                  record={record}
+                  homeTeamId={homeTeamId}
+                />
+              );
+            }
           })
         )}
       </div>

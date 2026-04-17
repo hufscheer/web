@@ -32,7 +32,7 @@ export const GameList = ({ id, state }: Props) => {
                 <GameCard.Team key={team.gameTeamId} {...team} />
               ))}
             </GameCard.TeamGroup>
-            <GameCard.Menu leagueId={id} id={game.id} sportType={league.sportType} />
+            <GameCard.Menu state={state} leagueId={id} id={game.id} sportType={league.sportType} />
           </GameCard>
         ))
       ) : (
