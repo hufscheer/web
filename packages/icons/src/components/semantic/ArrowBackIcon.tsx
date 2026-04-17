@@ -3,7 +3,6 @@ import type { IconProps } from '../../types';
 import Icon from '../../icon';
 
 export const ArrowBackIcon = (props: IconProps) => {
-  const id = 'arrow-back';
   return (
     <Icon {...props}>
       <svg
@@ -15,7 +14,6 @@ export const ArrowBackIcon = (props: IconProps) => {
         aria-hidden="true"
       >
         <mask
-          id={id}
           style={{ maskType: 'alpha' }}
           maskUnits="userSpaceOnUse"
           x="0"
@@ -25,7 +23,7 @@ export const ArrowBackIcon = (props: IconProps) => {
         >
           <rect width="24" height="24" fill="currentColor" />
         </mask>
-        <g mask={`url(#${id})`}>
+        <g>
           <path
             d="M7.825 13L13.425 18.6L12 20L4 12L12 4L13.425 5.4L7.825 11H20V13H7.825Z"
             fill="currentColor"
