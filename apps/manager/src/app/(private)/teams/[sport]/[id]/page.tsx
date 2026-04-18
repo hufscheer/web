@@ -8,7 +8,7 @@ import { FormSection } from './form-section';
 import { TeamDeleteMenu } from './team-delete-menu';
 
 type Props = {
-  params: Promise<{ id: number }>;
+  params: Promise<{ sport: string; id: number }>;
 };
 
 const Page = async ({ params }: Props) => {
