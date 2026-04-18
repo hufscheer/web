@@ -10,6 +10,7 @@ import { Fragment } from 'react';
 import { useSuspenseLeaguesLeague } from '~/api';
 import { getRoundLabel } from '~/constants/leagues';
 import { routes } from '~/constants/routes';
+import { SportIcon } from '~/constants/sports';
 
 export const LeagueOverview = () => {
   const { data } = useSuspenseLeaguesLeague();
@@ -27,6 +28,7 @@ export const LeagueOverview = () => {
                 >
                   {league.leagueProgress}
                 </Badge>
+                <SportIcon sportType={league.sportType} />
                 <Typography weight="semibold">{league.name}</Typography>
               </div>
               <div className="center">
