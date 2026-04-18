@@ -17,7 +17,7 @@ export const quarterOptions = {
 export type QuarterType = keyof typeof quarterOptions;
 
 export const roundOptions = [
-  { value: '32', label: '예선', round: 32 },
+  { value: '100', label: '예선', round: 100 },
   { value: '16', label: '16강', round: 16 },
   { value: '8', label: '8강', round: 8 },
   { value: '4', label: '4강', round: 4 },
