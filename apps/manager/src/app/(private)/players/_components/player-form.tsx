@@ -57,11 +57,12 @@ export const PlayerForm = ({ className, onSubmit, initialData, ...props }: Props
         <Input
           size="lg"
           placeholder="학번"
-          maxLength={9}
+          minLength={9}
+          maxLength={10}
           {...register('studentNumber', {
             required: '학번을 입력해주세요.',
-            minLength: { value: 9, message: '학번을 9자리로 입력해주세요.' },
-            maxLength: { value: 9, message: '학번을 9자리로 입력해주세요.' },
+            minLength: { value: 9, message: '학번은 9자리에서 10자리 사이여야 합니다.' },
+            maxLength: { value: 10, message: '학번은 9자리에서 10자리 사이여야 합니다.' },
             pattern: {
               value: /^\d+$/,
               message: '학번은 숫자만 입력해주세요.',
