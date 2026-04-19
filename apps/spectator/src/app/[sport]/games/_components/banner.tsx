@@ -77,7 +77,7 @@ const BannerTeam = ({ team }: BannerTeamProps) => {
     <div className="column-center-x shrink-0 justify-end gap-2">
       <Image
         className="h-[66px] w-[66px] rounded-full border border-neutral-100 object-cover"
-        src={team.logoImageUrl}
+        src={team.logoImageUrl ?? '/images/fallback-image.webp'}
         alt={`${team.gameTeamName} 로고`}
         width={66}
         height={66}
