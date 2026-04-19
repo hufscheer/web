@@ -4,13 +4,14 @@ import { toast } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
 
 import type { TeamFormType } from '~/api';
+import type { SportType } from '~/api/types';
 
 import { useCreateTeams } from '~/api';
 import { useImageUpload } from '~/hooks';
 
-import { TeamForm } from '../_components/team-form';
+import { TeamForm } from '../../_components/team-form';
 
-export function FormSection() {
+export function FormSection({ sportType }: { sportType: SportType }) {
   const router = useRouter();
   const { mutateAsync: createTeam } = useCreateTeams();
   const { uploadImage } = useImageUpload();
@@ -33,5 +34,5 @@ export function FormSection() {
     }
   };
 
-  return <TeamForm onSubmit={handleSubmit} />;
+  return <TeamForm onSubmit={handleSubmit} initialData={{ sportType }} />;
 }

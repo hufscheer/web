@@ -16,7 +16,7 @@ export const routes = {
   players_create: 'players/create',
 
   teams: 'teams',
-  teams_create: 'teams/create',
+  teams_create: (sport: string) => `teams/${sport}/create`,
 
   game: (leagueId: number, id: number, sportType: SportType) =>
     `leagues/${leagueId}/${sportPath(sportType)}/${id}`,
