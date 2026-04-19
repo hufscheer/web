@@ -117,8 +117,8 @@ const GameCardTeam = ({ index, className, ...props }: GameCardTeamProps) => {
     >
       <div className="flex items-center gap-2">
         <Image
-          className="center h-7 w-7 overflow-hidden rounded-full border border-neutral-100 object-cover select-none"
-          src={team.logoImageUrl}
+          className="center aspect-square h-7 w-7 overflow-hidden rounded-full border border-neutral-100 object-contain select-none"
+          src={team.logoImageUrl ?? '/images/fallback-image.webp'}
           alt={`${team.gameTeamName} 로고`}
           width={28}
           height={28}
