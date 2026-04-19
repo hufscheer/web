@@ -10,7 +10,7 @@ export const getRecordIcon = (record: TimelineRecordType, sportType: SportType) 
       ) : (
         <SportsAndOutdoorsIcon size={16} />
       );
-    case 'REPLACEMENT':
+    case 'SOCCER_REPLACEMENT':
     case 'BASKETBALL_REPLACEMENT':
       return <TradeHorizontalIcon size={16} />;
     case 'WARNING_CARD':
@@ -27,7 +27,7 @@ export const getRecordIcon = (record: TimelineRecordType, sportType: SportType) 
 };
 
 export const getRecordTitle = (record: TimelineRecordType) => {
-  if (record.type === 'REPLACEMENT' || record.type === 'BASKETBALL_REPLACEMENT') {
+  if (record.type === 'SOCCER_REPLACEMENT' || record.type === 'BASKETBALL_REPLACEMENT') {
     return `${record.replacementRecord.replacedPlayerName} IN`;
   }
   return record.playerName;
@@ -41,7 +41,7 @@ export const getRecordSubtitle = (record: TimelineRecordType, sportType: SportTy
         return score === 1 ? '자유투' : `${score}점슛`;
       }
       return '득점';
-    case 'REPLACEMENT':
+    case 'SOCCER_REPLACEMENT':
     case 'BASKETBALL_REPLACEMENT':
       return `${record.playerName} OUT`;
     case 'WARNING_CARD':

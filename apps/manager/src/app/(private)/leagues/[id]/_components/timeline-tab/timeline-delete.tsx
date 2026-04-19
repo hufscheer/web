@@ -11,7 +11,9 @@ import { AlertDialog } from '~/components/ui';
 type Props = { gameId: number };
 
 export const TimelineDeleteMenu = ({ gameId }: Props) => {
-  const { data: timelineData } = useSuspenseGameTimeline({ gameId });
+  const {
+    data: { timelines: timelineData },
+  } = useSuspenseGameTimeline({ gameId });
 
   const typeLabel = (t?: string) => {
     switch (t) {

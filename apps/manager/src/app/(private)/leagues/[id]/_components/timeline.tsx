@@ -16,7 +16,8 @@ type Props = {
 export const Timeline = ({ gameId }: Props) => {
   const { data: game } = useSuspenseGame({ gameId });
   const { data } = useSuspenseGameTimeline({ gameId });
-  if (data.length === 0)
+  const { timelines } = data;
+  if (timelines.length === 0)
     return (
       <Typography
         className="p-5 text-center"
@@ -42,7 +43,7 @@ export const Timeline = ({ gameId }: Props) => {
         </Fragment>
       )}
 
-      {data.map((timeline) => (
+      {timelines.map((timeline) => (
         <div key={timeline.gameQuarter.key}>
           <Fragment key={timeline.gameQuarter.key}>
             {timeline.records.map((record) => {

@@ -17,21 +17,21 @@ type Props = {
 type ScoreRecord = Extract<TimelineRecordType, { type: 'SCORE' }>;
 type AnyReplacementRecord = Extract<
   TimelineRecordType,
-  { type: 'REPLACEMENT' | 'BASKETBALL_REPLACEMENT' }
+  { type: 'SOCCER_REPLACEMENT' | 'BASKETBALL_REPLACEMENT' }
 >;
 
 export const CheerTalkTimeline = ({ gameId, sportType }: Props) => {
-  const { data: timelines } = useSuspenseGameTimeline({ gameId });
+  const { data } = useSuspenseGameTimeline({ gameId });
   const { getTeamInfo } = useSuspenseGameTeamInfo(gameId);
 
-  if (timelines.length === 0) return null;
+  if (data.timelines.length === 0) return null;
 
-  const lastRecord = timelines[0].records[0];
+  const lastRecord = data.timelines[0].records[0];
   if (!lastRecord) return null;
 
   const isScore = lastRecord.type === 'SCORE';
   const isReplacement =
-    lastRecord.type === 'REPLACEMENT' || lastRecord.type === 'BASKETBALL_REPLACEMENT';
+    lastRecord.type === 'SOCCER_REPLACEMENT' || lastRecord.type === 'BASKETBALL_REPLACEMENT';
 
   if (!isScore && !isReplacement) return null;
 
@@ -46,7 +46,8 @@ export const CheerTalkTimeline = ({ gameId, sportType }: Props) => {
         )}
       >
         {lastRecord.type === 'SCORE' && <Score record={lastRecord} sportType={sportType} />}
-        {(lastRecord.type === 'REPLACEMENT' || lastRecord.type === 'BASKETBALL_REPLACEMENT') && (
+        {(lastRecord.type === 'SOCCER_REPLACEMENT' ||
+          lastRecord.type === 'BASKETBALL_REPLACEMENT') && (
           <Replacement record={lastRecord} sportType={sportType} />
         )}
       </div>
