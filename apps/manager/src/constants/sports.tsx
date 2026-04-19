@@ -27,7 +27,7 @@ const SPORT_CONFIGS: Record<SportType, SportConfig> = {
       PENALTY_SHOOTOUT: '승부차기',
       POST_GAME: '경기 후',
     },
-    roundLabels: { 32: '예선', 16: '16강', 8: '8강', 4: '4강', 2: '결승' },
+    roundLabels: { 100: '예선', 16: '16강', 8: '8강', 4: '4강', 2: '결승' },
   },
   BASKETBALL: {
     icon: BasketballIcon,
@@ -42,7 +42,7 @@ const SPORT_CONFIGS: Record<SportType, SportConfig> = {
       OVERTIME: '연장전',
       POST_GAME: '경기 후',
     },
-    roundLabels: { 32: '예선', 16: '16강', 8: '8강', 4: '4강', 2: '결승' },
+    roundLabels: { 100: '예선', 16: '16강', 8: '8강', 4: '4강', 2: '결승' },
   },
 };
 
