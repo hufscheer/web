@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, toast } from '@hcc/ui';
-import { useEffect, useState } from 'react';
+import { Button, Spinner, toast } from '@hcc/ui';
+import { useEffect, useRef, useState } from 'react';
 
 import { type CheerTalkType, useUpdateCheerTalkBlock, useUpdateCheerTalkUnblock } from '~/api';
 import { AlertDialog } from '~/components/ui';
@@ -11,12 +11,24 @@ import CheerTalkCard from './cheertalk-card';
 type CheerTalkListProps = {
   cheerTalks: CheerTalkType[];
   status: 'all' | 'reported' | 'blocked';
+  hasNextPage?: boolean;
+  isFetchingNextPage?: boolean;
+  onLoadMore?: () => void;
 };
 
-export const CheerTalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
+export const CheerTalkList = ({
+  cheerTalks,
+  status,
+  hasNextPage,
+  isFetchingNextPage,
+  onLoadMore,
+}: CheerTalkListProps) => {
   const { mutate: block } = useUpdateCheerTalkBlock();
   const { mutate: unblock } = useUpdateCheerTalkUnblock();
   const [lastAccessedAt, setLastAccessedAt] = useState<string>(new Date(0).toISOString());
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  const onLoadMoreRef = useRef(onLoadMore);
+  onLoadMoreRef.current = onLoadMore;
 
   useEffect(() => {
     const storageKey = 'cheerTalkLastAccessedAt';
@@ -28,6 +40,20 @@ export const CheerTalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
       localStorage.setItem(storageKey, new Date().toISOString());
     };
   }, []);
+
+  useEffect(() => {
+    if (!sentinelRef.current || !onLoadMore) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          onLoadMoreRef.current?.();
+        }
+      },
+      { threshold: 0.1 },
+    );
+    observer.observe(sentinelRef.current);
+    return () => observer.disconnect();
+  }, [hasNextPage, isFetchingNextPage, !!onLoadMore]);
 
   const handleHide = (cheerTalk: CheerTalkType) => {
     block(
@@ -123,6 +149,11 @@ export const CheerTalkList = ({ cheerTalks, status }: CheerTalkListProps) => {
           <div className="flex w-full items-center gap-2">{renderActions(cheerTalk)}</div>
         </div>
       ))}
+      {(hasNextPage || isFetchingNextPage) && (
+        <div ref={sentinelRef} className="flex justify-center py-2">
+          {isFetchingNextPage && <Spinner size="sm" color="neutral" />}
+        </div>
+      )}
     </div>
   );
 };
