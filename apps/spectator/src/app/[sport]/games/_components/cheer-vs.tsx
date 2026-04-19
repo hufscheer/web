@@ -165,7 +165,7 @@ const CheerTeamBox = ({
     >
       <Image
         className="h-9 w-9 rounded-full object-cover"
-        src={logoImageUrl}
+        src={logoImageUrl ?? '/images/fallback-image.webp'}
         alt={`${gameTeamName} 로고`}
         width={36}
         height={36}
