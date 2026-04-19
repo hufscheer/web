@@ -17,13 +17,14 @@ type Props = {
 export const BasketballTimeline = ({ gameId }: Props) => {
   const { data: game } = useSuspenseGame({ gameId });
   const { data } = useSuspenseGameTimeline({ gameId });
+  const { timelines } = data;
 
-  const visibleQuarters = data.filter((t) => t.gameQuarter.key !== 'PRE_GAME');
+  const visibleQuarters = timelines.filter((t) => t.gameQuarter.key !== 'PRE_GAME');
   const [activeQuarterKey, setActiveQuarterKey] = useState<string>(
     visibleQuarters[0]?.gameQuarter.key ?? '',
   );
 
-  if (data.length === 0) {
+  if (timelines.length === 0) {
     return (
       <Typography
         className="p-5 text-center"
@@ -41,7 +42,7 @@ export const BasketballTimeline = ({ gameId }: Props) => {
 
   // 쿼터별 점수 계산 (마지막 득점 이벤트의 snapshot 사용)
   const getQuarterScores = (quarterKey: string): [number, number] | null => {
-    const quarter = data.find((t) => t.gameQuarter.key === quarterKey);
+    const quarter = timelines.find((t) => t.gameQuarter.key === quarterKey);
     if (!quarter) return null;
 
     let homeScore = 0;

@@ -25,7 +25,7 @@ import type {
   ProgressAvailableActionsResponse,
   TeamType,
   TimelinePayload,
-  TimelineType,
+  TimelineResponseType,
 } from './types';
 
 const apiBaseUrl = process.env.API_BASE_URL ?? '/api';
@@ -100,7 +100,7 @@ const gameQueryKeys = createQueryKeys('games', {
   }),
   timeline: (payload: TimelinePayload) => ({
     queryKey: [payload],
-    queryFn: () => fetcher.get<TimelineType[]>(`games/${payload.gameId}/timeline`),
+    queryFn: () => fetcher.get<TimelineResponseType>(`games/${payload.gameId}/timeline`),
   }),
   detail: (payload: GameDetailPayload) => ({
     queryKey: [payload],

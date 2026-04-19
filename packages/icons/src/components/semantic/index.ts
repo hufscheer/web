@@ -35,4 +35,5 @@ export * from './TimerOutlineIcon';
 export * from './TradeHorizontalIcon';
 export * from './TradeIcon';
 export * from './TrophyIcon';
+export * from './Trophy2Icon';
 export * from './UsersIcon';

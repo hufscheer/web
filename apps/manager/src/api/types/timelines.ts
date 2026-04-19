@@ -249,7 +249,18 @@ export type TimelinePayload = {
   gameId: number;
 };
 
+export type WinnerType = {
+  gameTeamId: number;
+  teamName: string;
+  teamImageUrl: string;
+};
+
 export type TimelineType = {
   gameQuarter: GameQuarterType;
   records: TimelineRecordTypeBySport<SportType>[];
+};
+
+export type TimelineResponseType = {
+  winner: WinnerType | null;
+  timelines: TimelineType[];
 };

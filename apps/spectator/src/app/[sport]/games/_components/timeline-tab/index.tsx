@@ -8,6 +8,7 @@ import { useSuspenseGame, useSuspenseGameTimeline, type SportType } from '~/api'
 import { getProgressSemantics } from './_utils';
 import { EventRecord } from './event-record';
 import { TextRecord } from './text-record';
+import { WinnerRecord } from './winner-record';
 
 type Props = {
   gameId: number;
@@ -17,7 +18,7 @@ type Props = {
 export const TimelineTab = ({ gameId, sportType }: Props) => {
   const { data: game } = useSuspenseGame({ gameId });
   const { data } = useSuspenseGameTimeline({ gameId });
-  const { timelines } = data;
+  const { timelines, winner } = data;
 
   if (timelines.length === 0)
     return (
@@ -42,6 +43,8 @@ export const TimelineTab = ({ gameId, sportType }: Props) => {
             경기 결과 - {game.gameTeams[0].score}:{game.gameTeams[1].score}
             {game.isPkTaken && ` (${game.gameTeams[0].pkScore}:${game.gameTeams[1].pkScore})`}
           </TextRecord>
+
+          {winner && <WinnerRecord winner={winner} isHome={winner.gameTeamId === homeTeamId} />}
         </Fragment>
       )}
 
