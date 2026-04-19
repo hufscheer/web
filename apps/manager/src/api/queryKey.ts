@@ -55,15 +55,30 @@ const leagueQueryKeys = createQueryKeys('leagues', {
   }),
   cheerTalks: (payload: LeagueCheerTalkPayload) => ({
     queryKey: [payload],
-    queryFn: () => fetcher.get<CheerTalkType[]>(`leagues/${payload.leagueId}/cheer-talks`),
+    queryFn: async ({ pageParam = 0 }: { pageParam: number }) => {
+      const cursor = pageParam > 0 ? pageParam : '';
+      return fetcher.get<CheerTalkType[]>(`leagues/${payload.leagueId}/cheer-talks`, {
+        searchParams: { cursor, size: payload.size },
+      });
+    },
   }),
   cheerTalksBlocked: (payload: LeagueCheerTalkPayload) => ({
     queryKey: [payload],
-    queryFn: () => fetcher.get<CheerTalkType[]>(`leagues/${payload.leagueId}/cheer-talks/blocked`),
+    queryFn: async ({ pageParam = 0 }: { pageParam: number }) => {
+      const cursor = pageParam > 0 ? pageParam : '';
+      return fetcher.get<CheerTalkType[]>(`leagues/${payload.leagueId}/cheer-talks/blocked`, {
+        searchParams: { cursor, size: payload.size },
+      });
+    },
   }),
   cheerTalksReported: (payload: LeagueCheerTalkPayload) => ({
     queryKey: [payload],
-    queryFn: () => fetcher.get<CheerTalkType[]>(`leagues/${payload.leagueId}/cheer-talks/reported`),
+    queryFn: async ({ pageParam = 0 }: { pageParam: number }) => {
+      const cursor = pageParam > 0 ? pageParam : '';
+      return fetcher.get<CheerTalkType[]>(`leagues/${payload.leagueId}/cheer-talks/reported`, {
+        searchParams: { cursor, size: payload.size },
+      });
+    },
   }),
 });
 
@@ -121,30 +136,60 @@ const gameQueryKeys = createQueryKeys('games', {
   }),
   cheerTalks: (payload: GameCheerTalkPayload) => ({
     queryKey: [payload],
-    queryFn: () => fetcher.get<CheerTalkType[]>(`games/${payload.gameId}/cheer-talks`),
+    queryFn: async ({ pageParam = 0 }: { pageParam: number }) => {
+      const cursor = pageParam > 0 ? pageParam : '';
+      return fetcher.get<CheerTalkType[]>(`games/${payload.gameId}/cheer-talks`, {
+        searchParams: { cursor, size: payload.size },
+      });
+    },
   }),
   cheerTalksBlocked: (payload: GameCheerTalkPayload) => ({
     queryKey: [payload],
-    queryFn: () => fetcher.get<CheerTalkType[]>(`games/${payload.gameId}/cheer-talks/blocked`),
+    queryFn: async ({ pageParam = 0 }: { pageParam: number }) => {
+      const cursor = pageParam > 0 ? pageParam : '';
+      return fetcher.get<CheerTalkType[]>(`games/${payload.gameId}/cheer-talks/blocked`, {
+        searchParams: { cursor, size: payload.size },
+      });
+    },
   }),
   cheerTalksReported: (payload: GameCheerTalkPayload) => ({
     queryKey: [payload],
-    queryFn: () => fetcher.get<CheerTalkType[]>(`games/${payload.gameId}/cheer-talks/reported`),
+    queryFn: async ({ pageParam = 0 }: { pageParam: number }) => {
+      const cursor = pageParam > 0 ? pageParam : '';
+      return fetcher.get<CheerTalkType[]>(`games/${payload.gameId}/cheer-talks/reported`, {
+        searchParams: { cursor, size: payload.size },
+      });
+    },
   }),
 });
 
 const cheerTalkQueryKeys = createQueryKeys('cheertalks', {
   list: (payload: CheerTalkPayload) => ({
     queryKey: [payload],
-    queryFn: () => fetcher.get<CheerTalkType[]>('cheer-talks'),
+    queryFn: async ({ pageParam = 0 }: { pageParam: number }) => {
+      const cursor = pageParam > 0 ? pageParam : '';
+      return fetcher.get<CheerTalkType[]>('cheer-talks', {
+        searchParams: { cursor, size: payload.size },
+      });
+    },
   }),
   reported: (payload: CheerTalkPayload) => ({
     queryKey: [payload],
-    queryFn: () => fetcher.get<CheerTalkType[]>('cheer-talks/reported'),
+    queryFn: async ({ pageParam = 0 }: { pageParam: number }) => {
+      const cursor = pageParam > 0 ? pageParam : '';
+      return fetcher.get<CheerTalkType[]>('cheer-talks/reported', {
+        searchParams: { cursor, size: payload.size },
+      });
+    },
   }),
   blocked: (payload: CheerTalkPayload) => ({
     queryKey: [payload],
-    queryFn: () => fetcher.get<CheerTalkType[]>('cheer-talks/blocked'),
+    queryFn: async ({ pageParam = 0 }: { pageParam: number }) => {
+      const cursor = pageParam > 0 ? pageParam : '';
+      return fetcher.get<CheerTalkType[]>('cheer-talks/blocked', {
+        searchParams: { cursor, size: payload.size },
+      });
+    },
   }),
 });
 
