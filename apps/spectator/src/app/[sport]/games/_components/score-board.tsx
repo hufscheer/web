@@ -19,8 +19,8 @@ export const ScoreBoard = ({ gameId }: ScoreBoardProps) => {
   const scores = quarterScores.reduce(
     (acc, { scores }, index) => {
       const [home, away] = scores;
-      acc.home[index] = home.score;
-      acc.away[index] = away.score;
+      acc.home[index] = home?.score ?? 0;
+      acc.away[index] = away?.score ?? 0;
 
       return acc;
     },

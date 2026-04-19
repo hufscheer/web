@@ -26,8 +26,8 @@ export const PlayerList = ({ gameId }: Props) => {
         >
           <div className="center-y gap-2">
             <Image
-              className="h-6 w-6 shrink-0 overflow-hidden rounded-full border border-neutral-50 object-cover"
-              src={team.logoImageUrl}
+              className="aspect-square h-6 w-6 shrink-0 overflow-hidden rounded-full border border-neutral-50 object-contain"
+              src={team.logoImageUrl ?? '/images/fallback-image.webp'}
               alt={`${team.gameTeamName} 로고`}
               width={24}
               height={24}

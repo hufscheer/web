@@ -134,9 +134,9 @@ const GameCardMatch = ({ gameId, time, round, status, team1, team2 }: GameCardMa
             <div className="center-y gap-3">
               <div className="h-6 w-6 overflow-hidden rounded-full bg-neutral-50">
                 <Image
-                  src={team1.logoImageUrl}
+                  src={team1.logoImageUrl ?? '/images/fallback-image.webp'}
                   alt={team1.gameTeamName}
-                  className="h-full w-full object-cover"
+                  className="aspect-square h-full w-full object-contain"
                   width={20}
                   height={20}
                 />
@@ -160,9 +160,9 @@ const GameCardMatch = ({ gameId, time, round, status, team1, team2 }: GameCardMa
             <div className="center-y gap-3">
               <div className="h-6 w-6 overflow-hidden rounded-full bg-neutral-50">
                 <Image
-                  src={team2.logoImageUrl}
+                  src={team2.logoImageUrl ?? '/images/fallback-image.webp'}
                   alt={team2.gameTeamName}
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-contain"
                   width={20}
                   height={20}
                 />

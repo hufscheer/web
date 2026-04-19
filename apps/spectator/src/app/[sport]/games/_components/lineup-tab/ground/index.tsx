@@ -53,7 +53,11 @@ export const Ground = ({ gameId, sportType }: Props) => {
           {groupPlayers(homePlayers.starterPlayers).map((group) => (
             <div key={uuid()} className="center-y w-full max-w-[420px]">
               {group.map((player) => (
-                <BaseGround.Player key={player.id} player={player} teamColor={homeTeamColor} />
+                <BaseGround.Player
+                  key={player.id ?? uuid()}
+                  player={player}
+                  teamColor={homeTeamColor}
+                />
               ))}
             </div>
           ))}
@@ -62,7 +66,11 @@ export const Ground = ({ gameId, sportType }: Props) => {
           {groupPlayers(awayPlayers.starterPlayers).map((group) => (
             <div key={uuid()} className="center-y w-full max-w-[420px]">
               {group.map((player) => (
-                <BaseGround.Player key={player.id} player={player} teamColor={awayTeamColor} />
+                <BaseGround.Player
+                  key={player.id ?? uuid()}
+                  player={player}
+                  teamColor={awayTeamColor}
+                />
               ))}
             </div>
           ))}
