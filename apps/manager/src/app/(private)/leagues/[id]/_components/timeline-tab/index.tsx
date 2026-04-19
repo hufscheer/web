@@ -59,6 +59,15 @@ export const TimelineTab = ({ gameId }: Props) => {
                 );
               }
 
+              if (
+                record.type !== 'SCORE' &&
+                record.type !== 'SOCCER_REPLACEMENT' &&
+                record.type !== 'PK' &&
+                record.type !== 'WARNING_CARD'
+              ) {
+                return null;
+              }
+
               return <EventRecord key={record.recordId} record={record} homeTeamId={homeTeamId} />;
             })}
           </Fragment>

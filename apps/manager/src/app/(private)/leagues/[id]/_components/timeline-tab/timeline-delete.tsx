@@ -4,7 +4,7 @@ import { Typography, toast } from '@hcc/ui';
 import Image from 'next/image';
 import { useMemo } from 'react';
 
-import { type TimelineRecordType, useSuspenseGameTimeline } from '~/api';
+import { type TimelineRecordTypeBySport, useSuspenseGameTimeline } from '~/api';
 import { useDeleteTimeline } from '~/api/mutations/useDeleteTimeline';
 import { AlertDialog } from '~/components/ui';
 
@@ -17,7 +17,8 @@ export const TimelineDeleteMenu = ({ gameId }: Props) => {
     switch (t) {
       case 'SCORE':
         return '득점';
-      case 'REPLACEMENT':
+      case 'SOCCER_REPLACEMENT':
+      case 'BASKETBALL_REPLACEMENT':
         return '교체';
       case 'PK':
         return 'PK';
@@ -25,6 +26,8 @@ export const TimelineDeleteMenu = ({ gameId }: Props) => {
         return '경고/퇴장';
       case 'GAME_PROGRESS':
         return '쿼터';
+      case 'FOUL':
+        return '파울';
       default:
         return t ?? '-';
     }
@@ -36,7 +39,8 @@ export const TimelineDeleteMenu = ({ gameId }: Props) => {
     );
 
     const toNum = (v: unknown) => Number(v);
-    let best: (TimelineRecordType & { __quarter: string }) | null = null;
+    let best: (TimelineRecordTypeBySport<'SOCCER' | 'BASKETBALL'> & { __quarter: string }) | null =
+      null;
     for (const r of all) {
       const id = toNum(r.recordId);
       if (!Number.isFinite(id)) continue;
