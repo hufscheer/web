@@ -8,10 +8,11 @@ import type { SportType } from '~/api/types';
 import { InputDate } from '~/components/ui/input-date';
 import { InputSelect } from '~/components/ui/input-select';
 import { getRoundOptions } from '~/constants/leagues';
+import { SportIcon } from '~/constants/sports';
 
-const SPORT_OPTIONS: { value: SportType; label: string; emoji: string }[] = [
-  { value: 'SOCCER', label: '축구', emoji: '⚽' },
-  { value: 'BASKETBALL', label: '농구', emoji: '🏀' },
+const SPORT_OPTIONS: { value: SportType; label: string }[] = [
+  { value: 'SOCCER', label: '축구' },
+  { value: 'BASKETBALL', label: '농구' },
 ];
 
 export type LeagueInfoForm = {
@@ -44,8 +45,9 @@ const LeagueInfo = ({ form, onChange, onNext, isFormValid }: LeagueInfoProps) =>
                 color={form.sportType === opt.value ? 'primary' : 'black'}
                 variant={form.sportType === opt.value ? 'solid' : 'subtle'}
                 onClick={() => onChange({ sportType: opt.value })}
+                className="gap-1.5"
               >
-                {opt.emoji} {opt.label}
+                <SportIcon sportType={opt.value} /> {opt.label}
               </Button>
             ))}
           </div>

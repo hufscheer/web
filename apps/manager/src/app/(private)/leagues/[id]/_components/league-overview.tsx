@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useSuspenseLeague } from '~/api';
 import { getRoundLabel } from '~/constants/leagues';
 import { routes } from '~/constants/routes';
+import { SportIcon } from '~/constants/sports';
 
 type Props = {
   id: number;
@@ -18,7 +19,13 @@ export const LeagueOverview = ({ id }: Props) => {
   return (
     <div className="column gap-4 bg-white px-5 py-3">
       <div className="row-between">
-        <Typography fontSize={20} weight="semibold" lineHeight="none">
+        <Typography
+          fontSize={20}
+          weight="semibold"
+          lineHeight="none"
+          className="flex items-center gap-1"
+        >
+          <SportIcon sportType={data.sportType} size={20} />
           {data.name}
         </Typography>
         <Typography color={colors.neutral500} weight="medium" lineHeight="none">
