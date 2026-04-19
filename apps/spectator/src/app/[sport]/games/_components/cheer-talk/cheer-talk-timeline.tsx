@@ -67,7 +67,7 @@ const Score = ({ record, sportType }: { record: ScoreRecord; sportType: SportTyp
           {teamName} {playerName} {scoreRecord.score}점슛 성공!
         </Typography>
         <Image
-          className="overflow-hidden rounded-full object-cover"
+          className="overflow-hidden rounded-full object-contain"
           src={teamImageUrl}
           alt={`${teamName} 로고`}
           width={18}
@@ -96,7 +96,7 @@ const Score = ({ record, sportType }: { record: ScoreRecord; sportType: SportTyp
           </Typography>
         </div>
         <Image
-          className="overflow-hidden rounded-full object-cover"
+          className="overflow-hidden rounded-full object-contain"
           src={teamImageUrl}
           alt={`${teamName} 로고`}
           width={18}
@@ -141,7 +141,7 @@ const Replacement = ({
           </Typography>
         </div>
         <Image
-          className="overflow-hidden rounded-full object-cover"
+          className="overflow-hidden rounded-full object-contain"
           src={teamImageUrl}
           alt={`${teamName} 로고`}
           width={18}

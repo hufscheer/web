@@ -97,7 +97,7 @@ export const Teams = ({ className, ...props }: LeagueCardTeamsProps) => {
         </Badge>
         <div className="relative ml-2 h-5 w-5 overflow-hidden rounded-full border border-neutral-100">
           <Image
-            className="aspect-square rounded-full object-contain object-cover"
+            className="aspect-square rounded-full object-contain"
             src={data.firstWinnerTeam.logoImageUrl ?? '/images/fallback-image.webp'}
             alt={`${data.firstWinnerTeam.teamName} 로고`}
             width={20}
@@ -120,7 +120,7 @@ export const Teams = ({ className, ...props }: LeagueCardTeamsProps) => {
         </Badge>
         <div className="relative ml-2 h-5 w-5 overflow-hidden rounded-full border border-neutral-100">
           <Image
-            className="rounded-full object-cover"
+            className="rounded-full object-contain"
             src={data.secondWinnerTeam.logoImageUrl ?? '/images/fallback-image.webp'}
             alt={`${data.secondWinnerTeam.teamName} 로고`}
             width={20}

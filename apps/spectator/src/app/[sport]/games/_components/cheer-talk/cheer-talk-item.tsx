@@ -58,7 +58,7 @@ export default function CheerTalkItem({
           )}
         >
           <Image
-            className="aspect-square size-4.5 overflow-hidden rounded-full object-contain object-cover"
+            className="aspect-square size-4.5 overflow-hidden rounded-full object-contain"
             src={logoImageUrl ?? '/images/fallback-image.webp'}
             alt={`${direction} 팀 로고`}
             width={18}

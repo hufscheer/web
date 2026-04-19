@@ -49,7 +49,7 @@ export const BasketballGround = ({
         src="/images/basketball-court.webp"
         alt="농구 코트"
         fill
-        className="aspect-square object-contain object-cover object-center"
+        className="aspect-square object-contain object-center"
         priority
       />
 

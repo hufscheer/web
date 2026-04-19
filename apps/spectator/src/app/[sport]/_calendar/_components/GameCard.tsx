@@ -162,7 +162,7 @@ const GameCardMatch = ({ gameId, time, round, status, team1, team2 }: GameCardMa
                 <Image
                   src={team2.logoImageUrl ?? '/images/fallback-image.webp'}
                   alt={team2.gameTeamName}
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-contain"
                   width={20}
                   height={20}
                 />

@@ -164,7 +164,7 @@ const CheerTeamBox = ({
       disabled={isPending}
     >
       <Image
-        className="h-9 w-9 rounded-full object-cover"
+        className="h-9 w-9 rounded-full object-contain"
         src={logoImageUrl ?? '/images/fallback-image.webp'}
         alt={`${gameTeamName} 로고`}
         width={36}

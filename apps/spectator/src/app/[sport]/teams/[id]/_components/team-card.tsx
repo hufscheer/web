@@ -35,7 +35,7 @@ const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
       <div className="center-y min-w-0 flex-1 gap-3">
         <div className="center relative h-8 w-8 overflow-hidden rounded-full bg-neutral-200">
           <Image
-            className="aspect-square h-auto rounded-full object-contain object-cover"
+            className="aspect-square h-auto rounded-full object-contain"
             src={team.logoImageUrl ?? '/images/fallback-image.webp'}
             alt={`${team.name} 팀 로고`}
             width={28}
