@@ -56,12 +56,14 @@ const Page = () => {
 
           <div className="flex-grow">
             {currentStep === 1 && (
-              <LeagueInfo
-                form={form}
-                onChange={handleFormChange}
-                onNext={goNext}
-                isFormValid={isFormValid}
-              />
+              <LeagueInfo>
+                <LeagueInfo.SportSelect
+                  value={form.sportType}
+                  onChange={(sportType) => handleFormChange({ sportType })}
+                />
+                <LeagueInfo.Fields form={form} onChange={handleFormChange} />
+                <LeagueInfo.Actions onNext={goNext} isFormValid={isFormValid} />
+              </LeagueInfo>
             )}
 
             {currentStep === 2 && (

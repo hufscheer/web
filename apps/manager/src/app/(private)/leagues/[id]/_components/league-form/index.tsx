@@ -63,14 +63,20 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
           value={step}
           caseBy={{
             0: (
-              <LeagueInfo
-                form={formData}
-                onChange={handleFormChange}
-                onNext={() => setStep(1)}
-                isFormValid={
-                  !!formData.name && !!formData.startAt && !!formData.endAt && !!formData.maxRound
-                }
-              />
+              <LeagueInfo>
+                <LeagueInfo.SportSelect
+                  value={formData.sportType}
+                  onChange={(sportType) => handleFormChange({ sportType })}
+                  disabled
+                />
+                <LeagueInfo.Fields form={formData} onChange={handleFormChange} />
+                <LeagueInfo.Actions
+                  onNext={() => setStep(1)}
+                  isFormValid={
+                    !!formData.name && !!formData.startAt && !!formData.endAt && !!formData.maxRound
+                  }
+                />
+              </LeagueInfo>
             ),
             1: (
               <LeagueRegister
