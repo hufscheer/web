@@ -17,8 +17,9 @@ type Props = {
 export const TimelineTab = ({ gameId, sportType }: Props) => {
   const { data: game } = useSuspenseGame({ gameId });
   const { data } = useSuspenseGameTimeline({ gameId });
+  const { timelines } = data;
 
-  if (data.length === 0)
+  if (timelines.length === 0)
     return (
       <Typography
         className="p-5 text-center"
@@ -44,7 +45,7 @@ export const TimelineTab = ({ gameId, sportType }: Props) => {
         </Fragment>
       )}
 
-      {data.map((timeline) => (
+      {timelines.map((timeline) => (
         <div key={timeline.gameQuarter.key}>
           <Fragment key={timeline.gameQuarter.key}>
             {timeline.records.map((record) => {

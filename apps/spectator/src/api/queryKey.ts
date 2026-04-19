@@ -4,7 +4,7 @@ import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory'
 import type {
   OrganizationType,
   TimelinePayload,
-  TimelineType,
+  TimelineResponseType,
   CheerTalkPayload,
   CheerTalkType,
   GameCheerPayload,
@@ -83,7 +83,7 @@ const gameQueryKeys = createQueryKeys('games', {
   }),
   timeline: (payload: TimelinePayload) => ({
     queryKey: [payload],
-    queryFn: () => fetcher.get<TimelineType[]>(`games/${payload.gameId}/timeline`),
+    queryFn: () => fetcher.get<TimelineResponseType>(`games/${payload.gameId}/timeline`),
   }),
   cheertalk: (payload: CheerTalkPayload) => ({
     queryKey: [payload],
