@@ -10,6 +10,7 @@ import Link from 'next/link';
 import type { GameQuarterType, GameTeamType, GameType } from '~/api';
 import type { GameStateType, SportType } from '~/api/types';
 
+import { stateOptions } from '~/constants/leagues';
 import { routes } from '~/constants/routes';
 
 export const GameCardRoot = ({ children }: PropsWithChildren) => {
@@ -33,7 +34,7 @@ const GameHeader = ({
   return (
     <div className="row-between">
       <Badge size="sm" variant={state === 'PLAYING' ? 'danger' : 'default'}>
-        {state ?? gameQuarter?.label}
+        {state ? stateOptions[state] : gameQuarter?.label}
       </Badge>
       <Typography className="center-y" color="var(--color-neutral-500)" fontSize={14} asChild>
         <Link href={`/${routes.game(leagueId, gameId, sportType)}`}>
