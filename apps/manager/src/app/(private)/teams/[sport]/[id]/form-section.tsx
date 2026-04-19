@@ -8,7 +8,7 @@ import type { TeamFormType } from '~/api/mutations/useCreateTeams';
 import { useSuspenseTeam, useUpdateTeams } from '~/api';
 import { useImageUpload } from '~/hooks';
 
-import { TeamForm } from '../_components/team-form';
+import { TeamForm } from '../../_components/team-form';
 
 type Props = {
   id: number;
