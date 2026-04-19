@@ -33,17 +33,15 @@ const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
   return (
     <div className={twMerge('row-between gap-3', className)} {...props}>
       <div className="center-y min-w-0 flex-1 gap-3">
-        {team.logoImageUrl && (
-          <div className="center relative h-8 w-8 overflow-hidden rounded-full bg-neutral-200">
-            <Image
-              className="rounded-full object-cover"
-              src={team.logoImageUrl}
-              alt={`${team.name} 팀 로고`}
-              width={28}
-              height={28}
-            />
-          </div>
-        )}
+        <div className="center relative h-8 w-8 overflow-hidden rounded-full bg-neutral-200">
+          <Image
+            className="aspect-square h-auto rounded-full object-contain object-cover"
+            src={team.logoImageUrl ?? '/images/fallback-image.webp'}
+            alt={`${team.name} 팀 로고`}
+            width={28}
+            height={28}
+          />
+        </div>
         <Typography className="break-words whitespace-normal" weight="medium">
           {team.name}
         </Typography>

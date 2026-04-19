@@ -34,8 +34,8 @@ export const MatchHistory = ({ games, teamName, sport, limit = 3 }: MatchHistory
             <div className="center-y gap-0.5 overflow-hidden">
               <div className="h-5 w-5 rounded-full border border-neutral-200">
                 <Image
-                  className="rounded-full object-cover select-none"
-                  src={home.logoImageUrl}
+                  className="aspect-square h-full rounded-full object-contain select-none"
+                  src={home.logoImageUrl ?? '/images/fallback-image.webp'}
                   alt={`${home.gameTeamName} 팀 로고`}
                   width={20}
                   height={20}
@@ -60,8 +60,8 @@ export const MatchHistory = ({ games, teamName, sport, limit = 3 }: MatchHistory
 
               <div className="h-5 w-5 rounded-full border border-neutral-200">
                 <Image
-                  className="rounded-full object-cover select-none"
-                  src={away.logoImageUrl}
+                  className="aspect-square h-full rounded-full object-contain select-none"
+                  src={away.logoImageUrl ?? '/images/fallback-image.webp'}
                   alt={`${away.gameTeamName} 팀 로고`}
                   width={20}
                   height={20}
