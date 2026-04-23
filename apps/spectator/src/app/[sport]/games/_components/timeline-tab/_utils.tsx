@@ -40,7 +40,9 @@ export const getRecordSubtitle = (record: TimelineRecordType, sportType: SportTy
         const score = record.scoreRecord.score;
         return score === 1 ? '자유투' : `${score}점슛`;
       }
-      return '득점';
+      return record.scoreRecord.assistPlayerName
+        ? `${record.scoreRecord.assistPlayerName} 도움`
+        : '득점';
     case 'SOCCER_REPLACEMENT':
     case 'BASKETBALL_REPLACEMENT':
       return record.replacementRecord.isFoulOut
