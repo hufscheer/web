@@ -67,7 +67,7 @@ export const SelectTeam = ({
         name: team.name,
       })),
     }));
-  }, [teams]);
+  }, [teams, sportType]);
 
   const [selectedAffiliationId, setSelectedAffiliationId] = useState<string | null>(
     affiliations[0]?.name || null,
