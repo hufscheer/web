@@ -64,7 +64,7 @@ interface GameListProps {
 }
 
 const GameList = ({ leagueId, leagueName, games, cheerCount, buttonLabel }: GameListProps) => {
-  const sendEvent = useTracker({ category: 'Home' });
+  const sendEvent = useTracker({ category: 'Home_Tab' });
   const router = useRouter();
 
   return (
