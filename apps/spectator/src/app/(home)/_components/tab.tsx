@@ -64,7 +64,7 @@ interface GameListProps {
 }
 
 const GameList = ({ leagueId, leagueName, games, cheerCount, buttonLabel }: GameListProps) => {
-  const sendEvent = useTracker({ category: 'Home_Tab' });
+  const sendEvent = useTracker({ category: 'Link_Game' });
   const router = useRouter();
 
   return (
@@ -118,7 +118,7 @@ const GameList = ({ leagueId, leagueName, games, cheerCount, buttonLabel }: Game
                 size="sm"
                 color="primary"
                 className="gap"
-                onClick={() => sendEvent({ action: 'click', value: buttonLabel })}
+                onClick={() => sendEvent({ action: 'click', value: `${buttonLabel}_${game.id}` })}
               >
                 <Link href={{ pathname: `/games/${game.id}`, query: { tab: 'cheer' } }}>
                   {buttonLabel}
