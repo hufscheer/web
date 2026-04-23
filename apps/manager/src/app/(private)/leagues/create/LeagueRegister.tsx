@@ -82,7 +82,7 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
       loading={isPending}
       onClick={isAllTeamsRegistered ? handleCreateLeague : undefined}
     >
-      대회 생성
+      완료
     </Button>
   );
   return (
@@ -127,7 +127,7 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
             CreateButton
           ) : (
             <AlertDialog
-              title="아직 모든 팀이 등록되지 않았어요"
+              title={`총 ${registeredTeams.length}개의 팀이 등록되었어요.`}
               description="정말 생성할까요?"
               primaryTitle="확인"
               onPrimaryClick={handleCreateLeague}
