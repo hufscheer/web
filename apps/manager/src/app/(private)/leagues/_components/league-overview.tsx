@@ -8,7 +8,9 @@ import { useRouter } from 'next/navigation';
 import { Fragment } from 'react';
 
 import { useSuspenseLeaguesLeague } from '~/api';
+import { getRoundLabel } from '~/constants/leagues';
 import { routes } from '~/constants/routes';
+import { SportIcon } from '~/constants/sports';
 
 export const LeagueOverview = () => {
   const { data } = useSuspenseLeaguesLeague();
@@ -26,6 +28,7 @@ export const LeagueOverview = () => {
                 >
                   {league.leagueProgress}
                 </Badge>
+                <SportIcon sportType={league.sportType} />
                 <Typography weight="semibold">{league.name}</Typography>
               </div>
               <div className="center">
@@ -50,7 +53,7 @@ export const LeagueOverview = () => {
                 weight="medium"
                 lineHeight="none"
               >
-                <strong>라운드</strong> {league.maxRound}강
+                <strong>라운드</strong> {getRoundLabel(league.maxRound, league.sportType)}
               </Typography>
               <Typography
                 color="var(--color-neutral-500)"
@@ -78,7 +81,7 @@ export const LeagueOverview = () => {
               size="sm"
               color="black"
               variant="subtle"
-              onClick={() => router.push(`/${routes.cheertalks}`)}
+              onClick={() => router.push(`/${routes.league_cheertalks(league.id)}`)}
             >
               응원톡 관리
             </Button>

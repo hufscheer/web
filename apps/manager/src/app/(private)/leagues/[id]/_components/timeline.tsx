@@ -16,7 +16,8 @@ type Props = {
 export const Timeline = ({ gameId }: Props) => {
   const { data: game } = useSuspenseGame({ gameId });
   const { data } = useSuspenseGameTimeline({ gameId });
-  if (data.length === 0)
+  const { timelines } = data;
+  if (timelines.length === 0)
     return (
       <Typography
         className="p-5 text-center"
@@ -42,21 +43,29 @@ export const Timeline = ({ gameId }: Props) => {
         </Fragment>
       )}
 
-      {data.map((timeline) => (
-        <div key={timeline.gameQuarter}>
-          <Fragment key={timeline.gameQuarter}>
+      {timelines.map((timeline) => (
+        <div key={timeline.gameQuarter.key}>
+          <Fragment key={timeline.gameQuarter.key}>
             {timeline.records.map((record) => {
               if (record.progressRecord?.gameProgressType) {
-                if (timeline.gameQuarter === '경기 종료' || timeline.gameQuarter === '경기후')
-                  return null;
+                if (timeline.gameQuarter.key === 'POST_GAME') return null;
 
                 return (
                   <TextRecord key={record.recordId} showDividerLine>
-                    {timeline.gameQuarter}이(가)&nbsp;
+                    {timeline.gameQuarter.label}이(가)&nbsp;
                     {getProgressSemantics(record.progressRecord.gameProgressType)}
                     되었습니다.
                   </TextRecord>
                 );
+              }
+
+              if (
+                record.type !== 'SCORE' &&
+                record.type !== 'SOCCER_REPLACEMENT' &&
+                record.type !== 'PK' &&
+                record.type !== 'WARNING_CARD'
+              ) {
+                return null;
               }
 
               return <EventRecord key={record.recordId} record={record} homeTeamId={homeTeamId} />;

@@ -8,10 +8,13 @@ export const LEAGUE_STATE = {
 
 export type LeagueStateType = (typeof LEAGUE_STATE)[keyof typeof LEAGUE_STATE];
 
+export type SportType = 'SOCCER' | 'BASKETBALL';
+
 export type LeagueType = {
   id: number;
   name: string;
   state: LeagueStateType;
+  sportType: SportType;
   inProgressGames: GameType[];
 };
 
@@ -29,6 +32,7 @@ export type LeagueDetailType = {
   startAt: string;
   endAt: string;
   teamIds: number[];
+  sportType: SportType;
 };
 
 export type LeagueTeamsPayload = { leagueId: number };

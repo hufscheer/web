@@ -149,6 +149,7 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
               onClose={() => setIsOpen(false)}
               onRegister={handleRegisterTeam}
               maxSelectCount={maxTeams - registeredTeams.length}
+              sportType={leagueInfoForm.sportType}
             />
           </div>
         </Drawer.Content>

@@ -4,17 +4,22 @@ import type { ReactNode } from 'react';
 
 import { ArrowBackIcon, HCCLogo } from '@hcc/icons';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 import { routes } from '~/constants/routes';
+import { normalizeSportParam } from '~/utils/sport-route';
 
 type Props = {
   arrow?: boolean;
+  center?: ReactNode;
   menu?: ReactNode;
 };
 
-export const Header = ({ arrow, menu }: Props) => {
+export const Header = ({ arrow, center, menu }: Props) => {
   const router = useRouter();
+  const params = useParams<{ sport?: string }>();
+  const sportType = normalizeSportParam(params?.sport);
+  const homeHref = sportType ? routes.home({ sport: sportType }) : routes.root;
 
   return (
     <header className="sticky top-0 z-header h-12 w-full shrink-0 border-b border-neutral-100 bg-white">
@@ -31,7 +36,7 @@ export const Header = ({ arrow, menu }: Props) => {
             </button>
             <Link
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 truncate"
-              href={`/${routes.home}`}
+              href={homeHref}
             >
               <HCCLogo width="71.5" height="21" className="text-[var(--color-primary-600)]" />
             </Link>
@@ -39,9 +44,12 @@ export const Header = ({ arrow, menu }: Props) => {
           </>
         ) : (
           <>
-            <Link className="flex items-end gap-2 select-none" href={`/${routes.home}`}>
-              <HCCLogo width="71.5" height="21" className="text-[var(--color-primary-600)]" />
-            </Link>
+            <div className="center-y gap-4">
+              <Link className="flex items-end select-none" href={homeHref}>
+                <HCCLogo width="71.5" height="21" className="text-[var(--color-primary-600)]" />
+              </Link>
+              {center}
+            </div>
             <div className="center-y">{menu ?? null}</div>
           </>
         )}

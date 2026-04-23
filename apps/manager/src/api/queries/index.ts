@@ -1,6 +1,11 @@
 export * from './useCheerTalkBlock';
 export * from './useCheerTalkReport';
 export * from './useCheerTalks';
+export * from './useGamesCheerTalkBlock';
+export * from './useGamesCheerTalkReport';
+export * from './useLeagueCheerTalkBlock';
+export * from './useLeagueCheerTalkReport';
+export * from './useLeagueCheerTalks';
 export * from './useGame';
 export * from './useGameLineup';
 export * from './useGames';
@@ -14,3 +19,4 @@ export * from './usePlayer';
 export * from './usePlayers';
 export * from './useTeam';
 export * from './useTeams';
+export * from './useGameTimelineProgressAvailable';

@@ -34,6 +34,7 @@ export const TeamForm = ({ className, onSubmit, initialData, ...props }: Props) 
       logoImageUrl: initialData?.logoImageUrl ?? '',
       unit: initialData?.unit ?? '',
       teamColor: initialData?.teamColor ?? '',
+      sportType: initialData?.sportType ?? 'SOCCER',
       teamPlayers: initialData?.teamPlayers ?? [],
     },
   });

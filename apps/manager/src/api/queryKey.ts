@@ -4,7 +4,9 @@ import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory'
 import type {
   CheerTalkPayload,
   CheerTalkType,
+  GameCheerTalkPayload,
   GameDetailPayload,
+  LeagueCheerTalkPayload,
   GameLineupPayload,
   GameLineupPlayingType,
   GameLineupType,
@@ -20,9 +22,10 @@ import type {
   LeagueType,
   PlayerDetailPayload,
   PlayerType,
+  ProgressAvailableActionsResponse,
   TeamType,
   TimelinePayload,
-  TimelineType,
+  TimelineResponseType,
 } from './types';
 
 const apiBaseUrl = process.env.API_BASE_URL ?? '/api';
@@ -49,6 +52,15 @@ const leagueQueryKeys = createQueryKeys('leagues', {
     queryKey: [payload],
     queryFn: () =>
       fetcher.get<LeagueTeamsPlayerType[]>(`leagues/teams/${payload.leagueTeamId}/players`),
+  }),
+  cheerTalksBlocked: (payload: LeagueCheerTalkPayload) => ({
+    queryKey: [payload],
+    queryFn: () => {
+      const cursor = payload.cursor || '';
+      return fetcher.get<CheerTalkType[]>(`leagues/${payload.leagueId}/cheer-talks/blocked`, {
+        searchParams: { cursor, size: payload.size },
+      });
+    },
   }),
 });
 
@@ -85,7 +97,7 @@ const gameQueryKeys = createQueryKeys('games', {
   }),
   timeline: (payload: TimelinePayload) => ({
     queryKey: [payload],
-    queryFn: () => fetcher.get<TimelineType[]>(`games/${payload.gameId}/timeline`),
+    queryFn: () => fetcher.get<TimelineResponseType>(`games/${payload.gameId}/timeline`),
   }),
   detail: (payload: GameDetailPayload) => ({
     queryKey: [payload],
@@ -99,20 +111,31 @@ const gameQueryKeys = createQueryKeys('games', {
     queryKey: [payload],
     queryFn: () => fetcher.get<GameLineupPlayingType[]>(`games/${payload.gameId}/lineup/playing`),
   }),
+  progressAvailable: (payload: TimelinePayload) => ({
+    queryKey: [payload],
+    queryFn: () =>
+      fetcher.get<ProgressAvailableActionsResponse>(`games/${payload.gameId}/available-progress`),
+  }),
+  cheerTalksBlocked: (payload: GameCheerTalkPayload) => ({
+    queryKey: [payload],
+    queryFn: () => {
+      const cursor = payload.cursor || '';
+      return fetcher.get<CheerTalkType[]>(`games/${payload.gameId}/cheer-talks/blocked`, {
+        searchParams: { cursor, size: payload.size },
+      });
+    },
+  }),
 });
 
 const cheerTalkQueryKeys = createQueryKeys('cheertalks', {
-  list: (payload: CheerTalkPayload) => ({
-    queryKey: [payload],
-    queryFn: () => fetcher.get<CheerTalkType[]>('cheer-talks'),
-  }),
-  reported: (payload: CheerTalkPayload) => ({
-    queryKey: [payload],
-    queryFn: () => fetcher.get<CheerTalkType[]>('cheer-talks/reported'),
-  }),
   blocked: (payload: CheerTalkPayload) => ({
     queryKey: [payload],
-    queryFn: () => fetcher.get<CheerTalkType[]>('cheer-talks/blocked'),
+    queryFn: () => {
+      const cursor = payload.cursor || '';
+      return fetcher.get<CheerTalkType[]>('cheer-talks/blocked', {
+        searchParams: { cursor, size: payload.size },
+      });
+    },
   }),
 });
 

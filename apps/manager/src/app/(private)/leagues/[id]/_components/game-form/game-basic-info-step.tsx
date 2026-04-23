@@ -4,7 +4,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { type GameFormType, useSuspenseLeague, useSuspenseLeagueTeams } from '~/api';
 import { InputSelect } from '~/components/ui/input-select';
-import { quarterOptions, roundOptions, stateOptions } from '~/constants/leagues';
+import { getRoundOptions } from '~/constants/leagues';
 
 type Props = {
   leagueId: number;
@@ -19,40 +19,23 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
   const watchedFields = watch([
     'name',
     'round',
-    'quarter',
-    'state',
     'startTime',
     'team1.leagueTeamId',
     'team2.leagueTeamId',
   ]);
-  const [name, round, quarter, state, startTime, team1Id, team2Id] = watchedFields;
+  const [name, round, startTime, team1Id, team2Id] = watchedFields;
 
   const isValid = Boolean(
-    name?.trim() &&
-    round &&
-    quarter &&
-    state &&
-    startTime &&
-    team1Id &&
-    team2Id &&
-    team1Id !== team2Id,
+    name?.trim() && round && startTime && team1Id && team2Id && team1Id !== team2Id,
   );
+
   const roundFilteredOptions = useMemo(
     () =>
-      roundOptions
+      getRoundOptions(league.sportType)
         .filter((item) => league.maxRound >= item.round)
         .map((item) => ({ value: item.value.toString(), label: item.label })),
-    [league.maxRound],
+    [league.maxRound, league.sportType],
   );
-  const quarterListOptions = Object.entries(quarterOptions).map(([key, value]) => ({
-    value: key,
-    label: value,
-  }));
-
-  const stateListOptions = Object.entries(stateOptions).map(([key, value]) => ({
-    value: key,
-    label: value,
-  }));
 
   const teamOptions = teams.map((team) => ({
     value: team.leagueTeamId.toString(),
@@ -89,32 +72,6 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
                 label="라운드"
                 options={roundFilteredOptions}
                 value={field.value?.toString()}
-                onValueChange={field.onChange}
-              />
-            )}
-          />
-
-          <Controller
-            name="quarter"
-            control={control}
-            render={({ field }) => (
-              <InputSelect
-                label="쿼터"
-                options={quarterListOptions}
-                value={field.value}
-                onValueChange={field.onChange}
-              />
-            )}
-          />
-
-          <Controller
-            name="state"
-            control={control}
-            render={({ field }) => (
-              <InputSelect
-                label="상황"
-                options={stateListOptions}
-                value={field.value}
                 onValueChange={field.onChange}
               />
             )}

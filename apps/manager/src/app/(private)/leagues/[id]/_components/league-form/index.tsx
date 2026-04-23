@@ -30,6 +30,7 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
     startAt: initialData?.startAt ? new Date(initialData.startAt) : undefined,
     endAt: initialData?.endAt ? new Date(initialData.endAt) : undefined,
     maxRound: initialData?.maxRound,
+    sportType: initialData?.sportType ?? 'SOCCER',
   });
   const handleFormChange = (patch: Partial<LeagueInfoForm>) => {
     setFormData((prev) => ({
@@ -48,6 +49,7 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
       startAt: formData.startAt.toISOString(),
       endAt: formData.endAt.toISOString(),
       teamIds,
+      sportType: formData.sportType ?? 'SOCCER',
     };
 
     onSubmit(payload);
@@ -61,14 +63,20 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
           value={step}
           caseBy={{
             0: (
-              <LeagueInfo
-                form={formData}
-                onChange={handleFormChange}
-                onNext={() => setStep(1)}
-                isFormValid={
-                  !!formData.name && !!formData.startAt && !!formData.endAt && !!formData.maxRound
-                }
-              />
+              <LeagueInfo>
+                <LeagueInfo.SportSelect
+                  value={formData.sportType}
+                  onChange={(sportType) => handleFormChange({ sportType })}
+                  disabled
+                />
+                <LeagueInfo.Fields form={formData} onChange={handleFormChange} />
+                <LeagueInfo.Actions
+                  onNext={() => setStep(1)}
+                  isFormValid={
+                    !!formData.name && !!formData.startAt && !!formData.endAt && !!formData.maxRound
+                  }
+                />
+              </LeagueInfo>
             ),
             1: (
               <LeagueRegister
@@ -79,6 +87,7 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
                   maxRound: formData.maxRound ?? 0,
                   startAt: formData.startAt?.toISOString() ?? '',
                   endAt: formData.endAt?.toISOString() ?? '',
+                  sportType: formData?.sportType ?? 'SOCCER',
                 }}
                 initialTeams={initialTeams}
                 onSubmit={handleUpdate}
