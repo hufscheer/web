@@ -1,8 +1,12 @@
+import type { Metadata } from 'next';
+
 import { ErrorBoundary, Suspense } from '@suspensive/react';
 
 import { ErrorMessage } from '../_components/error-message';
 import { SportTab } from '../_components/sport-tab';
 import { TeamTab } from './_components/tab';
+
+export const metadata: Metadata = { title: '팀' };
 
 export default function Page() {
   return (

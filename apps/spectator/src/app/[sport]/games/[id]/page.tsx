@@ -1,7 +1,12 @@
+import type { Metadata } from 'next';
+
 import * as Tabs from '@radix-ui/react-tabs';
 import { Suspense } from '@suspensive/react';
 import { redirect } from 'next/navigation';
 
+import type { GameType } from '~/api';
+
+import { fetchGame } from '~/api';
 import { CheerVS } from '~/app/[sport]/games/_components/cheer-vs';
 import { LineupTab } from '~/app/[sport]/games/_components/lineup-tab';
 import { TimelineTab } from '~/app/[sport]/games/_components/timeline-tab';
@@ -107,3 +112,21 @@ const Page = async ({ searchParams, params }: Props) => {
 };
 
 export default Page;
+
+export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
+  const { id: _id } = await params;
+  const id = Number(_id);
+
+  if (!_id || Number.isNaN(id) || id <= 0) return {};
+
+  const game: GameType = await fetchGame({ gameId: id });
+  const teamNames = game.gameTeams.map((t) => t.gameTeamName);
+  const title =
+    teamNames.length === 2 ? `${game.gameName} - ${teamNames[0]} : ${teamNames[1]}` : game.gameName;
+
+  return {
+    title,
+    openGraph: { title },
+    twitter: { title },
+  };
+};
