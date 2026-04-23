@@ -3,7 +3,7 @@ import { Analytics as VercelAnalytics } from '@vercel/analytics/next';
 import { SpeedInsights as VercelSpeedInsights } from '@vercel/speed-insights/next';
 
 export const AnalyticsProvider = () => {
-  if (process.env.NODE_ENV === 'development') return;
+  // if (process.env.NODE_ENV === 'development') return;
 
   return (
     <>
