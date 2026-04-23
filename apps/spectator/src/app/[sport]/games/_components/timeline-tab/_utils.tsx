@@ -43,9 +43,11 @@ export const getRecordSubtitle = (record: TimelineRecordType, sportType: SportTy
       return '득점';
     case 'SOCCER_REPLACEMENT':
     case 'BASKETBALL_REPLACEMENT':
-      return `${record.playerName} OUT`;
+      return record.replacementRecord.isFoulOut
+        ? `${record.playerName} 파울아웃`
+        : `${record.playerName} OUT`;
     case 'WARNING_CARD':
-      return '파울';
+      return sportType === 'BASKETBALL' ? '파울' : '경고';
     case 'PK':
       return record.pkRecord.isSuccess ? '성공' : '실축';
     default:

@@ -30,7 +30,9 @@ const getBasketballSubtitle = (record: TimelineRecordTypeBySport<'BASKETBALL'>):
       return `${score}점슛`;
     }
     case 'BASKETBALL_REPLACEMENT':
-      return `${record.playerName} OUT`;
+      return record.replacementRecord.isFoulOut
+        ? `${record.playerName} 파울아웃`
+        : `${record.playerName} OUT`;
     case 'WARNING_CARD':
       return '경고';
     case 'FOUL':
