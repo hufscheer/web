@@ -100,7 +100,7 @@ const GameList = ({
   buttonLabel,
   sport,
 }: GameListProps) => {
-  const sendEvent = useTracker({ category: 'Home' });
+  const sendEvent = useTracker({ category: 'Link_Game' });
   const router = useRouter();
 
   return (
@@ -155,7 +155,7 @@ const GameList = ({
                 size="sm"
                 color="primary"
                 className="gap"
-                onClick={() => sendEvent({ action: 'click', value: buttonLabel })}
+                onClick={() => sendEvent({ action: 'click', value: `${buttonLabel}_${game.id}` })}
               >
                 <Link
                   href={{ pathname: routes.game({ id: game.id, sport }), query: { tab: 'cheer' } }}

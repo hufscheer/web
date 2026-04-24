@@ -1,4 +1,4 @@
-import { useQuery, useSuspenseQuery } from '@hcc/api-base';
+import { getQueryClient, useQuery, useSuspenseQuery } from '@hcc/api-base';
 
 import type { TeamDetailPayload } from '~/api';
 
@@ -8,3 +8,6 @@ export const useTeam = (payload: TeamDetailPayload) => useQuery(queryKeys.teams.
 
 export const useSuspenseTeam = (payload: TeamDetailPayload) =>
   useSuspenseQuery(queryKeys.teams.detail(payload));
+
+export const fetchTeam = async (payload: TeamDetailPayload) =>
+  await getQueryClient().fetchQuery(queryKeys.teams.detail(payload));
