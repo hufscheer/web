@@ -18,14 +18,12 @@ export const EventRecord = ({ record, homeTeamId, sportType }: Props) => {
     <div className={twMerge('center-y relative gap-4 py-2', isAway && 'flex-row-reverse')}>
       <div className="h-full w-[3px] bg-neutral-950" aria-hidden />
       <Typography
-        className="center size-10 rounded-full border border-neutral-50"
+        className="center h-10 w-0 rounded-full border border-neutral-50"
         fontSize={14}
         color={colors.neutral500}
         weight="medium"
         lineHeight="none"
-      >
-        {record.type === 'PK' ? 'P.S' : `${record.recordedAt}'`}
-      </Typography>
+      />
       {getRecordIcon(record, sportType)}
       <div className="column gap-1">
         <Typography color={colors.neutral900} fontSize={14} weight="medium" lineHeight="none">
