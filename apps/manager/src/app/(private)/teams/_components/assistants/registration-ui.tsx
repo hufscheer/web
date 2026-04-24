@@ -4,7 +4,7 @@ import { Button, colors, Typography } from '@hcc/ui';
 import { useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import type { PlayerData } from '~/api/types/nl';
+import type { ParseFailedLine, PlayerData } from '~/api/types/nl';
 
 /* -------------------------------------------------------------------------------------------------
  * Shared helpers
@@ -77,7 +77,7 @@ const Wrapper = ({ logo, message, content }: WrapperProps) => {
 
 interface ParseResultCardProps {
   players: PlayerData[];
-  failedLines?: string[];
+  failedLines?: ParseFailedLine[];
   teamName?: string;
   onEdit?: (players: PlayerData[]) => void;
   onConfirm?: (selected: { studentNumber: string }[]) => void;
@@ -92,7 +92,6 @@ const ParseResultCard = ({
 }: ParseResultCardProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedPlayers, setEditedPlayers] = useState<PlayerData[]>(players);
-  const [invalidStudentNumbers, setInvalidStudentNumbers] = useState<Set<string>>(new Set());
   const inputRefs = useRef<Map<string, HTMLInputElement>>(new Map());
 
   const handleUpdate = (index: number, field: keyof PlayerData, value: string) => {
@@ -128,16 +127,6 @@ const ParseResultCard = ({
 
   const handleConfirmClick = () => {
     const playersToConfirm = canConfirmWithExclusion ? validPlayers : players;
-    const invalid = new Set<string>(
-      playersToConfirm
-        .filter((p) => p.studentNumber && !/^\d{9}$/.test(p.studentNumber))
-        .map((p) => p.studentNumber),
-    );
-    if (invalid.size > 0) {
-      setInvalidStudentNumbers(invalid);
-      return;
-    }
-    setInvalidStudentNumbers(new Set());
     onConfirm?.(playersToConfirm.map((p) => ({ studentNumber: p.studentNumber })));
   };
 
@@ -192,11 +181,7 @@ const ParseResultCard = ({
                 ) : (
                   <PlayerCell
                     className={
-                      player.error ||
-                      !player.studentNumber ||
-                      invalidStudentNumbers.has(player.studentNumber)
-                        ? 'border-red-400 bg-red-50'
-                        : undefined
+                      player.error || !player.studentNumber ? 'border-red-400 bg-red-50' : undefined
                     }
                   >
                     {player.studentNumber}
@@ -226,44 +211,46 @@ const ParseResultCard = ({
               </td>
             </tr>
           ))}
+          {!isEditing &&
+            failedLines?.map((line) => (
+              <tr key={`failed-${line.index}`}>
+                <td className="py-1 pr-2">
+                  <PlayerCell>{line.name}</PlayerCell>
+                </td>
+                <td className="py-1 pr-2">
+                  <PlayerCell className="border-red-400 bg-red-50">{line.studentNumber}</PlayerCell>
+                </td>
+                <td className="py-1">
+                  <PlayerCell>{line.jerseyNumber}</PlayerCell>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
 
       {/* 에러 표시 */}
       {(displayPlayers.some((p) => p.error) ||
         hasMissingJerseyNumber ||
-        invalidStudentNumbers.size > 0) && (
+        (failedLines && failedLines.length > 0)) && (
         <ul className="flex flex-col gap-1">
           {Array.from(new Set(displayPlayers.filter((p) => p.error).map((p) => p.error))).map(
             (errorMsg) => (
               <li key={errorMsg} className="text-xs text-red-500">
-                {errorMsg}
+                • {errorMsg}
               </li>
             ),
           )}
           {hasMissingJerseyNumber && (
             <li className="text-xs text-red-500">
-              등번호가 없는 선수가 있습니다. 등록할 수 없습니다.
+              • 등번호가 없는 선수가 있습니다. 등록할 수 없습니다.
             </li>
           )}
-          {invalidStudentNumbers.size > 0 && (
-            <li className="text-xs text-red-500">학번은 9자리 숫자여야 합니다.</li>
-          )}
+          {failedLines?.map((line) => (
+            <li key={line.index} className="text-xs text-red-500">
+              • {line.reason}
+            </li>
+          ))}
         </ul>
-      )}
-
-      {/* 파싱 실패 항목 */}
-      {failedLines && failedLines.length > 0 && (
-        <div className="flex flex-col gap-1 rounded border border-red-200 bg-red-50 p-2">
-          <p className="text-xs font-medium text-red-600">파싱 실패 항목</p>
-          <ul className="flex flex-col gap-1">
-            {failedLines.map((line) => (
-              <li key={line} className="text-xs text-red-500">
-                • {line}
-              </li>
-            ))}
-          </ul>
-        </div>
       )}
 
       {/* 버튼 */}
@@ -296,10 +283,7 @@ const ParseResultCard = ({
             type="button"
             color="primary"
             variant="ghost"
-            onClick={() => {
-              setIsEditing(true);
-              setInvalidStudentNumbers(new Set());
-            }}
+            onClick={() => setIsEditing(true)}
             className="flex-1 rounded border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
           >
             수정

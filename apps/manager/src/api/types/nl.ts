@@ -8,11 +8,17 @@ export type ParseNLPayload = {
   message: string;
 };
 
+export type ParseFailedLine = {
+  index: number;
+  name: string;
+  studentNumber: string;
+  jerseyNumber: number;
+  reason: string;
+};
+
 export type ParseNLResponse = {
   displayMessage: string;
   preview: ParseNLPreview | null;
-  total: number;
-  parseFailedLines: string[];
 };
 
 // UI 편집용 선수 타입 (jerseyNumber null 허용, error 포함)
@@ -25,6 +31,8 @@ export type PlayerData = {
 
 export type ParseNLPreview = {
   players: ParsedPlayer[];
+  total: number;
+  parseFailedLines: ParseFailedLine[];
 };
 
 export type ParsedPlayer = {

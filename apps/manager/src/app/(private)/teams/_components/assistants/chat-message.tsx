@@ -26,9 +26,7 @@ export const ChatMessage = ({ type, message, assistantLogo }: ChatMessageProps) 
         </div>
       )}
 
-      <div
-        className={twMerge('flex flex-col gap-3', isAssistant ? 'max-w-[40ch]' : 'max-w-[30ch]')}
-      >
+      <div className="flex max-w-[20ch] flex-col gap-3">
         {isAssistant ? (
           <Typography fontSize={12} className="break-words whitespace-pre-line text-gray-900">
             {displayMessage}
