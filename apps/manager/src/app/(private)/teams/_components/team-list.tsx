@@ -7,7 +7,8 @@ import Link from 'next/link';
 
 import type { SportType } from '~/api/types';
 
-import { useSuspenseTeams } from '~/api';
+import { useManagerTeams } from '~/api/queries/useManagerTeams';
+import { useTeamUnits } from '~/api/queries/useTeamUnits';
 import { routes } from '~/constants/routes';
 
 import { TeamDeleteDialog } from './team-delete-dialog';
@@ -18,8 +19,11 @@ type Props = {
 };
 
 export const TeamList = ({ edit, sportType }: Props) => {
-  const { data: allTeams } = useSuspenseTeams();
-  const data = allTeams.filter((team) => team.sportType === sportType);
+  const { data: units = [] } = useTeamUnits(sportType);
+  const { data = [] } = useManagerTeams(
+    units.map((u) => u.unitName),
+    sportType,
+  );
 
   return (
     <div className="column h-full gap-3 overflow-y-auto px-5 pt-5 pb-[92px]">
