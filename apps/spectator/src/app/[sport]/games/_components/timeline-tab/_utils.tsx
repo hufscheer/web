@@ -14,6 +14,16 @@ export const getRecordIcon = (record: TimelineRecordType, sportType: SportType) 
     case 'BASKETBALL_REPLACEMENT':
       return <TradeHorizontalIcon size={16} />;
     case 'WARNING_CARD':
+      if (sportType === 'BASKETBALL') {
+        return;
+      }
+
+      return record.warningCardRecord?.warningCardType === 'YELLOW' ? (
+        <div className="h-4 w-3 rounded-sm bg-[var(--color-yellow-400)]" />
+      ) : (
+        <div className="h-4 w-3 rounded-sm bg-[var(--color-danger-600)]" />
+      );
+    case 'FOUL':
       return <FoulIcon size={16} />;
     case 'PK':
       return record.pkRecord.isSuccess ? (
@@ -33,6 +43,21 @@ export const getRecordTitle = (record: TimelineRecordType) => {
   return record.playerName;
 };
 
+const getWarningCardType = (record: TimelineRecordType, sportType: SportType) => {
+  if (sportType === 'BASKETBALL') {
+    return;
+  }
+
+  switch (record.warningCardRecord?.warningCardType) {
+    case 'YELLOW':
+      return '경고';
+    case 'RED':
+      return '퇴장';
+    default:
+      return '';
+  }
+};
+
 export const getRecordSubtitle = (record: TimelineRecordType, sportType: SportType) => {
   switch (record.type) {
     case 'SCORE':
@@ -40,11 +65,20 @@ export const getRecordSubtitle = (record: TimelineRecordType, sportType: SportTy
         const score = record.scoreRecord.score;
         return score === 1 ? '자유투' : `${score}점슛`;
       }
-      return '득점';
+      return record.scoreRecord.assistPlayerName
+        ? `${record.scoreRecord.assistPlayerName} 도움`
+        : '득점';
     case 'SOCCER_REPLACEMENT':
     case 'BASKETBALL_REPLACEMENT':
-      return `${record.playerName} OUT`;
+      return record.replacementRecord.isFoulOut
+        ? `${record.playerName} 파울아웃`
+        : `${record.playerName} OUT`;
     case 'WARNING_CARD':
+      return getWarningCardType(record, sportType);
+    case 'FOUL':
+      if (sportType === 'SOCCER') {
+        return;
+      }
       return '파울';
     case 'PK':
       return record.pkRecord.isSuccess ? '성공' : '실축';

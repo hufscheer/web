@@ -15,14 +15,12 @@ const getBasketballIcon = (record: TimelineRecordTypeBySport<'BASKETBALL'>) => {
       return <BasketballIcon size={16} />;
     case 'BASKETBALL_REPLACEMENT':
       return <TradeHorizontalIcon size={16} />;
-    case 'WARNING_CARD':
-      return <FoulIcon size={16} />;
     case 'FOUL':
       return <FoulIcon size={16} />;
   }
 };
 
-const getBasketballSubtitle = (record: TimelineRecordTypeBySport<'BASKETBALL'>): string => {
+const getBasketballSubtitle = (record: TimelineRecordTypeBySport<'BASKETBALL'>) => {
   switch (record.type) {
     case 'SCORE': {
       const score = record.scoreRecord?.score;
@@ -30,11 +28,13 @@ const getBasketballSubtitle = (record: TimelineRecordTypeBySport<'BASKETBALL'>):
       return `${score}점슛`;
     }
     case 'BASKETBALL_REPLACEMENT':
-      return `${record.playerName} OUT`;
-    case 'WARNING_CARD':
-      return '경고';
+      return record.replacementRecord.isFoulOut
+        ? `${record.playerName} 파울아웃`
+        : `${record.playerName} OUT`;
     case 'FOUL':
       return '파울';
+    default:
+      return '';
   }
 };
 
@@ -57,14 +57,12 @@ export const BasketballEventRecord = ({ record, homeTeamId }: Props) => {
     >
       <div className="h-full w-[3px] bg-neutral-950" aria-hidden />
       <Typography
-        className="center size-10 rounded-full border border-neutral-50"
+        className="center h-10 w-0 rounded-full border border-neutral-50"
         fontSize={14}
         color={colors.neutral500}
         weight="medium"
         lineHeight="none"
-      >
-        {`${record.recordedAt}'`}
-      </Typography>
+      />
       {getBasketballIcon(record)}
       <div className="column gap-1">
         <Typography color={colors.neutral900} fontSize={14} weight="medium" lineHeight="none">

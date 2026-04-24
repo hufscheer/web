@@ -39,7 +39,18 @@ export const CheerTalkList = ({
   isFetchingNextPage,
 }: CheerTalkListProps) => {
   const { data: game } = useSuspenseGame({ gameId });
+  const NOTICE_DISMISSED_KEY = `cheer-notice-dismissed-${gameId}`;
   const [isNoticeVisible, setIsNoticeVisible] = useState(false);
+
+  const dismissNotice = () => {
+    setIsNoticeVisible(false);
+    sessionStorage.setItem(NOTICE_DISMISSED_KEY, 'true');
+  };
+
+  const showNotice = () => {
+    if (sessionStorage.getItem(NOTICE_DISMISSED_KEY)) return;
+    setIsNoticeVisible(true);
+  };
 
   const formWrapperRef = useRef<HTMLDivElement>(null);
   const hasFirstFocused = useRef(false);
@@ -128,7 +139,8 @@ export const CheerTalkList = ({
                 </Typography>
                 <button
                   type="button"
-                  onClick={() => setIsNoticeVisible(false)}
+                  onPointerDown={(e) => e.preventDefault()}
+                  onClick={dismissNotice}
                   className="text-neutral-400 hover:text-neutral-600"
                 >
                   <CloseIcon size={16} />
@@ -142,7 +154,7 @@ export const CheerTalkList = ({
             scrollToBottom={scrollToBottomWithDelay}
             gameState={game.state}
             onInputFocus={() => {
-              setIsNoticeVisible(true);
+              showNotice();
               if (!hasFirstFocused.current) {
                 hasFirstFocused.current = true;
                 scrollToBottom();

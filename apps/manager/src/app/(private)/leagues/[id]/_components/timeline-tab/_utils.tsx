@@ -60,7 +60,9 @@ export const getRecordSubtitle = (record: TimelineRecordTypeBySport<'SOCCER'>) =
   if (card === 'RED') return '퇴장';
   switch (record.type) {
     case 'SCORE':
-      return '득점';
+      return record.scoreRecord.assistPlayerName
+        ? `${record.scoreRecord.assistPlayerName} 도움`
+        : '득점';
     case 'SOCCER_REPLACEMENT':
       return `${record.playerName} OUT`;
     case 'PK':
