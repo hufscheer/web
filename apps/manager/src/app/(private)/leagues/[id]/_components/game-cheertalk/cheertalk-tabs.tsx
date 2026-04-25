@@ -9,7 +9,7 @@ const AllContent = ({ gameId, leagueId }: { gameId: number; leagueId: number }) 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useSuspenseInfiniteGamesCheerTalks({ gameId, cursor: 0, size: 10 });
   const cheerTalks = [...new Map(data.pages.flat().map((t) => [t.cheerTalkId, t])).values()].map(
-    (t) => ({ ...t, leagueId }),
+    (t) => ({ ...t, leagueId, gameId }),
   );
   return (
     <CheerTalkList
