@@ -11,10 +11,12 @@ type Props = {
 };
 
 const Page = async ({ params }: Props) => {
-  const { gameId: _gameId } = await params;
+  const { id: _id, gameId: _gameId } = await params;
 
   if (!_gameId || Number.isNaN(Number(_gameId))) notFound();
+  if (!_id || Number.isNaN(Number(_id))) notFound();
   const gameId = Number(_gameId);
+  const leagueId = Number(_id);
 
   return (
     <>
@@ -29,7 +31,7 @@ const Page = async ({ params }: Props) => {
           }
           clientOnly
         >
-          <BlockedList gameId={gameId} />
+          <BlockedList gameId={gameId} leagueId={leagueId} />
         </Suspense>
       </div>
     </>

@@ -57,7 +57,11 @@ export const CheerTalkList = ({
 
   const handleHide = (cheerTalk: CheerTalkType) => {
     block(
-      { leagueId: cheerTalk.leagueId, cheerTalkId: cheerTalk.cheerTalkId },
+      {
+        leagueId: cheerTalk.leagueId,
+        cheerTalkId: cheerTalk.cheerTalkId,
+        gameId: cheerTalk.gameId,
+      },
       {
         onSuccess: () => {
           toast.success('응원톡을 가렸어요');
@@ -71,13 +75,17 @@ export const CheerTalkList = ({
 
   const handleUnhide = (cheerTalk: CheerTalkType) => {
     unblock(
-      { leagueId: cheerTalk.leagueId, cheerTalkId: cheerTalk.cheerTalkId },
+      {
+        leagueId: cheerTalk.leagueId,
+        cheerTalkId: cheerTalk.cheerTalkId,
+        gameId: cheerTalk.gameId,
+      },
       {
         onSuccess: () => {
-          toast.success('응원톡을 복구했어요.');
+          toast.success('응원톡을 복구했어요');
         },
         onError: () => {
-          toast.error('오류가 발생했습니다. 다시 시도해주세요.');
+          toast.error('오류가 발생했어요 다시 시도해주세요');
         },
       },
     );
@@ -141,9 +149,12 @@ export const CheerTalkList = ({
     }
   };
 
+  const visibleCheerTalks =
+    status === 'blocked' ? cheerTalks : cheerTalks.filter((t) => !t.isBlocked);
+
   return (
     <div className="flex flex-col gap-2">
-      {cheerTalks.map((cheerTalk) => (
+      {visibleCheerTalks.map((cheerTalk) => (
         <div key={cheerTalk.cheerTalkId} className="flex flex-col gap-2">
           <CheerTalkCard cheerTalk={cheerTalk} lastAccessedAt={lastAccessedAt} />
           <div className="flex w-full items-center gap-2">{renderActions(cheerTalk)}</div>

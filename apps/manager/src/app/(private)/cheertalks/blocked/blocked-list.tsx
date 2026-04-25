@@ -1,10 +1,20 @@
 'use client';
 
-import { useSuspenseCheerTalkBlock } from '~/api';
+import { useSuspenseInfiniteCheerTalkBlock } from '~/api/queries/useCheerTalkBlock';
 import { CheerTalkList } from '~/app/(private)/_components/cheertalk/cheertalk-list';
 
 export const BlockedList = () => {
-  const { data } = useSuspenseCheerTalkBlock({ cursor: 1, size: 5 });
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useSuspenseInfiniteCheerTalkBlock({ cursor: 0, size: 10 });
+  const cheerTalks = [...new Map(data.pages.flat().map((t) => [t.cheerTalkId, t])).values()];
 
-  return <CheerTalkList cheerTalks={data} status="blocked" />;
+  return (
+    <CheerTalkList
+      cheerTalks={cheerTalks}
+      status="blocked"
+      hasNextPage={hasNextPage}
+      isFetchingNextPage={isFetchingNextPage}
+      onLoadMore={() => fetchNextPage()}
+    />
+  );
 };

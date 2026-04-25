@@ -5,6 +5,7 @@ import { fetcher, queryKeys } from '~/api/queryKey';
 type Request = {
   leagueId: number;
   cheerTalkId: number;
+  gameId?: number;
 };
 
 const patchCheerTalkUnblock = ({ leagueId, cheerTalkId }: Request) => {
@@ -16,8 +17,12 @@ export const useUpdateCheerTalkUnblock = () => {
 
   return useMutation({
     mutationFn: patchCheerTalkUnblock,
-    onSuccess: async () => {
-      await qc.invalidateQueries({ queryKey: queryKeys.cheertalks._def });
+    onSuccess: async (_data, { leagueId, gameId }) => {
+      await Promise.all([
+        qc.invalidateQueries({ queryKey: queryKeys.cheertalks._def }),
+        qc.invalidateQueries({ queryKey: ['leagues', leagueId, 'cheer-talks'] }),
+        ...(gameId ? [qc.invalidateQueries({ queryKey: ['games', gameId, 'cheer-talks'] })] : []),
+      ]);
     },
   });
 };
