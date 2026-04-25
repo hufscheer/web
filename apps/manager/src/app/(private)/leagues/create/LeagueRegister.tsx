@@ -30,7 +30,7 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
   const [isOpen, setIsOpen] = useState(false);
   const [registeredTeams, setRegisteredTeams] = useState<RegisteredTeam[]>(initialTeams);
   const { mutate, isPending } = useCreateLeagues();
-  const maxTeams = useMemo(() => round ?? 32, [round]);
+  const maxTeams = useMemo(() => round ?? 100, [round]);
 
   const isEditMode = !!onSubmit;
 
@@ -82,7 +82,7 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
       loading={isPending}
       onClick={isAllTeamsRegistered ? handleCreateLeague : undefined}
     >
-      대회 생성
+      완료
     </Button>
   );
   return (
@@ -127,7 +127,7 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
             CreateButton
           ) : (
             <AlertDialog
-              title="아직 모든 팀이 등록되지 않았어요"
+              title={`총 ${registeredTeams.length}개의 팀이 등록되었어요`}
               description="정말 생성할까요?"
               primaryTitle="확인"
               onPrimaryClick={handleCreateLeague}
@@ -149,6 +149,7 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
               onClose={() => setIsOpen(false)}
               onRegister={handleRegisterTeam}
               maxSelectCount={maxTeams - registeredTeams.length}
+              sportType={leagueInfoForm.sportType}
             />
           </div>
         </Drawer.Content>

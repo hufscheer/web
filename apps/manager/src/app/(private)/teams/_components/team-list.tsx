@@ -5,17 +5,25 @@ import { Typography } from '@hcc/ui';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { useSuspenseTeams } from '~/api';
+import type { SportType } from '~/api/types';
+
+import { useManagerTeams } from '~/api/queries/useManagerTeams';
+import { useTeamUnits } from '~/api/queries/useTeamUnits';
 import { routes } from '~/constants/routes';
 
 import { TeamDeleteDialog } from './team-delete-dialog';
 
 type Props = {
   edit: boolean;
+  sportType: SportType;
 };
 
-export const TeamList = ({ edit }: Props) => {
-  const { data } = useSuspenseTeams();
+export const TeamList = ({ edit, sportType }: Props) => {
+  const { data: units = [] } = useTeamUnits(sportType);
+  const { data = [] } = useManagerTeams(
+    units.map((u) => u.unitName),
+    sportType,
+  );
 
   return (
     <div className="column h-full gap-3 overflow-y-auto px-5 pt-5 pb-[92px]">
@@ -54,7 +62,10 @@ export const TeamList = ({ edit }: Props) => {
               </span>
             </TeamDeleteDialog>
           ) : (
-            <Link className="center" href={`/${routes.teams}/${team.id}`}>
+            <Link
+              className="center"
+              href={`/${routes.teams}/${sportType.toLowerCase()}/${team.id}`}
+            >
               <ChevronForwardIcon size={24} />
             </Link>
           )}

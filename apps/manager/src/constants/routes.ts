@@ -1,3 +1,7 @@
+import type { SportType } from '~/api/types';
+
+const sportPath = (sportType: SportType) => sportType.toLowerCase();
+
 export const routes = {
   home: '',
   login: 'auth/login',
@@ -12,10 +16,12 @@ export const routes = {
   players_create: 'players/create',
 
   teams: 'teams',
-  teams_create: 'teams/create',
+  teams_create: (sport: string) => `teams/${sport}/create`,
 
-  game: (leagueId: number, id: number) => `leagues/${leagueId}/${id}`,
-  game_timeline: (id: number, gameId: number) => `leagues/${id}/${gameId}/timeline`,
+  game: (leagueId: number, id: number, sportType: SportType) =>
+    `leagues/${leagueId}/${sportPath(sportType)}/${id}`,
+  game_timeline: (leagueId: number, gameId: number, sportType: SportType) =>
+    `leagues/${leagueId}/${sportPath(sportType)}/${gameId}/timeline`,
   game_create: (leagueId: number) => `leagues/${leagueId}/create-game`,
 
   cheertalks: 'cheertalks',
@@ -24,7 +30,8 @@ export const routes = {
   league_cheertalks: (id: number) => `leagues/${id}/cheertalks`,
   league_cheertalk_block: (id: number) => `leagues/${id}/cheertalks/blocked`,
 
-  game_cheertalks: (leagueId: number, gameId: number) => `leagues/${leagueId}/${gameId}/cheertalks`,
-  game_cheertalk_block: (leagueId: number, gameId: number) =>
-    `leagues/${leagueId}/${gameId}/cheertalks/blocked`,
+  game_cheertalks: (leagueId: number, gameId: number, sportType: SportType) =>
+    `leagues/${leagueId}/${sportPath(sportType)}/${gameId}/cheertalks`,
+  game_cheertalk_block: (leagueId: number, gameId: number, sportType: SportType) =>
+    `leagues/${leagueId}/${sportPath(sportType)}/${gameId}/cheertalks/blocked`,
 } as const;

@@ -11,6 +11,7 @@ import { twMerge } from 'tailwind-merge';
 import type { GameListType, GameStateType } from '~/api';
 
 import { cn } from '~/utils/cn';
+import { getRoundLabel } from '~/utils/round-label';
 
 type GameType = { game: GameListType };
 
@@ -71,7 +72,7 @@ const GameCardHeader = ({ showLeagueName, className, state, ...props }: GameCard
     <div className={twMerge('row-between', className)} {...props}>
       <Typography color={colors.neutral500} fontSize={13} weight="medium">
         {showLeagueName && `${leagueName} ‧ `}
-        {round === 2 ? '결승' : `${round}강`}
+        {getRoundLabel(round)}
         {' ‧ '}
         {formatTime(startTime, { format: 'MM.DD. HH:mm' })}
       </Typography>
@@ -117,8 +118,8 @@ const GameCardTeam = ({ index, className, ...props }: GameCardTeamProps) => {
     >
       <div className="flex items-center gap-2">
         <Image
-          className="center h-7 w-7 overflow-hidden rounded-full border border-neutral-100 object-cover select-none"
-          src={team.logoImageUrl}
+          className="center aspect-square h-7 w-7 overflow-hidden rounded-full border border-neutral-100 object-contain select-none"
+          src={team.logoImageUrl ?? '/images/fallback-image.webp'}
           alt={`${team.gameTeamName} 로고`}
           width={28}
           height={28}

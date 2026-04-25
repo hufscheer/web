@@ -20,6 +20,10 @@ export const useCreateTimelinesProgress = ({ gameId }: { gameId: number }) => {
       await qc.invalidateQueries({
         queryKey: queryKeys.games.timeline({ gameId }).queryKey,
       });
+
+      await qc.invalidateQueries({
+        queryKey: queryKeys.games.progressAvailable({ gameId }).queryKey,
+      });
     },
   });
 };

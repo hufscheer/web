@@ -11,9 +11,10 @@ import { FloatingActionButton } from './assistants/floating-action-button';
 
 type Props = {
   onPrevious: () => void;
+  isEditMode?: boolean;
 };
 
-export const TeamPlayersStep = ({ onPrevious }: Props) => {
+export const TeamPlayersStep = ({ onPrevious, isEditMode }: Props) => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const { control, watch } = useFormContext<TeamFormType>();
   const teamName = watch('name');
@@ -130,7 +131,7 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
           </Typography>
         )}
       </div>
-      <FloatingActionButton onClick={() => setIsBottomSheetOpen(true)} />
+      {!isEditMode && <FloatingActionButton onClick={() => setIsBottomSheetOpen(true)} />}
 
       <AddPlayerBottomSheet
         isOpen={isBottomSheetOpen}

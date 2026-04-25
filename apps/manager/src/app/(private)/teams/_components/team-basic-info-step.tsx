@@ -6,8 +6,9 @@ import { twMerge } from 'tailwind-merge';
 
 import type { TeamFormType } from '~/api';
 
+import { useTeamUnits } from '~/api/queries/useTeamUnits';
 import { ImageUploader } from '~/components/ui';
-import { categories, colorPalette } from '~/constants/teams';
+import { colorPalette } from '~/constants/teams';
 
 type Props = {
   onNext: () => void;
@@ -16,6 +17,7 @@ type Props = {
 export const TeamBasicInfoStep = ({ onNext }: Props) => {
   const { register, control, watch } = useFormContext<TeamFormType>();
   const colorInputRef = useRef<HTMLInputElement>(null);
+  const { data: units = [] } = useTeamUnits(watch('sportType'));
 
   const isValid = Boolean(watch('name').trim() && watch('unit').trim() && watch('teamColor'));
   const defaultPalette = [...colorPalette];
@@ -74,9 +76,9 @@ export const TeamBasicInfoStep = ({ onNext }: Props) => {
           placeholder="소속"
           required
         >
-          {categories.map((category) => (
-            <option key={category} value={category}>
-              {category}
+          {units.map((unit) => (
+            <option key={unit.id} value={unit.unitName}>
+              {unit.unitName}
             </option>
           ))}
         </Select>

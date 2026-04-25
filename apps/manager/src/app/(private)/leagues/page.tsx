@@ -18,7 +18,7 @@ const Page = () => {
     <>
       <Header title="대회 관리" menu={<LeagueCreateMenu />} arrow />
 
-      <div className="column mt-1.5 h-full gap-1.5">
+      <div className="column h-full w-full gap-1.5 overflow-y-auto">
         <Suspense clientOnly>
           <LeagueOverview />
         </Suspense>

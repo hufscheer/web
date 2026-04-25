@@ -1,11 +1,14 @@
 import type { GameType } from '~/api';
 
+import type { SportType } from './leagues';
+
 export type TeamType = {
   id: number;
   name: string;
   logoImageUrl: string;
   unit: string;
   teamColor: string;
+  sportType: SportType;
 };
 
 export const TEAM_UNIT_LIST = [
@@ -30,6 +33,8 @@ export type TeamUnitType = (typeof TEAM_UNIT_LIST)[number];
 
 export type TeamListPayload = {
   units?: TeamUnitType | TeamUnitType[];
+  sportType?: SportType;
+  organizationId?: number;
 };
 
 export type GameTeamType = {
@@ -75,6 +80,7 @@ export type TeamDetailType = {
   logoImageUrl: string;
   unit: string;
   teamColor: string;
+  sportType: SportType;
   teamPlayers: TeamPlayerType[];
   winCount: number;
   drawCount: number;
@@ -91,3 +97,16 @@ export type TeamSummaryType = {
   teamDetail: TeamDetailType;
   recentGames: GameType[];
 };
+
+export type TeamUnitsPayload = {
+  sportType: SportType;
+  organizationId?: number;
+};
+
+export type TeamUnitAvailabilityType = {
+  unit: string;
+  unitName: string;
+  hasTeam: boolean;
+};
+
+export type { SportType } from './leagues';

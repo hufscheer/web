@@ -1,9 +1,10 @@
 import { getFetcher } from '@hcc/api-base';
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
 
-import type { TimelinePayload, TimelineType } from '~/api/types/timelines';
-
 import type {
+  OrganizationType,
+  TimelinePayload,
+  TimelineResponseType,
   CheerTalkPayload,
   CheerTalkType,
   GameCheerPayload,
@@ -14,6 +15,7 @@ import type {
   GameLineupType,
   GameListPayload,
   GameListResponse,
+  GameQuarterScoresType,
   GameSearchPayload,
   GameType,
   GameVideoPayload,
@@ -32,6 +34,7 @@ import type {
   LeagueTopScorersPayload,
   LeagueTopScorersType,
   LeagueType,
+  SportType,
   TeamDetailPayload,
   TeamDetailType,
   TeamGamesPayload,
@@ -39,6 +42,8 @@ import type {
   TeamPlayerType,
   TeamSummaryType,
   TeamType,
+  TeamUnitAvailabilityType,
+  TeamUnitsPayload,
 } from './types';
 
 const apiBaseUrl = process.env.API_BASE_URL ?? '/api';
@@ -78,7 +83,7 @@ const gameQueryKeys = createQueryKeys('games', {
   }),
   timeline: (payload: TimelinePayload) => ({
     queryKey: [payload],
-    queryFn: () => fetcher.get<TimelineType[]>(`games/${payload.gameId}/timeline`),
+    queryFn: () => fetcher.get<TimelineResponseType>(`games/${payload.gameId}/timeline`),
   }),
   cheertalk: (payload: CheerTalkPayload) => ({
     queryKey: [payload],
@@ -88,6 +93,10 @@ const gameQueryKeys = createQueryKeys('games', {
         searchParams: { cursor, size: 20 },
       });
     },
+  }),
+  quarterScores: (payload: GameDetailPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<GameQuarterScoresType>(`games/${payload.gameId}/quarter-scores`),
   }),
 });
 
@@ -101,6 +110,9 @@ const teamQueryKeys = createQueryKeys('teams', {
         const units = Array.isArray(payload.units) ? payload.units : [payload.units];
         units.forEach((u) => params.append('units', u));
       }
+
+      if (payload.sportType) params.append('sportType', payload.sportType);
+      if (payload.organizationId) params.append('organizationId', String(payload.organizationId));
 
       return fetcher.get<TeamType[]>('teams', { searchParams: params });
     },
@@ -127,10 +139,18 @@ const teamQueryKeys = createQueryKeys('teams', {
         units.forEach((u) => params.append('units', u));
       }
 
+      if (payload.sportType) params.append('sportType', payload.sportType);
+      if (payload.organizationId) params.append('organizationId', String(payload.organizationId));
+
       return fetcher.get<TeamSummaryType[]>('teams/summary', {
         searchParams: params,
       });
     },
+  }),
+  units: (payload: TeamUnitsPayload) => ({
+    queryKey: [payload],
+    queryFn: () =>
+      fetcher.get<TeamUnitAvailabilityType[]>('teams/units', { searchParams: payload }),
   }),
 });
 
@@ -143,9 +163,10 @@ const leagueQueryKeys = createQueryKeys('leagues', {
     queryKey: [payload],
     queryFn: () => fetcher.get<LeagueDetailType>(`leagues/${payload.leagueId}`),
   }),
-  recentGames: () => ({
-    queryKey: ['recent-games'],
-    queryFn: () => fetcher.get<GameListResponse[]>(`leagues/recent/games`),
+  recentGames: (payload?: { sportType?: SportType; organizationId?: number }) => ({
+    queryKey: ['recent-games', payload],
+    queryFn: () =>
+      fetcher.get<GameListResponse[]>(`leagues/recent/games`, { searchParams: payload }),
   }),
   recentSummary: (payload?: LeagueRecentSummaryPayload) => ({
     queryKey: [payload],
@@ -173,4 +194,16 @@ const leagueQueryKeys = createQueryKeys('leagues', {
   }),
 });
 
-export const queryKeys = mergeQueryKeys(gameQueryKeys, teamQueryKeys, leagueQueryKeys);
+const organizationQueryKeys = createQueryKeys('organizations', {
+  list: {
+    queryKey: null,
+    queryFn: () => fetcher.get<OrganizationType[]>('organizations'),
+  },
+});
+
+export const queryKeys = mergeQueryKeys(
+  gameQueryKeys,
+  teamQueryKeys,
+  leagueQueryKeys,
+  organizationQueryKeys,
+);

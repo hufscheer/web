@@ -1,9 +1,9 @@
 import { SportsAndOutdoorsIcon, TradeHorizontalIcon } from '@hcc/icons';
 import { twMerge } from 'tailwind-merge';
 
-import type { ProgressType, TimelineRecordType } from '~/api';
+import type { ProgressType, TimelineRecordTypeBySport } from '~/api';
 
-export const getRecordIcon = (record: TimelineRecordType) => {
+export const getRecordIcon = (record: TimelineRecordTypeBySport<'SOCCER'>) => {
   const card = record.warningCardRecord?.warningCardType;
   if (card === 'YELLOW') {
     return (
@@ -28,7 +28,7 @@ export const getRecordIcon = (record: TimelineRecordType) => {
   switch (record.type) {
     case 'SCORE':
       return <SportsAndOutdoorsIcon size={16} />;
-    case 'REPLACEMENT':
+    case 'SOCCER_REPLACEMENT':
       return <TradeHorizontalIcon size={16} />;
     case 'PK':
       return record.pkRecord.isSuccess ? (
@@ -36,34 +36,40 @@ export const getRecordIcon = (record: TimelineRecordType) => {
       ) : (
         <SportsAndOutdoorsIcon size={16} className="text-[var(--color-danger-600)]" />
       );
-    default:
+    case 'GAME_PROGRESS':
+      return null;
+    case 'WARNING_CARD':
       return null;
   }
 };
 
-export const getRecordTitle = (record: TimelineRecordType) => {
+export const getRecordTitle = (record: TimelineRecordTypeBySport<'SOCCER'>) => {
   const card = record.warningCardRecord?.warningCardType;
   if (card) {
     return record.playerName;
   }
-  if (record.type === 'REPLACEMENT') {
+  if (record.type === 'SOCCER_REPLACEMENT') {
     return `${record.replacementRecord.replacedPlayerName} IN`;
   }
   return record.playerName;
 };
 
-export const getRecordSubtitle = (record: TimelineRecordType) => {
+export const getRecordSubtitle = (record: TimelineRecordTypeBySport<'SOCCER'>) => {
   const card = record.warningCardRecord?.warningCardType;
   if (card === 'YELLOW') return '경고';
   if (card === 'RED') return '퇴장';
   switch (record.type) {
     case 'SCORE':
-      return '득점';
-    case 'REPLACEMENT':
+      return record.scoreRecord.assistPlayerName
+        ? `${record.scoreRecord.assistPlayerName} 도움`
+        : '득점';
+    case 'SOCCER_REPLACEMENT':
       return `${record.playerName} OUT`;
     case 'PK':
       return record.pkRecord.isSuccess ? '성공' : '실축';
-    default:
+    case 'GAME_PROGRESS':
+      return '';
+    case 'WARNING_CARD':
       return '';
   }
 };

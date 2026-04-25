@@ -4,9 +4,10 @@ import { Button } from '@hcc/ui';
 import clsx from 'clsx';
 import { useMemo, useState } from 'react';
 
-import type { TeamType } from '~/api';
+import type { SportType, TeamType } from '~/api';
 
-import { useTeams } from '~/api/queries/useTeams';
+import { useManagerTeams } from '~/api/queries/useManagerTeams';
+import { useTeamUnits } from '~/api/queries/useTeamUnits';
 
 type RegisteredTeam = {
   affiliationName: string;
@@ -38,10 +39,19 @@ type TeamCreationFormProps = {
   onClose: () => void;
   onRegister: (teams: RegisteredTeam[]) => void;
   maxSelectCount: number;
+  sportType: SportType;
 };
 
-export const SelectTeam = ({ onClose, onRegister, maxSelectCount }: TeamCreationFormProps) => {
-  const { data: teams = [], isLoading } = useTeams();
+export const SelectTeam = ({
+  onClose,
+  onRegister,
+  maxSelectCount,
+  sportType,
+}: TeamCreationFormProps) => {
+  const { data: teamUnits = [], isLoading: isUnitsLoading } = useTeamUnits(sportType);
+  const unitNames = useMemo(() => teamUnits.map((u) => u.unitName), [teamUnits]);
+  const { data: teams = [], isLoading: isTeamsLoading } = useManagerTeams(unitNames, sportType);
+  const isLoading = isUnitsLoading || isTeamsLoading;
 
   const affiliations = useMemo(() => {
     const units = teams.reduce<Record<string, TeamType[]>>((acc, team) => {
@@ -111,7 +121,7 @@ export const SelectTeam = ({ onClose, onRegister, maxSelectCount }: TeamCreation
     <div className="flex h-[60vh] flex-col pt-4">
       <div className="flex flex-grow flex-row overflow-hidden">
         {/* 왼쪽 열: 소속 */}
-        <div className="flex-1 border-r">
+        <div className="flex flex-1 flex-col border-r">
           <div className="w-full bg-[#EBECEE] p-3 text-left text-base font-medium">소속</div>
           <div className="overflow-y-auto">
             {affiliations.map((affiliation) => (
