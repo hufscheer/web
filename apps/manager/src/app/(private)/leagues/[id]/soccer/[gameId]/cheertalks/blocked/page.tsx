@@ -22,7 +22,7 @@ const Page = async ({ params }: Props) => {
     <>
       <Header title="응원톡 관리" arrow />
 
-      <div className="column h-full gap-1.5 bg-white px-5 py-4">
+      <div className="column h-full gap-1.5 overflow-y-auto bg-white px-5 py-4">
         <Suspense
           fallback={
             <div className="center p-5">
