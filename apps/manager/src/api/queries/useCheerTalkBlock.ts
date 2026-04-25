@@ -12,14 +12,14 @@ export const useSuspenseCheerTalkBlock = (payload: CheerTalkPayload) =>
 
 export const useSuspenseInfiniteCheerTalkBlock = (payload: CheerTalkPayload) =>
   useSuspenseInfiniteQuery({
-    queryKey: ['cheertalks', 'blocked', 'infinite', payload.size] as const,
+    queryKey: queryKeys.cheertalks.blockedInfinite(payload.size).queryKey,
     queryFn: async ({ pageParam }: { pageParam: number }) => {
       const cursor = pageParam || '';
       return fetcher.get<CheerTalkType[]>('cheer-talks/blocked', {
         searchParams: { cursor, size: payload.size },
       });
     },
-    initialPageParam: 0,
+    initialPageParam: payload.cursor,
     getNextPageParam: (lastPage: CheerTalkType[]) =>
       lastPage.length === payload.size
         ? (lastPage[lastPage.length - 1]?.cheerTalkId ?? null)

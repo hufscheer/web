@@ -26,7 +26,7 @@ const ReportedContent = ({ gameId, leagueId }: { gameId: number; leagueId: numbe
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useSuspenseInfiniteGamesCheerTalkReport({ gameId, cursor: 0, size: 10 });
   const cheerTalks = [...new Map(data.pages.flat().map((t) => [t.cheerTalkId, t])).values()].map(
-    (t) => ({ ...t, leagueId }),
+    (t) => ({ ...t, leagueId, gameId }),
   );
   return (
     <CheerTalkList

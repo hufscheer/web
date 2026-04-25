@@ -17,11 +17,13 @@ export const useUpdateCheerTalkBlock = () => {
 
   return useMutation({
     mutationFn: patchCheerTalkBlock,
-    onSuccess: async (_data, { leagueId, gameId }) => {
+    onSuccess: async (_data, { gameId }) => {
       await Promise.all([
         qc.invalidateQueries({ queryKey: queryKeys.cheertalks._def }),
-        qc.invalidateQueries({ queryKey: ['leagues', leagueId, 'cheer-talks'] }),
-        ...(gameId ? [qc.invalidateQueries({ queryKey: ['games', gameId, 'cheer-talks'] })] : []),
+        qc.invalidateQueries({ queryKey: queryKeys.leagues.cheerTalksBlocked._def }),
+        ...(gameId
+          ? [qc.invalidateQueries({ queryKey: queryKeys.games.cheerTalksBlocked._def })]
+          : []),
       ]);
     },
   });
