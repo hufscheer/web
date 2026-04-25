@@ -17,7 +17,7 @@ export const TeamFilter = ({ sport }: { sport: SportType }) => {
   const { organizationId } = useOrganizationId();
   const { data: unitAvailability } = useSuspenseTeamUnitAvailability({
     sportType: sport,
-    organizationId: organizationId ?? undefined,
+    organizationId,
   });
 
   // 종목 전환 시 hasTeam: false 된 항목 선택 해제

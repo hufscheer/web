@@ -31,7 +31,7 @@ export const TeamTab = () => {
   const { data } = useSuspenseTeamsSummary({
     units: selected as TeamUnitType[],
     sportType: sport,
-    organizationId: organizationId ?? undefined,
+    organizationId,
   });
   const filteredData = data.filter((team) => team.teamDetail.sportType === sport);
 
