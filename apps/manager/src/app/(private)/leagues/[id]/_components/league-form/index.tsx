@@ -23,6 +23,9 @@ type Props = {
 } & Omit<ComponentProps<'form'>, 'onSubmit'>;
 const STEPS = ['기본 정보', '참가 팀 등록'];
 
+const toUTCDateString = (d: Date) =>
+  new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())).toISOString();
+
 export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
   const [step, setStep] = useState<0 | 1>(0);
   const [formData, setFormData] = useState<LeagueInfoForm>({
@@ -38,9 +41,6 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
       ...patch,
     }));
   };
-  const toUTCDateString = (d: Date) =>
-    new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())).toISOString();
-
   const handleUpdate = (teamIds: number[]) => {
     if (!formData.name || !formData.startAt || !formData.endAt || formData.maxRound === undefined) {
       return;
