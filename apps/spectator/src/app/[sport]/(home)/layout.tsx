@@ -11,7 +11,7 @@ type Props = PropsWithChildren;
 
 const RootLayout = ({ children }: Props) => {
   return (
-    <div className="relative">
+    <div className="relative flex min-h-dvh flex-col">
       <Header center={<SchoolSelect />} />
 
       <div className="flex flex-1 flex-col pb-navbar-height">{children}</div>
