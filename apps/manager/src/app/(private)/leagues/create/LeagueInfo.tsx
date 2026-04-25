@@ -19,7 +19,7 @@ export type LeagueInfoForm = {
   sportType: SportType;
 };
 
-const ROUND_SIZES = [32, 16, 8, 4, 2];
+const ROUND_SIZES = [100, 16, 8, 4, 2];
 const ROUND_OPTIONS = ROUND_SIZES.map((n) => ({
   value: String(n),
   label: n === 2 ? '결승' : `${n}강`,

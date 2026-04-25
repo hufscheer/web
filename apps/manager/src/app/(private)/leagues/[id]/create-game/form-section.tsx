@@ -20,12 +20,12 @@ export const FormSection = ({ leagueId }: Props) => {
       { ...data, leagueId, quarter: 'PRE_GAME', state: 'SCHEDULED' },
       {
         onSuccess: () => {
-          toast.success('경기가 생성되었습니다.');
+          toast.success('경기가 생성되었어요');
           router.back();
         },
         onError: (error) => {
           console.error(`[manager/leagues/${leagueId}/create-game]`, error);
-          toast.error('경기 생성에 실패했습니다. 잠시 후 다시 시도해주세요.');
+          toast.error('경기 생성에 실패했어요 잠시 후 다시 시도해주세요');
         },
       },
     );
