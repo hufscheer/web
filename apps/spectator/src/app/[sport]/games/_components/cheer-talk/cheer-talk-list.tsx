@@ -1,18 +1,9 @@
 'use client';
 import { CloseIcon } from '@hcc/icons';
 import { colors, Spinner, Typography } from '@hcc/ui';
-import {
-  Fragment,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { type GameCheerTalkWithTeamInfo, useSuspenseGame } from '~/api';
-import useIntersectionObserver from '~/hooks/useIntersectionObserver';
 import { useThrottle } from '~/hooks/useThrottle';
 import { useTimeout } from '~/hooks/useTimeout';
 
@@ -50,46 +41,35 @@ export const CheerTalkList = ({
   const showNotice = () => {
     if (sessionStorage.getItem(NOTICE_DISMISSED_KEY)) return;
     setIsNoticeVisible(true);
+    sessionStorage.setItem(NOTICE_DISMISSED_KEY, 'true');
   };
 
-  const formWrapperRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const hasFirstFocused = useRef(false);
 
-  const [formHeight, setFormHeight] = useState(0);
-
-  const isNearBottom = useCallback(
-    () => window.innerHeight + window.scrollY >= document.body.scrollHeight - formHeight,
-    [formHeight],
-  );
+  const isNearBottom = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return false;
+    return el.scrollTop + el.clientHeight >= el.scrollHeight - 100;
+  }, []);
 
   const scrollToBottom = useCallback(() => {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' });
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollTop = el.scrollHeight;
   }, []);
 
   const [scrollToBottomWithDelay] = useTimeout(scrollToBottom, 100);
 
   const loadPreviousMessages = useThrottle(fetchNextPage, 1000);
 
-  const { ref: intersectionRef } = useIntersectionObserver<HTMLDivElement>(() => {
-    if (hasNextPage && !isFetching && !isFetchingNextPage) {
+  const handleScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    if (el.scrollTop < 100 && hasNextPage && !isFetching && !isFetchingNextPage) {
       loadPreviousMessages();
     }
-  });
-
-  useLayoutEffect(() => {
-    if (!formWrapperRef.current) return;
-
-    const updateHeight = () => {
-      setFormHeight(formWrapperRef.current?.offsetHeight ?? 0);
-    };
-
-    updateHeight();
-
-    const observer = new ResizeObserver(updateHeight);
-    observer.observe(formWrapperRef.current);
-
-    return () => observer.disconnect();
-  }, []);
+  }, [hasNextPage, isFetching, isFetchingNextPage, loadPreviousMessages]);
 
   useEffect(() => {
     if (socketTalkList.length === 0) return;
@@ -108,9 +88,12 @@ export const CheerTalkList = ({
   }, [cheerTalkList, socketTalkList]);
 
   return (
-    <Fragment>
-      <div className="relative w-full px-4 py-4">
-        <div ref={intersectionRef} className="h-1" />
+    <>
+      <div
+        ref={scrollRef}
+        onScroll={handleScroll}
+        className="relative min-h-0 flex-1 overflow-y-auto px-4 py-4"
+      >
         {isFetchingNextPage && (
           <div className="flex justify-center py-2">
             <Spinner color="primary" />
@@ -122,13 +105,9 @@ export const CheerTalkList = ({
             <CheerTalkItem key={`talk-${talk.cheerTalkId}`} {...talk} />
           ))}
         </div>
-        <div style={{ height: formHeight }} />
       </div>
 
-      <div
-        ref={formWrapperRef}
-        className="pb-safe fixed inset-x-0 bottom-0 z-20 mx-auto w-full max-w-(--app-max-width) border-t border-neutral-100 bg-white"
-      >
+      <div className="pb-safe z-20 mx-auto w-full max-w-(--app-max-width) border-t border-neutral-100 bg-white">
         <div className="relative w-full">
           {isNoticeVisible && (
             <div className="absolute right-4 bottom-full left-4 z-20 mb-2">
@@ -140,6 +119,7 @@ export const CheerTalkList = ({
                 <button
                   type="button"
                   onPointerDown={(e) => e.preventDefault()}
+                  onMouseDown={(e) => e.preventDefault()}
                   onClick={dismissNotice}
                   className="text-neutral-400 hover:text-neutral-600"
                 >
@@ -163,6 +143,6 @@ export const CheerTalkList = ({
           />
         </div>
       </div>
-    </Fragment>
+    </>
   );
 };

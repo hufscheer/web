@@ -24,6 +24,7 @@ import type {
   PlayerType,
   ProgressAvailableActionsResponse,
   TeamType,
+  TeamUnitType,
   TimelinePayload,
   TimelineResponseType,
 } from './types';
@@ -88,6 +89,18 @@ const teamQueryKeys = createQueryKeys('teams', {
     queryKey: [payload],
     queryFn: () => fetcher.get<PlayerType[]>(`teams/${payload.id}/players`),
   }),
+  units: (payload: { sportType: string }) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<TeamUnitType[]>('manager/teams/units', { searchParams: payload }),
+  }),
+  managerList: (payload: { units: string[]; sportType: string }) => ({
+    queryKey: [payload],
+    queryFn: () => {
+      const params = new URLSearchParams({ sportType: payload.sportType });
+      payload.units.forEach((unit) => params.append('units', unit));
+      return fetcher.get<TeamType[]>('manager/teams', { searchParams: params });
+    },
+  }),
 });
 
 const gameQueryKeys = createQueryKeys('games', {
@@ -136,6 +149,9 @@ const cheerTalkQueryKeys = createQueryKeys('cheertalks', {
         searchParams: { cursor, size: payload.size },
       });
     },
+  }),
+  blockedInfinite: (size: number) => ({
+    queryKey: [size],
   }),
 });
 

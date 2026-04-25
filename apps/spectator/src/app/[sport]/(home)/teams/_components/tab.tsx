@@ -8,7 +8,6 @@ import type { SportType } from '~/api/types';
 import type { TeamUnitType } from '~/api/types/teams';
 
 import { useSuspenseTeamsSummary } from '~/api';
-import { useOrganizationId } from '~/hooks/useOrganizationId';
 import { DEFAULT_SPORT, normalizeSportParam } from '~/utils/sport-route';
 
 import { EmptyTeam } from './empty-team';
@@ -27,12 +26,7 @@ export const TeamTab = () => {
   const { selected } = useTeamUnits();
   const params = useParams<{ sport: string }>();
   const sport: SportType = normalizeSportParam(params.sport) ?? DEFAULT_SPORT;
-  const { organizationId } = useOrganizationId();
-  const { data } = useSuspenseTeamsSummary({
-    units: selected as TeamUnitType[],
-    sportType: sport,
-    organizationId,
-  });
+  const { data } = useSuspenseTeamsSummary({ units: selected as TeamUnitType[], sportType: sport });
   const filteredData = data.filter((team) => team.teamDetail.sportType === sport);
 
   const [modal, setModal] = useState<ModalPayload>(null);

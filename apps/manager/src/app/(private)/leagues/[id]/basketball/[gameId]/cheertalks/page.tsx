@@ -30,7 +30,7 @@ const Page = async ({ params }: Props) => {
       <Header title="응원톡 관리" menu={<BlockedTalkMenu />} arrow />
 
       <div className="column h-full gap-2 overflow-hidden bg-white px-5 py-4">
-        <GameCheerTalkTabs gameId={gameId} />
+        <GameCheerTalkTabs gameId={gameId} leagueId={id} />
       </div>
     </>
   );

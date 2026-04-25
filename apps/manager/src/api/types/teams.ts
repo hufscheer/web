@@ -28,3 +28,9 @@ export type GameTeamType = {
 export type TeamDetailPayload = {
   id: number;
 };
+
+export type TeamUnitType = {
+  id: number;
+  unitName: string;
+  hasTeam: boolean;
+};
