@@ -40,7 +40,7 @@ export const CheerTalk = ({ gameId, sportType }: Props) => {
   });
 
   return (
-    <div className="flex flex-col">
+    <div className="flex min-h-0 flex-1 flex-col">
       <div className="flex-shrink-0">
         <CheerTalkTimeline gameId={gameId} sportType={sportType} />
       </div>
