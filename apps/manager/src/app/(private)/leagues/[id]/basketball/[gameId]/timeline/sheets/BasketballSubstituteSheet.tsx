@@ -7,6 +7,7 @@ import type { ReplacementType } from '~/api/types';
 
 import { useCreateTimelinesReplace } from '~/api/mutations/useCreateTimelineReplacement';
 import { useSuspenseGameLineup } from '~/api/queries/useGameLineup';
+import { useSuspenseGameLineupPlaying } from '~/api/queries/useGameLineupPlaying';
 import { useSuspenseLeague } from '~/api/queries/useLeague';
 import { QUARTER_TYPE } from '~/api/types';
 import { TeamSegmentedControl } from '~/components/ui';
@@ -34,6 +35,7 @@ type Props = { leagueId: number; gameId: number; onClose: () => void };
 export default function BasketballSubstituteSheet({ leagueId, gameId, onClose }: Props) {
   const { data: league } = useSuspenseLeague({ leagueId });
   const { data: lineup } = useSuspenseGameLineup({ gameId });
+  const { data: playingLineup } = useSuspenseGameLineupPlaying({ gameId });
   const { mutate: createReplacement, isPending } = useCreateTimelinesReplace({ gameId });
 
   const [quarter, setQuarter] = useState<SelectOption | null>(null);
@@ -49,25 +51,39 @@ export default function BasketballSubstituteSheet({ leagueId, gameId, onClose }:
     [lineup, selectedTeamId],
   );
 
-  const playerInOptions: SelectOption[] = useMemo(() => {
+  const playingPlayerIds = useMemo(() => {
+    const playingTeam = playingLineup.find((t) => t.gameTeamId === selectedTeamId);
+    return new Set(playingTeam?.gameTeamPlayers.map((p) => p.lineupPlayerId) ?? []);
+  }, [playingLineup, selectedTeamId]);
+
+  const allPlayers = useMemo(() => {
     if (!selectedTeam) return [];
-    return selectedTeam.candidatePlayers
-      .filter((p) => p.state === 'CANDIDATE')
-      .map((p) => ({
-        label: `${p.jerseyNumber} ${p.playerName}`,
-        value: String(p.lineupPlayerId),
-      }));
+    return [...selectedTeam.starterPlayers, ...selectedTeam.candidatePlayers];
   }, [selectedTeam]);
 
-  const playerOutOptions: SelectOption[] = useMemo(() => {
-    if (!selectedTeam) return [];
-    return selectedTeam.starterPlayers
-      .filter((p) => p.state === 'STARTER')
-      .map((p) => ({
-        label: `${p.jerseyNumber} ${p.playerName}`,
-        value: String(p.lineupPlayerId),
-      }));
-  }, [selectedTeam]);
+  // playing이 아닌 선수 전체 (선발/교체 무관)
+  const playerInOptions: SelectOption[] = useMemo(
+    () =>
+      allPlayers
+        .filter((p) => !playingPlayerIds.has(p.lineupPlayerId))
+        .map((p) => ({
+          label: `${p.jerseyNumber} ${p.playerName}`,
+          value: String(p.lineupPlayerId),
+        })),
+    [allPlayers, playingPlayerIds],
+  );
+
+  // 현재 playing 중인 선수 전체 (선발/교체 무관)
+  const playerOutOptions: SelectOption[] = useMemo(
+    () =>
+      allPlayers
+        .filter((p) => playingPlayerIds.has(p.lineupPlayerId))
+        .map((p) => ({
+          label: `${p.jerseyNumber} ${p.playerName}`,
+          value: String(p.lineupPlayerId),
+        })),
+    [allPlayers, playingPlayerIds],
+  );
 
   const isFormValid = !!quarter && selectedTeamId !== null && !!playerIn && !!playerOut;
 

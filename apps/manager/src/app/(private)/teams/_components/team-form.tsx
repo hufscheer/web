@@ -18,6 +18,7 @@ import { TeamPlayersStep } from './team-players-step';
 type Props = {
   onSubmit: (data: TeamFormType) => Promise<void> | void;
   initialData?: Partial<TeamFormType>;
+  isEditMode?: boolean;
 } & Omit<ComponentProps<'form'>, 'onSubmit'>;
 
 const STEPS = [
@@ -25,7 +26,7 @@ const STEPS = [
   { id: 'players', title: '선수 등록' },
 ] as const;
 
-export const TeamForm = ({ className, onSubmit, initialData, ...props }: Props) => {
+export const TeamForm = ({ className, onSubmit, initialData, isEditMode, ...props }: Props) => {
   const [step, setStep] = useState<0 | 1>(0);
 
   const form = useForm<TeamFormType>({
@@ -69,7 +70,10 @@ export const TeamForm = ({ className, onSubmit, initialData, ...props }: Props) 
               0: <TeamBasicInfoStep onNext={() => (step === 0 ? setStep(1) : undefined)} />,
               1: (
                 <Suspense fallback={<Spinner />} clientOnly>
-                  <TeamPlayersStep onPrevious={() => (step === 1 ? setStep(0) : undefined)} />
+                  <TeamPlayersStep
+                    onPrevious={() => (step === 1 ? setStep(0) : undefined)}
+                    isEditMode={isEditMode}
+                  />
                 </Suspense>
               ),
             }}

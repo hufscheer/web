@@ -44,5 +44,5 @@ export const FormSection = ({ id }: Props) => {
 
   const { data } = useSuspenseTeam({ id });
 
-  return <TeamForm onSubmit={handleSubmit} initialData={data} />;
+  return <TeamForm onSubmit={handleSubmit} initialData={data} isEditMode />;
 };

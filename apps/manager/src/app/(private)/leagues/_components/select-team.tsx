@@ -6,7 +6,8 @@ import { useMemo, useState } from 'react';
 
 import type { SportType, TeamType } from '~/api';
 
-import { useTeams } from '~/api/queries/useTeams';
+import { useManagerTeams } from '~/api/queries/useManagerTeams';
+import { useTeamUnits } from '~/api/queries/useTeamUnits';
 
 type RegisteredTeam = {
   affiliationName: string;
@@ -47,11 +48,13 @@ export const SelectTeam = ({
   maxSelectCount,
   sportType,
 }: TeamCreationFormProps) => {
-  const { data: teams = [], isLoading } = useTeams();
+  const { data: teamUnits = [], isLoading: isUnitsLoading } = useTeamUnits(sportType);
+  const unitNames = useMemo(() => teamUnits.map((u) => u.unitName), [teamUnits]);
+  const { data: teams = [], isLoading: isTeamsLoading } = useManagerTeams(unitNames, sportType);
+  const isLoading = isUnitsLoading || isTeamsLoading;
 
   const affiliations = useMemo(() => {
-    const filtered = teams.filter((team) => team.sportType === sportType);
-    const units = filtered.reduce<Record<string, TeamType[]>>((acc, team) => {
+    const units = teams.reduce<Record<string, TeamType[]>>((acc, team) => {
       if (!acc[team.unit]) {
         acc[team.unit] = [];
       }
@@ -67,7 +70,7 @@ export const SelectTeam = ({
         name: team.name,
       })),
     }));
-  }, [teams, sportType]);
+  }, [teams]);
 
   const [selectedAffiliationId, setSelectedAffiliationId] = useState<string | null>(
     affiliations[0]?.name || null,
@@ -118,7 +121,7 @@ export const SelectTeam = ({
     <div className="flex h-[60vh] flex-col pt-4">
       <div className="flex flex-grow flex-row overflow-hidden">
         {/* 왼쪽 열: 소속 */}
-        <div className="flex-1 border-r">
+        <div className="flex flex-1 flex-col border-r">
           <div className="w-full bg-[#EBECEE] p-3 text-left text-base font-medium">소속</div>
           <div className="overflow-y-auto">
             {affiliations.map((affiliation) => (
