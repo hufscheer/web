@@ -6,6 +6,7 @@ import type { SportType } from '~/api/types';
 
 import { useSuspenseTeamUnitAvailability } from '~/api/queries/useTeamUnitAvailability';
 import { FilterBadge } from '~/components/ui';
+import { useOrganizationId } from '~/hooks/useOrganizationId';
 
 import { useTeamUnits } from './useTeamUnits';
 
@@ -13,7 +14,11 @@ export const TeamFilter = ({ sport }: { sport: SportType }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const conveyerRef = useRef<Conveyer | null>(null);
   const { selected, toggle, filterUnits } = useTeamUnits();
-  const { data: unitAvailability } = useSuspenseTeamUnitAvailability({ sportType: sport });
+  const { organizationId } = useOrganizationId();
+  const { data: unitAvailability } = useSuspenseTeamUnitAvailability({
+    sportType: sport,
+    organizationId: organizationId ?? undefined,
+  });
 
   // 종목 전환 시 hasTeam: false 된 항목 선택 해제
   useEffect(() => {
