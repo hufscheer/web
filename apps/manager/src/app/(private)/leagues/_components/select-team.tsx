@@ -119,7 +119,7 @@ export const SelectTeam = ({
 
   return (
     <div className="flex h-[60vh] flex-col pt-4">
-      <div className="flex flex-grow flex-row overflow-hidden">
+      <div className="flex flex-grow flex-row overflow-y-auto">
         {/* 왼쪽 열: 소속 */}
         <div className="flex-1 border-r">
           <div className="w-full bg-[#EBECEE] p-3 text-left text-base font-medium">소속</div>
