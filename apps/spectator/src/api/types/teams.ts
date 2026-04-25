@@ -34,6 +34,7 @@ export type TeamUnitType = (typeof TEAM_UNIT_LIST)[number];
 export type TeamListPayload = {
   units?: TeamUnitType | TeamUnitType[];
   sportType?: SportType;
+  organizationId?: number;
 };
 
 export type GameTeamType = {
@@ -99,6 +100,7 @@ export type TeamSummaryType = {
 
 export type TeamUnitsPayload = {
   sportType: SportType;
+  organizationId?: number;
 };
 
 export type TeamUnitAvailabilityType = {

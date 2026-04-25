@@ -112,6 +112,7 @@ const teamQueryKeys = createQueryKeys('teams', {
       }
 
       if (payload.sportType) params.append('sportType', payload.sportType);
+      if (payload.organizationId) params.append('organizationId', String(payload.organizationId));
 
       return fetcher.get<TeamType[]>('teams', { searchParams: params });
     },
@@ -139,6 +140,7 @@ const teamQueryKeys = createQueryKeys('teams', {
       }
 
       if (payload.sportType) params.append('sportType', payload.sportType);
+      if (payload.organizationId) params.append('organizationId', String(payload.organizationId));
 
       return fetcher.get<TeamSummaryType[]>('teams/summary', {
         searchParams: params,
