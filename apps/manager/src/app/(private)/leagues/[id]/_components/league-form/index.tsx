@@ -38,6 +38,9 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
       ...patch,
     }));
   };
+  const toUTCDateString = (d: Date) =>
+    new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())).toISOString();
+
   const handleUpdate = (teamIds: number[]) => {
     if (!formData.name || !formData.startAt || !formData.endAt || formData.maxRound === undefined) {
       return;
@@ -46,8 +49,8 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
     const payload: LeagueFormType = {
       name: formData.name,
       maxRound: formData.maxRound,
-      startAt: formData.startAt.toISOString(),
-      endAt: formData.endAt.toISOString(),
+      startAt: toUTCDateString(formData.startAt),
+      endAt: toUTCDateString(formData.endAt),
       teamIds,
       sportType: formData.sportType ?? 'SOCCER',
     };
