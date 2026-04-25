@@ -19,4 +19,6 @@ export * from './usePlayer';
 export * from './usePlayers';
 export * from './useTeam';
 export * from './useTeams';
+export * from './useTeamUnits';
+export * from './useManagerTeams';
 export * from './useGameTimelineProgressAvailable';
