@@ -150,6 +150,9 @@ const cheerTalkQueryKeys = createQueryKeys('cheertalks', {
       });
     },
   }),
+  blockedInfinite: (size: number) => ({
+    queryKey: [size],
+  }),
 });
 
 export const queryKeys = mergeQueryKeys(

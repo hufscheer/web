@@ -5,10 +5,12 @@ import { useSuspenseInfiniteGamesCheerTalkReport } from '~/api/queries/useGamesC
 import { CheerTalkList } from '~/app/(private)/_components/cheertalk/cheertalk-list';
 import { CheerTalkTabs as CheerTalkTabsBase } from '~/app/(private)/_components/cheertalk/cheertalk-tabs';
 
-const AllContent = ({ gameId }: { gameId: number }) => {
+const AllContent = ({ gameId, leagueId }: { gameId: number; leagueId: number }) => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useSuspenseInfiniteGamesCheerTalks({ gameId, cursor: 0, size: 10 });
-  const cheerTalks = [...new Map(data.pages.flat().map((t) => [t.cheerTalkId, t])).values()];
+  const cheerTalks = [...new Map(data.pages.flat().map((t) => [t.cheerTalkId, t])).values()].map(
+    (t) => ({ ...t, leagueId, gameId }),
+  );
   return (
     <CheerTalkList
       cheerTalks={cheerTalks}
@@ -20,10 +22,12 @@ const AllContent = ({ gameId }: { gameId: number }) => {
   );
 };
 
-const ReportedContent = ({ gameId }: { gameId: number }) => {
+const ReportedContent = ({ gameId, leagueId }: { gameId: number; leagueId: number }) => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useSuspenseInfiniteGamesCheerTalkReport({ gameId, cursor: 0, size: 10 });
-  const cheerTalks = [...new Map(data.pages.flat().map((t) => [t.cheerTalkId, t])).values()];
+  const cheerTalks = [...new Map(data.pages.flat().map((t) => [t.cheerTalkId, t])).values()].map(
+    (t) => ({ ...t, leagueId, gameId }),
+  );
   return (
     <CheerTalkList
       cheerTalks={cheerTalks}
@@ -35,11 +39,11 @@ const ReportedContent = ({ gameId }: { gameId: number }) => {
   );
 };
 
-type Props = { gameId: number };
+type Props = { gameId: number; leagueId: number };
 
-export const GameCheerTalkTabs = ({ gameId }: Props) => (
+export const GameCheerTalkTabs = ({ gameId, leagueId }: Props) => (
   <CheerTalkTabsBase
-    allContent={<AllContent gameId={gameId} />}
-    reportedContent={<ReportedContent gameId={gameId} />}
+    allContent={<AllContent gameId={gameId} leagueId={leagueId} />}
+    reportedContent={<ReportedContent gameId={gameId} leagueId={leagueId} />}
   />
 );
