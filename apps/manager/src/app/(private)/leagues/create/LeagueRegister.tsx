@@ -127,7 +127,7 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
             CreateButton
           ) : (
             <AlertDialog
-              title={`총 ${registeredTeams.length}개의 팀이 등록되었어요.`}
+              title={`총 ${registeredTeams.length}개의 팀이 등록되었어요`}
               description="정말 생성할까요?"
               primaryTitle="확인"
               onPrimaryClick={handleCreateLeague}

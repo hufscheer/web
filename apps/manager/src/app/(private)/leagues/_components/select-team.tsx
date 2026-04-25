@@ -6,7 +6,8 @@ import { useMemo, useState } from 'react';
 
 import type { SportType, TeamType } from '~/api';
 
-import { useTeams } from '~/api/queries/useTeams';
+import { useManagerTeams } from '~/api/queries/useManagerTeams';
+import { useTeamUnits } from '~/api/queries/useTeamUnits';
 
 type RegisteredTeam = {
   affiliationName: string;
@@ -47,11 +48,13 @@ export const SelectTeam = ({
   maxSelectCount,
   sportType,
 }: TeamCreationFormProps) => {
-  const { data: teams = [], isLoading } = useTeams();
+  const { data: teamUnits = [], isLoading: isUnitsLoading } = useTeamUnits(sportType);
+  const unitNames = useMemo(() => teamUnits.map((u) => u.unitName), [teamUnits]);
+  const { data: teams = [], isLoading: isTeamsLoading } = useManagerTeams(unitNames, sportType);
+  const isLoading = isUnitsLoading || isTeamsLoading;
 
   const affiliations = useMemo(() => {
-    const filtered = teams.filter((team) => team.sportType === sportType);
-    const units = filtered.reduce<Record<string, TeamType[]>>((acc, team) => {
+    const units = teams.reduce<Record<string, TeamType[]>>((acc, team) => {
       if (!acc[team.unit]) {
         acc[team.unit] = [];
       }
@@ -67,7 +70,7 @@ export const SelectTeam = ({
         name: team.name,
       })),
     }));
-  }, [teams, sportType]);
+  }, [teams]);
 
   const [selectedAffiliationId, setSelectedAffiliationId] = useState<string | null>(
     affiliations[0]?.name || null,
