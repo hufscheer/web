@@ -41,7 +41,6 @@ export const CheerTalkList = ({
   const showNotice = () => {
     if (sessionStorage.getItem(NOTICE_DISMISSED_KEY)) return;
     setIsNoticeVisible(true);
-    sessionStorage.setItem(NOTICE_DISMISSED_KEY, 'true');
   };
 
   const scrollRef = useRef<HTMLDivElement>(null);
