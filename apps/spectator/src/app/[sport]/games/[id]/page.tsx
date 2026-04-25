@@ -48,7 +48,7 @@ const Page = async ({ searchParams, params }: Props) => {
   }
 
   return (
-    <div className="flex min-h-dvh flex-col bg-white">
+    <div className="flex h-dvh flex-col bg-white">
       <Header arrow />
 
       <Suspense clientOnly>
@@ -67,7 +67,7 @@ const Page = async ({ searchParams, params }: Props) => {
 
       <hr className="h-2 w-full border-none bg-neutral-50" />
 
-      <Tabs.Root className="flex flex-col" defaultValue={tab}>
+      <Tabs.Root className="flex min-h-0 flex-1 flex-col" defaultValue={tab}>
         <Tabs.List className="sticky top-0 z-10 flex h-12 flex-shrink-0 gap-5 border-b border-neutral-100 bg-white">
           <TabTrigger className="size-full" value="cheer">
             응원
@@ -83,25 +83,28 @@ const Page = async ({ searchParams, params }: Props) => {
           </TabTrigger>
         </Tabs.List>
 
-        <Tabs.Content value="cheer" className="min-h-dvh bg-[#EBEBEB] outline-none">
+        <Tabs.Content
+          value="cheer"
+          className="flex min-h-0 flex-1 flex-col bg-[#EBEBEB] outline-none"
+        >
           <Suspense clientOnly>
             <CheerTalk gameId={id} sportType={sportType} />
           </Suspense>
         </Tabs.Content>
 
-        <Tabs.Content value="lineup" className="outline-none">
+        <Tabs.Content value="lineup" className="overflow-y-auto outline-none">
           <Suspense clientOnly>
             <LineupTab gameId={id} sportType={sportType} />
           </Suspense>
         </Tabs.Content>
 
-        <Tabs.Content value="timeline" className="outline-none">
+        <Tabs.Content value="timeline" className="overflow-y-auto outline-none">
           <Suspense clientOnly>
             <TimelineTab gameId={id} sportType={sportType} />
           </Suspense>
         </Tabs.Content>
 
-        <Tabs.Content value="video" className="outline-none">
+        <Tabs.Content value="video" className="overflow-y-auto outline-none">
           <Suspense clientOnly>
             <VideoTab gameId={id} />
           </Suspense>
