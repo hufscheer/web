@@ -1,7 +1,7 @@
 import { createVar } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-import { tokens } from '../styles/globals.css';
+import { tokens } from '../_styles/globals.css';
 
 const variables = {
   accent: createVar('accent'),
@@ -18,15 +18,29 @@ export const button = recipe({
     justifyContent: 'center',
     cursor: 'pointer',
     transition: 'background-color 0.15s ease-in-out, transform 0.15s ease-in-out',
+
+    border: 'none',
+    borderRadius: 8,
+
+    selectors: {
+      '&:disabled': {
+        pointerEvents: 'none',
+        opacity: 0.6,
+      },
+
+      '&:active:not(:disabled)': {
+        transform: 'scale(0.98)',
+      },
+    },
   },
 
   variants: {
     size: {
-      xs: { fontSize: 12, height: 28, padding: '0 8px', fontWeight: 500 },
-      sm: { fontSize: 14, height: 36, padding: '0 12px', fontWeight: 500 },
-      md: { fontSize: 14, height: 44, padding: '0 16px', fontWeight: 600 },
-      lg: { fontSize: 16, height: 52, padding: '0 20px', fontWeight: 600 },
-      xl: { fontSize: 18, height: 60, padding: '0 24px', fontWeight: 600 },
+      xs: { fontSize: 12, height: 28, paddingInline: 8, fontWeight: 500 },
+      sm: { fontSize: 14, height: 36, paddingInline: 12, fontWeight: 500 },
+      md: { fontSize: 14, height: 44, paddingInline: 16, fontWeight: 600 },
+      lg: { fontSize: 16, height: 52, paddingInline: 20, fontWeight: 600 },
+      xl: { fontSize: 18, height: 60, paddingInline: 24, fontWeight: 600 },
     },
 
     color: {
@@ -63,6 +77,7 @@ export const button = recipe({
       solid: {
         color: tokens.colors.white,
         backgroundColor: variables.accent,
+
         selectors: {
           '&:hover': { backgroundColor: variables.accentHover },
         },
@@ -70,6 +85,7 @@ export const button = recipe({
       subtle: {
         color: variables.accent,
         backgroundColor: variables.surface,
+
         selectors: {
           '&:hover': { backgroundColor: variables.surfaceHover },
         },
@@ -77,6 +93,7 @@ export const button = recipe({
       ghost: {
         color: variables.accent,
         backgroundColor: 'transparent',
+
         selectors: {
           '&:hover': { backgroundColor: variables.ghostHover },
         },

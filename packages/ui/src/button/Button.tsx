@@ -1,11 +1,12 @@
-import type { ReactNode } from 'react';
+'use client';
+
+import type { MouseEvent, ReactNode } from 'react';
 
 import { clsx } from 'clsx';
 
-import type { CustomProps as SlotProps } from '../utils/create-slots';
+import type { CustomProps as SlotProps } from '../_utils/create-slots';
 
-import { Spinner } from '../spinner';
-import { createCustomSlots } from '../utils/create-slots';
+import { createCustomSlots } from '../_utils/create-slots';
 import * as styles from './Button.css';
 
 const buttonSlots = {
@@ -17,23 +18,31 @@ const buttonSlots = {
 const { useSlots } = createCustomSlots(buttonSlots);
 
 export interface ButtonProps extends styles.ButtonVariants {
+  asChild?: boolean;
+
+  type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
   loading?: boolean;
 
   className?: string;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   children?: ReactNode;
   customProps?: SlotProps<typeof buttonSlots>;
 }
 
 export const Button = ({
+  asChild,
+
   size = 'md',
   color = 'primary',
   variant = 'solid',
 
+  type = 'submit',
   disabled = false,
   loading = false,
 
   className,
+  onClick,
   children,
   customProps,
   ...props
@@ -42,12 +51,15 @@ export const Button = ({
 
   return (
     <slots.button
+      asChild={asChild}
+      type={type}
       disabled={disabled || loading}
       className={clsx(styles.button({ size, color, variant }), className)}
       data-loading={loading ? 'true' : undefined}
+      onClick={onClick}
       {...props}
     >
-      <slots.left>{loading ? <Spinner size="sm" color="white" /> : null}</slots.left>
+      <slots.left />
 
       {children}
 

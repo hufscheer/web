@@ -1,3 +1,5 @@
+'use client';
+
 import type {
   ComponentPropsWithoutRef,
   ComponentRef,
@@ -8,6 +10,7 @@ import type {
   RefAttributes,
 } from 'react';
 
+import { Slot } from '@radix-ui/react-slot';
 import { createElement, forwardRef, useMemo, useRef } from 'react';
 
 /* ------ create-custom-props utility ------ */
@@ -18,13 +21,16 @@ type SlotDefinition<TElement extends ElementType = ElementType> = {
 };
 
 type SlotMap = Record<string, SlotDefinition>;
+type PolymorphicSlotProps<TElement extends ElementType> = ComponentPropsWithoutRef<TElement> & {
+  asChild?: boolean;
+};
 
 export type CustomProps<TSlots extends SlotMap> = {
-  [K in keyof TSlots]?: ComponentPropsWithoutRef<TSlots[K]['comp']>;
+  [K in keyof TSlots]?: PolymorphicSlotProps<TSlots[K]['comp']>;
 };
 
 type SlotComponent<TElement extends ElementType> = ForwardRefExoticComponent<
-  PropsWithoutRef<ComponentPropsWithoutRef<TElement>> & RefAttributes<ComponentRef<TElement>>
+  PropsWithoutRef<PolymorphicSlotProps<TElement>> & RefAttributes<ComponentRef<TElement>>
 >;
 
 type SlotComponents<TSlots extends SlotMap> = {
@@ -43,7 +49,7 @@ export const createCustomSlots = <TSlots extends SlotMap>(params: TSlots) => {
         const { comp: Component, renderWhenEmpty = true } = slotDefinition;
 
         type SlotElement = TSlots[typeof slotKey]['comp'];
-        type SlotProps = ComponentPropsWithoutRef<SlotElement>;
+        type SlotProps = PolymorphicSlotProps<SlotElement>;
         type SlotPropsWithChildren = SlotProps & { children?: ReactNode };
 
         const SlotComponent = forwardRef<ComponentRef<SlotElement>, SlotProps>(
@@ -52,14 +58,16 @@ export const createCustomSlots = <TSlots extends SlotMap>(params: TSlots) => {
               (customPropsRef.current?.[slotKey] as SlotPropsWithChildren) ??
               ({} as SlotPropsWithChildren);
 
-            const { children, ...mergedProps } = mergeProps(internalProps, slotCustomProps);
+            const { asChild, ...restCustomProps } = slotCustomProps;
+            const { children, ...mergedProps } = mergeProps(internalProps, restCustomProps);
 
             const shouldRender = !renderWhenEmpty && (children === null || children === undefined);
             if (shouldRender) {
               return null;
             }
 
-            return createElement(Component, { ...mergedProps, ref }, children);
+            const Comp = asChild ? Slot : Component;
+            return createElement(Comp, { ...mergedProps, ref }, children);
           },
         );
 
