@@ -11,7 +11,7 @@ const SchoolSelectContent = () => {
   const { organizationId, setOrganizationId } = useOrganizationId();
 
   const options = organizations.map((org) => ({ value: org.id, label: org.name }));
-  const isValidId = organizationId !== null && options.some((opt) => opt.value === organizationId);
+  const isValidId = options.some((opt) => opt.value === organizationId);
   const selectedId = isValidId ? organizationId : organizations[0]?.id;
 
   useEffect(() => {
