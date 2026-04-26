@@ -1,6 +1,6 @@
 'use client';
 
-import { startTransition, Suspense } from 'react';
+import { startTransition, Suspense, useEffect } from 'react';
 
 import { useSuspenseOrganizations } from '~/api/queries/useOrganizations';
 import { Select } from '~/components/ui/select';
@@ -11,7 +11,16 @@ const SchoolSelectContent = () => {
   const { organizationId, setOrganizationId } = useOrganizationId();
 
   const options = organizations.map((org) => ({ value: org.id, label: org.name }));
-  const selectedId = organizationId ?? organizations[0]?.id;
+  const isValidId = organizationId !== null && options.some((opt) => opt.value === organizationId);
+  const selectedId = isValidId ? organizationId : organizations[0]?.id;
+
+  useEffect(() => {
+    if (!isValidId && selectedId !== undefined) {
+      startTransition(() => {
+        setOrganizationId(selectedId, { scroll: false, history: 'replace' });
+      });
+    }
+  }, [isValidId, selectedId, setOrganizationId]);
 
   const handleChange = (id: number) => {
     startTransition(() => {
