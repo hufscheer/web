@@ -1,3 +1,5 @@
+import type { SportType } from './leagues';
+
 export type NLMessage = {
   role: 'user' | 'assistant';
   content: string;
@@ -64,6 +66,7 @@ export type ParsedTeam = {
   unit: string;
   teamColor: string;
   logoImageUrl: string;
+  sportType: SportType;
 };
 
 export type CheckDuplicateNLResponse = {
