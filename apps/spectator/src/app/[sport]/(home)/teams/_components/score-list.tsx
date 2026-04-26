@@ -14,7 +14,7 @@ export const ScoreList = ({ scorers, limit = 3 }: ScoreListProps) => {
     <div className="column mt-2 gap-1">
       {scorers.length === 0 && (
         <Typography color={colors.neutral500} fontSize={13} weight="medium">
-          아직 득점 기록이 없어요.
+          아직 득점 기록이 없어요
         </Typography>
       )}
       {scorers.slice(0, limit).map((player) => (
