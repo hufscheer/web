@@ -1,135 +1,57 @@
-import { Slot } from '@radix-ui/react-slot';
+import type { ReactNode } from 'react';
+
 import { clsx } from 'clsx';
-import { type ComponentProps, type CSSProperties, forwardRef } from 'react';
-import { match } from 'ts-pattern';
+
+import type { CustomProps as SlotProps } from '../utils/create-slots';
 
 import { Spinner } from '../spinner';
-import { colors, fontWeight as fontWeightToken } from '../token';
-import styles from './Button.module.css';
+import { createCustomSlots } from '../utils/create-slots';
+import * as styles from './Button.css';
 
-type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+const buttonSlots = {
+  left: { comp: 'span', renderWhenEmpty: false },
+  button: { comp: 'button' },
+  right: { comp: 'span', renderWhenEmpty: false },
+} as const;
 
-type ButtonColor = 'black' | 'primary' | 'danger';
+const { useSlots } = createCustomSlots(buttonSlots);
 
-type ButtonVariant = 'solid' | 'subtle' | 'ghost';
-
-export interface ButtonProps extends ComponentProps<'button'> {
-  asChild?: boolean;
-  size?: ButtonSize;
-  color?: ButtonColor;
-  variant?: ButtonVariant;
+export interface ButtonProps extends styles.ButtonVariants {
   disabled?: boolean;
   loading?: boolean;
+
+  className?: string;
+  children?: ReactNode;
+  customProps?: SlotProps<typeof buttonSlots>;
 }
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      asChild,
-      className,
-      children,
-      disabled,
-      size = 'md',
-      color = 'primary',
-      variant = 'solid',
-      loading = false,
-      style: _style,
-      ...props
-    },
-    ref,
-  ) => {
-    const Comp = asChild ? Slot : 'button';
+export const Button = ({
+  size = 'md',
+  color = 'primary',
+  variant = 'solid',
 
-    const style = {
-      ..._style,
-      ...getColorStyle(color, variant),
-      '--hcc-button-height': `${getHeight(size)}px`,
-      '--hcc-button-padding-x': getPadding(size),
-      '--hcc-button-font-size': `${getFontSize(size)}px`,
-      '--hcc-button-font-weight': fontWeightToken[getFontWeight(size)],
-      '--hcc-button-border-radius': '8px',
-    } as CSSProperties;
+  disabled = false,
+  loading = false,
 
-    return (
-      <Comp
-        ref={ref}
-        className={clsx(styles.button, disabled && styles.disabled, className)}
-        style={style}
-        disabled={disabled || loading}
-        data-loading={loading ? 'true' : undefined}
-        {...props}
-      >
-        {loading ? <Spinner className={styles.spinner} size="sm" color="white" /> : children}
-      </Comp>
-    );
-  },
-);
+  className,
+  children,
+  customProps,
+  ...props
+}: ButtonProps) => {
+  const { slots } = useSlots(customProps);
 
-const getHeight = (size: ButtonSize) =>
-  match(size)
-    .with('xs', () => 28)
-    .with('sm', () => 36)
-    .with('md', () => 44)
-    .with('lg', () => 52)
-    .with('xl', () => 60)
-    .exhaustive();
+  return (
+    <slots.button
+      disabled={disabled || loading}
+      className={clsx(styles.button({ size, color, variant }), className)}
+      data-loading={loading ? 'true' : undefined}
+      {...props}
+    >
+      <slots.left>{loading ? <Spinner size="sm" color="white" /> : null}</slots.left>
 
-const getFontSize = (size: ButtonSize) =>
-  match(size)
-    .with('xs', () => 12)
-    .with('sm', () => 14)
-    .with('md', () => 14)
-    .with('lg', () => 16)
-    .with('xl', () => 18)
-    .exhaustive();
+      {children}
 
-const getPadding = (size: ButtonSize) =>
-  match(size)
-    .with('xs', () => '8px')
-    .with('sm', () => '12px')
-    .with('md', () => '16px')
-    .with('lg', () => '20px')
-    .with('xl', () => '24px')
-    .exhaustive();
-
-const getFontWeight = (size: ButtonSize): keyof typeof fontWeightToken =>
-  match(size)
-    .with('xs', 'sm', () => 'medium' as const)
-    .with('md', 'lg', 'xl', () => 'semibold' as const)
-    .exhaustive();
-
-const getColorStyle = (color: ButtonColor, variant: ButtonVariant) => {
-  const fontColor = match([color, variant])
-    .with(['black', 'solid'], ['primary', 'solid'], ['danger', 'solid'], () => colors.white)
-    .with(['black', 'subtle'], ['black', 'ghost'], () => colors.neutral900)
-    .with(['primary', 'subtle'], ['primary', 'ghost'], () => colors.primary600)
-    .with(['danger', 'subtle'], ['danger', 'ghost'], () => colors.danger600)
-    .exhaustive();
-
-  const backgroundColor = match([color, variant])
-    .with(['black', 'solid'], () => colors.neutral900)
-    .with(['black', 'subtle'], () => colors.neutral50)
-    .with(['primary', 'solid'], () => colors.primary600)
-    .with(['primary', 'subtle'], () => colors.primary100)
-    .with(['danger', 'solid'], () => colors.danger600)
-    .with(['danger', 'subtle'], () => colors.danger100)
-    .otherwise(() => colors.transparent);
-
-  const backgroundHoverColor = match([color, variant])
-    .with(['black', 'solid'], () => colors.neutral700)
-    .with(['black', 'subtle'], () => colors.neutral100)
-    .with(['black', 'ghost'], () => colors.neutral50)
-    .with(['primary', 'solid'], () => colors.primary700)
-    .with(['primary', 'subtle'], () => colors.primary200)
-    .with(['primary', 'ghost'], () => colors.primary50)
-    .with(['danger', 'solid'], () => colors.danger700)
-    .with(['danger', 'subtle'], () => colors.danger200)
-    .with(['danger', 'ghost'], () => colors.danger50)
-    .otherwise(() => colors.transparent);
-
-  return {
-    '--hcc-button-font-color': fontColor,
-    '--hcc-button-bg-color': backgroundColor,
-    '--hcc-button-bg-hover-color': backgroundHoverColor,
-  };
+      <slots.right />
+    </slots.button>
+  );
 };
