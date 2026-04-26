@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { twMerge } from 'tailwind-merge';
 
+import type { SportType } from '~/api/types/leagues';
 import type { ParseFailedLine, ParseNLPreview, ParsedPlayer, PlayerData } from '~/api/types/nl';
 
 import { useCheckDuplicateNL } from '~/api/mutations/useCheckDuplicateNL';
@@ -36,6 +37,7 @@ type Props = {
   teamName?: string;
   teamUnit?: string;
   teamColor?: string;
+  sportType?: SportType;
   logoImageUrl?: string | File;
   children?: React.ReactNode;
 };
@@ -56,6 +58,7 @@ export const AddPlayerBottomSheet = ({
   teamName,
   teamUnit = '',
   teamColor = '',
+  sportType,
   logoImageUrl = '',
   children,
 }: Props) => {
@@ -185,7 +188,7 @@ export const AddPlayerBottomSheet = ({
         },
       );
     },
-    [latestPreview, checkDuplicateNL, addMessages],
+    [latestPreview, checkDuplicateNL, addMessages, teamName],
   );
 
   // 1-2단계: Parse 결과 수정
@@ -266,6 +269,8 @@ export const AddPlayerBottomSheet = ({
       return;
     }
 
+    if (!sportType) return;
+
     if (!logoImageUrl) {
       setDisplayMessages((prev) => [
         ...prev,
@@ -296,6 +301,7 @@ export const AddPlayerBottomSheet = ({
         unit: teamUnit,
         teamColor,
         logoImageUrl: imageUrl,
+        sportType,
       },
       players: finalPlayers,
     };
@@ -322,7 +328,8 @@ export const AddPlayerBottomSheet = ({
           setIsClosing(false);
           setDisplayMessages([]);
           onOpenChange(false);
-          router.push('/teams');
+          const sportPath = sportType === 'BASKETBALL' ? 'basketball' : 'soccer';
+          router.push(`/teams/${sportPath}`);
         }, 500);
       },
       onError: async (error) => {
@@ -351,6 +358,7 @@ export const AddPlayerBottomSheet = ({
     teamName,
     teamUnit,
     teamColor,
+    sportType,
     logoImageUrl,
     finalPlayers,
     uploadImage,
