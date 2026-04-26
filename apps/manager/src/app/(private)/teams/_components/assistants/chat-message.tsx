@@ -26,7 +26,7 @@ export const ChatMessage = ({ type, message, assistantLogo }: ChatMessageProps) 
         </div>
       )}
 
-      <div className="flex max-w-[20ch] flex-col gap-3">
+      <div className="flex max-w-[30ch] flex-col gap-3">
         {isAssistant ? (
           <Typography fontSize={12} className="break-words whitespace-pre-line text-gray-900">
             {displayMessage}
