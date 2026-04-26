@@ -74,7 +74,7 @@ const StatisticsErrorFallback = ({ reset }: { reset: () => void }) => {
         color={colors.neutral500}
         weight="medium"
       >
-        리그 통계 데이터가 집계되지 않았어요.
+        리그 통계 데이터가 집계되지 않았어요
       </Typography>
 
       <button type="button" onClick={reset} className="center-y gap-1 text-sm text-blue-500">

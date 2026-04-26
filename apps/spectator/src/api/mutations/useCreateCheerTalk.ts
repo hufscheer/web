@@ -19,7 +19,7 @@ export const useCreateCheerTalk = () =>
       if (status === 400) {
         toast.error('부적절한 단어가 포함되어 있어 전송할 수 없어요');
       } else {
-        toast.error('메시지 전송에 실패했습니다. 다시 시도해 주세요.');
+        toast.error('메시지 전송에 실패했어요 다시 시도해 주세요');
       }
     },
   });
