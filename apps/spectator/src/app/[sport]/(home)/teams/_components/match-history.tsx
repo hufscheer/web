@@ -84,7 +84,7 @@ export const MatchHistory = ({ games, teamName, sport, limit = 3 }: MatchHistory
 
       {games.length === 0 && (
         <Typography color={colors.neutral500} fontSize={13} weight="medium">
-          아직 경기 기록이 없어요.
+          아직 경기 기록이 없어요
         </Typography>
       )}
     </div>

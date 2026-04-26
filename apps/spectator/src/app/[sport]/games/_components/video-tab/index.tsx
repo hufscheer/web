@@ -19,7 +19,7 @@ export const VideoTab = ({ gameId }: Props) => {
         fontSize={14}
         weight="medium"
       >
-        경기 하이라이트가 등록되지 않았어요.
+        경기 하이라이트가 등록되지 않았어요
       </Typography>
     );
   }
