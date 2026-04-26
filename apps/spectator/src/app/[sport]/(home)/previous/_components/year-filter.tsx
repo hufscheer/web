@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
 import { FilterBadge } from '~/components/ui';
+import { useOrganizationId } from '~/hooks/useOrganizationId';
 
 const SERVICE_START_YEAR = 2024;
 
@@ -15,7 +16,7 @@ export const YearFilter = ({ selectedYear }: Props) => {
   const currentYear = new Date().getFullYear();
   const searchParams = useSearchParams();
   const sport = searchParams.get('sport');
-  const organizationId = searchParams.get('organizationId');
+  const { organizationId } = useOrganizationId();
 
   const years = Array.from(
     { length: currentYear - SERVICE_START_YEAR + 1 },
