@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Input, toast } from '@hcc/ui';
+import { HTTPError } from 'ky';
 import { useMemo, useState } from 'react';
 
 import type { ReplacementType } from '~/api/types';
@@ -95,7 +96,16 @@ export default function SubstituteSheet({
         toast.success('교체가 등록되었어요');
         onClose();
       },
-      onError: () => {
+      onError: async (error) => {
+        if (error instanceof HTTPError) {
+          const body = await error.response
+            .json<{ message?: string }>()
+            .catch((): { message?: string } => ({}));
+          if (body.message) {
+            toast.error(body.message);
+            return;
+          }
+        }
         toast.error('교체 등록에 실패했어요 다시 시도해주세요');
       },
     });
