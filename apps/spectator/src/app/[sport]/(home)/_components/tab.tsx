@@ -61,6 +61,8 @@ const LeagueGameList = ({ leagueId, leagueName, games, sport }: LeagueGameListPr
     const bOrder = gameStateOrder[b.gameState];
 
     if (aOrder !== bOrder) return aOrder - bOrder;
+    if (a.gameState === 'SCHEDULED')
+      return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
     return new Date(b.startTime).getTime() - new Date(a.startTime).getTime();
   });
 
