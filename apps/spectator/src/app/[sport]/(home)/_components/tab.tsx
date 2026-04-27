@@ -108,9 +108,9 @@ const GameList = ({
       <GameCard.Divider />
       <Link href={routes.league({ id: leagueId, sport })} className="row-between">
         <div className="center-y gap-3">
-          <div className="center relative h-8 w-8 overflow-hidden rounded-full bg-neutral-200 select-none">
+          {/* <div className="center relative h-8 w-8 overflow-hidden rounded-full bg-neutral-200 select-none">
             ⚽
-          </div>
+          </div> */}
           <Typography weight="medium">{leagueName}</Typography>
           <Badge variant="primary" size="sm">
             <NumberFlow format={{ notation: 'compact' }} value={cheerCount} />
