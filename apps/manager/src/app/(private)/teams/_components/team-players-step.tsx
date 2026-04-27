@@ -20,6 +20,7 @@ export const TeamPlayersStep = ({ onPrevious, isEditMode }: Props) => {
   const teamName = watch('name');
   const teamUnit = watch('unit');
   const teamColor = watch('teamColor');
+  const sportType = watch('sportType');
   const logoImageUrl = watch('logoImageUrl');
   const { fields, append, remove } = useFieldArray({ control, name: 'teamPlayers' });
 
@@ -36,7 +37,7 @@ export const TeamPlayersStep = ({ onPrevious, isEditMode }: Props) => {
 
   const handleAppendPlayer = (id: number) => {
     if (teamPlayers.find((player) => player.playerId === id)) {
-      toast.error('이 선수는 이미 추가되었어요.');
+      toast.error('이 선수는 이미 추가되었어요');
       return;
     }
 
@@ -127,7 +128,7 @@ export const TeamPlayersStep = ({ onPrevious, isEditMode }: Props) => {
             weight="medium"
             color={colors.neutral500}
           >
-            선수를 추가해주세요.
+            선수를 추가해주세요
           </Typography>
         )}
       </div>
@@ -139,6 +140,7 @@ export const TeamPlayersStep = ({ onPrevious, isEditMode }: Props) => {
         teamName={teamName}
         teamUnit={teamUnit}
         teamColor={teamColor}
+        sportType={sportType}
         logoImageUrl={logoImageUrl}
       />
       <div className="column sticky bottom-0 w-full gap-2 bg-white pt-3 pb-5">
