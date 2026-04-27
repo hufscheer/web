@@ -150,6 +150,14 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
   };
 
   const handleNext = () => {
+    if (!team1Captain) {
+      toast.error(`${team1?.teamName ?? '팀1'} 주장을 선택해주세요`);
+      return;
+    }
+    if (!team2Captain) {
+      toast.error(`${team2?.teamName ?? '팀2'} 주장을 선택해주세요`);
+      return;
+    }
     setValue('team1.lineupPlayers', team1Selection);
     setValue('team2.lineupPlayers', team2Selection);
     onNext();
@@ -160,8 +168,7 @@ export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
   const team1Captain = team1Selection.find((p) => p.isCaptain);
   const team2Captain = team2Selection.find((p) => p.isCaptain);
 
-  const isValid =
-    team1Starters.length > 0 && team2Starters.length > 0 && team1Captain && team2Captain;
+  const isValid = team1Starters.length > 0 && team2Starters.length > 0;
   const filteredPlayers = useMemo(() => {
     const currentPlayers = activeTab === 1 ? team1Players : team2Players;
     if (!currentPlayers) return [];

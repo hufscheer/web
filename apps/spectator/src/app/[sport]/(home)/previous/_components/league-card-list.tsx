@@ -1,6 +1,5 @@
 'use client';
 
-import { ChevronForwardIcon } from '@hcc/icons';
 import { colors, Typography } from '@hcc/ui';
 import { ErrorBoundary, Suspense } from '@suspensive/react';
 import { useParams } from 'next/navigation';
@@ -40,7 +39,7 @@ export const LeagueCardList = ({ year }: Props) => {
 
           <LeagueCard.Divider />
 
-          <ErrorBoundary fallback={({ reset }) => <StatisticsErrorFallback reset={reset} />}>
+          <ErrorBoundary fallback={() => <StatisticsErrorFallback />}>
             <Suspense fallback={<StatisticsSkeleton />} clientOnly>
               <LeagueCard.Teams />
 
@@ -65,7 +64,7 @@ const StatisticsSkeleton = () => {
   );
 };
 
-const StatisticsErrorFallback = ({ reset }: { reset: () => void }) => {
+const StatisticsErrorFallback = () => {
   return (
     <div>
       <Typography
@@ -74,13 +73,8 @@ const StatisticsErrorFallback = ({ reset }: { reset: () => void }) => {
         color={colors.neutral500}
         weight="medium"
       >
-        리그 통계 데이터가 집계되지 않았어요
+        아직 경기 기록이 없어요
       </Typography>
-
-      <button type="button" onClick={reset} className="center-y gap-1 text-sm text-blue-500">
-        다시 시도하기
-        <ChevronForwardIcon width={12} height={12} />
-      </button>
     </div>
   );
 };
