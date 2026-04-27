@@ -12,6 +12,7 @@ type Props = {
   logoImageUrl: string;
   content: string;
   createdAt: string;
+  isBlocked: boolean;
 };
 
 export default function CheerTalkItem({
@@ -20,6 +21,7 @@ export default function CheerTalkItem({
   logoImageUrl,
   content,
   createdAt,
+  isBlocked,
 }: Props) {
   const [open, setOpen] = useState(false);
   const { mutate: report } = useCreateCheerTalkReport();
@@ -64,8 +66,8 @@ export default function CheerTalkItem({
             width={18}
             height={18}
           />
-          <Typography color={colors.neutral900} fontSize={14}>
-            {content}
+          <Typography color={isBlocked ? colors.neutral400 : colors.neutral900} fontSize={14}>
+            {isBlocked ? '관리자에 의해 차단된 톡입니다' : content}
           </Typography>
         </div>
       </div>
