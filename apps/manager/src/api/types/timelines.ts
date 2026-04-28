@@ -154,64 +154,64 @@ export type WarningCardRecordType = {
 type ScoreTimelineRecord = CommonTimelineRecordFields & {
   type: typeof RecordType.SCORE;
   scoreRecord: ScoreRecordType;
-  replacementRecord: undefined;
-  progressRecord: undefined;
-  pkRecord: undefined;
-  warningCardRecord?: WarningCardRecordType;
+  replacementRecord: ReplacementRecordType | null;
+  progressRecord: ProgressRecordType | null;
+  pkRecord: PkRecordType | null;
+  warningCardRecord: WarningCardRecordType | null;
 };
 
 type SoccerReplacementTimelineRecord = CommonTimelineRecordFields & {
   type: typeof RecordType.SOCCER_REPLACEMENT;
-  scoreRecord: undefined;
+  scoreRecord: ScoreRecordType | null;
   replacementRecord: ReplacementRecordType;
-  progressRecord: undefined;
-  pkRecord: undefined;
-  warningCardRecord?: WarningCardRecordType;
+  progressRecord: ProgressRecordType | null;
+  pkRecord: PkRecordType | null;
+  warningCardRecord: WarningCardRecordType | null;
 };
 
 type BasketballReplacementTimelineRecord = CommonTimelineRecordFields & {
   type: typeof RecordType.BASKETBALL_REPLACEMENT;
-  scoreRecord: undefined;
+  scoreRecord: ScoreRecordType | null;
   replacementRecord: ReplacementRecordType;
-  progressRecord: undefined;
-  pkRecord: undefined;
-  warningCardRecord?: WarningCardRecordType;
+  progressRecord: ProgressRecordType | null;
+  pkRecord: PkRecordType | null;
+  warningCardRecord: WarningCardRecordType | null;
 };
 
 type ProgressTimelineRecord = CommonTimelineRecordFields & {
   type: typeof RecordType.PROGRESS;
-  scoreRecord: undefined;
-  replacementRecord: undefined;
+  scoreRecord: ScoreRecordType | null;
+  replacementRecord: ReplacementRecordType | null;
   progressRecord: ProgressRecordType;
-  pkRecord: undefined;
-  warningCardRecord?: WarningCardRecordType;
+  pkRecord: PkRecordType | null;
+  warningCardRecord: WarningCardRecordType | null;
 };
 
 type PkTimelineRecord = CommonTimelineRecordFields & {
   type: typeof RecordType.PK;
-  scoreRecord: undefined;
-  replacementRecord: undefined;
-  progressRecord: undefined;
+  scoreRecord: ScoreRecordType | null;
+  replacementRecord: ReplacementRecordType | null;
+  progressRecord: ProgressRecordType | null;
   pkRecord: PkRecordType;
-  warningCardRecord?: WarningCardRecordType;
+  warningCardRecord: WarningCardRecordType | null;
 };
 
 type WarningCardTimelineRecord = CommonTimelineRecordFields & {
   type: typeof RecordType.WARNING_CARD;
-  scoreRecord: undefined;
-  replacementRecord: undefined;
-  progressRecord: undefined;
-  pkRecord: undefined;
+  scoreRecord: ScoreRecordType | null;
+  replacementRecord: ReplacementRecordType | null;
+  progressRecord: ProgressRecordType | null;
+  pkRecord: PkRecordType | null;
   warningCardRecord: WarningCardRecordType;
 };
 
 type FoulTimelineRecord = CommonTimelineRecordFields & {
   type: typeof RecordType.FOUL;
-  scoreRecord: undefined;
-  replacementRecord: undefined;
-  progressRecord: undefined;
-  pkRecord: undefined;
-  warningCardRecord: undefined;
+  scoreRecord: ScoreRecordType | null;
+  replacementRecord: ReplacementRecordType | null;
+  progressRecord: ProgressRecordType | null;
+  pkRecord: PkRecordType | null;
+  warningCardRecord: WarningCardRecordType | null;
 };
 
 type AnyTimelineRecord =

@@ -55,22 +55,18 @@ export default function SubstituteSheet({
 
   const playerInOptions: SelectOption[] = useMemo(() => {
     if (!selectedTeam) return [];
-    return selectedTeam.candidatePlayers
-      .filter((p) => p.state === 'CANDIDATE')
-      .map((p) => ({
-        label: `${p.jerseyNumber} ${p.playerName}`,
-        value: String(p.lineupPlayerId),
-      }));
+    return selectedTeam.candidatePlayers.map((p) => ({
+      label: `${p.jerseyNumber} ${p.playerName}`,
+      value: String(p.lineupPlayerId),
+    }));
   }, [selectedTeam]);
 
   const playerOutOptions: SelectOption[] = useMemo(() => {
     if (!selectedTeam) return [];
-    return selectedTeam.starterPlayers
-      .filter((p) => p.state === 'STARTER')
-      .map((p) => ({
-        label: `${p.jerseyNumber} ${p.playerName}`,
-        value: String(p.lineupPlayerId),
-      }));
+    return selectedTeam.starterPlayers.map((p) => ({
+      label: `${p.jerseyNumber} ${p.playerName}`,
+      value: String(p.lineupPlayerId),
+    }));
   }, [selectedTeam]);
 
   const isFormValid = !!quarter && selectedTeamId !== null && !!playerIn && !!playerOut && !!minute;
