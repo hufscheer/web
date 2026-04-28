@@ -14,16 +14,22 @@ export const useCreateTimelinesProgress = ({ gameId }: { gameId: number }) => {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationKey: queryKeys.games.timeline({ gameId }).queryKey,
     mutationFn: postTimelineProgress,
     onSuccess: async () => {
-      await qc.invalidateQueries({
-        queryKey: queryKeys.games.timeline({ gameId }).queryKey,
-      });
-
-      await qc.invalidateQueries({
-        queryKey: queryKeys.games.progressAvailable({ gameId }).queryKey,
-      });
+      await Promise.all([
+        qc.invalidateQueries({
+          queryKey: queryKeys.games.timeline({ gameId }).queryKey,
+          refetchType: 'all',
+        }),
+        qc.invalidateQueries({
+          queryKey: queryKeys.games.progressAvailable({ gameId }).queryKey,
+          refetchType: 'all',
+        }),
+        qc.invalidateQueries({
+          queryKey: queryKeys.games.detail({ gameId }).queryKey,
+          refetchType: 'all',
+        }),
+      ]);
     },
   });
 };

@@ -14,12 +14,18 @@ export const useCreateTimelinesReplace = ({ gameId }: { gameId: number }) => {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationKey: queryKeys.games.timeline({ gameId }).queryKey,
     mutationFn: postTimelineReplace,
     onSuccess: async () => {
-      await qc.invalidateQueries({
-        queryKey: queryKeys.games.timeline({ gameId }).queryKey,
-      });
+      await Promise.all([
+        qc.invalidateQueries({
+          queryKey: queryKeys.games.timeline({ gameId }).queryKey,
+          refetchType: 'all',
+        }),
+        qc.invalidateQueries({
+          queryKey: queryKeys.games.lineup({ gameId }).queryKey,
+          refetchType: 'all',
+        }),
+      ]);
     },
   });
 };

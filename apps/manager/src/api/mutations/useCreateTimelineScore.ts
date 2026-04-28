@@ -14,12 +14,18 @@ export const useCreateTimelineScore = ({ gameId }: { gameId: number }) => {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationKey: queryKeys.games.timeline({ gameId }).queryKey,
     mutationFn: postTimelineScore,
     onSuccess: async () => {
-      await qc.invalidateQueries({
-        queryKey: queryKeys.games.timeline({ gameId }).queryKey,
-      });
+      await Promise.all([
+        qc.invalidateQueries({
+          queryKey: queryKeys.games.timeline({ gameId }).queryKey,
+          refetchType: 'all',
+        }),
+        qc.invalidateQueries({
+          queryKey: queryKeys.games.detail({ gameId }).queryKey,
+          refetchType: 'all',
+        }),
+      ]);
     },
   });
 };
