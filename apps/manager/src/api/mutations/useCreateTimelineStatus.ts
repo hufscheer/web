@@ -17,18 +17,12 @@ export const useCreateTimelinesProgress = ({ gameId }: { gameId: number }) => {
     mutationFn: postTimelineProgress,
     onSuccess: async () => {
       await Promise.all([
-        qc.invalidateQueries({
-          queryKey: queryKeys.games.timeline({ gameId }).queryKey,
-          refetchType: 'all',
-        }),
-        qc.invalidateQueries({
+        qc.refetchQueries({ queryKey: queryKeys.games.timeline({ gameId }).queryKey, type: 'all' }),
+        qc.refetchQueries({
           queryKey: queryKeys.games.progressAvailable({ gameId }).queryKey,
-          refetchType: 'all',
+          type: 'all',
         }),
-        qc.invalidateQueries({
-          queryKey: queryKeys.games.detail({ gameId }).queryKey,
-          refetchType: 'all',
-        }),
+        qc.refetchQueries({ queryKey: queryKeys.games.detail({ gameId }).queryKey, type: 'all' }),
       ]);
     },
   });

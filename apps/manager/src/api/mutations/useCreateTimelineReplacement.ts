@@ -17,14 +17,8 @@ export const useCreateTimelinesReplace = ({ gameId }: { gameId: number }) => {
     mutationFn: postTimelineReplace,
     onSuccess: async () => {
       await Promise.all([
-        qc.invalidateQueries({
-          queryKey: queryKeys.games.timeline({ gameId }).queryKey,
-          refetchType: 'all',
-        }),
-        qc.invalidateQueries({
-          queryKey: queryKeys.games.lineup({ gameId }).queryKey,
-          refetchType: 'all',
-        }),
+        qc.refetchQueries({ queryKey: queryKeys.games.timeline({ gameId }).queryKey, type: 'all' }),
+        qc.refetchQueries({ queryKey: queryKeys.games.lineup({ gameId }).queryKey, type: 'all' }),
       ]);
     },
   });
