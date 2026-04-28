@@ -14,11 +14,11 @@ export const useCreateTimelinesWarning = ({ gameId }: { gameId: number }) => {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationKey: queryKeys.games.timeline({ gameId }).queryKey,
     mutationFn: postTimelineWarning,
     onSuccess: async () => {
-      await qc.invalidateQueries({
+      await qc.refetchQueries({
         queryKey: queryKeys.games.timeline({ gameId }).queryKey,
+        type: 'all',
       });
     },
   });
