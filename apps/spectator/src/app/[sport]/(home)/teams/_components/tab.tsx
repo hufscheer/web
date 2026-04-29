@@ -67,7 +67,7 @@ export const TeamTab = () => {
                   <TeamCard.Section title="득점왕" icon="🙋‍♂️">
                     <ErrorBoundary fallback={null}>
                       <Suspense clientOnly>
-                        <ScoreList scorers={team.teamDetail.topScorers} />
+                        <ScoreList scorers={team.teamDetail.topScorers} sport={sport} />
                       </Suspense>
                     </ErrorBoundary>
                   </TeamCard.Section>
@@ -99,6 +99,7 @@ export const TeamTab = () => {
               }}
               teamId={modal.teamId}
               teamName={modal.teamName}
+              sport={sport}
             />
           </Suspense>
         </ErrorBoundary>
