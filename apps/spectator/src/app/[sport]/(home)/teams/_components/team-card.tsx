@@ -68,7 +68,7 @@ const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
 
 const TeamCardContent = ({ children, className, ...props }: ComponentProps<'div'>) => {
   return (
-    <div className={twMerge('grid grid-cols-2 gap-5', className)} {...props}>
+    <div className={twMerge('grid grid-cols-2 items-start gap-5', className)} {...props}>
       {children}
     </div>
   );

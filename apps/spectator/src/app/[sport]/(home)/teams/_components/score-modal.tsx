@@ -1,6 +1,7 @@
 import { Modal } from '@hcc/ui';
 
 import type { TeamPlayerType } from '~/api';
+import type { SportType } from '~/api/types';
 
 import { useSuspenseTeamsPlayers } from '~/api/queries/useTeamPlayers';
 
@@ -13,9 +14,19 @@ export type TopScorersModalProps = {
   onOpenChange: (open: boolean) => void;
   teamId: number;
   teamName: string;
+  sport: SportType;
 };
 
-export function ScorersModal({ open, onOpenChange, teamName, teamId }: TopScorersModalProps) {
+export function ScorersModal({
+  open,
+  onOpenChange,
+  teamName,
+  teamId,
+  sport,
+}: TopScorersModalProps) {
+  const isSoccer = sport === 'SOCCER';
+  const sportEmoji = isSoccer ? '⚽' : '🏀';
+  const scoreUnit = isSoccer ? '골' : '점';
   const { data: players } = useSuspenseTeamsPlayers({ id: teamId });
   const rows: Row[] = (() => {
     const sorted = [...(players ?? [])].sort((a, b) => b.totalGoalCount - a.totalGoalCount);
@@ -58,7 +69,7 @@ export function ScorersModal({ open, onOpenChange, teamName, teamId }: TopScorer
 
         <div className="mb-3 rounded-xl bg-neutral-100 px-4 py-3">
           <h2 className="text-center text-base font-medium text-neutral-900">
-            {teamName} <span className="font-semibold">득점왕</span> ⚽
+            {teamName} <span className="font-semibold">득점왕</span> {sportEmoji}
           </h2>
         </div>
 
@@ -99,6 +110,7 @@ export function ScorersModal({ open, onOpenChange, teamName, teamId }: TopScorer
                       </td>
                       <td className={`px-3 py-2 text-center text-neutral-900 ${fontWeightClass}`}>
                         {r.totalGoalCount}
+                        {scoreUnit}
                       </td>
                     </tr>
                   );
