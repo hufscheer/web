@@ -4,6 +4,7 @@ import type { TeamPlayerType } from '~/api';
 import type { SportType } from '~/api/types';
 
 import { useSuspenseTeamsPlayers } from '~/api/queries/useTeamPlayers';
+import { getSportEmoji, getSportScoreUnit } from '~/utils/sport-route';
 
 type Row = TeamPlayerType & {
   rank: number;
@@ -24,9 +25,8 @@ export function ScorersModal({
   teamId,
   sport,
 }: TopScorersModalProps) {
-  const isSoccer = sport === 'SOCCER';
-  const sportEmoji = isSoccer ? '⚽' : '🏀';
-  const scoreUnit = isSoccer ? '골' : '점';
+  const sportEmoji = getSportEmoji(sport);
+  const scoreUnit = getSportScoreUnit(sport);
   const { data: players } = useSuspenseTeamsPlayers({ id: teamId });
   const rows: Row[] = (() => {
     const sorted = [...(players ?? [])].sort((a, b) => b.totalGoalCount - a.totalGoalCount);

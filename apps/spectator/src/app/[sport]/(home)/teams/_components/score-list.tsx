@@ -4,6 +4,8 @@ import { colors, Typography } from '@hcc/ui';
 import type { TopScorerType } from '~/api';
 import type { SportType } from '~/api/types';
 
+import { getSportScoreUnit } from '~/utils/sport-route';
+
 interface ScoreListProps {
   scorers: TopScorerType[];
   sport: SportType;
@@ -13,9 +15,8 @@ interface ScoreListProps {
 export const ScoreList = ({ scorers, sport, limit = 3 }: ScoreListProps) => {
   if (!scorers) return null;
 
-  const isSoccer = sport === 'SOCCER';
-  const ScoreIcon = isSoccer ? SportsAndOutdoorsIcon : BasketballIcon;
-  const scoreUnit = isSoccer ? '골' : '점';
+  const ScoreIcon = sport === 'SOCCER' ? SportsAndOutdoorsIcon : BasketballIcon;
+  const scoreUnit = getSportScoreUnit(sport);
 
   return (
     <div className="column mt-2 gap-1">
