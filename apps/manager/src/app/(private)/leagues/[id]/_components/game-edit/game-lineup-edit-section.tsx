@@ -229,14 +229,6 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
 
   const handleSaveAndNext = async () => {
     if (!gameTeam1 || !gameTeam2) return;
-    if (!team1Captain) {
-      toast.error(`${team1Name || '팀1'} 주장을 선택해주세요`);
-      return;
-    }
-    if (!team2Captain) {
-      toast.error(`${team2Name || '팀2'} 주장을 선택해주세요`);
-      return;
-    }
     setSaving(true);
     try {
       await applyTeamChanges(gameTeam1.gameTeamId, originalTeam1Selection, team1Selection);
