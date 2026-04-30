@@ -1,3 +1,4 @@
+import { ErrorBoundary, Suspense } from '@suspensive/react';
 import { notFound } from 'next/navigation';
 
 import { Header } from '~/components/layout';
@@ -17,8 +18,14 @@ const Page = async ({ params }: Props) => {
 
   return (
     <>
-      <Header title="대회 정보 수정" arrow menu={<LeagueDeleteMenu leagueId={id} />} />
-      <LeagueEditContainer leagueId={id} />
+      <ErrorBoundary
+        fallback={<div className="p-4">대회 정보를 불러오는 중 오류가 발생했어요.</div>}
+      >
+        <Suspense fallback={null} clientOnly>
+          <Header title="대회 정보 수정" arrow menu={<LeagueDeleteMenu leagueId={id} />} />
+          <LeagueEditContainer leagueId={id} />
+        </Suspense>
+      </ErrorBoundary>
       {/* <div className="column h-full overflow-y-auto">{id}</div> */}
     </>
   );
