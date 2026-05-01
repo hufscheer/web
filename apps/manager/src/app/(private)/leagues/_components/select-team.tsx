@@ -1,5 +1,6 @@
 'use client';
 
+import { KoFuzzy } from '@hcc/ko-fuzzy';
 import { Button } from '@hcc/ui';
 import clsx from 'clsx';
 import { useDeferredValue, useMemo, useState } from 'react';
@@ -7,7 +8,6 @@ import { useDeferredValue, useMemo, useState } from 'react';
 import type { SportType } from '~/api';
 
 import { useTeams } from '~/api/queries/useTeams';
-import { createKoreanFuzzyMatcher } from '~/utils/ko-fuzzy';
 
 type RegisteredTeam = {
   affiliationName: string;
@@ -74,13 +74,14 @@ export const SelectTeam = ({
     const query = deferredValue.trim();
     if (!query) return groupedByUnit;
 
-    const matcher = createKoreanFuzzyMatcher(query);
-
     return groupedByUnit
-      .map((affiliation) => ({
-        ...affiliation,
-        teams: affiliation.teams.filter((team) => matcher.test(team.name)),
-      }))
+      .map((affiliation) => {
+        const fuzzy = new KoFuzzy(affiliation.teams, { keys: ['name'] });
+        return {
+          ...affiliation,
+          teams: fuzzy.search(query).map((result) => result.item),
+        };
+      })
       .filter((affiliation) => affiliation.teams.length > 0);
   }, [groupedByUnit, deferredValue]);
 
