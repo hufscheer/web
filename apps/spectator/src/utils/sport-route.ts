@@ -2,6 +2,10 @@ import type { SportType } from '~/api/types';
 
 export const DEFAULT_SPORT: SportType = 'SOCCER';
 
+export const getSportScoreUnit = (sport: SportType) => (sport === 'SOCCER' ? '골' : '점');
+
+export const getSportEmoji = (sport: SportType) => (sport === 'SOCCER' ? '⚽' : '🏀');
+
 export const normalizeSportParam = (sport?: string): SportType | null => {
   if (!sport) return null;
   const normalized = sport.toUpperCase();

@@ -74,12 +74,12 @@ export const TimelineDeleteMenu = ({ gameId }: Props) => {
 
   const handleDelete = () => {
     if (!latestRecordId) {
-      toast.error('삭제할 기록이 없습니다.');
+      toast.error('삭제할 기록이 없어요');
       return;
     }
     deleteTimeline(
       { gameId, timelineId: latestRecordId },
-      { onSuccess: () => toast.success('최근 기록이 삭제되었습니다.') },
+      { onSuccess: () => toast.success('최근 기록이 삭제되었어요') },
     );
   };
   const extraNode = (
