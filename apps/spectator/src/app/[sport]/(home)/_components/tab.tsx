@@ -14,8 +14,8 @@ import { useSuspenseLeagueCheerCount } from '~/api/queries/useLeagueCheerCount';
 import { useSuspenseLeagueRecentGames } from '~/api/queries/useLeagueRecentGames';
 import { GameCard } from '~/components/ui';
 import { routes } from '~/constants/routes';
-import { useOrganizationId } from '~/hooks/useOrganizationId';
 import { useTracker } from '~/hooks/useTracker';
+import { useOrganizations } from '~/stores/use-organization';
 import { DEFAULT_SPORT, normalizeSportParam } from '~/utils/sport-route';
 
 import { EmptyLeague } from './empty-league';
@@ -23,10 +23,10 @@ import { EmptyLeague } from './empty-league';
 export const RecentTab = () => {
   const params = useParams<{ sport: string }>();
   const sport: SportType = normalizeSportParam(params.sport) ?? DEFAULT_SPORT;
-  const { organizationId } = useOrganizationId();
+  const { organization } = useOrganizations();
   const { data: recentGames } = useSuspenseLeagueRecentGames({
     sportType: sport,
-    ...(organizationId !== null && { organizationId }),
+    ...(organization.id !== null && { organizationId: organization.id }),
   });
   const displayedGame = recentGames.find((league) => league.sportType === sport);
 

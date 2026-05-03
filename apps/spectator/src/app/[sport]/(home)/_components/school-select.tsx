@@ -1,36 +1,26 @@
 'use client';
 
-import { startTransition, Suspense, useEffect } from 'react';
+import { Suspense } from 'react';
 
 import { useSuspenseOrganizations } from '~/api/queries/useOrganizations';
 import { Select } from '~/components/ui/select';
-import { useOrganizationId } from '~/hooks/useOrganizationId';
+import { useOrganizations } from '~/stores/use-organization';
 
 const SchoolSelectContent = () => {
   const { data: organizations } = useSuspenseOrganizations();
-  const { organizationId, setOrganizationId } = useOrganizationId();
+  const { organization, setOrganization } = useOrganizations();
 
   const options = organizations.map((org) => ({ value: org.id, label: org.name }));
-  const isValidId = options.some((opt) => opt.value === organizationId);
-  const selectedId = isValidId ? organizationId : organizations[0]?.id;
+  const isValidId = options.some((opt) => opt.value === organization.id);
+  const selectedId = isValidId ? organization.id : undefined;
 
-  useEffect(() => {
-    if (!isValidId && selectedId !== undefined) {
-      startTransition(() => {
-        setOrganizationId(selectedId, { scroll: false, history: 'replace' });
-      });
-    }
-  }, [isValidId, selectedId, setOrganizationId]);
-
-  const handleChange = (id: number) => {
-    startTransition(() => {
-      setOrganizationId(id, { scroll: false, history: 'replace' });
-    });
-  };
-
-  if (selectedId === undefined) return null;
-
-  return <Select value={selectedId} onChange={handleChange} options={options} />;
+  return (
+    <Select
+      value={selectedId ?? 2}
+      onChange={(id) => setOrganization({ ...organization, id })}
+      options={options}
+    />
+  );
 };
 
 export const SchoolSelect = () => (

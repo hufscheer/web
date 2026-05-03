@@ -8,7 +8,7 @@ import type { SportType } from '~/api/types';
 import type { TeamUnitType } from '~/api/types/teams';
 
 import { useSuspenseTeamsSummary } from '~/api';
-import { useOrganizationId } from '~/hooks/useOrganizationId';
+import { useOrganizations } from '~/stores/use-organization';
 import { DEFAULT_SPORT, normalizeSportParam } from '~/utils/sport-route';
 
 import { EmptyTeam } from './empty-team';
@@ -27,11 +27,11 @@ export const TeamTab = () => {
   const { selected } = useTeamUnits();
   const params = useParams<{ sport: string }>();
   const sport: SportType = normalizeSportParam(params.sport) ?? DEFAULT_SPORT;
-  const { organizationId } = useOrganizationId();
+  const { organization } = useOrganizations();
   const { data } = useSuspenseTeamsSummary({
     units: selected as TeamUnitType[],
     sportType: sport,
-    organizationId,
+    ...(organization.id !== null && { organizationId: organization.id }),
   });
   const filteredData = data.filter((team) => team.teamDetail.sportType === sport);
 

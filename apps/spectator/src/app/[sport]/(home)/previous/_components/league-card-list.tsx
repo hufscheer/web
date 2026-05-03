@@ -8,7 +8,7 @@ import type { SportType } from '~/api/types';
 
 import { useSuspenseLeagues } from '~/api';
 import { Skeleton } from '~/components/skeleton';
-import { useOrganizationId } from '~/hooks/useOrganizationId';
+import { useOrganizations } from '~/stores/use-organization';
 import { DEFAULT_SPORT, normalizeSportParam } from '~/utils/sport-route';
 
 import { EmptyLeague } from '../../_components/empty-league';
@@ -21,12 +21,12 @@ interface Props {
 export const LeagueCardList = ({ year }: Props) => {
   const params = useParams<{ sport: string }>();
   const sport: SportType = normalizeSportParam(params.sport) ?? DEFAULT_SPORT;
-  const { organizationId } = useOrganizationId();
+  const { organization } = useOrganizations();
   const { data } = useSuspenseLeagues({
     year,
     size: 50,
     sportType: sport,
-    ...(organizationId !== null && { organizationId }),
+    ...(organization.id !== null && { organizationId: organization.id }),
   });
 
   if (data.length === 0) return <EmptyLeague sport={sport} />;
