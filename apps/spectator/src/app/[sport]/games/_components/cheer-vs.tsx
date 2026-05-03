@@ -54,7 +54,7 @@ export const CheerVS = ({ gameId }: Props) => {
   }, [homeTeamCheer.cheerCount, awayTeamCheer.cheerCount]);
 
   return (
-    <div className="center-y m-4 gap-0.5">
+    <div className="center-y m-3 gap-0.5">
       <div style={{ flexGrow: homeCheerRatio }}>
         <CheerTeamBox
           gameId={gameId}
@@ -164,11 +164,11 @@ const CheerTeamBox = ({
       disabled={isPending}
     >
       <Image
-        className="h-9 w-9 rounded-full object-contain"
+        className="h-8 w-8 rounded-full object-contain"
         src={logoImageUrl ?? '/images/fallback-image.webp'}
         alt={`${gameTeamName} 로고`}
-        width={36}
-        height={36}
+        width={32}
+        height={32}
         draggable={false}
         priority
       />
