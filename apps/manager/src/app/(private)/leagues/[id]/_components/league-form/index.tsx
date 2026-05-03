@@ -41,7 +41,7 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
       ...patch,
     }));
   };
-  const handleUpdate = (teamIds: number[]) => {
+  const handleUpdate = async (teamIds: number[]) => {
     if (!formData.name || !formData.startAt || !formData.endAt || formData.maxRound === undefined) {
       return;
     }
@@ -55,7 +55,7 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
       sportType: formData.sportType ?? 'SOCCER',
     };
 
-    onSubmit(payload);
+    await onSubmit(payload);
   };
   return (
     <div className="flex h-full w-full flex-col bg-white p-4">
