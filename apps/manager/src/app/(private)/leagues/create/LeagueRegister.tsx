@@ -31,7 +31,7 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
   const [isOpen, setIsOpen] = useState(false);
   const [registeredTeams, setRegisteredTeams] = useState<RegisteredTeam[]>(initialTeams);
   const { mutate, isPending } = useCreateLeagues();
-  const maxTeams = useMemo(() => round ?? 32, [round]);
+  const maxTeams = useMemo(() => round ?? 100, [round]);
 
   const isEditMode = !!onSubmit;
 
