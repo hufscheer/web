@@ -33,13 +33,27 @@ export default function CheerTalkItem({
 
   return (
     <>
-      <div
-        className={twMerge(
-          'column gap-2 rounded-lg p-2.5',
-          direction === 'HOME' ? 'self-start bg-[#F5F5F7]' : 'self-end bg-[#F2F8FF]',
-        )}
-      >
-        <div className="center-y gap-1">
+      <div className={twMerge('column gap-1', direction === 'HOME' ? 'self-start' : 'self-end')}>
+        <div
+          className={twMerge(
+            'flex items-center gap-1 rounded-lg p-2.5 bg-white',
+            // direction === 'HOME' ? 'bg-[#F5F5F7]' : 'bg-[#F2F8FF]',
+          )}
+        >
+          <Image
+            className="aspect-square size-4.5 shrink-0 overflow-hidden rounded-full object-contain"
+            src={logoImageUrl ?? '/images/fallback-image.webp'}
+            alt={`${direction} 팀 로고`}
+            width={18}
+            height={18}
+          />
+          <Typography color={isBlocked ? colors.neutral400 : colors.neutral900} fontSize={14}>
+            {isBlocked ? '관리자에 의해 차단된 톡입니다' : content}
+          </Typography>
+        </div>
+        <div
+          className={twMerge('center-y gap-1', direction === 'HOME' ? 'self-start' : 'self-end')}
+        >
           <Typography color={colors.neutral600} fontSize={10} weight="medium" asChild>
             <button type="button" onClick={() => setOpen(true)}>
               신고
@@ -49,25 +63,7 @@ export default function CheerTalkItem({
             <span>|</span>
           </Typography>
           <Typography color={colors.neutral600} fontSize={10} weight="medium" asChild>
-            <time>{formatTime(createdAt, { format: 'YYYY년 MM월 DD일 HH:mm' })}</time>
-          </Typography>
-        </div>
-
-        <div
-          className={twMerge(
-            'flex items-center gap-1',
-            direction === 'HOME' ? 'flex-row' : 'flex-row-reverse',
-          )}
-        >
-          <Image
-            className="aspect-square size-4.5 overflow-hidden rounded-full object-contain"
-            src={logoImageUrl ?? '/images/fallback-image.webp'}
-            alt={`${direction} 팀 로고`}
-            width={18}
-            height={18}
-          />
-          <Typography color={isBlocked ? colors.neutral400 : colors.neutral900} fontSize={14}>
-            {isBlocked ? '관리자에 의해 차단된 톡입니다' : content}
+            <time>{`${new Date(createdAt).getHours() < 12 ? '오전' : '오후'} ${formatTime(createdAt, { format: 'h:mm' })}`}</time>
           </Typography>
         </div>
       </div>
