@@ -1,13 +1,13 @@
 'use client';
 
+import { KoFuzzy } from '@hcc/ko-fuzzy';
 import { Button } from '@hcc/ui';
 import clsx from 'clsx';
-import { useMemo, useState } from 'react';
+import { useDeferredValue, useMemo, useState } from 'react';
 
-import type { SportType, TeamType } from '~/api';
+import type { SportType } from '~/api';
 
-import { useManagerTeams } from '~/api/queries/useManagerTeams';
-import { useTeamUnits } from '~/api/queries/useTeamUnits';
+import { useTeams } from '~/api/queries/useTeams';
 
 type RegisteredTeam = {
   affiliationName: string;
@@ -36,6 +36,7 @@ const SelectItem = ({ name, isSelected, onClick }: SelectItemProps) => (
 );
 
 type TeamCreationFormProps = {
+  value: string;
   onClose: () => void;
   onRegister: (teams: RegisteredTeam[]) => void;
   maxSelectCount: number;
@@ -43,34 +44,46 @@ type TeamCreationFormProps = {
 };
 
 export const SelectTeam = ({
+  value,
   onClose,
   onRegister,
   maxSelectCount,
   sportType,
 }: TeamCreationFormProps) => {
-  const { data: teamUnits = [], isLoading: isUnitsLoading } = useTeamUnits(sportType);
-  const unitNames = useMemo(() => teamUnits.map((u) => u.unitName), [teamUnits]);
-  const { data: teams = [], isLoading: isTeamsLoading } = useManagerTeams(unitNames, sportType);
-  const isLoading = isUnitsLoading || isTeamsLoading;
+  const { data: teams = [], isLoading } = useTeams();
+  const deferredValue = useDeferredValue(value);
 
-  const affiliations = useMemo(() => {
-    const units = teams.reduce<Record<string, TeamType[]>>((acc, team) => {
+  const groupedByUnit = useMemo(() => {
+    const filtered = teams.filter((team) => team.sportType === sportType);
+    const units = filtered.reduce<Record<string, Team[]>>((acc, team) => {
       if (!acc[team.unit]) {
         acc[team.unit] = [];
       }
-      acc[team.unit].push(team);
+      acc[team.unit].push({ id: team.id, name: team.name });
       return acc;
     }, {});
 
     return Object.keys(units).map((unit, index) => ({
       id: index + 1,
       name: unit,
-      teams: units[unit].map((team) => ({
-        id: team.id,
-        name: team.name,
-      })),
+      teams: units[unit],
     }));
-  }, [teams]);
+  }, [teams, sportType]);
+
+  const affiliations = useMemo(() => {
+    const query = deferredValue.trim();
+    if (!query) return groupedByUnit;
+
+    return groupedByUnit
+      .map((affiliation) => {
+        const fuzzy = new KoFuzzy(affiliation.teams, { keys: ['name'] });
+        return {
+          ...affiliation,
+          teams: fuzzy.search(query).map((result) => result.item),
+        };
+      })
+      .filter((affiliation) => affiliation.teams.length > 0);
+  }, [groupedByUnit, deferredValue]);
 
   const [selectedAffiliationId, setSelectedAffiliationId] = useState<string | null>(
     affiliations[0]?.name || null,
@@ -121,7 +134,7 @@ export const SelectTeam = ({
     <div className="flex h-[60vh] flex-col pt-4">
       <div className="flex flex-grow flex-row overflow-hidden">
         {/* 왼쪽 열: 소속 */}
-        <div className="flex flex-1 flex-col border-r">
+        <div className="flex-1 border-r">
           <div className="w-full bg-[#EBECEE] p-3 text-left text-base font-medium">소속</div>
           <div className="overflow-y-auto">
             {affiliations.map((affiliation) => (
