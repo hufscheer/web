@@ -3,17 +3,22 @@ import { persist } from 'zustand/middleware';
 
 import type { OrganizationType } from '~/api';
 
+type OrganizationId = OrganizationType['id'];
+
 interface OrganizationState {
-  organization: OrganizationType;
-  setOrganization: (organization: OrganizationType) => void;
+  organizationId: OrganizationId;
+  setOrganization: (organizationId: OrganizationId) => void;
 }
 
 export const useOrganizations = create<OrganizationState>()(
   persist(
     (set) => ({
-      organization: {} as OrganizationType,
-      setOrganization: (organization) => set({ organization }),
+      organizationId: 2,
+      setOrganization: (organizationId) => set({ organizationId }),
     }),
-    { name: 'hcc-organization' },
+    {
+      name: 'hcc-organization',
+      version: 1,
+    },
   ),
 );

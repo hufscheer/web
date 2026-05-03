@@ -27,11 +27,11 @@ export const TeamTab = () => {
   const { selected } = useTeamUnits();
   const params = useParams<{ sport: string }>();
   const sport: SportType = normalizeSportParam(params.sport) ?? DEFAULT_SPORT;
-  const { organization } = useOrganizations();
+  const { organizationId } = useOrganizations();
   const { data } = useSuspenseTeamsSummary({
     units: selected as TeamUnitType[],
     sportType: sport,
-    ...(organization.id !== null && { organizationId: organization.id }),
+    ...(organizationId !== null && { organizationId }),
   });
   const filteredData = data.filter((team) => team.teamDetail.sportType === sport);
 

@@ -23,10 +23,10 @@ import { EmptyLeague } from './empty-league';
 export const RecentTab = () => {
   const params = useParams<{ sport: string }>();
   const sport: SportType = normalizeSportParam(params.sport) ?? DEFAULT_SPORT;
-  const { organization } = useOrganizations();
+  const { organizationId } = useOrganizations();
   const { data: recentGames } = useSuspenseLeagueRecentGames({
     sportType: sport,
-    ...(organization.id !== null && { organizationId: organization.id }),
+    ...(organizationId !== null && { organizationId }),
   });
   const displayedGame = recentGames.find((league) => league.sportType === sport);
 

@@ -8,18 +8,14 @@ import { useOrganizations } from '~/stores/use-organization';
 
 const SchoolSelectContent = () => {
   const { data: organizations } = useSuspenseOrganizations();
-  const { organization, setOrganization } = useOrganizations();
+  const { organizationId, setOrganization } = useOrganizations();
 
   const options = organizations.map((org) => ({ value: org.id, label: org.name }));
-  const isValidId = options.some((opt) => opt.value === organization.id);
-  const selectedId = isValidId ? organization.id : undefined;
+  const isValidId = options.some((opt) => opt.value === organizationId);
+  const selectedId = isValidId ? organizationId : undefined;
 
   return (
-    <Select
-      value={selectedId ?? 2}
-      onChange={(id) => setOrganization({ ...organization, id })}
-      options={options}
-    />
+    <Select value={selectedId ?? 2} onChange={(id) => setOrganization(id)} options={options} />
   );
 };
 

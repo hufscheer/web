@@ -14,10 +14,10 @@ export const TeamFilter = ({ sport }: { sport: SportType }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const conveyerRef = useRef<Conveyer | null>(null);
   const { selected, toggle, filterUnits } = useTeamUnits();
-  const { organization } = useOrganizations();
+  const { organizationId } = useOrganizations();
   const { data: unitAvailability } = useSuspenseTeamUnitAvailability({
     sportType: sport,
-    ...(organization.id !== null && { organizationId: organization.id }),
+    ...(organizationId !== null && { organizationId }),
   });
 
   // 종목 전환 시 hasTeam: false 된 항목 선택 해제
