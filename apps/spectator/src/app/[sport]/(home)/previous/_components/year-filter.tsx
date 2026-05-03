@@ -36,7 +36,7 @@ export const YearFilter = ({ selectedYear }: Props) => {
                       query: {
                         year: _year,
                         ...(sport && { sport }),
-                        ...(organizationId !== null && { organizationId }),
+                        organizationId,
                       },
                     }}
                   />

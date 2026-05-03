@@ -10,10 +10,12 @@ interface OrganizationState {
   setOrganization: (organizationId: OrganizationId) => void;
 }
 
+const DEFAULT_ORGANIZATION_ID = 2;
+
 export const useOrganizations = create<OrganizationState>()(
   persist(
     (set) => ({
-      organizationId: 2,
+      organizationId: DEFAULT_ORGANIZATION_ID,
       setOrganization: (organizationId) => set({ organizationId }),
     }),
     {
