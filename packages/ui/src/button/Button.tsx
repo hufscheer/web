@@ -2,12 +2,15 @@
 
 import type { MouseEvent, ReactNode } from 'react';
 
+import { Slottable } from '@radix-ui/react-slot';
 import { clsx } from 'clsx';
 
-import type { CustomProps as SlotProps } from '../_utils/create-slots';
+import type { CustomProps } from '../_utils/create-slots';
 
 import { createCustomSlots } from '../_utils/create-slots';
 import * as styles from './Button.css';
+
+/* ------ slots ------ */
 
 const buttonSlots = {
   left: { comp: 'span', renderWhenEmpty: false },
@@ -16,6 +19,8 @@ const buttonSlots = {
 } as const;
 
 const { useSlots } = createCustomSlots(buttonSlots);
+
+/* ------ button ------ */
 
 export interface ButtonProps extends styles.ButtonVariants {
   asChild?: boolean;
@@ -27,7 +32,7 @@ export interface ButtonProps extends styles.ButtonVariants {
   className?: string;
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   children?: ReactNode;
-  customProps?: SlotProps<typeof buttonSlots>;
+  customProps?: CustomProps<typeof buttonSlots>;
 }
 
 export const Button = ({
@@ -61,7 +66,7 @@ export const Button = ({
     >
       <slots.left />
 
-      {children}
+      <Slottable>{children}</Slottable>
 
       <slots.right />
     </slots.button>

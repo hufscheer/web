@@ -25,5 +25,12 @@ export default {
 } satisfies Meta<typeof Button>;
 
 export const Default: Meta<typeof Button> = {
-  render: (args) => <Button {...args}>Button</Button>,
+  render: (args) => (
+    <>
+      <Button {...args}>Button</Button>
+      <Button asChild {...args}>
+        <a href="https://example.com">link</a>
+      </Button>
+    </>
+  ),
 };

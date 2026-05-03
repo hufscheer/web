@@ -58,8 +58,9 @@ export const createCustomSlots = <TSlots extends SlotMap>(params: TSlots) => {
               (customPropsRef.current?.[slotKey] as SlotPropsWithChildren) ??
               ({} as SlotPropsWithChildren);
 
-            const { asChild, ...restCustomProps } = slotCustomProps;
-            const { children, ...mergedProps } = mergeProps(internalProps, restCustomProps);
+            const { asChild, ...restInternalProps } = internalProps;
+            const merged = mergeProps(restInternalProps, slotCustomProps);
+            const { children, ...mergedProps } = merged as SlotPropsWithChildren;
 
             const shouldRender = !renderWhenEmpty && (children === null || children === undefined);
             if (shouldRender) {
@@ -87,11 +88,9 @@ export const createCustomSlots = <TSlots extends SlotMap>(params: TSlots) => {
 
 /* ------ merge-props utility ------ */
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyProps = any;
+type MergeableProps = Record<string, unknown>;
 
-function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
-  // all child props should override
+function mergeProps(slotProps: MergeableProps, childProps: MergeableProps) {
   const overrideProps = { ...childProps };
 
   for (const propName in childProps) {
@@ -100,22 +99,20 @@ function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
 
     const isHandler = /^on[A-Z]/.test(propName);
     if (isHandler) {
-      // if the handler exists on both, we compose them
-      if (slotPropValue && childPropValue) {
+      if (typeof slotPropValue === 'function' && typeof childPropValue === 'function') {
         overrideProps[propName] = (...args: unknown[]) => {
-          const result = childPropValue(...args);
-          slotPropValue(...args);
+          const result = (childPropValue as (...a: unknown[]) => unknown)(...args);
+          (slotPropValue as (...a: unknown[]) => unknown)(...args);
           return result;
         };
-      }
-      // but if it exists only on the slot, we use only this one
-      else if (slotPropValue) {
+      } else if (typeof slotPropValue === 'function') {
         overrideProps[propName] = slotPropValue;
       }
-    }
-    // if it's `style`, we merge them
-    else if (propName === 'style') {
-      overrideProps[propName] = { ...slotPropValue, ...childPropValue };
+    } else if (propName === 'style') {
+      overrideProps[propName] = {
+        ...(slotPropValue as Record<string, unknown>),
+        ...(childPropValue as Record<string, unknown>),
+      };
     } else if (propName === 'className') {
       overrideProps[propName] = [slotPropValue, childPropValue].filter(Boolean).join(' ');
     }
