@@ -33,7 +33,7 @@ export const ScoreBoard = ({ gameId }: ScoreBoardProps) => {
       <table className="w-full border-separate border-spacing-0 text-center">
         <thead>
           <tr className="text-greyscale-200">
-            <th className="w-0 pb-1 text-center font-medium text-greyscale-700">팀명</th>
+            <th className="w-14 pb-1 text-center font-medium text-greyscale-700">팀명</th>
             {labels.map((label) => (
               <th key={label} className="pb-1 text-center font-medium">
                 {label}
@@ -69,7 +69,7 @@ const ScoreRow = ({ team, scores, labels, isHome = false, isAway = false }: Scor
         isAway && 'rounded-bl-2xl',
       )}
     >
-      <div className="flex max-w-20 items-center gap-1">
+      <div className="flex max-w-24 items-center gap-1">
         <span
           className="h-1 w-1 shrink-0 rounded-full"
           style={{ backgroundColor: isHome ? '#002843' : '#9C1714' }}
