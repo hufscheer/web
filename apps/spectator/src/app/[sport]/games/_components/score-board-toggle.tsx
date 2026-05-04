@@ -15,7 +15,10 @@ export const ScoreBoardToggle = ({ gameId }: ScoreBoardToggleProps) => {
   return (
     <div className={'bg-(--color-primary-100) pb-2'}>
       {isOpen ? (
-        <Suspense clientOnly>
+        <Suspense
+          clientOnly
+          fallback={<div className="mx-7 h-16 animate-pulse rounded-2xl bg-white" />}
+        >
           <ScoreBoard gameId={gameId} />
           <button
             type="button"

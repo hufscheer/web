@@ -2,9 +2,9 @@ import { formatTime } from '@hcc/toolkit';
 import { Button, colors, Modal, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import { useState } from 'react';
-import { twMerge } from 'tailwind-merge';
 
 import { type TeamDirection, useCreateCheerTalkReport } from '~/api';
+import { cn } from '~/utils/cn';
 
 type Props = {
   cheerTalkId: number;
@@ -33,10 +33,10 @@ export default function CheerTalkItem({
 
   return (
     <>
-      <div className={twMerge('column gap-1', direction === 'HOME' ? 'self-start' : 'self-end')}>
+      <div className={cn('column gap-1', direction === 'HOME' ? 'self-start' : 'self-end')}>
         <div
-          className={twMerge(
-            'flex items-center gap-1 rounded-lg p-2.5 bg-white',
+          className={cn(
+            'flex items-center gap-1 rounded-lg bg-white p-2.5',
             // direction === 'HOME' ? 'bg-[#F5F5F7]' : 'bg-[#F2F8FF]',
           )}
         >
@@ -51,9 +51,7 @@ export default function CheerTalkItem({
             {isBlocked ? '관리자에 의해 차단된 톡입니다' : content}
           </Typography>
         </div>
-        <div
-          className={twMerge('center-y gap-1', direction === 'HOME' ? 'self-start' : 'self-end')}
-        >
+        <div className={cn('center-y gap-1', direction === 'HOME' ? 'self-start' : 'self-end')}>
           <Typography color={colors.neutral600} fontSize={10} weight="medium" asChild>
             <button type="button" onClick={() => setOpen(true)}>
               신고
@@ -63,7 +61,7 @@ export default function CheerTalkItem({
             <span>|</span>
           </Typography>
           <Typography color={colors.neutral600} fontSize={10} weight="medium" asChild>
-            <time>{`${new Date(createdAt).getHours() < 12 ? '오전' : '오후'} ${formatTime(createdAt, { format: 'h:mm' })}`}</time>
+            <time dateTime={createdAt}>{formatTime(createdAt, { format: 'A h:mm' })}</time>
           </Typography>
         </div>
       </div>
