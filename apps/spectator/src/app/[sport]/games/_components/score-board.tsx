@@ -4,7 +4,7 @@ import { type GameTeamType, useSuspenseGame } from '~/api';
 import { useSuspenseGameQuarterScores } from '~/api/queries/useGameQuarterScores';
 import { cn } from '~/utils/cn';
 
-const BASE_LABELS = ['1Q', '2Q', '3Q', '4Q'];
+const BASE_LABELS = ['1Q', '2Q', '3Q', '4Q', 'OT'];
 
 interface ScoreBoardProps {
   gameId: number;
