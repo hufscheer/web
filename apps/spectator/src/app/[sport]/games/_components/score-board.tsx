@@ -69,7 +69,7 @@ const ScoreRow = ({ team, scores, labels, isHome = false, isAway = false }: Scor
         isAway && 'rounded-bl-2xl',
       )}
     >
-      <div className="flex max-w-24 items-center gap-1">
+      <div className="flex max-w-20 items-center gap-1">
         <span
           className="h-1 w-1 shrink-0 rounded-full"
           style={{ backgroundColor: isHome ? '#002843' : '#9C1714' }}
