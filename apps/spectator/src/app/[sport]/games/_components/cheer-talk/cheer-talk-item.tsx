@@ -34,12 +34,7 @@ export default function CheerTalkItem({
   return (
     <>
       <div className={cn('column gap-1', direction === 'HOME' ? 'self-start' : 'self-end')}>
-        <div
-          className={cn(
-            'flex items-center gap-1 rounded-lg bg-white p-2.5',
-            // direction === 'HOME' ? 'bg-[#F5F5F7]' : 'bg-[#F2F8FF]',
-          )}
-        >
+        <div className="flex items-center gap-1 rounded-lg bg-white p-2.5">
           <Image
             className="aspect-square size-4.5 shrink-0 overflow-hidden rounded-full object-contain"
             src={logoImageUrl ?? '/images/fallback-image.webp'}

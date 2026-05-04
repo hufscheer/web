@@ -32,14 +32,14 @@ export const ScoreBoard = ({ gameId }: ScoreBoardProps) => {
     <div className="mx-7 text-xs font-medium">
       <table className="w-full border-separate border-spacing-0 text-center">
         <thead>
-          <tr className="font-medium text-greyscale-200">
-            <th className="w-0 pb-1 text-center">팀명</th>
+          <tr className="text-greyscale-200">
+            <th className="w-0 pb-1 text-center font-medium text-greyscale-700">팀명</th>
             {labels.map((label) => (
-              <th key={label} className="pb-1 text-center">
+              <th key={label} className="pb-1 text-center font-medium">
                 {label}
               </th>
             ))}
-            <th className="pb-1 text-center text-(--color-primary-600)">총점</th>
+            <th className="pb-1 text-center font-semibold text-(--color-primary-600)">총점</th>
           </tr>
         </thead>
         <tbody>
@@ -72,9 +72,9 @@ const ScoreRow = ({ team, scores, labels, isFirst = false, isLast = false }: Sco
       <div className="flex max-w-24 items-center gap-1">
         <span
           className="h-1 w-1 shrink-0 rounded-full"
-          style={{ backgroundColor: team.teamColor }}
+          style={{ backgroundColor: isFirst ? '#002843' : '#9C1714' }}
         />
-        <span className="truncate">{team.gameTeamName}</span>
+        <span className="truncate font-medium">{team.gameTeamName}</span>
       </div>
     </td>
     {labels.map((label, index) => (
