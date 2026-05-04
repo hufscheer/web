@@ -43,8 +43,8 @@ export const ScoreBoard = ({ gameId }: ScoreBoardProps) => {
           </tr>
         </thead>
         <tbody>
-          <ScoreRow team={homeTeam} scores={scores.home} labels={labels} isFirst />
-          <ScoreRow team={awayTeam} scores={scores.away} labels={labels} isLast />
+          <ScoreRow team={homeTeam} scores={scores.home} labels={labels} isHome />
+          <ScoreRow team={awayTeam} scores={scores.away} labels={labels} isAway />
         </tbody>
         <caption className="sr-only">스코어보드 경기현황</caption>
       </table>
@@ -56,23 +56,23 @@ interface ScoreRowProps {
   team: GameTeamType;
   scores: number[];
   labels: string[];
-  isFirst?: boolean;
-  isLast?: boolean;
+  isHome?: boolean;
+  isAway?: boolean;
 }
 
-const ScoreRow = ({ team, scores, labels, isFirst = false, isLast = false }: ScoreRowProps) => (
+const ScoreRow = ({ team, scores, labels, isHome = false, isAway = false }: ScoreRowProps) => (
   <tr key={team.gameTeamId}>
     <td
       className={cn(
         'bg-white py-2 pr-1 pl-3',
-        isFirst && 'rounded-tl-2xl',
-        isLast && 'rounded-bl-2xl',
+        isHome && 'rounded-tl-2xl',
+        isAway && 'rounded-bl-2xl',
       )}
     >
       <div className="flex max-w-24 items-center gap-1">
         <span
           className="h-1 w-1 shrink-0 rounded-full"
-          style={{ backgroundColor: isFirst ? '#002843' : '#9C1714' }}
+          style={{ backgroundColor: isHome ? '#002843' : '#9C1714' }}
         />
         <span className="truncate font-medium">{team.gameTeamName}</span>
       </div>
@@ -88,8 +88,8 @@ const ScoreRow = ({ team, scores, labels, isFirst = false, isLast = false }: Sco
     <td
       className={cn(
         'border-l border-neutral-200 bg-white py-1 text-center font-semibold text-(--color-primary-600)',
-        isFirst && 'rounded-tr-2xl',
-        isLast && 'rounded-br-2xl',
+        isHome && 'rounded-tr-2xl',
+        isAway && 'rounded-br-2xl',
       )}
     >
       {team.score}
