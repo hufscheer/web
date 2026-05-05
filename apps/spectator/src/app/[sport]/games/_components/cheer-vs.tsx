@@ -54,7 +54,7 @@ export const CheerVS = ({ gameId }: Props) => {
   }, [homeTeamCheer.cheerCount, awayTeamCheer.cheerCount]);
 
   return (
-    <div className="center-y m-3 gap-0.5">
+    <div className="center-y gap-0.5 p-2.5">
       <div style={{ flexGrow: homeCheerRatio }}>
         <CheerTeamBox
           gameId={gameId}
@@ -151,7 +151,7 @@ const CheerTeamBox = ({
   return (
     <button
       className={cn(
-        'center-y relative h-14 w-full cursor-pointer gap-2 rounded-xl px-3 transition-all duration-150 active:scale-[0.995]',
+        'center-y relative h-14 w-full cursor-pointer gap-3 rounded-xl p-3 transition-all duration-150 active:scale-[0.995]',
         !isFinished && 'active:scale-[0.995]',
         isFinished && 'cursor-default',
 

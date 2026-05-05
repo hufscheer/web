@@ -35,10 +35,10 @@ export const Banner = ({ gameId }: Props) => {
           <Badge size="sm" variant={data.state === 'PLAYING' ? 'danger' : 'default'}>
             {data.gameQuarter.label}
           </Badge>
-          <div className="center h-9 gap-4">
+          <div className="center h-9 gap-3">
             <span
               className={cn(
-                'text-4xl text-neutral-900',
+                'text-4xl font-medium text-neutral-900',
                 data.state === 'FINISHED' && 'text-neutral-500',
                 Sofia.className,
               )}
@@ -51,7 +51,7 @@ export const Banner = ({ gameId }: Props) => {
             </div>
             <span
               className={cn(
-                'text-4xl text-neutral-900',
+                'text-4xl font-medium text-neutral-900',
                 data.state === 'FINISHED' && 'text-neutral-500',
                 Sofia.className,
               )}
@@ -75,7 +75,7 @@ type BannerTeamProps = {
 
 const BannerTeam = ({ team }: BannerTeamProps) => {
   return (
-    <div className="column-center-x shrink-0 justify-end gap-2">
+    <div className="column-center-x shrink-0 items-center justify-end gap-2">
       <Image
         className="h-10 w-10 rounded-full border border-neutral-100 object-contain"
         src={team.logoImageUrl ?? '/images/fallback-image.webp'}

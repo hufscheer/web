@@ -28,26 +28,41 @@ export const ScoreBoard = ({ gameId }: ScoreBoardProps) => {
     { home: Array(labels.length).fill(null), away: Array(labels.length).fill(null) },
   );
 
+  const colTemplate = `60px repeat(${labels.length + 1}, 40px)`;
+
   return (
-    <div className="mx-7 text-xs font-medium">
-      <table className="w-full border-separate border-spacing-0 text-center">
-        <thead>
-          <tr className="text-greyscale-200">
-            <th className="w-14 pb-1 text-center font-medium text-greyscale-700">팀명</th>
-            {labels.map((label) => (
-              <th key={label} className="pb-1 text-center font-medium">
-                {label}
-              </th>
-            ))}
-            <th className="pb-1 text-center font-semibold text-(--color-primary-600)">총점</th>
-          </tr>
-        </thead>
-        <tbody>
-          <ScoreRow team={homeTeam} scores={scores.home} labels={labels} isHome />
-          <ScoreRow team={awayTeam} scores={scores.away} labels={labels} isAway />
-        </tbody>
-        <caption className="sr-only">스코어보드 경기현황</caption>
-      </table>
+    <div className="flex justify-center text-xs font-medium">
+      <div className="flex w-80 flex-col gap-0.5">
+        <div
+          className="grid h-5 pr-2 pl-3 text-greyscale-200"
+          style={{ gridTemplateColumns: colTemplate }}
+        >
+          <span className="font-medium text-greyscale-700">팀명</span>
+          {labels.map((label) => (
+            <span key={label} className="text-center font-medium">
+              {label}
+            </span>
+          ))}
+          <span className="text-center font-semibold text-(--color-primary-600)">총점</span>
+        </div>
+
+        <div className="flex flex-col gap-[5px] rounded-xl bg-white">
+          <ScoreRow
+            team={homeTeam}
+            scores={scores.home}
+            labels={labels}
+            colTemplate={colTemplate}
+            isHome
+          />
+          <ScoreRow
+            team={awayTeam}
+            scores={scores.away}
+            labels={labels}
+            colTemplate={colTemplate}
+            isAway
+          />
+        </div>
+      </div>
     </div>
   );
 };
@@ -56,43 +71,44 @@ interface ScoreRowProps {
   team: GameTeamType;
   scores: number[];
   labels: string[];
+  colTemplate: string;
   isHome?: boolean;
   isAway?: boolean;
 }
 
-const ScoreRow = ({ team, scores, labels, isHome = false, isAway = false }: ScoreRowProps) => (
-  <tr key={team.gameTeamId}>
-    <td
-      className={cn(
-        'bg-white py-2 pr-1 pl-3',
-        isHome && 'rounded-tl-2xl',
-        isAway && 'rounded-bl-2xl',
-      )}
-    >
-      <div className="flex max-w-24 items-center gap-1">
-        <span
-          className="h-1 w-1 shrink-0 rounded-full"
-          style={{ backgroundColor: isHome ? '#002843' : '#9C1714' }}
-        />
-        <span className="truncate font-medium">{team.gameTeamName}</span>
-      </div>
-    </td>
+const ScoreRow = ({
+  team,
+  scores,
+  labels,
+  colTemplate,
+  isHome = false,
+  isAway = false,
+}: ScoreRowProps) => (
+  <div
+    className={cn(
+      'grid bg-white py-2 pr-2 pl-3',
+      isHome && 'rounded-tl-xl rounded-tr-xl',
+      isAway && 'rounded-br-xl rounded-bl-xl',
+    )}
+    style={{ gridTemplateColumns: colTemplate }}
+  >
+    <div className="flex w-15 items-center gap-1">
+      <span
+        className="h-1 w-1 shrink-0 rounded-full"
+        style={{ backgroundColor: isHome ? '#002843' : '#9C1714' }}
+      />
+      <span className="truncate font-medium">{team.gameTeamName}</span>
+    </div>
     {labels.map((label, index) => (
-      <td
+      <div
         key={`${team.gameTeamId}-${label}`}
-        className={cn('bg-white py-1 text-center', index > 0 && 'border-l border-neutral-200')}
+        className={cn('text-center', index > 0 && 'border-l-[0.25px] border-[#6E6E6E]')}
       >
         {scores[index] ?? '-'}
-      </td>
+      </div>
     ))}
-    <td
-      className={cn(
-        'border-l border-neutral-200 bg-white py-1 text-center font-semibold text-(--color-primary-600)',
-        isHome && 'rounded-tr-2xl',
-        isAway && 'rounded-br-2xl',
-      )}
-    >
+    <div className="border-l-[0.25px] border-[#6E6E6E] text-center font-semibold text-(--color-primary-600)">
       {team.score}
-    </td>
-  </tr>
+    </div>
+  </div>
 );
