@@ -3,8 +3,10 @@
 import type { ComponentProps } from 'react';
 
 import { Collapsible } from '@base-ui/react';
+import { Suspense } from '@suspensive/react';
 
 import { useSuspenseGame } from '~/api';
+import { Skeleton } from '~/components/skeleton';
 import { cn } from '~/utils/cn';
 
 import { QuarterScore } from './quarter-score';
@@ -39,8 +41,10 @@ export const Banner = ({ gameId }: Props) => {
         />
 
         <Collapsible.Root className="flex flex-col items-center">
-          <Collapsible.Panel className="pt-3">
-            <QuarterScore gameId={gameId} />
+          <Collapsible.Panel className="w-full pt-3">
+            <Suspense fallback={<Skeleton className="h-20 rounded-lg" />}>
+              <QuarterScore gameId={gameId} />
+            </Suspense>
           </Collapsible.Panel>
           <Collapsible.Trigger
             render={(props, state) => <QuarterScoreTrigger open={state.open} {...props} />}

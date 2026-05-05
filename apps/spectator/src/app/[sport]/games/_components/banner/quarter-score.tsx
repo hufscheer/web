@@ -1,10 +1,14 @@
 'use client';
 
-import { type GameTeamType, useSuspenseGame } from '~/api';
+import type { ReactNode } from 'react';
+
+import { useMemo, type PropsWithChildren } from 'react';
+
+import { useSuspenseGame } from '~/api';
 import { useSuspenseGameQuarterScores } from '~/api/queries/useGameQuarterScores';
 import { cn } from '~/utils/cn';
 
-const BASE_LABELS = ['1Q', '2Q', '3Q', '4Q', 'OT'];
+const QUARTER_LABELS = ['1Q', '2Q', '3Q', '4Q', 'OT'];
 
 interface QuarterScoreProps {
   gameId: number;
@@ -16,99 +20,110 @@ export const QuarterScore = ({ gameId }: QuarterScoreProps) => {
 
   const [homeTeam, awayTeam] = gameInfo.gameTeams;
 
-  const labels = quarterScores.length === 5 ? [...BASE_LABELS, 'OT'] : BASE_LABELS;
-  const scores = quarterScores.reduce(
-    (acc, { scores }, index) => {
-      const [home, away] = scores;
-      acc.home[index] = home?.score ?? 0;
-      acc.away[index] = away?.score ?? 0;
-
-      return acc;
-    },
-    { home: Array(labels.length).fill(null), away: Array(labels.length).fill(null) },
-  );
-
-  const colTemplate = `60px repeat(${labels.length + 1}, 40px)`;
+  const homeScores = useMemo(() => getQuarterScores(quarterScores, 0), [quarterScores]);
+  const awayScores = useMemo(() => getQuarterScores(quarterScores, 1), [quarterScores]);
 
   return (
-    <div className="flex justify-center text-xs font-medium">
-      <div className="flex w-80 flex-col gap-0.5">
-        <div
-          className="grid h-5 pr-2 pl-3 text-greyscale-200"
-          style={{ gridTemplateColumns: colTemplate }}
-        >
-          <span className="font-medium text-greyscale-700">팀명</span>
-          {labels.map((label) => (
-            <span key={label} className="text-center font-medium">
-              {label}
-            </span>
-          ))}
-          <span className="text-center font-semibold text-(--color-primary-600)">총점</span>
-        </div>
+    <div className="flex flex-col justify-center gap-0.5 text-xs font-medium">
+      <ScoreRow affix={'팀명'} scores={QUARTER_LABELS} suffix="총점" />
 
-        <div className="flex flex-col gap-[5px] rounded-xl bg-white">
-          <ScoreRow
-            team={homeTeam}
-            scores={scores.home}
-            labels={labels}
-            colTemplate={colTemplate}
-            isHome
-          />
-          <ScoreRow
-            team={awayTeam}
-            scores={scores.away}
-            labels={labels}
-            colTemplate={colTemplate}
-            isAway
-          />
-        </div>
+      <div className="flex w-full flex-col gap-[5px] rounded-xl bg-white py-2">
+        <ScoreRow
+          affix={homeTeam.gameTeamName}
+          marker={<Marker teamColor={homeTeam.teamColor} />}
+          scores={homeScores}
+          suffix={getTotalScore(homeScores)}
+        />
+        <ScoreRow
+          affix={awayTeam.gameTeamName}
+          marker={<Marker teamColor={awayTeam.teamColor} />}
+          scores={awayScores}
+          suffix={getTotalScore(awayScores)}
+        />
       </div>
     </div>
   );
 };
 
+/* ----- row ----- */
+
 interface ScoreRowProps {
-  team: GameTeamType;
-  scores: number[];
-  labels: string[];
-  colTemplate: string;
-  isHome?: boolean;
-  isAway?: boolean;
+  affix?: ReactNode;
+  suffix?: ReactNode;
+  marker?: ReactNode;
+  scores?: (string | null)[];
 }
 
-const ScoreRow = ({
-  team,
-  scores,
-  labels,
-  colTemplate,
-  isHome = false,
-  isAway = false,
-}: ScoreRowProps) => (
-  <div
-    className={cn(
-      'grid bg-white py-2 pr-2 pl-3',
-      isHome && 'rounded-tl-xl rounded-tr-xl',
-      isAway && 'rounded-br-xl rounded-bl-xl',
-    )}
-    style={{ gridTemplateColumns: colTemplate }}
-  >
-    <div className="flex w-15 items-center gap-1">
-      <span
-        className="h-1 w-1 shrink-0 rounded-full"
-        style={{ backgroundColor: isHome ? '#002843' : '#9C1714' }}
-      />
-      <span className="truncate font-medium">{team.gameTeamName}</span>
+const ScoreRow = ({ affix, marker, suffix, scores }: ScoreRowProps) => {
+  return (
+    <div className="grid grid-cols-[1fr_40px_40px_40px_40px_40px_40px] grid-rows-[20px] items-center pr-2 pl-3">
+      {affix && (
+        <Cell className="flex items-center gap-2 justify-self-start">
+          {marker}
+          <span className="truncate">{affix}</span>
+        </Cell>
+      )}
+
+      {scores?.map((score, index) => (
+        <Cell key={`affix-score-${index}qt`} data-pending={score === null || undefined}>
+          {score ?? '-'}
+        </Cell>
+      ))}
+
+      {<Cell className="font-semibold text-(--color-primary-600)">{suffix ?? 0}</Cell>}
     </div>
-    {labels.map((label, index) => (
-      <div
-        key={`${team.gameTeamId}-${label}`}
-        className={cn('text-center', index > 0 && 'border-l-[0.25px] border-[#6E6E6E]')}
-      >
-        {scores[index] ?? '-'}
-      </div>
-    ))}
-    <div className="border-l-[0.25px] border-[#6E6E6E] text-center font-semibold text-(--color-primary-600)">
-      {team.score}
+  );
+};
+
+/* ----- cell ----- */
+
+interface CellProps {
+  className?: string;
+  'data-pending'?: boolean;
+}
+
+const Cell = ({ children, className, ...rest }: PropsWithChildren<CellProps>) => {
+  return (
+    <div
+      className={cn('w-full truncate text-center data-pending:text-greyscale-200', className)}
+      {...rest}
+    >
+      {children}
     </div>
-  </div>
-);
+  );
+};
+
+/* ----- marker ----- */
+
+interface MarkerProps {
+  teamColor: string;
+}
+
+const Marker = ({ teamColor }: MarkerProps) => {
+  return (
+    <div
+      style={{ '--team-color': teamColor } as React.CSSProperties}
+      aria-hidden="true"
+      className={cn('h-1 w-1 shrink-0 rounded-full bg-(--team-color)')}
+    />
+  );
+};
+
+/* ----- utils ----- */
+
+function getQuarterScores(quarterScores: { scores: { score?: number }[] }[], teamIndex: number) {
+  const playedCount = quarterScores.length;
+
+  return QUARTER_LABELS.map((_, index) => {
+    const isPending = index >= playedCount;
+    const score = quarterScores[index]?.scores[teamIndex]?.score;
+
+    return isPending ? null : String(score ?? 0);
+  });
+}
+
+function getTotalScore(scores: (string | null)[]) {
+  return scores.reduce((total, score) => {
+    return total + (score ? Number.parseInt(score) : 0);
+  }, 0);
+}

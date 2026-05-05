@@ -54,7 +54,7 @@ export const CheerVS = ({ gameId }: Props) => {
   }, [homeTeamCheer.cheerCount, awayTeamCheer.cheerCount]);
 
   return (
-    <div className="center-y gap-0.5 p-2.5">
+    <div className="center-y gap-0.5 px-3.5 py-2.5">
       <div style={{ flexGrow: homeCheerRatio }}>
         <CheerTeamBox
           gameId={gameId}

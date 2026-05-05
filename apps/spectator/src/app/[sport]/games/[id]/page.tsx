@@ -61,7 +61,7 @@ const Page = async ({ searchParams, params }: Props) => {
       <hr className="h-2 w-full border-none bg-neutral-50" />
 
       <Tabs.Root className="flex min-h-0 flex-1 flex-col" defaultValue={tab}>
-        <Tabs.List className="sticky top-0 z-10 flex h-12 flex-shrink-0 gap-5 border-b border-neutral-100 bg-white">
+        <Tabs.List className="sticky top-0 z-10 flex h-12 flex-shrink-0 gap-5 border-b border-neutral-100 bg-white px-5">
           <TabTrigger className="size-full" value="cheer">
             응원
           </TabTrigger>
