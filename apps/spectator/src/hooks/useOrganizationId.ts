@@ -1,9 +1,7 @@
 'use client';
 
-import type { Options } from 'nuqs';
-
 import { parseAsInteger, useQueryState } from 'nuqs';
-import { useCallback } from 'react';
+import { useEffect } from 'react';
 
 const STORAGE_KEY = 'organizationId';
 const DEFAULT_ID = 2;
@@ -23,27 +21,27 @@ const writeStorage = (id: number) => {
 };
 
 export const useOrganizationId = () => {
-  const stored = readStorage();
-
-  const [urlId, _setUrlId] = useQueryState(
+  const [organizationId, setOrganizationId] = useQueryState(
     'organizationId',
-    parseAsInteger.withDefault(stored ?? DEFAULT_ID).withOptions({ clearOnDefault: false }),
+    parseAsInteger.withDefault(DEFAULT_ID).withOptions({ clearOnDefault: false }),
   );
 
-  // localStorage에 아직 값이 없으면 현재 URL 값을 저장
-  if (stored === null && urlId !== null) {
-    writeStorage(urlId);
-  }
+  // 마운트 후 localStorage 복구 (URL에 param이 없을 때만)
+  useEffect(() => {
+    const stored = readStorage();
+    if (stored !== null && stored !== organizationId) {
+      // oxlint-disable-next-line typescript/no-floating-promises
+      setOrganizationId(stored, { scroll: false, history: 'replace' });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const setOrganizationId = useCallback(
-    (value: number | ((prev: number) => number | null) | null, options?: Options) => {
-      if (typeof value === 'number') {
-        writeStorage(value);
-      }
-      return _setUrlId(value, options);
-    },
-    [_setUrlId],
-  );
+  // organizationId가 변경될 때마다 localStorage 동기화
+  useEffect(() => {
+    if (organizationId !== null) {
+      writeStorage(organizationId);
+    }
+  }, [organizationId]);
 
-  return { organizationId: urlId, setOrganizationId };
+  return { organizationId, setOrganizationId };
 };
