@@ -6,11 +6,11 @@ import { cn } from '~/utils/cn';
 
 const BASE_LABELS = ['1Q', '2Q', '3Q', '4Q', 'OT'];
 
-interface ScoreBoardProps {
+interface QuarterScoreProps {
   gameId: number;
 }
 
-export const ScoreBoard = ({ gameId }: ScoreBoardProps) => {
+export const QuarterScore = ({ gameId }: QuarterScoreProps) => {
   const { data: quarterScores } = useSuspenseGameQuarterScores({ gameId });
   const { data: gameInfo } = useSuspenseGame({ gameId });
 

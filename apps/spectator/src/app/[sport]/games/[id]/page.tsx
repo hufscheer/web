@@ -9,7 +9,6 @@ import type { GameType } from '~/api';
 import { fetchGame } from '~/api';
 import { CheerVS } from '~/app/[sport]/games/_components/cheer-vs';
 import { LineupTab } from '~/app/[sport]/games/_components/lineup-tab';
-import { ScoreBoardToggle } from '~/app/[sport]/games/_components/score-board-toggle';
 import { TimelineTab } from '~/app/[sport]/games/_components/timeline-tab';
 import { VideoTab } from '~/app/[sport]/games/_components/video-tab';
 import { Header } from '~/components/layout';
@@ -54,8 +53,6 @@ const Page = async ({ searchParams, params }: Props) => {
       <Suspense clientOnly>
         <Banner gameId={id} />
       </Suspense>
-
-      {sportType === 'BASKETBALL' && <ScoreBoardToggle gameId={id} />}
 
       <Suspense clientOnly>
         <CheerVS gameId={id} />
