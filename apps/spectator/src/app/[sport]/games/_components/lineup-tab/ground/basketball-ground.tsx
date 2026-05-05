@@ -44,7 +44,7 @@ export const BasketballGround = ({
   ...props
 }: BasketballGroundProps) => {
   return (
-    <div className={twMerge('relative min-h-[560px]', className)} {...props}>
+    <div className={twMerge('relative min-h-[400px]', className)} {...props}>
       <Image
         src="/images/basketball-court.webp"
         alt="농구 코트"
