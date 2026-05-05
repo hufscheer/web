@@ -2,7 +2,9 @@
 
 import type { ReactNode } from 'react';
 
-import { useMemo, type PropsWithChildren } from 'react';
+import { useMemo } from 'react';
+
+import type { GameQuarterScoresType } from '~/api';
 
 import { useSuspenseGame } from '~/api';
 import { useSuspenseGameQuarterScores } from '~/api/queries/useGameQuarterScores';
@@ -51,7 +53,7 @@ interface ScoreRowProps {
   affix?: ReactNode;
   suffix?: ReactNode;
   marker?: ReactNode;
-  scores?: (string | null)[];
+  scores?: string[];
 }
 
 const ScoreRow = ({ affix, marker, suffix, scores }: ScoreRowProps) => {
@@ -65,8 +67,9 @@ const ScoreRow = ({ affix, marker, suffix, scores }: ScoreRowProps) => {
       )}
 
       {scores?.map((score, index) => (
-        <Cell key={`affix-score-${index}qt`} data-pending={score === null || undefined}>
-          {score ?? '-'}
+        // oxlint-disable-next-line react/no-array-index-key --- quarterScores는 항상 순서와 개수가 고정되어 있으므로 index 사용 허용
+        <Cell key={index} {...(!score && { 'data-pending': '' })}>
+          {score || '-'}
         </Cell>
       ))}
 
@@ -79,14 +82,14 @@ const ScoreRow = ({ affix, marker, suffix, scores }: ScoreRowProps) => {
 
 interface CellProps {
   className?: string;
-  'data-pending'?: boolean;
+  children?: ReactNode;
 }
 
-const Cell = ({ children, className, ...rest }: PropsWithChildren<CellProps>) => {
+const Cell = ({ children, className, ...props }: CellProps) => {
   return (
     <div
       className={cn('w-full truncate text-center data-pending:text-greyscale-200', className)}
-      {...rest}
+      {...props}
     >
       {children}
     </div>
@@ -111,18 +114,18 @@ const Marker = ({ teamColor }: MarkerProps) => {
 
 /* ----- utils ----- */
 
-function getQuarterScores(quarterScores: { scores: { score?: number }[] }[], teamIndex: number) {
+function getQuarterScores(quarterScores: GameQuarterScoresType, teamIndex: number) {
   const playedCount = quarterScores.length;
 
   return QUARTER_LABELS.map((_, index) => {
     const isPending = index >= playedCount;
     const score = quarterScores[index]?.scores[teamIndex]?.score;
 
-    return isPending ? null : String(score ?? 0);
+    return isPending ? '' : String(score);
   });
 }
 
-function getTotalScore(scores: (string | null)[]) {
+function getTotalScore(scores: string[]) {
   return scores.reduce((total, score) => {
     return total + (score ? Number.parseInt(score) : 0);
   }, 0);
