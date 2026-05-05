@@ -9,23 +9,23 @@ import { twMerge } from 'tailwind-merge';
 
 import type { GameTeamPlayerType } from '~/api';
 
-// 정오각형 꼭짓점 좌표 (외접원 반지름 r=100px, 각 팀 진영 중심 기준 오프셋)
-// 홈팀 (상단, 홈 골대가 화면 위): 꼭짓점이 위(골대 방향)를 향함 → 상단에 2변이 맞닿음
+// 정오각형 꼭짓점 좌표 (외접원 반지름 r=75px, max-width 400px 기준)
+// 홈팀 (상단, 홈 골대가 화면 위): 꼭짓점이 위(골대 방향)를 향함
 const HOME_PENTAGON = [
-  { x: 0, y: -100 }, // 상단 꼭짓점 → 홈 골대 방향
-  { x: 95, y: -31 }, // 우상
-  { x: 59, y: 81 }, // 우하
-  { x: -59, y: 81 }, // 좌하
-  { x: -95, y: -31 }, // 좌상
+  { x: 0, y: -75 }, // 상단 꼭짓점 → 홈 골대 방향
+  { x: 71, y: -23 }, // 우상
+  { x: 44, y: 61 }, // 우하
+  { x: -44, y: 61 }, // 좌하
+  { x: -71, y: -23 }, // 좌상
 ] as const;
 
-// 원정팀 (하단, 원정 골대가 화면 아래): 꼭짓점이 아래(골대 방향)를 향함 → 하단에 2변이 맞닿음
+// 원정팀 (하단, 원정 골대가 화면 아래): 꼭짓점이 아래(골대 방향)를 향함
 const AWAY_PENTAGON = [
-  { x: 0, y: 100 }, // 하단 꼭짓점 → 원정 골대 방향
-  { x: 95, y: 31 }, // 우하
-  { x: 59, y: -81 }, // 우상
-  { x: -59, y: -81 }, // 좌상
-  { x: -95, y: 31 }, // 좌하
+  { x: 0, y: 75 }, // 하단 꼭짓점 → 원정 골대 방향
+  { x: 71, y: 23 }, // 우하
+  { x: 44, y: -61 }, // 우상
+  { x: -44, y: -61 }, // 좌상
+  { x: -71, y: 23 }, // 좌하
 ] as const;
 
 interface BasketballGroundProps extends ComponentProps<'div'> {
@@ -44,7 +44,7 @@ export const BasketballGround = ({
   ...props
 }: BasketballGroundProps) => {
   return (
-    <div className={twMerge('relative min-h-[400px]', className)} {...props}>
+    <div className={twMerge('relative min-h-[560px]', className)} {...props}>
       <Image
         src="/images/basketball-court.webp"
         alt="농구 코트"
