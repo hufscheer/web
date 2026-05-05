@@ -55,6 +55,19 @@ export const Banner = ({ gameId }: Props) => {
   );
 };
 
+/* ----- skeleton ----- */
+
+export const BannerSkeleton = () => {
+  return (
+    <>
+      <div className="h-9" />
+      <Skeleton className="h-24 bg-(--color-primary-100)" />
+    </>
+  );
+};
+
+/* ----- quarter score trigger ----- */
+
 interface QuarterScoreTriggerProps extends ComponentProps<'button'> {
   open: boolean;
 }

@@ -16,7 +16,7 @@ import { TabTrigger } from '~/components/ui';
 import { routes } from '~/constants/routes';
 import { DEFAULT_SPORT, normalizeSportParam } from '~/utils/sport-route';
 
-import { Banner } from '../_components/banner';
+import { Banner, BannerSkeleton } from '../_components/banner';
 import { CheerTalk } from '../_components/cheer-talk';
 
 const validTabs = ['cheer', 'lineup', 'timeline', 'video'];
@@ -50,7 +50,7 @@ const Page = async ({ searchParams, params }: Props) => {
     <div className="flex h-dvh flex-col bg-white">
       <Header arrow />
 
-      <Suspense clientOnly>
+      <Suspense clientOnly fallback={<BannerSkeleton />}>
         <Banner gameId={id} />
       </Suspense>
 
