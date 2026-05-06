@@ -4,7 +4,7 @@ import { parseAsInteger, useQueryState } from 'nuqs';
 import { useEffect } from 'react';
 
 const STORAGE_KEY = 'organizationId';
-const DEFAULT_ID = 2;
+const DEFAULT_ID = 9;
 
 const readStorage = (): number | null => {
   if (typeof window === 'undefined') return null;

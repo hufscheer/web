@@ -1,6 +1,6 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 
 import { useMemo } from 'react';
 
@@ -27,7 +27,12 @@ export const QuarterScore = ({ gameId }: QuarterScoreProps) => {
 
   return (
     <div className="flex flex-col justify-center gap-0.5 text-xs font-medium">
-      <ScoreRow affix={'팀명'} scores={QUARTER_LABELS} suffix="총점" />
+      <ScoreRow
+        affix={'팀명'}
+        scores={QUARTER_LABELS}
+        renderScores={(props) => <Cell {...props} className="text-greyscale-200" />}
+        suffix="총점"
+      />
 
       <div className="flex w-full flex-col gap-[5px] rounded-xl bg-white py-2">
         <ScoreRow
@@ -54,9 +59,16 @@ interface ScoreRowProps {
   suffix?: ReactNode;
   marker?: ReactNode;
   scores?: string[];
+  renderScores?: ComponentType<CellProps>;
 }
 
-const ScoreRow = ({ affix, marker, suffix, scores }: ScoreRowProps) => {
+const ScoreRow = ({
+  affix,
+  marker,
+  suffix,
+  scores,
+  renderScores: ScoreCell = Cell,
+}: ScoreRowProps) => {
   return (
     <div className="grid grid-cols-[1fr_40px_40px_40px_40px_40px_40px] grid-rows-[20px] items-center pr-2 pl-3">
       {affix && (
@@ -68,12 +80,12 @@ const ScoreRow = ({ affix, marker, suffix, scores }: ScoreRowProps) => {
 
       {scores?.map((score, index) => (
         // oxlint-disable-next-line react/no-array-index-key --- quarterScores는 항상 순서와 개수가 고정되어 있으므로 index 사용 허용
-        <Cell key={index} {...(!score && { 'data-pending': '' })}>
+        <ScoreCell key={index} {...(!score && { 'data-pending': '' })}>
           {score || '-'}
-        </Cell>
+        </ScoreCell>
       ))}
 
-      {<Cell className="font-semibold text-(--color-primary-600)">{suffix ?? 0}</Cell>}
+      <Cell className="font-semibold text-(--color-primary-600)">{suffix ?? 0}</Cell>
     </div>
   );
 };
