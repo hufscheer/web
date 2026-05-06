@@ -3,7 +3,6 @@
 import { colors, Typography, toast } from '@hcc/ui';
 import Image from 'next/image';
 import { useMemo, useRef, useState } from 'react';
-import { twMerge } from 'tailwind-merge';
 
 import {
   type GameCheerType,
@@ -13,6 +12,7 @@ import {
   useUpdateGameCheer,
 } from '~/api';
 import { useDebounce } from '~/hooks/useDebounce';
+import { cn } from '~/utils/cn';
 
 type Props = {
   gameId: number;
@@ -54,7 +54,7 @@ export const CheerVS = ({ gameId }: Props) => {
   }, [homeTeamCheer.cheerCount, awayTeamCheer.cheerCount]);
 
   return (
-    <div className="center-y m-4 gap-0.5">
+    <div className="center-y gap-0.5 px-3.5 py-2.5">
       <div style={{ flexGrow: homeCheerRatio }}>
         <CheerTeamBox
           gameId={gameId}
@@ -68,13 +68,13 @@ export const CheerVS = ({ gameId }: Props) => {
 
       <div className="relative z-above shrink-0">
         <div
-          className={twMerge(
-            '-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2',
+          className={cn(
+            'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
             'px-1 py-0.5',
             'rounded-lg border border-white/10',
             'bg-neutral-600/90 text-white',
             'shadow-[inset_-3px_-3px_7px_#ffffff73,inset_3px_3px_5px_rgba(94,104,121,0.288)]',
-            'align-baseline font-semibold text-xs',
+            'align-baseline text-xs font-semibold',
           )}
         >
           VS
@@ -150,8 +150,8 @@ const CheerTeamBox = ({
 
   return (
     <button
-      className={twMerge(
-        'center-y relative h-14 w-full cursor-pointer gap-2 rounded-xl px-3 transition-all duration-150 active:scale-[0.995]',
+      className={cn(
+        'center-y relative h-14 w-full cursor-pointer gap-3 rounded-xl p-3 transition-all duration-150 active:scale-[0.995]',
         !isFinished && 'active:scale-[0.995]',
         isFinished && 'cursor-default',
 
@@ -164,11 +164,11 @@ const CheerTeamBox = ({
       disabled={isPending}
     >
       <Image
-        className="h-9 w-9 rounded-full object-contain"
+        className="h-8 w-8 rounded-full object-contain"
         src={logoImageUrl ?? '/images/fallback-image.webp'}
         alt={`${gameTeamName} 로고`}
-        width={36}
-        height={36}
+        width={32}
+        height={32}
         draggable={false}
         priority
       />

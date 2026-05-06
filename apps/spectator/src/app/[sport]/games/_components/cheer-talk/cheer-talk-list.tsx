@@ -99,7 +99,7 @@ export const CheerTalkList = ({
           </div>
         )}
 
-        <div className="column gap-2.5">
+        <div className="column gap-2">
           {allMessages.map((talk) => (
             <CheerTalkItem key={`talk-${talk.cheerTalkId}`} {...talk} />
           ))}

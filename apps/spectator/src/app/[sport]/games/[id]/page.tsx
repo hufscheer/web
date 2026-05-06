@@ -16,9 +16,8 @@ import { TabTrigger } from '~/components/ui';
 import { routes } from '~/constants/routes';
 import { DEFAULT_SPORT, normalizeSportParam } from '~/utils/sport-route';
 
-import { Banner } from '../_components/banner';
+import { Banner, BannerSkeleton } from '../_components/banner';
 import { CheerTalk } from '../_components/cheer-talk';
-import { ScoreBoard } from '../_components/score-board';
 
 const validTabs = ['cheer', 'lineup', 'timeline', 'video'];
 
@@ -51,24 +50,18 @@ const Page = async ({ searchParams, params }: Props) => {
     <div className="flex h-dvh flex-col bg-white">
       <Header arrow />
 
-      <Suspense clientOnly>
-        <Banner gameId={id} />
+      <Suspense clientOnly fallback={<BannerSkeleton />}>
+        <Banner gameId={id} sportType={sportType} />
       </Suspense>
 
       <Suspense clientOnly>
         <CheerVS gameId={id} />
       </Suspense>
 
-      {sportType === 'BASKETBALL' && (
-        <Suspense clientOnly>
-          <ScoreBoard gameId={id} />
-        </Suspense>
-      )}
-
       <hr className="h-2 w-full border-none bg-neutral-50" />
 
       <Tabs.Root className="flex min-h-0 flex-1 flex-col" defaultValue={tab}>
-        <Tabs.List className="sticky top-0 z-10 flex h-12 flex-shrink-0 gap-5 border-b border-neutral-100 bg-white">
+        <Tabs.List className="sticky top-0 z-10 flex h-12 flex-shrink-0 gap-5 border-b border-neutral-100 bg-white px-5">
           <TabTrigger className="size-full" value="cheer">
             응원
           </TabTrigger>
