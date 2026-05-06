@@ -20,7 +20,7 @@ export const TabTrigger = ({ value, children, className, queryKey = 'tab' }: Tab
   return (
     <Tabs.Trigger
       className={twMerge(
-        'cursor-pointer border-b px-1.5 py-3 font-semibold text-neutral-950 text-sm transition-colors duration-150',
+        'cursor-pointer border-b-2 px-1.5 py-3 font-semibold text-neutral-950 text-sm transition-colors duration-150',
         'data-[state=active]:border-neutral-950',
         'data-[state=inactive]:border-transparent data-[state=inactive]:text-neutral-400',
         className,

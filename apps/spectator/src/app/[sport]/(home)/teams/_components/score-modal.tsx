@@ -49,7 +49,7 @@ export function ScorersModal({
   };
   return (
     <Modal open={open} onOpenChange={onOpenChange}>
-      <Modal.Content className="relative max-h-[min(640px,calc(100vh-64px))] w-[min(560px,calc(100vw-32px))] overflow-hidden rounded-2xl bg-white px-4 pt-12 pb-4 shadow-xl">
+      <Modal.Content className="relative max-h-[min(640px,calc(100vh-64px))] w-[min(400px,calc(100vw-32px))] overflow-hidden rounded-2xl bg-white px-4 pt-12 pb-4 shadow-xl">
         <Modal.Close asChild>
           <button
             type="button"
