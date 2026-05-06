@@ -24,7 +24,7 @@ export const useUpdateGameCheer = () => {
         let msg = '응원에 실패했어요. 다시 시도해 주세요';
 
         if (status === 400) msg = '잘못된 응원 요청이에요';
-        if (status === 429) msg = '요청이 너무 많습니다. 잠시 후 다시 시도해 주세요';
+        if (status === 429) msg = '메시지를 너무 많이 보내고 있어요. 잠시 후 다시 시도해 주세요.';
 
         return msg;
       }),

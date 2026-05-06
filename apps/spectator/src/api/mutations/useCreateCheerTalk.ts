@@ -19,7 +19,7 @@ export const useCreateCheerTalk = () =>
         let msg = '메시지 전송에 실패했어요 다시 시도해 주세요';
 
         if (status === 400) msg = '부적절한 단어가 포함되어 있어 전송할 수 없어요';
-        if (status === 429) msg = '요청이 너무 많습니다. 잠시 후 다시 시도해 주세요';
+        if (status === 429) msg = '메시지를 너무 많이 보내고 있어요. 잠시 후 다시 시도해 주세요.';
 
         return msg;
       }),
