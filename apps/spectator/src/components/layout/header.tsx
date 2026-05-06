@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 
 import { routes } from '~/constants/routes';
+import { useOrganizationId } from '~/hooks/useOrganizationId';
 import { normalizeSportParam } from '~/utils/sport-route';
 
 type Props = {
@@ -20,6 +21,9 @@ export const Header = ({ arrow, center, menu }: Props) => {
   const params = useParams<{ sport?: string }>();
   const sportType = normalizeSportParam(params?.sport);
   const homeHref = sportType ? routes.home({ sport: sportType }) : routes.root;
+
+  const { organizationId } = useOrganizationId();
+  const homeHrefWithQuery = { pathname: homeHref, query: { organizationId } };
 
   return (
     <header className="sticky top-0 z-header h-12 w-full shrink-0 border-b border-neutral-100 bg-white">
@@ -36,7 +40,7 @@ export const Header = ({ arrow, center, menu }: Props) => {
             </button>
             <Link
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 truncate"
-              href={homeHref}
+              href={homeHrefWithQuery}
             >
               <HCCLogo width="71.5" height="21" className="text-[var(--color-primary-600)]" />
             </Link>
@@ -45,7 +49,7 @@ export const Header = ({ arrow, center, menu }: Props) => {
         ) : (
           <>
             <div className="center-y gap-4">
-              <Link className="flex items-end select-none" href={homeHref}>
+              <Link className="flex items-end select-none" href={homeHrefWithQuery}>
                 <HCCLogo width="71.5" height="21" className="text-[var(--color-primary-600)]" />
               </Link>
               {center}
