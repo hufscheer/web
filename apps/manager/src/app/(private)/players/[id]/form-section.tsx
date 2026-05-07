@@ -1,6 +1,7 @@
 'use client';
 
 import { toast } from '@hcc/ui';
+import { HTTPError } from 'ky';
 import { useRouter } from 'next/navigation';
 
 import { type PlayerFormType, useSuspensePlayer, useUpdatePlayers } from '~/api';
@@ -18,11 +19,17 @@ export const FormSection = ({ id }: Props) => {
   const handleSubmit = async (data: PlayerFormType) => {
     try {
       await mutateAsync({ id, ...data });
-      toast.success('선수가 수정되었어요.');
+      toast.success('선수가 수정되었어요');
       router.back();
     } catch (error) {
-      console.error(error);
-      toast.error('선수 수정에 실패했어요.');
+      if (error instanceof HTTPError) {
+        const body = await error.response
+          .json<{ message?: string }>()
+          .catch((): { message?: string } => ({}));
+        toast.error(body.message ?? '선수 수정에 실패했어요');
+      } else {
+        toast.error('선수 수정에 실패했어요');
+      }
     }
   };
 
