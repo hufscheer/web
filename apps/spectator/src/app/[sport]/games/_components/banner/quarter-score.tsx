@@ -70,7 +70,7 @@ const ScoreRow = ({
   renderScores: ScoreCell = Cell,
 }: ScoreRowProps) => {
   return (
-    <div className="grid grid-cols-[1fr_40px_40px_40px_40px_40px_40px] grid-rows-[20px] items-center pr-2 pl-3">
+    <div className="grid grid-cols-[25%_repeat(6,minmax(20px,40px))] grid-rows-[20px] items-center pr-2 pl-3">
       {affix && (
         <Cell className="flex items-center gap-2 justify-self-start">
           {marker}
