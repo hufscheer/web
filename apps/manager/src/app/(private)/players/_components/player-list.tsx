@@ -3,7 +3,7 @@
 import { ChevronForwardIcon, DeleteForeverIcon } from '@hcc/icons';
 import { Spinner, Typography } from '@hcc/ui';
 import Link from 'next/link';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useSuspenseInfinitePlayers } from '~/api';
 import { routes } from '~/constants/routes';
@@ -17,7 +17,6 @@ type Props = {
 
 export const PlayerList = ({ edit }: Props) => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useSuspenseInfinitePlayers();
-  const players = data.pages.flat();
   const [query, setQuery] = useState<string>('');
   const sentinelRef = useRef<HTMLDivElement>(null);
   const fetchNextPageRef = useRef(fetchNextPage);
@@ -37,12 +36,14 @@ export const PlayerList = ({ edit }: Props) => {
     return () => observer.disconnect();
   }, [hasNextPage, isFetchingNextPage]);
 
-  const filteredPlayers = query
-    ? players.filter((player) => {
-        const matcher = createKoreanFuzzyMatcher(query);
-        return matcher.test(player.name) || player.studentNumber.includes(query);
-      })
-    : players;
+  const filteredPlayers = useMemo(() => {
+    const players = data.pages.flat();
+    if (!query) return players;
+    const matcher = createKoreanFuzzyMatcher(query);
+    return players.filter(
+      (player) => matcher.test(player.name) || player.studentNumber.includes(query),
+    );
+  }, [data.pages, query]);
 
   return (
     <Fragment>
