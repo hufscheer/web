@@ -7,6 +7,7 @@ import { Fragment, useState } from 'react';
 
 import { useSuspensePlayers } from '~/api';
 import { routes } from '~/constants/routes';
+import { createKoreanFuzzyMatcher } from '~/utils/ko-fuzzy';
 
 import { PlayerDeleteDialog } from './player-delete-dialog';
 
@@ -32,7 +33,11 @@ export const PlayerList = ({ edit }: Props) => {
 
       <div className="column h-full gap-3 overflow-y-auto pb-[92px]">
         {data
-          .filter((player) => player.name?.includes(query) || player.studentNumber?.includes(query))
+          .filter((player) => {
+            if (!query) return true;
+            const matcher = createKoreanFuzzyMatcher(query);
+            return matcher.test(player.name) || player.studentNumber.includes(query);
+          })
           .map((player) => (
             <div
               key={player.playerId}
