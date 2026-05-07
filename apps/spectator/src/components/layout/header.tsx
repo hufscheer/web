@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 
 import { routes } from '~/constants/routes';
+import { useOrganizationId } from '~/hooks/useOrganizationId';
 import { normalizeSportParam } from '~/utils/sport-route';
 
 type Props = {
@@ -19,7 +20,9 @@ export const Header = ({ arrow, center, menu }: Props) => {
   const router = useRouter();
   const params = useParams<{ sport?: string }>();
   const sportType = normalizeSportParam(params?.sport);
-  const homeHref = sportType ? routes.home({ sport: sportType }) : routes.root;
+  const { organizationId } = useOrganizationId();
+  const homePathname = sportType ? routes.home({ sport: sportType }) : routes.root;
+  const homeHref = { pathname: homePathname, query: { organizationId } };
 
   return (
     <header className="sticky top-0 z-header h-12 w-full shrink-0 border-b border-neutral-100 bg-white">

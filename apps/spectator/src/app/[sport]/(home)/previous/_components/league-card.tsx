@@ -11,6 +11,7 @@ import type { SportType } from '~/api/types';
 
 import { useSuspenseLeagueStatistics, useSuspenseLeagueTopScorers, type LeagueType } from '~/api';
 import { routes } from '~/constants/routes';
+import { useOrganizationId } from '~/hooks/useOrganizationId';
 
 interface LeagueCardContextType extends LeagueType {
   sportType: SportType;
@@ -58,10 +59,14 @@ interface LeagueCardHeaderProps extends ComponentProps<'a'> {}
 
 export const Header = ({ className, ...props }: LeagueCardHeaderProps) => {
   const { leagueId, name, sportType } = useLeagueCardContext();
+  const { organizationId } = useOrganizationId();
 
   return (
     <Link
-      href={routes.league({ id: leagueId, sport: sportType })}
+      href={{
+        pathname: routes.league({ id: leagueId, sport: sportType }),
+        query: { organizationId },
+      }}
       className={twMerge('row-between gap-3', className)}
       {...props}
     >

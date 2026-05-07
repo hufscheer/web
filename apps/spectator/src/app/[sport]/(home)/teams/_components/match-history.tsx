@@ -1,3 +1,5 @@
+'use client';
+
 import { colors, Typography } from '@hcc/ui';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -6,6 +8,7 @@ import type { GameType } from '~/api';
 import type { SportType } from '~/api/types';
 
 import { routes } from '~/constants/routes';
+import { useOrganizationId } from '~/hooks/useOrganizationId';
 
 interface MatchHistoryProps {
   games: GameType[];
@@ -15,6 +18,8 @@ interface MatchHistoryProps {
 }
 
 export const MatchHistory = ({ games, teamName, sport, limit = 3 }: MatchHistoryProps) => {
+  const { organizationId } = useOrganizationId();
+
   return (
     <div className="column mt-2 gap-1.5">
       {games.slice(0, limit).map((game) => {
@@ -28,7 +33,7 @@ export const MatchHistory = ({ games, teamName, sport, limit = 3 }: MatchHistory
         return (
           <Link
             key={game.gameId}
-            href={routes.game({ id: game.gameId, sport })}
+            href={{ pathname: routes.game({ id: game.gameId, sport }), query: { organizationId } }}
             className="center-y gap-1.5 rounded-sm transition-colors duration-150 hover:bg-neutral-100"
           >
             <div className="center-y gap-0.5 overflow-hidden">
