@@ -19,7 +19,7 @@ export const parseHTTPError = async (error: unknown, fallback: string): Promise<
     const body = await error.response
       .json<{ message?: string }>()
       .catch((): { message?: string } => ({}));
-    return body.message ?? fallback;
+    return body.message || fallback;
   }
   return fallback;
 };
