@@ -15,7 +15,7 @@ export const useSuspenseInfinitePlayers = () =>
     queryKey: ['players', 'infinite'] as const,
     queryFn: ({ pageParam }: { pageParam: number }) =>
       fetcher.get<PlayerType[]>('players', {
-        searchParams: { cursor: pageParam || '', size: PLAYERS_PAGE_SIZE },
+        searchParams: { cursor: pageParam, size: PLAYERS_PAGE_SIZE },
       }),
     initialPageParam: 0,
     getNextPageParam: (lastPage: PlayerType[]) =>
