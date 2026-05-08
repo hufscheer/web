@@ -9,6 +9,7 @@ import type { SportType } from '~/api/types';
 import { type GameStateType, useSuspenseGames } from '~/api';
 import { GameCard } from '~/components/ui';
 import { routes } from '~/constants/routes';
+import { useOrganizationId } from '~/hooks/useOrganizationId';
 
 type Props = {
   leagueId: number;
@@ -32,6 +33,7 @@ const GameListContent = ({
     size: 20,
   });
   const router = useRouter();
+  const { organizationId } = useOrganizationId();
 
   return data.map((league) => {
     const sortedGames = [...league.games].sort(
@@ -39,7 +41,7 @@ const GameListContent = ({
     );
     return sortedGames.map((game, index) => {
       if (game.gameTeams.length < 2) return null;
-      const link = routes.game({ id: game.id, sport: sportType });
+      const pathname = routes.game({ id: game.id, sport: sportType });
 
       return (
         <Fragment key={game.id}>
@@ -48,7 +50,10 @@ const GameListContent = ({
               <GameCard.Header state={state} />
 
               <div className="flex gap-4">
-                <Link href={link} className="column flex-1 gap-2">
+                <Link
+                  href={{ pathname, query: { organizationId } }}
+                  className="column flex-1 gap-2"
+                >
                   <GameCard.Team index={1} />
                   <GameCard.Team index={2} />
                 </Link>
@@ -56,8 +61,12 @@ const GameListContent = ({
                 <div role="separator" className="w-px bg-gray-100" />
 
                 <GameCard.Actions
-                  onBroadcastClick={() => router.push(link)}
-                  onCheerClick={() => router.push(`${link}?cheer=1`)}
+                  onBroadcastClick={() =>
+                    router.push(`${pathname}?organizationId=${organizationId}`)
+                  }
+                  onCheerClick={() =>
+                    router.push(`${pathname}?cheer=1&organizationId=${organizationId}`)
+                  }
                 />
               </div>
             </GameCard.Container>

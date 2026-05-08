@@ -1,3 +1,5 @@
+'use client';
+
 import type { ComponentProps } from 'react';
 
 import { ChevronForwardIcon } from '@hcc/icons';
@@ -9,6 +11,7 @@ import { twMerge } from 'tailwind-merge';
 import type { TeamDetailType } from '~/api';
 
 import { routes } from '~/constants/routes';
+import { useOrganizationId } from '~/hooks/useOrganizationId';
 
 /* -------------------------------------------------------------------------------------------------
  * TeamCard
@@ -34,9 +37,14 @@ interface TeamCardHeaderProps extends ComponentProps<'a'> {
 }
 
 const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
+  const { organizationId } = useOrganizationId();
+
   return (
     <Link
-      href={routes.team({ id: team.teamId, sport: team.sportType })}
+      href={{
+        pathname: routes.team({ id: team.teamId, sport: team.sportType }),
+        query: { organizationId },
+      }}
       className={twMerge('row-between gap-2', className)}
       {...props}
     >
