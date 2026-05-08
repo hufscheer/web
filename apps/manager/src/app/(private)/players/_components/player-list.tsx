@@ -3,10 +3,11 @@
 import { ChevronForwardIcon, DeleteForeverIcon } from '@hcc/icons';
 import { Spinner, Typography } from '@hcc/ui';
 import Link from 'next/link';
-import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useCallback, useMemo, useState } from 'react';
 
 import { useSuspenseInfinitePlayers } from '~/api';
 import { routes } from '~/constants/routes';
+import { useIntersectionObserver } from '~/hooks';
 import { createKoreanFuzzyMatcher } from '~/utils/ko-fuzzy';
 
 import { PlayerDeleteDialog } from './player-delete-dialog';
@@ -18,23 +19,14 @@ type Props = {
 export const PlayerList = ({ edit }: Props) => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useSuspenseInfinitePlayers();
   const [query, setQuery] = useState<string>('');
-  const sentinelRef = useRef<HTMLDivElement>(null);
-  const fetchNextPageRef = useRef(fetchNextPage);
-  fetchNextPageRef.current = fetchNextPage;
 
-  useEffect(() => {
-    if (!sentinelRef.current) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPageRef.current();
-        }
-      },
-      { threshold: 0.1 },
-    );
-    observer.observe(sentinelRef.current);
-    return () => observer.disconnect();
-  }, [hasNextPage, isFetchingNextPage]);
+  const handleIntersect = useCallback(() => {
+    if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const { ref: sentinelRef } = useIntersectionObserver<HTMLDivElement>(handleIntersect, {
+    threshold: 0.1,
+  });
 
   const filteredPlayers = useMemo(() => {
     const players = data.pages.flat();
