@@ -28,7 +28,7 @@ export const QuarterScore = ({ gameId }: QuarterScoreProps) => {
   return (
     <div className="flex flex-col justify-center gap-0.5 text-xs font-medium">
       <ScoreRow
-        affix={'팀명'}
+        affix="팀명"
         scores={QUARTER_LABELS}
         renderScores={(props) => <Cell {...props} className="text-greyscale-200" />}
         suffix="총점"
@@ -55,10 +55,10 @@ export const QuarterScore = ({ gameId }: QuarterScoreProps) => {
 /* ----- row ----- */
 
 interface ScoreRowProps {
-  affix?: ReactNode;
-  suffix?: ReactNode;
+  affix: ReactNode;
+  suffix: ReactNode;
   marker?: ReactNode;
-  scores?: string[];
+  scores: string[];
   renderScores?: ComponentType<CellProps>;
 }
 
@@ -71,12 +71,10 @@ const ScoreRow = ({
 }: ScoreRowProps) => {
   return (
     <div className="grid grid-cols-[1fr_40px_40px_40px_40px_40px_40px] grid-rows-[20px] items-center pr-2 pl-3">
-      {affix && (
-        <Cell className="flex items-center gap-2 justify-self-start">
-          {marker}
-          <span className="truncate">{affix}</span>
-        </Cell>
-      )}
+      <Cell className="flex items-center gap-2 justify-self-start">
+        {marker}
+        <span className="truncate">{affix}</span>
+      </Cell>
 
       {scores?.map((score, index) => (
         // oxlint-disable-next-line react/no-array-index-key --- quarterScores는 항상 순서와 개수가 고정되어 있으므로 index 사용 허용
@@ -85,7 +83,7 @@ const ScoreRow = ({
         </ScoreCell>
       ))}
 
-      <Cell className="font-semibold text-(--color-primary-600)">{suffix ?? 0}</Cell>
+      <Cell className="font-semibold text-(--color-primary-600)">{suffix}</Cell>
     </div>
   );
 };
