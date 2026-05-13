@@ -10,7 +10,7 @@ import { DEFAULT_SPORT } from '~/utils/sport-route';
 import { OrganizationCard } from './organization-card';
 
 const STORAGE_KEY = 'organizationId';
-const URL_KEY = 'organizationId'; // Task 6에서 'org'로 일괄 변경
+const URL_KEY = 'org';
 
 export const WelcomeView = () => {
   const router = useRouter();

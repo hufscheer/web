@@ -53,7 +53,7 @@ const GameListContent = ({
 
               <div className="flex gap-4">
                 <Link
-                  href={{ pathname, query: { organizationId } }}
+                  href={{ pathname, query: { org: organizationId } }}
                   className="column flex-1 gap-2"
                 >
                   <GameCard.Team index={1} />
@@ -63,12 +63,8 @@ const GameListContent = ({
                 <div role="separator" className="w-px bg-gray-100" />
 
                 <GameCard.Actions
-                  onBroadcastClick={() =>
-                    router.push(`${pathname}?organizationId=${organizationId}`)
-                  }
-                  onCheerClick={() =>
-                    router.push(`${pathname}?cheer=1&organizationId=${organizationId}`)
-                  }
+                  onBroadcastClick={() => router.push(`${pathname}?org=${organizationId}`)}
+                  onCheerClick={() => router.push(`${pathname}?cheer=1&org=${organizationId}`)}
                 />
               </div>
             </GameCard.Container>

@@ -4,12 +4,12 @@ import { routes } from '~/constants/routes';
 import { DEFAULT_SPORT, normalizeSportParam } from '~/utils/sport-route';
 
 type Props = {
-  searchParams: Promise<{ sport?: string; organizationId?: string }>;
+  searchParams: Promise<{ sport?: string; org?: string }>;
 };
 
 const Page = async ({ searchParams }: Props) => {
-  const { sport, organizationId } = await searchParams;
-  const parsed = organizationId ? Number(organizationId) : Number.NaN;
+  const { sport, org } = await searchParams;
+  const parsed = org ? Number(org) : Number.NaN;
   const isValid = Number.isInteger(parsed) && parsed > 0;
 
   if (!isValid) {
@@ -17,7 +17,7 @@ const Page = async ({ searchParams }: Props) => {
   }
 
   const sportType = normalizeSportParam(sport) ?? DEFAULT_SPORT;
-  redirect(`${routes.home({ sport: sportType })}?organizationId=${parsed}`);
+  redirect(`${routes.home({ sport: sportType })}?org=${parsed}`);
 };
 
 export default Page;

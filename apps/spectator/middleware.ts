@@ -10,7 +10,7 @@ export function middleware(request: NextRequest) {
   );
   if (!isProtected) return NextResponse.next();
 
-  const raw = searchParams.get('organizationId');
+  const raw = searchParams.get('org');
   const parsed = raw === null ? Number.NaN : Number(raw);
   const isValid = Number.isInteger(parsed) && parsed > 0;
   if (isValid) return NextResponse.next();

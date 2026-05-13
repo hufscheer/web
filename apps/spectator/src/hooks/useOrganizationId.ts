@@ -12,7 +12,7 @@ export type UseOrganizationIdResult =
   | { isReady: false; organizationId: null; setOrganizationId: SetOrganizationIdFn };
 
 export const useOrganizationId = (): UseOrganizationIdResult => {
-  const [organizationId, setOrganizationId] = useQueryState('organizationId', parseAsInteger);
+  const [organizationId, setOrganizationId] = useQueryState('org', parseAsInteger);
 
   useEffect(() => {
     if (organizationId !== null) {

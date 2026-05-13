@@ -25,7 +25,7 @@ export const Header = ({ arrow, center, menu }: Props) => {
   const homePathname = sportType ? routes.home({ sport: sportType }) : routes.root;
   const homeHref = {
     pathname: homePathname,
-    query: organizationId !== null ? { organizationId } : {},
+    query: organizationId !== null ? { org: organizationId } : {},
   };
 
   const { organizationId } = useOrganizationId();

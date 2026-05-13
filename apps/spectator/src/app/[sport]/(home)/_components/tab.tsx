@@ -114,7 +114,7 @@ const GameList = ({
     <>
       <GameCard.Divider />
       <Link
-        href={{ pathname: routes.league({ id: leagueId, sport }), query: { organizationId } }}
+        href={{ pathname: routes.league({ id: leagueId, sport }), query: { org: organizationId } }}
         className="row-between"
       >
         <div className="center-y gap-3">
@@ -144,7 +144,7 @@ const GameList = ({
 
                 <div className="flex gap-4">
                   <Link
-                    href={{ pathname, query: { organizationId } }}
+                    href={{ pathname, query: { org: organizationId } }}
                     className="column flex-1 gap-2"
                   >
                     <GameCard.Team index={1} />
@@ -154,12 +154,8 @@ const GameList = ({
                   <div role="separator" className="w-px bg-gray-100" />
 
                   <GameCard.Actions
-                    onBroadcastClick={() =>
-                      router.push(`${pathname}?organizationId=${organizationId}`)
-                    }
-                    onCheerClick={() =>
-                      router.push(`${pathname}?cheer=1&organizationId=${organizationId}`)
-                    }
+                    onBroadcastClick={() => router.push(`${pathname}?org=${organizationId}`)}
+                    onCheerClick={() => router.push(`${pathname}?cheer=1&org=${organizationId}`)}
                   />
                 </div>
               </GameCard.Container>

@@ -200,7 +200,7 @@ const GameCardMatch = ({ gameId, time, round, status, team1, team2 }: GameCardMa
                 size="sm"
                 color="black"
                 variant="subtle"
-                onClick={() => router.push(`/games/${gameId}?organizationId=${organizationId}`)}
+                onClick={() => router.push(`/games/${gameId}?org=${organizationId}`)}
                 className="h-8 rounded-lg border-neutral-200 px-4 text-xs font-semibold text-neutral-600 hover:bg-neutral-50"
               >
                 중계
@@ -209,9 +209,7 @@ const GameCardMatch = ({ gameId, time, round, status, team1, team2 }: GameCardMa
                 size="sm"
                 color="black"
                 variant="subtle"
-                onClick={() =>
-                  router.push(`/games/${gameId}?cheer=1&organizationId=${organizationId}`)
-                }
+                onClick={() => router.push(`/games/${gameId}?cheer=1&org=${organizationId}`)}
                 className="h-8 rounded-lg border-neutral-200 px-4 text-xs font-semibold text-neutral-600 hover:bg-neutral-50"
               >
                 응원
@@ -223,7 +221,7 @@ const GameCardMatch = ({ gameId, time, round, status, team1, team2 }: GameCardMa
               size="sm"
               color="black"
               variant="subtle"
-              onClick={() => router.push(`/games/${gameId}?organizationId=${organizationId}`)}
+              onClick={() => router.push(`/games/${gameId}?org=${organizationId}`)}
               className="h-8 rounded-lg border-neutral-200 px-4 text-xs font-semibold text-neutral-600 hover:bg-neutral-50"
             >
               기록
