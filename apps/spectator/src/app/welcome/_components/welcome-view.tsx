@@ -22,7 +22,8 @@ export const WelcomeView = () => {
 
   useEffect(() => {
     // URL 우선
-    const fromUrl = Number(searchParams.get(URL_KEY) ?? '');
+    const rawUrl = searchParams.get(URL_KEY);
+    const fromUrl = rawUrl === null ? Number.NaN : Number(rawUrl);
     if (Number.isInteger(fromUrl) && knownIds.has(fromUrl)) {
       setSelectedId(fromUrl);
       return;
@@ -34,7 +35,7 @@ export const WelcomeView = () => {
     if (Number.isInteger(fromStorage) && knownIds.has(fromStorage)) {
       setSelectedId(fromStorage);
     }
-    // searchParams는 mount 시 한 번만 평가하면 충분
+    // 선택 상태 초기화는 마운트 시 한 번만 수행. searchParams가 바뀌어도 이미 선택한 값을 덮어쓰지 않는다.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [knownIds]);
 
@@ -68,7 +69,7 @@ export const WelcomeView = () => {
           type="button"
           disabled={selectedId === null}
           onClick={handleStart}
-          className="h-12 w-full rounded-xl bg-[var(--color-primary-600)] text-base font-semibold text-white disabled:bg-neutral-200 disabled:text-neutral-400"
+          className="h-12 w-full rounded-xl bg-[var(--color-primary-600)] text-base font-semibold text-white disabled:cursor-not-allowed disabled:bg-neutral-200 disabled:text-neutral-400"
         >
           시작하기
         </button>

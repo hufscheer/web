@@ -1,6 +1,6 @@
 'use client';
 
-import { clsx as cn } from 'clsx';
+import { cn } from '~/utils/cn';
 
 type Props = {
   id: number;
@@ -17,7 +17,7 @@ export const OrganizationCard = ({ id, displayName, selected, onSelect }: Props)
     className={cn(
       'flex w-full items-center gap-3 rounded-2xl border bg-white p-4 transition-colors',
       selected
-        ? 'bg-primary-50 border-[var(--color-primary-600)]'
+        ? 'border-[var(--color-primary-600)] bg-[var(--color-primary-50)]'
         : 'border-neutral-200 hover:border-neutral-300',
     )}
   >
