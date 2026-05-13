@@ -21,6 +21,7 @@ import type {
   LeagueTeamType,
   LeagueType,
   PlayerDetailPayload,
+  PlayerListResponse,
   PlayerType,
   ProgressAvailableActionsResponse,
   TeamType,
@@ -68,7 +69,7 @@ const leagueQueryKeys = createQueryKeys('leagues', {
 const playerQueryKeys = createQueryKeys('players', {
   list: {
     queryKey: null,
-    queryFn: () => fetcher.get<PlayerType[]>('players'),
+    queryFn: () => fetcher.get<PlayerListResponse>('players'),
   },
   detail: (payload: PlayerDetailPayload) => ({
     queryKey: [payload],

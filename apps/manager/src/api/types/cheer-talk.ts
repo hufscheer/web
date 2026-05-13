@@ -1,9 +1,3 @@
-export type CheerTalkListResponse = {
-  content: CheerTalkType[];
-  nextCursor: number | null;
-  hasNext: boolean;
-};
-
 export type CheerTalkType = {
   cheerTalkId: number;
   gameId: number;
@@ -14,6 +8,12 @@ export type CheerTalkType = {
   isBlocked: boolean;
   gameName: string;
   leagueName: string;
+};
+
+export type CheerTalkListResponse = {
+  content: CheerTalkType[];
+  nextCursor: number | null;
+  hasNext: boolean;
 };
 
 export type CheerTalkPayload = {

@@ -41,7 +41,7 @@ export const TeamPlayersStep = ({ onPrevious, isEditMode }: Props) => {
       return;
     }
 
-    const selectedPlayer = data?.find((player) => player.playerId === id);
+    const selectedPlayer = data?.content.find((player) => player.playerId === id);
 
     append({
       playerId: id,

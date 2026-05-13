@@ -17,7 +17,7 @@ export const useSuspenseInfiniteCheerTalkBlock = (payload: CheerTalkPayload) =>
       fetcher.get<CheerTalkListResponse>('cheer-talks/blocked', {
         searchParams: { cursor: pageParam > 0 ? pageParam : '', size: payload.size },
       }),
-    initialPageParam: payload.cursor,
+    initialPageParam: 0,
     getNextPageParam: (lastPage: CheerTalkListResponse) =>
       lastPage.hasNext ? lastPage.nextCursor : null,
   });

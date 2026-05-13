@@ -1,29 +1,25 @@
 import { useQuery, useSuspenseInfiniteQuery, useSuspenseQuery } from '@hcc/api-base';
 
-import type { CheerTalkListResponse, CheerTalkPayload, CheerTalkType } from '~/api';
+import type { CheerTalkListResponse, CheerTalkPayload } from '~/api';
 
 import { fetcher } from '../queryKey';
 
 export const useCheerTalks = (payload: CheerTalkPayload) =>
   useQuery({
     queryKey: ['cheertalks', payload] as const,
-    queryFn: () => {
-      const cursor = payload.cursor || '';
-      return fetcher.get<CheerTalkType[]>('cheer-talks', {
-        searchParams: { cursor, size: payload.size },
-      });
-    },
+    queryFn: () =>
+      fetcher.get<CheerTalkListResponse>('cheer-talks', {
+        searchParams: { cursor: payload.cursor || '', size: payload.size },
+      }),
   });
 
 export const useSuspenseCheerTalks = (payload: CheerTalkPayload) =>
   useSuspenseQuery({
     queryKey: ['cheertalks', payload] as const,
-    queryFn: () => {
-      const cursor = payload.cursor || '';
-      return fetcher.get<CheerTalkType[]>('cheer-talks', {
-        searchParams: { cursor, size: payload.size },
-      });
-    },
+    queryFn: () =>
+      fetcher.get<CheerTalkListResponse>('cheer-talks', {
+        searchParams: { cursor: payload.cursor || '', size: payload.size },
+      }),
   });
 
 export const useSuspenseInfiniteCheerTalks = (payload: CheerTalkPayload) =>
