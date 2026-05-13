@@ -1,3 +1,9 @@
+export type CheerTalkListResponse = {
+  content: CheerTalkType[];
+  nextCursor: number | null;
+  hasNext: boolean;
+};
+
 export type CheerTalkType = {
   cheerTalkId: number;
   gameId: number;

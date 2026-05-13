@@ -1,6 +1,6 @@
 import { useQuery, useSuspenseInfiniteQuery, useSuspenseQuery } from '@hcc/api-base';
 
-import type { CheerTalkPayload, CheerTalkType } from '~/api';
+import type { CheerTalkListResponse, CheerTalkPayload } from '~/api';
 
 import { fetcher, queryKeys } from '../queryKey';
 
@@ -13,15 +13,11 @@ export const useSuspenseCheerTalkBlock = (payload: CheerTalkPayload) =>
 export const useSuspenseInfiniteCheerTalkBlock = (payload: CheerTalkPayload) =>
   useSuspenseInfiniteQuery({
     queryKey: queryKeys.cheertalks.blockedInfinite(payload.size).queryKey,
-    queryFn: async ({ pageParam }: { pageParam: number }) => {
-      const cursor = pageParam || '';
-      return fetcher.get<CheerTalkType[]>('cheer-talks/blocked', {
-        searchParams: { cursor, size: payload.size },
-      });
-    },
+    queryFn: async ({ pageParam }: { pageParam: number }) =>
+      fetcher.get<CheerTalkListResponse>('cheer-talks/blocked', {
+        searchParams: { cursor: pageParam > 0 ? pageParam : '', size: payload.size },
+      }),
     initialPageParam: payload.cursor,
-    getNextPageParam: (lastPage: CheerTalkType[]) =>
-      lastPage.length === payload.size
-        ? (lastPage[lastPage.length - 1]?.cheerTalkId ?? null)
-        : null,
+    getNextPageParam: (lastPage: CheerTalkListResponse) =>
+      lastPage.hasNext ? lastPage.nextCursor : null,
   });

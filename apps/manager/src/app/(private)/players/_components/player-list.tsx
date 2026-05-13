@@ -29,7 +29,7 @@ export const PlayerList = ({ edit }: Props) => {
   });
 
   const filteredPlayers = useMemo(() => {
-    const players = data.pages.flat();
+    const players = data.pages.flatMap((page) => page.content);
     if (!query) return players;
     const matcher = createKoreanFuzzyMatcher(query);
     return players.filter(

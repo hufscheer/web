@@ -10,7 +10,9 @@ const AllContent = () => {
     cursor: 0,
     size: 10,
   });
-  const cheerTalks = [...new Map(data.pages.flat().map((t) => [t.cheerTalkId, t])).values()];
+  const cheerTalks = [
+    ...new Map(data.pages.flatMap((p) => p.content).map((t) => [t.cheerTalkId, t])).values(),
+  ];
   return (
     <CheerTalkList
       cheerTalks={cheerTalks}
@@ -25,7 +27,9 @@ const AllContent = () => {
 const ReportedContent = () => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useSuspenseInfiniteCheerTalkReport({ cursor: 0, size: 10 });
-  const cheerTalks = [...new Map(data.pages.flat().map((t) => [t.cheerTalkId, t])).values()];
+  const cheerTalks = [
+    ...new Map(data.pages.flatMap((p) => p.content).map((t) => [t.cheerTalkId, t])).values(),
+  ];
   return (
     <CheerTalkList
       cheerTalks={cheerTalks}
