@@ -15,6 +15,7 @@ import type {
   GameLineupType,
   GameListPayload,
   GameListResponse,
+  GamesListPageResponse,
   GameQuarterScoresType,
   GameSearchPayload,
   GameType,
@@ -52,7 +53,7 @@ export const fetcher = getFetcher(apiBaseUrl);
 const gameQueryKeys = createQueryKeys('games', {
   list: (payload: GameListPayload) => ({
     queryKey: [payload],
-    queryFn: () => fetcher.get<GameListResponse[]>('games', { searchParams: payload }),
+    queryFn: () => fetcher.get<GamesListPageResponse>('games', { searchParams: payload }),
   }),
   detail: (payload: GameDetailPayload) => ({
     queryKey: [payload],

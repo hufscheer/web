@@ -23,8 +23,8 @@ export const GameList = ({ id, state }: Props) => {
         </Typography>
       </div>
 
-      {data.length > 0 && data[0]?.games?.length > 0 ? (
-        data[0].games.map((game) => (
+      {data.content.length > 0 && data.content[0]?.games?.length > 0 ? (
+        data.content[0].games.map((game) => (
           <GameCard key={game.id}>
             <GameCard.Header {...game} leagueId={id} sportType={league.sportType} />
             <GameCard.TeamGroup>

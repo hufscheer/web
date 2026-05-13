@@ -11,7 +11,7 @@ import type {
   GameLineupPlayingType,
   GameLineupType,
   GameListPayload,
-  GameListResponse,
+  GamesListPageResponse,
   GameType,
   LeagueDetailPayload,
   LeagueDetailType,
@@ -107,7 +107,7 @@ const teamQueryKeys = createQueryKeys('teams', {
 const gameQueryKeys = createQueryKeys('games', {
   list: (payload: GameListPayload) => ({
     queryKey: [payload],
-    queryFn: () => fetcher.get<GameListResponse[]>('games', { searchParams: payload }),
+    queryFn: () => fetcher.get<GamesListPageResponse>('games', { searchParams: payload }),
   }),
   timeline: (payload: TimelinePayload) => ({
     queryKey: [payload],
