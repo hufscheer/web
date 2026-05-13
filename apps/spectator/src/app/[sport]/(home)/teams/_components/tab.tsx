@@ -27,15 +27,17 @@ export const TeamTab = () => {
   const { selected } = useTeamUnits();
   const params = useParams<{ sport: string }>();
   const sport: SportType = normalizeSportParam(params.sport) ?? DEFAULT_SPORT;
-  const { organizationId } = useOrganizationId();
+  const result = useOrganizationId();
+  const [modal, setModal] = useState<ModalPayload>(null);
   const { data } = useSuspenseTeamsSummary({
     units: selected as TeamUnitType[],
     sportType: sport,
-    organizationId,
+    ...(result.isReady && { organizationId: result.organizationId }),
   });
+
+  if (!result.isReady) return null;
   const filteredData = data.filter((team) => team.teamDetail.sportType === sport);
 
-  const [modal, setModal] = useState<ModalPayload>(null);
   const open = modal !== null;
   return (
     <>

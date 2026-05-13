@@ -32,7 +32,9 @@ interface GameCardHeaderProps extends ComponentProps<'a'> {
 }
 
 const GameCardHeader = ({ league, className, ...props }: GameCardHeaderProps) => {
-  const { organizationId } = useOrganizationId();
+  const result = useOrganizationId();
+  if (!result.isReady) return null;
+  const { organizationId } = result;
 
   return (
     <Link
@@ -65,7 +67,9 @@ interface GameCardMatchProps {
 
 const GameCardMatch = ({ gameId, time, round, status, team1, team2 }: GameCardMatchProps) => {
   const router = useRouter();
-  const { organizationId } = useOrganizationId();
+  const result = useOrganizationId();
+  if (!result.isReady) return null;
+  const { organizationId } = result;
 
   const statusStyles = {
     PLAYING: {

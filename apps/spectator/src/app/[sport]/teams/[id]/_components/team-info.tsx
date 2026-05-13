@@ -13,10 +13,13 @@ import { TeamTrophy } from './trophy';
 
 export const TeamInfo = ({ id }: { id: number }) => {
   const router = useRouter();
-  const { organizationId } = useOrganizationId();
+  const result = useOrganizationId();
 
   const { data: team } = useSuspenseTeam({ id });
   const { data: games } = useSuspenseTeamGames({ id });
+
+  if (!result.isReady) return null;
+  const { organizationId } = result;
 
   if (!team) return null;
 

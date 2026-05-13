@@ -8,7 +8,9 @@ import { useOrganizationId } from '~/hooks/useOrganizationId';
 
 const SchoolSelectContent = () => {
   const { data: organizations } = useSuspenseOrganizations();
-  const { organizationId, setOrganizationId } = useOrganizationId();
+  const result = useOrganizationId();
+  if (!result.isReady) return null;
+  const { organizationId, setOrganizationId } = result;
 
   const options = organizations.map((org) => ({ value: org.id, label: org.name }));
 

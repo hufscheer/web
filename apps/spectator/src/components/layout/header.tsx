@@ -20,9 +20,13 @@ export const Header = ({ arrow, center, menu }: Props) => {
   const router = useRouter();
   const params = useParams<{ sport?: string }>();
   const sportType = normalizeSportParam(params?.sport);
-  const { organizationId } = useOrganizationId();
+  const result = useOrganizationId();
+  const organizationId = result.isReady ? result.organizationId : null;
   const homePathname = sportType ? routes.home({ sport: sportType }) : routes.root;
-  const homeHref = { pathname: homePathname, query: { organizationId } };
+  const homeHref = {
+    pathname: homePathname,
+    query: organizationId !== null ? { organizationId } : {},
+  };
 
   const { organizationId } = useOrganizationId();
   const homeHrefWithQuery = { pathname: homeHref, query: { organizationId } };
