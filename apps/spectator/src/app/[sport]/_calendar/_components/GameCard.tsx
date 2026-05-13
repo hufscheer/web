@@ -38,7 +38,7 @@ const GameCardHeader = ({ league, className, ...props }: GameCardHeaderProps) =>
 
   return (
     <Link
-      href={{ pathname: `/leagues/${league.leagueId}`, query: { organizationId } }}
+      href={{ pathname: `/leagues/${league.leagueId}`, query: { org: organizationId } }}
       className={twMerge('row-between gap-3', className)}
       {...props}
     >

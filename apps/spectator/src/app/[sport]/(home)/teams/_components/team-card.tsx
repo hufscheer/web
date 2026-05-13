@@ -45,7 +45,7 @@ const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
     <Link
       href={{
         pathname: routes.team({ id: team.teamId, sport: team.sportType }),
-        query: { organizationId },
+        query: { org: organizationId },
       }}
       className={twMerge('row-between gap-2', className)}
       {...props}

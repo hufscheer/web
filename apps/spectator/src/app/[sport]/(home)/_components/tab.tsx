@@ -173,7 +173,7 @@ const GameList = ({
                 <Link
                   href={{
                     pathname,
-                    query: { tab: 'cheer', organizationId },
+                    query: { tab: 'cheer', org: organizationId },
                   }}
                 >
                   {buttonLabel}
