@@ -5,8 +5,8 @@ import type {
   OrganizationType,
   TimelinePayload,
   TimelineResponseType,
+  CheerTalkListResponse,
   CheerTalkPayload,
-  CheerTalkType,
   GameCheerPayload,
   GameCheerType,
   GameDetailPayload,
@@ -89,7 +89,7 @@ const gameQueryKeys = createQueryKeys('games', {
     queryKey: [payload],
     queryFn: async ({ pageParam }: { pageParam: number }) => {
       const cursor = pageParam > 0 ? pageParam : '';
-      return fetcher.get<CheerTalkType[]>(`games/${payload.gameId}/cheer-talks`, {
+      return fetcher.get<CheerTalkListResponse>(`games/${payload.gameId}/cheer-talks`, {
         searchParams: { cursor, size: 20 },
       });
     },
