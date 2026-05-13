@@ -4,13 +4,12 @@ import { useSuspenseInfiniteGamesCheerTalks } from '~/api/queries/useGameCheerTa
 import { useSuspenseInfiniteGamesCheerTalkReport } from '~/api/queries/useGamesCheerTalkReport';
 import { CheerTalkList } from '~/app/(private)/_components/cheertalk/cheertalk-list';
 import { CheerTalkTabs as CheerTalkTabsBase } from '~/app/(private)/_components/cheertalk/cheertalk-tabs';
+import { flattenCheerTalkPages } from '~/utils/cheer-talk';
 
 const AllContent = ({ gameId, leagueId }: { gameId: number; leagueId: number }) => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useSuspenseInfiniteGamesCheerTalks({ gameId, cursor: 0, size: 10 });
-  const cheerTalks = [
-    ...new Map(data.pages.flatMap((p) => p.content).map((t) => [t.cheerTalkId, t])).values(),
-  ].map((t) => ({ ...t, leagueId, gameId }));
+  const cheerTalks = flattenCheerTalkPages(data.pages).map((t) => ({ ...t, leagueId, gameId }));
   return (
     <CheerTalkList
       cheerTalks={cheerTalks}
@@ -25,9 +24,7 @@ const AllContent = ({ gameId, leagueId }: { gameId: number; leagueId: number }) 
 const ReportedContent = ({ gameId, leagueId }: { gameId: number; leagueId: number }) => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useSuspenseInfiniteGamesCheerTalkReport({ gameId, cursor: 0, size: 10 });
-  const cheerTalks = [
-    ...new Map(data.pages.flatMap((p) => p.content).map((t) => [t.cheerTalkId, t])).values(),
-  ].map((t) => ({ ...t, leagueId, gameId }));
+  const cheerTalks = flattenCheerTalkPages(data.pages).map((t) => ({ ...t, leagueId, gameId }));
   return (
     <CheerTalkList
       cheerTalks={cheerTalks}
