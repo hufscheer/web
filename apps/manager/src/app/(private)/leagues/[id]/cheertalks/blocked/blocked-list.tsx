@@ -2,14 +2,13 @@
 
 import { useSuspenseInfiniteLeagueCheerTalkBlock } from '~/api/queries/useLeagueCheerTalkBlock';
 import { CheerTalkList } from '~/app/(private)/_components/cheertalk/cheertalk-list';
-import { flattenCheerTalkPages } from '~/utils/cheer-talk';
 
 type Props = { leagueId: number };
 
 export const BlockedList = ({ leagueId }: Props) => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useSuspenseInfiniteLeagueCheerTalkBlock({ leagueId, cursor: 0, size: 20 });
-  const cheerTalks = flattenCheerTalkPages(data.pages).map((t) => ({ ...t, leagueId }));
+  const cheerTalks = data.map((t) => ({ ...t, leagueId }));
 
   return (
     <CheerTalkList

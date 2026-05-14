@@ -20,4 +20,5 @@ export const useSuspenseInfinitePlayers = () =>
     initialPageParam: 0,
     getNextPageParam: (lastPage: PlayerListResponse) =>
       lastPage.hasNext ? lastPage.nextCursor : null,
+    select: (data) => data.pages.flatMap((page) => page.content),
   });

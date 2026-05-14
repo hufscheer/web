@@ -20,4 +20,7 @@ export const useSuspenseInfiniteCheerTalkBlock = (payload: CheerTalkPayload) =>
     initialPageParam: 0,
     getNextPageParam: (lastPage: CheerTalkListResponse) =>
       lastPage.hasNext ? lastPage.nextCursor : null,
+    select: (data) => [
+      ...new Map(data.pages.flatMap((p) => p.content).map((t) => [t.cheerTalkId, t])).values(),
+    ],
   });
