@@ -48,7 +48,7 @@ const Page = async ({ searchParams, params }: Props) => {
 
   return (
     <div className="flex h-dvh flex-col bg-white">
-      <Header arrow />
+      <Header.Root left={<Header.Arrow />} center={<Header.LinkLogo />} />
 
       <Suspense clientOnly fallback={<BannerSkeleton />}>
         <Banner gameId={id} sportType={sportType} />

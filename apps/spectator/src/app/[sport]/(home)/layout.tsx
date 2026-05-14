@@ -12,7 +12,7 @@ type Props = PropsWithChildren;
 const RootLayout = ({ children }: Props) => {
   return (
     <div className="relative flex min-h-dvh flex-col">
-      <Header center={<OrgSwitcher />} />
+      <Header.Root left={<Header.LinkLogo />} right={<OrgSwitcher />} />
       <div className="flex flex-1 flex-col pb-navbar-height">{children}</div>
       <NavigationBar />
     </div>
