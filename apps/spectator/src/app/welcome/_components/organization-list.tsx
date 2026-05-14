@@ -1,9 +1,9 @@
-import { RadioGroup } from '@base-ui/react';
 import { ErrorIcon } from '@hcc/icons';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
 
 import { useSuspenseOrganizations } from '~/api';
+import { RadioCard } from '~/components/radio-card';
 import { Skeleton } from '~/components/skeleton';
 import { readOrgCookie } from '~/utils/org-session';
 
@@ -42,16 +42,16 @@ export const OrganizationList = ({ selectedId, handleSelectedId }: OrganizationL
   }, [knownIds]);
 
   return (
-    <RadioGroup
+    <RadioCard.Group
       aria-label="응원할 학교 선택"
       value={selectedId}
       onValueChange={handleSelectedId}
-      className="flex flex-col gap-2.5 py-5"
+      className="py-5"
     >
       {organizations.map((org) => (
         <OrganizationCard key={org.id} {...org} />
       ))}
-    </RadioGroup>
+    </RadioCard.Group>
   );
 };
 
