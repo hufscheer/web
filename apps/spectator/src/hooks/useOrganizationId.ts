@@ -3,7 +3,7 @@
 import { parseAsInteger, useQueryState } from 'nuqs';
 import { useEffect } from 'react';
 
-const STORAGE_KEY = 'organizationId';
+import { writeOrgCookie } from '~/utils/org-session';
 
 type SetOrganizationIdFn = ReturnType<typeof useQueryState<number>>[1];
 
@@ -15,13 +15,11 @@ export const useOrganizationId = (): UseOrganizationIdResult => {
   const [organizationId, setOrganizationId] = useQueryState('org', parseAsInteger);
 
   useEffect(() => {
-    if (organizationId !== null) {
-      localStorage.setItem(STORAGE_KEY, String(organizationId));
-    }
+    if (organizationId === null) return;
+
+    writeOrgCookie(organizationId);
   }, [organizationId]);
 
-  if (organizationId === null) {
-    return { isReady: false, organizationId: null, setOrganizationId };
-  }
+  if (organizationId === null) return { isReady: false, organizationId: null, setOrganizationId };
   return { isReady: true, organizationId, setOrganizationId };
 };

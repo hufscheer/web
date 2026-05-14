@@ -27,6 +27,7 @@ export const TeamFilter = ({ sport }: { sport: SportType }) => {
     if (nextSelected.length !== selected.length) {
       filterUnits(nextSelected);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sport]);
 
   useEffect(() => {

@@ -22,6 +22,7 @@ export const TypingIndicator = () => {
         <div className="my-1 flex items-center gap-1">
           {[0, 0.15, 0.3].map((delay, i) => (
             <motion.span
+              // eslint-disable-next-line react/no-array-index-key
               key={i}
               className="h-2 w-2 rounded-full bg-[#4354F0]"
               animate={{ y: [0, -10, 0] }}
