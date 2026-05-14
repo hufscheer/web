@@ -2,10 +2,10 @@ const COOKIE_NAME = 'org';
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365; // 1년
 
 /**
- * proxy(서버)에서 `NextRequest.cookies.get(...)`로 직접 읽을 때 사용하는 이름.
- * 클라이언트는 아래 헬퍼/액션을 거치므로 직접 사용할 필요가 없다.
+ * proxy(서버)에서 `NextRequest.cookies.get/set`에 사용. 클라이언트는 헬퍼/액션을 통해 접근.
  */
 export const ORG_COOKIE_NAME = COOKIE_NAME;
+export const ORG_COOKIE_MAX_AGE = COOKIE_MAX_AGE;
 
 // --- 원자 연산 ---
 
