@@ -10,6 +10,7 @@ import {
   useDeleteGameTeamsLineup,
   useUpdateGamesCandidate,
   useUpdateGamesCaptainRegister,
+  useUpdateGamesCaptainRevoke,
   useUpdateGamesStarter,
   useSuspenseGame,
   useSuspenseGameLineup,
@@ -114,6 +115,7 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
   const { mutateAsync: patchStarter } = useUpdateGamesStarter();
   const { mutateAsync: patchCandidate } = useUpdateGamesCandidate();
   const { mutateAsync: patchCaptainRegister } = useUpdateGamesCaptainRegister();
+  const { mutateAsync: patchCaptainRevoke } = useUpdateGamesCaptainRevoke();
 
   const getPlayerState = (teamNumber: 1 | 2, teamPlayerId: number) => {
     const selection = teamNumber === 1 ? team1Selection : team2Selection;
@@ -196,6 +198,8 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
         if (orig.lineupPlayerId !== undefined) {
           if (next.isCaptain) {
             await patchCaptainRegister({ gameId, lineupPlayerId: orig.lineupPlayerId });
+          } else {
+            await patchCaptainRevoke({ gameId, lineupPlayerId: orig.lineupPlayerId });
           }
         }
       } else if (orig.state !== next.state && orig.isCaptain !== next.isCaptain) {

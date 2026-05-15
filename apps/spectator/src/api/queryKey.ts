@@ -5,8 +5,8 @@ import type {
   OrganizationType,
   TimelinePayload,
   TimelineResponseType,
+  CheerTalkListResponse,
   CheerTalkPayload,
-  CheerTalkType,
   GameCheerPayload,
   GameCheerType,
   GameDetailPayload,
@@ -15,6 +15,7 @@ import type {
   GameLineupType,
   GameListPayload,
   GameListResponse,
+  GamesListPageResponse,
   GameQuarterScoresType,
   GameSearchPayload,
   GameType,
@@ -52,7 +53,7 @@ export const fetcher = getFetcher(apiBaseUrl);
 const gameQueryKeys = createQueryKeys('games', {
   list: (payload: GameListPayload) => ({
     queryKey: [payload],
-    queryFn: () => fetcher.get<GameListResponse[]>('games', { searchParams: payload }),
+    queryFn: () => fetcher.get<GamesListPageResponse>('games', { searchParams: payload }),
   }),
   detail: (payload: GameDetailPayload) => ({
     queryKey: [payload],
@@ -89,7 +90,7 @@ const gameQueryKeys = createQueryKeys('games', {
     queryKey: [payload],
     queryFn: async ({ pageParam }: { pageParam: number }) => {
       const cursor = pageParam > 0 ? pageParam : '';
-      return fetcher.get<CheerTalkType[]>(`games/${payload.gameId}/cheer-talks`, {
+      return fetcher.get<CheerTalkListResponse>(`games/${payload.gameId}/cheer-talks`, {
         searchParams: { cursor, size: 20 },
       });
     },

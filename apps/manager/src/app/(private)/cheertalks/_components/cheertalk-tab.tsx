@@ -6,11 +6,12 @@ import { CheerTalkList } from '~/app/(private)/_components/cheertalk/cheertalk-l
 import { CheerTalkTabs as CheerTalkTabsBase } from '~/app/(private)/_components/cheertalk/cheertalk-tabs';
 
 const AllContent = () => {
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useSuspenseInfiniteCheerTalks({
-    cursor: 0,
-    size: 10,
-  });
-  const cheerTalks = [...new Map(data.pages.flat().map((t) => [t.cheerTalkId, t])).values()];
+  const {
+    data: cheerTalks,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useSuspenseInfiniteCheerTalks({ cursor: 0, size: 10 });
   return (
     <CheerTalkList
       cheerTalks={cheerTalks}
@@ -23,9 +24,12 @@ const AllContent = () => {
 };
 
 const ReportedContent = () => {
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useSuspenseInfiniteCheerTalkReport({ cursor: 0, size: 10 });
-  const cheerTalks = [...new Map(data.pages.flat().map((t) => [t.cheerTalkId, t])).values()];
+  const {
+    data: cheerTalks,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useSuspenseInfiniteCheerTalkReport({ cursor: 0, size: 10 });
   return (
     <CheerTalkList
       cheerTalks={cheerTalks}

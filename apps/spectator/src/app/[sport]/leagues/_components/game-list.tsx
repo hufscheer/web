@@ -37,7 +37,7 @@ const GameListContent = ({
   if (!result.isReady) return null;
   const { organizationId } = result;
 
-  return data.map((league) => {
+  return data.content.map((league) => {
     const sortedGames = [...league.games].sort(
       (a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime(),
     );

@@ -4,9 +4,12 @@ import { useSuspenseInfiniteCheerTalkBlock } from '~/api/queries/useCheerTalkBlo
 import { CheerTalkList } from '~/app/(private)/_components/cheertalk/cheertalk-list';
 
 export const BlockedList = () => {
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useSuspenseInfiniteCheerTalkBlock({ cursor: 0, size: 10 });
-  const cheerTalks = [...new Map(data.pages.flat().map((t) => [t.cheerTalkId, t])).values()];
+  const {
+    data: cheerTalks,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useSuspenseInfiniteCheerTalkBlock({ cursor: 0, size: 10 });
 
   return (
     <CheerTalkList

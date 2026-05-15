@@ -6,6 +6,12 @@ export type CheerTalkType = {
   isBlocked: boolean;
 };
 
+export type CheerTalkListResponse = {
+  content: CheerTalkType[];
+  nextCursor: number | null;
+  hasNext: boolean;
+};
+
 export type CheerTalkPayload = {
   gameId: number;
 };
