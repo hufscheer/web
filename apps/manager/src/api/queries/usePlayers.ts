@@ -1,6 +1,6 @@
 import { useSuspenseInfiniteQuery, useQuery, useSuspenseQuery } from '@hcc/api-base';
 
-import type { PlayerType } from '~/api';
+import type { PlayerListResponse } from '~/api';
 
 import { fetcher, queryKeys } from '../queryKey';
 
@@ -14,12 +14,11 @@ export const useSuspenseInfinitePlayers = () =>
   useSuspenseInfiniteQuery({
     queryKey: ['players', 'infinite'] as const,
     queryFn: ({ pageParam }: { pageParam: number }) =>
-      fetcher.get<PlayerType[]>('players', {
-        searchParams: { cursor: pageParam, size: PLAYERS_PAGE_SIZE },
+      fetcher.get<PlayerListResponse>('players', {
+        searchParams: { cursor: pageParam > 0 ? pageParam : '', size: PLAYERS_PAGE_SIZE },
       }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage: PlayerType[]) =>
-      lastPage.length === PLAYERS_PAGE_SIZE
-        ? (lastPage[lastPage.length - 1]?.playerId ?? null)
-        : null,
+    getNextPageParam: (lastPage: PlayerListResponse) =>
+      lastPage.hasNext ? lastPage.nextCursor : null,
+    select: (data) => data.pages.flatMap((page) => page.content),
   });

@@ -8,9 +8,7 @@ import { CheerTalkTabs as CheerTalkTabsBase } from '~/app/(private)/_components/
 const AllContent = ({ leagueId }: { leagueId: number }) => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useSuspenseInfiniteLeagueCheerTalks({ leagueId, cursor: 0, size: 10 });
-  const cheerTalks = [...new Map(data.pages.flat().map((t) => [t.cheerTalkId, t])).values()].map(
-    (t) => ({ ...t, leagueId }),
-  );
+  const cheerTalks = data.map((t) => ({ ...t, leagueId }));
   return (
     <CheerTalkList
       cheerTalks={cheerTalks}
@@ -25,9 +23,7 @@ const AllContent = ({ leagueId }: { leagueId: number }) => {
 const ReportedContent = ({ leagueId }: { leagueId: number }) => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useSuspenseInfiniteLeagueCheerTalkReport({ leagueId, cursor: 0, size: 10 });
-  const cheerTalks = [...new Map(data.pages.flat().map((t) => [t.cheerTalkId, t])).values()].map(
-    (t) => ({ ...t, leagueId }),
-  );
+  const cheerTalks = data.map((t) => ({ ...t, leagueId }));
   return (
     <CheerTalkList
       cheerTalks={cheerTalks}
