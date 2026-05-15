@@ -7,6 +7,7 @@ import type { TeamFormType } from '~/api/mutations/useCreateTeams';
 
 import { useSuspenseTeam, useUpdateTeams } from '~/api';
 import { useImageUpload } from '~/hooks';
+import { parseHTTPError } from '~/utils/form-util';
 
 import { TeamForm } from '../../_components/team-form';
 
@@ -37,8 +38,7 @@ export const FormSection = ({ id }: Props) => {
       toast.success('팀이 수정되었어요');
       router.back();
     } catch (error) {
-      console.error(error);
-      toast.error('팀 수정에 실패했어요');
+      toast.error(await parseHTTPError(error, '팀 수정에 실패했어요'));
     }
   };
 
