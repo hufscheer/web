@@ -22,10 +22,7 @@ export const Header = ({ arrow, center, menu }: Props) => {
   const sportType = normalizeSportParam(params?.sport);
   const { organizationId } = useOrganizationId();
   const homePathname = sportType ? routes.home({ sport: sportType }) : routes.root;
-  const homeHref = { pathname: homePathname, query: { organizationId } };
-
-  const { organizationId } = useOrganizationId();
-  const homeHrefWithQuery = { pathname: homeHref, query: { organizationId } };
+  const homeHrefWithQuery = { pathname: homePathname, query: { organizationId } };
 
   return (
     <header className="sticky top-0 z-header h-12 w-full shrink-0 border-b border-neutral-100 bg-white">
