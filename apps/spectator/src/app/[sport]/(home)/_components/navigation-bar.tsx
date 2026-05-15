@@ -21,7 +21,7 @@ const NavItems = () => {
   const searchParams = useSearchParams();
   const params = useParams<{ sport: string }>();
   const sport: SportType = normalizeSportParam(params.sport) ?? DEFAULT_SPORT;
-  const organizationId = searchParams.get('organizationId');
+  const organizationId = searchParams.get('org');
 
   const homeHref = routes.home({ sport });
   const previousHref = routes.previous({ sport });
@@ -40,7 +40,7 @@ const NavItems = () => {
         const isCurrentPath =
           href === homeHref ? pathname === sportPath : pathname.startsWith(href);
         const query = {
-          ...(organizationId && { organizationId }),
+          ...(organizationId && { org: organizationId }),
         };
         const hrefWithQuery = Object.keys(query).length > 0 ? { pathname: href, query } : href;
 

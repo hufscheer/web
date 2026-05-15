@@ -59,13 +59,14 @@ interface LeagueCardHeaderProps extends ComponentProps<'a'> {}
 
 export const Header = ({ className, ...props }: LeagueCardHeaderProps) => {
   const { leagueId, name, sportType } = useLeagueCardContext();
-  const { organizationId } = useOrganizationId();
+  const { isReady, organizationId } = useOrganizationId();
+  if (!isReady) return null;
 
   return (
     <Link
       href={{
         pathname: routes.league({ id: leagueId, sport: sportType }),
-        query: { organizationId },
+        query: { org: organizationId },
       }}
       className={twMerge('row-between gap-3', className)}
       {...props}

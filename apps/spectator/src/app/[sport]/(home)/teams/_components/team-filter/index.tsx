@@ -13,11 +13,13 @@ import { useTeamUnits } from './useTeamUnits';
 export const TeamFilter = ({ sport }: { sport: SportType }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const conveyerRef = useRef<Conveyer | null>(null);
+
   const { selected, toggle, filterUnits } = useTeamUnits();
-  const { organizationId } = useOrganizationId();
+  const { isReady, organizationId } = useOrganizationId();
+
   const { data: unitAvailability } = useSuspenseTeamUnitAvailability({
     sportType: sport,
-    organizationId,
+    ...(isReady && { organizationId }),
   });
 
   // 종목 전환 시 hasTeam: false 된 항목 선택 해제
@@ -27,6 +29,7 @@ export const TeamFilter = ({ sport }: { sport: SportType }) => {
     if (nextSelected.length !== selected.length) {
       filterUnits(nextSelected);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sport]);
 
   useEffect(() => {
@@ -39,6 +42,8 @@ export const TeamFilter = ({ sport }: { sport: SportType }) => {
     });
     return () => conveyerRef.current?.destroy();
   }, []);
+
+  if (!isReady) return null;
 
   const isEmpty = selected.length === 0;
 

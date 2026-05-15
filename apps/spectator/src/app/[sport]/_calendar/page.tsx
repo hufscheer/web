@@ -7,7 +7,7 @@ import { CalendarOverview } from './_components/CalendarOverview';
 const Page = () => {
   return (
     <>
-      <Header arrow />
+      <Header.Root left={<Header.Arrow />} center={<Header.LinkLogo />} />
       <div className="column-between w-full">
         <Suspense clientOnly>
           <CalendarOverview />

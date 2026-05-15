@@ -13,11 +13,12 @@ import { TeamTrophy } from './trophy';
 
 export const TeamInfo = ({ id }: { id: number }) => {
   const router = useRouter();
-  const { organizationId } = useOrganizationId();
+  const { isReady, organizationId } = useOrganizationId();
 
   const { data: team } = useSuspenseTeam({ id });
   const { data: games } = useSuspenseTeamGames({ id });
 
+  if (!isReady) return null;
   if (!team) return null;
 
   return (
@@ -46,7 +47,7 @@ export const TeamInfo = ({ id }: { id: number }) => {
 
                   <div className="flex gap-4">
                     <Link
-                      href={{ pathname, query: { organizationId } }}
+                      href={{ pathname, query: { org: organizationId } }}
                       className="column flex-1 gap-2"
                     >
                       <GameCard.Team index={1} />
@@ -58,18 +59,17 @@ export const TeamInfo = ({ id }: { id: number }) => {
                     <GameCard.Actions
                       onStatsClick={
                         state === 'FINISHED'
-                          ? () => router.push(`${pathname}?organizationId=${organizationId}`)
+                          ? () => router.push(`${pathname}?org=${organizationId}`)
                           : undefined
                       }
                       onBroadcastClick={
                         state !== 'FINISHED'
-                          ? () => router.push(`${pathname}?organizationId=${organizationId}`)
+                          ? () => router.push(`${pathname}?org=${organizationId}`)
                           : undefined
                       }
                       onCheerClick={
                         state !== 'FINISHED'
-                          ? () =>
-                              router.push(`${pathname}?cheer=1&organizationId=${organizationId}`)
+                          ? () => router.push(`${pathname}?cheer=1&org=${organizationId}`)
                           : undefined
                       }
                     />
