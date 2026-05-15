@@ -10,6 +10,12 @@ export type CheerTalkType = {
   leagueName: string;
 };
 
+export type CheerTalkListResponse = {
+  content: CheerTalkType[];
+  nextCursor: number | null;
+  hasNext: boolean;
+};
+
 export type CheerTalkPayload = {
   cursor: number;
   size: number;

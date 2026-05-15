@@ -29,13 +29,12 @@ export const PlayerList = ({ edit }: Props) => {
   });
 
   const filteredPlayers = useMemo(() => {
-    const players = data.pages.flat();
-    if (!query) return players;
+    if (!query) return data;
     const matcher = createKoreanFuzzyMatcher(query);
-    return players.filter(
+    return data.filter(
       (player) => matcher.test(player.name) || player.studentNumber.includes(query),
     );
-  }, [data.pages, query]);
+  }, [data, query]);
 
   return (
     <Fragment>
