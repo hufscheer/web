@@ -36,7 +36,7 @@ export const OrgSwitcher = () => {
 
       <BottomSheet.Content>
         <BottomSheet.Header className="!flex flex-row items-start justify-between !px-5">
-          <BottomSheet.Title>응원하고 싶은 학교를 선택해주세요</BottomSheet.Title>
+          <BottomSheet.Title>응원할 학교를 선택해주세요</BottomSheet.Title>
 
           <BottomSheet.Close>
             <CloseIcon width={24} height={24} />
