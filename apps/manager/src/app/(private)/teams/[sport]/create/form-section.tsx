@@ -8,6 +8,7 @@ import type { SportType } from '~/api/types';
 
 import { useCreateTeams } from '~/api';
 import { useImageUpload } from '~/hooks';
+import { parseHTTPError } from '~/utils/form-util';
 
 import { TeamForm } from '../../_components/team-form';
 
@@ -26,11 +27,10 @@ export function FormSection({ sportType }: { sportType: SportType }) {
       }
 
       await createTeam({ ...data, logoImageUrl: imageUrl });
-      toast.success('팀이 성공적으로 생성되었습니다!');
+      toast.success('팀이 생성되었어요');
       router.back();
     } catch (error) {
-      console.error('팀 생성 실패:', error);
-      toast.error('팀 생성에 실패했습니다. 다시 시도해주세요.');
+      toast.error(await parseHTTPError(error, '팀 생성에 실패했어요'));
     }
   };
 

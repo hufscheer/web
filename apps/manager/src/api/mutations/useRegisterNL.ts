@@ -14,7 +14,10 @@ export const useRegisterNL = () => {
   return useMutation({
     mutationFn: postRegisterNL,
     onSuccess: async () => {
-      await qc.invalidateQueries({ queryKey: queryKeys.teams._def });
+      await Promise.all([
+        qc.invalidateQueries({ queryKey: queryKeys.teams._def }),
+        qc.invalidateQueries({ queryKey: queryKeys.players._def }),
+      ]);
     },
   });
 };
