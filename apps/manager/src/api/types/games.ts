@@ -61,6 +61,12 @@ export type GameListResponse = {
   leagueName: string;
   games: GameListType[];
 };
+export type GamesListPageResponse = {
+  content: GameListResponse[];
+  nextCursor: number | null;
+  hasNext: boolean;
+};
+
 export type GameDetailPayload = { gameId: number };
 
 export type GameLineupPayload = { gameId: number };

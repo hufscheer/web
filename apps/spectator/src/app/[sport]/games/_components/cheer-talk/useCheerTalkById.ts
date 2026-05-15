@@ -1,6 +1,6 @@
 import { useSuspenseInfiniteQuery } from '@hcc/api-base';
 
-import type { CheerTalkType } from '~/api';
+import type { CheerTalkListResponse } from '~/api';
 
 import { queryKeys } from '~/api/queryKey';
 
@@ -12,11 +12,12 @@ export default function useCheerTalkById(gameId: number) {
   return useSuspenseInfiniteQuery({
     ...queryKeys.games.cheertalk({ gameId }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage: CheerTalkType[]) => lastPage[0]?.cheerTalkId || null,
+    getNextPageParam: (lastPage: CheerTalkListResponse) =>
+      lastPage.hasNext ? lastPage.nextCursor : null,
     select: (data) => ({
       pages: data.pages
         .map((page) =>
-          page.map((talk) => ({
+          page.content.map((talk) => ({
             ...talk,
             ...getTeamInfo(talk.gameTeamId),
           })),

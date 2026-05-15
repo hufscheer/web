@@ -40,7 +40,7 @@ export const PlayerAppendDialog = ({ children, onPlayerClick }: Props) => {
         </Typography>
 
         <div className="column gap-1.5 overflow-y-auto px-4 py-2">
-          {data
+          {data.content
             .filter((player) => player.name.includes(query))
             .map((player, index) => (
               <Fragment key={player.playerId}>
@@ -63,7 +63,7 @@ export const PlayerAppendDialog = ({ children, onPlayerClick }: Props) => {
                   </Typography>
                 </button>
 
-                {data.length - 1 !== index && <hr className="border-neutral-100" />}
+                {data.content.length - 1 !== index && <hr className="border-neutral-100" />}
               </Fragment>
             ))}
         </div>
