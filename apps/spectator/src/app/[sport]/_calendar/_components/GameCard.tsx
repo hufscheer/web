@@ -9,6 +9,8 @@ import { twMerge } from 'tailwind-merge';
 
 import type { GameStateType, GameType } from '~/api';
 
+import { useOrganizationId } from '~/hooks/useOrganizationId';
+
 /* -------------------------------------------------------------------------------------------------
  * GameCard
  * -----------------------------------------------------------------------------------------------*/
@@ -30,9 +32,11 @@ interface GameCardHeaderProps extends ComponentProps<'a'> {
 }
 
 const GameCardHeader = ({ league, className, ...props }: GameCardHeaderProps) => {
+  const { organizationId } = useOrganizationId();
+
   return (
     <Link
-      href={`/leagues/${league.leagueId}`}
+      href={{ pathname: `/leagues/${league.leagueId}`, query: { organizationId } }}
       className={twMerge('row-between gap-3', className)}
       {...props}
     >
@@ -61,6 +65,7 @@ interface GameCardMatchProps {
 
 const GameCardMatch = ({ gameId, time, round, status, team1, team2 }: GameCardMatchProps) => {
   const router = useRouter();
+  const { organizationId } = useOrganizationId();
 
   const statusStyles = {
     PLAYING: {
@@ -191,7 +196,7 @@ const GameCardMatch = ({ gameId, time, round, status, team1, team2 }: GameCardMa
                 size="sm"
                 color="black"
                 variant="subtle"
-                onClick={() => router.push(`/games/${gameId}`)}
+                onClick={() => router.push(`/games/${gameId}?organizationId=${organizationId}`)}
                 className="h-8 rounded-lg border-neutral-200 px-4 text-xs font-semibold text-neutral-600 hover:bg-neutral-50"
               >
                 중계
@@ -200,7 +205,9 @@ const GameCardMatch = ({ gameId, time, round, status, team1, team2 }: GameCardMa
                 size="sm"
                 color="black"
                 variant="subtle"
-                onClick={() => router.push(`/games/${gameId}?cheer=1`)}
+                onClick={() =>
+                  router.push(`/games/${gameId}?cheer=1&organizationId=${organizationId}`)
+                }
                 className="h-8 rounded-lg border-neutral-200 px-4 text-xs font-semibold text-neutral-600 hover:bg-neutral-50"
               >
                 응원
@@ -212,7 +219,7 @@ const GameCardMatch = ({ gameId, time, round, status, team1, team2 }: GameCardMa
               size="sm"
               color="black"
               variant="subtle"
-              onClick={() => router.push(`/games/${gameId}`)}
+              onClick={() => router.push(`/games/${gameId}?organizationId=${organizationId}`)}
               className="h-8 rounded-lg border-neutral-200 px-4 text-xs font-semibold text-neutral-600 hover:bg-neutral-50"
             >
               기록

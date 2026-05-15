@@ -6,12 +6,14 @@ import { useRouter } from 'next/navigation';
 import { useSuspenseTeamGames, useSuspenseTeam } from '~/api';
 import { EmptyState, GameCard } from '~/components/ui';
 import { routes } from '~/constants/routes';
+import { useOrganizationId } from '~/hooks/useOrganizationId';
 
 import { TeamCard } from './team-card';
 import { TeamTrophy } from './trophy';
 
 export const TeamInfo = ({ id }: { id: number }) => {
   const router = useRouter();
+  const { organizationId } = useOrganizationId();
 
   const { data: team } = useSuspenseTeam({ id });
   const { data: games } = useSuspenseTeamGames({ id });
@@ -35,7 +37,7 @@ export const TeamInfo = ({ id }: { id: number }) => {
           {games.map((game) => {
             const { gameId, state } = game;
             const gameWithId = { ...game, id, gameState: state };
-            const link = routes.game({ id: gameId, sport: team.sportType });
+            const pathname = routes.game({ id: gameId, sport: team.sportType });
 
             return (
               <GameCard key={gameId} game={gameWithId}>
@@ -43,7 +45,10 @@ export const TeamInfo = ({ id }: { id: number }) => {
                   <GameCard.Header showLeagueName />
 
                   <div className="flex gap-4">
-                    <Link href={link} className="column flex-1 gap-2">
+                    <Link
+                      href={{ pathname, query: { organizationId } }}
+                      className="column flex-1 gap-2"
+                    >
                       <GameCard.Team index={1} />
                       <GameCard.Team index={2} />
                     </Link>
@@ -51,10 +56,21 @@ export const TeamInfo = ({ id }: { id: number }) => {
                     <div role="separator" className="w-px bg-gray-100" />
 
                     <GameCard.Actions
-                      onStatsClick={state === 'FINISHED' ? () => router.push(link) : undefined}
-                      onBroadcastClick={state !== 'FINISHED' ? () => router.push(link) : undefined}
+                      onStatsClick={
+                        state === 'FINISHED'
+                          ? () => router.push(`${pathname}?organizationId=${organizationId}`)
+                          : undefined
+                      }
+                      onBroadcastClick={
+                        state !== 'FINISHED'
+                          ? () => router.push(`${pathname}?organizationId=${organizationId}`)
+                          : undefined
+                      }
                       onCheerClick={
-                        state !== 'FINISHED' ? () => router.push(`${link}?cheer=1`) : undefined
+                        state !== 'FINISHED'
+                          ? () =>
+                              router.push(`${pathname}?cheer=1&organizationId=${organizationId}`)
+                          : undefined
                       }
                     />
                   </div>
