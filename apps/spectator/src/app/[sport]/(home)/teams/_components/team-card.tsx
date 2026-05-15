@@ -37,9 +37,8 @@ interface TeamCardHeaderProps extends ComponentProps<'a'> {
 }
 
 const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
-  const result = useOrganizationId();
-  if (!result.isReady) return null;
-  const { organizationId } = result;
+  const { isReady, organizationId } = useOrganizationId();
+  if (!isReady) return null;
 
   return (
     <Link

@@ -23,13 +23,13 @@ import { EmptyLeague } from './empty-league';
 export const RecentTab = () => {
   const params = useParams<{ sport: string }>();
   const sport: SportType = normalizeSportParam(params.sport) ?? DEFAULT_SPORT;
-  const result = useOrganizationId();
+  const { isReady, organizationId } = useOrganizationId();
   const { data: recentGames } = useSuspenseLeagueRecentGames({
     sportType: sport,
-    ...(result.isReady && { organizationId: result.organizationId }),
+    ...(isReady && { organizationId }),
   });
 
-  if (!result.isReady) return null;
+  if (!isReady) return null;
   const displayedGame = recentGames.find((league) => league.sportType === sport);
 
   if (!displayedGame) return <EmptyLeague sport={sport} />;
@@ -106,9 +106,8 @@ const GameList = ({
 }: GameListProps) => {
   const sendEvent = useTracker({ category: 'Link_Game' });
   const router = useRouter();
-  const result = useOrganizationId();
-  if (!result.isReady) return null;
-  const { organizationId } = result;
+  const { isReady, organizationId } = useOrganizationId();
+  if (!isReady) return null;
 
   return (
     <>

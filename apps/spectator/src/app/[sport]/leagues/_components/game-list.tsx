@@ -33,9 +33,8 @@ const GameListContent = ({
     size: 20,
   });
   const router = useRouter();
-  const result = useOrganizationId();
-  if (!result.isReady) return null;
-  const { organizationId } = result;
+  const { isReady, organizationId } = useOrganizationId();
+  if (!isReady) return null;
 
   return data.content.map((league) => {
     const sortedGames = [...league.games].sort(

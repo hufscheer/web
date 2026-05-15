@@ -18,9 +18,8 @@ interface MatchHistoryProps {
 }
 
 export const MatchHistory = ({ games, teamName, sport, limit = 3 }: MatchHistoryProps) => {
-  const result = useOrganizationId();
-  if (!result.isReady) return null;
-  const { organizationId } = result;
+  const { isReady, organizationId } = useOrganizationId();
+  if (!isReady) return null;
 
   return (
     <div className="column mt-2 gap-1.5">

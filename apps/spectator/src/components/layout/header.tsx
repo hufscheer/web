@@ -48,13 +48,13 @@ export const Arrow = () => {
 export const LinkLogo = () => {
   const params = useParams<{ sport?: string }>();
   const sportType = normalizeSportParam(params?.sport);
-  const result = useOrganizationId();
-  const organizationId = result.isReady ? result.organizationId : null;
+
+  const { isReady, organizationId } = useOrganizationId();
 
   const homePathname = sportType ? routes.home({ sport: sportType }) : routes.root;
   const homeHref = {
     pathname: homePathname,
-    query: organizationId !== null ? { org: organizationId } : {},
+    query: isReady ? { org: organizationId } : {},
   };
 
   return (

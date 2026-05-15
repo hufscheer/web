@@ -9,16 +9,16 @@ import { abandonOrgSession } from '~/utils/org-session';
 
 export const OrgGuard = () => {
   const router = useRouter();
-  const result = useOrganizationId();
+  const { isReady, organizationId } = useOrganizationId();
   const { data: organizations } = useSuspenseOrganizations();
 
   useEffect(() => {
-    if (!result.isReady) return;
-    const exists = organizations.some((org) => org.id === result.organizationId);
+    if (!isReady) return;
+    const exists = organizations.some((org) => org.id === organizationId);
 
     if (exists) return;
     abandonOrgSession(router);
-  }, [result, organizations, router]);
+  }, [isReady, organizationId, organizations, router]);
 
   return null;
 };

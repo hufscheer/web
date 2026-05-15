@@ -59,9 +59,8 @@ interface LeagueCardHeaderProps extends ComponentProps<'a'> {}
 
 export const Header = ({ className, ...props }: LeagueCardHeaderProps) => {
   const { leagueId, name, sportType } = useLeagueCardContext();
-  const result = useOrganizationId();
-  if (!result.isReady) return null;
-  const { organizationId } = result;
+  const { isReady, organizationId } = useOrganizationId();
+  if (!isReady) return null;
 
   return (
     <Link
