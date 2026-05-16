@@ -26,7 +26,7 @@ export default RootLayout;
 
 const LeftSlot = () => {
   return (
-    <>
+    <div className="flex items-center gap-3">
       <Header.LinkLogo />
 
       <ErrorBoundary fallback={null}>
@@ -34,6 +34,6 @@ const LeftSlot = () => {
           <OrgName />
         </Suspense>
       </ErrorBoundary>
-    </>
+    </div>
   );
 };
