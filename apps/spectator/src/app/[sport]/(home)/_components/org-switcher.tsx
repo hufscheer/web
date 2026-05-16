@@ -4,32 +4,46 @@ import { CaretRightIcon, CloseIcon } from '@hcc/icons';
 import { BottomSheet, Button } from '@hcc/ui';
 import { ErrorBoundary, Suspense } from '@suspensive/react';
 import Image from 'next/image';
-import { startTransition, useState } from 'react';
+import { startTransition, useMemo, useState } from 'react';
 
 import { useSuspenseOrganizations } from '~/api/queries/useOrganizations';
 import { RadioCard } from '~/components/radio-card';
 import { Skeleton } from '~/components/skeleton';
 import { useOrganizationId } from '~/hooks/useOrganizationId';
 
-export const OrgSwitcher = () => {
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+export const OrgName = () => {
+  const { data: organizations } = useSuspenseOrganizations();
+  const { organizationId } = useOrganizationId();
 
-  const { isReady, organizationId, setOrganizationId } = useOrganizationId();
+  const currentOrg = useMemo(
+    () => organizations.find((o) => o.id === organizationId),
+    [organizations, organizationId],
+  );
+
+  return <span>{currentOrg?.name}</span>;
+};
+
+export const OrgSwitcher = () => {
+  const [selectedOrg, setSelectedOrg] = useState<number | null>(null);
+
   // middleware로 보호되므로 사실상 항상 isReady=true
+  const { isReady, organizationId, setOrganizationId } = useOrganizationId();
   if (!isReady) return null;
 
   const handleConfirm = () => {
-    if (selectedId === null) return;
+    if (selectedOrg === null) return;
 
     startTransition(async () => {
-      await setOrganizationId(selectedId, { scroll: false, history: 'replace' });
+      await setOrganizationId(selectedOrg, { scroll: false, history: 'replace' });
     });
+  };
 
-    setSelectedId(null);
+  const handleClose = () => {
+    setSelectedOrg(null);
   };
 
   return (
-    <BottomSheet>
+    <BottomSheet onClose={handleClose}>
       <BottomSheet.Trigger className="inline-flex items-center truncate rounded-full border border-[#BEDDFF] px-3 py-1 text-xs leading-[1.5] font-medium tracking-[0%] text-[#BEDDFF] transition-colors hover:bg-(--color-primary-50)">
         학교 변경
       </BottomSheet.Trigger>
@@ -47,15 +61,15 @@ export const OrgSwitcher = () => {
           <Suspense fallback={<OrganizationListSkeleton />}>
             <OrganizationList
               currentId={organizationId}
-              selectedId={selectedId}
-              handleSelectedId={setSelectedId}
+              selectedOrg={selectedOrg}
+              handleSelectedOrg={setSelectedOrg}
             />
           </Suspense>
         </ErrorBoundary>
 
         <BottomSheet.Footer>
           <BottomSheet.Close asChild>
-            <Button type="button" disabled={selectedId === null} onClick={handleConfirm}>
+            <Button type="button" disabled={!selectedOrg} onClick={handleConfirm}>
               선택완료
             </Button>
           </BottomSheet.Close>
@@ -67,20 +81,20 @@ export const OrgSwitcher = () => {
 
 interface OrganizationListProps {
   currentId: number;
-  selectedId: number | null;
-  handleSelectedId: (id: number) => void;
+  selectedOrg: number | null;
+  handleSelectedOrg: (org: number) => void;
 }
 
-export const OrganizationList = ({
-  currentId,
-  selectedId,
-  handleSelectedId,
-}: OrganizationListProps) => {
+const OrganizationList = ({ currentId, selectedOrg, handleSelectedOrg }: OrganizationListProps) => {
   const { data: organizations } = useSuspenseOrganizations();
-  const alternatives = organizations.filter((o) => o.id !== currentId);
+
+  const alternatives = useMemo(
+    () => organizations.filter((o) => o.id !== currentId),
+    [organizations, currentId],
+  );
 
   return (
-    <RadioCard.Group value={selectedId} onValueChange={handleSelectedId} className="px-5">
+    <RadioCard.Group value={selectedOrg} onValueChange={handleSelectedOrg} className="px-5">
       {alternatives.map(({ id, name, logoImageUrl, isLeagueOngoing }) => (
         <RadioCard.Root value={id} key={id}>
           <div className="flex w-full justify-between">
