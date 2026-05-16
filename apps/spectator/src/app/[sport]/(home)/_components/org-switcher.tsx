@@ -20,7 +20,7 @@ export const OrgName = () => {
     [organizations, organizationId],
   );
 
-  return <span>{currentOrg?.name}</span>;
+  return <span>{currentOrg?.name ?? '—'}</span>;
 };
 
 export const OrgSwitcher = () => {
@@ -69,7 +69,7 @@ export const OrgSwitcher = () => {
 
         <BottomSheet.Footer>
           <BottomSheet.Close asChild>
-            <Button type="button" disabled={!selectedOrg} onClick={handleConfirm}>
+            <Button type="button" disabled={selectedOrg === null} onClick={handleConfirm}>
               선택완료
             </Button>
           </BottomSheet.Close>
