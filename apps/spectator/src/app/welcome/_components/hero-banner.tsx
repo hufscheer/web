@@ -14,7 +14,7 @@ export const HeroBanner = () => {
 
       <div className="flex items-center gap-1 text-sm leading-[1.5] tracking-[-1%] text-greyscale-300">
         응원할 학교를 선택해주세요
-        <Popover openOnHover trigger={<ErrorIcon />}>
+        <Popover label="학교 선택 안내" openOnHover trigger={<ErrorIcon />}>
           훕치치 서비스에 등록된 학교만 사용할 수 있어요
         </Popover>
       </div>
