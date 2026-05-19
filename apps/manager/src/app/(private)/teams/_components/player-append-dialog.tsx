@@ -1,35 +1,28 @@
 import { colors, Modal, Spinner, Typography } from '@hcc/ui';
-import { Fragment, type ReactNode, useCallback, useState } from 'react';
+import { Fragment, type ReactNode, Suspense, useCallback, useState } from 'react';
+
+import type { PlayerType } from '~/api';
 
 import { useSuspenseInfinitePlayers } from '~/api';
-import { useIntersectionObserver } from '~/hooks';
+import { useDebounce, useIntersectionObserver } from '~/hooks';
+
+export type SelectedPlayer = Pick<PlayerType, 'playerId' | 'name' | 'studentNumber'>;
 
 type Props = {
   children: ReactNode;
-  onPlayerClick: (id: number) => void;
+  onPlayerClick: (player: SelectedPlayer) => void;
 };
 
 export const PlayerAppendDialog = ({ children, onPlayerClick }: Props) => {
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useSuspenseInfinitePlayers();
-
   const [open, setOpen] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
+  const debouncedQuery = useDebounce(query, 300);
 
-  const handleIntersect = useCallback(() => {
-    if (hasNextPage && !isFetchingNextPage) fetchNextPage();
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
-
-  const { ref: sentinelRef } = useIntersectionObserver<HTMLDivElement>(handleIntersect, {
-    threshold: 0.1,
-  });
-
-  const handlePlayerClick = (id: number) => {
+  const handlePlayerClick = (player: SelectedPlayer) => {
     setQuery('');
     setOpen(false);
-    onPlayerClick(id);
+    onPlayerClick(player);
   };
-
-  const filteredPlayers = query ? data.filter((player) => player.name.includes(query)) : data;
 
   return (
     <Modal open={open} onOpenChange={setOpen}>
@@ -50,39 +43,70 @@ export const PlayerAppendDialog = ({ children, onPlayerClick }: Props) => {
           />
         </Typography>
 
-        <div className="column gap-1.5 overflow-y-auto px-4 py-2">
-          {filteredPlayers.map((player, index) => (
-            <Fragment key={player.playerId}>
-              <button
-                type="button"
-                className="column cursor-pointer"
-                onClick={() => handlePlayerClick(player.playerId)}
-              >
-                <Typography className="text-left" weight="medium" asChild>
-                  <span>{player.name}</span>
-                </Typography>
-                <Typography
-                  className="text-left"
-                  fontSize={13}
-                  color={colors.neutral500}
-                  weight="medium"
-                  asChild
-                >
-                  <span>{player.studentNumber}</span>
-                </Typography>
-              </button>
-
-              {filteredPlayers.length - 1 !== index && <hr className="border-neutral-100" />}
-            </Fragment>
-          ))}
-
-          {(hasNextPage || isFetchingNextPage) && (
-            <div ref={sentinelRef} className="flex justify-center py-2">
-              {isFetchingNextPage && <Spinner size="sm" color="neutral" />}
+        <Suspense
+          fallback={
+            <div className="flex justify-center py-6">
+              <Spinner size="sm" color="neutral" />
             </div>
-          )}
-        </div>
+          }
+        >
+          <PlayerList name={debouncedQuery || undefined} onPlayerClick={handlePlayerClick} />
+        </Suspense>
       </Modal.Content>
     </Modal>
+  );
+};
+
+interface PlayerListProps {
+  name: string | undefined;
+  onPlayerClick: (player: SelectedPlayer) => void;
+}
+
+const PlayerList = ({ name, onPlayerClick }: PlayerListProps) => {
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useSuspenseInfinitePlayers({
+    name,
+  });
+
+  const handleIntersect = useCallback(() => {
+    if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const { ref: sentinelRef } = useIntersectionObserver<HTMLDivElement>(handleIntersect, {
+    threshold: 0.1,
+  });
+
+  return (
+    <div className="column gap-1.5 overflow-y-auto px-4 py-2">
+      {data.map((player, index) => (
+        <Fragment key={player.playerId}>
+          <button
+            type="button"
+            className="column cursor-pointer"
+            onClick={() => onPlayerClick(player)}
+          >
+            <Typography className="text-left" weight="medium" asChild>
+              <span>{player.name}</span>
+            </Typography>
+            <Typography
+              className="text-left"
+              fontSize={13}
+              color={colors.neutral500}
+              weight="medium"
+              asChild
+            >
+              <span>{player.studentNumber}</span>
+            </Typography>
+          </button>
+
+          {data.length - 1 !== index && <hr className="border-neutral-100" />}
+        </Fragment>
+      ))}
+
+      {(hasNextPage || isFetchingNextPage) && (
+        <div ref={sentinelRef} className="flex justify-center py-2">
+          {isFetchingNextPage && <Spinner size="sm" color="neutral" />}
+        </div>
+      )}
+    </div>
   );
 };

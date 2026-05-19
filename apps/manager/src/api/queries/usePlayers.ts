@@ -10,12 +10,16 @@ export const usePlayers = () => useQuery(queryKeys.players.list);
 
 export const useSuspensePlayers = () => useSuspenseQuery(queryKeys.players.list);
 
-export const useSuspenseInfinitePlayers = () =>
+export const useSuspenseInfinitePlayers = (options?: { name?: string }) =>
   useSuspenseInfiniteQuery({
-    queryKey: ['players', 'infinite'] as const,
+    queryKey: ['players', 'infinite', options?.name ?? ''] as const,
     queryFn: ({ pageParam }: { pageParam: number }) =>
       fetcher.get<PlayerListResponse>('players', {
-        searchParams: { cursor: pageParam > 0 ? pageParam : '', size: PLAYERS_PAGE_SIZE },
+        searchParams: {
+          cursor: pageParam > 0 ? pageParam : '',
+          size: PLAYERS_PAGE_SIZE,
+          ...(options?.name ? { name: options.name } : {}),
+        },
       }),
     initialPageParam: 0,
     getNextPageParam: (lastPage: PlayerListResponse) =>
