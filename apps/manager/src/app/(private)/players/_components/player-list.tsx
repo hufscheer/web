@@ -17,7 +17,7 @@ type Props = {
 
 export const PlayerList = ({ edit }: Props) => {
   const [query, setQuery] = useState<string>('');
-  const debouncedQuery = useDebounce(query, 300);
+  const debouncedQuery = useDebounce(query.trim(), 300);
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useSuspenseInfinitePlayers({
     name: debouncedQuery || undefined,

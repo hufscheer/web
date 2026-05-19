@@ -16,7 +16,7 @@ type Props = {
 export const PlayerAppendDialog = ({ children, onPlayerClick }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
-  const debouncedQuery = useDebounce(query, 300);
+  const debouncedQuery = useDebounce(query.trim(), 300);
 
   const handlePlayerClick = (player: SelectedPlayer) => {
     setQuery('');
