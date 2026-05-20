@@ -6,7 +6,7 @@ export const PopoverArrow = ({ className, ...props }: PopoverArrow.Props) => {
   return (
     <BasePopover.Arrow
       className={cn(
-        'data-[side=top]:rotate-180" absolute top-0 -z-[1] text-greyscale-25 data-[side=bottom]:top-[-8px] data-[side=left]:right-[-13px] data-[side=left]:rotate-90 data-[side=right]:left-[-13px] data-[side=right]:-rotate-90 data-[side=top]:bottom-[-8px]',
+        'absolute top-0 -z-[1] text-greyscale-25 data-[side=bottom]:top-[-8px] data-[side=left]:right-[-13px] data-[side=left]:rotate-90 data-[side=right]:left-[-13px] data-[side=right]:-rotate-90 data-[side=top]:bottom-[-8px] data-[side=top]:rotate-180',
         className,
       )}
       {...props}
