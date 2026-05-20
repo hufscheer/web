@@ -19,7 +19,7 @@ type Props = {
 export const Root = ({ left, center, right }: Props) => (
   <header className="sticky top-0 z-header h-12 w-full shrink-0 border-b border-neutral-100 bg-white">
     <div className="row-between relative h-full w-full px-5">
-      <div className="center-y gap-4">{left}</div>
+      <div className="center-y">{left}</div>
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 truncate">
         {center}
