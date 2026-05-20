@@ -21,6 +21,7 @@ export const PlayerList = ({ edit }: Props) => {
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useSuspenseInfinitePlayers({
     name: debouncedQuery || undefined,
+    studentNumber: debouncedQuery || undefined,
   });
 
   const handleIntersect = useCallback(() => {
