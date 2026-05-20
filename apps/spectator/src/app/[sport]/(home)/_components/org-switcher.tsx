@@ -44,7 +44,7 @@ export const OrgSwitcher = () => {
 
   return (
     <BottomSheet onClose={handleClose}>
-      <BottomSheet.Trigger className="inline-flex items-center truncate rounded-full border border-[#BEDDFF] px-3 py-1 text-xs leading-[1.5] font-medium tracking-[0%] text-[#BEDDFF] transition-colors hover:bg-(--color-primary-50)">
+      <BottomSheet.Trigger className="inline-flex cursor-pointer items-center truncate rounded-full border border-[#007AFF] px-3 py-1 text-xs leading-[1.5] font-medium tracking-[0%] text-[#007AFF] transition-colors hover:bg-(--color-primary-100)">
         학교 변경
       </BottomSheet.Trigger>
 
