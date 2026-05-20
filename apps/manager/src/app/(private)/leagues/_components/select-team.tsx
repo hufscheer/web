@@ -134,9 +134,11 @@ export const SelectTeam = ({
     <div className="flex h-[60vh] flex-col pt-4">
       <div className="flex flex-grow flex-row overflow-hidden">
         {/* 왼쪽 열: 소속 */}
-        <div className="flex-1 border-r">
-          <div className="w-full bg-[#EBECEE] p-3 text-left text-base font-medium">소속</div>
-          <div className="overflow-y-auto">
+        <div className="flex flex-1 flex-col border-r">
+          <div className="w-full shrink-0 bg-[#EBECEE] p-3 text-left text-base font-medium">
+            소속
+          </div>
+          <div className="min-h-0 flex-1 overflow-y-auto">
             {affiliations.map((affiliation) => (
               <SelectItem
                 key={affiliation.id}
@@ -152,8 +154,10 @@ export const SelectTeam = ({
 
         {/* 오른쪽 열: 팀 */}
         <div className="flex flex-1 flex-col">
-          <div className="w-full bg-[#EBECEE] p-3 text-left text-base font-medium">팀 이름</div>
-          <div className="overflow-y-auto">
+          <div className="w-full shrink-0 bg-[#EBECEE] p-3 text-left text-base font-medium">
+            팀 이름
+          </div>
+          <div className="min-h-0 flex-1 overflow-y-auto">
             {selectedAffiliation?.teams.map((team) => (
               <SelectItem
                 key={team.id}
