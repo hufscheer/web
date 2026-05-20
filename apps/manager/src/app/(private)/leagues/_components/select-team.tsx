@@ -5,9 +5,7 @@ import { Button } from '@hcc/ui';
 import clsx from 'clsx';
 import { useDeferredValue, useMemo, useState } from 'react';
 
-import type { SportType } from '~/api';
-
-import { useTeams } from '~/api/queries/useTeams';
+import { useManagerTeams, useTeamUnits, type SportType } from '~/api';
 
 type RegisteredTeam = {
   affiliationName: string;
@@ -50,12 +48,14 @@ export const SelectTeam = ({
   maxSelectCount,
   sportType,
 }: TeamCreationFormProps) => {
-  const { data: teams = [], isLoading } = useTeams();
+  const { data: teamUnits = [], isLoading: isUnitsLoading } = useTeamUnits(sportType);
+  const unitNames = useMemo(() => teamUnits.map((u) => u.unitName), [teamUnits]);
+  const { data: teams = [], isLoading: isTeamsLoading } = useManagerTeams(unitNames, sportType);
+  const isLoading = isUnitsLoading || isTeamsLoading;
   const deferredValue = useDeferredValue(value);
 
   const groupedByUnit = useMemo(() => {
-    const filtered = teams.filter((team) => team.sportType === sportType);
-    const units = filtered.reduce<Record<string, Team[]>>((acc, team) => {
+    const units = teams.reduce<Record<string, Team[]>>((acc, team) => {
       if (!acc[team.unit]) {
         acc[team.unit] = [];
       }
@@ -68,7 +68,7 @@ export const SelectTeam = ({
       name: unit,
       teams: units[unit],
     }));
-  }, [teams, sportType]);
+  }, [teams]);
 
   const affiliations = useMemo(() => {
     const query = deferredValue.trim();
