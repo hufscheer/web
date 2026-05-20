@@ -53,7 +53,7 @@ export const CheerTalkList = ({
     );
     observer.observe(sentinelRef.current);
     return () => observer.disconnect();
-  }, [hasNextPage, isFetchingNextPage, !!onLoadMore]);
+  }, [hasNextPage, isFetchingNextPage, onLoadMore]);
 
   const handleHide = (cheerTalk: CheerTalkType) => {
     block(

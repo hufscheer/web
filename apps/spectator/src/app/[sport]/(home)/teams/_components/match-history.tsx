@@ -18,7 +18,8 @@ interface MatchHistoryProps {
 }
 
 export const MatchHistory = ({ games, teamName, sport, limit = 3 }: MatchHistoryProps) => {
-  const { organizationId } = useOrganizationId();
+  const { isReady, organizationId } = useOrganizationId();
+  if (!isReady) return null;
 
   return (
     <div className="column mt-2 gap-1.5">
@@ -33,7 +34,10 @@ export const MatchHistory = ({ games, teamName, sport, limit = 3 }: MatchHistory
         return (
           <Link
             key={game.gameId}
-            href={{ pathname: routes.game({ id: game.gameId, sport }), query: { organizationId } }}
+            href={{
+              pathname: routes.game({ id: game.gameId, sport }),
+              query: { org: organizationId },
+            }}
             className="center-y gap-1.5 rounded-sm transition-colors duration-150 hover:bg-neutral-100"
           >
             <div className="center-y gap-0.5 overflow-hidden">

@@ -23,11 +23,13 @@ import { EmptyLeague } from './empty-league';
 export const RecentTab = () => {
   const params = useParams<{ sport: string }>();
   const sport: SportType = normalizeSportParam(params.sport) ?? DEFAULT_SPORT;
-  const { organizationId } = useOrganizationId();
+  const { isReady, organizationId } = useOrganizationId();
   const { data: recentGames } = useSuspenseLeagueRecentGames({
     sportType: sport,
-    ...(organizationId !== null && { organizationId }),
+    ...(isReady && { organizationId }),
   });
+
+  if (!isReady) return null;
   const displayedGame = recentGames.find((league) => league.sportType === sport);
 
   if (!displayedGame) return <EmptyLeague sport={sport} />;
@@ -104,13 +106,14 @@ const GameList = ({
 }: GameListProps) => {
   const sendEvent = useTracker({ category: 'Link_Game' });
   const router = useRouter();
-  const { organizationId } = useOrganizationId();
+  const { isReady, organizationId } = useOrganizationId();
+  if (!isReady) return null;
 
   return (
     <>
       <GameCard.Divider />
       <Link
-        href={{ pathname: routes.league({ id: leagueId, sport }), query: { organizationId } }}
+        href={{ pathname: routes.league({ id: leagueId, sport }), query: { org: organizationId } }}
         className="row-between"
       >
         <div className="center-y gap-3">
@@ -140,7 +143,7 @@ const GameList = ({
 
                 <div className="flex gap-4">
                   <Link
-                    href={{ pathname, query: { organizationId } }}
+                    href={{ pathname, query: { org: organizationId } }}
                     className="column flex-1 gap-2"
                   >
                     <GameCard.Team index={1} />
@@ -150,12 +153,8 @@ const GameList = ({
                   <div role="separator" className="w-px bg-gray-100" />
 
                   <GameCard.Actions
-                    onBroadcastClick={() =>
-                      router.push(`${pathname}?organizationId=${organizationId}`)
-                    }
-                    onCheerClick={() =>
-                      router.push(`${pathname}?cheer=1&organizationId=${organizationId}`)
-                    }
+                    onBroadcastClick={() => router.push(`${pathname}?org=${organizationId}`)}
+                    onCheerClick={() => router.push(`${pathname}?cheer=1&org=${organizationId}`)}
                   />
                 </div>
               </GameCard.Container>
@@ -173,7 +172,7 @@ const GameList = ({
                 <Link
                   href={{
                     pathname,
-                    query: { tab: 'cheer', organizationId },
+                    query: { tab: 'cheer', org: organizationId },
                   }}
                 >
                   {buttonLabel}

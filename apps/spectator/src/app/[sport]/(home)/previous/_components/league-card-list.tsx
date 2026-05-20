@@ -21,14 +21,16 @@ interface Props {
 export const LeagueCardList = ({ year }: Props) => {
   const params = useParams<{ sport: string }>();
   const sport: SportType = normalizeSportParam(params.sport) ?? DEFAULT_SPORT;
-  const { organizationId } = useOrganizationId();
+  const { isReady, organizationId } = useOrganizationId();
+
   const { data } = useSuspenseLeagues({
     year,
     size: 50,
     sportType: sport,
-    ...(organizationId !== null && { organizationId }),
+    ...(isReady && { organizationId }),
   });
 
+  if (!isReady) return null;
   if (data.length === 0) return <EmptyLeague sport={sport} />;
 
   return (

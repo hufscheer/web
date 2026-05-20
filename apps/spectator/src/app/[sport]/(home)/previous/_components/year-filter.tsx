@@ -16,7 +16,8 @@ export const YearFilter = ({ selectedYear }: Props) => {
   const currentYear = new Date().getFullYear();
   const searchParams = useSearchParams();
   const sport = searchParams.get('sport');
-  const { organizationId } = useOrganizationId();
+  const { isReady, organizationId } = useOrganizationId();
+  if (!isReady) return null;
 
   const years = Array.from(
     { length: currentYear - SERVICE_START_YEAR + 1 },
@@ -36,7 +37,7 @@ export const YearFilter = ({ selectedYear }: Props) => {
                       query: {
                         year: _year,
                         ...(sport && { sport }),
-                        ...(organizationId && { organizationId }),
+                        ...(organizationId && { org: organizationId }),
                       },
                     }}
                   />

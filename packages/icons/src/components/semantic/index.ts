@@ -7,6 +7,7 @@ export * from './BasketballIcon';
 export * from './CalendarMonthIcon';
 export * from './CancelIcon';
 export * from './CaptainIcon';
+export * from './CaretRightIcon';
 export * from './ChatFillIcon';
 export * from './CheckCircleFillIcon';
 export * from './CheckCircleIcon';

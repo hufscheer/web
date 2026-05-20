@@ -18,7 +18,7 @@ const Page = async ({ params }: Props) => {
   const id = Number(_id);
   return (
     <div className="flex min-h-svh flex-col">
-      <Header arrow />
+      <Header.Root left={<Header.Arrow />} center={<Header.LinkLogo />} />
       <div className="flex flex-1 flex-col">
         <Suspense clientOnly>
           <TeamInfo id={id} />

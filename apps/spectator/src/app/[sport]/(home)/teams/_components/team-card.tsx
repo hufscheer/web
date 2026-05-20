@@ -37,13 +37,14 @@ interface TeamCardHeaderProps extends ComponentProps<'a'> {
 }
 
 const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
-  const { organizationId } = useOrganizationId();
+  const { isReady, organizationId } = useOrganizationId();
+  if (!isReady) return null;
 
   return (
     <Link
       href={{
         pathname: routes.team({ id: team.teamId, sport: team.sportType }),
-        query: { organizationId },
+        query: { org: organizationId },
       }}
       className={twMerge('row-between gap-2', className)}
       {...props}
