@@ -51,7 +51,7 @@ export const SelectTeam = ({
   const { data: teamUnits = [], isLoading: isUnitsLoading } = useTeamUnits(sportType);
   const unitNames = useMemo(() => teamUnits.map((u) => u.unitName), [teamUnits]);
   const { data: teams = [], isLoading: isTeamsLoading } = useManagerTeams(unitNames, sportType);
-  const isLoading = isUnitsLoading || (unitNames.length > 0 && isTeamsLoading);
+  const isLoading = isUnitsLoading || isTeamsLoading;
   const deferredValue = useDeferredValue(value);
 
   const groupedByUnit = useMemo(() => {
