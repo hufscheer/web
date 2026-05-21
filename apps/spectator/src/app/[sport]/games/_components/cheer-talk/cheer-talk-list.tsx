@@ -32,6 +32,8 @@ export const CheerTalkList = ({
   const { data: game } = useSuspenseGame({ gameId });
   const NOTICE_DISMISSED_KEY = `cheer-notice-dismissed-${gameId}`;
   const [isNoticeVisible, setIsNoticeVisible] = useState(false);
+  const [formHeight, setFormHeight] = useState(0);
+  const formRef = useRef<HTMLDivElement>(null);
 
   const dismissNotice = () => {
     setIsNoticeVisible(false);
@@ -43,19 +45,23 @@ export const CheerTalkList = ({
     setIsNoticeVisible(true);
   };
 
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const hasFirstScrolled = useRef(false);
   const hasFirstFocused = useRef(false);
 
+  useEffect(() => {
+    const el = formRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(() => setFormHeight(el.offsetHeight));
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const isNearBottom = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return false;
-    return el.scrollTop + el.clientHeight >= el.scrollHeight - 100;
+    return window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100;
   }, []);
 
   const scrollToBottom = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    el.scrollTop = el.scrollHeight;
+    window.scrollTo({ top: document.documentElement.scrollHeight });
   }, []);
 
   const [scrollToBottomWithDelay] = useTimeout(scrollToBottom, 100);
@@ -63,12 +69,22 @@ export const CheerTalkList = ({
   const loadPreviousMessages = useThrottle(fetchNextPage, 1000);
 
   const handleScroll = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    if (el.scrollTop < 100 && hasNextPage && !isFetching && !isFetchingNextPage) {
+    if (window.scrollY < 100 && hasNextPage && !isFetching && !isFetchingNextPage) {
       loadPreviousMessages();
     }
   }, [hasNextPage, isFetching, isFetchingNextPage, loadPreviousMessages]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
+
+  useEffect(() => {
+    if (cheerTalkList.length > 0 && !hasFirstScrolled.current) {
+      hasFirstScrolled.current = true;
+      scrollToBottomWithDelay();
+    }
+  }, [cheerTalkList, scrollToBottomWithDelay]);
 
   useEffect(() => {
     if (socketTalkList.length === 0) return;
@@ -88,11 +104,7 @@ export const CheerTalkList = ({
 
   return (
     <>
-      <div
-        ref={scrollRef}
-        onScroll={handleScroll}
-        className="relative min-h-0 flex-1 overflow-y-auto px-4 py-4"
-      >
+      <div className="relative px-4 py-4">
         {isFetchingNextPage && (
           <div className="flex justify-center py-2">
             <Spinner color="primary" />
@@ -104,10 +116,14 @@ export const CheerTalkList = ({
             <CheerTalkItem key={`talk-${talk.cheerTalkId}`} {...talk} />
           ))}
         </div>
+        <div style={{ height: formHeight }} />
       </div>
 
-      <div className="pb-safe z-20 mx-auto w-full max-w-(--app-max-width) border-t border-neutral-100 bg-white">
-        <div className="relative w-full">
+      <div
+        ref={formRef}
+        className="pb-safe fixed inset-x-0 bottom-0 z-20 border-t border-neutral-100 bg-white"
+      >
+        <div className="relative mx-auto w-full max-w-(--app-max-width)">
           {isNoticeVisible && (
             <div className="absolute right-4 bottom-full left-4 z-20 mb-2">
               <div className="animate-in fade-in slide-in-from-bottom-2 flex items-center justify-between rounded-lg border border-neutral-100 bg-white p-3 shadow-lg">
