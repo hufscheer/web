@@ -13,7 +13,6 @@ import { cn } from '~/utils/cn';
 
 import { QuarterScore } from './quarter-score';
 import { ScoreBoard } from './score-board';
-import { Time } from './time';
 
 type Props = {
   gameId: number;
@@ -24,23 +23,11 @@ export const Banner = ({ gameId, sportType }: Props) => {
   const { data } = useSuspenseGame({ gameId });
   const [homeTeam, awayTeam] = data.gameTeams;
 
-  const matchDate = new Date(data.startTime).toLocaleString('ko-KR', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    weekday: 'short',
-    hour: '2-digit',
-    minute: '2-digit',
-    hourCycle: 'h23',
-    timeZone: 'Asia/Seoul',
-  });
-
   return (
     <>
-      <Time>{matchDate}</Time>
-
       <div className="flex w-full flex-col bg-(--color-primary-100) px-10">
         <ScoreBoard
+          gameId={gameId}
           homeTeam={homeTeam}
           awayTeam={awayTeam}
           gameState={data.state}

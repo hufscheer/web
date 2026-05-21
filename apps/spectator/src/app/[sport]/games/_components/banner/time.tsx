@@ -1,13 +1,13 @@
-import type { ReactNode } from 'react';
-
 interface TimeProps {
-  children: ReactNode;
+  date: string;
+  time: string;
 }
 
-export const Time = ({ children }: TimeProps) => {
+export const Time = ({ date, time }: TimeProps) => {
   return (
-    <div className="w-full px-2.5 py-2 text-center text-[15px] font-medium text-greyscale-300">
-      {children}
+    <div className="flex flex-col items-center text-center text-xs font-medium text-greyscale-300">
+      <span>{date}</span>
+      <span>{time}</span>
     </div>
   );
 };
