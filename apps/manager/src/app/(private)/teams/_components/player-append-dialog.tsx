@@ -16,7 +16,7 @@ type Props = {
 export const PlayerAppendDialog = ({ children, onPlayerClick }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
-  const debouncedQuery = useDebounce(query.trim(), 300);
+  const debouncedQuery = useDebounce(query, 300);
 
   const handlePlayerClick = (player: SelectedPlayer) => {
     setQuery('');
@@ -50,7 +50,7 @@ export const PlayerAppendDialog = ({ children, onPlayerClick }: Props) => {
             </div>
           }
         >
-          <PlayerList name={debouncedQuery || undefined} onPlayerClick={handlePlayerClick} />
+          <PlayerList name={debouncedQuery.trim()} onPlayerClick={handlePlayerClick} />
         </Suspense>
       </Modal.Content>
     </Modal>
@@ -58,13 +58,16 @@ export const PlayerAppendDialog = ({ children, onPlayerClick }: Props) => {
 };
 
 interface PlayerListProps {
-  name: string | undefined;
+  name: string;
   onPlayerClick: (player: SelectedPlayer) => void;
 }
 
 const PlayerList = ({ name, onPlayerClick }: PlayerListProps) => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useSuspenseInfinitePlayers({
+    cursor: 0,
+    size: 20,
     name,
+    studentNumber: '',
   });
 
   const handleIntersect = useCallback(() => {
