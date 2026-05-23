@@ -1,9 +1,10 @@
-import { colors, Modal, Spinner, Typography } from '@hcc/ui';
+import { colors, Modal, Typography } from '@hcc/ui';
 import { Fragment, type ReactNode, Suspense, useCallback, useState } from 'react';
 
 import type { PlayerType } from '~/api';
 
 import { useSuspenseInfinitePlayers } from '~/api';
+import { Skeleton } from '~/components/ui';
 import { useDebounce, useIntersectionObserver } from '~/hooks';
 
 export type SelectedPlayer = Pick<PlayerType, 'playerId' | 'name' | 'studentNumber'>;
@@ -43,19 +44,27 @@ export const PlayerAppendDialog = ({ children, onPlayerClick }: Props) => {
           />
         </Typography>
 
-        <Suspense
-          fallback={
-            <div className="flex justify-center py-6">
-              <Spinner size="sm" color="neutral" />
-            </div>
-          }
-        >
+        <Suspense fallback={<PlayerListSkeleton />}>
           <PlayerList name={debouncedQuery.trim()} onPlayerClick={handlePlayerClick} />
         </Suspense>
       </Modal.Content>
     </Modal>
   );
 };
+
+const PlayerListSkeleton = () => (
+  <div className="column gap-1.5 px-4 py-2">
+    {['a', 'b', 'c', 'd', 'e'].map((key, i) => (
+      <Fragment key={key}>
+        <div className="column gap-1 py-0.5">
+          <Skeleton className="h-4 w-2/5 p-0" />
+          <Skeleton className="h-3 w-1/4 p-0" />
+        </div>
+        {i < 4 && <hr className="border-neutral-100" />}
+      </Fragment>
+    ))}
+  </div>
+);
 
 interface PlayerListProps {
   name: string;
@@ -105,11 +114,17 @@ const PlayerList = ({ name, onPlayerClick }: PlayerListProps) => {
         </Fragment>
       ))}
 
-      {(hasNextPage || isFetchingNextPage) && (
-        <div ref={sentinelRef} className="flex justify-center py-2">
-          {isFetchingNextPage && <Spinner size="sm" color="neutral" />}
-        </div>
-      )}
+      <div ref={sentinelRef}>
+        {isFetchingNextPage && (
+          <>
+            <hr className="border-neutral-100" />
+            <div className="column gap-1 py-0.5">
+              <Skeleton className="h-4 w-2/5 p-0" />
+              <Skeleton className="h-3 w-1/4 p-0" />
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };
