@@ -44,10 +44,14 @@ const Page = async ({ searchParams }: Props) => {
         </Suspense>
 
         <div className="fixed bottom-5 w-full max-w-[calc(min(var(--app-max-width),100%)-40px)] gap-0.5">
-          <Button className="w-full" variant="subtle" color="black" size="lg" asChild>
-            <Link href={`/${routes.players_create}`}>
-              <AddIcon className="mr-0.5" size={24} /> 새로운 선수 추가
-            </Link>
+          <Button
+            render={<Link href={`/${routes.players_create}`} />}
+            variant="subtle"
+            color="black"
+            size="lg"
+            className="w-full"
+          >
+            <AddIcon className="mr-0.5" size={24} /> 새로운 선수 추가
           </Button>
         </div>
       </div>

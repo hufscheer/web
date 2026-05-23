@@ -138,8 +138,8 @@ export const CheerTalkList = ({
               secondaryTitle="취소"
               onPrimaryClick={() => handleUnhide(cheerTalk)}
             >
-              <Button className="w-full" color="primary" variant="subtle" size="sm" asChild>
-                <span>가리기 해제</span>
+              <Button className="w-full" color="primary" variant="subtle" size="sm">
+                가리기 해제
               </Button>
             </AlertDialog>
           </div>
