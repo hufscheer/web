@@ -16,6 +16,8 @@ export const button = recipe({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 8,
+
     cursor: 'pointer',
     transition: 'background-color 0.15s ease-in-out, transform 0.15s ease-in-out',
 

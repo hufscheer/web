@@ -1,29 +1,71 @@
 'use client';
 
+import type { UseRenderRenderProp } from '@base-ui/react';
 import type { MouseEvent, ReactNode } from 'react';
 
-import { Slottable } from '@radix-ui/react-slot';
+import { useRender } from '@base-ui/react';
 import { clsx } from 'clsx';
 
-import type { CustomProps } from '../_utils/create-slots';
-
-import { createCustomSlots } from '../_utils/create-slots';
+import { createSlots, type SlotsProps } from '../slot';
 import * as styles from './Button.css';
 
 /* ------ slots ------ */
 
-const buttonSlots = {
-  left: { comp: 'span', renderWhenEmpty: false },
-  button: { comp: 'button' },
-  right: { comp: 'span', renderWhenEmpty: false },
-} as const;
-
-const { useSlots } = createCustomSlots(buttonSlots);
+const slots = createSlots(['left', 'right']);
 
 /* ------ button ------ */
 
-export interface ButtonProps extends styles.ButtonVariants {
-  asChild?: boolean;
+export const Button = ({
+  render,
+
+  size = 'md',
+  color = 'primary',
+  variant = 'solid',
+
+  type = 'submit',
+  disabled: disabledProp = false,
+  loading = false,
+
+  left,
+  right,
+
+  className,
+  onClick,
+  children,
+
+  ...props
+}: ButtonProps) => {
+  const disabled = disabledProp || loading;
+
+  const defaultProps: useRender.ElementProps<'button'> = {
+    type,
+    disabled,
+    className: clsx(styles.button({ size, color, variant }), className),
+    onClick,
+    children: (
+      <>
+        <slots.left render={left} />
+
+        {children}
+
+        <slots.right render={right} />
+      </>
+    ),
+    ...props,
+  };
+
+  return useRender({
+    render,
+    defaultTagName: 'button',
+    state: { loading },
+    props: { ...defaultProps },
+  });
+};
+
+/* ------ types ------ */
+
+export interface ButtonProps extends styles.ButtonVariants, SlotsProps<typeof slots> {
+  render?: UseRenderRenderProp;
 
   type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
@@ -32,43 +74,4 @@ export interface ButtonProps extends styles.ButtonVariants {
   className?: string;
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   children?: ReactNode;
-  customProps?: CustomProps<typeof buttonSlots>;
 }
-
-export const Button = ({
-  asChild,
-
-  size = 'md',
-  color = 'primary',
-  variant = 'solid',
-
-  type = 'submit',
-  disabled = false,
-  loading = false,
-
-  className,
-  onClick,
-  children,
-  customProps,
-  ...props
-}: ButtonProps) => {
-  const { slots } = useSlots(customProps);
-
-  return (
-    <slots.button
-      asChild={asChild}
-      type={type}
-      disabled={disabled || loading}
-      className={clsx(styles.button({ size, color, variant }), className)}
-      data-loading={loading ? 'true' : undefined}
-      onClick={onClick}
-      {...props}
-    >
-      <slots.left />
-
-      <Slottable>{children}</Slottable>
-
-      <slots.right />
-    </slots.button>
-  );
-};

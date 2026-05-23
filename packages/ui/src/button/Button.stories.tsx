@@ -1,5 +1,6 @@
 import type { Meta } from '@storybook/react-vite';
 
+import { Spinner } from '../spinner';
 import { Button } from './Button';
 
 export default {
@@ -27,9 +28,23 @@ export default {
 export const Default: Meta<typeof Button> = {
   render: (args) => (
     <>
-      <Button {...args}>Button</Button>
-      <Button asChild {...args}>
-        <a href="https://example.com">link</a>
+      <Button
+        left={<span style={{ color: 'blue' }}>Left</span>}
+        right={<span>Right</span>}
+        {...args}
+      >
+        Button
+      </Button>
+      <Button render={<a href="https://example.com">link</a>} {...args} />
+    </>
+  ),
+};
+
+export const Loading: Meta<typeof Button> = {
+  render: (args) => (
+    <>
+      <Button loading left={<Spinner style={{ width: 12, height: 12 }} />} {...args}>
+        Button
       </Button>
     </>
   ),
