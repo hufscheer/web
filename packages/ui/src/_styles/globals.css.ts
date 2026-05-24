@@ -69,6 +69,20 @@ export const tokens = createGlobalThemeContract({
       900: 'color-neutral-900',
     },
 
+    greyscale: {
+      900: 'color-greyscale-900',
+      800: 'color-greyscale-800',
+      700: 'color-greyscale-700',
+      600: 'color-greyscale-600',
+      500: 'color-greyscale-500',
+      400: 'color-greyscale-400',
+      300: 'color-greyscale-300',
+      200: 'color-greyscale-200',
+      100: 'color-greyscale-100',
+      50: 'color-greyscale-50',
+      25: 'color-greyscale-25',
+    },
+
     toast: 'color-toast',
     talk: 'color-talk',
   },
@@ -141,6 +155,21 @@ createGlobalTheme(':root', tokens, {
       700: 'oklch(37.1% 0 0)',
       800: 'oklch(26.9% 0 0)',
       900: 'oklch(20.5% 0 0)',
+    },
+
+    // 임시
+    greyscale: {
+      900: '#141b21',
+      800: '#1e262e',
+      700: '#27313b',
+      600: '#323f4c',
+      500: '#374553',
+      400: '#5f6a75',
+      300: '#79828c',
+      200: '#a3a9b0',
+      100: '#c1c5ca',
+      50: '#ebecee',
+      25: '#f5f5f7',
     },
 
     toast: '#374553',
