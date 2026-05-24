@@ -16,7 +16,7 @@ export default defineConfig({
   build: {
     target: 'es2022',
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
+      entry: [resolve(__dirname, 'src/index.ts'), resolve(__dirname, 'src/primitives.ts')],
       formats: ['es'],
     },
     rollupOptions: {
