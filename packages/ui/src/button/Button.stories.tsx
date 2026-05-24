@@ -1,7 +1,7 @@
 import type { Meta } from '@storybook/react-vite';
 
 import { Spinner } from '../spinner';
-import { Button } from './Button';
+import { Button } from './button';
 
 export default {
   title: 'Button',
@@ -26,18 +26,25 @@ export default {
 } satisfies Meta<typeof Button>;
 
 export const Default: Meta<typeof Button> = {
-  render: (args) => (
-    <>
-      <Button
-        left={<span style={{ color: 'blue' }}>Left</span>}
-        right={<span>Right</span>}
-        {...args}
-      >
-        Button
-      </Button>
-      <Button render={<a href="https://example.com">link</a>} {...args} />
-    </>
-  ),
+  render: (args) => {
+    const handleClick = () => {
+      alert('Button clicked!');
+    };
+
+    return (
+      <>
+        <Button
+          left={<span style={{ color: 'blue' }}>Left</span>}
+          right={<span>Right</span>}
+          onClick={handleClick}
+          {...args}
+        >
+          Button
+        </Button>
+        <Button render={<a href="https://example.com">link</a>} {...args} />
+      </>
+    );
+  },
 };
 
 export const Loading: Meta<typeof Button> = {
