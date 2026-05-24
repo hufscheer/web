@@ -1,9 +1,10 @@
 import { Popover as BasePopover } from '@base-ui/react';
+import clsx from 'clsx';
 
-import { cn } from '~/utils/cn';
+import * as styles from '../popover.css';
 
 export const PopoverTrigger = ({ className, ...props }: PopoverTrigger.Props) => {
-  return <BasePopover.Trigger className={cn('cursor-pointer', className)} {...props} />;
+  return <BasePopover.Trigger className={clsx(styles.trigger, className)} {...props} />;
 };
 
 export namespace PopoverTrigger {
