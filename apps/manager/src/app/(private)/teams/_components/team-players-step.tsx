@@ -1,5 +1,5 @@
 import { CancelIcon } from '@hcc/icons';
-import { Button, colors, Input, Typography, toast } from '@hcc/ui';
+import { Button, colors, Input, Modal, Typography, toast } from '@hcc/ui';
 import { Fragment, useState } from 'react';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 
@@ -18,6 +18,7 @@ type Props = {
 
 export const TeamPlayersStep = ({ onPrevious, isEditMode }: Props) => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+  const [isAssistantModalOpen, setIsAssistantModalOpen] = useState(false);
   const { control, watch } = useFormContext<TeamFormType>();
   const teamName = watch('name');
   const teamUnit = watch('unit');
@@ -35,8 +36,13 @@ export const TeamPlayersStep = ({ onPrevious, isEditMode }: Props) => {
         !!player.name?.trim() && player.jerseyNumber !== undefined && player.jerseyNumber !== null,
     );
 
-  const handleAppendPlayer = ({ playerId, name, studentNumber }: SelectedPlayer) => {
-    if (teamPlayers.find((player) => player.playerId === playerId)) {
+  const handleAssistantButtonClick = () => {
+    if (fields.length > 0) setIsAssistantModalOpen(true);
+    else setIsBottomSheetOpen(true);
+  };
+
+  const handleAppendPlayer = (id: number) => {
+    if (teamPlayers.find((player) => player.playerId === id)) {
       toast.error('이 선수는 이미 추가되었어요');
       return;
     }
@@ -125,7 +131,40 @@ export const TeamPlayersStep = ({ onPrevious, isEditMode }: Props) => {
           </Typography>
         )}
       </div>
-      {!isEditMode && <FloatingActionButton onClick={() => setIsBottomSheetOpen(true)} />}
+      {!isEditMode && <FloatingActionButton onClick={handleAssistantButtonClick} />}
+
+      <Modal open={isAssistantModalOpen} onOpenChange={setIsAssistantModalOpen}>
+        <Modal.Content className="w-[80vw] rounded-lg bg-white px-[17px] pt-[22px] pb-[17px]">
+          <Modal.Title className="mb-2 text-lg font-semibold text-greyscale-900">
+            추가된 선수 정보가 저장되지 않아요
+          </Modal.Title>
+          <Modal.Description className="mb-6 text-base whitespace-pre-line text-greyscale-300">
+            {`어시스턴트를 사용하면 정보가 사라져요.\n계속 진행할까요?`}
+          </Modal.Description>
+          <div className="flex gap-[10px]">
+            <Button
+              variant="ghost"
+              color="black"
+              size="md"
+              onClick={() => setIsAssistantModalOpen(false)}
+              className="flex-1"
+            >
+              취소
+            </Button>
+            <Button
+              color="black"
+              size="md"
+              onClick={() => {
+                setIsAssistantModalOpen(false);
+                setIsBottomSheetOpen(true);
+              }}
+              className="flex-1"
+            >
+              계속하기
+            </Button>
+          </div>
+        </Modal.Content>
+      </Modal>
 
       <AddPlayerBottomSheet
         isOpen={isBottomSheetOpen}
