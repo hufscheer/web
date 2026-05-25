@@ -71,6 +71,18 @@
 }
 
 @theme {
+  --color-greyscale-900: #141b21;
+  --color-greyscale-800: #1e262e;
+  --color-greyscale-700: #27313b;
+  --color-greyscale-600: #323f4c;
+  --color-greyscale-500: #374553;
+  --color-greyscale-400: #5f6a75;
+  --color-greyscale-300: #79828c;
+  --color-greyscale-200: #a3a9b0;
+  --color-greyscale-100: #c1c5ca;
+  --color-greyscale-50: #ebecee;
+  --color-greyscale-25: #f5f5f7;
+
   --breakpoint-*: initial;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
