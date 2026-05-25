@@ -145,7 +145,7 @@ export const TeamPlayersStep = ({ onPrevious, isEditMode }: Props) => {
           <Modal.Title className="mb-2 text-lg font-semibold text-greyscale-900">
             추가된 선수 정보가 저장되지 않아요
           </Modal.Title>
-          <Modal.Description className="text-md mb-6 whitespace-pre-line text-greyscale-300">
+          <Modal.Description className="mb-6 text-base whitespace-pre-line text-greyscale-300">
             {`어시스턴트를 사용하면 정보가 사라져요.\n계속 진행할까요?`}
           </Modal.Description>
           <div className="flex gap-[10px]">
