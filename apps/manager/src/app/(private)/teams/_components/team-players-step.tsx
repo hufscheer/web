@@ -41,8 +41,8 @@ export const TeamPlayersStep = ({ onPrevious, isEditMode }: Props) => {
     else setIsBottomSheetOpen(true);
   };
 
-  const handleAppendPlayer = (id: number) => {
-    if (teamPlayers.find((player) => player.playerId === id)) {
+  const handleAppendPlayer = ({ playerId, name, studentNumber }: SelectedPlayer) => {
+    if (teamPlayers.find((player) => player.playerId === playerId)) {
       toast.error('이 선수는 이미 추가되었어요');
       return;
     }
