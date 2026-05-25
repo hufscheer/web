@@ -3,7 +3,9 @@ import { Button, colors, Input, Modal, Typography, toast } from '@hcc/ui';
 import { Fragment, useState } from 'react';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 
-import { type TeamFormType, useSuspensePlayers } from '~/api';
+import type { TeamFormType } from '~/api';
+import type { SelectedPlayer } from '~/app/(private)/teams/_components/player-append-dialog';
+
 import { PlayerAppendDialog } from '~/app/(private)/teams/_components/player-append-dialog';
 
 import { AddPlayerBottomSheet } from './assistants/add-player-bottom-sheet';
@@ -25,8 +27,6 @@ export const TeamPlayersStep = ({ onPrevious, isEditMode }: Props) => {
   const logoImageUrl = watch('logoImageUrl');
   const { fields, append, remove } = useFieldArray({ control, name: 'teamPlayers' });
 
-  const { data } = useSuspensePlayers();
-
   const teamPlayers = watch('teamPlayers') || [];
 
   const isValid =
@@ -41,20 +41,13 @@ export const TeamPlayersStep = ({ onPrevious, isEditMode }: Props) => {
     else setIsBottomSheetOpen(true);
   };
 
-  const handleAppendPlayer = (id: number) => {
-    if (teamPlayers.find((player) => player.playerId === id)) {
+  const handleAppendPlayer = ({ playerId, name, studentNumber }: SelectedPlayer) => {
+    if (teamPlayers.find((player) => player.playerId === playerId)) {
       toast.error('이 선수는 이미 추가되었어요');
       return;
     }
 
-    const selectedPlayer = data?.content.find((player) => player.playerId === id);
-
-    append({
-      playerId: id,
-      name: selectedPlayer?.name ?? '',
-      studentNumber: selectedPlayer?.studentNumber ?? '',
-      jerseyNumber: 0,
-    });
+    append({ playerId, name, studentNumber, jerseyNumber: 0 });
   };
 
   return (
