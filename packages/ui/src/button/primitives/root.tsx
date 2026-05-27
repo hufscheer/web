@@ -9,7 +9,11 @@ export const ButtonRoot = ({ size, color, variant, className, ...props }: Button
   );
 };
 
+/* ------ types ------ */
+
+export interface ButtonProps extends BaseButton.Props, styles.ButtonVariants {}
+
 export namespace ButtonRoot {
-  export type Props = BaseButton.Props & styles.ButtonVariants;
+  export type Props = ButtonProps;
   export type State = BaseButton.State;
 }

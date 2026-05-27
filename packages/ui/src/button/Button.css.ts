@@ -1,5 +1,5 @@
 import { createVar } from '@vanilla-extract/css';
-import { recipe } from '@vanilla-extract/recipes';
+import { recipe, type RecipeVariants } from '@vanilla-extract/recipes';
 
 import { tokens } from '../_styles/globals.css';
 
@@ -110,4 +110,4 @@ export const button = recipe({
   },
 });
 
-export type ButtonVariants = NonNullable<Parameters<typeof button>[0]>;
+export type ButtonVariants = NonNullable<RecipeVariants<typeof button>>;
