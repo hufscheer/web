@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 
 import { redirect } from 'next/navigation';
 
@@ -41,6 +41,10 @@ const Page = async ({ searchParams, params }: Props) => {
 };
 
 export default Page;
+
+export const viewport: Viewport = {
+  interactiveWidget: 'overlays-content',
+};
 
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
   const { id: _id } = await params;

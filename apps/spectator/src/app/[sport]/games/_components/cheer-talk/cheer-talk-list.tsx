@@ -33,6 +33,7 @@ export const CheerTalkList = ({
   const NOTICE_DISMISSED_KEY = `cheer-notice-dismissed-${gameId}`;
   const [isNoticeVisible, setIsNoticeVisible] = useState(false);
   const [formHeight, setFormHeight] = useState(0);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
   const formRef = useRef<HTMLDivElement>(null);
 
   const dismissNotice = () => {
@@ -57,6 +58,23 @@ export const CheerTalkList = ({
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!vv) return;
+
+    const update = () => {
+      const height = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+      setKeyboardHeight(height);
+    };
+
+    vv.addEventListener('resize', update);
+    vv.addEventListener('scroll', update);
+    return () => {
+      vv.removeEventListener('resize', update);
+      vv.removeEventListener('scroll', update);
+    };
+  }, []);
+
   const isNearBottom = useCallback(() => {
     const el = scrollContainerRef.current;
     if (!el) return false;
@@ -70,6 +88,13 @@ export const CheerTalkList = ({
   }, []);
 
   const [scrollToBottomWithDelay] = useTimeout(scrollToBottom, 100);
+
+  // 키보드가 올라올 때 최신 메시지가 보이도록 스크롤
+  useEffect(() => {
+    if (keyboardHeight > 0) {
+      scrollToBottomWithDelay();
+    }
+  }, [keyboardHeight, scrollToBottomWithDelay]);
 
   const loadPreviousMessages = useThrottle(fetchNextPage, 1000);
 
@@ -125,12 +150,13 @@ export const CheerTalkList = ({
             <CheerTalkItem key={`talk-${talk.cheerTalkId}`} {...talk} />
           ))}
         </div>
-        <div style={{ height: formHeight }} />
+        <div style={{ height: formHeight + keyboardHeight }} />
       </div>
 
       <div
         ref={formRef}
-        className="pb-safe fixed inset-x-0 bottom-0 z-20 border-t border-neutral-100 bg-white"
+        className="fixed inset-x-0 z-20 border-t border-neutral-100 bg-white"
+        style={{ bottom: keyboardHeight }}
       >
         <div className="relative mx-auto w-full max-w-(--app-max-width)">
           {isNoticeVisible && (
