@@ -9,6 +9,7 @@ import type { SportType } from '~/api';
 
 import { InputDate } from '~/components/ui/input-date';
 import { InputSelect } from '~/components/ui/input-select';
+import { getRoundOptions } from '~/constants/leagues';
 import { SportIcon } from '~/constants/sports';
 
 export type LeagueInfoForm = {
@@ -18,19 +19,6 @@ export type LeagueInfoForm = {
   maxRound?: number | undefined;
   sportType: SportType;
 };
-
-const ROUND_SIZES = [100, 16, 8, 4, 2];
-const ROUND_LABELS: Record<number, string> = {
-  100: '예선',
-  16: '16강',
-  8: '8강',
-  4: '준결승',
-  2: '결승',
-};
-const ROUND_OPTIONS = ROUND_SIZES.map((n) => ({
-  value: String(n),
-  label: ROUND_LABELS[n] || `${n}강`,
-}));
 
 const SPORT_OPTIONS: { value: SportType; label: string }[] = [
   { value: 'SOCCER', label: '축구' },
@@ -121,7 +109,7 @@ const LeagueInfoFields = ({ form, onChange }: FieldsProps) => {
       />
 
       <InputSelect
-        options={ROUND_OPTIONS}
+        options={getRoundOptions(form.sportType)}
         label="라운드"
         value={form.maxRound ? String(form.maxRound) : undefined}
         onValueChange={(v) => onChange({ maxRound: Number(v) })}
