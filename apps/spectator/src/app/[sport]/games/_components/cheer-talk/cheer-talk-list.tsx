@@ -45,6 +45,7 @@ export const CheerTalkList = ({
     setIsNoticeVisible(true);
   };
 
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const hasFirstScrolled = useRef(false);
   const hasFirstFocused = useRef(false);
 
@@ -57,11 +58,15 @@ export const CheerTalkList = ({
   }, []);
 
   const isNearBottom = useCallback(() => {
-    return window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100;
+    const el = scrollContainerRef.current;
+    if (!el) return false;
+    return el.scrollTop + el.clientHeight >= el.scrollHeight - 100;
   }, []);
 
   const scrollToBottom = useCallback(() => {
-    window.scrollTo({ top: document.documentElement.scrollHeight });
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    el.scrollTo({ top: el.scrollHeight });
   }, []);
 
   const [scrollToBottomWithDelay] = useTimeout(scrollToBottom, 100);
@@ -69,14 +74,18 @@ export const CheerTalkList = ({
   const loadPreviousMessages = useThrottle(fetchNextPage, 1000);
 
   const handleScroll = useCallback(() => {
-    if (window.scrollY < 100 && hasNextPage && !isFetching && !isFetchingNextPage) {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    if (el.scrollTop < 100 && hasNextPage && !isFetching && !isFetchingNextPage) {
       loadPreviousMessages();
     }
   }, [hasNextPage, isFetching, isFetchingNextPage, loadPreviousMessages]);
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    el.addEventListener('scroll', handleScroll);
+    return () => el.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
   useEffect(() => {
@@ -104,7 +113,7 @@ export const CheerTalkList = ({
 
   return (
     <>
-      <div className="relative px-4 py-4">
+      <div ref={scrollContainerRef} className="relative min-h-0 flex-1 overflow-y-auto px-4 py-4">
         {isFetchingNextPage && (
           <div className="flex justify-center py-2">
             <Spinner color="primary" />

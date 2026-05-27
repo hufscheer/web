@@ -2,7 +2,6 @@
 
 import * as Tabs from '@radix-ui/react-tabs';
 import { Suspense } from '@suspensive/react';
-import { useState } from 'react';
 
 import type { SportType } from '~/api';
 
@@ -12,7 +11,6 @@ import { TimelineTab } from '~/app/[sport]/games/_components/timeline-tab';
 import { VideoTab } from '~/app/[sport]/games/_components/video-tab';
 import { Header } from '~/components/layout';
 import { TabTrigger } from '~/components/ui';
-import { cn } from '~/utils/cn';
 
 import { Banner, BannerSkeleton } from '../../_components/banner';
 import { CheerTalk } from '../../_components/cheer-talk';
@@ -24,11 +22,8 @@ type Props = {
 };
 
 export const GamePageClient = ({ gameId, sportType, defaultTab }: Props) => {
-  const [activeTab, setActiveTab] = useState(defaultTab);
-  const isCheerTab = activeTab === 'cheer';
-
   return (
-    <div className={cn('flex flex-col bg-white', !isCheerTab && 'h-dvh')}>
+    <div className="flex h-dvh flex-col bg-white">
       <Header.Root left={<Header.Arrow />} center={<Header.LinkLogo />} />
 
       <Suspense clientOnly fallback={<BannerSkeleton />}>
@@ -41,11 +36,7 @@ export const GamePageClient = ({ gameId, sportType, defaultTab }: Props) => {
 
       <hr className="h-2 w-full border-none bg-neutral-50" />
 
-      <Tabs.Root
-        className={cn('flex flex-col', !isCheerTab && 'min-h-0 flex-1')}
-        defaultValue={defaultTab}
-        onValueChange={setActiveTab}
-      >
+      <Tabs.Root className="flex min-h-0 flex-1 flex-col" defaultValue={defaultTab}>
         <Tabs.List className="sticky top-0 z-10 flex h-12 flex-shrink-0 gap-5 border-b border-neutral-100 bg-white px-5">
           <TabTrigger className="size-full" value="cheer">
             응원
@@ -61,34 +52,28 @@ export const GamePageClient = ({ gameId, sportType, defaultTab }: Props) => {
           </TabTrigger>
         </Tabs.List>
 
-        <Tabs.Content value="cheer" className="flex flex-col bg-[#EBEBEB] outline-none">
+        <Tabs.Content
+          value="cheer"
+          className="flex min-h-0 flex-1 flex-col bg-[#EBEBEB] outline-none"
+        >
           <Suspense clientOnly>
             <CheerTalk gameId={gameId} sportType={sportType} />
           </Suspense>
         </Tabs.Content>
 
-        <Tabs.Content
-          value="lineup"
-          className={cn('outline-none', !isCheerTab && 'flex-1 overflow-y-auto')}
-        >
+        <Tabs.Content value="lineup" className="flex-1 overflow-y-auto outline-none">
           <Suspense clientOnly>
             <LineupTab gameId={gameId} sportType={sportType} />
           </Suspense>
         </Tabs.Content>
 
-        <Tabs.Content
-          value="timeline"
-          className={cn('outline-none', !isCheerTab && 'flex-1 overflow-y-auto')}
-        >
+        <Tabs.Content value="timeline" className="flex-1 overflow-y-auto outline-none">
           <Suspense clientOnly>
             <TimelineTab gameId={gameId} sportType={sportType} />
           </Suspense>
         </Tabs.Content>
 
-        <Tabs.Content
-          value="video"
-          className={cn('outline-none', !isCheerTab && 'flex-1 overflow-y-auto')}
-        >
+        <Tabs.Content value="video" className="flex-1 overflow-y-auto outline-none">
           <Suspense clientOnly>
             <VideoTab gameId={gameId} />
           </Suspense>
