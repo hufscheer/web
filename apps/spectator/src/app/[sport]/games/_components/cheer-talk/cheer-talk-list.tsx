@@ -67,6 +67,8 @@ export const CheerTalkList = ({
       setKeyboardHeight(height);
     };
 
+    update();
+
     vv.addEventListener('resize', update);
     vv.addEventListener('scroll', update);
     return () => {
