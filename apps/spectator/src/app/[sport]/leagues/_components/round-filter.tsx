@@ -34,7 +34,7 @@ const getRounds = (league: LeagueDetailType) => {
     rounds.push(league.maxRound);
   }
 
-  // 16강, 8강, 4강, 결승
+  // 16강, 8강, 준결승, 결승
   [16, 8, 4, 2].forEach((r) => {
     if (r <= league.maxRound) {
       rounds.push(r);
