@@ -11,3 +11,4 @@ export * from './typography';
 
 export { Button } from './button';
 export { Popover } from './popover';
+export { TextField } from './text-field';
