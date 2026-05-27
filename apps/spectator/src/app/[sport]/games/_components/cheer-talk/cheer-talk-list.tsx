@@ -109,13 +109,6 @@ export const CheerTalkList = ({
   }, [hasNextPage, isFetching, isFetchingNextPage, loadPreviousMessages]);
 
   useEffect(() => {
-    const el = scrollContainerRef.current;
-    if (!el) return;
-    el.addEventListener('scroll', handleScroll);
-    return () => el.removeEventListener('scroll', handleScroll);
-  }, [handleScroll]);
-
-  useEffect(() => {
     if (cheerTalkList.length > 0 && !hasFirstScrolled.current) {
       hasFirstScrolled.current = true;
       scrollToBottomWithDelay();
@@ -140,7 +133,11 @@ export const CheerTalkList = ({
 
   return (
     <>
-      <div ref={scrollContainerRef} className="relative min-h-0 flex-1 overflow-y-auto px-4 py-4">
+      <div
+        ref={scrollContainerRef}
+        onScroll={handleScroll}
+        className="relative min-h-0 flex-1 overflow-y-auto px-4 py-4"
+      >
         {isFetchingNextPage && (
           <div className="flex justify-center py-2">
             <Spinner color="primary" />
