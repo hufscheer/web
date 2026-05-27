@@ -2,7 +2,7 @@ import { Badge } from '@hcc/ui';
 import { Sofia_Sans } from 'next/font/google';
 import Image from 'next/image';
 
-import { useSuspenseGame, type GameStateType, type GameTeamType } from '~/api';
+import { type GameStateType, type GameTeamType } from '~/api';
 import { cn } from '~/utils/cn';
 
 import { Time } from './time';
@@ -10,25 +10,28 @@ import { Time } from './time';
 interface ScoreBoardProps {
   homeTeam: GameTeamType;
   awayTeam: GameTeamType;
-
-  gameId: number;
+  startTime: string;
   gameState: GameStateType;
   quarter: string;
 }
 
-export const ScoreBoard = ({ homeTeam, awayTeam, gameId, gameState, quarter }: ScoreBoardProps) => {
-  const { data } = useSuspenseGame({ gameId });
+export const ScoreBoard = ({
+  homeTeam,
+  awayTeam,
+  startTime,
+  gameState,
+  quarter,
+}: ScoreBoardProps) => {
+  const _startTime = new Date(startTime);
 
-  const startTime = new Date(data.startTime);
-
-  const matchDate = startTime.toLocaleDateString('ko-KR', {
+  const matchDate = _startTime.toLocaleDateString('ko-KR', {
     month: '2-digit',
     day: '2-digit',
     weekday: 'short',
     timeZone: 'Asia/Seoul',
   });
 
-  const matchTime = startTime.toLocaleTimeString('ko-KR', {
+  const matchTime = _startTime.toLocaleTimeString('ko-KR', {
     hour: '2-digit',
     minute: '2-digit',
     hourCycle: 'h23',

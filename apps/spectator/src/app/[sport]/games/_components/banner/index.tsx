@@ -27,7 +27,7 @@ export const Banner = ({ gameId, sportType }: Props) => {
     <>
       <div className="flex w-full flex-col bg-(--color-primary-100) px-10">
         <ScoreBoard
-          gameId={gameId}
+          startTime={data.startTime}
           homeTeam={homeTeam}
           awayTeam={awayTeam}
           gameState={data.state}
