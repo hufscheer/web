@@ -23,7 +23,7 @@ type Props = {
 
 export const GamePageClient = ({ gameId, sportType, defaultTab }: Props) => {
   return (
-    <div className="flex h-dvh flex-col bg-white">
+    <div className="flex h-dvh flex-col overflow-y-auto bg-white">
       <Header.Root left={<Header.Arrow />} center={<Header.LinkLogo />} />
 
       <Suspense clientOnly fallback={<BannerSkeleton />}>
@@ -36,7 +36,7 @@ export const GamePageClient = ({ gameId, sportType, defaultTab }: Props) => {
 
       <hr className="h-2 w-full border-none bg-neutral-50" />
 
-      <Tabs.Root className="flex min-h-0 flex-1 flex-col" defaultValue={defaultTab}>
+      <Tabs.Root className="flex flex-col" defaultValue={defaultTab}>
         <Tabs.List className="sticky top-0 z-10 flex h-12 flex-shrink-0 gap-5 border-b border-neutral-100 bg-white px-5">
           <TabTrigger className="size-full" value="cheer">
             응원
@@ -54,26 +54,26 @@ export const GamePageClient = ({ gameId, sportType, defaultTab }: Props) => {
 
         <Tabs.Content
           value="cheer"
-          className="flex min-h-0 flex-1 flex-col bg-[#EBEBEB] outline-none"
+          className="flex h-[calc(100dvh-3rem)] flex-col bg-[#EBEBEB] outline-none"
         >
           <Suspense clientOnly>
             <CheerTalk gameId={gameId} sportType={sportType} />
           </Suspense>
         </Tabs.Content>
 
-        <Tabs.Content value="lineup" className="flex-1 overflow-y-auto outline-none">
+        <Tabs.Content value="lineup" className="min-h-[calc(100dvh-3rem)] outline-none">
           <Suspense clientOnly>
             <LineupTab gameId={gameId} sportType={sportType} />
           </Suspense>
         </Tabs.Content>
 
-        <Tabs.Content value="timeline" className="flex-1 overflow-y-auto outline-none">
+        <Tabs.Content value="timeline" className="min-h-[calc(100dvh-3rem)] outline-none">
           <Suspense clientOnly>
             <TimelineTab gameId={gameId} sportType={sportType} />
           </Suspense>
         </Tabs.Content>
 
-        <Tabs.Content value="video" className="flex-1 overflow-y-auto outline-none">
+        <Tabs.Content value="video" className="min-h-[calc(100dvh-3rem)] outline-none">
           <Suspense clientOnly>
             <VideoTab gameId={gameId} />
           </Suspense>
