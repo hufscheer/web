@@ -17,10 +17,10 @@ export const NewMessagePreview = ({ message, onClick }: Props) => {
       type="button"
       onClick={onClick}
       className="animate-in fade-in slide-in-from-bottom-2 flex w-full cursor-pointer items-center gap-2 rounded-full border border-neutral-100 bg-white px-4 py-2 text-left shadow-lg"
-      aria-label="새 메시지로 이동"
+      aria-label="새 응원톡으로 이동"
     >
       <Typography fontSize={12} color={colors.neutral500} className="shrink-0">
-        새 메시지
+        새 응원톡
       </Typography>
       <Typography fontSize={13} color={colors.neutral800} className="flex-1 truncate" asChild>
         <span>{body}</span>
