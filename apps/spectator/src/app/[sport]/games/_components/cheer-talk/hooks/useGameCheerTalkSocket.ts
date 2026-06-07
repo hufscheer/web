@@ -11,8 +11,15 @@ export const useGameCheerTalkSocket = (gameId: number) => {
   const { getTeamInfo } = useSuspenseGameTeamInfo(gameId);
   const [items, setItems] = useState<GameCheerTalkWithTeamInfo[]>([]);
 
+  const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || '';
+
+  if (!socketUrl) {
+    console.warn('Socket URL is not defined. Cheer Talk socket will not connect.');
+    return items;
+  }
+
   useSocket<CheerTalkType>({
-    url: process.env.NEXT_PUBLIC_SOCKET_URL || '',
+    url: socketUrl,
     destination: `/topic/games/${gameId}`,
     callback: (talk) => {
       const enriched = { ...talk, ...getTeamInfo(talk.gameTeamId) };

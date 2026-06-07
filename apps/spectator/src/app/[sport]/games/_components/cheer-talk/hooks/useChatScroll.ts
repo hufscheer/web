@@ -73,17 +73,16 @@ export const useChatScroll = ({
 
 /* ----- utils ----- */
 
-export const NEAR_BOTTOM_THRESHOLD = 100;
-export const NEAR_TOP_THRESHOLD = 100;
+const NEAR_BOTTOM_THRESHOLD = 100;
+const NEAR_TOP_THRESHOLD = 100;
 
-export const isNearBottomOf = (el: HTMLElement, threshold = NEAR_BOTTOM_THRESHOLD) =>
+const isNearBottomOf = (el: HTMLElement, threshold = NEAR_BOTTOM_THRESHOLD) =>
   el.scrollTop + el.clientHeight >= el.scrollHeight - threshold;
 
-export const isNearTopOf = (el: HTMLElement, threshold = NEAR_TOP_THRESHOLD) =>
-  el.scrollTop < threshold;
+const isNearTopOf = (el: HTMLElement, threshold = NEAR_TOP_THRESHOLD) => el.scrollTop < threshold;
 
-export const scrollToEnd = (el: HTMLElement) => {
+const scrollToEnd = (el: HTMLElement) => {
   el.scrollTop = el.scrollHeight;
 };
 
-export const captureScrollHeight = (el: HTMLElement) => el.scrollHeight;
+const captureScrollHeight = (el: HTMLElement) => el.scrollHeight;

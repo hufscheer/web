@@ -23,8 +23,7 @@ export const CheerTalkForm = ({ gameTeams, gameState, onInputFocus }: CheerTalkF
   const sendMessage = useCallback(
     (content: string) => {
       if (!content.trim() || isFinished) return;
-      mutate({ gameTeamId: teamId, content });
-      setMessage('');
+      mutate({ gameTeamId: teamId, content }, { onSuccess: () => setMessage('') });
     },
     [isFinished, mutate, teamId],
   );
