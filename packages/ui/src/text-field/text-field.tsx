@@ -12,7 +12,8 @@ export const slots = createSlots(['left', 'right']);
 /* ----- text field ----- */
 
 export const TextField = ({
-  id,
+  inputId,
+  descriptionId,
 
   labelPosition,
   size,
@@ -31,7 +32,8 @@ export const TextField = ({
 }: TextField.Props) => {
   return (
     <TextFieldPrimitives.Root
-      id={id}
+      inputId={inputId}
+      descriptionId={descriptionId}
       labelPosition={labelPosition}
       size={size}
       value={value}
@@ -56,11 +58,18 @@ export const TextField = ({
 
 export type RootProps = Pick<
   TextFieldPrimitives.Root.Props,
-  'id' | 'labelPosition' | 'size' | 'value' | 'onValueChange' | 'defaultValue'
+  | 'inputId'
+  | 'descriptionId'
+  | 'labelPosition'
+  | 'size'
+  | 'value'
+  | 'onValueChange'
+  | 'defaultValue'
 >;
+
 export type InputProps = Pick<
   TextFieldPrimitives.Input.Props,
-  'placeholder' | 'disabled' | 'className' | 'style'
+  'placeholder' | 'disabled' | 'readOnly' | 'className' | 'style'
 >;
 
 export type Slots = SlotsProps<typeof slots>;

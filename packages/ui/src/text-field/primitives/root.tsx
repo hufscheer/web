@@ -15,7 +15,8 @@ export const TextFieldRoot = forwardRef<HTMLDivElement, TextFieldRoot.Props>(
   (
     {
       render,
-      id: idProp,
+      inputId: inputIdProp,
+      descriptionId: descriptionIdProp,
       value: valueProp,
       onValueChange,
       defaultValue = '',
@@ -26,8 +27,9 @@ export const TextFieldRoot = forwardRef<HTMLDivElement, TextFieldRoot.Props>(
     },
     ref,
   ) => {
-    const id = useId(idProp);
     const inputRef = useRef<HTMLInputElement>(null);
+    const inputId = useId(inputIdProp);
+    const descriptionId = useId(descriptionIdProp);
 
     const [value, setValue] = useControlled({
       name: 'TextField',
@@ -50,7 +52,8 @@ export const TextFieldRoot = forwardRef<HTMLDivElement, TextFieldRoot.Props>(
 
     const contextValue = useMemo(
       () => ({
-        id,
+        inputId,
+        descriptionId,
         size,
         labelPosition,
         value,
@@ -59,7 +62,17 @@ export const TextFieldRoot = forwardRef<HTMLDivElement, TextFieldRoot.Props>(
         onValueChange: handleValueChange,
         clearValue,
       }),
-      [id, size, labelPosition, value, defaultValue, inputRef, handleValueChange, clearValue],
+      [
+        inputId,
+        descriptionId,
+        size,
+        labelPosition,
+        value,
+        defaultValue,
+        inputRef,
+        handleValueChange,
+        clearValue,
+      ],
     );
 
     const element = useRender({

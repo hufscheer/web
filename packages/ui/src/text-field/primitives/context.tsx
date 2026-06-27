@@ -9,7 +9,8 @@ import type { BaseInputProps } from './input';
 
 type Variants = styles.RootVariants & styles.ContainerVariants;
 export interface TextFieldContext extends Variants, Omit<BaseInputProps, 'onValueChange'> {
-  id: string;
+  inputId: string;
+  descriptionId: string;
   inputRef?: RefObject<HTMLInputElement | null>;
   onValueChange: (value: string, event?: ChangeEvent<HTMLInputElement>) => void;
   clearValue: () => void;

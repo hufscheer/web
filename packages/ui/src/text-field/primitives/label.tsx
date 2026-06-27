@@ -11,14 +11,14 @@ export const TextFieldLabel = forwardRef<HTMLLabelElement, TextFieldLabel.Props>
   ({ render, htmlFor: htmlForProp, className, children, ...props }, ref) => {
     if (!children) return null;
 
-    const { id, labelPosition } = useTextFieldContext();
+    const { inputId, labelPosition } = useTextFieldContext();
 
     return useRender({
       ref,
       render,
       defaultTagName: 'label',
       props: {
-        htmlFor: htmlForProp ?? id,
+        htmlFor: htmlForProp ?? inputId,
         className: clsx(styles.label({ labelPosition }), className),
         children,
         ...props,

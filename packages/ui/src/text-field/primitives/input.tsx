@@ -10,15 +10,16 @@ import { useTextFieldContext } from './context';
 
 export const TextFieldInput = forwardRef<HTMLInputElement, TextFieldInput.Props>(
   ({ render, id: idProp, className, ...props }, ref) => {
-    const { id, inputRef, value, defaultValue, onValueChange } = useTextFieldContext();
+    const { inputId, inputRef, value, defaultValue, onValueChange } = useTextFieldContext();
 
     const mergedRefs = useMergedRefs(ref, inputRef);
+    const id = idProp ?? inputId;
 
     return (
       <BaseInput
         ref={mergedRefs}
         render={render}
-        id={idProp ?? id}
+        id={id}
         value={value}
         defaultValue={defaultValue}
         // onValueChange={onValueChange}
