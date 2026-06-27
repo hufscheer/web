@@ -53,9 +53,18 @@ export const CustomInputIds: Story = {
     inputId: { control: { type: 'text' } },
     descriptionId: { control: { type: 'text' } },
   },
-  render: ({ label = 'Label', description = 'Description', placeholder = 'asdfasdf', ...args }) => {
+  render: ({
+    inputId,
+    descriptionId,
+    label = 'Label',
+    description = 'Description',
+    placeholder = 'asdfasdf',
+    ...args
+  }) => {
     return (
       <TextField
+        inputId={inputId}
+        descriptionId={descriptionId}
         label={label}
         description={description}
         placeholder={placeholder}
