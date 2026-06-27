@@ -1,21 +1,24 @@
 import { useSuspenseInfiniteQuery, useQuery, useSuspenseQuery } from '@hcc/api-base';
 
-import type { PlayerListResponse } from '~/api';
+import type { PlayerListPayload, PlayerListResponse } from '~/api';
 
 import { fetcher, queryKeys } from '../queryKey';
-
-const PLAYERS_PAGE_SIZE = 20;
 
 export const usePlayers = () => useQuery(queryKeys.players.list);
 
 export const useSuspensePlayers = () => useSuspenseQuery(queryKeys.players.list);
 
-export const useSuspenseInfinitePlayers = () =>
+export const useSuspenseInfinitePlayers = (payload: PlayerListPayload) =>
   useSuspenseInfiniteQuery({
-    queryKey: ['players', 'infinite'] as const,
+    queryKey: ['players', 'infinite', payload.name, payload.studentNumber] as const,
     queryFn: ({ pageParam }: { pageParam: number }) =>
       fetcher.get<PlayerListResponse>('players', {
-        searchParams: { cursor: pageParam > 0 ? pageParam : '', size: PLAYERS_PAGE_SIZE },
+        searchParams: {
+          cursor: pageParam > 0 ? pageParam : '',
+          size: payload.size,
+          name: payload.name,
+          studentNumber: payload.studentNumber,
+        },
       }),
     initialPageParam: 0,
     getNextPageParam: (lastPage: PlayerListResponse) =>

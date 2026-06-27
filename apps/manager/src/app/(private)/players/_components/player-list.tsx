@@ -3,12 +3,11 @@
 import { ChevronForwardIcon, DeleteForeverIcon } from '@hcc/icons';
 import { Spinner, Typography } from '@hcc/ui';
 import Link from 'next/link';
-import { Fragment, useCallback, useMemo, useState } from 'react';
+import { Fragment, useCallback, useState } from 'react';
 
 import { useSuspenseInfinitePlayers } from '~/api';
 import { routes } from '~/constants/routes';
-import { useIntersectionObserver } from '~/hooks';
-import { createKoreanFuzzyMatcher } from '~/utils/ko-fuzzy';
+import { useDebounce, useIntersectionObserver } from '~/hooks';
 
 import { PlayerDeleteDialog } from './player-delete-dialog';
 
@@ -17,8 +16,15 @@ type Props = {
 };
 
 export const PlayerList = ({ edit }: Props) => {
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useSuspenseInfinitePlayers();
   const [query, setQuery] = useState<string>('');
+  const debouncedQuery = useDebounce(query, 300);
+
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useSuspenseInfinitePlayers({
+    cursor: 0,
+    size: 20,
+    name: debouncedQuery.trim(),
+    studentNumber: debouncedQuery.trim(),
+  });
 
   const handleIntersect = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) fetchNextPage();
@@ -27,14 +33,6 @@ export const PlayerList = ({ edit }: Props) => {
   const { ref: sentinelRef } = useIntersectionObserver<HTMLDivElement>(handleIntersect, {
     threshold: 0.1,
   });
-
-  const filteredPlayers = useMemo(() => {
-    if (!query) return data;
-    const matcher = createKoreanFuzzyMatcher(query);
-    return data.filter(
-      (player) => matcher.test(player.name) || player.studentNumber.includes(query),
-    );
-  }, [data, query]);
 
   return (
     <Fragment>
@@ -49,7 +47,7 @@ export const PlayerList = ({ edit }: Props) => {
       </Typography>
 
       <div className="column h-full gap-3 overflow-y-auto pb-[92px]">
-        {filteredPlayers.map((player) => (
+        {data.map((player) => (
           <div
             key={player.playerId}
             className="row-between rounded-lg border border-neutral-100 px-4 py-3"

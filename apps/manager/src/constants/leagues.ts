@@ -20,7 +20,7 @@ export const roundOptions = [
   { value: '100', label: '예선', round: 100 },
   { value: '16', label: '16강', round: 16 },
   { value: '8', label: '8강', round: 8 },
-  { value: '4', label: '4강', round: 4 },
+  { value: '4', label: '준결승', round: 4 },
   { value: '2', label: '결승', round: 2 },
 ] as const;
 
