@@ -48,6 +48,26 @@ export const Default: Story = {
   },
 };
 
+export const CustomInputIds: Story = {
+  argTypes: {
+    inputId: { control: { type: 'text' } },
+    descriptionId: { control: { type: 'text' } },
+  },
+  render: ({ label = 'Label', description = 'Description', placeholder = 'asdfasdf', ...args }) => {
+    return (
+      <TextField
+        label={label}
+        description={description}
+        placeholder={placeholder}
+        left={<ErrorIcon size="20px" style={{ flexShrink: 0 }} />}
+        right={<ErrorIcon size="20px" style={{ flexShrink: 0 }} />}
+        clear
+        {...args}
+      />
+    );
+  },
+};
+
 export const ClearButton: Story = {
   render: ({ label = 'Label', description = 'Description', placeholder = 'asdfasdf', ...args }) => {
     const [value, setValue] = useState('');
