@@ -32,9 +32,6 @@ export const CheerTalkList = ({
   const { data: game } = useSuspenseGame({ gameId });
   const NOTICE_DISMISSED_KEY = `cheer-notice-dismissed-${gameId}`;
   const [isNoticeVisible, setIsNoticeVisible] = useState(false);
-  const [formHeight, setFormHeight] = useState(0);
-  const [keyboardHeight, setKeyboardHeight] = useState(0);
-  const formRef = useRef<HTMLDivElement>(null);
 
   const dismissNotice = () => {
     setIsNoticeVisible(false);
@@ -46,74 +43,32 @@ export const CheerTalkList = ({
     setIsNoticeVisible(true);
   };
 
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const hasFirstScrolled = useRef(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const hasFirstFocused = useRef(false);
 
-  useEffect(() => {
-    const el = formRef.current;
-    if (!el) return;
-    const observer = new ResizeObserver(() => setFormHeight(el.offsetHeight));
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const vv = window.visualViewport;
-    if (!vv) return;
-
-    const update = () => {
-      const height = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
-      setKeyboardHeight(height);
-    };
-
-    update();
-
-    vv.addEventListener('resize', update);
-    vv.addEventListener('scroll', update);
-    return () => {
-      vv.removeEventListener('resize', update);
-      vv.removeEventListener('scroll', update);
-    };
-  }, []);
-
   const isNearBottom = useCallback(() => {
-    const el = scrollContainerRef.current;
+    const el = scrollRef.current;
     if (!el) return false;
     return el.scrollTop + el.clientHeight >= el.scrollHeight - 100;
   }, []);
 
   const scrollToBottom = useCallback(() => {
-    const el = scrollContainerRef.current;
+    const el = scrollRef.current;
     if (!el) return;
-    el.scrollTo({ top: el.scrollHeight });
+    el.scrollTop = el.scrollHeight;
   }, []);
 
   const [scrollToBottomWithDelay] = useTimeout(scrollToBottom, 100);
 
-  // 키보드가 올라올 때 최신 메시지가 보이도록 스크롤
-  useEffect(() => {
-    if (keyboardHeight > 0) {
-      scrollToBottomWithDelay();
-    }
-  }, [keyboardHeight, scrollToBottomWithDelay]);
-
   const loadPreviousMessages = useThrottle(fetchNextPage, 1000);
 
   const handleScroll = useCallback(() => {
-    const el = scrollContainerRef.current;
+    const el = scrollRef.current;
     if (!el) return;
     if (el.scrollTop < 100 && hasNextPage && !isFetching && !isFetchingNextPage) {
       loadPreviousMessages();
     }
   }, [hasNextPage, isFetching, isFetchingNextPage, loadPreviousMessages]);
-
-  useEffect(() => {
-    if (cheerTalkList.length > 0 && !hasFirstScrolled.current) {
-      hasFirstScrolled.current = true;
-      scrollToBottomWithDelay();
-    }
-  }, [cheerTalkList, scrollToBottomWithDelay]);
 
   useEffect(() => {
     if (socketTalkList.length === 0) return;
@@ -134,7 +89,7 @@ export const CheerTalkList = ({
   return (
     <>
       <div
-        ref={scrollContainerRef}
+        ref={scrollRef}
         onScroll={handleScroll}
         className="relative min-h-0 flex-1 overflow-y-auto px-4 py-4"
       >
@@ -149,15 +104,10 @@ export const CheerTalkList = ({
             <CheerTalkItem key={`talk-${talk.cheerTalkId}`} {...talk} />
           ))}
         </div>
-        <div style={{ height: formHeight + keyboardHeight }} />
       </div>
 
-      <div
-        ref={formRef}
-        className="fixed inset-x-0 z-20 border-t border-neutral-100 bg-white"
-        style={{ bottom: keyboardHeight }}
-      >
-        <div className="relative mx-auto w-full max-w-(--app-max-width)">
+      <div className="pb-safe z-20 mx-auto w-full max-w-(--app-max-width) border-t border-neutral-100 bg-white">
+        <div className="relative w-full">
           {isNoticeVisible && (
             <div className="absolute right-4 bottom-full left-4 z-20 mb-2">
               <div className="animate-in fade-in slide-in-from-bottom-2 flex items-center justify-between rounded-lg border border-neutral-100 bg-white p-3 shadow-lg">

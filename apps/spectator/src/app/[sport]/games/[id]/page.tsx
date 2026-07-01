@@ -1,14 +1,23 @@
-import type { Metadata, Viewport } from 'next';
+import type { Metadata } from 'next';
 
+import * as Tabs from '@radix-ui/react-tabs';
+import { Suspense } from '@suspensive/react';
 import { redirect } from 'next/navigation';
 
 import type { GameType } from '~/api';
 
 import { fetchGame } from '~/api';
+import { CheerVS } from '~/app/[sport]/games/_components/cheer-vs';
+import { LineupTab } from '~/app/[sport]/games/_components/lineup-tab';
+import { TimelineTab } from '~/app/[sport]/games/_components/timeline-tab';
+import { VideoTab } from '~/app/[sport]/games/_components/video-tab';
+import { Header } from '~/components/layout';
+import { TabTrigger } from '~/components/ui';
 import { routes } from '~/constants/routes';
 import { DEFAULT_SPORT, normalizeSportParam } from '~/utils/sport-route';
 
-import { GamePageClient } from './_components/game-page-client';
+import { Banner, BannerSkeleton } from '../_components/banner';
+import { CheerTalk } from '../_components/cheer-talk';
 
 const validTabs = ['cheer', 'lineup', 'timeline', 'video'];
 
@@ -37,14 +46,68 @@ const Page = async ({ searchParams, params }: Props) => {
     redirect('?tab=cheer');
   }
 
-  return <GamePageClient gameId={id} sportType={sportType} defaultTab={tab as string} />;
+  return (
+    <div className="flex h-dvh flex-col bg-white">
+      <Header.Root left={<Header.Arrow />} center={<Header.LinkLogo />} />
+
+      <Suspense clientOnly fallback={<BannerSkeleton />}>
+        <Banner gameId={id} sportType={sportType} />
+      </Suspense>
+
+      <Suspense clientOnly>
+        <CheerVS gameId={id} />
+      </Suspense>
+
+      <hr className="h-2 w-full border-none bg-neutral-50" />
+
+      <Tabs.Root className="flex min-h-0 flex-1 flex-col" defaultValue={tab}>
+        <Tabs.List className="sticky top-0 z-10 flex h-12 flex-shrink-0 gap-5 border-b border-neutral-100 bg-white px-5">
+          <TabTrigger className="size-full" value="cheer">
+            응원
+          </TabTrigger>
+          <TabTrigger className="size-full" value="lineup">
+            라인업
+          </TabTrigger>
+          <TabTrigger className="size-full" value="timeline">
+            타임라인
+          </TabTrigger>
+          <TabTrigger className="size-full" value="video">
+            영상
+          </TabTrigger>
+        </Tabs.List>
+
+        <Tabs.Content
+          value="cheer"
+          className="flex min-h-0 flex-1 flex-col bg-[#EBEBEB] outline-none"
+        >
+          <Suspense clientOnly>
+            <CheerTalk gameId={id} sportType={sportType} />
+          </Suspense>
+        </Tabs.Content>
+
+        <Tabs.Content value="lineup" className="overflow-y-auto outline-none">
+          <Suspense clientOnly>
+            <LineupTab gameId={id} sportType={sportType} />
+          </Suspense>
+        </Tabs.Content>
+
+        <Tabs.Content value="timeline" className="overflow-y-auto outline-none">
+          <Suspense clientOnly>
+            <TimelineTab gameId={id} sportType={sportType} />
+          </Suspense>
+        </Tabs.Content>
+
+        <Tabs.Content value="video" className="overflow-y-auto outline-none">
+          <Suspense clientOnly>
+            <VideoTab gameId={id} />
+          </Suspense>
+        </Tabs.Content>
+      </Tabs.Root>
+    </div>
+  );
 };
 
 export default Page;
-
-export const viewport: Viewport = {
-  interactiveWidget: 'overlays-content',
-};
 
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
   const { id: _id } = await params;
