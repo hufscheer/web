@@ -6,7 +6,6 @@ import { type GameCheerTalkWithTeamInfo, useSuspenseGame } from '~/api';
 
 import { CheerTalkForm } from './cheer-talk-form';
 import CheerTalkItem from './cheer-talk-item';
-import { NewMessagePreview } from './components/NewMessagePreview';
 import { NoticeBanner } from './components/NoticeBanner';
 import { useChatScroll } from './hooks/useChatScroll';
 import { useNewMessageNotifier } from './hooks/useNewMessageNotifier';
@@ -83,9 +82,9 @@ export const CheerTalkList = ({
         <div className="relative w-full">
           <div className="absolute right-4 bottom-full left-4 z-20 mb-2 flex flex-col gap-2">
             {notice.visible && <NoticeBanner onDismiss={notice.dismiss} />}
-            {notifier.preview && (
+            {/* {notifier.preview && (
               <NewMessagePreview message={notifier.preview} onClick={notifier.dismiss} />
-            )}
+            )} */}
           </div>
 
           <CheerTalkForm

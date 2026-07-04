@@ -15,7 +15,6 @@ export const useGameCheerTalkSocket = (gameId: number) => {
 
   if (!socketUrl) {
     console.warn('Socket URL is not defined. Cheer Talk socket will not connect.');
-    return items;
   }
 
   useSocket<CheerTalkType>({

@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import { useThrottle } from '~/hooks/useThrottle';
 
@@ -49,7 +49,7 @@ export const useChatScroll = ({
   }, [hasNextPage, isFetching, isFetchingNextPage, loadPreviousMessages]);
 
   // 최초 렌더링 시 1회 하단으로 이동
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (didInitialScrollRef.current) return;
     if (messageCount === 0) return;
     const el = ref.current;
@@ -59,7 +59,7 @@ export const useChatScroll = ({
   }, [messageCount]);
 
   // 이전 페이지 prepend 시 스크롤 위치 보존
-  useLayoutEffect(() => {
+  useEffect(() => {
     const el = ref.current;
     if (!el) return;
     if (prevScrollHeightRef.current === null) return;
