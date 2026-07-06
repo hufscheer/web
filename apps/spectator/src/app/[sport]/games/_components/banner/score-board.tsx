@@ -22,32 +22,11 @@ export const ScoreBoard = ({
   gameState,
   quarter,
 }: ScoreBoardProps) => {
-  const _startTime = new Date(startTime);
-
-  const matchDate = _startTime.toLocaleDateString('ko-KR', {
-    month: '2-digit',
-    day: '2-digit',
-    weekday: 'short',
-    timeZone: 'Asia/Seoul',
-  });
-
-  const matchTime = _startTime.toLocaleTimeString('ko-KR', {
-    hour: '2-digit',
-    minute: '2-digit',
-    hourCycle: 'h23',
-    timeZone: 'Asia/Seoul',
-  });
-
   return (
     <div className="flex items-center justify-between pt-4 pb-2">
       <TeamArea src={homeTeam.logoImageUrl} teamName={homeTeam.gameTeamName} />
       <Score score={homeTeam.score} gameState={gameState} />
-      <CenterArea
-        quarter={quarter}
-        gameState={gameState}
-        matchDate={matchDate}
-        matchTime={matchTime}
-      />
+      <StatusArea quarter={quarter} gameState={gameState} startTime={startTime} />
       <Score score={awayTeam.score} gameState={gameState} />
       <TeamArea src={awayTeam.logoImageUrl} teamName={awayTeam.gameTeamName} />
     </div>
@@ -79,22 +58,21 @@ const TeamArea = ({ src, teamName }: TeamAreaProps) => {
   );
 };
 
-/* ----- CenterArea ----- */
+/* ----- StatusArea ----- */
 
-interface CenterAreaProps {
+interface StatusAreaProps {
   quarter: string;
   gameState: GameStateType;
-  matchDate: string;
-  matchTime: string;
+  startTime: string;
 }
 
-const CenterArea = ({ quarter, gameState, matchDate, matchTime }: CenterAreaProps) => {
+const StatusArea = ({ quarter, gameState, startTime }: StatusAreaProps) => {
   return (
     <div className="flex flex-col items-center gap-1">
       <Badge size="sm" variant={gameState === 'PLAYING' ? 'danger' : 'default'}>
         {quarter}
       </Badge>
-      <Time date={matchDate} time={matchTime} />
+      <Time startTime={startTime} />
     </div>
   );
 };
