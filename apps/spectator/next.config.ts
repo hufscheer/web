@@ -5,7 +5,7 @@ const apiBaseUrl = process.env.API_BASE_URL ?? '';
 const nextConfig: NextConfig = {
   output: 'standalone',
   images: {
-    unoptimized: true,
+    //unoptimized: true,
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
