@@ -8,7 +8,6 @@ import { Toaster } from '@hcc/ui';
 import { AnalyticsProvider } from '~/app/analytics';
 import { Layout } from '~/components/layout';
 
-import { Pretendard } from './_fonts';
 import { Provider } from './provider';
 
 export const metadata: Metadata = {
@@ -37,7 +36,16 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html dir="ltr" lang="ko">
-      <body className={Pretendard.className}>
+      <head>
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          crossOrigin="anonymous"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+        />
+      </head>
+
+      <body>
         <Provider>
           <Layout>{children}</Layout>
         </Provider>
