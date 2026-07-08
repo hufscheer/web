@@ -1,7 +1,11 @@
 import type { Metadata } from 'next';
 
+import { dehydrate, getQueryClient, HydrationBoundary } from '@hcc/api-base';
 import { Spinner } from '@hcc/ui';
 import { ErrorBoundary, Suspense } from '@suspensive/react';
+
+import { fetchLeagueRecentGames } from '~/api';
+import { DEFAULT_SPORT, normalizeSportParam } from '~/utils/sport-route';
 
 import { ErrorMessage } from './_components/error-message';
 import { SportTab } from './_components/sport-tab';
@@ -9,23 +13,37 @@ import { RecentTab } from './_components/tab';
 
 export const metadata: Metadata = { title: '홈' };
 
-export default function Page() {
+type Props = {
+  params: Promise<{ sport: string }>;
+  searchParams: Promise<{ org?: string }>;
+};
+
+export default async function Page({ params, searchParams }: Props) {
+  const qc = getQueryClient();
+  const [{ sport: _sport }, { org }] = await Promise.all([params, searchParams]);
+
+  const sport = normalizeSportParam(_sport) ?? DEFAULT_SPORT;
+  const organizationId = Number(org);
+
+  await fetchLeagueRecentGames({ sportType: sport, organizationId });
+
   return (
     <div className="flex flex-1 flex-col justify-between gap-3">
       <ErrorBoundary fallback={<ErrorMessage />}>
         <SportTab />
-        <Suspense
-          clientOnly
-          fallback={
-            <div className="flex justify-center py-12">
-              <Spinner />
+        <HydrationBoundary state={dehydrate(qc)}>
+          <Suspense
+            fallback={
+              <div className="flex justify-center py-12">
+                <Spinner />
+              </div>
+            }
+          >
+            <div className="flex flex-1 px-5">
+              <RecentTab initialOrganizationId={organizationId} sport={sport} />
             </div>
-          }
-        >
-          <div className="flex flex-1 px-5">
-            <RecentTab />
-          </div>
-        </Suspense>
+          </Suspense>
+        </HydrationBoundary>
       </ErrorBoundary>
     </div>
   );
