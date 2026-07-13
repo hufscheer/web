@@ -3,12 +3,14 @@ import type { PropsWithChildren } from 'react';
 import { ChevronForwardIcon } from '@hcc/icons';
 import { formatTime } from '@hcc/toolkit';
 import { Badge, Button, Typography } from '@hcc/ui';
+import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import type { GameQuarterType, GameTeamType, GameType } from '~/api';
-import type { SportType } from '~/api/types';
+import type { GameStateType, SportType } from '~/api/types';
 
+import { stateOptions } from '~/constants/leagues';
 import { routes } from '~/constants/routes';
 
 export const GameCardRoot = ({ children }: PropsWithChildren) => {
@@ -32,7 +34,7 @@ const GameHeader = ({
   return (
     <div className="row-between">
       <Badge size="sm" variant={state === 'PLAYING' ? 'danger' : 'default'}>
-        {state ?? gameQuarter?.label}
+        {state ? stateOptions[state] : gameQuarter?.label}
       </Badge>
       <Typography className="center-y" color="var(--color-neutral-500)" fontSize={14} asChild>
         <Link href={`/${routes.game(leagueId, gameId, sportType)}`}>
@@ -70,17 +72,42 @@ type GameMenuProps = {
   leagueId: number;
   id: number;
   sportType: SportType;
+  state: GameStateType;
 };
 
-const GameMenu = ({ leagueId, id, sportType }: GameMenuProps) => {
+const GameMenu = ({ leagueId, id, sportType, state }: GameMenuProps) => {
+  const isFinished = state === 'FINISHED';
+
   return (
     <div className="row-between mt-4 gap-2.5">
-      <Button className="flex-1" size="sm" color="black" variant="subtle" asChild>
-        <Link href={`/${routes.game_timeline(leagueId, id, sportType)}`}>경기 진행</Link>
-      </Button>
-      <Button className="flex-1" size="sm" color="black" variant="subtle" asChild>
-        <Link href={`/${routes.game(leagueId, id, sportType)}`}>경기 정보 수정</Link>
-      </Button>
+      {isFinished ? (
+        <Typography color="var(--color-neutral-500)" fontSize={14}>
+          경기가 종료되어 진행 및 정보 수정이 불가능합니다.
+        </Typography>
+      ) : (
+        <>
+          <Button
+            disabled={isFinished}
+            className={clsx('flex-1', isFinished && 'pointer-events-none')}
+            size="sm"
+            color="black"
+            variant="subtle"
+            asChild
+          >
+            <Link href={`/${routes.game_timeline(leagueId, id, sportType)}`}>경기 진행</Link>
+          </Button>
+          <Button
+            disabled={isFinished}
+            className={clsx('flex-1', isFinished && 'pointer-events-none')}
+            size="sm"
+            color="black"
+            variant="subtle"
+            asChild
+          >
+            <Link href={`/${routes.game(leagueId, id, sportType)}`}>경기 정보 수정</Link>
+          </Button>
+        </>
+      )}
     </div>
   );
 };

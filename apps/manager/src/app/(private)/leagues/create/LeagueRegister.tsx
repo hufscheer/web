@@ -27,10 +27,11 @@ type Props = {
 
 const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSubmit }: Props) => {
   const router = useRouter();
+  const [value, setValue] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [registeredTeams, setRegisteredTeams] = useState<RegisteredTeam[]>(initialTeams);
   const { mutate, isPending } = useCreateLeagues();
-  const maxTeams = useMemo(() => round ?? 32, [round]);
+  const maxTeams = useMemo(() => round ?? 100, [round]);
 
   const isEditMode = !!onSubmit;
 
@@ -144,9 +145,15 @@ const LeagueRegister = ({ onPrev, round, leagueInfoForm, initialTeams = [], onSu
           <div className="flex-1 rounded-t-lg p-4">
             <div className="mx-auto mb-4 h-1.5 w-12 flex-shrink-0 rounded-full bg-gray-300" />
             <Drawer.Title className="mb-4 text-start text-2xl font-semibold">팀 선택</Drawer.Title>
-            <Input size="lg" placeholder="팀 이름을 검색해주세요" />
+            <Input
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              size="lg"
+              placeholder="팀 이름을 검색해주세요"
+            />
             <SelectTeam
               onClose={() => setIsOpen(false)}
+              value={value}
               onRegister={handleRegisterTeam}
               maxSelectCount={maxTeams - registeredTeams.length}
               sportType={leagueInfoForm.sportType}

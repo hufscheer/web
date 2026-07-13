@@ -9,6 +9,7 @@ import { useCreateTimelinesWarning } from '~/api/mutations/useCreateTimelineWarn
 import { useSuspenseGameLineupPlaying } from '~/api/queries/useGameLineupPlaying';
 import { useSuspenseLeague } from '~/api/queries/useLeague';
 import { CARD_TYPE, QUARTER_TYPE } from '~/api/types';
+import { TeamSegmentedControl } from '~/components/ui';
 import { InputSelect } from '~/components/ui/input-select';
 
 type SelectOption = { label: string; value: string };
@@ -24,6 +25,7 @@ const quarterOptions: SelectOption[] = (
   label: QUARTER_LABELS[key],
   value: QUARTER_TYPE[key],
 }));
+
 const CARD_LABELS = {
   YELLOW: '경고',
   RED: '퇴장',
@@ -45,61 +47,52 @@ export default function WarningSheet({
   onClose: () => void;
 }) {
   const { data: league } = useSuspenseLeague({ leagueId });
-  const sportType = league.sportType;
-  const { mutate: createWarning, isPending } = useCreateTimelinesWarning({
-    gameId,
-  });
+  const { mutate: createWarning, isPending } = useCreateTimelinesWarning({ gameId });
   const { data: lineup } = useSuspenseGameLineupPlaying({ gameId });
-  const teamOptions: SelectOption[] = useMemo(() => {
-    return lineup.map((team) => ({
-      label: team.teamName,
-      value: String(team.gameTeamId),
-    }));
-  }, [lineup]);
 
   const [quarter, setQuarter] = useState<SelectOption | null>(null);
-  const [team, setTeam] = useState<SelectOption | null>(null);
+  const [selectedTeamId, setSelectedTeamId] = useState<number | null>(
+    lineup[0]?.gameTeamId ?? null,
+  );
   const [player, setPlayer] = useState<SelectOption | null>(null);
   const [card, setCard] = useState<SelectOption | null>(null);
-
   const [minute, setMinute] = useState('');
 
   const playerOptions: SelectOption[] = useMemo(() => {
-    if (!team) return [];
-
-    const selectedTeamId = Number(team.value);
+    if (selectedTeamId === null) return [];
     const selectedTeam = lineup.find((t) => t.gameTeamId === selectedTeamId);
-
     if (!selectedTeam) return [];
-
     return selectedTeam.gameTeamPlayers.map((p) => ({
       label: `${p.jerseyNumber} ${p.playerName}`,
       value: String(p.lineupPlayerId),
     }));
-  }, [lineup, team]);
-  const isFormValid = quarter && team && player && card && minute;
+  }, [lineup, selectedTeamId]);
+
+  const isFormValid = !!quarter && selectedTeamId !== null && !!player && !!card && !!minute;
 
   const submit = () => {
     if (!isFormValid) {
-      toast('모든 항목을 입력해주세요.');
+      toast('모든 항목을 입력해주세요');
       return;
     }
+
     const request: WarningType = {
       gameId,
-      gameTeamId: Number(team.value),
+      gameTeamId: selectedTeamId,
       warnedLineupPlayerId: Number(player.value),
       recordedQuarter: quarter.value,
       recordedAt: Number(minute),
       cardType: card.value,
-      sportType,
+      sportType: league.sportType,
     };
 
     createWarning(request, {
       onSuccess: () => {
+        toast.success('경고가 등록되었어요');
         onClose();
       },
       onError: () => {
-        toast.error('득점 등록에 실패했습니다. 다시 시도해주세요.');
+        toast.error('경고 등록에 실패했어요 다시 시도해주세요');
       },
     });
   };
@@ -117,17 +110,16 @@ export default function WarningSheet({
         }
       />
 
-      <InputSelect
-        label="팀 명"
-        options={teamOptions}
-        value={team?.value}
-        onValueChange={(value) => {
-          setTeam(teamOptions.find((opt) => opt.value === value) || null);
-          setPlayer(null); // 팀이 바뀌면 선수 초기화
+      <div className="text-base font-medium text-black">경고 상세 정보</div>
+
+      <TeamSegmentedControl
+        teams={lineup}
+        value={selectedTeamId}
+        onChange={(teamId) => {
+          setSelectedTeamId(teamId);
+          setPlayer(null);
         }}
       />
-
-      <div className="text-base font-medium text-black">경고 상세 정보</div>
 
       <InputSelect
         label="선수"
@@ -136,14 +128,16 @@ export default function WarningSheet({
         onValueChange={(value) =>
           setPlayer(playerOptions.find((opt) => opt.value === value) || null)
         }
-        disabled={!team || playerOptions.length === 0}
+        disabled={selectedTeamId === null || playerOptions.length === 0}
       />
+
       <InputSelect
         label="상태"
         options={cardOptions}
         value={card?.value}
         onValueChange={(value) => setCard(cardOptions.find((opt) => opt.value === value) || null)}
       />
+
       <Input
         placeholder="시간(분)"
         type="number"
@@ -152,7 +146,13 @@ export default function WarningSheet({
         min={0}
       />
 
-      <Button color="black" size="lg" onClick={submit} loading={isPending}>
+      <Button
+        color="black"
+        size="lg"
+        onClick={submit}
+        loading={isPending}
+        disabled={!isFormValid || isPending}
+      >
         타임라인 등록
       </Button>
     </div>

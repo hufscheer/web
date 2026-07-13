@@ -17,13 +17,14 @@ type Props = {
 export const BasketballTimeline = ({ gameId }: Props) => {
   const { data: game } = useSuspenseGame({ gameId });
   const { data } = useSuspenseGameTimeline({ gameId });
+  const { timelines } = data;
 
-  const visibleQuarters = data.filter((t) => t.gameQuarter.key !== 'PRE_GAME');
+  const visibleQuarters = timelines.filter((t) => t.gameQuarter.key !== 'PRE_GAME');
   const [activeQuarterKey, setActiveQuarterKey] = useState<string>(
     visibleQuarters[0]?.gameQuarter.key ?? '',
   );
 
-  if (data.length === 0) {
+  if (timelines.length === 0) {
     return (
       <Typography
         className="p-5 text-center"
@@ -41,14 +42,14 @@ export const BasketballTimeline = ({ gameId }: Props) => {
 
   // 쿼터별 점수 계산 (마지막 득점 이벤트의 snapshot 사용)
   const getQuarterScores = (quarterKey: string): [number, number] | null => {
-    const quarter = data.find((t) => t.gameQuarter.key === quarterKey);
+    const quarter = timelines.find((t) => t.gameQuarter.key === quarterKey);
     if (!quarter) return null;
 
     let homeScore = 0;
     let awayScore = 0;
     for (const record of quarter.records) {
-      if (record.type === 'SCORE' && record.scoreRecord.length > 0) {
-        const snap = record.scoreRecord[record.scoreRecord.length - 1]?.snapshot;
+      if (record.type === 'SCORE') {
+        const snap = record.scoreRecord?.snapshot;
         if (snap && snap.length >= 2) {
           homeScore = snap[0]?.score ?? homeScore;
           awayScore = snap[1]?.score ?? awayScore;
@@ -111,7 +112,7 @@ export const BasketballTimeline = ({ gameId }: Props) => {
           </Typography>
         ) : (
           activeTimeline.records.map((record) => {
-            if (record.progressRecord?.gameProgressType) {
+            if (record.type === 'GAME_PROGRESS') {
               if (activeTimeline.gameQuarter.key === 'POST_GAME') return null;
               return (
                 <TextRecord key={record.recordId} showDividerLine>
@@ -121,13 +122,20 @@ export const BasketballTimeline = ({ gameId }: Props) => {
                 </TextRecord>
               );
             }
-            return (
-              <BasketballEventRecord
-                key={record.recordId}
-                record={record}
-                homeTeamId={homeTeamId}
-              />
-            );
+            if (
+              record.type === 'SCORE' ||
+              record.type === 'BASKETBALL_REPLACEMENT' ||
+              record.type === 'WARNING_CARD' ||
+              record.type === 'FOUL'
+            ) {
+              return (
+                <BasketballEventRecord
+                  key={record.recordId}
+                  record={record}
+                  homeTeamId={homeTeamId}
+                />
+              );
+            }
           })
         )}
       </div>

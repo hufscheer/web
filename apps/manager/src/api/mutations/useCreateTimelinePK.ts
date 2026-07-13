@@ -14,12 +14,12 @@ export const useCreateTimelinePK = ({ gameId }: { gameId: number }) => {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationKey: queryKeys.games.timeline({ gameId }).queryKey,
     mutationFn: postTimelinePK,
     onSuccess: async () => {
-      await qc.invalidateQueries({
-        queryKey: queryKeys.games.timeline({ gameId }).queryKey,
-      });
+      await Promise.all([
+        qc.refetchQueries({ queryKey: queryKeys.games.timeline({ gameId }).queryKey, type: 'all' }),
+        qc.refetchQueries({ queryKey: queryKeys.games.detail({ gameId }).queryKey, type: 'all' }),
+      ]);
     },
   });
 };

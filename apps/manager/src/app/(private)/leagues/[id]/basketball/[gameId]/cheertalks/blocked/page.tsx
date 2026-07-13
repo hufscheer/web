@@ -11,16 +11,18 @@ type Props = {
 };
 
 const Page = async ({ params }: Props) => {
-  const { gameId: _gameId } = await params;
+  const { id: _id, gameId: _gameId } = await params;
 
   if (!_gameId || Number.isNaN(Number(_gameId))) notFound();
+  if (!_id || Number.isNaN(Number(_id))) notFound();
   const gameId = Number(_gameId);
+  const leagueId = Number(_id);
 
   return (
     <>
       <Header title="응원톡 관리" arrow />
 
-      <div className="column h-full gap-1.5 bg-white px-5 py-4">
+      <div className="column h-full gap-1.5 overflow-y-auto bg-white px-5 py-4">
         <Suspense
           fallback={
             <div className="center p-5">
@@ -29,7 +31,7 @@ const Page = async ({ params }: Props) => {
           }
           clientOnly
         >
-          <BlockedList gameId={gameId} />
+          <BlockedList gameId={gameId} leagueId={leagueId} />
         </Suspense>
       </div>
     </>

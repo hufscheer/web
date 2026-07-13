@@ -6,6 +6,7 @@ import Link from 'next/link';
 
 import { useSuspenseLeaguesHome } from '~/api';
 import { routes } from '~/constants/routes';
+import { SportIcon } from '~/constants/sports';
 
 import { GameCard } from './game-card';
 
@@ -21,6 +22,7 @@ export const MatchOverview = () => {
               <Badge size="sm" variant={league.state === '진행 중' ? 'danger' : 'default'}>
                 {league.state}
               </Badge>
+              <SportIcon sportType={league.sportType} />
               <Typography weight="semibold">{league.name}</Typography>
             </div>
             <Typography color="var(--color-neutral-500)" weight="medium" asChild>
@@ -40,7 +42,12 @@ export const MatchOverview = () => {
                   <GameCard.Team key={team.gameTeamId} {...team} />
                 ))}
               </GameCard.TeamGroup>
-              <GameCard.Menu leagueId={league.id} id={game.id} sportType={league.sportType} />
+              <GameCard.Menu
+                state={game.state}
+                leagueId={league.id}
+                id={game.id}
+                sportType={league.sportType}
+              />
             </GameCard>
           ))}
 

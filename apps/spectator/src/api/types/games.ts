@@ -8,7 +8,12 @@ const quarters = [
   { key: 'SECOND_HALF', label: '후반전' },
   { key: 'EXTRA_TIME', label: '연장전' },
   { key: 'PENALTY_SHOOTOUT', label: '승부차기' },
-  { key: 'POST_GAME', label: '경기후' },
+  { key: 'POST_GAME', label: '종료' },
+  { key: 'FIRST_QUARTER', label: '1쿼터' },
+  { key: 'SECOND_QUARTER', label: '2쿼터' },
+  { key: 'THIRD_QUARTER', label: '3쿼터' },
+  { key: 'FOURTH_QUARTER', label: '4쿼터' },
+  { key: 'OVERTIME', label: '연장전' },
 ] as const;
 
 export type GameQuarterType = (typeof quarters)[number];
@@ -59,6 +64,12 @@ export type GameListResponse = {
   games: GameListType[];
 };
 
+export type GamesListPageResponse = {
+  content: GameListResponse[];
+  nextCursor: number | null;
+  hasNext: boolean;
+};
+
 export type GameDetailPayload = { gameId: number };
 
 export type GameCheerPayload = { gameId: number };
@@ -67,6 +78,24 @@ export type GameCheerType = {
   gameTeamId: number;
   cheerCount: number;
 };
+
+export type QuarterType =
+  | 'FIRST_QUARTER'
+  | 'SECOND_QUARTER'
+  | 'THIRD_QUARTER'
+  | 'FOURTH_QUARTER'
+  | 'OVERTIME';
+
+export type ScoreType = {
+  gameTeamId: number;
+  score: number;
+};
+
+export type GameQuarterScoresType = {
+  quarter: QuarterType;
+  displayName: string;
+  scores: ScoreType[];
+}[];
 
 export type GameLineupPayload = { gameId: number };
 

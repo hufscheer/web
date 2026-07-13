@@ -1,23 +1,28 @@
 import { colors, Modal, Typography } from '@hcc/ui';
-import { Fragment, type ReactNode, useState } from 'react';
+import { Fragment, type ReactNode, Suspense, useCallback, useState } from 'react';
 
-import { useSuspensePlayers } from '~/api';
+import type { PlayerType } from '~/api';
+
+import { useSuspenseInfinitePlayers } from '~/api';
+import { Skeleton } from '~/components/ui';
+import { useDebounce, useIntersectionObserver } from '~/hooks';
+
+export type SelectedPlayer = Pick<PlayerType, 'playerId' | 'name' | 'studentNumber'>;
 
 type Props = {
   children: ReactNode;
-  onPlayerClick: (id: number) => void;
+  onPlayerClick: (player: SelectedPlayer) => void;
 };
 
 export const PlayerAppendDialog = ({ children, onPlayerClick }: Props) => {
-  const { data } = useSuspensePlayers();
-
   const [open, setOpen] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
+  const debouncedQuery = useDebounce(query, 300);
 
-  const handlePlayerClick = (id: number) => {
+  const handlePlayerClick = (player: SelectedPlayer) => {
     setQuery('');
     setOpen(false);
-    onPlayerClick(id);
+    onPlayerClick(player);
   };
 
   return (
@@ -39,35 +44,87 @@ export const PlayerAppendDialog = ({ children, onPlayerClick }: Props) => {
           />
         </Typography>
 
-        <div className="column gap-1.5 overflow-y-auto px-4 py-2">
-          {data
-            .filter((player) => player.name.includes(query))
-            .map((player, index) => (
-              <Fragment key={player.playerId}>
-                <button
-                  type="button"
-                  className="column cursor-pointer"
-                  onClick={() => handlePlayerClick(player.playerId)}
-                >
-                  <Typography className="text-left" weight="medium" asChild>
-                    <span>{player.name}</span>
-                  </Typography>
-                  <Typography
-                    className="text-left"
-                    fontSize={13}
-                    color={colors.neutral500}
-                    weight="medium"
-                    asChild
-                  >
-                    <span>{player.studentNumber}</span>
-                  </Typography>
-                </button>
-
-                {data.length - 1 !== index && <hr className="border-neutral-100" />}
-              </Fragment>
-            ))}
-        </div>
+        <Suspense fallback={<PlayerListSkeleton />}>
+          <PlayerList name={debouncedQuery.trim()} onPlayerClick={handlePlayerClick} />
+        </Suspense>
       </Modal.Content>
     </Modal>
+  );
+};
+
+const PlayerListSkeleton = () => (
+  <div className="column gap-1.5 px-4 py-2">
+    {['a', 'b', 'c', 'd', 'e'].map((key, i) => (
+      <Fragment key={key}>
+        <div className="column gap-1 py-0.5">
+          <Skeleton className="h-4 w-2/5 p-0" />
+          <Skeleton className="h-3 w-1/4 p-0" />
+        </div>
+        {i < 4 && <hr className="border-neutral-100" />}
+      </Fragment>
+    ))}
+  </div>
+);
+
+interface PlayerListProps {
+  name: string;
+  onPlayerClick: (player: SelectedPlayer) => void;
+}
+
+const PlayerList = ({ name, onPlayerClick }: PlayerListProps) => {
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useSuspenseInfinitePlayers({
+    cursor: 0,
+    size: 20,
+    name,
+    studentNumber: '',
+  });
+
+  const handleIntersect = useCallback(() => {
+    if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const { ref: sentinelRef } = useIntersectionObserver<HTMLDivElement>(handleIntersect, {
+    threshold: 0.1,
+  });
+
+  return (
+    <div className="column gap-1.5 overflow-y-auto px-4 py-2">
+      {data.map((player, index) => (
+        <Fragment key={player.playerId}>
+          <button
+            type="button"
+            className="column cursor-pointer"
+            onClick={() => onPlayerClick(player)}
+          >
+            <Typography className="text-left" weight="medium" asChild>
+              <span>{player.name}</span>
+            </Typography>
+            <Typography
+              className="text-left"
+              fontSize={13}
+              color={colors.neutral500}
+              weight="medium"
+              asChild
+            >
+              <span>{player.studentNumber}</span>
+            </Typography>
+          </button>
+
+          {data.length - 1 !== index && <hr className="border-neutral-100" />}
+        </Fragment>
+      ))}
+
+      <div ref={sentinelRef}>
+        {isFetchingNextPage && (
+          <>
+            <hr className="border-neutral-100" />
+            <div className="column gap-1 py-0.5">
+              <Skeleton className="h-4 w-2/5 p-0" />
+              <Skeleton className="h-3 w-1/4 p-0" />
+            </div>
+          </>
+        )}
+      </div>
+    </div>
   );
 };

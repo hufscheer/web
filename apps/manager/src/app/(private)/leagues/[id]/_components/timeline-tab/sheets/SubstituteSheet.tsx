@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Input, toast } from '@hcc/ui';
+import { HTTPError } from 'ky';
 import { useMemo, useState } from 'react';
 
 import type { ReplacementType } from '~/api/types';
@@ -9,6 +10,7 @@ import { useCreateTimelinesReplace } from '~/api/mutations/useCreateTimelineRepl
 import { useSuspenseGameLineup } from '~/api/queries/useGameLineup';
 import { useSuspenseLeague } from '~/api/queries/useLeague';
 import { QUARTER_TYPE } from '~/api/types';
+import { TeamSegmentedControl } from '~/components/ui';
 import { InputSelect } from '~/components/ui/input-select';
 
 type SelectOption = { label: string; value: string };
@@ -35,73 +37,72 @@ export default function SubstituteSheet({
   onClose: () => void;
 }) {
   const { data: league } = useSuspenseLeague({ leagueId });
-  const sportType = league.sportType;
-  const { mutate: createReplacement, isPending } = useCreateTimelinesReplace({
-    gameId,
-  });
+  const { mutate: createReplacement, isPending } = useCreateTimelinesReplace({ gameId });
   const { data: lineup } = useSuspenseGameLineup({ gameId });
-  const teamOptions: SelectOption[] = useMemo(() => {
-    return lineup.map((team) => ({
-      label: team.teamName,
-      value: String(team.gameTeamId),
-    }));
-  }, [lineup]);
 
   const [quarter, setQuarter] = useState<SelectOption | null>(null);
-  const [team, setTeam] = useState<SelectOption | null>(null);
+  const [selectedTeamId, setSelectedTeamId] = useState<number | null>(
+    lineup[0]?.gameTeamId ?? null,
+  );
   const [playerIn, setPlayerIn] = useState<SelectOption | null>(null);
   const [playerOut, setPlayerOut] = useState<SelectOption | null>(null);
-
   const [minute, setMinute] = useState('');
 
-  const playerInOptions: SelectOption[] = useMemo(() => {
-    if (!team) return [];
-    const selectedTeam = lineup.find((t) => String(t.gameTeamId) === team.value);
-    if (!selectedTeam) return [];
+  const selectedTeam = useMemo(
+    () => lineup.find((t) => t.gameTeamId === selectedTeamId),
+    [lineup, selectedTeamId],
+  );
 
-    return selectedTeam.candidatePlayers
-      .filter((p) => p.state === 'CANDIDATE') // 후보 선수만 필터링
-      .map((p) => ({
-        label: `${p.jerseyNumber} ${p.playerName}`,
-        value: String(p.lineupPlayerId),
-      }));
-  }, [lineup, team]);
+  const playerInOptions: SelectOption[] = useMemo(() => {
+    if (!selectedTeam) return [];
+    return selectedTeam.candidatePlayers.map((p) => ({
+      label: `${p.jerseyNumber} ${p.playerName}`,
+      value: String(p.lineupPlayerId),
+    }));
+  }, [selectedTeam]);
 
   const playerOutOptions: SelectOption[] = useMemo(() => {
-    if (!team) return [];
-    const selectedTeam = lineup.find((t) => String(t.gameTeamId) === team.value);
     if (!selectedTeam) return [];
+    return selectedTeam.starterPlayers.map((p) => ({
+      label: `${p.jerseyNumber} ${p.playerName}`,
+      value: String(p.lineupPlayerId),
+    }));
+  }, [selectedTeam]);
 
-    return selectedTeam.starterPlayers
-      .filter((p) => p.state === 'STARTER') // 주전 선수만 필터링
-      .map((p) => ({
-        label: `${p.jerseyNumber} ${p.playerName}`,
-        value: String(p.lineupPlayerId),
-      }));
-  }, [lineup, team]);
-  const isFormValid = quarter && team && playerOut && playerIn && minute;
+  const isFormValid = !!quarter && selectedTeamId !== null && !!playerIn && !!playerOut && !!minute;
 
   const submit = () => {
     if (!isFormValid) {
-      toast('모든 항목을 입력해주세요.');
+      toast('모든 항목을 입력해주세요');
       return;
     }
+
     const request: ReplacementType = {
       gameId,
-      gameTeamId: Number(team.value),
+      gameTeamId: selectedTeamId,
       recordedQuarter: quarter.value,
       recordedAt: Number(minute),
-      originLineupPlayerId: Number(playerOut?.value),
-      replacementLineupPlayerId: Number(playerIn?.value),
-      sportType,
+      originLineupPlayerId: Number(playerOut.value),
+      replacementLineupPlayerId: Number(playerIn.value),
+      sportType: league.sportType,
     };
 
     createReplacement(request, {
       onSuccess: () => {
+        toast.success('교체가 등록되었어요');
         onClose();
       },
-      onError: () => {
-        toast.error('득점 등록에 실패했습니다. 다시 시도해주세요.');
+      onError: async (error) => {
+        if (error instanceof HTTPError) {
+          const body = await error.response
+            .json<{ message?: string }>()
+            .catch((): { message?: string } => ({}));
+          if (body.message) {
+            toast.error(body.message);
+            return;
+          }
+        }
+        toast.error('교체 등록에 실패했어요 다시 시도해주세요');
       },
     });
   };
@@ -119,17 +120,17 @@ export default function SubstituteSheet({
         }
       />
 
-      <InputSelect
-        label="팀 명"
-        options={teamOptions}
-        value={team?.value}
-        onValueChange={(value) => {
-          setTeam(teamOptions.find((opt) => opt.value === value) || null);
-          setPlayerIn(null); // 팀이 바뀌면 선수 초기화
+      <div className="text-base font-medium text-black">교체 상세 정보</div>
+
+      <TeamSegmentedControl
+        teams={lineup}
+        value={selectedTeamId}
+        onChange={(teamId) => {
+          setSelectedTeamId(teamId);
+          setPlayerIn(null);
+          setPlayerOut(null);
         }}
       />
-
-      <div className="text-base font-medium text-black">교체 상세 정보</div>
 
       <InputSelect
         label="교체 투입 선수"
@@ -138,8 +139,9 @@ export default function SubstituteSheet({
         onValueChange={(value) =>
           setPlayerIn(playerInOptions.find((opt) => opt.value === value) || null)
         }
-        disabled={!team || playerInOptions.length === 0}
+        disabled={selectedTeamId === null || playerInOptions.length === 0}
       />
+
       <InputSelect
         label="교체 아웃 선수"
         options={playerOutOptions}
@@ -147,8 +149,9 @@ export default function SubstituteSheet({
         onValueChange={(value) =>
           setPlayerOut(playerOutOptions.find((opt) => opt.value === value) || null)
         }
-        disabled={!team || playerOutOptions.length === 0}
+        disabled={selectedTeamId === null || playerOutOptions.length === 0}
       />
+
       <Input
         placeholder="시간(분)"
         type="number"
@@ -157,7 +160,13 @@ export default function SubstituteSheet({
         min={0}
       />
 
-      <Button color="black" size="lg" onClick={submit} loading={isPending}>
+      <Button
+        color="black"
+        size="lg"
+        onClick={submit}
+        loading={isPending}
+        disabled={!isFormValid || isPending}
+      >
         타임라인 등록
       </Button>
     </div>

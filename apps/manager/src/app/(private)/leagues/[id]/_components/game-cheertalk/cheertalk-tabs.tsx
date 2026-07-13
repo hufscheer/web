@@ -1,25 +1,45 @@
 'use client';
 
-import { useSuspenseGamesCheerTalks } from '~/api/queries/useGameCheerTalks';
-import { useSuspenseGamesCheerTalkReport } from '~/api/queries/useGamesCheerTalkReport';
+import { useSuspenseInfiniteGamesCheerTalks } from '~/api/queries/useGameCheerTalks';
+import { useSuspenseInfiniteGamesCheerTalkReport } from '~/api/queries/useGamesCheerTalkReport';
 import { CheerTalkList } from '~/app/(private)/_components/cheertalk/cheertalk-list';
 import { CheerTalkTabs as CheerTalkTabsBase } from '~/app/(private)/_components/cheertalk/cheertalk-tabs';
 
-const AllContent = ({ gameId }: { gameId: number }) => {
-  const { data } = useSuspenseGamesCheerTalks({ gameId, cursor: 1, size: 20 });
-  return <CheerTalkList cheerTalks={data} status="all" />;
+const AllContent = ({ gameId, leagueId }: { gameId: number; leagueId: number }) => {
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useSuspenseInfiniteGamesCheerTalks({ gameId, cursor: 0, size: 10 });
+  const cheerTalks = data.map((t) => ({ ...t, leagueId, gameId }));
+  return (
+    <CheerTalkList
+      cheerTalks={cheerTalks}
+      status="all"
+      hasNextPage={hasNextPage}
+      isFetchingNextPage={isFetchingNextPage}
+      onLoadMore={() => fetchNextPage()}
+    />
+  );
 };
 
-const ReportedContent = ({ gameId }: { gameId: number }) => {
-  const { data } = useSuspenseGamesCheerTalkReport({ gameId, cursor: 1, size: 20 });
-  return <CheerTalkList cheerTalks={data} status="reported" />;
+const ReportedContent = ({ gameId, leagueId }: { gameId: number; leagueId: number }) => {
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useSuspenseInfiniteGamesCheerTalkReport({ gameId, cursor: 0, size: 10 });
+  const cheerTalks = data.map((t) => ({ ...t, leagueId, gameId }));
+  return (
+    <CheerTalkList
+      cheerTalks={cheerTalks}
+      status="reported"
+      hasNextPage={hasNextPage}
+      isFetchingNextPage={isFetchingNextPage}
+      onLoadMore={() => fetchNextPage()}
+    />
+  );
 };
 
-type Props = { gameId: number };
+type Props = { gameId: number; leagueId: number };
 
-export const GameCheerTalkTabs = ({ gameId }: Props) => (
+export const GameCheerTalkTabs = ({ gameId, leagueId }: Props) => (
   <CheerTalkTabsBase
-    allContent={<AllContent gameId={gameId} />}
-    reportedContent={<ReportedContent gameId={gameId} />}
+    allContent={<AllContent gameId={gameId} leagueId={leagueId} />}
+    reportedContent={<ReportedContent gameId={gameId} leagueId={leagueId} />}
   />
 );

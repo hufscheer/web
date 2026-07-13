@@ -7,8 +7,8 @@ type Request = {
   lineupPlayerId: number;
 };
 
-export const patchLineupPlayerCaptainRegister = ({ gameId, lineupPlayerId }: Request) => {
-  return fetcher.patch<void>(`games/${gameId}/lineup-players/${lineupPlayerId}/captain/register`, {
+export const putLineupPlayerCaptainRegister = ({ gameId, lineupPlayerId }: Request) => {
+  return fetcher.put<void>(`games/${gameId}/lineup-players/${lineupPlayerId}/captain/register`, {
     json: null,
   });
 };
@@ -17,7 +17,7 @@ export const useUpdateGamesCaptainRegister = () => {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: patchLineupPlayerCaptainRegister,
+    mutationFn: putLineupPlayerCaptainRegister,
     onSuccess: async () => {
       await qc.invalidateQueries({ queryKey: queryKeys.games.lineup._def });
     },

@@ -7,7 +7,8 @@ import { useRouter } from 'next/navigation';
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import type { ParseNLPreview, ParsedPlayer, PlayerData } from '~/api/types/nl';
+import type { SportType } from '~/api/types/leagues';
+import type { ParseFailedLine, ParseNLPreview, ParsedPlayer, PlayerData } from '~/api/types/nl';
 
 import { useCheckDuplicateNL } from '~/api/mutations/useCheckDuplicateNL';
 import { useParseNL } from '~/api/mutations/useParseNL';
@@ -25,7 +26,7 @@ export type ChatMessageType = {
   message: string;
   stage?: RegistrationStage;
   players?: PlayerData[];
-  failedLines?: string[];
+  failedLines?: ParseFailedLine[];
 };
 
 type RegistrationStage = 'input' | 'parse-result' | 'duplicate-confirm' | 'final-list' | 'complete';
@@ -36,6 +37,7 @@ type Props = {
   teamName?: string;
   teamUnit?: string;
   teamColor?: string;
+  sportType?: SportType;
   logoImageUrl?: string | File;
   children?: React.ReactNode;
 };
@@ -56,6 +58,7 @@ export const AddPlayerBottomSheet = ({
   teamName,
   teamUnit = '',
   teamColor = '',
+  sportType,
   logoImageUrl = '',
   children,
 }: Props) => {
@@ -162,22 +165,30 @@ export const AddPlayerBottomSheet = ({
               setStage('final-list');
             }
           },
-          onError: (error) => {
+          onError: async (error) => {
             console.error('[CheckDuplicateNL Error]', error);
+            let errorMessage = '죄송해요. 중복 확인 중 오류가 발생했어요. 다시 시도해주세요.';
+            try {
+              const body = await (error as { response?: Response }).response?.json();
+              if (body?.displayMessage) errorMessage = body.displayMessage;
+              else if (body?.message) errorMessage = body.message;
+            } catch {
+              /* ignore */
+            }
             setDisplayMessages((prev) => [
               ...prev,
               {
                 id: `${Date.now() + 1}`,
                 type: 'assistant',
                 stage: 'parse-result',
-                message: '죄송해요. 중복 확인 중 오류가 발생했어요. 다시 시도해주세요.',
+                message: errorMessage,
               },
             ]);
           },
         },
       );
     },
-    [latestPreview, checkDuplicateNL, addMessages],
+    [latestPreview, checkDuplicateNL, addMessages, teamName],
   );
 
   // 1-2단계: Parse 결과 수정
@@ -258,6 +269,8 @@ export const AddPlayerBottomSheet = ({
       return;
     }
 
+    if (!sportType) return;
+
     if (!logoImageUrl) {
       setDisplayMessages((prev) => [
         ...prev,
@@ -288,6 +301,7 @@ export const AddPlayerBottomSheet = ({
         unit: teamUnit,
         teamColor,
         logoImageUrl: imageUrl,
+        sportType,
       },
       players: finalPlayers,
     };
@@ -314,7 +328,8 @@ export const AddPlayerBottomSheet = ({
           setIsClosing(false);
           setDisplayMessages([]);
           onOpenChange(false);
-          router.push('/teams');
+          const sportPath = sportType === 'BASKETBALL' ? 'basketball' : 'soccer';
+          router.push(`/teams/${sportPath}`);
         }, 500);
       },
       onError: async (error) => {
@@ -343,6 +358,7 @@ export const AddPlayerBottomSheet = ({
     teamName,
     teamUnit,
     teamColor,
+    sportType,
     logoImageUrl,
     finalPlayers,
     uploadImage,
@@ -381,7 +397,7 @@ export const AddPlayerBottomSheet = ({
                   stage: 'input',
                   // [어시스턴트 멘트 - 입력 오류] 선수 정보를 인식하지 못했을 때
                   message:
-                    '선수 정보를 인식하지 못했어요.\n이름, 학번(9자리), 등번호 형식으로 다시 입력해주세요.\n예) 홍길동 202600001 10',
+                    '선수 정보를 인식하지 못했어요.\n이름, 학번(9~10자리), 등번호 형식으로 다시 입력해주세요.\n예) 홍길동 202600001 10',
                 },
               ]);
               return;
@@ -395,9 +411,9 @@ export const AddPlayerBottomSheet = ({
                 stage: 'parse-result',
                 // [어시스턴트 멘트 - parse 성공] 백엔드 메시지를 그대로 사용 (API 응답)
                 message:
-                  '기다려주셔서 감사해요. \n선수 정보 인식을 완료했어요. 제가 잘못 인식한 정보가 있는지 확인해주세요. 매니저님의 확인이 필요한 정보가 있어요. 확인하여 저에게 보내주세요. \n\n아직 저는 학습 중인 어시스턴트예요. 유의하여 꼼꼼하게 확인 부탁드려요😭',
+                  '기다려주셔서 감사해요. \n선수 정보 인식을 완료했어요. 제가 잘못 인식한 정보가 있는지 확인해주세요. \n매니저님의 확인이 필요한 정보가 있어요. 확인하여 저에게 보내주세요. \n\n아직 저는 학습 중인 어시스턴트예요. 유의하여 꼼꼼하게 확인 부탁드려요😭',
                 players: preview.players,
-                failedLines: data.parseFailedLines,
+                failedLines: preview.parseFailedLines,
               },
             ]);
             setLatestPreview(preview);

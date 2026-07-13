@@ -1,11 +1,33 @@
-import { useQuery, useSuspenseQuery } from '@hcc/api-base';
+import { useQuery, useSuspenseInfiniteQuery, useSuspenseQuery } from '@hcc/api-base';
 
-import type { GameCheerTalkPayload } from '~/api';
+import type { CheerTalkListResponse, GameCheerTalkPayload } from '~/api';
 
-import { queryKeys } from '../queryKey';
+import { fetcher, queryKeys } from '../queryKey';
 
 export const useGamesCheerTalkBlock = (payload: GameCheerTalkPayload) =>
   useQuery(queryKeys.games.cheerTalksBlocked(payload));
 
 export const useSuspenseGamesCheerTalkBlock = (payload: GameCheerTalkPayload) =>
   useSuspenseQuery(queryKeys.games.cheerTalksBlocked(payload));
+
+export const useSuspenseInfiniteGamesCheerTalkBlock = (payload: GameCheerTalkPayload) =>
+  useSuspenseInfiniteQuery({
+    queryKey: [
+      'games',
+      payload.gameId,
+      'cheer-talks',
+      'blocked',
+      'infinite',
+      payload.size,
+    ] as const,
+    queryFn: async ({ pageParam }: { pageParam: number }) =>
+      fetcher.get<CheerTalkListResponse>(`games/${payload.gameId}/cheer-talks/blocked`, {
+        searchParams: { cursor: pageParam > 0 ? pageParam : '', size: payload.size },
+      }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage: CheerTalkListResponse) =>
+      lastPage.hasNext ? lastPage.nextCursor : null,
+    select: (data) => [
+      ...new Map(data.pages.flatMap((p) => p.content).map((t) => [t.cheerTalkId, t])).values(),
+    ],
+  });

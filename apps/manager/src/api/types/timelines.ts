@@ -17,6 +17,12 @@ export const QUARTER_TYPE = {
   EXTRA_TIME: 'EXTRA_TIME',
   PENALTY_SHOOTOUT: 'PENALTY_SHOOTOUT',
   POST_GAME: 'POST_GAME',
+  // basketball
+  FIRST_QUARTER: 'FIRST_QUARTER',
+  SECOND_QUARTER: 'SECOND_QUARTER',
+  THIRD_QUARTER: 'THIRD_QUARTER',
+  FOURTH_QUARTER: 'FOURTH_QUARTER',
+  OVERTIME: 'OVERTIME',
 };
 
 export type QuarterType = (typeof QUARTER_TYPE)[keyof typeof QUARTER_TYPE];
@@ -28,6 +34,8 @@ export type ScoreType = {
   gameTeamId: number;
   scoreLineupPlayerId: number;
   sportType: SportType;
+  assistLineupPlayerId: number | null;
+  score?: number;
 };
 
 export type ReplacementType = {
@@ -38,14 +46,25 @@ export type ReplacementType = {
   gameTeamId: number;
   originLineupPlayerId: number;
   replacementLineupPlayerId: number;
+  isFoulOut?: boolean;
 };
 
 export type ProgressStateType = {
   gameId?: number;
   sportType: SportType;
   recordedQuarter: QuarterType;
-  recordedAt: number;
+  recordedAt: number | null;
   gameProgressType: ProgressType;
+};
+
+export type ProgressAvailableAction = {
+  quarter: QuarterType;
+  gameProgressType: ProgressType;
+  displayName: string;
+};
+
+export type ProgressAvailableActionsResponse = {
+  availableActions: ProgressAvailableAction[];
 };
 
 export type PkType = {
@@ -57,6 +76,15 @@ export type PkType = {
   scorerId: number;
   isSuccess: boolean;
 };
+export type FoulType = {
+  gameId?: number;
+  recordedQuarter: QuarterType;
+  recordedAt: number;
+  gameTeamId: number;
+  offenderLineupPlayerId: number;
+  sportType: SportType;
+};
+
 export const CARD_TYPE = {
   YELLOW: 'YELLOW',
   RED: 'RED',
@@ -83,11 +111,13 @@ export type ScoreRecordType = {
   scoreRecordId: number;
   score: number;
   snapshot: ScoreSnapshotType[];
+  assistPlayerName: string | null;
 };
 
 export type ReplacementRecordType = {
   replacementRecordId: number;
   replacedPlayerName: string;
+  isFoulOut: boolean | null;
 };
 
 export type ProgressRecordType = {
@@ -105,10 +135,12 @@ type CommonTimelineRecordFields = {
 
 export const RecordType = {
   SCORE: 'SCORE',
-  REPLACEMENT: 'REPLACEMENT',
+  SOCCER_REPLACEMENT: 'SOCCER_REPLACEMENT',
+  BASKETBALL_REPLACEMENT: 'BASKETBALL_REPLACEMENT',
   PROGRESS: 'GAME_PROGRESS',
   PK: 'PK',
   WARNING_CARD: 'WARNING_CARD',
+  FOUL: 'FOUL',
 } as const;
 
 export type PkRecordType = {
@@ -119,53 +151,116 @@ export type WarningCardRecordType = {
   warningCardType: CardType;
 };
 
-export type TimelineRecordType =
-  | (CommonTimelineRecordFields & {
-      type: typeof RecordType.SCORE;
-      scoreRecord: ScoreRecordType[];
-      replacementRecord: undefined;
-      progressRecord: undefined;
-      pkRecord: undefined;
-      warningCardRecord?: WarningCardRecordType;
-    })
-  | (CommonTimelineRecordFields & {
-      type: typeof RecordType.REPLACEMENT;
-      scoreRecord: undefined;
-      replacementRecord: ReplacementRecordType;
-      progressRecord: undefined;
-      pkRecord: undefined;
-      warningCardRecord?: WarningCardRecordType;
-    })
-  | (CommonTimelineRecordFields & {
-      type: typeof RecordType.PROGRESS;
-      scoreRecord: undefined;
-      replacementRecord: undefined;
-      progressRecord: ProgressRecordType;
-      pkRecord: undefined;
-      warningCardRecord?: WarningCardRecordType;
-    })
-  | (CommonTimelineRecordFields & {
-      type: typeof RecordType.PK;
-      scoreRecord: undefined;
-      replacementRecord: undefined;
-      progressRecord: undefined;
-      pkRecord: PkRecordType;
-      warningCardRecord?: WarningCardRecordType;
-    })
-  | (CommonTimelineRecordFields & {
-      type: typeof RecordType.WARNING_CARD;
-      scoreRecord: undefined;
-      replacementRecord: undefined;
-      progressRecord: undefined;
-      pkRecord: undefined;
-      warningCardRecord: WarningCardRecordType;
-    });
+type ScoreTimelineRecord = CommonTimelineRecordFields & {
+  type: typeof RecordType.SCORE;
+  scoreRecord: ScoreRecordType;
+  replacementRecord: ReplacementRecordType | null;
+  progressRecord: ProgressRecordType | null;
+  pkRecord: PkRecordType | null;
+  warningCardRecord: WarningCardRecordType | null;
+};
+
+type SoccerReplacementTimelineRecord = CommonTimelineRecordFields & {
+  type: typeof RecordType.SOCCER_REPLACEMENT;
+  scoreRecord: ScoreRecordType | null;
+  replacementRecord: ReplacementRecordType;
+  progressRecord: ProgressRecordType | null;
+  pkRecord: PkRecordType | null;
+  warningCardRecord: WarningCardRecordType | null;
+};
+
+type BasketballReplacementTimelineRecord = CommonTimelineRecordFields & {
+  type: typeof RecordType.BASKETBALL_REPLACEMENT;
+  scoreRecord: ScoreRecordType | null;
+  replacementRecord: ReplacementRecordType;
+  progressRecord: ProgressRecordType | null;
+  pkRecord: PkRecordType | null;
+  warningCardRecord: WarningCardRecordType | null;
+};
+
+type ProgressTimelineRecord = CommonTimelineRecordFields & {
+  type: typeof RecordType.PROGRESS;
+  scoreRecord: ScoreRecordType | null;
+  replacementRecord: ReplacementRecordType | null;
+  progressRecord: ProgressRecordType;
+  pkRecord: PkRecordType | null;
+  warningCardRecord: WarningCardRecordType | null;
+};
+
+type PkTimelineRecord = CommonTimelineRecordFields & {
+  type: typeof RecordType.PK;
+  scoreRecord: ScoreRecordType | null;
+  replacementRecord: ReplacementRecordType | null;
+  progressRecord: ProgressRecordType | null;
+  pkRecord: PkRecordType;
+  warningCardRecord: WarningCardRecordType | null;
+};
+
+type WarningCardTimelineRecord = CommonTimelineRecordFields & {
+  type: typeof RecordType.WARNING_CARD;
+  scoreRecord: ScoreRecordType | null;
+  replacementRecord: ReplacementRecordType | null;
+  progressRecord: ProgressRecordType | null;
+  pkRecord: PkRecordType | null;
+  warningCardRecord: WarningCardRecordType;
+};
+
+type FoulTimelineRecord = CommonTimelineRecordFields & {
+  type: typeof RecordType.FOUL;
+  scoreRecord: ScoreRecordType | null;
+  replacementRecord: ReplacementRecordType | null;
+  progressRecord: ProgressRecordType | null;
+  pkRecord: PkRecordType | null;
+  warningCardRecord: WarningCardRecordType | null;
+};
+
+type AnyTimelineRecord =
+  | ScoreTimelineRecord
+  | SoccerReplacementTimelineRecord
+  | BasketballReplacementTimelineRecord
+  | ProgressTimelineRecord
+  | PkTimelineRecord
+  | WarningCardTimelineRecord
+  | FoulTimelineRecord;
+
+type TimelineRecordEventType = AnyTimelineRecord['type'];
+
+export type TimelineRecordByType<TType extends TimelineRecordEventType = TimelineRecordEventType> =
+  Extract<AnyTimelineRecord, { type: TType }>;
+
+type SoccerTimelineEventType =
+  | typeof RecordType.SCORE
+  | typeof RecordType.SOCCER_REPLACEMENT
+  | typeof RecordType.PROGRESS
+  | typeof RecordType.PK
+  | typeof RecordType.WARNING_CARD;
+
+type BasketballTimelineEventType =
+  | typeof RecordType.SCORE
+  | typeof RecordType.BASKETBALL_REPLACEMENT
+  | typeof RecordType.WARNING_CARD
+  | typeof RecordType.FOUL;
+
+export type TimelineRecordTypeBySport<TSport extends SportType> = TSport extends 'BASKETBALL'
+  ? TimelineRecordByType<BasketballTimelineEventType>
+  : TimelineRecordByType<SoccerTimelineEventType>;
 
 export type TimelinePayload = {
   gameId: number;
 };
 
+export type WinnerType = {
+  gameTeamId: number;
+  teamName: string;
+  teamImageUrl: string;
+};
+
 export type TimelineType = {
   gameQuarter: GameQuarterType;
-  records: TimelineRecordType[];
+  records: TimelineRecordTypeBySport<SportType>[];
+};
+
+export type TimelineResponseType = {
+  winner: WinnerType | null;
+  timelines: TimelineType[];
 };

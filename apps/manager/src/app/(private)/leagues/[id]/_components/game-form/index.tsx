@@ -35,7 +35,7 @@ export const GameForm = ({ leagueId, className, onSubmit, initialData, ...props 
 
   const handleFormSubmit = async (data: GameFormType) => {
     if (step !== 2) {
-      toast.warning('모든 단계를 완료해야 경기 생성이 가능합니다.');
+      toast.warning('모든 단계를 완료해야 경기 생성이 가능해요');
       return;
     }
 

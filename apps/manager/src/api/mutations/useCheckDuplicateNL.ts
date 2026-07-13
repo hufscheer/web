@@ -1,10 +1,10 @@
 import { useMutation } from '@hcc/api-base';
 
-import type { CheckDuplicateNLResponse, ParseNLPreview } from '~/api/types/nl';
+import type { CheckDuplicateNLResponse, ParsedPlayer } from '~/api/types/nl';
 
 import { fetcher } from '~/api/queryKey';
 
-const postCheckDuplicateNL = (payload: ParseNLPreview) => {
+const postCheckDuplicateNL = (payload: { players: ParsedPlayer[] }) => {
   return fetcher.post<CheckDuplicateNLResponse>(`nl/check-duplicates`, { json: payload });
 };
 

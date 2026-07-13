@@ -23,6 +23,9 @@ type Props = {
 } & Omit<ComponentProps<'form'>, 'onSubmit'>;
 const STEPS = ['기본 정보', '참가 팀 등록'];
 
+const toUTCDateString = (d: Date) =>
+  new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())).toISOString();
+
 export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
   const [step, setStep] = useState<0 | 1>(0);
   const [formData, setFormData] = useState<LeagueInfoForm>({
@@ -38,7 +41,7 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
       ...patch,
     }));
   };
-  const handleUpdate = (teamIds: number[]) => {
+  const handleUpdate = async (teamIds: number[]) => {
     if (!formData.name || !formData.startAt || !formData.endAt || formData.maxRound === undefined) {
       return;
     }
@@ -46,13 +49,13 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
     const payload: LeagueFormType = {
       name: formData.name,
       maxRound: formData.maxRound,
-      startAt: formData.startAt.toISOString(),
-      endAt: formData.endAt.toISOString(),
+      startAt: toUTCDateString(formData.startAt),
+      endAt: toUTCDateString(formData.endAt),
       teamIds,
       sportType: formData.sportType ?? 'SOCCER',
     };
 
-    onSubmit(payload);
+    await onSubmit(payload);
   };
   return (
     <div className="flex h-full w-full flex-col bg-white p-4">
@@ -63,14 +66,20 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
           value={step}
           caseBy={{
             0: (
-              <LeagueInfo
-                form={formData}
-                onChange={handleFormChange}
-                onNext={() => setStep(1)}
-                isFormValid={
-                  !!formData.name && !!formData.startAt && !!formData.endAt && !!formData.maxRound
-                }
-              />
+              <LeagueInfo>
+                <LeagueInfo.SportSelect
+                  value={formData.sportType}
+                  onChange={(sportType) => handleFormChange({ sportType })}
+                  disabled
+                />
+                <LeagueInfo.Fields form={formData} onChange={handleFormChange} />
+                <LeagueInfo.Actions
+                  onNext={() => setStep(1)}
+                  isFormValid={
+                    !!formData.name && !!formData.startAt && !!formData.endAt && !!formData.maxRound
+                  }
+                />
+              </LeagueInfo>
             ),
             1: (
               <LeagueRegister

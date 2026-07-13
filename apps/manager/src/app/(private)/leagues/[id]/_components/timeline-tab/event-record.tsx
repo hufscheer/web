@@ -1,12 +1,12 @@
 import { colors, Typography } from '@hcc/ui';
 import { twMerge } from 'tailwind-merge';
 
-import type { TimelineRecordType } from '~/api';
+import type { TimelineRecordTypeBySport } from '~/api';
 
 import { getRecordIcon, getRecordSubtitle, getRecordTitle } from './_utils';
 
 type Props = {
-  record: TimelineRecordType;
+  record: TimelineRecordTypeBySport<'SOCCER'>;
   homeTeamId: number;
 };
 

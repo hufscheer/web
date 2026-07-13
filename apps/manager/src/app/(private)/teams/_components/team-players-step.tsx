@@ -1,9 +1,11 @@
 import { CancelIcon } from '@hcc/icons';
-import { Button, colors, Input, Typography, toast } from '@hcc/ui';
+import { Button, colors, Input, Modal, Typography, toast } from '@hcc/ui';
 import { Fragment, useState } from 'react';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 
-import { type TeamFormType, useSuspensePlayers } from '~/api';
+import type { TeamFormType } from '~/api';
+import type { SelectedPlayer } from '~/app/(private)/teams/_components/player-append-dialog';
+
 import { PlayerAppendDialog } from '~/app/(private)/teams/_components/player-append-dialog';
 
 import { AddPlayerBottomSheet } from './assistants/add-player-bottom-sheet';
@@ -11,18 +13,19 @@ import { FloatingActionButton } from './assistants/floating-action-button';
 
 type Props = {
   onPrevious: () => void;
+  isEditMode?: boolean;
 };
 
-export const TeamPlayersStep = ({ onPrevious }: Props) => {
+export const TeamPlayersStep = ({ onPrevious, isEditMode }: Props) => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+  const [isAssistantModalOpen, setIsAssistantModalOpen] = useState(false);
   const { control, watch } = useFormContext<TeamFormType>();
   const teamName = watch('name');
   const teamUnit = watch('unit');
   const teamColor = watch('teamColor');
+  const sportType = watch('sportType');
   const logoImageUrl = watch('logoImageUrl');
   const { fields, append, remove } = useFieldArray({ control, name: 'teamPlayers' });
-
-  const { data } = useSuspensePlayers();
 
   const teamPlayers = watch('teamPlayers') || [];
 
@@ -33,20 +36,18 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
         !!player.name?.trim() && player.jerseyNumber !== undefined && player.jerseyNumber !== null,
     );
 
-  const handleAppendPlayer = (id: number) => {
-    if (teamPlayers.find((player) => player.playerId === id)) {
-      toast.error('이 선수는 이미 추가되었어요.');
+  const handleAssistantButtonClick = () => {
+    if (fields.length > 0) setIsAssistantModalOpen(true);
+    else setIsBottomSheetOpen(true);
+  };
+
+  const handleAppendPlayer = ({ playerId, name, studentNumber }: SelectedPlayer) => {
+    if (teamPlayers.find((player) => player.playerId === playerId)) {
+      toast.error('이 선수는 이미 추가되었어요');
       return;
     }
 
-    const selectedPlayer = data?.find((player) => player.playerId === id);
-
-    append({
-      playerId: id,
-      name: selectedPlayer?.name ?? '',
-      studentNumber: selectedPlayer?.studentNumber ?? '',
-      jerseyNumber: 0,
-    });
+    append({ playerId, name, studentNumber, jerseyNumber: 0 });
   };
 
   return (
@@ -126,11 +127,44 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
             weight="medium"
             color={colors.neutral500}
           >
-            선수를 추가해주세요.
+            선수를 추가해주세요
           </Typography>
         )}
       </div>
-      <FloatingActionButton onClick={() => setIsBottomSheetOpen(true)} />
+      {!isEditMode && <FloatingActionButton onClick={handleAssistantButtonClick} />}
+
+      <Modal open={isAssistantModalOpen} onOpenChange={setIsAssistantModalOpen}>
+        <Modal.Content className="w-[80vw] rounded-lg bg-white px-[17px] pt-[22px] pb-[17px]">
+          <Modal.Title className="mb-2 text-lg font-semibold text-greyscale-900">
+            추가된 선수 정보가 저장되지 않아요
+          </Modal.Title>
+          <Modal.Description className="mb-6 text-base whitespace-pre-line text-greyscale-300">
+            {`어시스턴트를 사용하면 정보가 사라져요.\n계속 진행할까요?`}
+          </Modal.Description>
+          <div className="flex gap-[10px]">
+            <Button
+              variant="ghost"
+              color="black"
+              size="md"
+              onClick={() => setIsAssistantModalOpen(false)}
+              className="flex-1"
+            >
+              취소
+            </Button>
+            <Button
+              color="black"
+              size="md"
+              onClick={() => {
+                setIsAssistantModalOpen(false);
+                setIsBottomSheetOpen(true);
+              }}
+              className="flex-1"
+            >
+              계속하기
+            </Button>
+          </div>
+        </Modal.Content>
+      </Modal>
 
       <AddPlayerBottomSheet
         isOpen={isBottomSheetOpen}
@@ -138,6 +172,7 @@ export const TeamPlayersStep = ({ onPrevious }: Props) => {
         teamName={teamName}
         teamUnit={teamUnit}
         teamColor={teamColor}
+        sportType={sportType}
         logoImageUrl={logoImageUrl}
       />
       <div className="column sticky bottom-0 w-full gap-2 bg-white pt-3 pb-5">
