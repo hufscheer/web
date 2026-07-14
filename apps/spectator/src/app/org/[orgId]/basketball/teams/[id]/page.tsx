@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 
 import { Suspense } from '@suspensive/react';
+import { redirect } from 'next/navigation';
 
 import type { TeamDetailType } from '~/api';
 
 import { fetchTeam } from '~/api';
 import { Header } from '~/components/layout';
+import { routes } from '~/constants/routes';
 
 import { SPORT_TYPE } from '../../_constants';
 import { TeamInfo } from './_components/team-info';
@@ -18,6 +20,10 @@ const Page = async ({ params }: Props) => {
   const { orgId: _orgId, id: _id } = await params;
   const orgId = Number(_orgId);
   const id = Number(_id);
+
+  if (Number.isNaN(id) || id <= 0) {
+    redirect(routes.home({ orgId, sport: SPORT_TYPE }));
+  }
 
   return (
     <div className="flex min-h-svh flex-col">

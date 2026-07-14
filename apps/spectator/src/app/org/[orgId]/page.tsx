@@ -9,6 +9,7 @@ type Props = {
 
 const Page = async ({ params }: Props) => {
   const { orgId } = await params;
+
   redirect(routes.home({ orgId: Number(orgId), sport: DEFAULT_SPORT }));
 };
 
