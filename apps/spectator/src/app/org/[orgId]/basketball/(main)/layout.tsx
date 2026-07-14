@@ -13,16 +13,16 @@ import { SportTab } from '../../_components/sport-tab';
 import { SPORT_TYPE } from '../_constants';
 
 interface MainLayoutProps extends PropsWithChildren {
-  params: {
-    orgId: string;
-  };
+  params: Promise<{ orgId: string }>;
 }
 
-const MainLayout = ({ children, params: { orgId } }: MainLayoutProps) => {
+const MainLayout = async ({ params, children }: MainLayoutProps) => {
+  const { orgId } = await params;
+
   return (
     <div className="relative flex min-h-dvh flex-col">
       <Header.Root
-        left={<LeftSlot sport="SOCCER" orgId={Number(orgId)} />}
+        left={<LeftSlot sport={SPORT_TYPE} orgId={Number(orgId)} />}
         right={<OrgSwitcher />}
       />
       <SportTab sport={SPORT_TYPE} />
