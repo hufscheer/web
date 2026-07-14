@@ -17,8 +17,12 @@ export const normalizeSportParam = (sport?: string): SportType | null => {
 
 export const sportToPathSegment = (sport: SportType) => sport.toLocaleLowerCase();
 
-export const replaceSportInPathname = (pathname: string, sport: SportType) => {
-  const segments = pathname.split('/');
-  segments[1] = sportToPathSegment(sport);
-  return segments.join('/');
-};
+/**
+ * `/org/[orgId]/{sport}/...` 형태 URL 에서 sport 세그먼트만 교체한다.
+ * org 세그먼트가 없는 경로(e.g. `/welcome`)는 그대로 반환한다.
+ */
+export const replaceSportInPathname = (pathname: string, sport: SportType) =>
+  pathname.replace(
+    /^(\/org\/[^/]+\/)(basketball|soccer)(?=\/|$)/,
+    `$1${sportToPathSegment(sport)}`,
+  );
