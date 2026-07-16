@@ -14,18 +14,12 @@ export default function Page() {
     <div className="flex flex-1 flex-col justify-between gap-3">
       <ErrorBoundary fallback={<ErrorMessage />}>
         <SportTab />
-        <Suspense
-          clientOnly
-          fallback={
-            <div className="flex justify-center py-12">
-              <Spinner />
-            </div>
-          }
-        >
-          <div className="flex flex-1 px-5">
+
+        <div className="flex flex-1 px-5">
+          <Suspense clientOnly fallback={<Spinner className="text-center" />}>
             <RecentTab />
-          </div>
-        </Suspense>
+          </Suspense>
+        </div>
       </ErrorBoundary>
     </div>
   );
