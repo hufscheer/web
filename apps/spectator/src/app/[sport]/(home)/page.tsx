@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { dehydrate, getQueryClient, HydrationBoundary } from '@hcc/api-base';
 import { Spinner } from '@hcc/ui';
 import { ErrorBoundary, Suspense } from '@suspensive/react';
+import { redirect } from 'next/dist/client/components/navigation';
 
 import { fetchLeagueRecentGames } from '~/api';
 import { DEFAULT_SPORT, normalizeSportParam } from '~/utils/sport-route';
@@ -23,7 +24,10 @@ export default async function Page({ params, searchParams }: Props) {
   const [{ sport: _sport }, { org }] = await Promise.all([params, searchParams]);
 
   const sport = normalizeSportParam(_sport) ?? DEFAULT_SPORT;
-  const organizationId = Number(org);
+  const organizationId = org ? Number(org) : undefined;
+  if (!organizationId) {
+    redirect('/welcome');
+  }
 
   await fetchLeagueRecentGames({ sportType: sport, organizationId });
 
