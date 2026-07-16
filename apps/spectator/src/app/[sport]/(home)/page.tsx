@@ -1,14 +1,14 @@
 import type { Metadata } from 'next';
 
 import { dehydrate, getQueryClient, HydrationBoundary } from '@hcc/api-base';
-import { Spinner } from '@hcc/ui';
 import { ErrorBoundary, Suspense } from '@suspensive/react';
-import { redirect } from 'next/dist/client/components/navigation';
+import { redirect } from 'next/navigation';
 
 import { fetchLeagueRecentGames } from '~/api';
 import { DEFAULT_SPORT, normalizeSportParam } from '~/utils/sport-route';
 
 import { ErrorMessage } from './_components/error-message';
+import { RecentTabSkeleton } from './_components/recent-tab-skeleton';
 import { SportTab } from './_components/sport-tab';
 import { RecentTab } from './_components/tab';
 
@@ -36,13 +36,7 @@ export default async function Page({ params, searchParams }: Props) {
       <ErrorBoundary fallback={<ErrorMessage />}>
         <SportTab />
         <HydrationBoundary state={dehydrate(qc)}>
-          <Suspense
-            fallback={
-              <div className="flex justify-center py-12">
-                <Spinner />
-              </div>
-            }
-          >
+          <Suspense fallback={<RecentTabSkeleton />}>
             <div className="flex flex-1 px-5">
               <RecentTab initialOrganizationId={organizationId} sport={sport} />
             </div>
