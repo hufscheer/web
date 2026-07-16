@@ -8,7 +8,6 @@ import { Toaster } from '@hcc/ui';
 import { AnalyticsProvider } from '~/app/analytics';
 import { Layout } from '~/components/layout';
 
-import { Pretendard } from './_fonts';
 import { Provider } from './provider';
 
 export const metadata: Metadata = {
@@ -37,7 +36,7 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html dir="ltr" lang="ko">
-      <body className={Pretendard.className}>
+      <body>
         <Provider>
           <Layout>{children}</Layout>
         </Provider>
