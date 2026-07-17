@@ -26,6 +26,7 @@ import type {
   LeagueDetailPayload,
   LeagueDetailType,
   LeagueListPayload,
+  LeagueRecentGamesPayload,
   LeagueRecentSummaryPayload,
   LeagueRecentSummaryType,
   LeagueStatisticsPayload,
@@ -35,7 +36,6 @@ import type {
   LeagueTopScorersPayload,
   LeagueTopScorersType,
   LeagueType,
-  SportType,
   TeamDetailPayload,
   TeamDetailType,
   TeamGamesPayload,
@@ -164,7 +164,7 @@ const leagueQueryKeys = createQueryKeys('leagues', {
     queryKey: [payload],
     queryFn: () => fetcher.get<LeagueDetailType>(`leagues/${payload.leagueId}`),
   }),
-  recentGames: (payload?: { sportType?: SportType; organizationId?: number }) => ({
+  recentGames: (payload?: LeagueRecentGamesPayload) => ({
     queryKey: ['recent-games', payload],
     queryFn: () =>
       fetcher.get<GameListResponse[]>(`leagues/recent/games`, { searchParams: payload }),

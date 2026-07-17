@@ -23,6 +23,11 @@ export type LeagueDetailPayload = {
   leagueId: number;
 };
 
+export type LeagueRecentGamesPayload = {
+  sportType?: SportType;
+  organizationId?: number;
+};
+
 export type LeagueDetailType = {
   name: string;
   startAt: string;

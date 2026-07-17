@@ -8,6 +8,7 @@ export * from './useGameSearch';
 export * from './useGameTimeline';
 export * from './useGameVideo';
 export * from './useLeague';
+export * from './useLeagueRecentGames';
 export * from './useLeagueStatistics';
 export * from './useLeagues';
 export * from './useLeagueTeams';
