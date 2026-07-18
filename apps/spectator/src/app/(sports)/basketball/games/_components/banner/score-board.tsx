@@ -2,23 +2,32 @@ import { Badge } from '@hcc/ui';
 import { Sofia_Sans } from 'next/font/google';
 import Image from 'next/image';
 
-import type { GameStateType, GameTeamType } from '~/api';
-
+import { type GameStateType, type GameTeamType } from '~/api';
 import { cn } from '~/utils/cn';
+
+import { Time } from './time';
 
 interface ScoreBoardProps {
   homeTeam: GameTeamType;
   awayTeam: GameTeamType;
-
+  startTime: string;
   gameState: GameStateType;
   quarter: string;
 }
 
-export const ScoreBoard = ({ homeTeam, awayTeam, gameState, quarter }: ScoreBoardProps) => {
+export const ScoreBoard = ({
+  homeTeam,
+  awayTeam,
+  startTime,
+  gameState,
+  quarter,
+}: ScoreBoardProps) => {
   return (
     <div className="flex items-center justify-between pt-4 pb-2">
       <TeamArea src={homeTeam.logoImageUrl} teamName={homeTeam.gameTeamName} />
-      <ScoreArea homeTeam={homeTeam} awayTeam={awayTeam} gameState={gameState} quarter={quarter} />
+      <Score score={homeTeam.score} gameState={gameState} />
+      <StatusArea quarter={quarter} gameState={gameState} startTime={startTime} />
+      <Score score={awayTeam.score} gameState={gameState} />
       <TeamArea src={awayTeam.logoImageUrl} teamName={awayTeam.gameTeamName} />
     </div>
   );
@@ -49,33 +58,28 @@ const TeamArea = ({ src, teamName }: TeamAreaProps) => {
   );
 };
 
-/* ----- ScoreArea ----- */
+/* ----- StatusArea ----- */
 
-const Sofia = Sofia_Sans({ subsets: ['latin'] });
-
-interface ScoreAreaProps {
-  homeTeam: GameTeamType;
-  awayTeam: GameTeamType;
-
-  gameState: GameStateType;
+interface StatusAreaProps {
   quarter: string;
+  gameState: GameStateType;
+  startTime: string;
 }
 
-const ScoreArea = ({ homeTeam, awayTeam, gameState, quarter }: ScoreAreaProps) => {
+const StatusArea = ({ quarter, gameState, startTime }: StatusAreaProps) => {
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col items-center gap-1">
       <Badge size="sm" variant={gameState === 'PLAYING' ? 'danger' : 'default'}>
         {quarter}
       </Badge>
-
-      <div className="flex items-center gap-3">
-        <Score score={homeTeam.score} gameState={gameState} />
-        <Colon />
-        <Score score={awayTeam.score} gameState={gameState} />
-      </div>
+      <Time startTime={startTime} />
     </div>
   );
 };
+
+/* ----- Score ----- */
+
+const Sofia = Sofia_Sans({ subsets: ['latin'] });
 
 interface ScoreProps {
   score: number;
@@ -86,21 +90,12 @@ const Score = ({ score, gameState }: ScoreProps) => {
   return (
     <span
       className={cn(
-        'text-4xl font-medium text-neutral-900',
+        'text-[40px] font-bold text-greyscale-600',
         gameState === 'FINISHED' && 'text-neutral-500',
         Sofia.className,
       )}
     >
       {score}
     </span>
-  );
-};
-
-const Colon = () => {
-  return (
-    <div className="column gap-2">
-      <span className="aspect-square w-[3px] rounded-full bg-neutral-500" />
-      <span className="aspect-square w-[3px] rounded-full bg-neutral-500" />
-    </div>
   );
 };
