@@ -1,8 +1,9 @@
 'use client';
 
 import { colors, Typography, toast } from '@hcc/ui';
+import { debounce } from 'es-toolkit/function';
 import Image from 'next/image';
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import {
   type GameCheerType,
@@ -11,7 +12,6 @@ import {
   useSuspenseGameCheer,
   useUpdateGameCheer,
 } from '~/api';
-import { useDebounce } from '~/hooks/useDebounce';
 import { cn } from '~/utils/cn';
 
 type Props = {
@@ -113,30 +113,68 @@ const CheerTeamBox = ({
   isFinished,
 }: CheerTeamBoxProps) => {
   const [pendingCount, setPendingCount] = useState(0);
+  const [inflightCount, setInflightCount] = useState(0);
   const pendingCountRef = useRef(0);
   const { mutate, isPending } = useUpdateGameCheer();
 
-  useDebounce(
-    () => {
-      const countToSubmit = pendingCountRef.current;
-      if (countToSubmit === 0) return;
+  const updateGameCheer = useCallback(() => {
+    const countToSubmit = pendingCountRef.current;
+    if (countToSubmit === 0) return;
 
-      pendingCountRef.current = 0;
-      setPendingCount(0);
+    pendingCountRef.current = 0;
+    setPendingCount(0);
+    setInflightCount((prev) => prev + countToSubmit);
 
-      mutate(
-        { cheerCount: countToSubmit, gameId, gameTeamId },
-        {
-          onError: () => {
-            pendingCountRef.current += countToSubmit;
-            setPendingCount((prev) => prev + countToSubmit);
-          },
+    mutate(
+      { cheerCount: countToSubmit, gameId, gameTeamId },
+      {
+        onSuccess: () => {
+          setInflightCount((prev) => prev - countToSubmit);
         },
-      );
-    },
-    1000,
-    [pendingCount, gameId, gameTeamId, mutate],
+        onError: () => {
+          setInflightCount((prev) => prev - countToSubmit);
+          pendingCountRef.current += countToSubmit;
+          setPendingCount((prev) => prev + countToSubmit);
+        },
+      },
+    );
+  }, [gameId, gameTeamId, mutate]);
+
+  const debouncedUpdateGameCheer = useMemo(
+    () => debounce(updateGameCheer, 1000),
+    [updateGameCheer],
   );
+
+  const flushBeacon = useCallback(() => {
+    const count = pendingCountRef.current;
+    if (count === 0) return;
+
+    pendingCountRef.current = 0;
+
+    const url = `${process.env.API_BASE_URL ?? '/api'}/games/${gameId}/cheer`;
+    const blob = new Blob([JSON.stringify({ cheerCount: count, gameTeamId })], {
+      type: 'application/json',
+    });
+
+    navigator.sendBeacon(url, blob);
+  }, [gameId, gameTeamId]);
+
+  useEffect(() => {
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') flushBeacon();
+    };
+
+    window.addEventListener('pagehide', flushBeacon);
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
+    return () => {
+      window.removeEventListener('pagehide', flushBeacon);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+
+      debouncedUpdateGameCheer.flush();
+      debouncedUpdateGameCheer.cancel();
+    };
+  }, [debouncedUpdateGameCheer, flushBeacon]);
 
   const handleCheer = () => {
     if (isFinished) {
@@ -146,6 +184,7 @@ const CheerTeamBox = ({
 
     pendingCountRef.current += 1;
     setPendingCount((prev) => prev + 1);
+    debouncedUpdateGameCheer();
   };
 
   return (
@@ -174,7 +213,7 @@ const CheerTeamBox = ({
       />
 
       <Typography color={colors.white} weight="medium">
-        {(cheerCount + pendingCount).toLocaleString()}
+        {(cheerCount + pendingCount + inflightCount).toLocaleString()}
       </Typography>
     </button>
   );

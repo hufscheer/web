@@ -50,7 +50,7 @@ const Page = async ({ searchParams, params }: Props) => {
       />
 
       <Suspense clientOnly fallback={<BannerSkeleton />}>
-        <Banner gameId={id} sportType={SPORT_TYPE} />
+        <Banner gameId={id} />
       </Suspense>
 
       <Suspense clientOnly>

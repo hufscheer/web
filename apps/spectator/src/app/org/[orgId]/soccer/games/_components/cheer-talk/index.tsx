@@ -4,12 +4,12 @@ import { useMemo, useState } from 'react';
 
 import type { CheerTalkType, GameCheerTalkWithTeamInfo, SportType } from '~/api';
 
+import useCheerTalkById from '~/app/org/[orgId]/_hooks/useCheerTalkById';
+import { useSuspenseGameTeamInfo } from '~/app/org/[orgId]/_hooks/useGameTeamInfo';
 import useSocket from '~/hooks/useSocket';
 
 import { CheerTalkList } from './cheer-talk-list';
 import { CheerTalkTimeline } from './cheer-talk-timeline';
-import useCheerTalkById from './useCheerTalkById';
-import { useSuspenseGameTeamInfo } from './useGameTeamInfo';
 
 type Props = {
   gameId: number;

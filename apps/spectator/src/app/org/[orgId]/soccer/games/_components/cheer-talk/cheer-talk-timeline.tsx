@@ -7,8 +7,7 @@ import { Fragment } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import { type SportType, type TimelineRecordType, useSuspenseGameTimeline } from '~/api';
-
-import { useSuspenseGameTeamInfo } from './useGameTeamInfo';
+import { useSuspenseGameTeamInfo } from '~/app/org/[orgId]/_hooks/useGameTeamInfo';
 
 type Props = {
   gameId: number;

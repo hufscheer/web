@@ -5,49 +5,33 @@ import type { ComponentProps } from 'react';
 import { Collapsible } from '@base-ui/react';
 import { Suspense } from '@suspensive/react';
 
-import type { SportType } from '~/api';
-
 import { useSuspenseGame } from '~/api';
 import { Skeleton } from '~/components/skeleton';
 import { cn } from '~/utils/cn';
 
 import { QuarterScore } from './quarter-score';
 import { ScoreBoard } from './score-board';
-import { Time } from './time';
 
 type Props = {
   gameId: number;
-  sportType: SportType;
 };
 
-export const Banner = ({ gameId, sportType }: Props) => {
+export const Banner = ({ gameId }: Props) => {
   const { data } = useSuspenseGame({ gameId });
   const [homeTeam, awayTeam] = data.gameTeams;
 
-  const matchDate = new Date(data.startTime).toLocaleString('ko-KR', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    weekday: 'short',
-    hour: '2-digit',
-    minute: '2-digit',
-    hourCycle: 'h23',
-    timeZone: 'Asia/Seoul',
-  });
-
   return (
     <>
-      <Time>{matchDate}</Time>
-
       <div className="flex w-full flex-col bg-(--color-primary-100) px-10">
         <ScoreBoard
+          startTime={data.startTime}
           homeTeam={homeTeam}
           awayTeam={awayTeam}
           gameState={data.state}
           quarter={data.gameQuarter.label}
         />
 
-        {sportType === 'BASKETBALL' && <QuarterScoreToggle gameId={gameId} />}
+        <QuarterScoreToggle gameId={gameId} />
       </div>
     </>
   );
@@ -58,7 +42,6 @@ export const Banner = ({ gameId, sportType }: Props) => {
 export const BannerSkeleton = () => {
   return (
     <>
-      <div className="h-9" />
       <Skeleton className="h-24 bg-(--color-primary-100)" />
     </>
   );
