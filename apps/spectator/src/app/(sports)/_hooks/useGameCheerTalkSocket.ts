@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { type CheerTalkType, type GameCheerTalkWithTeamInfo } from '~/api';
 import useSocket from '~/hooks/useSocket';
 
-import { useSuspenseGameTeamInfo } from '../useGameTeamInfo';
+import { useSuspenseGameTeamInfo } from './useGameTeamInfo';
 
 const SOCKET_BUFFER_LIMIT = 200;
 

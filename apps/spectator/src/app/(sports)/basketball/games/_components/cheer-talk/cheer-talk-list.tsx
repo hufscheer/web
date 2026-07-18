@@ -3,13 +3,13 @@ import { Spinner } from '@hcc/ui';
 import { useMemo } from 'react';
 
 import { type GameCheerTalkWithTeamInfo, useSuspenseGame } from '~/api';
+import { NoticeBanner } from '~/app/(sports)/_components/NoticeBanner';
+import { useChatScroll } from '~/app/(sports)/_hooks/useChatScroll';
+import { useNewMessageNotifier } from '~/app/(sports)/_hooks/useNewMessageNotifier';
+import { useNoticeBanner } from '~/app/(sports)/_hooks/useNoticeBanner';
 
 import { CheerTalkForm } from './cheer-talk-form';
 import CheerTalkItem from './cheer-talk-item';
-import { NoticeBanner } from './components/NoticeBanner';
-import { useChatScroll } from './hooks/useChatScroll';
-import { useNewMessageNotifier } from './hooks/useNewMessageNotifier';
-import { useNoticeBanner } from './hooks/useNoticeBanner';
 
 interface CheerTalkListProps {
   gameId: number;

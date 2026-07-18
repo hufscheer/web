@@ -2,9 +2,10 @@
 
 import type { SportType } from '~/api';
 
+import { useCheerTalkStream } from '~/app/(sports)/_hooks/useCheerTalkStream';
+
 import { CheerTalkList } from './cheer-talk-list';
 import { CheerTalkTimeline } from './cheer-talk-timeline';
-import { useCheerTalkStream } from './hooks/useCheerTalkStream';
 
 interface Props {
   gameId: number;

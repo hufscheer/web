@@ -5,8 +5,6 @@ import type { ComponentProps } from 'react';
 import { Collapsible } from '@base-ui/react';
 import { Suspense } from '@suspensive/react';
 
-import type { SportType } from '~/api';
-
 import { useSuspenseGame } from '~/api';
 import { Skeleton } from '~/components/skeleton';
 import { cn } from '~/utils/cn';
@@ -16,10 +14,9 @@ import { ScoreBoard } from './score-board';
 
 type Props = {
   gameId: number;
-  sportType: SportType;
 };
 
-export const Banner = ({ gameId, sportType }: Props) => {
+export const Banner = ({ gameId }: Props) => {
   const { data } = useSuspenseGame({ gameId });
   const [homeTeam, awayTeam] = data.gameTeams;
 
@@ -34,7 +31,7 @@ export const Banner = ({ gameId, sportType }: Props) => {
           quarter={data.gameQuarter.label}
         />
 
-        {sportType === 'BASKETBALL' && <QuarterScoreToggle gameId={gameId} />}
+        <QuarterScoreToggle gameId={gameId} />
       </div>
     </>
   );

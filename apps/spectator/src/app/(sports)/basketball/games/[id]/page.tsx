@@ -46,7 +46,7 @@ const Page = async ({ searchParams, params }: Props) => {
       <Header.Root left={<Header.Arrow />} center={<Header.LinkLogo />} />
 
       <Suspense clientOnly fallback={<BannerSkeleton />}>
-        <Banner gameId={id} sportType={SPORT_TYPE} />
+        <Banner gameId={id} />
       </Suspense>
 
       <Suspense clientOnly>

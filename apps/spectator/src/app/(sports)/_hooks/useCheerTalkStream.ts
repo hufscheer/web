@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import useCheerTalkById from '../useCheerTalkById';
+import useCheerTalkById from './useCheerTalkById';
 import { useGameCheerTalkSocket } from './useGameCheerTalkSocket';
 
 export const useCheerTalkStream = (gameId: number) => {
