@@ -3,7 +3,7 @@
 import { colors, Typography } from '@hcc/ui';
 import { Fragment } from 'react';
 
-import { useSuspenseGame, useSuspenseGameTimeline, type SportType } from '~/api';
+import { useSuspenseGame, useSuspenseGameTimeline } from '~/api';
 
 import { getProgressSemantics } from './_utils';
 import { EventRecord } from './event-record';
@@ -12,10 +12,9 @@ import { WinnerRecord } from './winner-record';
 
 type Props = {
   gameId: number;
-  sportType: SportType;
 };
 
-export const TimelineTab = ({ gameId, sportType }: Props) => {
+export const TimelineTab = ({ gameId }: Props) => {
   const { data: game } = useSuspenseGame({ gameId });
   const { data } = useSuspenseGameTimeline({ gameId });
   const { timelines, winner } = data;
@@ -64,14 +63,7 @@ export const TimelineTab = ({ gameId, sportType }: Props) => {
                 );
               }
 
-              return (
-                <EventRecord
-                  key={record.recordId}
-                  record={record}
-                  homeTeamId={homeTeamId}
-                  sportType={sportType}
-                />
-              );
+              return <EventRecord key={record.recordId} record={record} homeTeamId={homeTeamId} />;
             })}
           </Fragment>
         </div>

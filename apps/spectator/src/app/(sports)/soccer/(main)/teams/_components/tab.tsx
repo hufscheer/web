@@ -49,7 +49,7 @@ export const TeamTab = () => {
             filteredData.length === 0 ? 'flex flex-1 flex-col px-5' : 'column mb-5 gap-3 px-5'
           }
         >
-          {filteredData.length === 0 && <EmptyTeam sport={sport} />}
+          {filteredData.length === 0 && <EmptyTeam />}
           {filteredData.map((team) => (
             <TeamCard key={team.teamDetail.teamId}>
               <TeamCard.Header team={team.teamDetail} />

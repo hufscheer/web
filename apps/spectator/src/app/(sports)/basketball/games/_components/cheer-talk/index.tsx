@@ -1,7 +1,5 @@
 'use client';
 
-import type { SportType } from '~/api';
-
 import { useCheerTalkStream } from '~/app/(sports)/_hooks/useCheerTalkStream';
 
 import { CheerTalkList } from './cheer-talk-list';
@@ -9,16 +7,15 @@ import { CheerTalkTimeline } from './cheer-talk-timeline';
 
 interface Props {
   gameId: number;
-  sportType: SportType;
 }
 
-export const CheerTalk = ({ gameId, sportType }: Props) => {
+export const CheerTalk = ({ gameId }: Props) => {
   const stream = useCheerTalkStream(gameId);
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
       <div className="flex-shrink-0">
-        <CheerTalkTimeline gameId={gameId} sportType={sportType} />
+        <CheerTalkTimeline gameId={gameId} />
       </div>
 
       <CheerTalkList gameId={gameId} {...stream} />

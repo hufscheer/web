@@ -1,4 +1,4 @@
-import { BasketballIcon, SportsAndOutdoorsIcon } from '@hcc/icons';
+import { BasketballIcon } from '@hcc/icons';
 import { colors, Typography } from '@hcc/ui';
 
 import type { TopScorerType } from '~/api';
@@ -15,7 +15,6 @@ interface ScoreListProps {
 export const ScoreList = ({ scorers, sport, limit = 3 }: ScoreListProps) => {
   if (!scorers) return null;
 
-  const ScoreIcon = sport === 'SOCCER' ? SportsAndOutdoorsIcon : BasketballIcon;
   const scoreUnit = getSportScoreUnit(sport);
 
   return (
@@ -28,7 +27,7 @@ export const ScoreList = ({ scorers, sport, limit = 3 }: ScoreListProps) => {
       {scorers.slice(0, limit).map((player) => (
         <div key={player.playerId} className="row-between">
           <div className="flex items-center gap-1">
-            <ScoreIcon size={14} />
+            <BasketballIcon size={14} />
             <Typography color={colors.neutral700} fontSize={13} weight="medium">
               {player.playerName}
             </Typography>
