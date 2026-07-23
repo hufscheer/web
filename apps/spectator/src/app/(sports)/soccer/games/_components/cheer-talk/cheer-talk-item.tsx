@@ -37,7 +37,7 @@ export default function CheerTalkItem({
         <div className="flex items-center gap-1 rounded-lg bg-white p-2.5">
           <Image
             className="aspect-square size-4.5 shrink-0 overflow-hidden rounded-full object-contain"
-            src={logoImageUrl ?? '/images/fallback-image.webp'}
+            src={logoImageUrl || '/images/fallback-image.webp'}
             alt={`${direction} 팀 로고`}
             width={18}
             height={18}
