@@ -1,22 +1,15 @@
 'use client';
 
-import {
-  type GameTeamPlayerType,
-  type SportType,
-  useSuspenseGame,
-  useSuspenseGameLineup,
-} from '~/api';
+import { type GameTeamPlayerType, useSuspenseGame, useSuspenseGameLineup } from '~/api';
 
-import { BasketballGround } from './basketball-ground';
 import { Ground as BaseGround } from './ground';
 import { TeamBox } from './team-box';
 
 type Props = {
   gameId: number;
-  sportType: SportType;
 };
 
-export const Ground = ({ gameId, sportType }: Props) => {
+export const Ground = ({ gameId }: Props) => {
   const { data: game } = useSuspenseGame({ gameId });
   const { data: lineup } = useSuspenseGameLineup({ gameId });
 
@@ -27,22 +20,6 @@ export const Ground = ({ gameId, sportType }: Props) => {
   const homeTeamColor = homeTeam.teamColor;
   const awayTeamColor = awayTeam.teamColor;
 
-  if (sportType === 'BASKETBALL') {
-    return (
-      <div className="column m-5 overflow-hidden rounded-lg border border-neutral-100 bg-white">
-        <TeamBox className="order-1" team={homeTeam} />
-        <TeamBox className="order-3" team={awayTeam} />
-        <BasketballGround
-          className="order-2"
-          homeTeamColor={homeTeamColor}
-          awayTeamColor={awayTeamColor}
-          homePlayers={homePlayers.starterPlayers}
-          awayPlayers={awayPlayers.starterPlayers}
-        />
-      </div>
-    );
-  }
-
   return (
     <div className="column m-5 rounded-lg border border-neutral-100 bg-white">
       <TeamBox className="order-1" team={homeTeam} />
@@ -51,26 +28,18 @@ export const Ground = ({ gameId, sportType }: Props) => {
       <BaseGround className="order-2">
         <BaseGround.PlayerField>
           {groupPlayers(homePlayers.starterPlayers).map((group) => (
-            <div key={uuid()} className="center-y w-full max-w-[420px]">
+            <div key={homePlayers.gameTeamId} className="center-y w-full max-w-[420px]">
               {group.map((player) => (
-                <BaseGround.Player
-                  key={player.id ?? uuid()}
-                  player={player}
-                  teamColor={homeTeamColor}
-                />
+                <BaseGround.Player key={player.id} player={player} teamColor={homeTeamColor} />
               ))}
             </div>
           ))}
         </BaseGround.PlayerField>
         <BaseGround.PlayerField className="flex-col-reverse">
           {groupPlayers(awayPlayers.starterPlayers).map((group) => (
-            <div key={uuid()} className="center-y w-full max-w-[420px]">
+            <div key={awayPlayers.gameTeamId} className="center-y w-full max-w-[420px]">
               {group.map((player) => (
-                <BaseGround.Player
-                  key={player.id ?? uuid()}
-                  player={player}
-                  teamColor={awayTeamColor}
-                />
+                <BaseGround.Player key={player.id} player={player} teamColor={awayTeamColor} />
               ))}
             </div>
           ))}
@@ -110,8 +79,4 @@ const groupPlayers = (players: GameTeamPlayerType[]) => {
   }
 
   return groups;
-};
-
-const uuid = () => {
-  return crypto.getRandomValues(new Uint32Array(1))[0].toString(16);
 };

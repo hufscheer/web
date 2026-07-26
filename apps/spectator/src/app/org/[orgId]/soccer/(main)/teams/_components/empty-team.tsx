@@ -4,24 +4,18 @@ import { SmsIcon } from '@hcc/icons';
 import { Button } from '@hcc/ui';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import type { SportType } from '~/api/types';
-
 import { EmptyState } from '~/components/ui';
 import { replaceSportInPathname } from '~/utils/sport-route';
 
-const OTHER_SPORT: Record<SportType, { value: SportType; emoji: string }> = {
-  SOCCER: { value: 'BASKETBALL', emoji: '🏀' },
-  BASKETBALL: { value: 'SOCCER', emoji: '⚽' },
-};
+import { SPORT_TYPE } from '../../../_constants';
 
-export const EmptyTeam = ({ sport }: { sport: SportType }) => {
-  const other = OTHER_SPORT[sport];
+export const EmptyTeam = () => {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const handleClick = () => {
-    const nextPath = replaceSportInPathname(pathname, other.value);
+    const nextPath = replaceSportInPathname(pathname, SPORT_TYPE);
     const qs = searchParams.toString();
     router.replace(qs ? `${nextPath}?${qs}` : nextPath, { scroll: false });
   };
@@ -33,7 +27,7 @@ export const EmptyTeam = ({ sport }: { sport: SportType }) => {
       description="곧 새로운 팀으로 찾아올게요!"
       action={
         <Button color="primary" size="md" onClick={handleClick} className="gap-1">
-          <span>{other.emoji}</span>
+          <span>⚽</span>
           다른 팀 보러 가기
         </Button>
       }

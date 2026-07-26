@@ -80,19 +80,19 @@ const Page = async ({ searchParams, params }: Props) => {
           className="flex min-h-0 flex-1 flex-col bg-[#EBEBEB] outline-none"
         >
           <Suspense clientOnly>
-            <CheerTalk gameId={id} sportType={SPORT_TYPE} />
+            <CheerTalk gameId={id} />
           </Suspense>
         </Tabs.Content>
 
         <Tabs.Content value="lineup" className="overflow-y-auto outline-none">
           <Suspense clientOnly>
-            <LineupTab gameId={id} sportType={SPORT_TYPE} />
+            <LineupTab gameId={id} />
           </Suspense>
         </Tabs.Content>
 
         <Tabs.Content value="timeline" className="overflow-y-auto outline-none">
           <Suspense clientOnly>
-            <TimelineTab gameId={id} sportType={SPORT_TYPE} />
+            <TimelineTab gameId={id} />
           </Suspense>
         </Tabs.Content>
 
