@@ -37,7 +37,6 @@ const cardOptions: SelectOption[] = (Object.keys(CARD_TYPE) as Array<keyof typeo
     value: CARD_TYPE[key],
   }),
 );
-
 export default function WarningSheet({
   leagueId,
   gameId,
