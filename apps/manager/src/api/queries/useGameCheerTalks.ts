@@ -2,7 +2,7 @@ import { useSuspenseInfiniteQuery } from '@hcc/api-base';
 
 import type { CheerTalkListResponse, GameCheerTalkPayload } from '~/api';
 
-import { fetcher } from '../queryKey';
+import { fetcher } from '~/api/fetcher';
 
 export const useSuspenseInfiniteGamesCheerTalks = (payload: GameCheerTalkPayload) =>
   useSuspenseInfiniteQuery({

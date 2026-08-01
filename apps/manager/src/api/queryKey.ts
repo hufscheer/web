@@ -30,7 +30,6 @@ import type {
 } from './types';
 
 import { fetcher } from './fetcher';
-export { fetcher } from './fetcher';
 
 const leagueQueryKeys = createQueryKeys('leagues', {
   home: {

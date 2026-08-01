@@ -2,7 +2,8 @@ import { useQuery, useSuspenseInfiniteQuery, useSuspenseQuery } from '@hcc/api-b
 
 import type { CheerTalkListResponse, GameCheerTalkPayload } from '~/api';
 
-import { fetcher, queryKeys } from '../queryKey';
+import { fetcher } from '~/api/fetcher';
+import { queryKeys } from '~/api/queryKey';
 
 export const useGamesCheerTalkBlock = (payload: GameCheerTalkPayload) =>
   useQuery(queryKeys.games.cheerTalksBlocked(payload));

@@ -2,7 +2,8 @@ import { useSuspenseInfiniteQuery, useQuery, useSuspenseQuery } from '@hcc/api-b
 
 import type { PlayerListPayload, PlayerListResponse } from '~/api';
 
-import { fetcher, queryKeys } from '../queryKey';
+import { fetcher } from '~/api/fetcher';
+import { queryKeys } from '~/api/queryKey';
 
 export const usePlayers = () => useQuery(queryKeys.players.list);
 

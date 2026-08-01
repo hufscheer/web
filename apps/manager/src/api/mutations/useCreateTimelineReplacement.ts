@@ -2,7 +2,8 @@ import { useMutation, useQueryClient } from '@hcc/api-base';
 
 import type { ReplacementType } from '~/api';
 
-import { fetcher, queryKeys } from '~/api/queryKey';
+import { fetcher } from '~/api/fetcher';
+import { queryKeys } from '~/api/queryKey';
 
 export const postTimelineReplace = ({ gameId, ...request }: ReplacementType) => {
   return fetcher.post<void>(`games/${gameId}/timelines/replacement`, {

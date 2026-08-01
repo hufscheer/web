@@ -2,7 +2,7 @@ import { useQuery, useSuspenseInfiniteQuery, useSuspenseQuery } from '@hcc/api-b
 
 import type { CheerTalkListResponse, CheerTalkPayload } from '~/api';
 
-import { fetcher } from '../queryKey';
+import { fetcher } from '~/api/fetcher';
 
 export const useCheerTalks = (payload: CheerTalkPayload) =>
   useQuery({
