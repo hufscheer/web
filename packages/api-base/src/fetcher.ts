@@ -9,23 +9,15 @@ const defaultOption: Options = {
   throwHttpErrors: true,
 };
 
-type ErrorHandler = (request: Request, response: Response) => void | Promise<void>;
+export type HttpErrorHandler = (request: Request, response: Response) => void | Promise<void>;
 
-let isRedirecting = false;
+export type HttpErrorHandlers = Partial<Record<number, HttpErrorHandler>>;
 
-const errorHandlers: Partial<Record<number, ErrorHandler>> = {
-  401: async (request) => {
-    if (request.url.includes('logout')) return;
-    if (isRedirecting || typeof window === 'undefined') return;
-
-    isRedirecting = true;
-    alert('로그인이 만료되었어요. 다시 로그인해주세요.');
-    await fetch('/api/logout', { method: 'POST' });
-    window.location.replace('/auth/login');
-  },
+export type FetcherConfig = {
+  errorHandlers?: HttpErrorHandlers;
 };
 
-export const getInstance = (apiUrl?: string) =>
+export const getInstance = (apiUrl?: string, config: FetcherConfig = {}) =>
   ky.create({
     prefixUrl: apiUrl,
     headers: { 'Content-Type': 'application/json' },
@@ -33,7 +25,7 @@ export const getInstance = (apiUrl?: string) =>
       afterResponse: [
         async (request, _, response) => {
           if (!response.ok) {
-            await errorHandlers[response.status]?.(request, response);
+            await config.errorHandlers?.[response.status]?.(request, response);
           }
         },
       ],
@@ -54,8 +46,8 @@ export async function resultify<T>(response: ResponsePromise) {
   }
   return (await res.text()) as unknown as T;
 }
-export const getFetcher = (apiUrl: string) => {
-  const { get, post, put, patch, delete: del } = getInstance(apiUrl);
+export const getFetcher = (apiUrl: string, config?: FetcherConfig) => {
+  const { get, post, put, patch, delete: del } = getInstance(apiUrl, config);
 
   return {
     get: <T>(pathname: string, options?: Options) => resultify<T>(get(pathname, options)),
