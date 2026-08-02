@@ -1,22 +1,31 @@
 import type { SportType } from '~/api';
 
-type SportRouteParams = { sport: SportType };
-type TeamRouteParams = { id: number; sport: SportType };
-type GamesRouteParams = { id: number; sport: SportType };
-type LeaguesRouteParams = { id: number; sport: SportType };
+type OrgScope = { orgId: number };
+type SportRouteParams = OrgScope & { sport: SportType };
+type TeamRouteParams = OrgScope & { id: number; sport: SportType };
+type GamesRouteParams = OrgScope & { id: number; sport: SportType };
+type LeaguesRouteParams = OrgScope & { id: number; sport: SportType };
+
+const sportSegment = (sport: SportType) => sport.toLocaleLowerCase();
+const orgSegment = (orgId: number) => `/org/${orgId}`;
+
+const orgSport = ({ orgId, sport }: SportRouteParams) =>
+  `${orgSegment(orgId)}/${sportSegment(sport)}`;
 
 export const routes = {
   root: '/',
-  home: ({ sport }: SportRouteParams) => `/${sport.toLocaleLowerCase()}`,
-  calendar: ({ sport }: SportRouteParams) => `/${sport.toLocaleLowerCase()}/calendar`,
+  welcome: '/welcome',
+  org: ({ orgId }: OrgScope) => orgSegment(orgId),
+  home: (params: SportRouteParams) => orgSport(params),
+  calendar: (params: SportRouteParams) => `${orgSport(params)}/calendar`,
 
-  teams: ({ sport }: SportRouteParams) => `/${sport.toLocaleLowerCase()}/teams`,
-  team: ({ id, sport }: TeamRouteParams) => `/${sport.toLocaleLowerCase()}/teams/${id}`,
+  teams: (params: SportRouteParams) => `${orgSport(params)}/teams`,
+  team: ({ id, ...rest }: TeamRouteParams) => `${orgSport(rest)}/teams/${id}`,
 
-  games: ({ sport }: SportRouteParams) => `/${sport.toLocaleLowerCase()}/games`,
-  game: ({ id, sport }: GamesRouteParams) => `/${sport.toLocaleLowerCase()}/games/${id}`,
+  games: (params: SportRouteParams) => `${orgSport(params)}/games`,
+  game: ({ id, ...rest }: GamesRouteParams) => `${orgSport(rest)}/games/${id}`,
 
-  previous: ({ sport }: SportRouteParams) => `/${sport.toLocaleLowerCase()}/previous`,
-  leagues: ({ sport }: SportRouteParams) => `/${sport.toLocaleLowerCase()}/leagues`,
-  league: ({ id, sport }: LeaguesRouteParams) => `/${sport.toLocaleLowerCase()}/leagues/${id}`,
+  previous: (params: SportRouteParams) => `${orgSport(params)}/previous`,
+  leagues: (params: SportRouteParams) => `${orgSport(params)}/leagues`,
+  league: ({ id, ...rest }: LeaguesRouteParams) => `${orgSport(rest)}/leagues/${id}`,
 };

@@ -15,8 +15,6 @@ import { OrganizationList } from './_components/organization-list';
 
 // export const metadata: Metadata = { title: '학교 선택' };
 
-const URL_KEY = 'org';
-
 export default function Page() {
   const router = useRouter();
   const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -24,11 +22,7 @@ export default function Page() {
   const handleStart = () => {
     if (selectedId === null) return;
 
-    startOrgSession(
-      router,
-      `${routes.home({ sport: DEFAULT_SPORT })}?${URL_KEY}=${selectedId}`,
-      selectedId,
-    );
+    startOrgSession(router, routes.home({ orgId: selectedId, sport: DEFAULT_SPORT }), selectedId);
   };
 
   return (
