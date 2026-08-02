@@ -4,11 +4,11 @@ import type { ReactNode } from 'react';
 
 import { ArrowBackIcon, HCCLogo } from '@hcc/icons';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+
+import type { SportType } from '~/api';
 
 import { routes } from '~/constants/routes';
-import { useOrganizationId } from '~/hooks/useOrganizationId';
-import { normalizeSportParam } from '~/utils/sport-route';
 
 type Props = {
   left?: ReactNode;
@@ -45,20 +45,14 @@ export const Arrow = () => {
   );
 };
 
-export const LinkLogo = () => {
-  const params = useParams<{ sport?: string }>();
-  const sportType = normalizeSportParam(params?.sport);
+interface LinkLogoProps {
+  orgId: number;
+  sport: SportType;
+}
 
-  const { isReady, organizationId } = useOrganizationId();
-
-  const homePathname = sportType ? routes.home({ sport: sportType }) : routes.root;
-  const homeHref = {
-    pathname: homePathname,
-    query: isReady ? { org: organizationId } : {},
-  };
-
+export const LinkLogo = ({ orgId, sport }: LinkLogoProps) => {
   return (
-    <Link className="flex items-end select-none" href={homeHref}>
+    <Link className="flex items-end select-none" href={routes.home({ orgId, sport })}>
       <HCCLogo width="71.5" height="21" className="text-[var(--color-primary-600)]" />
     </Link>
   );
