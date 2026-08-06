@@ -11,7 +11,7 @@ export const useSuspensePlayers = () => useSuspenseQuery(queryKeys.players.list)
 
 export const useSuspenseInfinitePlayers = (payload: PlayerListPayload) =>
   useSuspenseInfiniteQuery({
-    queryKey: ['players', 'infinite', payload.name, payload.studentNumber] as const,
+    queryKey: queryKeys.players.infinite(payload).queryKey,
     queryFn: ({ pageParam }: { pageParam: number }) =>
       fetcher.get<PlayerListResponse>('players', {
         searchParams: {

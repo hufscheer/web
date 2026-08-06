@@ -13,14 +13,7 @@ export const useSuspenseGamesCheerTalkBlock = (payload: GameCheerTalkPayload) =>
 
 export const useSuspenseInfiniteGamesCheerTalkBlock = (payload: GameCheerTalkPayload) =>
   useSuspenseInfiniteQuery({
-    queryKey: [
-      'games',
-      payload.gameId,
-      'cheer-talks',
-      'blocked',
-      'infinite',
-      payload.size,
-    ] as const,
+    queryKey: queryKeys.games.cheerTalksBlockedInfinite(payload).queryKey,
     queryFn: async ({ pageParam }: { pageParam: number }) =>
       fetcher.get<CheerTalkListResponse>(`games/${payload.gameId}/cheer-talks/blocked`, {
         searchParams: { cursor: pageParam > 0 ? pageParam : '', size: payload.size },

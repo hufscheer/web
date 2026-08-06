@@ -1,34 +1,19 @@
 import { useQuery, useSuspenseInfiniteQuery, useSuspenseQuery } from '@hcc/api-base';
 
-import type { CheerTalkListResponse, CheerTalkType, LeagueCheerTalkPayload } from '~/api';
+import type { CheerTalkListResponse, LeagueCheerTalkPayload } from '~/api';
 
 import { fetcher } from '~/api/fetcher';
+import { queryKeys } from '~/api/queryKey';
 
 export const useLeagueCheerTalks = (payload: LeagueCheerTalkPayload) =>
-  useQuery({
-    queryKey: ['leagues', payload.leagueId, 'cheer-talks', payload] as const,
-    queryFn: () => {
-      const cursor = payload.cursor || '';
-      return fetcher.get<CheerTalkType[]>(`leagues/${payload.leagueId}/cheer-talks`, {
-        searchParams: { cursor, size: payload.size },
-      });
-    },
-  });
+  useQuery(queryKeys.leagues.cheerTalks(payload));
 
 export const useSuspenseLeagueCheerTalks = (payload: LeagueCheerTalkPayload) =>
-  useSuspenseQuery({
-    queryKey: ['leagues', payload.leagueId, 'cheer-talks', payload] as const,
-    queryFn: () => {
-      const cursor = payload.cursor || '';
-      return fetcher.get<CheerTalkType[]>(`leagues/${payload.leagueId}/cheer-talks`, {
-        searchParams: { cursor, size: payload.size },
-      });
-    },
-  });
+  useSuspenseQuery(queryKeys.leagues.cheerTalks(payload));
 
 export const useSuspenseInfiniteLeagueCheerTalks = (payload: LeagueCheerTalkPayload) =>
   useSuspenseInfiniteQuery({
-    queryKey: ['leagues', payload.leagueId, 'cheer-talks', 'infinite', payload.size] as const,
+    queryKey: queryKeys.leagues.cheerTalksInfinite(payload).queryKey,
     queryFn: async ({ pageParam }: { pageParam: number }) =>
       fetcher.get<CheerTalkListResponse>(`leagues/${payload.leagueId}/cheer-talks`, {
         searchParams: { cursor: pageParam > 0 ? pageParam : '', size: payload.size },

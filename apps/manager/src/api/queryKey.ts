@@ -1,6 +1,7 @@
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
 
 import type {
+  CheerTalkListResponse,
   CheerTalkPayload,
   CheerTalkType,
   GameCheerTalkPayload,
@@ -20,6 +21,7 @@ import type {
   LeagueTeamType,
   LeagueType,
   PlayerDetailPayload,
+  PlayerListPayload,
   PlayerListResponse,
   PlayerType,
   ProgressAvailableActionsResponse,
@@ -62,6 +64,33 @@ const leagueQueryKeys = createQueryKeys('leagues', {
       });
     },
   }),
+  cheerTalksBlockedInfinite: ({ leagueId, size }: LeagueCheerTalkPayload) => ({
+    queryKey: [{ leagueId, size }],
+  }),
+  cheerTalks: (payload: LeagueCheerTalkPayload) => ({
+    queryKey: [payload],
+    queryFn: () => {
+      const cursor = payload.cursor || '';
+      return fetcher.get<CheerTalkType[]>(`leagues/${payload.leagueId}/cheer-talks`, {
+        searchParams: { cursor, size: payload.size },
+      });
+    },
+  }),
+  cheerTalksInfinite: ({ leagueId, size }: LeagueCheerTalkPayload) => ({
+    queryKey: [{ leagueId, size }],
+  }),
+  cheerTalksReported: (payload: LeagueCheerTalkPayload) => ({
+    queryKey: [payload],
+    queryFn: () => {
+      const cursor = payload.cursor || '';
+      return fetcher.get<CheerTalkType[]>(`leagues/${payload.leagueId}/cheer-talks/reported`, {
+        searchParams: { cursor, size: payload.size },
+      });
+    },
+  }),
+  cheerTalksReportedInfinite: ({ leagueId, size }: LeagueCheerTalkPayload) => ({
+    queryKey: [{ leagueId, size }],
+  }),
 });
 
 const playerQueryKeys = createQueryKeys('players', {
@@ -72,6 +101,9 @@ const playerQueryKeys = createQueryKeys('players', {
   detail: (payload: PlayerDetailPayload) => ({
     queryKey: [payload],
     queryFn: () => fetcher.get<PlayerType>(`players/${payload.id}`),
+  }),
+  infinite: ({ name, studentNumber }: PlayerListPayload) => ({
+    queryKey: [name, studentNumber],
   }),
 });
 
@@ -137,9 +169,47 @@ const gameQueryKeys = createQueryKeys('games', {
       });
     },
   }),
+  cheerTalksBlockedInfinite: ({ gameId, size }: GameCheerTalkPayload) => ({
+    queryKey: [{ gameId, size }],
+  }),
+  cheerTalksInfinite: ({ gameId, size }: GameCheerTalkPayload) => ({
+    queryKey: [{ gameId, size }],
+  }),
+  cheerTalksReported: (payload: GameCheerTalkPayload) => ({
+    queryKey: [payload],
+    queryFn: () => {
+      const cursor = payload.cursor || '';
+      return fetcher.get<CheerTalkType[]>(`games/${payload.gameId}/cheer-talks/reported`, {
+        searchParams: { cursor, size: payload.size },
+      });
+    },
+  }),
+  cheerTalksReportedInfinite: ({ gameId, size }: GameCheerTalkPayload) => ({
+    queryKey: [{ gameId, size }],
+  }),
 });
 
 const cheerTalkQueryKeys = createQueryKeys('cheertalks', {
+  list: (payload: CheerTalkPayload) => ({
+    queryKey: [payload],
+    queryFn: () =>
+      fetcher.get<CheerTalkListResponse>('cheer-talks', {
+        searchParams: { cursor: payload.cursor || '', size: payload.size },
+      }),
+  }),
+  listInfinite: (size: number) => ({
+    queryKey: [size],
+  }),
+  reported: (payload: CheerTalkPayload) => ({
+    queryKey: [payload],
+    queryFn: () =>
+      fetcher.get<CheerTalkListResponse>('cheer-talks/reported', {
+        searchParams: { cursor: payload.cursor || '', size: payload.size },
+      }),
+  }),
+  reportedInfinite: (size: number) => ({
+    queryKey: [size],
+  }),
   blocked: (payload: CheerTalkPayload) => ({
     queryKey: [payload],
     queryFn: () => {
