@@ -2,6 +2,8 @@ import type { Options, ResponsePromise } from 'ky';
 
 import ky from 'ky';
 
+type KyHooks = NonNullable<Options['hooks']>;
+
 const defaultOption: Options = {
   retry: 0,
   timeout: 30000,
@@ -9,29 +11,40 @@ const defaultOption: Options = {
   throwHttpErrors: true,
 };
 
-export type HttpErrorHandler = (request: Request, response: Response) => void | Promise<void>;
+const defaultHeaders = new Headers({ 'Content-Type': 'application/json' });
 
-export type HttpErrorHandlers = Partial<Record<number, HttpErrorHandler>>;
+export type FetcherConfig = Options;
 
-export type FetcherConfig = {
-  errorHandlers?: HttpErrorHandlers;
+const mergeHeaders = (headers?: HeadersInit) => {
+  const mergedHeaders = new Headers(defaultHeaders);
+
+  if (headers) {
+    new Headers(headers).forEach((value, key) => {
+      mergedHeaders.set(key, value);
+    });
+  }
+
+  return mergedHeaders;
 };
 
-export const getInstance = (apiUrl?: string, config: FetcherConfig = {}) =>
-  ky.create({
-    prefixUrl: apiUrl,
-    headers: { 'Content-Type': 'application/json' },
-    hooks: {
-      afterResponse: [
-        async (request, _, response) => {
-          if (!response.ok) {
-            await config.errorHandlers?.[response.status]?.(request, response);
-          }
-        },
-      ],
-    },
+const mergeHooks = (hooks: KyHooks = {}): KyHooks => ({
+  beforeRequest: [...(hooks.beforeRequest ?? [])],
+  beforeRetry: [...(hooks.beforeRetry ?? [])],
+  beforeError: [...(hooks.beforeError ?? [])],
+  afterResponse: [...(hooks.afterResponse ?? [])],
+});
+
+export const getInstance = (apiUrl?: string, config: FetcherConfig = {}) => {
+  const { headers, hooks, ...options } = config;
+
+  return ky.create({
     ...defaultOption,
+    ...options,
+    prefixUrl: apiUrl,
+    headers: mergeHeaders(headers),
+    hooks: mergeHooks(hooks),
   });
+};
 
 export async function resultify<T>(response: ResponsePromise) {
   const res = await response;
