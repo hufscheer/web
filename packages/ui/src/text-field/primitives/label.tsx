@@ -9,13 +9,12 @@ import { useTextFieldContext } from './context';
 
 export const TextFieldLabel = forwardRef<HTMLLabelElement, TextFieldLabel.Props>(
   ({ render, htmlFor: htmlForProp, className, children, ...props }, ref) => {
-    if (!children) return null;
-
     const { inputId, labelPosition } = useTextFieldContext();
 
     return useRender({
       ref,
       render,
+      enabled: !!children,
       defaultTagName: 'label',
       props: {
         htmlFor: htmlForProp ?? inputId,

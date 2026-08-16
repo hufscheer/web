@@ -9,14 +9,13 @@ import { useTextFieldContext } from './context';
 
 export const TextFieldDescription = forwardRef<HTMLSpanElement, TextFieldDescription.Props>(
   ({ render, id: idProp, className, children, ...props }, ref) => {
-    if (!children) return null;
-
     const { descriptionId } = useTextFieldContext();
     const id = idProp ?? descriptionId;
 
     return useRender({
       ref,
       render,
+      enabled: !!children,
       defaultTagName: 'span',
       props: {
         id,

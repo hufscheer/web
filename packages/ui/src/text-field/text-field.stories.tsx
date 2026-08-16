@@ -3,11 +3,10 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ErrorIcon } from '@hcc/icons';
 import { useState } from 'react';
 
-import { TextField } from './text-field';
-// import { TextField as TextFieldPrimitives } from './index.primitives';
+import { TextField } from '.';
 
 export default {
-  title: 'Input',
+  title: 'TextField',
   component: TextField,
   argTypes: {
     size: {

@@ -7,7 +7,7 @@ import * as TextFieldPrimitives from './index.primitives';
 
 /* ----- slots ----- */
 
-export const slots = createSlots(['left', 'right']);
+const slots = createSlots(['left', 'right']);
 
 /* ----- text field ----- */
 
@@ -56,7 +56,7 @@ export const TextField = ({
 
 /* ----- types ----- */
 
-export type RootProps = Pick<
+type RootProps = Pick<
   TextFieldPrimitives.Root.Props,
   | 'inputId'
   | 'descriptionId'
@@ -67,12 +67,12 @@ export type RootProps = Pick<
   | 'defaultValue'
 >;
 
-export type InputProps = Pick<
+type InputProps = Pick<
   TextFieldPrimitives.Input.Props,
   'placeholder' | 'disabled' | 'readOnly' | 'className' | 'style'
 >;
 
-export type Slots = SlotsProps<typeof slots>;
+type Slots = SlotsProps<typeof slots>;
 export interface TextFieldProps extends RootProps, InputProps, Slots {
   label: string;
   description?: string;
