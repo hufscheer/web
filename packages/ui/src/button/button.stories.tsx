@@ -1,7 +1,7 @@
 import type { Meta } from '@storybook/react-vite';
 
+import { Button } from '.';
 import { Spinner } from '../spinner';
-import { Button } from './button';
 
 export default {
   title: 'Button',

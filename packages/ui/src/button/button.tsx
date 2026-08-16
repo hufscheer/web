@@ -48,7 +48,7 @@ export const Button = ({
 
 /* ------ types ------ */
 
-export type RootProps = Pick<
+type RootProps = Pick<
   PrimitiveButton.Root.Props,
   | 'render'
   | 'type'
@@ -61,7 +61,7 @@ export type RootProps = Pick<
   | 'children'
 >;
 
-export type Slots = SlotsProps<typeof slots>;
+type Slots = SlotsProps<typeof slots>;
 export interface ButtonProps extends RootProps, Slots {
   loading?: boolean;
 }
