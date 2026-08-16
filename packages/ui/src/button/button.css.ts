@@ -80,24 +80,36 @@ export const button = recipe({
         color: tokens.colors.white,
         backgroundColor: variables.accent,
 
-        selectors: {
-          '&:hover': { backgroundColor: variables.accentHover },
+        '@media': {
+          '(hover: hover)': {
+            selectors: {
+              '&:hover': { backgroundColor: variables.accentHover },
+            },
+          },
         },
       },
       subtle: {
         color: variables.accent,
         backgroundColor: variables.surface,
 
-        selectors: {
-          '&:hover': { backgroundColor: variables.surfaceHover },
+        '@media': {
+          '(hover: hover)': {
+            selectors: {
+              '&:hover': { backgroundColor: variables.surfaceHover },
+            },
+          },
         },
       },
       ghost: {
         color: variables.accent,
         backgroundColor: 'transparent',
 
-        selectors: {
-          '&:hover': { backgroundColor: variables.ghostHover },
+        '@media': {
+          '(hover: hover)': {
+            selectors: {
+              '&:hover': { backgroundColor: variables.ghostHover },
+            },
+          },
         },
       },
     },
