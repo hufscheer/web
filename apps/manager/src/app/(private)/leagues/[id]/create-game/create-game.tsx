@@ -34,7 +34,11 @@ export const CreateGame = ({ leagueId }: Props) => {
                   <BasicInfoStep leagueId={leagueId} onNext={goNext} onSubmit={submit} />
                 </Suspense>
               ),
-              1: <LineupStep leagueId={leagueId} onNext={goNext} onPrevious={goPrev} />,
+              1: (
+                <Suspense fallback={<Spinner className="self-center" />} clientOnly>
+                  <LineupStep leagueId={leagueId} onNext={goNext} onPrevious={goPrev} />
+                </Suspense>
+              ),
               2: <VideoStep onPrevious={goPrev} />,
             }}
           />

@@ -27,23 +27,36 @@ export const useCreateGameForm = ({ leagueId }: UseCreateGameFormProps) => {
   const goPrev = () => setStep((prev) => Math.max(prev - 1, 0) as Step);
   const goTo = (target: Step) => setStep(target);
 
-  const submit = form.handleSubmit(
-    (data) =>
-      mutate(
-        { ...data, leagueId, quarter: 'PRE_GAME', state: 'SCHEDULED' },
-        {
-          onSuccess: () => {
-            toast.success('경기가 생성되었어요');
-            router.back();
-          },
-          onError: (error) => {
-            console.error(`[manager/leagues/${leagueId}/create-game]`, error);
-            toast.error('경기 생성에 실패했어요 잠시 후 다시 시도해주세요');
-          },
+  const submit = form.handleSubmit((data) => {
+    const isBasicValid = Boolean(
+      data.name?.trim() &&
+      data.round &&
+      data.startTime &&
+      data.team1?.leagueTeamId &&
+      data.team2?.leagueTeamId &&
+      data.team1.leagueTeamId !== data.team2.leagueTeamId,
+    );
+    const isTeamLineupComplete = (team: typeof data.team1) =>
+      team.lineupPlayers.some((p) => p.state === 'STARTER') &&
+      team.lineupPlayers.some((p) => p.isCaptain);
+    if (!isBasicValid || !isTeamLineupComplete(data.team1) || !isTeamLineupComplete(data.team2)) {
+      toast.warning('모든 단계를 완료해야 경기 생성이 가능해요');
+      return;
+    }
+    mutate(
+      { ...data, leagueId, quarter: 'PRE_GAME', state: 'SCHEDULED' },
+      {
+        onSuccess: () => {
+          toast.success('경기가 생성되었어요');
+          router.back();
         },
-      ),
-    handleFormError,
-  );
+        onError: (error) => {
+          console.error(`[manager/leagues/${leagueId}/create-game]`, error);
+          toast.error('경기 생성에 실패했어요 잠시 후 다시 시도해주세요');
+        },
+      },
+    );
+  }, handleFormError);
 
   return { form, step, goNext, goPrev, goTo, submit };
 };
