@@ -28,21 +28,26 @@ export const useCreateGameForm = ({ leagueId }: UseCreateGameFormProps) => {
   const goTo = (target: Step) => setStep(target);
 
   const submit = form.handleSubmit((data) => {
+    const { name, round, startTime, team1, team2 } = data;
+
     const isBasicValid = Boolean(
-      data.name?.trim() &&
-      data.round &&
-      data.startTime &&
-      data.team1?.leagueTeamId &&
-      data.team2?.leagueTeamId &&
-      data.team1.leagueTeamId !== data.team2.leagueTeamId,
+      name?.trim() &&
+      round &&
+      startTime &&
+      team1?.leagueTeamId &&
+      team2?.leagueTeamId &&
+      team1.leagueTeamId !== team2.leagueTeamId,
     );
-    const isTeamLineupComplete = (team: typeof data.team1) =>
+
+    const isTeamLineupComplete = (team: typeof team1) =>
       team.lineupPlayers.some((p) => p.state === 'STARTER') &&
       team.lineupPlayers.some((p) => p.isCaptain);
-    if (!isBasicValid || !isTeamLineupComplete(data.team1) || !isTeamLineupComplete(data.team2)) {
+
+    if (!isBasicValid || !isTeamLineupComplete(team1) || !isTeamLineupComplete(team2)) {
       toast.warning('모든 단계를 완료해야 경기 생성이 가능해요');
       return;
     }
+
     mutate(
       { ...data, leagueId, quarter: 'PRE_GAME', state: 'SCHEDULED' },
       {

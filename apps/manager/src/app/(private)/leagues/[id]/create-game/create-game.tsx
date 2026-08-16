@@ -7,8 +7,8 @@ import { FormProvider } from 'react-hook-form';
 import { SwitchCase } from '~/components/feature';
 
 import { StepProgress } from '../_components/step-progress';
+import { BasicInfoStep } from './_components/basic-infos';
 import { STEPS } from './constants';
-import { BasicInfoStep } from './steps/basic-info-step';
 import { LineupStep } from './steps/lineup-step';
 import { VideoStep } from './steps/video-step';
 import { useCreateGameForm } from './use-create-game-form';
