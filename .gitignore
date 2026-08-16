@@ -48,3 +48,4 @@ storybook-static
 *.iws
 *.iml
 *.ipr
+*storybook.log

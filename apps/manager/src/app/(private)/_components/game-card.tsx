@@ -92,9 +92,9 @@ const GameMenu = ({ leagueId, id, sportType, state }: GameMenuProps) => {
             size="sm"
             color="black"
             variant="subtle"
-            asChild
+            render={<Link href={`/${routes.game_timeline(leagueId, id, sportType)}`} />}
           >
-            <Link href={`/${routes.game_timeline(leagueId, id, sportType)}`}>경기 진행</Link>
+            경기 진행
           </Button>
           <Button
             disabled={isFinished}
@@ -102,9 +102,9 @@ const GameMenu = ({ leagueId, id, sportType, state }: GameMenuProps) => {
             size="sm"
             color="black"
             variant="subtle"
-            asChild
+            render={<Link href={`/${routes.game(leagueId, id, sportType)}`} />}
           >
-            <Link href={`/${routes.game(leagueId, id, sportType)}`}>경기 정보 수정</Link>
+            경기 정보 수정
           </Button>
         </>
       )}
