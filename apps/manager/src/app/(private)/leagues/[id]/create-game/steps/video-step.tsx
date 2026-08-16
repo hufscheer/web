@@ -7,7 +7,7 @@ type Props = {
   onPrevious: () => void;
 };
 
-export const GameVideoStep = ({ onPrevious }: Props) => {
+export const VideoStep = ({ onPrevious }: Props) => {
   const { register } = useFormContext<GameFormType>();
 
   return (

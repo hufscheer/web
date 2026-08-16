@@ -23,7 +23,7 @@ type PlayerSelectionState = {
   isCaptain: boolean;
 };
 
-export const GameLineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
+export const LineupStep = ({ leagueId, onNext, onPrevious }: Props) => {
   const { watch, setValue, getValues } = useFormContext<GameFormType>();
   const { data: league } = useSuspenseLeague({ leagueId });
   const [team1Id, team2Id] = watch(['team1.leagueTeamId', 'team2.leagueTeamId']);
