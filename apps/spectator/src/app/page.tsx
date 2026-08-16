@@ -1,23 +1,11 @@
 import { redirect } from 'next/navigation';
 
-import { routes } from '~/constants/routes';
-import { DEFAULT_SPORT, normalizeSportParam } from '~/utils/sport-route';
-
-type Props = {
-  searchParams: Promise<{ sport?: string; org?: string }>;
-};
-
-const Page = async ({ searchParams }: Props) => {
-  const { sport, org } = await searchParams;
-  const parsed = org ? Number(org) : Number.NaN;
-  const isValid = Number.isInteger(parsed) && parsed > 0;
-
-  if (!isValid) {
-    redirect('/welcome');
-  }
-
-  const sportType = normalizeSportParam(sport) ?? DEFAULT_SPORT;
-  redirect(`${routes.home({ sport: sportType })}?org=${parsed}`);
+/**
+ * 미들웨어가 항상 `/org/[orgId]/...` 또는 `/welcome` 으로 리다이렉트한다.
+ * 이 경로가 실제로 렌더링되는 경우는 없지만 방어적으로 `/welcome` 으로 보낸다.
+ */
+const Page = () => {
+  redirect('/welcome');
 };
 
 export default Page;
