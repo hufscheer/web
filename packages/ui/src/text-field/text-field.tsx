@@ -36,15 +36,17 @@ export const TextField = ({
       descriptionId={descriptionId}
       labelPosition={labelPosition}
       size={size}
-      value={value}
-      onValueChange={onValueChange}
-      defaultValue={defaultValue}
     >
       <TextFieldPrimitives.Label>{label}</TextFieldPrimitives.Label>
 
       <TextFieldPrimitives.Container>
         <slots.left render={left} />
-        <TextFieldPrimitives.Input {...props} />
+        <TextFieldPrimitives.Input
+          value={value}
+          defaultValue={defaultValue}
+          onValueChange={onValueChange}
+          {...props}
+        />
         {clear && <TextFieldPrimitives.Clear />}
         <slots.right render={right} />
       </TextFieldPrimitives.Container>
@@ -58,18 +60,12 @@ export const TextField = ({
 
 type RootProps = Pick<
   TextFieldPrimitives.Root.Props,
-  | 'inputId'
-  | 'descriptionId'
-  | 'labelPosition'
-  | 'size'
-  | 'value'
-  | 'onValueChange'
-  | 'defaultValue'
+  'inputId' | 'descriptionId' | 'labelPosition' | 'size'
 >;
 
 type InputProps = Pick<
   TextFieldPrimitives.Input.Props,
-  'placeholder' | 'disabled' | 'readOnly' | 'className' | 'style'
+  'placeholder' | 'disabled' | 'readOnly' | 'className' | 'style' | 'value' | 'defaultValue'
 >;
 
 type Slots = SlotsProps<typeof slots>;

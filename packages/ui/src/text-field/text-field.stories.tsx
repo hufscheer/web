@@ -26,6 +26,9 @@ export default {
     placeholder: {
       control: { type: 'text' },
     },
+    clear: {
+      control: { type: 'boolean' },
+    },
   },
 } satisfies Meta<typeof TextField>;
 

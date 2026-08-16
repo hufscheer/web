@@ -1,19 +1,16 @@
 'use client';
 
-import type { ChangeEvent, RefObject } from 'react';
-
 import { createContext, useContext } from 'react';
 
 import type * as styles from '../text-field.css';
-import type { BaseInputProps } from './input';
+import type { TextFieldStore } from './store';
 
 type Variants = styles.RootVariants & styles.ContainerVariants;
-export interface TextFieldContext extends Variants, Omit<BaseInputProps, 'onValueChange'> {
+
+export interface TextFieldContext extends Variants {
   inputId: string;
   descriptionId: string;
-  inputRef?: RefObject<HTMLInputElement | null>;
-  onValueChange: (value: string, event?: ChangeEvent<HTMLInputElement>) => void;
-  clearValue: () => void;
+  store: TextFieldStore;
 }
 
 export const TextFieldContext = createContext<TextFieldContext | undefined>(undefined);

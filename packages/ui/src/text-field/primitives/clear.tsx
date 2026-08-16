@@ -12,11 +12,12 @@ export const TextFieldClear = forwardRef<HTMLButtonElement, TextFieldClear.Props
   ({ render, className, children: childrenProp, ...props }, ref) => {
     const children = childrenProp ?? <CloseIcon size={14} />;
 
-    const { value, clearValue, inputRef } = useTextFieldContext();
+    const { store } = useTextFieldContext();
+    const value = store.useState('value');
 
     const handleClick = () => {
-      clearValue();
-      inputRef?.current?.focus();
+      store.context.setValue('');
+      store.context.inputRef.current?.focus();
     };
 
     return useRender({
