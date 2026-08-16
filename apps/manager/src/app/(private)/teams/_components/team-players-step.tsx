@@ -142,7 +142,9 @@ export const TeamPlayersStep = ({ onPrevious, isEditMode }: Props) => {
             </Typography>
           )}
         </div>
-        {!isEditMode && <FloatingActionButton onClick={handleAssistantButtonClick} />}
+        {!isEditMode && fields.length === 0 && (
+          <FloatingActionButton onClick={handleAssistantButtonClick} />
+        )}
 
         {fields.length > 0 && (
           <div className="shrink-0 border-t border-neutral-100 bg-white pt-3">
