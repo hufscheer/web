@@ -10,41 +10,60 @@
   ],
   "exports": {
     ".": {
-      "require": {
-        "types": "./dist/cjs/index.d.ts",
-        "default": "./dist/cjs/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/index.d.mts",
-        "default": "./dist/esm/index.mjs"
-      }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs"
     },
-    "./styles.css": "./dist/esm/index.css"
+    "./primitives": {
+      "types": "./dist/primitives.d.ts",
+      "import": "./dist/primitives.mjs"
+    },
+    "./styles.css": "./dist/styles.css"
   },
   "scripts": {
-    "build": "rollup -c rollup.config.cjs",
+    "build": "vite build",
+    "build-storybook": "storybook build",
     "format": "oxfmt",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
-    "prebuild": "rm -rf dist"
+    "prebuild": "rm -rf dist",
+    "storybook": "storybook dev -p 6006"
   },
   "dependencies": {
+    "@base-ui/react": "^1.5.0",
+    "@base-ui/utils": "^0.2.9",
     "@hcc/icons": "workspace:*",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-slot": "^1.2.3",
+    "@vanilla-extract/css": "^1.20.1",
+    "@vanilla-extract/recipes": "^0.5.7",
     "clsx": "^2.1.1",
+    "react-aria": "^3.48.0",
     "sonner": "^2.0.7",
     "ts-pattern": "^5.8.0",
     "vaul": "^1.1.2"
   },
   "devDependencies": {
-    "@hcc/rollup-config": "workspace:*",
+    "@chromatic-com/storybook": "^5.1.2",
     "@hcc/typescript-config": "workspace:*",
+    "@storybook/addon-a11y": "^10.3.5",
+    "@storybook/addon-docs": "^10.3.5",
+    "@storybook/addon-vitest": "^10.3.5",
+    "@storybook/react-vite": "^10.3.5",
     "@types/react": "^19.1.15",
     "@types/react-dom": "^19.1.9",
-    "rollup": "^4.52.3",
-    "typescript": "^5.9.2"
+    "@vanilla-extract/vite-plugin": "^5.2.2",
+    "@vitejs/plugin-react": "^6.0.1",
+    "@vitest/browser-playwright": "^4.1.5",
+    "@vitest/coverage-v8": "^4.1.5",
+    "playwright": "^1.59.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "storybook": "^10.3.5",
+    "typescript": "^5.9.2",
+    "vite": "^8.0.10",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^4.1.5"
   },
   "peerDependencies": {
     "react": "^19.1.1",

@@ -1,6 +1,5 @@
 import { ErrorIcon } from '@hcc/icons';
-
-import { Popover } from '~/components/ui/popover/flat';
+import { Popover } from '@hcc/ui';
 
 export const HeroBanner = () => {
   return (

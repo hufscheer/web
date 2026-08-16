@@ -155,17 +155,15 @@ const GameList = ({
             {index !== games.length - 1 && <GameCard.Divider />}
             {index === 0 && (
               <Button
-                asChild
+                render={<Link href={{ pathname, query: { tab: 'cheer' } }} />}
                 variant="ghost"
                 size="sm"
                 color="primary"
                 className="gap"
                 onClick={() => sendEvent({ action: 'click', value: `${buttonLabel}_${game.id}` })}
               >
-                <Link href={{ pathname, query: { tab: 'cheer' } }}>
-                  {buttonLabel}
-                  <ChevronForwardIcon className="animate-[arrow_1s_ease-in-out_infinite] " />
-                </Link>
+                {buttonLabel}
+                <ChevronForwardIcon className="animate-[arrow_1s_ease-in-out_infinite] " />
               </Button>
             )}
           </Fragment>
