@@ -16,8 +16,8 @@ export const Button = ({
   color = 'primary',
   variant = 'solid',
 
-  disabled: disabledProp = false,
-  loading = false,
+  disabled: disabledProp,
+  loading,
 
   left,
   right,
@@ -35,6 +35,7 @@ export const Button = ({
       color={color}
       variant={variant}
       disabled={disabled}
+      data-loading={loading ? '' : undefined}
       {...props}
     >
       <slots.left render={left} />
