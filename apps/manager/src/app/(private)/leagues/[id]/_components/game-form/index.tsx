@@ -10,9 +10,9 @@ import { GameVideoStep } from '~/app/(private)/leagues/[id]/_components/game-for
 import { SwitchCase } from '~/components/feature';
 import { handleFormError } from '~/utils/form-util';
 
+import { StepProgress } from '../step-progress';
 import { GameBasicInfoStep } from './game-basic-info-step';
 import { GameLineupStep } from './game-lineup-step';
-import { StepProgress } from './step-progress';
 
 type Props = {
   leagueId: number;
