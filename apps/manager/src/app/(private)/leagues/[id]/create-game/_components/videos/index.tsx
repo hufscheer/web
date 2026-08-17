@@ -1,3 +1,5 @@
+'use client';
+
 import { Button, Input, Typography } from '@hcc/ui';
 import { useFormContext } from 'react-hook-form';
 
@@ -20,14 +22,24 @@ export const VideoStep = ({ onPrevious }: Props) => {
         <Input size="lg" type="text" placeholder="영상 URL" {...register('videoId')} />
       </div>
 
-      <div className="column mt-6 w-full gap-2">
-        <Button type="button" onClick={onPrevious} variant="subtle" color="black" size="lg">
-          이전 단계
-        </Button>
-        <Button type="submit" size="lg" color="black">
-          완료
-        </Button>
-      </div>
+      <StepActions onPrevious={onPrevious} />
     </>
   );
 };
+
+/* ----- pieces ----- */
+
+type StepActionsProps = {
+  onPrevious: () => void;
+};
+
+const StepActions = ({ onPrevious }: StepActionsProps) => (
+  <div className="column mt-6 w-full gap-2">
+    <Button type="button" onClick={onPrevious} variant="subtle" color="black" size="lg">
+      이전 단계
+    </Button>
+    <Button type="submit" size="lg" color="black">
+      완료
+    </Button>
+  </div>
+);

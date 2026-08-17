@@ -4,6 +4,8 @@ export const STEPS = ['경기 정보', '라인업', '경기 영상'] as const;
 
 export type Step = 0 | 1 | 2;
 
+export type TeamNum = 1 | 2;
+
 export const getGameFormDefaults = (leagueId: number): Partial<GameFormType> => ({
   leagueId,
   name: '',

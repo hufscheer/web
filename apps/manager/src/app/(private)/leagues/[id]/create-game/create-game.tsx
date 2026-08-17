@@ -8,9 +8,9 @@ import { SwitchCase } from '~/components/feature';
 
 import { StepProgress } from '../_components/step-progress';
 import { BasicInfoStep } from './_components/basic-infos';
+import { LineupStep } from './_components/lineups';
+import { VideoStep } from './_components/videos';
 import { STEPS } from './constants';
-import { LineupStep } from './steps/lineup-step';
-import { VideoStep } from './steps/video-step';
 import { useCreateGameForm } from './use-create-game-form';
 
 type Props = {
@@ -36,7 +36,12 @@ export const CreateGame = ({ leagueId }: Props) => {
               ),
               1: (
                 <Suspense fallback={<Spinner className="self-center" />} clientOnly>
-                  <LineupStep leagueId={leagueId} onNext={goNext} onPrevious={goPrev} />
+                  <LineupStep
+                    leagueId={leagueId}
+                    onNext={goNext}
+                    onPrevious={goPrev}
+                    onSubmit={submit}
+                  />
                 </Suspense>
               ),
               2: <VideoStep onPrevious={goPrev} />,

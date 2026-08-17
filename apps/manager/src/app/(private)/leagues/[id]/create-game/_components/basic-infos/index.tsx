@@ -6,6 +6,8 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { type GameFormType } from '~/api';
 import { InputSelect } from '~/components/ui/input-select';
 
+import type { TeamNum } from '../../constants';
+
 import { useBasicInfoData } from './use-basic-infos';
 import { useBasicInfoDerived } from './use-basic-infp-derived';
 import { useTeamSelectHandler } from './use-team-select';
@@ -56,7 +58,6 @@ type Props = {
   onSubmit: () => void;
 };
 
-type TeamNum = 1 | 2;
 type TeamOptions = ReturnType<typeof useBasicInfoData>['teamOptions'];
 type RoundOptions = ReturnType<typeof useBasicInfoData>['roundOptions'];
 
