@@ -17,7 +17,7 @@ export function SelectRoot({
   labelPosition,
 
   value: valueProp,
-  defaultValue = '',
+  defaultValue = null,
   onValueChange,
 
   children,
@@ -36,7 +36,7 @@ export function SelectRoot({
   });
 
   const handleValueChange = useCallback(
-    (nextValue: string) => {
+    (nextValue: string | null) => {
       setValue(nextValue);
       onValueChange?.(nextValue);
     },
@@ -44,8 +44,8 @@ export function SelectRoot({
   );
 
   const clear = useCallback(() => {
-    setValue('');
-    onValueChange?.('');
+    setValue(null);
+    onValueChange?.(null);
     triggerRef.current?.focus();
   }, [setValue, onValueChange]);
 
@@ -67,7 +67,7 @@ export function SelectRoot({
       <BaseSelect.Root<SelectRoot.Value, Multiple>
         id={labelId}
         value={value}
-        onValueChange={(value) => handleValueChange(value ?? '')}
+        onValueChange={handleValueChange}
         {...props}
       >
         <div className={styles.root({ labelPosition })}>{children}</div>
@@ -89,12 +89,12 @@ export interface SelectRootProps extends Omit<
   size?: 'md' | 'lg';
   labelPosition?: 'top' | 'left';
 
-  onValueChange?: (value: string) => void;
+  onValueChange?: (value: string | null) => void;
 }
 
 export namespace SelectRoot {
   export type State = BaseSelect.Root.State;
   export type Props = SelectRootProps;
 
-  export type Value = string;
+  export type Value = string | null;
 }

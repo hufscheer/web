@@ -21,7 +21,7 @@ export type SelectStore = ReactStore<SelectState, SelectStoreContext, typeof sel
 
 export function createSelectStore(triggerRef: RefObject<HTMLButtonElement | null>): SelectStore {
   return new ReactStore<SelectState, SelectStoreContext, typeof selectors>(
-    { value: '' },
+    { value: null },
     { triggerRef, clear: () => {} },
     selectors,
   );

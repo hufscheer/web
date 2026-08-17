@@ -1,10 +1,9 @@
 'use client';
 
-import { Badge, Button, Input, Typography } from '@hcc/ui';
+import { Badge, Button, Input, Select, Typography } from '@hcc/ui';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { type GameFormType } from '~/api';
-import { InputSelect } from '~/components/ui/input-select';
 
 import type { TeamNum } from '../../constants';
 
@@ -89,12 +88,17 @@ const GameInfoFields = ({ roundOptions }: { roundOptions: RoundOptions }) => {
           name="round"
           control={control}
           render={({ field }) => (
-            <InputSelect
-              label="라운드"
-              options={roundOptions}
-              value={field.value?.toString()}
-              onValueChange={(v) => field.onChange(Number(v))}
-            />
+            <Select.Root
+              placeholder="라운드"
+              value={field.value?.toString() ?? null}
+              onValueChange={field.onChange}
+            >
+              {roundOptions.map((option) => (
+                <Select.Item key={option.value} value={option.value}>
+                  {option.label}
+                </Select.Item>
+              ))}
+            </Select.Root>
           )}
         />
 
@@ -137,12 +141,20 @@ const TeamSelectRow = ({
           name={fieldName}
           control={control}
           render={({ field }) => (
-            <InputSelect
-              label={`팀 선택 ${teamNum}`}
-              options={teamOptions}
-              value={field.value?.toString() || undefined}
-              onValueChange={(v) => onTeamChange(teamNum, v)}
-            />
+            <Select.Root
+              placeholder={`팀 선택 ${teamNum}`}
+              value={field.value ? field.value.toString() : null}
+              onValueChange={(v) => {
+                if (v == null) return;
+                onTeamChange(teamNum, v);
+              }}
+            >
+              {teamOptions.map((option) => (
+                <Select.Item key={option.value} value={option.value}>
+                  {option.label}
+                </Select.Item>
+              ))}
+            </Select.Root>
           )}
         />
       </div>
