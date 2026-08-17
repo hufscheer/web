@@ -64,7 +64,7 @@ export function SelectRoot({
 
   return (
     <SelectContext.Provider value={contextValue}>
-      <BaseSelect.Root<SelectRoot.Value, Multiple>
+      <BaseSelect.Root<string, false>
         id={labelId}
         value={value}
         onValueChange={handleValueChange}
@@ -78,10 +78,8 @@ export function SelectRoot({
 
 /* ----- types ----- */
 
-type Multiple = false;
-
 export interface SelectRootProps extends Omit<
-  BaseSelect.Root.Props<SelectRoot.Value, Multiple>,
+  BaseSelect.Root.Props<string, false>,
   'id' | 'onValueChange' | 'multiple'
 > {
   labelId?: string;

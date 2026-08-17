@@ -91,6 +91,7 @@ const GameInfoFields = ({ roundOptions }: { roundOptions: RoundOptions }) => {
             <Select.Root
               placeholder="라운드"
               value={field.value?.toString() ?? null}
+              renderValue={(value) => roundOptions.find((option) => option.value === value)?.label}
               onValueChange={field.onChange}
             >
               {roundOptions.map((option) => (
@@ -144,9 +145,9 @@ const TeamSelectRow = ({
             <Select.Root
               placeholder={`팀 선택 ${teamNum}`}
               value={field.value ? field.value.toString() : null}
+              renderValue={(value) => teamOptions.find((option) => option.value === value)?.label}
               onValueChange={(v) => {
-                if (v == null) return;
-                onTeamChange(teamNum, v);
+                if (v) onTeamChange(teamNum, v);
               }}
             >
               {teamOptions.map((option) => (

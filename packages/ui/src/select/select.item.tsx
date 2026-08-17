@@ -19,7 +19,7 @@ export const SelectItem = ({ left, right, children, ...props }: SelectItem.Props
 
 /* ----- types ----- */
 
-type ItemProps = Pick<SelectPrimitives.Item.Props, 'value' | 'children'>;
+type ItemProps = Pick<SelectPrimitives.Item.Props, 'value' | 'label' | 'children'>;
 
 type Slots = SlotsProps<typeof slots>;
 

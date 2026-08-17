@@ -85,7 +85,7 @@ export const Controlled: Story = {
     placeholder = '선택하세요',
     ...args
   }) => {
-    const [value, setValue] = useState<string>('');
+    const [value, setValue] = useState<string | null>(null);
 
     return (
       <Select.Root

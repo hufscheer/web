@@ -35,12 +35,17 @@ export const Select = ({
   left,
   right,
   clear,
+  renderValue: renderValueProp,
 
   side,
   align,
 
   children,
 }: SelectProps) => {
+  const renderValue = renderValueProp
+    ? (value: string) => renderValueProp(value) ?? placeholder
+    : undefined;
+
   const descriptionId = useId(descriptionIdProp);
 
   return (
@@ -59,7 +64,7 @@ export const Select = ({
 
       <SelectPrimitives.Container>
         <slots.left render={left} />
-        <SelectPrimitives.Value placeholder={placeholder} />
+        <SelectPrimitives.Value placeholder={placeholder}>{renderValue}</SelectPrimitives.Value>
         {clear && <SelectPrimitives.Clear />}
         <SelectPrimitives.Icon />
         <slots.right render={right} />
@@ -99,6 +104,7 @@ export interface SelectProps extends RootProps, ValueProps, PopupProps, Slots {
   label?: ReactNode;
   description?: ReactNode;
   clear?: boolean;
+  renderValue?: (value: string) => ReactNode;
 }
 
 export namespace Select {
