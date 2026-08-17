@@ -39,7 +39,7 @@ export const useCreateGameForm = ({ leagueId }: UseCreateGameFormProps) => {
       {
         onSuccess: () => {
           toast.success('경기가 생성되었어요');
-          router.back();
+          router.push(`/leagues/${leagueId}`);
         },
         onError: (error) => {
           console.error(`[manager/leagues/${leagueId}/create-game]`, error);
