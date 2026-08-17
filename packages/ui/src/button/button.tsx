@@ -1,7 +1,7 @@
 'use client';
 
 import { createSlots, type SlotsProps } from '../_utils/slot';
-import * as PrimitiveButton from './index.primitives';
+import * as PrimitiveButton from './primitives';
 
 /* ------ slots ------ */
 

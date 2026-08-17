@@ -3,7 +3,7 @@
 import type { SlotsProps } from '../_utils/slot';
 
 import { createSlots } from '../_utils/slot';
-import * as TextFieldPrimitives from './index.primitives';
+import * as TextFieldPrimitives from './primitives';
 
 /* ----- slots ----- */
 

@@ -1,2 +1,2 @@
-export * as ButtonPrimitives from './index.primitives';
+export * as ButtonPrimitives from './primitives';
 export * from './button';
