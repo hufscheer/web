@@ -13,14 +13,14 @@ import styles from './Select.module.css';
 
 type SelectSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
-export interface SelectProps extends Omit<ComponentProps<'select'>, 'size'> {
+export interface LEGACY_SelectProps extends Omit<ComponentProps<'select'>, 'size'> {
   size?: SelectSize;
   weight?: FontWeight;
   lineHeight?: LineHeight;
   placeholder?: string;
 }
 
-export const Select = forwardRef<HTMLSelectElement, SelectProps>(
+export const LEGACY_Select = forwardRef<HTMLSelectElement, LEGACY_SelectProps>(
   (
     {
       id: _id,
@@ -74,7 +74,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   },
 );
 
-Select.displayName = 'Select';
+LEGACY_Select.displayName = 'Select';
 
 const getHeight = (size: SelectSize) =>
   match(size)

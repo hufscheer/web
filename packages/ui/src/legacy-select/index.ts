@@ -1,1 +1,1 @@
-export * as LAGACY_Select from './Select';
+export * from './Select';
