@@ -1,83 +1,55 @@
 'use client';
 
-import { Spinner } from '@hcc/ui';
-import { lazy, Suspense, useCallback, useMemo, useState } from 'react';
-import { Drawer } from 'vaul';
+import { lazy } from 'react';
 
-import { BasketballBottomButton, type BasketballBottomSheetType } from './basketball-bottom-button';
+import { TimelineSheetContainer } from '../../../_components/timeline-tab/timeline-sheet-container';
+import {
+  type TimelineSheetRegistry,
+  useTimelineSheet,
+} from '../../../_components/timeline-tab/use-timeline-sheet';
+import { BasketballBottomButton } from './basketball-bottom-button';
 import { BasketballTimeline } from './basketball-timeline';
 
-const BasketballAddScoreSheet = lazy(() => import('./sheets/BasketballAddScoreSheet'));
-const BasketballStatusChangeSheet = lazy(() => import('./sheets/BasketballStatusChangeSheet'));
-const BasketballSubstituteSheet = lazy(() => import('./sheets/BasketballSubstituteSheet'));
-const BasketballFoulSheet = lazy(() => import('./sheets/BasketballFoulSheet'));
+const BASKETBALL_SHEETS = {
+  addScore: {
+    title: '득점 추가',
+    Component: lazy(() => import('./sheets/BasketballAddScoreSheet')),
+  },
+  changeStatus: {
+    title: '상태 변경',
+    Component: lazy(
+      () => import('../../../_components/timeline-tab/sheets/status-change/StatusChangeSheet'),
+    ),
+  },
+  substitute: {
+    title: '교체 추가',
+    Component: lazy(() => import('./sheets/substitute/BasketballSubstituteSheet')),
+  },
+  foul: {
+    title: '파울 추가',
+    Component: lazy(() => import('./sheets/foul/BasketballFoulSheet')),
+  },
+} satisfies TimelineSheetRegistry<'addScore' | 'changeStatus' | 'substitute' | 'foul'>;
 
 export default function TimelineClient({ leagueId, gameId }: { leagueId: number; gameId: number }) {
-  const [activeSheet, setActiveSheet] = useState<BasketballBottomSheetType | null>(null);
-  const close = useCallback(() => setActiveSheet(null), []);
-
-  const sheetMap = useMemo(
-    () => ({
-      addScore: {
-        title: '득점 추가',
-        node: <BasketballAddScoreSheet leagueId={leagueId} gameId={gameId} onClose={close} />,
-      },
-      changeStatus: {
-        title: '상태 변경',
-        node: <BasketballStatusChangeSheet leagueId={leagueId} gameId={gameId} onClose={close} />,
-      },
-      substitute: {
-        title: '교체 추가',
-        node: <BasketballSubstituteSheet leagueId={leagueId} gameId={gameId} onClose={close} />,
-      },
-      foul: {
-        title: '파울 추가',
-        node: <BasketballFoulSheet leagueId={leagueId} gameId={gameId} onClose={close} />,
-      },
-    }),
-    [leagueId, gameId, close],
-  );
-
-  const title = activeSheet ? sheetMap[activeSheet].title : null;
-  const content = activeSheet ? sheetMap[activeSheet].node : null;
+  const sheet = useTimelineSheet(BASKETBALL_SHEETS);
+  const ActiveSheet = sheet.active?.Component;
 
   return (
     <>
       <div className="flex h-full flex-col justify-between bg-white">
         <BasketballTimeline gameId={gameId} />
-        <BasketballBottomButton leagueId={leagueId} gameId={gameId} onOpen={setActiveSheet} />
+        <BasketballBottomButton leagueId={leagueId} gameId={gameId} onOpen={sheet.open} />
       </div>
-      <Drawer.Root
-        open={activeSheet !== null}
-        onOpenChange={(isOpen) => {
-          if (!isOpen) close();
+      <TimelineSheetContainer
+        open={sheet.isOpen}
+        onOpenChange={(open) => {
+          if (!open) sheet.close();
         }}
+        title={sheet.active?.title}
       >
-        <Drawer.Portal>
-          <Drawer.Overlay className="fixed inset-0 z-50 bg-black/40" />
-          <Drawer.Content className="fixed right-0 bottom-0 left-0 z-50 mt-24 flex h-[90%] flex-col rounded-t-lg bg-white">
-            <div className="flex-1 rounded-t-lg">
-              <div className="mx-auto my-4 h-1.5 w-12 flex-shrink-0 rounded-full bg-gray-300" />
-              {title && (
-                <Drawer.Title className="mb-4 px-5 text-start text-2xl font-semibold">
-                  {title}
-                </Drawer.Title>
-              )}
-              <div className="h-full overflow-y-auto">
-                <Suspense
-                  fallback={
-                    <div className="flex items-center justify-center">
-                      <Spinner />
-                    </div>
-                  }
-                >
-                  {content}
-                </Suspense>
-              </div>
-            </div>
-          </Drawer.Content>
-        </Drawer.Portal>
-      </Drawer.Root>
+        {ActiveSheet && <ActiveSheet leagueId={leagueId} gameId={gameId} onClose={sheet.close} />}
+      </TimelineSheetContainer>
     </>
   );
 }
