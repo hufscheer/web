@@ -12,7 +12,7 @@ import { useSuspenseGameLineupPlaying } from '~/api/queries/useGameLineupPlaying
 import { useSuspenseLeague } from '~/api/queries/useLeague';
 import { QUARTER_TYPE } from '~/api/types';
 
-import type { SelectOption } from '../../../../../_components/timeline-tab/use-player-selection';
+import type { SelectOption } from '../../../../../_components/timeline/use-player-selection';
 
 const QUARTER_LABELS: Partial<Record<keyof typeof QUARTER_TYPE, string>> = {
   FIRST_QUARTER: '1쿼터',

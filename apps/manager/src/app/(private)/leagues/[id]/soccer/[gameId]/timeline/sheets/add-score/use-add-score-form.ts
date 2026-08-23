@@ -11,7 +11,10 @@ import { useSuspenseGameLineupPlaying } from '~/api/queries/useGameLineupPlaying
 import { useSuspenseLeague } from '~/api/queries/useLeague';
 import { QUARTER_TYPE } from '~/api/types';
 
-import { type SelectOption, usePlayerSelection } from '../../use-player-selection';
+import {
+  type SelectOption,
+  usePlayerSelection,
+} from '../../../../../_components/timeline/use-player-selection';
 
 const QUARTER_LABELS = {
   FIRST_HALF: '전반',

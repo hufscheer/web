@@ -12,7 +12,7 @@ import { QUARTER_TYPE } from '~/api/types';
 import { ScoreSelector, TeamSegmentedControl } from '~/components/ui';
 import { InputSelect } from '~/components/ui/input-select';
 
-import { usePlayerSelection } from '../../../../_components/timeline-tab/use-player-selection';
+import { usePlayerSelection } from '../../../../_components/timeline/use-player-selection';
 
 type SelectOption = { label: string; value: string };
 

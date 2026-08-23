@@ -5,19 +5,18 @@ import { Fragment } from 'react';
 
 import { useSuspenseGame, useSuspenseGameTimeline } from '~/api';
 
-import { getProgressSemantics } from './_utils';
+import { getProgressSemantics } from '../../../_components/timeline/_utils';
+import { TextRecord } from '../../../_components/timeline/text-record';
 import { EventRecord } from './event-record';
-import { TextRecord } from './text-record';
 
 type Props = {
   gameId: number;
 };
 
-export const TimelineTab = ({ gameId }: Props) => {
+export const Timeline = ({ gameId }: Props) => {
   const { data: game } = useSuspenseGame({ gameId });
   const { data } = useSuspenseGameTimeline({ gameId });
   const { timelines } = data;
-
   if (timelines.length === 0)
     return (
       <Typography
@@ -30,7 +29,7 @@ export const TimelineTab = ({ gameId }: Props) => {
       </Typography>
     );
 
-  const homeTeamId: number = game.gameTeams[0].gameTeamId;
+  const homeTeamId: number = game.gameTeams?.[0]?.gameTeamId;
 
   return (
     <div className="bg-white py-5">

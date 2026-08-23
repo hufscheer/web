@@ -5,7 +5,7 @@ import { Button } from '@hcc/ui';
 
 import { InputSelect } from '~/components/ui/input-select';
 
-import type { SelectOption } from '../../use-player-selection';
+import type { SelectOption } from '../../../../../_components/timeline/use-player-selection';
 
 type Props = {
   visible: boolean;

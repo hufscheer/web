@@ -13,7 +13,7 @@ import { QUARTER_TYPE } from '~/api/types';
 import {
   type SelectOption,
   usePlayerSelection,
-} from '../../../../../_components/timeline-tab/use-player-selection';
+} from '../../../../../_components/timeline/use-player-selection';
 
 const QUARTER_LABELS: Partial<Record<keyof typeof QUARTER_TYPE, string>> = {
   FIRST_QUARTER: '1쿼터',

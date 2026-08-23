@@ -2,11 +2,11 @@
 
 import { lazy } from 'react';
 
-import { TimelineSheetContainer } from '../../../_components/timeline-tab/timeline-sheet-container';
+import { TimelineSheetContainer } from '../../../_components/timeline/timeline-sheet-container';
 import {
   type TimelineSheetRegistry,
   useTimelineSheet,
-} from '../../../_components/timeline-tab/use-timeline-sheet';
+} from '../../../_components/timeline/use-timeline-sheet';
 import { BasketballBottomButton } from './basketball-bottom-button';
 import { BasketballTimeline } from './basketball-timeline';
 
@@ -18,7 +18,7 @@ const BASKETBALL_SHEETS = {
   changeStatus: {
     title: '상태 변경',
     Component: lazy(
-      () => import('../../../_components/timeline-tab/sheets/status-change/StatusChangeSheet'),
+      () => import('../../../_components/timeline/sheets/status-change/StatusChangeSheet'),
     ),
   },
   substitute: {

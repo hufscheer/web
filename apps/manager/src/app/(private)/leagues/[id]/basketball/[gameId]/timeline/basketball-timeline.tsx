@@ -6,8 +6,8 @@ import { twMerge } from 'tailwind-merge';
 
 import { useSuspenseGame, useSuspenseGameTimeline } from '~/api';
 
-import { getProgressSemantics } from '../../../_components/timeline-tab/_utils';
-import { TextRecord } from '../../../_components/timeline-tab/text-record';
+import { getProgressSemantics } from '../../../_components/timeline/_utils';
+import { TextRecord } from '../../../_components/timeline/text-record';
 import { BasketballEventRecord } from './basketball-event-record';
 
 type Props = {
