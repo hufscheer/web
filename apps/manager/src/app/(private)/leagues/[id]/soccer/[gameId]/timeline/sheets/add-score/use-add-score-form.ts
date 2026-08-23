@@ -50,6 +50,7 @@ export function useAddScoreForm({ leagueId, gameId, onSubmitted }: Params) {
   const [pkSuccess, setPkSuccess] = useState<string | null>(null);
   const [assistVisible, setAssistVisible] = useState(false);
   const [assistPlayerId, setAssistPlayerId] = useState<string | null>(null);
+  const [isOwnGoal, setIsOwnGoal] = useState(false);
 
   const isPending = isScorePending || isPKPending;
   const isPK = quarter === QUARTER_TYPE.PENALTY_SHOOTOUT;
@@ -62,6 +63,15 @@ export function useAddScoreForm({ leagueId, gameId, onSubmitted }: Params) {
   const changeQuarter = (value: string) => {
     setQuarter(value);
     setPkSuccess(null);
+    if (value === QUARTER_TYPE.PENALTY_SHOOTOUT) setIsOwnGoal(false);
+  };
+
+  const changeIsOwnGoal = (value: boolean) => {
+    setIsOwnGoal(value);
+    if (value) {
+      setAssistVisible(false);
+      setAssistPlayerId(null);
+    }
   };
 
   const changeTeam = (id: number) => {
@@ -125,7 +135,8 @@ export function useAddScoreForm({ leagueId, gameId, onSubmitted }: Params) {
       recordedQuarter: quarter,
       recordedAt: Number(minute),
       scoreLineupPlayerId: Number(picker.playerId),
-      assistLineupPlayerId: assistPlayerId ? Number(assistPlayerId) : null,
+      assistLineupPlayerId: isOwnGoal || !assistPlayerId ? null : Number(assistPlayerId),
+      isOwnGoal: isOwnGoal ? true : null,
       sportType: league.sportType,
     };
 
@@ -144,6 +155,7 @@ export function useAddScoreForm({ leagueId, gameId, onSubmitted }: Params) {
     pkSuccess,
     assistVisible,
     assistPlayerId,
+    isOwnGoal,
     playerOptions: picker.playerOptions,
     assistOptions,
     isPK,
@@ -156,6 +168,7 @@ export function useAddScoreForm({ leagueId, gameId, onSubmitted }: Params) {
     onChangePkSuccess: setPkSuccess,
     onChangeAssist: setAssistPlayerId,
     onToggleAssist: toggleAssist,
+    onChangeIsOwnGoal: changeIsOwnGoal,
     onSubmit: submit,
   };
 }

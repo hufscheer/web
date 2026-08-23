@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Input } from '@hcc/ui';
+import { Button, Checkbox, Input } from '@hcc/ui';
 
 import { TeamSegmentedControl, usePortalContainer } from '~/components/ui';
 import { InputSelect } from '~/components/ui/input-select';
@@ -32,14 +32,24 @@ export default function AddScoreSheet({ leagueId, gameId, onClose }: Props) {
 
       <TeamSegmentedControl teams={form.lineup} value={form.teamId} onChange={form.onChangeTeam} />
 
-      <InputSelect
-        label="선수"
-        value={form.playerId}
-        onValueChange={(value) => form.onChangePlayer(value ?? '')}
-        disabled={form.isPlayerFieldDisabled}
-        options={form.playerOptions}
-        container={portalContainer}
-      />
+      <div className="flex flex-col gap-2">
+        <InputSelect
+          label="선수"
+          value={form.playerId}
+          onValueChange={(value) => form.onChangePlayer(value ?? '')}
+          disabled={form.isPlayerFieldDisabled}
+          options={form.playerOptions}
+          container={portalContainer}
+        />
+
+        {!form.isPK && (
+          <Checkbox
+            label="자책골"
+            checked={form.isOwnGoal}
+            onCheckedChange={form.onChangeIsOwnGoal}
+          />
+        )}
+      </div>
 
       {form.isPK && (
         <InputSelect
@@ -60,7 +70,7 @@ export default function AddScoreSheet({ leagueId, gameId, onClose }: Props) {
         disabled={form.isPK}
       />
 
-      {!form.isPK && (
+      {!form.isPK && !form.isOwnGoal && (
         <AssistPlayerField
           visible={form.assistVisible}
           value={form.assistPlayerId}

@@ -35,6 +35,7 @@ export type ScoreType = {
   scoreLineupPlayerId: number;
   sportType: SportType;
   assistLineupPlayerId: number | null;
+  isOwnGoal?: boolean | null;
   score?: number;
 };
 
