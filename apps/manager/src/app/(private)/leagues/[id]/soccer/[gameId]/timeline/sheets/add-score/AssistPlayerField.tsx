@@ -3,6 +3,7 @@
 import { AddCircleIcon, CancelIcon } from '@hcc/icons';
 import { Button } from '@hcc/ui';
 
+import { usePortalContainer } from '~/components/ui';
 import { InputSelect } from '~/components/ui/input-select';
 
 import type { SelectOption } from '../../../../../_components/timeline/use-player-selection';
@@ -24,6 +25,8 @@ export function AssistPlayerField({
   onToggle,
   onChange,
 }: Props) {
+  const container = usePortalContainer();
+
   if (!visible) {
     return (
       <Button
@@ -43,10 +46,13 @@ export function AssistPlayerField({
     <>
       <InputSelect
         label="어시스트 선수"
-        options={options}
-        value={value ?? undefined}
-        onValueChange={onChange}
+        value={value}
+        onValueChange={(value) => {
+          if (value) onChange(value);
+        }}
         disabled={disabled}
+        container={container}
+        options={options}
       />
       <Button
         color="black"

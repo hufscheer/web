@@ -2,7 +2,7 @@
 
 import { Button, Input } from '@hcc/ui';
 
-import { TeamSegmentedControl } from '~/components/ui';
+import { TeamSegmentedControl, usePortalContainer } from '~/components/ui';
 import { InputSelect } from '~/components/ui/input-select';
 
 import { AssistPlayerField } from './AssistPlayerField';
@@ -16,16 +16,16 @@ type Props = {
 
 export default function AddScoreSheet({ leagueId, gameId, onClose }: Props) {
   const form = useAddScoreForm({ leagueId, gameId, onSubmitted: onClose });
+  const portalContainer = usePortalContainer();
 
   return (
     <div className="flex h-full flex-col gap-4 bg-white p-5">
-      <div className="text-base font-medium text-black">상황</div>
-
       <InputSelect
         label="쿼터"
+        value={form.quarter}
+        onValueChange={(value) => form.onChangeQuarter(value ?? '')}
         options={QUARTER_OPTIONS}
-        value={form.quarter ?? undefined}
-        onValueChange={form.onChangeQuarter}
+        container={portalContainer}
       />
 
       <div className="text-base font-medium text-black">득점 상세 정보</div>
@@ -34,18 +34,20 @@ export default function AddScoreSheet({ leagueId, gameId, onClose }: Props) {
 
       <InputSelect
         label="선수"
-        options={form.playerOptions}
-        value={form.playerId ?? undefined}
-        onValueChange={form.onChangePlayer}
+        value={form.playerId}
+        onValueChange={(value) => form.onChangePlayer(value ?? '')}
         disabled={form.isPlayerFieldDisabled}
+        options={form.playerOptions}
+        container={portalContainer}
       />
 
       {form.isPK && (
         <InputSelect
           label="성공 여부"
-          options={SUCCESS_OPTIONS}
-          value={form.pkSuccess ?? undefined}
+          value={form.pkSuccess}
           onValueChange={form.onChangePkSuccess}
+          options={SUCCESS_OPTIONS}
+          container={portalContainer}
         />
       )}
 
