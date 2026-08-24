@@ -35,7 +35,7 @@ export const getRoundOptions = (sportType: SportType, includeThirdPlaceMatch = f
   if (!includeThirdPlaceMatch) return options;
 
   const finalIndex = options.findIndex((item) => item.round === 2);
-  const thirdPlaceMatchOption = { value: 'thirdPlaceMatch', label: '3·4위전', round: 2 };
+  const thirdPlaceMatchOption = { value: 'thirdPlaceMatch', label: '3,4위전', round: 2 };
 
   return finalIndex === -1
     ? [...options, thirdPlaceMatchOption]
