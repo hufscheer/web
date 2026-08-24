@@ -9,6 +9,7 @@ export type GameUpdateFormType = {
   gameId: number;
   name: string;
   round: number;
+  thirdPlaceMatch: boolean;
   quarter: GameQuarterType['key'];
   state: GameStateType;
   startTime: string;

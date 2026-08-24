@@ -30,7 +30,7 @@ export const GameForm = ({ leagueId, className, onSubmit, initialData, ...props 
   const [step, setStep] = useState<0 | 1 | 2>(0);
 
   const form = useForm<GameFormType>({
-    defaultValues: { ...initialData },
+    defaultValues: { thirdPlaceMatch: false, ...initialData },
   });
 
   const handleFormSubmit = async (data: GameFormType) => {
