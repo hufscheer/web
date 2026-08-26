@@ -131,6 +131,8 @@ type CommonTimelineRecordFields = {
   gameTeamId: number;
   teamName: string;
   teamImageUrl: string;
+  deletable?: boolean;
+  undeletableReason?: string;
 };
 
 export const RecordType = {
@@ -222,6 +224,8 @@ type AnyTimelineRecord =
   | PkTimelineRecord
   | WarningCardTimelineRecord
   | FoulTimelineRecord;
+
+export type TimelineRecord = AnyTimelineRecord;
 
 type TimelineRecordEventType = AnyTimelineRecord['type'];
 
