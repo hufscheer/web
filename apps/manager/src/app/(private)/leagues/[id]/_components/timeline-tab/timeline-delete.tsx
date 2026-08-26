@@ -42,8 +42,6 @@ const getTypeLabel = (type: TimelineRecord['type']) => {
       return '쿼터';
     case 'FOUL':
       return '파울';
-    default:
-      return type ?? '-';
   }
 };
 
@@ -100,10 +98,20 @@ export const TimelineRecordDeleteButton = ({
       <Button
         type="button"
         aria-label={`${getTypeLabel(record.type)} 기록 삭제`}
-        disabled={record.deletable === false}
-        className={`h-[38px] w-14 shrink-0 gap-2.5 bg-transparent px-5 py-2.5 hover:!bg-transparent active:transform-none ${className ?? ''}`}
         variant="ghost"
         color={record.deletable === false ? 'black' : 'danger'}
+        className={`h-[38px] w-14 shrink-0 gap-2.5 bg-transparent px-5 py-2.5 ${
+          record.deletable === false
+            ? '!text-[var(--color-neutral-500)]'
+            : '!text-[var(--color-danger-600)]'
+        } ${className ?? ''}`}
+        onClick={(event) => {
+          if (record.deletable === false) {
+            event.preventDefault();
+            event.stopPropagation();
+            toast.error(record.undeletableReason ?? '삭제할 수 없는 기록이에요');
+          }
+        }}
       >
         <DeleteForeverIcon size={18} />
       </Button>
