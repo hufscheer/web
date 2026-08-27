@@ -2,6 +2,8 @@ import type { Options, ResponsePromise } from 'ky';
 
 import ky from 'ky';
 
+type KyHooks = NonNullable<Options['hooks']>;
+
 const defaultOption: Options = {
   retry: 0,
   timeout: 30000,
@@ -9,37 +11,40 @@ const defaultOption: Options = {
   throwHttpErrors: true,
 };
 
-type ErrorHandler = (request: Request, response: Response) => void | Promise<void>;
+const defaultHeaders = new Headers({ 'Content-Type': 'application/json' });
 
-let isRedirecting = false;
+export type FetcherConfig = Options;
 
-const errorHandlers: Partial<Record<number, ErrorHandler>> = {
-  401: async (request) => {
-    if (request.url.includes('logout')) return;
-    if (isRedirecting || typeof window === 'undefined') return;
+const mergeHeaders = (headers?: HeadersInit) => {
+  const mergedHeaders = new Headers(defaultHeaders);
 
-    isRedirecting = true;
-    alert('로그인이 만료되었어요. 다시 로그인해주세요.');
-    await fetch('/api/logout', { method: 'POST' });
-    window.location.replace('/auth/login');
-  },
+  if (headers) {
+    new Headers(headers).forEach((value, key) => {
+      mergedHeaders.set(key, value);
+    });
+  }
+
+  return mergedHeaders;
 };
 
-export const getInstance = (apiUrl?: string) =>
-  ky.create({
-    prefixUrl: apiUrl,
-    headers: { 'Content-Type': 'application/json' },
-    hooks: {
-      afterResponse: [
-        async (request, _, response) => {
-          if (!response.ok) {
-            await errorHandlers[response.status]?.(request, response);
-          }
-        },
-      ],
-    },
+const mergeHooks = (hooks: KyHooks = {}): KyHooks => ({
+  beforeRequest: [...(hooks.beforeRequest ?? [])],
+  beforeRetry: [...(hooks.beforeRetry ?? [])],
+  beforeError: [...(hooks.beforeError ?? [])],
+  afterResponse: [...(hooks.afterResponse ?? [])],
+});
+
+export const getInstance = (apiUrl?: string, config: FetcherConfig = {}) => {
+  const { headers, hooks, ...options } = config;
+
+  return ky.create({
     ...defaultOption,
+    ...options,
+    prefixUrl: apiUrl,
+    headers: mergeHeaders(headers),
+    hooks: mergeHooks(hooks),
   });
+};
 
 export async function resultify<T>(response: ResponsePromise) {
   const res = await response;
@@ -54,8 +59,8 @@ export async function resultify<T>(response: ResponsePromise) {
   }
   return (await res.text()) as unknown as T;
 }
-export const getFetcher = (apiUrl: string) => {
-  const { get, post, put, patch, delete: del } = getInstance(apiUrl);
+export const getFetcher = (apiUrl: string, config?: FetcherConfig) => {
+  const { get, post, put, patch, delete: del } = getInstance(apiUrl, config);
 
   return {
     get: <T>(pathname: string, options?: Options) => resultify<T>(get(pathname, options)),
