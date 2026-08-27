@@ -2,11 +2,12 @@ import { useSuspenseInfiniteQuery } from '@hcc/api-base';
 
 import type { CheerTalkListResponse, GameCheerTalkPayload } from '~/api';
 
-import { fetcher } from '../queryKey';
+import { fetcher } from '~/api/fetcher';
+import { queryKeys } from '~/api/queryKey';
 
 export const useSuspenseInfiniteGamesCheerTalks = (payload: GameCheerTalkPayload) =>
   useSuspenseInfiniteQuery({
-    queryKey: ['games', payload.gameId, 'cheer-talks', 'infinite', payload.size] as const,
+    queryKey: queryKeys.games.cheerTalksInfinite(payload).queryKey,
     queryFn: async ({ pageParam }: { pageParam: number }) =>
       fetcher.get<CheerTalkListResponse>(`games/${payload.gameId}/cheer-talks`, {
         searchParams: { cursor: pageParam > 0 ? pageParam : '', size: payload.size },

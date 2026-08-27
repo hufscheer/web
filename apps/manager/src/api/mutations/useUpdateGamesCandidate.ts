@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@hcc/api-base';
 
-import { fetcher, queryKeys } from '~/api/queryKey';
+import { fetcher } from '~/api/fetcher';
+import { queryKeys } from '~/api/queryKey';
 
 type Request = {
   gameId: number;
