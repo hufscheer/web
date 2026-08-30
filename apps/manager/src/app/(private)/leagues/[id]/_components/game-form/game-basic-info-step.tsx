@@ -15,6 +15,7 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
   const { register, watch, setValue, control } = useFormContext<GameFormType>();
   const { data: league } = useSuspenseLeague({ leagueId });
   const { data: teams } = useSuspenseLeagueTeams({ leagueId });
+  const isThirdPlaceMatchEnabled = league.thirdPlaceMatchEnabled === true;
 
   const watchedFields = watch([
     'name',
@@ -24,6 +25,7 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
     'team2.leagueTeamId',
   ]);
   const [name, round, startTime, team1Id, team2Id] = watchedFields;
+  const thirdPlaceMatch = watch('thirdPlaceMatch');
 
   const isValid = Boolean(
     name?.trim() && round && startTime && team1Id && team2Id && team1Id !== team2Id,
@@ -31,10 +33,10 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
 
   const roundFilteredOptions = useMemo(
     () =>
-      getRoundOptions(league.sportType)
+      getRoundOptions(league.sportType, isThirdPlaceMatchEnabled)
         .filter((item) => league.maxRound >= item.round)
         .map((item) => ({ value: item.value.toString(), label: item.label })),
-    [league.maxRound, league.sportType],
+    [isThirdPlaceMatchEnabled, league.maxRound, league.sportType],
   );
 
   const teamOptions = teams.map((team) => ({
@@ -71,8 +73,12 @@ export const GameBasicInfoStep = ({ leagueId, onNext }: Props) => {
               <InputSelect
                 label="라운드"
                 options={roundFilteredOptions}
-                value={field.value?.toString()}
-                onValueChange={field.onChange}
+                value={thirdPlaceMatch ? 'thirdPlaceMatch' : field.value?.toString()}
+                onValueChange={(value) => {
+                  const isThirdPlaceMatch = value === 'thirdPlaceMatch';
+                  field.onChange(isThirdPlaceMatch ? 2 : Number(value));
+                  setValue('thirdPlaceMatch', isThirdPlaceMatch);
+                }}
               />
             )}
           />
