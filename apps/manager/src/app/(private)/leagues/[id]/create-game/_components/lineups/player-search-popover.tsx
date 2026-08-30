@@ -1,21 +1,33 @@
 'use client';
 
-import { AddCircleIcon } from '@hcc/icons';
+import { SearchIcon, KeyboardArrowDownIcon } from '@hcc/icons';
 import { TextField } from '@hcc/ui';
 import { PopoverPrimitives } from '@hcc/ui/primitives';
 import { useId, useMemo, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
+import type { SportType } from '~/api';
+
 import type { LineupState, PlayerSelectionState } from './use-lineup-selection';
 import type { TeamPlayer } from './use-lineups';
+
+import { PositionSheet } from './position-sheet';
 
 type Props = {
   players: TeamPlayer[];
   selection: PlayerSelectionState[];
+  sportType: SportType;
   onToggleState: (playerId: number, state: LineupState) => void;
+  onSetPosition: (playerId: number, position: string | null) => void;
 };
 
-export const PlayerSearchPopover = ({ players, selection, onToggleState }: Props) => {
+export const PlayerSearchPopover = ({
+  players,
+  selection,
+  sportType,
+  onToggleState,
+  onSetPosition,
+}: Props) => {
   const searchInputId = useId();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -50,7 +62,7 @@ export const PlayerSearchPopover = ({ players, selection, onToggleState }: Props
             placeholder="선수 이름을 검색하세요"
             value={query}
             onValueChange={setQuery}
-            right={<AddCircleIcon />}
+            right={<SearchIcon size="24" />}
             autoComplete="off"
           />
         </PopoverPrimitives.Trigger>
@@ -74,7 +86,9 @@ export const PlayerSearchPopover = ({ players, selection, onToggleState }: Props
                           key={player.teamPlayerId}
                           player={player}
                           state={state}
+                          sportType={sportType}
                           onToggleState={(target) => onToggleState(player.teamPlayerId, target)}
+                          onSetPosition={(position) => onSetPosition(player.teamPlayerId, position)}
                         />
                       );
                     })}
@@ -92,30 +106,75 @@ export const PlayerSearchPopover = ({ players, selection, onToggleState }: Props
 type SearchResultRowProps = {
   player: TeamPlayer;
   state: PlayerSelectionState | undefined;
+  sportType: SportType;
   onToggleState: (target: LineupState) => void;
+  onSetPosition: (position: string | null) => void;
 };
 
-const SearchResultRow = ({ player, state, onToggleState }: SearchResultRowProps) => (
-  <li className="flex items-center justify-between px-3 py-2">
-    <div className="flex flex-col">
-      <span className="text-sm font-medium text-neutral-900">{player.name}</span>
-      {player.jerseyNumber !== undefined && (
+const SearchResultRow = ({
+  player,
+  state,
+  sportType,
+  onToggleState,
+  onSetPosition,
+}: SearchResultRowProps) => {
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const canSelectPosition = state?.state === 'STARTER';
+
+  return (
+    <li className="flex items-center justify-between gap-2 px-3 py-2">
+      <div className="flex min-w-0 flex-col">
+        <span className="truncate text-sm font-medium text-neutral-900">{player.name}</span>
         <span className="text-xs text-neutral-500">{player.studentNumber}</span>
-      )}
-    </div>
-    <div className="flex gap-1">
-      <StateChip
-        label="선발"
-        active={state?.state === 'STARTER'}
-        onClick={() => onToggleState('STARTER')}
+      </div>
+      <div className="flex items-center gap-1">
+        <StateChip
+          label="선발"
+          active={state?.state === 'STARTER'}
+          onClick={() => onToggleState('STARTER')}
+        />
+        <StateChip
+          label="후보"
+          active={state?.state === 'CANDIDATE'}
+          onClick={() => onToggleState('CANDIDATE')}
+        />
+        <PositionTrigger
+          value={state?.position ?? null}
+          disabled={!canSelectPosition}
+          onClick={() => setSheetOpen(true)}
+        />
+      </div>
+
+      <PositionSheet
+        open={sheetOpen}
+        onOpenChange={setSheetOpen}
+        sportType={sportType}
+        value={state?.position ?? null}
+        onSelect={onSetPosition}
       />
-      <StateChip
-        label="후보"
-        active={state?.state === 'CANDIDATE'}
-        onClick={() => onToggleState('CANDIDATE')}
-      />
-    </div>
-  </li>
+    </li>
+  );
+};
+
+type PositionTriggerProps = {
+  value: string | null;
+  disabled: boolean;
+  onClick: () => void;
+};
+
+const PositionTrigger = ({ value, disabled, onClick }: PositionTriggerProps) => (
+  <button
+    onClick={onClick}
+    disabled={disabled}
+    aria-label="포지션 선택"
+    className={twMerge(
+      'flex items-center gap-0.5 rounded-md px-2 py-1 text-xs font-medium transition-colors',
+      disabled ? 'cursor-not-allowed text-neutral-300' : 'text-neutral-700 hover:bg-neutral-100',
+    )}
+  >
+    <span className="inline-block w-6 text-center">{value ?? '선택'}</span>
+    <KeyboardArrowDownIcon />
+  </button>
 );
 
 type StateChipProps = {

@@ -22,13 +22,14 @@ type Props = {
 };
 
 export const LineupStep = ({ leagueId, onNext, onPrevious, onSubmit }: Props) => {
-  const { teamBuckets, starterLimit } = useLineupsData(leagueId);
+  const { teamBuckets, starterLimit, sportType } = useLineupsData(leagueId);
 
   const {
     team1Selection,
     team2Selection,
     togglePlayerState,
     toggleCaptain,
+    setPlayerPosition,
     promoteCandidatesToStarter,
     flushToForm,
   } = useLineupSelection({ starterLimit });
@@ -59,7 +60,9 @@ export const LineupStep = ({ leagueId, onNext, onPrevious, onSubmit }: Props) =>
           key={activeTab}
           players={activeBucket.players}
           selection={activeSelection}
+          sportType={sportType}
           onToggleState={(playerId, state) => togglePlayerState(activeTab, playerId, state)}
+          onSetPosition={(playerId, position) => setPlayerPosition(activeTab, playerId, position)}
         />
 
         <StartersSection

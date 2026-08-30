@@ -17,8 +17,8 @@ export const SearchIcon = (props: IconProps) => {
         id={id}
       >
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M10.5 16C13.5376 16 16 13.5376 16 10.5C16 7.46243 13.5376 5 10.5 5C7.46243 5 5 7.46243 5 10.5C5 13.5376 7.46243 16 10.5 16ZM17 10.5C17 14.0898 14.0898 17 10.5 17C6.91015 17 4 14.0898 4 10.5C4 6.91015 6.91015 4 10.5 4C14.0898 4 17 6.91015 17 10.5Z"
           fill="black"
         />

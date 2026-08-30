@@ -11,6 +11,7 @@ export type GameFormTeamType = {
     teamPlayerId: number;
     state: 'STARTER' | 'CANDIDATE';
     isCaptain: boolean;
+    position: string | null;
   }[];
 };
 
