@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 
 import { Header } from '~/components/layout';
 
-import { FormSection } from './form-section';
+import { CreateGame } from './create-game';
 
 type Props = {
   params: Promise<{ id: number }>;
@@ -19,7 +19,7 @@ const Page = async ({ params }: Props) => {
       <Header title="경기 생성" arrow />
 
       <div className="column-between h-full overflow-hidden">
-        <FormSection leagueId={id} />
+        <CreateGame leagueId={id} />
       </div>
     </>
   );

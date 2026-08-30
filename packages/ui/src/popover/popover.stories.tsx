@@ -1,8 +1,8 @@
 import type { StoryObj } from '@storybook/react-vite';
 
 import { Button } from '../button';
-import * as PopoverPrimitive from './index.primitives';
 import { Popover } from './popover';
+import * as PopoverPrimitive from './primitives';
 
 export default {
   title: 'Popover',

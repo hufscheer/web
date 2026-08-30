@@ -1,2 +1,2 @@
-export * as TextFieldPrimitives from './index.primitives';
+export * as TextFieldPrimitives from './primitives';
 export * from './text-field';

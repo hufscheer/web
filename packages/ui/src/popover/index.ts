@@ -1,2 +1,2 @@
-export * as PopoverPrimitives from './index.primitives';
+export * as PopoverPrimitives from './primitives';
 export * from './popover';

@@ -7,19 +7,20 @@ import { CloseIcon } from '@hcc/icons';
 import clsx from 'clsx';
 import { forwardRef } from 'react';
 
-import * as styles from '../text-field.css';
-import { useTextFieldContext } from './context';
+import * as styles from '../select.css';
+import { useSelectContext } from './context';
 
-export const TextFieldClear = forwardRef<HTMLButtonElement, TextFieldClear.Props>(
+export const SelectClear = forwardRef<HTMLButtonElement, SelectClear.Props>(
   ({ render, className, onClick, children: childrenProp, ...props }, ref) => {
     const children = childrenProp ?? <CloseIcon size={14} />;
 
-    const { store } = useTextFieldContext();
+    const { store } = useSelectContext();
     const value = store.useState('value');
 
     const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-      store.context.setValue('');
-      store.context.inputRef.current?.focus();
+      event.preventDefault();
+      event.stopPropagation();
+      store.context.clear();
 
       onClick?.(event);
     };
@@ -30,6 +31,7 @@ export const TextFieldClear = forwardRef<HTMLButtonElement, TextFieldClear.Props
       defaultTagName: 'button',
       enabled: !!value,
       props: {
+        type: 'button',
         className: clsx(styles.clear, className),
         onClick: handleClick,
         children,
@@ -41,8 +43,9 @@ export const TextFieldClear = forwardRef<HTMLButtonElement, TextFieldClear.Props
 
 /* ----- types ----- */
 
-export interface TextFieldClearProps extends useRender.ComponentProps<'button'> {}
+// export interface SelectClearProps extends useRender.ComponentProps<'button'> {}
 
-export namespace TextFieldClear {
-  export type Props = TextFieldClearProps;
+export namespace SelectClear {
+  export type State = {};
+  export type Props = useRender.ComponentProps<'button'>;
 }
