@@ -34,6 +34,7 @@ export * from './SettingsIcon';
 export * from './SmsIcon';
 export * from './SportsAndOutdoorsIcon';
 export * from './TimerOutlineIcon';
+export * from './ToggleIcon';
 export * from './TradeHorizontalIcon';
 export * from './TradeIcon';
 export * from './TrophyIcon';

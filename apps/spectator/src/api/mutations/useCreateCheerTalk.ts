@@ -2,8 +2,9 @@ import { useMutation } from '@hcc/api-base';
 
 import type { CheerTalkType } from '~/api';
 
+import { fetcher } from '~/api/fetcher';
+
 import { handleHTTPError } from '../http-error';
-import { fetcher } from '../queryKey';
 
 type Request = Pick<CheerTalkType, 'gameTeamId' | 'content'>;
 

@@ -1,4 +1,3 @@
-import { getFetcher } from '@hcc/api-base';
 import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
 
 import type {
@@ -47,8 +46,7 @@ import type {
   TeamUnitsPayload,
 } from './types';
 
-const apiBaseUrl = process.env.API_BASE_URL ?? '/api';
-export const fetcher = getFetcher(apiBaseUrl);
+import { fetcher } from './fetcher';
 
 const gameQueryKeys = createQueryKeys('games', {
   list: (payload: GameListPayload) => ({

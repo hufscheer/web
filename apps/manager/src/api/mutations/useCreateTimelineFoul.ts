@@ -2,7 +2,8 @@ import { useMutation, useQueryClient } from '@hcc/api-base';
 
 import type { FoulType } from '~/api/types';
 
-import { fetcher, queryKeys } from '~/api/queryKey';
+import { fetcher } from '~/api/fetcher';
+import { queryKeys } from '~/api/queryKey';
 
 export const postTimelineFoul = ({ gameId, ...request }: FoulType) => {
   return fetcher.post<void>(`games/${gameId}/timelines/foul`, {

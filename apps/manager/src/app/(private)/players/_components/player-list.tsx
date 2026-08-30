@@ -15,15 +15,19 @@ type Props = {
   edit: boolean;
 };
 
+const STUDENT_NUMBER_QUERY_REGEX = /^\d+$/;
+
 export const PlayerList = ({ edit }: Props) => {
   const [query, setQuery] = useState<string>('');
   const debouncedQuery = useDebounce(query, 300);
+  const searchQuery = debouncedQuery.trim();
+  const isStudentNumberQuery = STUDENT_NUMBER_QUERY_REGEX.test(searchQuery);
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useSuspenseInfinitePlayers({
     cursor: 0,
     size: 20,
-    name: debouncedQuery.trim(),
-    studentNumber: debouncedQuery.trim(),
+    name: isStudentNumberQuery ? '' : searchQuery,
+    studentNumber: isStudentNumberQuery ? searchQuery : '',
   });
 
   const handleIntersect = useCallback(() => {

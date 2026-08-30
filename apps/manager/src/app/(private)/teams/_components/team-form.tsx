@@ -63,7 +63,7 @@ export const TeamForm = ({ className, onSubmit, initialData, isEditMode, ...prop
           />
         </div>
 
-        <div className="flex-1 overflow-y-auto px-5 pt-3">
+        <div className={twMerge('flex-1 px-5 pt-3', 'min-h-0 overflow-hidden')}>
           <SwitchCase
             value={step}
             caseBy={{

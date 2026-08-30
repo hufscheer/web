@@ -1,3 +1,4 @@
+import { CheckSmallIcon } from '@hcc/icons';
 import { colors, Modal, Typography } from '@hcc/ui';
 import { Fragment, type ReactNode, Suspense, useCallback, useState } from 'react';
 
@@ -12,40 +13,50 @@ export type SelectedPlayer = Pick<PlayerType, 'playerId' | 'name' | 'studentNumb
 type Props = {
   children: ReactNode;
   onPlayerClick: (player: SelectedPlayer) => void;
+  selectedPlayerIds?: number[];
 };
 
-export const PlayerAppendDialog = ({ children, onPlayerClick }: Props) => {
+export const PlayerAppendDialog = ({ children, onPlayerClick, selectedPlayerIds = [] }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
   const debouncedQuery = useDebounce(query, 300);
 
   const handlePlayerClick = (player: SelectedPlayer) => {
-    setQuery('');
-    setOpen(false);
     onPlayerClick(player);
   };
 
+  const handleOpenChange = (nextOpen: boolean) => {
+    setOpen(nextOpen);
+    if (!nextOpen) setQuery('');
+  };
+
   return (
-    <Modal open={open} onOpenChange={setOpen}>
+    <Modal open={open} onOpenChange={handleOpenChange}>
       <Modal.Trigger asChild>{children}</Modal.Trigger>
       <Modal.Content
-        className="max-h-[70vh] w-full max-w-[var(--app-max-width)] overflow-hidden rounded-lg bg-white"
+        className="flex h-[min(60vh,420px)] max-h-[70vh] min-h-0 w-full max-w-[var(--app-max-width)] flex-col overflow-hidden rounded-lg bg-white"
         aria-describedby={undefined}
       >
         <Modal.Title className="sr-only">참가 선수 선택</Modal.Title>
 
-        <Typography asChild>
-          <input
-            className="w-full border border-neutral-100 px-3 py-3"
-            placeholder="선수 이름을 검색하세요"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            type="text"
-          />
-        </Typography>
+        <div className="border-b border-neutral-100">
+          <Typography asChild>
+            <input
+              className="w-full px-4 py-4 outline-none"
+              placeholder="선수 이름을 검색하세요"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              type="text"
+            />
+          </Typography>
+        </div>
 
         <Suspense fallback={<PlayerListSkeleton />}>
-          <PlayerList name={debouncedQuery.trim()} onPlayerClick={handlePlayerClick} />
+          <PlayerList
+            name={debouncedQuery.trim()}
+            onPlayerClick={handlePlayerClick}
+            selectedPlayerIds={selectedPlayerIds}
+          />
         </Suspense>
       </Modal.Content>
     </Modal>
@@ -69,9 +80,10 @@ const PlayerListSkeleton = () => (
 interface PlayerListProps {
   name: string;
   onPlayerClick: (player: SelectedPlayer) => void;
+  selectedPlayerIds: number[];
 }
 
-const PlayerList = ({ name, onPlayerClick }: PlayerListProps) => {
+const PlayerList = ({ name, onPlayerClick, selectedPlayerIds }: PlayerListProps) => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useSuspenseInfinitePlayers({
     cursor: 0,
     size: 20,
@@ -88,26 +100,32 @@ const PlayerList = ({ name, onPlayerClick }: PlayerListProps) => {
   });
 
   return (
-    <div className="column gap-1.5 overflow-y-auto px-4 py-2">
+    <div className="column min-h-0 flex-1 gap-1.5 overflow-y-auto px-4 py-2">
       {data.map((player, index) => (
         <Fragment key={player.playerId}>
           <button
             type="button"
-            className="column cursor-pointer"
+            className="center-y w-full flex-row justify-between gap-3 py-2 text-left"
             onClick={() => onPlayerClick(player)}
           >
-            <Typography className="text-left" weight="medium" asChild>
-              <span>{player.name}</span>
-            </Typography>
-            <Typography
-              className="text-left"
-              fontSize={13}
-              color={colors.neutral500}
-              weight="medium"
-              asChild
+            <span className="column min-w-0">
+              <Typography weight="medium" asChild>
+                <span>{player.name}</span>
+              </Typography>
+              <Typography fontSize={13} color={colors.neutral500} weight="medium" asChild>
+                <span>{player.studentNumber}</span>
+              </Typography>
+            </span>
+            <span
+              aria-hidden="true"
+              className={`center h-6 w-6 shrink-0 rounded-md border text-sm transition-colors ${
+                selectedPlayerIds.includes(player.playerId)
+                  ? 'border-blue-500 bg-blue-500 text-white'
+                  : 'border-neutral-300 bg-white text-transparent'
+              }`}
             >
-              <span>{player.studentNumber}</span>
-            </Typography>
+              <CheckSmallIcon width={16} height={14} color="var(--color-white)" />
+            </span>
           </button>
 
           {data.length - 1 !== index && <hr className="border-neutral-100" />}
