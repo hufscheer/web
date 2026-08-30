@@ -2,7 +2,8 @@ import { useMutation, useQueryClient } from '@hcc/api-base';
 
 import type { TeamType } from '~/api';
 
-import { fetcher, queryKeys } from '~/api/queryKey';
+import { fetcher } from '~/api/fetcher';
+import { queryKeys } from '~/api/queryKey';
 
 export type TeamFormType = Pick<
   TeamType,

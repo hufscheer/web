@@ -2,7 +2,8 @@ import { useMutation, useQueryClient } from '@hcc/api-base';
 
 import type { LeagueDetailType } from '~/api';
 
-import { fetcher, queryKeys } from '~/api/queryKey';
+import { fetcher } from '~/api/fetcher';
+import { queryKeys } from '~/api/queryKey';
 
 export type LeagueFormType = Pick<
   LeagueDetailType,
