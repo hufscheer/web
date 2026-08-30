@@ -1,5 +1,6 @@
 'use client';
 
+import { KeyboardArrowDownIcon } from '@hcc/icons';
 import { BottomSheet } from '@hcc/ui';
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -9,15 +10,15 @@ import type { SportType } from '~/api';
 import { findGroupBySub, getPositionGroups } from './positions';
 
 type Props = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
   sportType: SportType;
   value: string | null;
+  disabled?: boolean;
   onSelect: (position: string | null) => void;
 };
 
-export const PositionSheet = ({ open, onOpenChange, sportType, value, onSelect }: Props) => {
+export const PositionSheet = ({ sportType, value, disabled, onSelect }: Props) => {
   const groups = getPositionGroups(sportType);
+  const [open, setOpen] = useState(false);
   const [activeGroup, setActiveGroup] = useState(
     () => findGroupBySub(sportType, value)?.code ?? groups[0].code,
   );
@@ -30,11 +31,25 @@ export const PositionSheet = ({ open, onOpenChange, sportType, value, onSelect }
 
   const handleSelect = (position: string) => {
     onSelect(position);
-    onOpenChange(false);
+    setOpen(false);
   };
 
   return (
-    <BottomSheet open={open} onOpenChange={onOpenChange}>
+    <BottomSheet open={open} onOpenChange={setOpen}>
+      <BottomSheet.Trigger
+        disabled={disabled}
+        aria-label="포지션 선택"
+        className={twMerge(
+          'flex items-center !gap-0.5 !rounded-md !px-1.5 !py-0 text-xs font-medium transition-colors',
+          disabled
+            ? '!cursor-not-allowed !text-neutral-300'
+            : '!text-neutral-700 hover:!bg-neutral-100',
+        )}
+      >
+        <span className="inline-block w-6 text-center">{value ?? '선택'}</span>
+        <KeyboardArrowDownIcon />
+      </BottomSheet.Trigger>
+
       <BottomSheet.Content>
         <div className="px-4 pb-6">
           <BottomSheet.Title className="mb-4 text-lg font-semibold">포지션 선택</BottomSheet.Title>

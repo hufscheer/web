@@ -1,6 +1,6 @@
 'use client';
 
-import { SearchIcon, KeyboardArrowDownIcon } from '@hcc/icons';
+import { SearchIcon } from '@hcc/icons';
 import { TextField } from '@hcc/ui';
 import { PopoverPrimitives } from '@hcc/ui/primitives';
 import { useId, useMemo, useState } from 'react';
@@ -118,7 +118,6 @@ const SearchResultRow = ({
   onToggleState,
   onSetPosition,
 }: SearchResultRowProps) => {
-  const [sheetOpen, setSheetOpen] = useState(false);
   const canSelectPosition = state?.state === 'STARTER';
 
   return (
@@ -138,44 +137,22 @@ const SearchResultRow = ({
           active={state?.state === 'CANDIDATE'}
           onClick={() => onToggleState('CANDIDATE')}
         />
-        <PositionTrigger
-          value={state?.position ?? null}
+        <PositionSheet
           disabled={!canSelectPosition}
-          onClick={() => setSheetOpen(true)}
+          sportType={sportType}
+          value={state?.position ?? null}
+          onSelect={onSetPosition}
         />
+        {/* <PositionSelect
+          disabled={!canSelectPosition}
+          sportType={sportType}
+          value={state?.position ?? null}
+          onSelect={onSetPosition}
+        /> */}
       </div>
-
-      <PositionSheet
-        open={sheetOpen}
-        onOpenChange={setSheetOpen}
-        sportType={sportType}
-        value={state?.position ?? null}
-        onSelect={onSetPosition}
-      />
     </li>
   );
 };
-
-type PositionTriggerProps = {
-  value: string | null;
-  disabled: boolean;
-  onClick: () => void;
-};
-
-const PositionTrigger = ({ value, disabled, onClick }: PositionTriggerProps) => (
-  <button
-    onClick={onClick}
-    disabled={disabled}
-    aria-label="포지션 선택"
-    className={twMerge(
-      'flex items-center gap-0.5 rounded-md px-2 py-1 text-xs font-medium transition-colors',
-      disabled ? 'cursor-not-allowed text-neutral-300' : 'text-neutral-700 hover:bg-neutral-100',
-    )}
-  >
-    <span className="inline-block w-6 text-center">{value ?? '선택'}</span>
-    <KeyboardArrowDownIcon />
-  </button>
-);
 
 type StateChipProps = {
   label: string;
