@@ -1,6 +1,6 @@
 import { useMutation } from '@hcc/api-base';
 
-import { fetcher } from '../queryKey';
+import { fetcher } from '~/api/fetcher';
 
 type Request = {
   email: string;

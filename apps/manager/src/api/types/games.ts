@@ -26,6 +26,7 @@ export type GameType = {
   gameName: string;
   gameQuarter: GameQuarterType;
   round: number;
+  thirdPlaceMatch: boolean;
   videoId: string;
   gameTeams: GameTeamType[];
 };
@@ -35,6 +36,7 @@ export type GameData = {
   gameQuarter: GameQuarterType;
   gameName: string;
   round: number;
+  thirdPlaceMatch: boolean;
   videoId: string;
   gameTeams: GameTeamType[];
   isPkTaken: boolean;

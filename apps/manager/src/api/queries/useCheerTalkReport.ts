@@ -2,29 +2,18 @@ import { useQuery, useSuspenseInfiniteQuery, useSuspenseQuery } from '@hcc/api-b
 
 import type { CheerTalkListResponse, CheerTalkPayload } from '~/api';
 
-import { fetcher } from '../queryKey';
+import { fetcher } from '~/api/fetcher';
+import { queryKeys } from '~/api/queryKey';
 
 export const useCheerTalkReport = (payload: CheerTalkPayload) =>
-  useQuery({
-    queryKey: ['cheertalks', 'reported', payload] as const,
-    queryFn: () =>
-      fetcher.get<CheerTalkListResponse>('cheer-talks/reported', {
-        searchParams: { cursor: payload.cursor || '', size: payload.size },
-      }),
-  });
+  useQuery(queryKeys.cheertalks.reported(payload));
 
 export const useSuspenseCheerTalkReport = (payload: CheerTalkPayload) =>
-  useSuspenseQuery({
-    queryKey: ['cheertalks', 'reported', payload] as const,
-    queryFn: () =>
-      fetcher.get<CheerTalkListResponse>('cheer-talks/reported', {
-        searchParams: { cursor: payload.cursor || '', size: payload.size },
-      }),
-  });
+  useSuspenseQuery(queryKeys.cheertalks.reported(payload));
 
 export const useSuspenseInfiniteCheerTalkReport = (payload: CheerTalkPayload) =>
   useSuspenseInfiniteQuery({
-    queryKey: ['cheertalks', 'reported', 'infinite', payload.size] as const,
+    queryKey: queryKeys.cheertalks.reportedInfinite(payload.size).queryKey,
     queryFn: async ({ pageParam }: { pageParam: number }) =>
       fetcher.get<CheerTalkListResponse>('cheer-talks/reported', {
         searchParams: { cursor: pageParam > 0 ? pageParam : '', size: payload.size },

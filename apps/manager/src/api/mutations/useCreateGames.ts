@@ -2,7 +2,8 @@ import { useMutation, useQueryClient } from '@hcc/api-base';
 
 import type { GameStateType } from '~/api';
 
-import { fetcher, queryKeys } from '~/api/queryKey';
+import { fetcher } from '~/api/fetcher';
+import { queryKeys } from '~/api/queryKey';
 
 export type GameFormTeamType = {
   teamId: number;
@@ -24,6 +25,7 @@ export type GameFormType = {
   videoId: string;
   team1: GameFormTeamType;
   team2: GameFormTeamType;
+  thirdPlaceMatch: boolean;
 };
 
 export const postGames = ({ leagueId, ...request }: GameFormType) => {

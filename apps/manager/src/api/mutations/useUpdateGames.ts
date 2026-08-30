@@ -2,13 +2,15 @@ import { useMutation, useQueryClient } from '@hcc/api-base';
 
 import type { GameQuarterType, GameStateType } from '~/api';
 
-import { fetcher, queryKeys } from '~/api/queryKey';
+import { fetcher } from '~/api/fetcher';
+import { queryKeys } from '~/api/queryKey';
 
 export type GameUpdateFormType = {
   leagueId: number;
   gameId: number;
   name: string;
   round: number;
+  thirdPlaceMatch: boolean;
   quarter: GameQuarterType['key'];
   state: GameStateType;
   startTime: string;

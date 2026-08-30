@@ -17,6 +17,7 @@ const Page = () => {
     startAt: undefined,
     endAt: undefined,
     maxRound: undefined,
+    thirdPlaceMatchEnabled: false,
     sportType: 'SOCCER',
   });
 
@@ -39,6 +40,7 @@ const Page = () => {
       maxRound: form.maxRound ?? 0,
       startAt: form.startAt?.toISOString() ?? '',
       endAt: form.endAt?.toISOString() ?? '',
+      thirdPlaceMatchEnabled: form.thirdPlaceMatchEnabled,
       sportType: form.sportType,
     }),
     [form],

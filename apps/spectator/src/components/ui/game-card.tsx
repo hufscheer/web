@@ -65,14 +65,14 @@ interface GameCardHeaderProps extends ComponentProps<'div'> {
 }
 
 const GameCardHeader = ({ showLeagueName, className, state, ...props }: GameCardHeaderProps) => {
-  const { leagueName, round, startTime, gameState } = useGameCardContext();
+  const { leagueName, round, thirdPlaceMatch, startTime, gameState } = useGameCardContext();
   const { label, variant } = getGameStateInfo(state ?? gameState);
 
   return (
     <div className={twMerge('row-between', className)} {...props}>
       <Typography color={colors.neutral500} fontSize={13} weight="medium">
         {showLeagueName && `${leagueName} ‧ `}
-        {getRoundLabel(round)}
+        {getRoundLabel(round, thirdPlaceMatch)}
         {' ‧ '}
         {formatTime(startTime, { format: 'MM.DD. HH:mm' })}
       </Typography>
