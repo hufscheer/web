@@ -63,7 +63,8 @@ export const Timeline = ({ gameId }: Props) => {
                 record.type !== 'SCORE' &&
                 record.type !== 'SOCCER_REPLACEMENT' &&
                 record.type !== 'PK' &&
-                record.type !== 'WARNING_CARD'
+                record.type !== 'WARNING_CARD' &&
+                record.type !== 'OWN_GOAL'
               ) {
                 return null;
               }
