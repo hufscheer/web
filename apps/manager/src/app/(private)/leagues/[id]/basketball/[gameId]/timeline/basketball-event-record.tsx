@@ -4,9 +4,12 @@ import { twMerge } from 'tailwind-merge';
 
 import type { TimelineRecordTypeBySport } from '~/api';
 
+import { TimelineRecordDeleteButton } from '../../../_components/timeline-tab/timeline-delete';
+
 type Props = {
   record: TimelineRecordTypeBySport<'BASKETBALL'>;
   homeTeamId: number;
+  gameId: number;
 };
 
 const getBasketballIcon = (record: TimelineRecordTypeBySport<'BASKETBALL'>) => {
@@ -45,7 +48,7 @@ const getBasketballTitle = (record: TimelineRecordTypeBySport<'BASKETBALL'>): st
   return record.playerName;
 };
 
-export const BasketballEventRecord = ({ record, homeTeamId }: Props) => {
+export const BasketballEventRecord = ({ record, homeTeamId, gameId }: Props) => {
   const isAway = record.gameTeamId !== homeTeamId;
 
   return (
@@ -74,10 +77,15 @@ export const BasketballEventRecord = ({ record, homeTeamId }: Props) => {
       </div>
       <div
         className={twMerge(
-          isAway && 'absolute top-0 right-0 h-full w-[3px] bg-neutral-950',
+          isAway && 'absolute top-0 right-14 h-full w-[3px] bg-neutral-950',
           !isAway && 'absolute top-0 left-0 h-full w-[3px] bg-neutral-950',
         )}
         aria-hidden
+      />
+      <TimelineRecordDeleteButton
+        gameId={gameId}
+        record={record}
+        className="absolute top-1/2 right-0 -translate-y-1/2"
       />
     </div>
   );
