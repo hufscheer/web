@@ -12,7 +12,7 @@ import { InputSelect } from '~/components/ui/input-select';
 import { getRoundOptions } from '~/constants/leagues';
 import { handleFormError } from '~/utils/form-util';
 
-import { StepProgress } from '../game-form/step-progress';
+import { StepProgress } from '../step-progress';
 import { GameLineupEditSection } from './game-lineup-edit-section';
 
 type Props = {

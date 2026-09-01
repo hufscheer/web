@@ -1,5 +1,5 @@
 import { CheckCircleIcon, DeleteForeverIcon, FilterHdrIcon, AddIcon } from '@hcc/icons';
-import { Button, Input, Select, Typography } from '@hcc/ui';
+import { Button, Input, LEGACY_Select, Typography } from '@hcc/ui';
 import { useRef } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
@@ -71,7 +71,7 @@ export const TeamBasicInfoStep = ({ onNext }: Props) => {
             placeholder="팀 이름"
           />
 
-          <Select
+          <LEGACY_Select
             {...register('unit', { required: '소속은 필수 입력값이에요.' })}
             size="lg"
             placeholder="소속"
@@ -82,7 +82,7 @@ export const TeamBasicInfoStep = ({ onNext }: Props) => {
                 {unit.unitName}
               </option>
             ))}
-          </Select>
+          </LEGACY_Select>
         </div>
 
         <Typography className="mt-4 mb-2" weight="semibold">
