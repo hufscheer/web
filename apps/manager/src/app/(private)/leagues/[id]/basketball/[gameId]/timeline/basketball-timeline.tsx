@@ -100,7 +100,6 @@ export const BasketballTimeline = ({ gameId }: Props) => {
         {game.state === 'FINISHED' &&
           activeTimeline?.gameQuarter.key === visibleQuarters.at(-1)?.gameQuarter.key && (
             <Fragment>
-              <TextRecord>경기가 종료되었습니다.</TextRecord>
               <TextRecord className="pt-0">
                 경기 결과 - {game.gameTeams[0].score}:{game.gameTeams[1].score}
               </TextRecord>
@@ -122,9 +121,9 @@ export const BasketballTimeline = ({ gameId }: Props) => {
               if (activeTimeline.gameQuarter.key === 'POST_GAME') return null;
               return (
                 <TextRecord key={record.recordId} showDividerLine>
-                  {activeTimeline.gameQuarter.label}이(가)&nbsp;
-                  {getProgressSemantics(record.progressRecord.gameProgressType)}
-                  되었습니다.
+                  {record.progressRecord.gameProgressType === 'GAME_END'
+                    ? '경기가 종료되었습니다.'
+                    : `${activeTimeline.gameQuarter.label}이(가) ${getProgressSemantics(record.progressRecord.gameProgressType)}되었습니다.`}
                 </TextRecord>
               );
             }
