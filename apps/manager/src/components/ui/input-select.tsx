@@ -37,7 +37,7 @@ export const InputSelect = ({ options, placeholder, label, ...props }: BoxSelect
           )}
         </div>
         <Select.Icon className="text-[#141B21]">
-          <KeyboardArrowDownIcon />
+          <KeyboardArrowDownIcon size={24} />
         </Select.Icon>
       </Select.Trigger>
       <Select.Portal>

@@ -33,6 +33,7 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
     startAt: initialData?.startAt ? new Date(initialData.startAt) : undefined,
     endAt: initialData?.endAt ? new Date(initialData.endAt) : undefined,
     maxRound: initialData?.maxRound,
+    thirdPlaceMatchEnabled: initialData?.thirdPlaceMatchEnabled ?? false,
     sportType: initialData?.sportType ?? 'SOCCER',
   });
   const handleFormChange = (patch: Partial<LeagueInfoForm>) => {
@@ -51,6 +52,7 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
       maxRound: formData.maxRound,
       startAt: toUTCDateString(formData.startAt),
       endAt: toUTCDateString(formData.endAt),
+      thirdPlaceMatchEnabled: formData.thirdPlaceMatchEnabled,
       teamIds,
       sportType: formData.sportType ?? 'SOCCER',
     };
@@ -90,6 +92,7 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
                   maxRound: formData.maxRound ?? 0,
                   startAt: formData.startAt?.toISOString() ?? '',
                   endAt: formData.endAt?.toISOString() ?? '',
+                  thirdPlaceMatchEnabled: formData.thirdPlaceMatchEnabled,
                   sportType: formData?.sportType ?? 'SOCCER',
                 }}
                 initialTeams={initialTeams}
