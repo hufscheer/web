@@ -138,6 +138,7 @@ export const BasketballTimeline = ({ gameId }: Props) => {
                   key={record.recordId}
                   record={record}
                   homeTeamId={homeTeamId}
+                  gameId={gameId}
                 />
               );
             }
