@@ -40,23 +40,29 @@ export const BasketballTimeline = ({ gameId }: Props) => {
   const homeTeamId = game.gameTeams?.[0]?.gameTeamId;
   const activeTimeline = visibleQuarters.find((t) => t.gameQuarter.key === activeQuarterKey);
 
-  // 쿼터별 점수 계산 (마지막 득점 이벤트의 snapshot 사용)
+  // 쿼터별 점수 계산 (가장 최신 득점 이벤트의 snapshot 사용)
   const getQuarterScores = (quarterKey: string): [number, number] | null => {
     const quarter = timelines.find((t) => t.gameQuarter.key === quarterKey);
     if (!quarter) return null;
 
-    let homeScore = 0;
-    let awayScore = 0;
+    let latestScoreRecord: (typeof quarter.records)[number] | undefined;
     for (const record of quarter.records) {
-      if (record.type === 'SCORE') {
-        const snap = record.scoreRecord?.snapshot;
-        if (snap && snap.length >= 2) {
-          homeScore = snap[0]?.score ?? homeScore;
-          awayScore = snap[1]?.score ?? awayScore;
-        }
+      if (record.type !== 'SCORE') continue;
+
+      if (
+        !latestScoreRecord ||
+        record.recordedAt > latestScoreRecord.recordedAt ||
+        (record.recordedAt === latestScoreRecord.recordedAt &&
+          record.recordId > latestScoreRecord.recordId)
+      ) {
+        latestScoreRecord = record;
       }
     }
-    return [homeScore, awayScore];
+
+    const snapshot = latestScoreRecord?.scoreRecord?.snapshot;
+    if (!snapshot || snapshot.length < 2) return [0, 0];
+
+    return [snapshot[0]?.score ?? 0, snapshot[1]?.score ?? 0];
   };
 
   return (
