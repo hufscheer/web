@@ -8,6 +8,7 @@ import { useSuspenseGame, useSuspenseGameTimeline } from '~/api';
 
 import { getProgressSemantics } from '../../../_components/timeline/_utils';
 import { TextRecord } from '../../../_components/timeline/text-record';
+import { useTimelineDeleteMode } from '../../../_components/timeline/timeline-delete-context';
 import { BasketballEventRecord } from './basketball-event-record';
 
 type Props = {
@@ -15,6 +16,7 @@ type Props = {
 };
 
 export const BasketballTimeline = ({ gameId }: Props) => {
+  const { isDeleteMode } = useTimelineDeleteMode();
   const { data: game } = useSuspenseGame({ gameId });
   const { data } = useSuspenseGameTimeline({ gameId });
   const { timelines } = data;
@@ -90,7 +92,13 @@ export const BasketballTimeline = ({ gameId }: Props) => {
       </div>
 
       {/* 선택된 쿼터 이벤트 */}
-      <div className="flex-1 overflow-y-auto bg-white py-5">
+      <div
+        className={
+          isDeleteMode
+            ? 'flex-1 overflow-y-auto bg-white px-5 py-5'
+            : 'flex-1 overflow-y-auto bg-white py-5'
+        }
+      >
         {game.state === 'FINISHED' &&
           activeTimeline?.gameQuarter.key === visibleQuarters.at(-1)?.gameQuarter.key && (
             <Fragment>
@@ -115,7 +123,7 @@ export const BasketballTimeline = ({ gameId }: Props) => {
             if (record.type === 'GAME_PROGRESS') {
               if (activeTimeline.gameQuarter.key === 'POST_GAME') return null;
               return (
-                <TextRecord key={record.recordId} showDividerLine>
+                <TextRecord key={record.recordId} showDividerLine deleteRecord={{ gameId, record }}>
                   {activeTimeline.gameQuarter.label}이(가)&nbsp;
                   {getProgressSemantics(record.progressRecord.gameProgressType)}
                   되었습니다.
@@ -133,6 +141,7 @@ export const BasketballTimeline = ({ gameId }: Props) => {
                   key={record.recordId}
                   record={record}
                   homeTeamId={homeTeamId}
+                  gameId={gameId}
                 />
               );
             }

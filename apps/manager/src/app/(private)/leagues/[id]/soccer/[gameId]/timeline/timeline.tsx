@@ -7,6 +7,7 @@ import { useSuspenseGame, useSuspenseGameTimeline } from '~/api';
 
 import { getProgressSemantics } from '../../../_components/timeline/_utils';
 import { TextRecord } from '../../../_components/timeline/text-record';
+import { useTimelineDeleteMode } from '../../../_components/timeline/timeline-delete-context';
 import { EventRecord } from './event-record';
 
 type Props = {
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export const Timeline = ({ gameId }: Props) => {
+  const { isDeleteMode } = useTimelineDeleteMode();
   const { data: game } = useSuspenseGame({ gameId });
   const { data } = useSuspenseGameTimeline({ gameId });
   const { timelines } = data;
@@ -32,7 +34,7 @@ export const Timeline = ({ gameId }: Props) => {
   const homeTeamId: number = game.gameTeams?.[0]?.gameTeamId;
 
   return (
-    <div className="bg-white py-5">
+    <div className={isDeleteMode ? 'bg-white px-5 py-5' : 'bg-white py-5'}>
       {game.state === 'FINISHED' && (
         <Fragment>
           <TextRecord>경기가 종료되었습니다.</TextRecord>
@@ -51,7 +53,11 @@ export const Timeline = ({ gameId }: Props) => {
                 if (timeline.gameQuarter.key === 'POST_GAME') return null;
 
                 return (
-                  <TextRecord key={record.recordId} showDividerLine>
+                  <TextRecord
+                    key={record.recordId}
+                    showDividerLine
+                    deleteRecord={{ gameId, record }}
+                  >
                     {timeline.gameQuarter.label}이(가)&nbsp;
                     {getProgressSemantics(record.progressRecord.gameProgressType)}
                     되었습니다.
@@ -69,7 +75,14 @@ export const Timeline = ({ gameId }: Props) => {
                 return null;
               }
 
-              return <EventRecord key={record.recordId} record={record} homeTeamId={homeTeamId} />;
+              return (
+                <EventRecord
+                  key={record.recordId}
+                  record={record}
+                  homeTeamId={homeTeamId}
+                  gameId={gameId}
+                />
+              );
             })}
           </Fragment>
         </div>
