@@ -42,23 +42,29 @@ export const BasketballTimeline = ({ gameId }: Props) => {
   const homeTeamId = game.gameTeams?.[0]?.gameTeamId;
   const activeTimeline = visibleQuarters.find((t) => t.gameQuarter.key === activeQuarterKey);
 
-  // 쿼터별 점수 계산 (마지막 득점 이벤트의 snapshot 사용)
+  // 쿼터별 점수 계산 (가장 최신 득점 이벤트의 snapshot 사용)
   const getQuarterScores = (quarterKey: string): [number, number] | null => {
     const quarter = timelines.find((t) => t.gameQuarter.key === quarterKey);
     if (!quarter) return null;
 
-    let homeScore = 0;
-    let awayScore = 0;
+    let latestScoreRecord: (typeof quarter.records)[number] | undefined;
     for (const record of quarter.records) {
-      if (record.type === 'SCORE') {
-        const snap = record.scoreRecord?.snapshot;
-        if (snap && snap.length >= 2) {
-          homeScore = snap[0]?.score ?? homeScore;
-          awayScore = snap[1]?.score ?? awayScore;
-        }
+      if (record.type !== 'SCORE') continue;
+
+      if (
+        !latestScoreRecord ||
+        record.recordedAt > latestScoreRecord.recordedAt ||
+        (record.recordedAt === latestScoreRecord.recordedAt &&
+          record.recordId > latestScoreRecord.recordId)
+      ) {
+        latestScoreRecord = record;
       }
     }
-    return [homeScore, awayScore];
+
+    const snapshot = latestScoreRecord?.scoreRecord?.snapshot;
+    if (!snapshot || snapshot.length < 2) return [0, 0];
+
+    return [snapshot[0]?.score ?? 0, snapshot[1]?.score ?? 0];
   };
 
   return (
@@ -92,17 +98,10 @@ export const BasketballTimeline = ({ gameId }: Props) => {
       </div>
 
       {/* 선택된 쿼터 이벤트 */}
-      <div
-        className={
-          isDeleteMode
-            ? 'flex-1 overflow-y-auto bg-white px-5 py-5'
-            : 'flex-1 overflow-y-auto bg-white py-5'
-        }
-      >
+      <div className={twMerge('flex-1 overflow-y-auto bg-white py-5', isDeleteMode && 'px-5')}>
         {game.state === 'FINISHED' &&
           activeTimeline?.gameQuarter.key === visibleQuarters.at(-1)?.gameQuarter.key && (
             <Fragment>
-              <TextRecord>경기가 종료되었습니다.</TextRecord>
               <TextRecord className="pt-0">
                 경기 결과 - {game.gameTeams[0].score}:{game.gameTeams[1].score}
               </TextRecord>
@@ -123,10 +122,10 @@ export const BasketballTimeline = ({ gameId }: Props) => {
             if (record.type === 'GAME_PROGRESS') {
               if (activeTimeline.gameQuarter.key === 'POST_GAME') return null;
               return (
-                <TextRecord key={record.recordId} showDividerLine deleteRecord={{ gameId, record }}>
-                  {activeTimeline.gameQuarter.label}이(가)&nbsp;
-                  {getProgressSemantics(record.progressRecord.gameProgressType)}
-                  되었습니다.
+                <TextRecord key={record.recordId} showDividerLine>
+                  {record.progressRecord.gameProgressType === 'GAME_END'
+                    ? '경기가 종료되었습니다.'
+                    : `${activeTimeline.gameQuarter.label}이(가) ${getProgressSemantics(record.progressRecord.gameProgressType)}되었습니다.`}
                 </TextRecord>
               );
             }
