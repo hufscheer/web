@@ -3,8 +3,8 @@ import { notFound } from 'next/navigation';
 
 import { Header } from '~/components/layout';
 
-import { TimelineDeleteMenu } from '../../../_components/timeline-tab/timeline-delete';
-import { TimelineDeleteProvider } from '../../../_components/timeline-tab/timeline-delete-context';
+import { TimelineDeleteMenu } from '../../../_components/timeline/timeline-delete';
+import { TimelineDeleteProvider } from '../../../_components/timeline/timeline-delete-context';
 import TimelineClient from './timelineClient';
 
 type Props = {

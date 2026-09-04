@@ -3,8 +3,12 @@ import { twMerge } from 'tailwind-merge';
 
 import type { TimelineRecordTypeBySport } from '~/api';
 
-import { getRecordIcon, getRecordSubtitle, getRecordTitle } from './_utils';
-import { TimelineRecordDeleteButton } from './timeline-delete';
+import {
+  getRecordIcon,
+  getRecordSubtitle,
+  getRecordTitle,
+} from '../../../_components/timeline/_utils';
+import { TimelineRecordDeleteButton } from '../../../_components/timeline/timeline-delete';
 
 type Props = {
   record: TimelineRecordTypeBySport<'SOCCER'>;

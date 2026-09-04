@@ -6,9 +6,9 @@ import { twMerge } from 'tailwind-merge';
 
 import { useSuspenseGame, useSuspenseGameTimeline } from '~/api';
 
-import { getProgressSemantics } from '../../../_components/timeline-tab/_utils';
-import { TextRecord } from '../../../_components/timeline-tab/text-record';
-import { useTimelineDeleteMode } from '../../../_components/timeline-tab/timeline-delete-context';
+import { getProgressSemantics } from '../../../_components/timeline/_utils';
+import { TextRecord } from '../../../_components/timeline/text-record';
+import { useTimelineDeleteMode } from '../../../_components/timeline/timeline-delete-context';
 import { BasketballEventRecord } from './basketball-event-record';
 
 type Props = {

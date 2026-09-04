@@ -1,67 +1,24 @@
 'use client';
 
-import { CheckSmallIcon, KeyboardArrowDownIcon } from '@hcc/icons';
-import * as Select from '@radix-ui/react-select';
+import { Select } from '@hcc/ui';
 
 type SelectOption = { value: string; label: string };
-type BoxSelectProps = Select.SelectProps & {
+type SelectProps = Select.Root.Props & {
   options: SelectOption[];
-  label?: string;
-  placeholder?: string;
 };
 
-export const InputSelect = ({ options, placeholder, label, ...props }: BoxSelectProps) => {
-  const hasValue =
-    typeof props.value === 'string'
-      ? props.value.length > 0
-      : typeof props.defaultValue === 'string'
-        ? props.defaultValue.length > 0
-        : false;
+export const InputSelect = ({ options, label, ...props }: SelectProps) => {
   return (
-    <Select.Root {...props}>
-      <Select.Trigger className="group relative flex h-15 w-full items-center justify-between rounded-lg border border-neutral-100 bg-white px-4 text-base font-medium focus:outline-none">
-        <div className="flex flex-col">
-          <span
-            className={`pointer-events-none absolute font-medium text-neutral-400 transition-all ${
-              hasValue ? 'top-2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'
-            } group-data-[state=open]:top-2 group-data-[state=open]:-translate-y-0 group-data-[state=open]:text-xs`}
-          >
-            {label}
-          </span>
-          {hasValue ? (
-            <p className="pt-4 text-base font-medium text-black">
-              <Select.Value />
-            </p>
-          ) : (
-            <Select.Value placeholder={placeholder} className="text-gray-400" />
-          )}
-        </div>
-        <Select.Icon className="text-[#141B21]">
-          <KeyboardArrowDownIcon size={24} />
-        </Select.Icon>
-      </Select.Trigger>
-      <Select.Portal>
-        <Select.Content
-          position="popper"
-          sideOffset={5}
-          className="z-[80] w-[var(--radix-select-trigger-width)] overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg"
-        >
-          <Select.Viewport className="max-h-60 overflow-y-auto p-1">
-            {options.map((option) => (
-              <Select.Item
-                key={option.value}
-                value={option.value}
-                className="relative flex cursor-pointer items-center rounded-md py-2 pr-4 pl-8 text-base outline-none select-none data-[highlighted]:bg-gray-100"
-              >
-                <Select.ItemIndicator className="absolute left-2">
-                  <CheckSmallIcon />
-                </Select.ItemIndicator>
-                <Select.ItemText>{option.label}</Select.ItemText>
-              </Select.Item>
-            ))}
-          </Select.Viewport>
-        </Select.Content>
-      </Select.Portal>
+    <Select.Root
+      label={label}
+      {...props}
+      renderValue={(value) => options.find((option) => option.value === value)?.label}
+    >
+      {options.map((option) => (
+        <Select.Item key={option.value} value={option.value}>
+          {option.label}
+        </Select.Item>
+      ))}
     </Select.Root>
   );
 };

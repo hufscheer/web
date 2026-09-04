@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, toast } from '@hcc/ui';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import type { ScoreType } from '~/api/types';
 
@@ -11,6 +11,8 @@ import { useSuspenseLeague } from '~/api/queries/useLeague';
 import { QUARTER_TYPE } from '~/api/types';
 import { ScoreSelector, TeamSegmentedControl } from '~/components/ui';
 import { InputSelect } from '~/components/ui/input-select';
+
+import { usePlayerSelection } from '../../../../_components/timeline/use-player-selection';
 
 type SelectOption = { label: string; value: string };
 
@@ -42,24 +44,12 @@ export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: P
   const { data: lineup } = useSuspenseGameLineupPlaying({ gameId });
   const { mutate: createScore, isPending } = useCreateTimelineScore({ gameId });
 
+  const { teamId, playerId, playerOptions, isDisabled, onChangeTeam, onChangePlayer } =
+    usePlayerSelection(lineup);
   const [quarter, setQuarter] = useState<SelectOption | null>(null);
-  const [selectedTeamId, setSelectedTeamId] = useState<number | null>(
-    lineup[0]?.gameTeamId ?? null,
-  );
-  const [player, setPlayer] = useState<SelectOption | null>(null);
   const [score, setScore] = useState<number>(1);
 
-  const playerOptions: SelectOption[] = useMemo(() => {
-    if (selectedTeamId === null) return [];
-    const selectedTeam = lineup.find((t) => t.gameTeamId === selectedTeamId);
-    if (!selectedTeam) return [];
-    return selectedTeam.gameTeamPlayers.map((p) => ({
-      label: `${p.jerseyNumber} ${p.playerName}`,
-      value: String(p.lineupPlayerId),
-    }));
-  }, [lineup, selectedTeamId]);
-
-  const isFormValid = !!quarter && selectedTeamId !== null && !!player;
+  const isFormValid = !!quarter && teamId !== null && playerId !== null;
 
   const submit = () => {
     if (!isFormValid) {
@@ -71,8 +61,8 @@ export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: P
       gameId,
       recordedQuarter: quarter.value,
       recordedAt: 0,
-      gameTeamId: selectedTeamId,
-      scoreLineupPlayerId: Number(player.value),
+      gameTeamId: teamId,
+      scoreLineupPlayerId: Number(playerId),
       assistLineupPlayerId: null,
       sportType: league.sportType,
       score,
@@ -104,23 +94,14 @@ export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: P
 
       <div className="text-base font-medium text-black">득점 상세 정보</div>
 
-      <TeamSegmentedControl
-        teams={lineup}
-        value={selectedTeamId}
-        onChange={(teamId) => {
-          setSelectedTeamId(teamId);
-          setPlayer(null);
-        }}
-      />
+      <TeamSegmentedControl teams={lineup} value={teamId} onChange={onChangeTeam} />
 
       <InputSelect
         label="선수"
         options={playerOptions}
-        value={player?.value}
-        onValueChange={(value) =>
-          setPlayer(playerOptions.find((opt) => opt.value === value) || null)
-        }
-        disabled={selectedTeamId === null || playerOptions.length === 0}
+        value={playerId ?? undefined}
+        onValueChange={onChangePlayer}
+        disabled={isDisabled}
       />
 
       <ScoreSelector

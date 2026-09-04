@@ -27,7 +27,14 @@ export const getRecordIcon = (record: TimelineRecordTypeBySport<'SOCCER'>) => {
   }
   switch (record.type) {
     case 'SCORE':
-      return <SportsAndOutdoorsIcon size={16} />;
+      return (
+        <SportsAndOutdoorsIcon
+          size={16}
+          className={record.ownGoalRecord ? 'text-[var(--color-danger-600)]' : undefined}
+        />
+      );
+    case 'OWN_GOAL':
+      return <SportsAndOutdoorsIcon size={16} className="text-[var(--color-danger-600)]" />;
     case 'SOCCER_REPLACEMENT':
       return <TradeHorizontalIcon size={16} />;
     case 'PK':
@@ -60,9 +67,12 @@ export const getRecordSubtitle = (record: TimelineRecordTypeBySport<'SOCCER'>) =
   if (card === 'RED') return '퇴장';
   switch (record.type) {
     case 'SCORE':
+      if (record.ownGoalRecord) return '자책골';
       return record.scoreRecord.assistPlayerName
         ? `${record.scoreRecord.assistPlayerName} 도움`
         : '득점';
+    case 'OWN_GOAL':
+      return '자책골';
     case 'SOCCER_REPLACEMENT':
       return `${record.playerName} OUT`;
     case 'PK':

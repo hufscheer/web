@@ -5,19 +5,20 @@ import { Fragment } from 'react';
 
 import { useSuspenseGame, useSuspenseGameTimeline } from '~/api';
 
-import { getProgressSemantics } from './_utils';
+import { getProgressSemantics } from '../../../_components/timeline/_utils';
+import { TextRecord } from '../../../_components/timeline/text-record';
+import { useTimelineDeleteMode } from '../../../_components/timeline/timeline-delete-context';
 import { EventRecord } from './event-record';
-import { TextRecord } from './text-record';
 
 type Props = {
   gameId: number;
 };
 
-export const TimelineTab = ({ gameId }: Props) => {
+export const Timeline = ({ gameId }: Props) => {
+  const { isDeleteMode } = useTimelineDeleteMode();
   const { data: game } = useSuspenseGame({ gameId });
   const { data } = useSuspenseGameTimeline({ gameId });
   const { timelines } = data;
-
   if (timelines.length === 0)
     return (
       <Typography
@@ -30,10 +31,10 @@ export const TimelineTab = ({ gameId }: Props) => {
       </Typography>
     );
 
-  const homeTeamId: number = game.gameTeams[0].gameTeamId;
+  const homeTeamId: number = game.gameTeams?.[0]?.gameTeamId;
 
   return (
-    <div className="bg-white py-5">
+    <div className={isDeleteMode ? 'bg-white px-5 py-5' : 'bg-white py-5'}>
       {game.state === 'FINISHED' && (
         <Fragment>
           <TextRecord>경기가 종료되었습니다.</TextRecord>
@@ -52,7 +53,11 @@ export const TimelineTab = ({ gameId }: Props) => {
                 if (timeline.gameQuarter.key === 'POST_GAME') return null;
 
                 return (
-                  <TextRecord key={record.recordId} showDividerLine>
+                  <TextRecord
+                    key={record.recordId}
+                    showDividerLine
+                    deleteRecord={{ gameId, record }}
+                  >
                     {timeline.gameQuarter.label}이(가)&nbsp;
                     {getProgressSemantics(record.progressRecord.gameProgressType)}
                     되었습니다.
@@ -64,12 +69,20 @@ export const TimelineTab = ({ gameId }: Props) => {
                 record.type !== 'SCORE' &&
                 record.type !== 'SOCCER_REPLACEMENT' &&
                 record.type !== 'PK' &&
-                record.type !== 'WARNING_CARD'
+                record.type !== 'WARNING_CARD' &&
+                record.type !== 'OWN_GOAL'
               ) {
                 return null;
               }
 
-              return <EventRecord key={record.recordId} record={record} homeTeamId={homeTeamId} />;
+              return (
+                <EventRecord
+                  key={record.recordId}
+                  record={record}
+                  homeTeamId={homeTeamId}
+                  gameId={gameId}
+                />
+              );
             })}
           </Fragment>
         </div>

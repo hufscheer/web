@@ -35,6 +35,7 @@ export type ScoreType = {
   scoreLineupPlayerId: number;
   sportType: SportType;
   assistLineupPlayerId: number | null;
+  isOwnGoal?: boolean | null;
   score?: number;
 };
 
@@ -143,11 +144,15 @@ export const RecordType = {
   PK: 'PK',
   WARNING_CARD: 'WARNING_CARD',
   FOUL: 'FOUL',
+  OWN_GOAL: 'OWN_GOAL',
 } as const;
 
 export type PkRecordType = {
   pkRecordId: number;
   isSuccess: boolean;
+};
+export type OwnGoalRecordType = {
+  ownGoalRecordId: number;
 };
 export type WarningCardRecordType = {
   warningCardType: CardType;
@@ -160,6 +165,17 @@ type ScoreTimelineRecord = CommonTimelineRecordFields & {
   progressRecord: ProgressRecordType | null;
   pkRecord: PkRecordType | null;
   warningCardRecord: WarningCardRecordType | null;
+  ownGoalRecord: OwnGoalRecordType | null;
+};
+
+type OwnGoalTimelineRecord = CommonTimelineRecordFields & {
+  type: typeof RecordType.OWN_GOAL;
+  scoreRecord: ScoreRecordType | null;
+  replacementRecord: ReplacementRecordType | null;
+  progressRecord: ProgressRecordType | null;
+  pkRecord: PkRecordType | null;
+  warningCardRecord: WarningCardRecordType | null;
+  ownGoalRecord: OwnGoalRecordType;
 };
 
 type SoccerReplacementTimelineRecord = CommonTimelineRecordFields & {
@@ -223,7 +239,8 @@ type AnyTimelineRecord =
   | ProgressTimelineRecord
   | PkTimelineRecord
   | WarningCardTimelineRecord
-  | FoulTimelineRecord;
+  | FoulTimelineRecord
+  | OwnGoalTimelineRecord;
 
 export type TimelineRecord = AnyTimelineRecord;
 
@@ -237,7 +254,8 @@ type SoccerTimelineEventType =
   | typeof RecordType.SOCCER_REPLACEMENT
   | typeof RecordType.PROGRESS
   | typeof RecordType.PK
-  | typeof RecordType.WARNING_CARD;
+  | typeof RecordType.WARNING_CARD
+  | typeof RecordType.OWN_GOAL;
 
 type BasketballTimelineEventType =
   | typeof RecordType.SCORE
