@@ -1,5 +1,6 @@
 'use client';
 
+import { AddCircleIcon, CancelIcon } from '@hcc/icons';
 import { Button, toast } from '@hcc/ui';
 import { useMemo, useState } from 'react';
 
@@ -48,6 +49,8 @@ export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: P
   );
   const [player, setPlayer] = useState<SelectOption | null>(null);
   const [score, setScore] = useState<number>(1);
+  const [showAssist, setShowAssist] = useState(false);
+  const [assistPlayer, setAssistPlayer] = useState<SelectOption | null>(null);
 
   const playerOptions: SelectOption[] = useMemo(() => {
     if (selectedTeamId === null) return [];
@@ -59,6 +62,7 @@ export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: P
     }));
   }, [lineup, selectedTeamId]);
 
+  const canAddAssist = score === 2 || score === 3;
   const isFormValid = !!quarter && selectedTeamId !== null && !!player;
 
   const submit = () => {
@@ -73,7 +77,7 @@ export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: P
       recordedAt: 0,
       gameTeamId: selectedTeamId,
       scoreLineupPlayerId: Number(player.value),
-      assistLineupPlayerId: null,
+      assistLineupPlayerId: assistPlayer ? Number(assistPlayer.value) : null,
       sportType: league.sportType,
       score,
     };
@@ -110,6 +114,7 @@ export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: P
         onChange={(teamId) => {
           setSelectedTeamId(teamId);
           setPlayer(null);
+          setAssistPlayer(null);
         }}
       />
 
@@ -117,16 +122,72 @@ export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: P
         label="선수"
         options={playerOptions}
         value={player?.value}
-        onValueChange={(value) =>
-          setPlayer(playerOptions.find((opt) => opt.value === value) || null)
-        }
+        onValueChange={(value) => {
+          const selectedScorer = playerOptions.find((opt) => opt.value === value) || null;
+          setPlayer(selectedScorer);
+          if (selectedScorer?.value === assistPlayer?.value) setAssistPlayer(null);
+        }}
         disabled={selectedTeamId === null || playerOptions.length === 0}
       />
 
       <ScoreSelector
         options={SCORE_OPTIONS}
-        rows={[{ id: 'score', value: score, onChange: setScore }]}
+        rows={[
+          {
+            id: 'score',
+            value: score,
+            onChange: (value) => {
+              setScore(value);
+              if (value === 1) {
+                setShowAssist(false);
+                setAssistPlayer(null);
+              }
+            },
+          },
+        ]}
       />
+
+      {canAddAssist && (
+        <>
+          {showAssist ? (
+            <>
+              <InputSelect
+                label="어시스트 선수"
+                options={playerOptions.filter((opt) => opt.value !== player?.value)}
+                value={assistPlayer?.value}
+                onValueChange={(value) =>
+                  setAssistPlayer(playerOptions.find((opt) => opt.value === value) || null)
+                }
+                disabled={selectedTeamId === null || playerOptions.length === 0}
+              />
+              <Button
+                color="black"
+                variant="subtle"
+                size="lg"
+                className="w-full gap-2 border border-neutral-200 text-neutral-400"
+                onClick={() => {
+                  setShowAssist(false);
+                  setAssistPlayer(null);
+                }}
+              >
+                <CancelIcon />
+                어시스트 선수 삭제
+              </Button>
+            </>
+          ) : (
+            <Button
+              color="black"
+              variant="subtle"
+              size="lg"
+              className="w-full gap-2 border border-neutral-200 text-neutral-400"
+              onClick={() => setShowAssist(true)}
+            >
+              <AddCircleIcon />
+              어시스트 선수 추가
+            </Button>
+          )}
+        </>
+      )}
 
       <Button
         color="black"
