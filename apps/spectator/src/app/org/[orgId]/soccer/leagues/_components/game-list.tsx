@@ -16,6 +16,7 @@ type Props = {
   round: number;
   selectedTeams: number[];
   sportType: SportType;
+  bracketEnabled: boolean | null;
 };
 
 const GameListContent = ({

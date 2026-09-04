@@ -33,6 +33,7 @@ export type LeagueDetailType = {
   endAt: string;
   teamIds: number[];
   sportType: SportType;
+  bracketEnabled: boolean | null;
 };
 
 export type LeagueTeamsPayload = { leagueId: number };

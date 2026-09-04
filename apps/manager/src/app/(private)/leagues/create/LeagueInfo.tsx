@@ -2,7 +2,7 @@
 
 import type { ReactNode } from 'react';
 
-import { Button, Input } from '@hcc/ui';
+import { Button, Checkbox, Input } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 
 import type { SportType } from '~/api';
@@ -18,6 +18,7 @@ export type LeagueInfoForm = {
   endAt?: Date;
   maxRound?: number | undefined;
   sportType: SportType;
+  bracketEnabled: boolean;
 };
 
 const SPORT_OPTIONS: { value: SportType; label: string }[] = [
@@ -113,6 +114,12 @@ const LeagueInfoFields = ({ form, onChange }: FieldsProps) => {
         label="라운드"
         value={form.maxRound ? String(form.maxRound) : undefined}
         onValueChange={(v) => onChange({ maxRound: Number(v) })}
+      />
+
+      <Checkbox
+        label="대진표 생성"
+        checked={form.bracketEnabled}
+        onCheckedChange={(checked) => onChange({ bracketEnabled: checked })}
       />
     </>
   );

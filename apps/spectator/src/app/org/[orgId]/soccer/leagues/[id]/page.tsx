@@ -56,6 +56,7 @@ const Page = async ({ searchParams, params }: Props) => {
           round={round}
           selectedTeams={selectedTeams}
           sportType={SPORT_TYPE}
+          bracketEnabled={league.bracketEnabled}
         />
       </Suspense>
     </HydrationBoundary>

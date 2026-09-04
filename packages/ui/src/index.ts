@@ -10,6 +10,7 @@ export * from './token';
 export * from './typography';
 
 export { Button } from './button';
+export { Checkbox } from './checkbox';
 export { Popover } from './popover';
 export { TextField } from './text-field';
 export { Select } from './select';
