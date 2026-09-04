@@ -6,13 +6,14 @@ import { getRoundOptions } from '~/constants/leagues';
 export const useBasicInfoData = (leagueId: number) => {
   const { data: league } = useSuspenseLeague({ leagueId });
   const { data: teams } = useSuspenseLeagueTeams({ leagueId });
+  const isThirdPlaceMatchEnabled = league.thirdPlaceMatchEnabled === true;
 
   const roundOptions = useMemo(
     () =>
-      getRoundOptions(league.sportType)
+      getRoundOptions(league.sportType, isThirdPlaceMatchEnabled)
         .filter((item) => league.maxRound >= item.round)
         .map((item) => ({ value: item.value.toString(), label: item.label })),
-    [league.maxRound, league.sportType],
+    [isThirdPlaceMatchEnabled, league.maxRound, league.sportType],
   );
 
   const teamOptions = useMemo(
