@@ -25,7 +25,9 @@ const getBasketballSubtitle = (record: TimelineRecordTypeBySport<'BASKETBALL'>) 
     case 'SCORE': {
       const score = record.scoreRecord?.score;
       if (score === 1) return '자유투';
-      return `${score}점슛`;
+      return record.scoreRecord?.assistPlayerName
+        ? `${score}점슛 ${record.scoreRecord.assistPlayerName} 도움`
+        : `${score}점슛`;
     }
     case 'BASKETBALL_REPLACEMENT':
       return record.replacementRecord.isFoulOut
