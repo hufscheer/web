@@ -40,6 +40,7 @@ const Page = async ({ searchParams, params }: Props) => {
   const teams: LeagueTeamType[] = await fetchLeagueTeams({
     leagueId: id,
     round,
+    thirdPlaceMatch,
   });
   const selectedTeams = _teams ? _teams.split(',').map(Number).filter(Boolean) : [];
 

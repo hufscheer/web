@@ -92,6 +92,7 @@ export type LeagueTopScorersPayload = {
 export type LeagueTeamsPayload = {
   leagueId: number;
   round: number;
+  thirdPlaceMatch?: boolean;
 };
 
 export type LeagueTeamType = {
