@@ -8,6 +8,8 @@ export const getRecordIcon = (record: TimelineRecordType) => {
   switch (record.type) {
     case 'SCORE':
       return <SportsAndOutdoorsIcon size={16} />;
+    case 'OWN_GOAL':
+      return <SportsAndOutdoorsIcon size={16} className="text-[#993131]" />;
     case 'SOCCER_REPLACEMENT':
       return <TradeHorizontalIcon size={16} />;
     case 'WARNING_CARD':
@@ -64,6 +66,8 @@ export const getRecordSubtitle = (record: TimelineRecordType) => {
       return record.scoreRecord.assistPlayerName
         ? `${record.scoreRecord.assistPlayerName} 도움`
         : '득점';
+    case 'OWN_GOAL':
+      return '자책골';
     case 'SOCCER_REPLACEMENT':
       return record.replacementRecord.isFoulOut
         ? `${record.playerName} 파울아웃`

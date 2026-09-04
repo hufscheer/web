@@ -4,9 +4,12 @@ import { twMerge } from 'tailwind-merge';
 
 import type { TimelineRecordTypeBySport } from '~/api';
 
+import { TimelineRecordDeleteButton } from '../../../_components/timeline-tab/timeline-delete';
+
 type Props = {
   record: TimelineRecordTypeBySport<'BASKETBALL'>;
   homeTeamId: number;
+  gameId: number;
 };
 
 const getBasketballIcon = (record: TimelineRecordTypeBySport<'BASKETBALL'>) => {
@@ -45,40 +48,43 @@ const getBasketballTitle = (record: TimelineRecordTypeBySport<'BASKETBALL'>): st
   return record.playerName;
 };
 
-export const BasketballEventRecord = ({ record, homeTeamId }: Props) => {
+export const BasketballEventRecord = ({ record, homeTeamId, gameId }: Props) => {
   const isAway = record.gameTeamId !== homeTeamId;
 
   return (
-    <div
-      className={twMerge(
-        'relative flex w-full items-center gap-4 py-2',
-        isAway && 'flex-row-reverse',
-      )}
-    >
-      <div className="h-full w-[3px] bg-neutral-950" aria-hidden />
-      <Typography
-        className="center h-10 w-0 rounded-full border border-neutral-50"
-        fontSize={14}
-        color={colors.neutral500}
-        weight="medium"
-        lineHeight="none"
-      />
-      {getBasketballIcon(record)}
-      <div className="column gap-1">
-        <Typography color={colors.neutral900} fontSize={14} weight="medium" lineHeight="none">
-          {getBasketballTitle(record)}
-        </Typography>
-        <Typography color={colors.neutral500} fontSize={12} weight="medium" lineHeight="none">
-          {getBasketballSubtitle(record)}
-        </Typography>
-      </div>
+    <div className="flex w-full items-center">
       <div
         className={twMerge(
-          isAway && 'absolute top-0 right-0 h-full w-[3px] bg-neutral-950',
-          !isAway && 'absolute top-0 left-0 h-full w-[3px] bg-neutral-950',
+          'relative flex min-w-0 flex-1 items-center gap-4 py-2',
+          isAway && 'flex-row-reverse',
         )}
-        aria-hidden
-      />
+      >
+        <div className="h-full w-[3px] bg-neutral-950" aria-hidden />
+        <Typography
+          className="center h-10 w-0 rounded-full border border-neutral-50"
+          fontSize={14}
+          color={colors.neutral500}
+          weight="medium"
+          lineHeight="none"
+        />
+        {getBasketballIcon(record)}
+        <div className="column gap-1">
+          <Typography color={colors.neutral900} fontSize={14} weight="medium" lineHeight="none">
+            {getBasketballTitle(record)}
+          </Typography>
+          <Typography color={colors.neutral500} fontSize={12} weight="medium" lineHeight="none">
+            {getBasketballSubtitle(record)}
+          </Typography>
+        </div>
+        <div
+          className={twMerge(
+            isAway && 'absolute top-0 right-0 h-full w-[3px] bg-neutral-950',
+            !isAway && 'absolute top-0 left-0 h-full w-[3px] bg-neutral-950',
+          )}
+          aria-hidden
+        />
+      </div>
+      <TimelineRecordDeleteButton gameId={gameId} record={record} />
     </div>
   );
 };

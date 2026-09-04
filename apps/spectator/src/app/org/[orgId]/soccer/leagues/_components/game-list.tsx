@@ -14,6 +14,7 @@ import { useOrganizationId } from '~/hooks/useOrganizationId';
 type Props = {
   leagueId: number;
   round: number;
+  thirdPlaceMatch: boolean;
   selectedTeams: number[];
   sportType: SportType;
   bracketEnabled: boolean | null;
@@ -25,10 +26,12 @@ const GameListContent = ({
   round,
   sportType,
   selectedTeams,
+  thirdPlaceMatch,
 }: Props & { state: GameStateType }) => {
   const { data } = useSuspenseGames({
     state,
     round,
+    third_place_match: thirdPlaceMatch || undefined,
     league_id: leagueId,
     league_team_id: selectedTeams.join(','),
     size: 20,

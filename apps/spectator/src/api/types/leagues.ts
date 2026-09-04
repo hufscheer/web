@@ -37,6 +37,7 @@ export type LeagueDetailType = {
   leagueProgress: string;
   leagueTeamCount: number;
   bracketEnabled: boolean | null;
+  thirdPlaceMatchEnabled: boolean;
 };
 
 export type LeagueRecentSummaryPayload = {

@@ -49,6 +49,7 @@ export const RecordType = {
   PK: 'PK',
   WARNING_CARD: 'WARNING_CARD',
   FOUL: 'FOUL',
+  OWN_GOAL: 'OWN_GOAL',
 } as const;
 
 export type PkRecordType = {
@@ -60,6 +61,12 @@ export type WarningCardRecordType = {
   warningCardType: 'YELLOW' | 'RED';
 };
 
+export type OwnGoalRecordType = {
+  ownGoalRecordId: number;
+  score: number;
+  snapshot: ScoreSnapshotType[];
+};
+
 type ScoreTimelineRecord = CommonTimelineRecordFields & {
   type: typeof RecordType.SCORE;
   scoreRecord: ScoreRecordType;
@@ -67,6 +74,7 @@ type ScoreTimelineRecord = CommonTimelineRecordFields & {
   progressRecord: ProgressRecordType | null;
   pkRecord: PkRecordType | null;
   warningCardRecord: WarningCardRecordType | null;
+  ownGoalRecord: OwnGoalRecordType | null;
 };
 
 type SoccerReplacementTimelineRecord = CommonTimelineRecordFields & {
@@ -76,6 +84,7 @@ type SoccerReplacementTimelineRecord = CommonTimelineRecordFields & {
   progressRecord: ProgressRecordType | null;
   pkRecord: PkRecordType | null;
   warningCardRecord: WarningCardRecordType | null;
+  ownGoalRecord: OwnGoalRecordType | null;
 };
 
 type BasketballReplacementTimelineRecord = CommonTimelineRecordFields & {
@@ -85,6 +94,7 @@ type BasketballReplacementTimelineRecord = CommonTimelineRecordFields & {
   progressRecord: ProgressRecordType | null;
   pkRecord: PkRecordType | null;
   warningCardRecord: WarningCardRecordType | null;
+  ownGoalRecord: OwnGoalRecordType | null;
 };
 
 type ProgressTimelineRecord = CommonTimelineRecordFields & {
@@ -94,6 +104,7 @@ type ProgressTimelineRecord = CommonTimelineRecordFields & {
   progressRecord: ProgressRecordType;
   pkRecord: PkRecordType | null;
   warningCardRecord: WarningCardRecordType | null;
+  ownGoalRecord: OwnGoalRecordType | null;
 };
 
 type PkTimelineRecord = CommonTimelineRecordFields & {
@@ -103,6 +114,7 @@ type PkTimelineRecord = CommonTimelineRecordFields & {
   progressRecord: ProgressRecordType | null;
   pkRecord: PkRecordType;
   warningCardRecord: WarningCardRecordType | null;
+  ownGoalRecord: OwnGoalRecordType | null;
 };
 
 type WarningCardTimelineRecord = CommonTimelineRecordFields & {
@@ -112,6 +124,7 @@ type WarningCardTimelineRecord = CommonTimelineRecordFields & {
   progressRecord: ProgressRecordType | null;
   pkRecord: PkRecordType | null;
   warningCardRecord: WarningCardRecordType;
+  ownGoalRecord: OwnGoalRecordType | null;
 };
 
 type FoulTimelineRecord = CommonTimelineRecordFields & {
@@ -121,6 +134,17 @@ type FoulTimelineRecord = CommonTimelineRecordFields & {
   progressRecord: ProgressRecordType | null;
   pkRecord: PkRecordType | null;
   warningCardRecord: WarningCardRecordType | null;
+  ownGoalRecord: OwnGoalRecordType | null;
+};
+
+type OwnGoalTimelineRecord = CommonTimelineRecordFields & {
+  type: typeof RecordType.OWN_GOAL;
+  scoreRecord: ScoreRecordType | null;
+  replacementRecord: ReplacementRecordType | null;
+  progressRecord: ProgressRecordType | null;
+  pkRecord: PkRecordType | null;
+  warningCardRecord: WarningCardRecordType | null;
+  ownGoalRecord: OwnGoalRecordType;
 };
 
 export type TimelineRecordType =
@@ -130,7 +154,8 @@ export type TimelineRecordType =
   | ProgressTimelineRecord
   | PkTimelineRecord
   | WarningCardTimelineRecord
-  | FoulTimelineRecord;
+  | FoulTimelineRecord
+  | OwnGoalTimelineRecord;
 
 export type TimelinePayload = {
   gameId: number;
