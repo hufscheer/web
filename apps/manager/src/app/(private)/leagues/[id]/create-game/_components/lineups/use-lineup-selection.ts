@@ -10,6 +10,7 @@ export type PlayerSelectionState = {
   teamPlayerId: number;
   state: LineupState;
   isCaptain: boolean;
+  position: string | null;
 };
 
 export type LineupState = 'STARTER' | 'CANDIDATE';
@@ -40,6 +41,15 @@ export const useLineupSelection = ({ starterLimit }: Params) => {
     pickSetter(teamNum)((prev) => toggleCaptainIn(prev, playerId));
   }, []);
 
+  const setPlayerPosition = useCallback(
+    (teamNum: TeamNum, playerId: number, position: string | null) => {
+      pickSetter(teamNum)((prev) =>
+        prev.map((p) => (p.teamPlayerId === playerId ? { ...p, position } : p)),
+      );
+    },
+    [],
+  );
+
   const promoteCandidatesToStarter = useCallback(
     (teamNum: TeamNum) => {
       pickSetter(teamNum)((prev) => promoteCandidates(prev, starterLimit));
@@ -57,6 +67,7 @@ export const useLineupSelection = ({ starterLimit }: Params) => {
     team2Selection,
     togglePlayerState,
     toggleCaptain,
+    setPlayerPosition,
     promoteCandidatesToStarter,
     flushToForm,
   };
@@ -69,6 +80,7 @@ const cloneFromForm = (raw: GameFormType['team1']['lineupPlayers'] | undefined):
     teamPlayerId: p.teamPlayerId,
     state: p.state,
     isCaptain: p.isCaptain,
+    position: p.position ?? null,
   }));
 
 const togglePlayer = (
@@ -85,7 +97,7 @@ const togglePlayer = (
   }
 
   if (!existing) {
-    return [...list, { teamPlayerId: playerId, state: target, isCaptain: false }];
+    return [...list, { teamPlayerId: playerId, state: target, isCaptain: false, position: null }];
   }
 
   if (existing.state === target) {

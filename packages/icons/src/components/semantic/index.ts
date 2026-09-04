@@ -21,6 +21,7 @@ export * from './DragHandleIcon';
 export * from './ErrorFillIcon';
 export * from './ErrorIcon';
 export * from './FilterHdrIcon';
+export * from './SearchIcon';
 export * from './FoulIcon';
 export * from './GroupIcon';
 export * from './HomeIcon';
