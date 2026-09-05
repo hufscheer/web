@@ -190,7 +190,7 @@ const leagueQueryKeys = createQueryKeys('leagues', {
       fetcher.get<LeagueTeamType[]>(`leagues/${payload.leagueId}/teams`, {
         searchParams: {
           round: payload.round,
-          third_place_match: payload.thirdPlaceMatch || undefined,
+          third_place_match: payload.thirdPlaceMatch,
         },
       }),
   }),
