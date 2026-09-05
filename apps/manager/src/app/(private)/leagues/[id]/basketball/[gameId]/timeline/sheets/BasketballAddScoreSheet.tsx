@@ -69,8 +69,8 @@ export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: P
   const canAddAssist = score === TWO_POINT_SHOT || score === THREE_POINT_SHOT;
   const isFormValid = !!quarter && selectedTeamId !== null && !!player;
 
-  const handleAssistPlayerChange = (value: string) => {
-    setAssistPlayer(playerOptions.find((opt) => opt.value === value) || null);
+  const handleAssistPlayerChange = (value: string | null) => {
+    setAssistPlayer(value ? playerOptions.find((opt) => opt.value === value) || null : null);
   };
 
   const submit = () => {
