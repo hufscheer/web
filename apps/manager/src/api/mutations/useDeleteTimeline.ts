@@ -22,6 +22,10 @@ export const useDeleteTimeline = ({ gameId }: { gameId: number }) => {
     onSuccess: async () => {
       await Promise.all([
         qc.refetchQueries({ queryKey: queryKeys.games.timeline({ gameId }).queryKey, type: 'all' }),
+        qc.refetchQueries({
+          queryKey: queryKeys.games.progressAvailable({ gameId }).queryKey,
+          type: 'all',
+        }),
         qc.refetchQueries({ queryKey: queryKeys.games.lineup({ gameId }).queryKey, type: 'all' }),
         qc.refetchQueries({ queryKey: queryKeys.games.detail({ gameId }).queryKey, type: 'all' }),
       ]);
