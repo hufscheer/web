@@ -108,6 +108,7 @@ export type GameTeamPlayerType = {
   jerseyNumber: number;
   isCaptain: boolean;
   isReplaced: boolean;
+  position?: string | null;
   replacedPlayer: Pick<GameTeamPlayerType, 'id' | 'jerseyNumber' | 'playerName'> | null;
   state: 'STARTER' | 'CANDIDATE';
 };
