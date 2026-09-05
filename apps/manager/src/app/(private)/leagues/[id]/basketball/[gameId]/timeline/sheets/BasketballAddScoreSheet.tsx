@@ -15,6 +15,10 @@ import { InputSelect } from '~/components/ui/input-select';
 
 type SelectOption = { label: string; value: string };
 
+const FREE_THROW = 1;
+const TWO_POINT_SHOT = 2;
+const THREE_POINT_SHOT = 3;
+
 const QUARTER_LABELS: Partial<Record<keyof typeof QUARTER_TYPE, string>> = {
   FIRST_QUARTER: '1쿼터',
   SECOND_QUARTER: '2쿼터',
@@ -31,9 +35,9 @@ const quarterOptions: SelectOption[] = (
 }));
 
 const SCORE_OPTIONS = [
-  { label: '1점', value: 1 },
-  { label: '2점', value: 2 },
-  { label: '3점', value: 3 },
+  { label: '1점', value: FREE_THROW },
+  { label: '2점', value: TWO_POINT_SHOT },
+  { label: '3점', value: THREE_POINT_SHOT },
 ];
 
 type Props = { leagueId: number; gameId: number; onClose: () => void };
@@ -62,8 +66,12 @@ export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: P
     }));
   }, [lineup, selectedTeamId]);
 
-  const canAddAssist = score === 2 || score === 3;
+  const canAddAssist = score === TWO_POINT_SHOT || score === THREE_POINT_SHOT;
   const isFormValid = !!quarter && selectedTeamId !== null && !!player;
+
+  const handleAssistPlayerChange = (value: string) => {
+    setAssistPlayer(playerOptions.find((opt) => opt.value === value) || null);
+  };
 
   const submit = () => {
     if (!isFormValid) {
@@ -138,7 +146,7 @@ export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: P
             value: score,
             onChange: (value) => {
               setScore(value);
-              if (value === 1) {
+              if (value === FREE_THROW) {
                 setShowAssist(false);
                 setAssistPlayer(null);
               }
@@ -155,9 +163,7 @@ export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: P
                 label="어시스트 선수"
                 options={playerOptions.filter((opt) => opt.value !== player?.value)}
                 value={assistPlayer?.value}
-                onValueChange={(value) =>
-                  setAssistPlayer(playerOptions.find((opt) => opt.value === value) || null)
-                }
+                onValueChange={handleAssistPlayerChange}
                 disabled={selectedTeamId === null || playerOptions.length === 0}
               />
               <Button
