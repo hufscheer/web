@@ -7,7 +7,14 @@ import { queryKeys } from '~/api/queryKey';
 
 export type LeagueFormType = Pick<
   LeagueDetailType,
-  'name' | 'maxRound' | 'startAt' | 'endAt' | 'teamIds' | 'sportType' | 'thirdPlaceMatchEnabled'
+  | 'name'
+  | 'maxRound'
+  | 'startAt'
+  | 'endAt'
+  | 'teamIds'
+  | 'sportType'
+  | 'bracketEnabled'
+  | 'thirdPlaceMatchEnabled'
 >;
 
 export const postLeagues = (request: LeagueFormType) => {

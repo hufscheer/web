@@ -19,6 +19,7 @@ const Page = () => {
     maxRound: undefined,
     thirdPlaceMatchEnabled: false,
     sportType: 'SOCCER',
+    bracketEnabled: false,
   });
 
   const isFormValid = useMemo(() => {
@@ -42,6 +43,7 @@ const Page = () => {
       endAt: form.endAt?.toISOString() ?? '',
       thirdPlaceMatchEnabled: form.thirdPlaceMatchEnabled,
       sportType: form.sportType,
+      bracketEnabled: form.bracketEnabled,
     }),
     [form],
   );

@@ -17,6 +17,7 @@ type Props = {
   thirdPlaceMatch: boolean;
   selectedTeams: number[];
   sportType: SportType;
+  bracketEnabled: boolean | null;
 };
 
 const GameListContent = ({
