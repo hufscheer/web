@@ -1,5 +1,6 @@
 'use client';
 
+import { AddCircleIcon, CancelIcon } from '@hcc/icons';
 import { Button, toast } from '@hcc/ui';
 import { useState } from 'react';
 
@@ -14,7 +15,14 @@ import { InputSelect } from '~/components/ui/input-select';
 
 import { usePlayerSelection } from '../../../../_components/timeline/use-player-selection';
 
-type SelectOption = { label: string; value: string };
+type SelectOption = {
+  label: string;
+  value: string;
+};
+
+const FREE_THROW = 1;
+const TWO_POINT_SHOT = 2;
+const THREE_POINT_SHOT = 3;
 
 const QUARTER_LABELS: Partial<Record<keyof typeof QUARTER_TYPE, string>> = {
   FIRST_QUARTER: '1쿼터',
@@ -32,27 +40,74 @@ const quarterOptions: SelectOption[] = (
 }));
 
 const SCORE_OPTIONS = [
-  { label: '1점', value: 1 },
-  { label: '2점', value: 2 },
-  { label: '3점', value: 3 },
+  { label: '1점', value: FREE_THROW },
+  { label: '2점', value: TWO_POINT_SHOT },
+  { label: '3점', value: THREE_POINT_SHOT },
 ];
 
-type Props = { leagueId: number; gameId: number; onClose: () => void };
+type Props = {
+  leagueId: number;
+  gameId: number;
+  onClose: () => void;
+};
 
 export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: Props) {
   const { data: league } = useSuspenseLeague({ leagueId });
   const { data: lineup } = useSuspenseGameLineupPlaying({ gameId });
-  const { mutate: createScore, isPending } = useCreateTimelineScore({ gameId });
+  const { mutate: createScore, isPending } = useCreateTimelineScore({
+    gameId,
+  });
 
   const { teamId, playerId, playerOptions, isDisabled, onChangeTeam, onChangePlayer } =
     usePlayerSelection(lineup);
-  const [quarter, setQuarter] = useState<SelectOption | null>(null);
-  const [score, setScore] = useState<number>(1);
 
-  const isFormValid = !!quarter && teamId !== null && playerId !== null;
+  const [quarter, setQuarter] = useState<SelectOption | null>(null);
+  const [score, setScore] = useState(FREE_THROW);
+  const [showAssist, setShowAssist] = useState(false);
+  const [assistPlayer, setAssistPlayer] = useState<SelectOption | null>(null);
+
+  const canAddAssist = score === TWO_POINT_SHOT || score === THREE_POINT_SHOT;
+
+  const isFormValid = quarter !== null && teamId !== null && playerId !== null;
+
+  const handleTeamChange = (nextTeamId: number) => {
+    onChangeTeam(nextTeamId);
+    setAssistPlayer(null);
+  };
+
+  const handlePlayerChange = (value: string | null) => {
+    onChangePlayer(value);
+
+    if (value === assistPlayer?.value) {
+      setAssistPlayer(null);
+    }
+  };
+
+  const handleAssistPlayerChange = (value: string | null) => {
+    if (value === null) {
+      setAssistPlayer(null);
+      return;
+    }
+
+    setAssistPlayer(playerOptions.find((option) => option.value === value) ?? null);
+  };
+
+  const handleScoreChange = (value: number) => {
+    setScore(value);
+
+    if (value === FREE_THROW) {
+      setShowAssist(false);
+      setAssistPlayer(null);
+    }
+  };
+
+  const handleRemoveAssist = () => {
+    setShowAssist(false);
+    setAssistPlayer(null);
+  };
 
   const submit = () => {
-    if (!isFormValid) {
+    if (!quarter || teamId === null || playerId === null) {
       toast('모든 항목을 입력해주세요');
       return;
     }
@@ -63,7 +118,7 @@ export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: P
       recordedAt: 0,
       gameTeamId: teamId,
       scoreLineupPlayerId: Number(playerId),
-      assistLineupPlayerId: null,
+      assistLineupPlayerId: assistPlayer ? Number(assistPlayer.value) : null,
       sportType: league.sportType,
       score,
     };
@@ -87,27 +142,71 @@ export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: P
         label="쿼터"
         options={quarterOptions}
         value={quarter?.value}
-        onValueChange={(value) =>
-          setQuarter(quarterOptions.find((opt) => opt.value === value) || null)
-        }
+        onValueChange={(value) => {
+          setQuarter(quarterOptions.find((option) => option.value === value) ?? null);
+        }}
       />
 
       <div className="text-base font-medium text-black">득점 상세 정보</div>
 
-      <TeamSegmentedControl teams={lineup} value={teamId} onChange={onChangeTeam} />
+      <TeamSegmentedControl teams={lineup} value={teamId} onChange={handleTeamChange} />
 
       <InputSelect
         label="선수"
         options={playerOptions}
         value={playerId ?? undefined}
-        onValueChange={onChangePlayer}
+        onValueChange={handlePlayerChange}
         disabled={isDisabled}
       />
 
       <ScoreSelector
         options={SCORE_OPTIONS}
-        rows={[{ id: 'score', value: score, onChange: setScore }]}
+        rows={[
+          {
+            id: 'score',
+            value: score,
+            onChange: handleScoreChange,
+          },
+        ]}
       />
+
+      {canAddAssist && (
+        <>
+          {showAssist ? (
+            <>
+              <InputSelect
+                label="어시스트 선수"
+                options={playerOptions.filter((option) => option.value !== playerId)}
+                value={assistPlayer?.value}
+                onValueChange={handleAssistPlayerChange}
+                disabled={isDisabled}
+              />
+
+              <Button
+                color="black"
+                variant="subtle"
+                size="lg"
+                className="w-full gap-2 border border-neutral-200 text-neutral-400"
+                onClick={handleRemoveAssist}
+              >
+                <CancelIcon />
+                어시스트 선수 삭제
+              </Button>
+            </>
+          ) : (
+            <Button
+              color="black"
+              variant="subtle"
+              size="lg"
+              className="w-full gap-2 border border-neutral-200 text-neutral-400"
+              onClick={() => setShowAssist(true)}
+            >
+              <AddCircleIcon />
+              어시스트 선수 추가
+            </Button>
+          )}
+        </>
+      )}
 
       <Button
         color="black"
