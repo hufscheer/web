@@ -2,7 +2,7 @@
 
 import { AddCircleIcon, CancelIcon } from '@hcc/icons';
 import { Button, toast } from '@hcc/ui';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import type { ScoreType } from '~/api/types';
 
@@ -12,6 +12,8 @@ import { useSuspenseLeague } from '~/api/queries/useLeague';
 import { QUARTER_TYPE } from '~/api/types';
 import { ScoreSelector, TeamSegmentedControl } from '~/components/ui';
 import { InputSelect } from '~/components/ui/input-select';
+
+import { usePlayerSelection } from '../../../../_components/timeline/use-player-selection';
 
 type SelectOption = { label: string; value: string };
 
@@ -40,37 +42,57 @@ const SCORE_OPTIONS = [
   { label: '3점', value: THREE_POINT_SHOT },
 ];
 
-type Props = { leagueId: number; gameId: number; onClose: () => void };
+type Props = {
+  leagueId: number;
+  gameId: number;
+  onClose: () => void;
+};
 
 export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: Props) {
   const { data: league } = useSuspenseLeague({ leagueId });
   const { data: lineup } = useSuspenseGameLineupPlaying({ gameId });
   const { mutate: createScore, isPending } = useCreateTimelineScore({ gameId });
 
+  const { teamId, playerId, playerOptions, isDisabled, onChangeTeam, onChangePlayer } =
+    usePlayerSelection(lineup);
+
   const [quarter, setQuarter] = useState<SelectOption | null>(null);
-  const [selectedTeamId, setSelectedTeamId] = useState<number | null>(
-    lineup[0]?.gameTeamId ?? null,
-  );
-  const [player, setPlayer] = useState<SelectOption | null>(null);
-  const [score, setScore] = useState<number>(1);
+  const [score, setScore] = useState<number>(FREE_THROW);
   const [showAssist, setShowAssist] = useState(false);
   const [assistPlayer, setAssistPlayer] = useState<SelectOption | null>(null);
 
-  const playerOptions: SelectOption[] = useMemo(() => {
-    if (selectedTeamId === null) return [];
-    const selectedTeam = lineup.find((t) => t.gameTeamId === selectedTeamId);
-    if (!selectedTeam) return [];
-    return selectedTeam.gameTeamPlayers.map((p) => ({
-      label: `${p.jerseyNumber} ${p.playerName}`,
-      value: String(p.lineupPlayerId),
-    }));
-  }, [lineup, selectedTeamId]);
-
   const canAddAssist = score === TWO_POINT_SHOT || score === THREE_POINT_SHOT;
-  const isFormValid = !!quarter && selectedTeamId !== null && !!player;
+  const isFormValid = !!quarter && teamId !== null && playerId !== null;
+
+  const handleTeamChange = (nextTeamId: number) => {
+    onChangeTeam(nextTeamId);
+    setAssistPlayer(null);
+  };
+
+  const handlePlayerChange = (value: string) => {
+    onChangePlayer(value);
+
+    if (value === assistPlayer?.value) {
+      setAssistPlayer(null);
+    }
+  };
 
   const handleAssistPlayerChange = (value: string) => {
-    setAssistPlayer(playerOptions.find((opt) => opt.value === value) || null);
+    setAssistPlayer(playerOptions.find((option) => option.value === value) ?? null);
+  };
+
+  const handleScoreChange = (value: number) => {
+    setScore(value);
+
+    if (value === FREE_THROW) {
+      setShowAssist(false);
+      setAssistPlayer(null);
+    }
+  };
+
+  const handleRemoveAssist = () => {
+    setShowAssist(false);
+    setAssistPlayer(null);
   };
 
   const submit = () => {
@@ -83,8 +105,8 @@ export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: P
       gameId,
       recordedQuarter: quarter.value,
       recordedAt: 0,
-      gameTeamId: selectedTeamId,
-      scoreLineupPlayerId: Number(player.value),
+      gameTeamId: teamId,
+      scoreLineupPlayerId: Number(playerId),
       assistLineupPlayerId: assistPlayer ? Number(assistPlayer.value) : null,
       sportType: league.sportType,
       score,
@@ -110,32 +132,20 @@ export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: P
         options={quarterOptions}
         value={quarter?.value}
         onValueChange={(value) =>
-          setQuarter(quarterOptions.find((opt) => opt.value === value) || null)
+          setQuarter(quarterOptions.find((option) => option.value === value) ?? null)
         }
       />
 
       <div className="text-base font-medium text-black">득점 상세 정보</div>
 
-      <TeamSegmentedControl
-        teams={lineup}
-        value={selectedTeamId}
-        onChange={(teamId) => {
-          setSelectedTeamId(teamId);
-          setPlayer(null);
-          setAssistPlayer(null);
-        }}
-      />
+      <TeamSegmentedControl teams={lineup} value={teamId} onChange={handleTeamChange} />
 
       <InputSelect
         label="선수"
         options={playerOptions}
-        value={player?.value}
-        onValueChange={(value) => {
-          const selectedScorer = playerOptions.find((opt) => opt.value === value) || null;
-          setPlayer(selectedScorer);
-          if (selectedScorer?.value === assistPlayer?.value) setAssistPlayer(null);
-        }}
-        disabled={selectedTeamId === null || playerOptions.length === 0}
+        value={playerId ?? undefined}
+        onValueChange={handlePlayerChange}
+        disabled={isDisabled}
       />
 
       <ScoreSelector
@@ -144,13 +154,7 @@ export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: P
           {
             id: 'score',
             value: score,
-            onChange: (value) => {
-              setScore(value);
-              if (value === FREE_THROW) {
-                setShowAssist(false);
-                setAssistPlayer(null);
-              }
-            },
+            onChange: handleScoreChange,
           },
         ]}
       />
@@ -161,20 +165,18 @@ export default function BasketballAddScoreSheet({ leagueId, gameId, onClose }: P
             <>
               <InputSelect
                 label="어시스트 선수"
-                options={playerOptions.filter((opt) => opt.value !== player?.value)}
+                options={playerOptions.filter((option) => option.value !== playerId)}
                 value={assistPlayer?.value}
                 onValueChange={handleAssistPlayerChange}
-                disabled={selectedTeamId === null || playerOptions.length === 0}
+                disabled={isDisabled}
               />
+
               <Button
                 color="black"
                 variant="subtle"
                 size="lg"
                 className="w-full gap-2 border border-neutral-200 text-neutral-400"
-                onClick={() => {
-                  setShowAssist(false);
-                  setAssistPlayer(null);
-                }}
+                onClick={handleRemoveAssist}
               >
                 <CancelIcon />
                 어시스트 선수 삭제

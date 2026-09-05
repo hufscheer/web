@@ -40,5 +40,9 @@ export const useLineupsData = (leagueId: number) => {
     2: { info: team2, players: team2Players },
   };
 
-  return { teamBuckets, starterLimit: getStarterLimit(league.sportType) };
+  return {
+    teamBuckets,
+    starterLimit: getStarterLimit(league.sportType),
+    sportType: league.sportType,
+  };
 };

@@ -37,6 +37,7 @@ export const Select = ({
   clear,
   renderValue: renderValueProp,
 
+  container,
   side,
   align,
 
@@ -72,7 +73,7 @@ export const Select = ({
 
       <SelectPrimitives.Description>{description}</SelectPrimitives.Description>
 
-      <SelectPrimitives.Popup side={side} align={align}>
+      <SelectPrimitives.Popup container={container} side={side} align={align}>
         {children}
       </SelectPrimitives.Popup>
     </SelectPrimitives.Root>
@@ -92,11 +93,12 @@ type RootProps = Pick<
   | 'value'
   | 'defaultValue'
   | 'onValueChange'
+  | 'modal'
 >;
 
 type ValueProps = Pick<SelectPrimitives.Value.Props, 'placeholder'>;
 
-type PopupProps = Pick<SelectPrimitives.Popup.Props, 'side' | 'align' | 'children'>;
+type PopupProps = Pick<SelectPrimitives.Popup.Props, 'container' | 'side' | 'align' | 'children'>;
 
 type Slots = SlotsProps<typeof slots>;
 

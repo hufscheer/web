@@ -7,9 +7,20 @@ import { forwardRef } from 'react';
 import * as styles from '../select.css';
 
 export const SelectPopup = forwardRef<HTMLDivElement, SelectPopupProps>(
-  ({ side = 'bottom', align = 'start', sideOffset = 4, alignOffset, className, children }, ref) => {
+  (
+    {
+      container,
+      side = 'bottom',
+      align = 'start',
+      sideOffset = 4,
+      alignOffset,
+      className,
+      children,
+    },
+    ref,
+  ) => {
     return (
-      <BaseSelect.Portal>
+      <BaseSelect.Portal container={container}>
         <BaseSelect.Positioner
           alignItemWithTrigger={false}
           className={styles.positioner}
@@ -29,12 +40,13 @@ export const SelectPopup = forwardRef<HTMLDivElement, SelectPopupProps>(
 
 /* ----- types ----- */
 
-export interface SelectPopupProps extends BaseSelect.Popup.Props {
-  side?: BaseSelect.Positioner.Props['side'];
-  align?: BaseSelect.Positioner.Props['align'];
-  sideOffset?: BaseSelect.Positioner.Props['sideOffset'];
-  alignOffset?: BaseSelect.Positioner.Props['alignOffset'];
-}
+type PortalProps = Pick<BaseSelect.Portal.Props, 'container'>;
+type PositionerProps = Pick<
+  BaseSelect.Positioner.Props,
+  'side' | 'align' | 'sideOffset' | 'alignOffset'
+>;
+
+export interface SelectPopupProps extends PortalProps, PositionerProps, BaseSelect.Popup.Props {}
 
 export namespace SelectPopup {
   export type State = BaseSelect.Popup.State;
