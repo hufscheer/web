@@ -1,11 +1,19 @@
 import { useMemo } from 'react';
+import { useFormContext, useWatch } from 'react-hook-form';
 
-import { useSuspenseLeague, useSuspenseLeagueTeams } from '~/api';
+import { type GameFormType, useSuspenseLeague, useSuspenseLeagueTeams } from '~/api';
 import { getRoundOptions } from '~/constants/leagues';
 
 export const useBasicInfoData = (leagueId: number) => {
+  const { control } = useFormContext<GameFormType>();
   const { data: league } = useSuspenseLeague({ leagueId });
-  const { data: teams } = useSuspenseLeagueTeams({ leagueId });
+  const round = useWatch({ control, name: 'round' });
+  const thirdPlaceMatch = useWatch({ control, name: 'thirdPlaceMatch' });
+  const { data: teams } = useSuspenseLeagueTeams({
+    leagueId,
+    round,
+    thirdPlaceMatch,
+  });
   const isThirdPlaceMatchEnabled = league.thirdPlaceMatchEnabled === true;
 
   const roundOptions = useMemo(

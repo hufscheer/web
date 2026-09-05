@@ -37,7 +37,11 @@ export type LeagueDetailType = {
   bracketEnabled: boolean;
 };
 
-export type LeagueTeamsPayload = { leagueId: number };
+export type LeagueTeamsPayload = {
+  leagueId: number;
+  round?: number;
+  thirdPlaceMatch?: boolean;
+};
 
 export type LeagueTeamType = {
   teamId: number;
