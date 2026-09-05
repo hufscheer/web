@@ -27,18 +27,25 @@ export const RecentTab = () => {
     organizationId,
   });
 
-  const displayedGame = recentGames.find((league) => league.sportType === SPORT_TYPE);
+  const displayedLeagues = recentGames.filter(
+    (league) => league.sportType === SPORT_TYPE && league.leagueProgress === 'IN_PROGRESS',
+  );
 
-  if (!displayedGame) return <EmptyLeague sport={SPORT_TYPE} />;
+  if (displayedLeagues.length === 0) return <EmptyLeague sport={SPORT_TYPE} />;
 
   return (
-    <LeagueGameList
-      leagueId={displayedGame.leagueId}
-      leagueName={displayedGame.leagueName}
-      games={displayedGame.games}
-      organizationId={organizationId}
-      sport={SPORT_TYPE}
-    />
+    <div className="column w-full gap-3">
+      {displayedLeagues.map((league) => (
+        <LeagueGameList
+          key={league.leagueId}
+          leagueId={league.leagueId}
+          leagueName={league.leagueName}
+          games={league.games}
+          organizationId={organizationId}
+          sport={SPORT_TYPE}
+        />
+      ))}
+    </div>
   );
 };
 
@@ -74,7 +81,7 @@ const LeagueGameList = ({
   });
 
   return (
-    <div className="flex flex-1 flex-col gap-3">
+    <div className="column w-full gap-3">
       <GameList
         hasPlayingGames={hasPlayingGames}
         leagueId={leagueId}
