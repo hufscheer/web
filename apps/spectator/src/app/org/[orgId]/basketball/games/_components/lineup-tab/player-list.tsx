@@ -5,7 +5,7 @@ import { Jersey_10 } from 'next/font/google';
 import Image from 'next/image';
 import { twMerge } from 'tailwind-merge';
 
-import { useSuspenseGame, useSuspenseGameLineup } from '~/api';
+import { LineupNotRegisteredError, useSuspenseGame, useSuspenseGameLineup } from '~/api';
 import { cn } from '~/utils/cn';
 
 const Jersey10 = Jersey_10({ weight: '400' });
@@ -18,7 +18,9 @@ export const PlayerList = ({ gameId }: Props) => {
   const { data: game } = useSuspenseGame({ gameId });
   const { data: lineup } = useSuspenseGameLineup({ gameId });
 
-  if (game.gameTeams.length !== 2 || lineup.length !== 2) return null;
+  if (game.gameTeams.length !== 2 || lineup.length !== 2) {
+    throw new LineupNotRegisteredError();
+  }
 
   return (
     <div className="grid grid-cols-[1fr_1px_1fr] px-5 py-5">

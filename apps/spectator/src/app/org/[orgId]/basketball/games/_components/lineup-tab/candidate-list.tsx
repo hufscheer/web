@@ -3,7 +3,7 @@
 import { Accordion, Typography } from '@hcc/ui';
 import { twMerge } from 'tailwind-merge';
 
-import { useSuspenseGame, useSuspenseGameLineup } from '~/api';
+import { LineupNotRegisteredError, useSuspenseGame, useSuspenseGameLineup } from '~/api';
 
 type Props = {
   gameId: number;
@@ -12,6 +12,10 @@ type Props = {
 export const CandidateList = ({ gameId }: Props) => {
   const { data: game } = useSuspenseGame({ gameId });
   const { data: lineup } = useSuspenseGameLineup({ gameId });
+
+  if (game.gameTeams.length !== 2 || lineup.length !== 2) {
+    throw new LineupNotRegisteredError();
+  }
 
   return (
     <Accordion type="single" collapsible>
