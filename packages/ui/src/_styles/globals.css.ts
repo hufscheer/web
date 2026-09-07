@@ -86,6 +86,11 @@ export const tokens = createGlobalThemeContract({
     toast: 'color-toast',
     talk: 'color-talk',
   },
+
+  layer: {
+    base: 'layer-base',
+    overlay: 'layer-overlay',
+  },
 });
 
 createGlobalTheme(':root', tokens, {
@@ -174,6 +179,11 @@ createGlobalTheme(':root', tokens, {
 
     toast: '#374553',
     talk: '#F2F2F7',
+  },
+
+  layer: {
+    base: '0',
+    overlay: '1000',
   },
 });
 

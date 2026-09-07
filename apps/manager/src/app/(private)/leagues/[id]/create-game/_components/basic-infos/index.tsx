@@ -70,7 +70,8 @@ const LineupBadge = ({ done }: { done: boolean }) => {
 };
 
 const GameInfoFields = ({ roundOptions }: { roundOptions: RoundOptions }) => {
-  const { register, control } = useFormContext<GameFormType>();
+  const { register, control, setValue, watch } = useFormContext<GameFormType>();
+  const thirdPlaceMatch = watch('thirdPlaceMatch');
 
   return (
     <section>
@@ -90,9 +91,13 @@ const GameInfoFields = ({ roundOptions }: { roundOptions: RoundOptions }) => {
           render={({ field }) => (
             <Select.Root
               placeholder="라운드"
-              value={field.value?.toString() ?? null}
+              value={thirdPlaceMatch ? 'thirdPlaceMatch' : (field.value?.toString() ?? null)}
               renderValue={(value) => roundOptions.find((option) => option.value === value)?.label}
-              onValueChange={field.onChange}
+              onValueChange={(value) => {
+                const isThirdPlaceMatch = value === 'thirdPlaceMatch';
+                field.onChange(isThirdPlaceMatch ? 2 : Number(value));
+                setValue('thirdPlaceMatch', isThirdPlaceMatch);
+              }}
             >
               {roundOptions.map((option) => (
                 <Select.Item key={option.value} value={option.value}>

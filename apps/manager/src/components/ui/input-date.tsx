@@ -34,7 +34,7 @@ export const InputDate = ({ label, value, onSelect }: InputDateProps) => {
             </p>
             {value && <p className="pt-4 text-base font-medium text-black">{formattedDate}</p>}
           </div>
-          <CalendarMonthIcon className={value ? 'text-black' : 'text-gray-500'} />
+          <CalendarMonthIcon className={value ? 'text-black' : 'text-gray-500'} size={24} />
         </button>
       </Drawer.Trigger>
 

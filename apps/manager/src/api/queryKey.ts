@@ -48,7 +48,13 @@ const leagueQueryKeys = createQueryKeys('leagues', {
   }),
   teams: (payload: LeagueTeamsPayload) => ({
     queryKey: [payload],
-    queryFn: () => fetcher.get<LeagueTeamType[]>(`leagues/${payload.leagueId}/teams`),
+    queryFn: () =>
+      fetcher.get<LeagueTeamType[]>(`leagues/${payload.leagueId}/teams`, {
+        searchParams: {
+          round: payload.round,
+          third_place_match: payload.thirdPlaceMatch,
+        },
+      }),
   }),
   teamsPlayers: (payload: LeagueTeamsPlayersPayload) => ({
     queryKey: [payload],

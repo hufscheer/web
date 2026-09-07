@@ -27,7 +27,10 @@ export const getRecordSubtitle = (record: TimelineRecordType) => {
   switch (record.type) {
     case 'SCORE': {
       const score = record.scoreRecord.score;
-      return score === 1 ? '자유투' : `${score}점슛`;
+      if (score === 1) return '자유투';
+      return record.scoreRecord.assistPlayerName
+        ? `${score}점슛 ${record.scoreRecord.assistPlayerName} 도움`
+        : `${score}점슛`;
     }
     case 'BASKETBALL_REPLACEMENT':
       return record.replacementRecord.isFoulOut

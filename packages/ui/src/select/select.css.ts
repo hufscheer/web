@@ -3,6 +3,8 @@ import type { RecipeVariants } from '@vanilla-extract/recipes';
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
+import { tokens } from '../_styles/globals.css';
+
 export const root = recipe({
   base: {
     display: 'grid',
@@ -157,6 +159,8 @@ export const icon = style({
 
 export const positioner = style({
   outline: 'none',
+  pointerEvents: 'auto',
+  zIndex: tokens.layer.overlay,
 });
 
 export const popup = style({

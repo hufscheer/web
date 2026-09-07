@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation';
 import type { LeagueDetailType, LeagueTeamType } from '~/api';
 
 import { fetchLeague, fetchLeagueTeams } from '~/api';
+import { BracketSheet } from '~/components/brackets/bracket-sheet';
 import { Header } from '~/components/layout';
 import { routes } from '~/constants/routes';
 
@@ -16,7 +17,7 @@ import { RoundFilter } from '../_components/round-filter';
 import { TeamFilter } from '../_components/team-filter';
 
 type Props = {
-  searchParams: Promise<{ round: number; teams: string }>;
+  searchParams: Promise<{ round: string; teams: string; third_place_match: string }>;
   params: Promise<{ orgId: string; id: string }>;
 };
 
@@ -33,12 +34,14 @@ const Page = async ({ searchParams, params }: Props) => {
 
   const league: LeagueDetailType = await fetchLeague({ leagueId: id });
 
-  const { round: _round, teams: _teams } = await searchParams;
+  const { round: _round, teams: _teams, third_place_match: _thirdPlaceMatch } = await searchParams;
   // const round = Number(_round) || league.inProgressRound;
   const round = Number(_round) || league.maxRound;
+  const thirdPlaceMatch = _thirdPlaceMatch === 'true';
   const teams: LeagueTeamType[] = await fetchLeagueTeams({
     leagueId: id,
     round,
+    thirdPlaceMatch,
   });
   const selectedTeams = _teams ? _teams.split(',').map(Number).filter(Boolean) : [];
 
@@ -47,13 +50,19 @@ const Page = async ({ searchParams, params }: Props) => {
       <Header.Root
         left={<Header.Arrow />}
         center={<Header.LinkLogo sport={SPORT_TYPE} orgId={orgId} />}
+        right={
+          league.bracketEnabled === true ? <BracketSheet leagueName={league.name} /> : undefined
+        }
       />
-      {league && round && <RoundFilter league={league} round={round} />}
+      {league && round && (
+        <RoundFilter league={league} round={round} thirdPlaceMatch={thirdPlaceMatch} />
+      )}
       {teams && <TeamFilter teams={teams} selectedTeams={selectedTeams} />}
       <Suspense clientOnly>
         <GameList
           leagueId={id}
           round={round}
+          thirdPlaceMatch={thirdPlaceMatch}
           selectedTeams={selectedTeams}
           sportType={SPORT_TYPE}
         />

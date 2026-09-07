@@ -12,6 +12,7 @@ export type GameFormTeamType = {
     teamPlayerId: number;
     state: 'STARTER' | 'CANDIDATE';
     isCaptain: boolean;
+    position: string | null;
   }[];
 };
 
@@ -25,6 +26,7 @@ export type GameFormType = {
   videoId: string;
   team1: GameFormTeamType;
   team2: GameFormTeamType;
+  thirdPlaceMatch: boolean;
 };
 
 export const postGames = ({ leagueId, ...request }: GameFormType) => {

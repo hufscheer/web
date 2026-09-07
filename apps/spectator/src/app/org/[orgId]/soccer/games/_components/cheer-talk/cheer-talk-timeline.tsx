@@ -15,6 +15,7 @@ type Props = {
 
 type ScoreRecord = Extract<TimelineRecordType, { type: 'SCORE' }>;
 type AnyReplacementRecord = Extract<TimelineRecordType, { type: 'SOCCER_REPLACEMENT' }>;
+type OwnGoalRecord = Extract<TimelineRecordType, { type: 'OWN_GOAL' }>;
 
 export const CheerTalkTimeline = ({ gameId }: Props) => {
   const { data } = useSuspenseGameTimeline({ gameId });
@@ -27,8 +28,9 @@ export const CheerTalkTimeline = ({ gameId }: Props) => {
 
   const isScore = lastRecord.type === 'SCORE';
   const isReplacement = lastRecord.type === 'SOCCER_REPLACEMENT';
+  const isOwnGoal = lastRecord.type === 'OWN_GOAL';
 
-  if (!isScore && !isReplacement) return null;
+  if (!isScore && !isReplacement && !isOwnGoal) return null;
 
   const direction = getTeamInfo(lastRecord.gameTeamId).direction;
 
@@ -42,6 +44,7 @@ export const CheerTalkTimeline = ({ gameId }: Props) => {
       >
         {lastRecord.type === 'SCORE' && <Score record={lastRecord} />}
         {lastRecord.type === 'SOCCER_REPLACEMENT' && <Replacement record={lastRecord} />}
+        {lastRecord.type === 'OWN_GOAL' && <OwnGoal record={lastRecord} />}
       </div>
     </div>
   );
@@ -66,6 +69,39 @@ const Score = ({ record }: { record: ScoreRecord }) => {
         <div className="column-center-x">
           <Typography color={colors.white} fontSize={12} weight="medium">
             {playerName} 선수 득점
+          </Typography>
+        </div>
+        <Image
+          className="overflow-hidden rounded-full object-contain"
+          src={teamImageUrl}
+          alt={`${teamName} 로고`}
+          width={18}
+          height={18}
+        />
+      </div>
+    </Fragment>
+  );
+};
+
+const OwnGoal = ({ record }: { record: OwnGoalRecord }) => {
+  const { recordedAt, teamImageUrl, teamName, playerName } = record;
+
+  return (
+    <Fragment>
+      <Typography
+        className="rounded-sm bg-white px-1 py-0.5"
+        fontSize={12}
+        weight="semibold"
+        lineHeight="none"
+      >
+        {recordedAt}'
+      </Typography>
+
+      <div className="center-y absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 gap-2">
+        <SportsAndOutdoorsIcon className="text-[var(--color-danger-600)]" size={18} />
+        <div className="column-center-x">
+          <Typography color={colors.white} fontSize={12} weight="medium">
+            {playerName} 선수 자책골
           </Typography>
         </div>
         <Image

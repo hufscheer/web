@@ -32,14 +32,16 @@ type BasicStepProps = {
 };
 
 const GameEditBasicStep = ({ leagueId, onNext }: BasicStepProps) => {
-  const { register, watch, control } = useFormContext<GameUpdateFormType>();
+  const { register, watch, setValue, control } = useFormContext<GameUpdateFormType>();
   const { data: league } = useSuspenseLeague({ leagueId });
+  const isThirdPlaceMatchEnabled = league.thirdPlaceMatchEnabled === true;
 
   const [name, round, startTime] = watch(['name', 'round', 'startTime']);
+  const thirdPlaceMatch = watch('thirdPlaceMatch');
 
   const isValid = Boolean(name?.trim() && round && startTime);
 
-  const roundOptions_ = getRoundOptions(league.sportType)
+  const roundOptions_ = getRoundOptions(league.sportType, isThirdPlaceMatchEnabled)
     .filter((item) => league.maxRound >= item.round)
     .map((item) => ({ value: item.value.toString(), label: item.label }));
 
@@ -63,8 +65,12 @@ const GameEditBasicStep = ({ leagueId, onNext }: BasicStepProps) => {
               <InputSelect
                 label="라운드"
                 options={roundOptions_}
-                value={field.value?.toString()}
-                onValueChange={field.onChange}
+                value={thirdPlaceMatch ? 'thirdPlaceMatch' : field.value?.toString()}
+                onValueChange={(value) => {
+                  const isThirdPlaceMatch = value === 'thirdPlaceMatch';
+                  field.onChange(isThirdPlaceMatch ? 2 : Number(value));
+                  setValue('thirdPlaceMatch', isThirdPlaceMatch);
+                }}
               />
             )}
           />
@@ -144,6 +150,7 @@ const FormSectionInner = ({ leagueId, gameId }: Props) => {
     defaultValues: {
       name: data.gameName,
       round: data.round,
+      thirdPlaceMatch: data.thirdPlaceMatch === true,
       quarter: data.gameQuarter.key,
       state: data.state,
       startTime: data.startTime,

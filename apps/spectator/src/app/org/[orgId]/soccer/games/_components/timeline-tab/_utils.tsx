@@ -7,7 +7,14 @@ import { cn } from '~/utils/cn';
 export const getRecordIcon = (record: TimelineRecordType) => {
   switch (record.type) {
     case 'SCORE':
-      return <SportsAndOutdoorsIcon size={16} />;
+      return (
+        <SportsAndOutdoorsIcon
+          size={16}
+          className={record.ownGoalRecord ? 'text-[var(--color-danger-600)]' : undefined}
+        />
+      );
+    case 'OWN_GOAL':
+      return <SportsAndOutdoorsIcon size={16} className="text-[var(--color-danger-600)]" />;
     case 'SOCCER_REPLACEMENT':
       return <TradeHorizontalIcon size={16} />;
     case 'WARNING_CARD':
@@ -61,9 +68,12 @@ const getWarningCardType = (record: TimelineRecordType) => {
 export const getRecordSubtitle = (record: TimelineRecordType) => {
   switch (record.type) {
     case 'SCORE':
+      if (record.ownGoalRecord) return '자책골';
       return record.scoreRecord.assistPlayerName
         ? `${record.scoreRecord.assistPlayerName} 도움`
         : '득점';
+    case 'OWN_GOAL':
+      return '자책골';
     case 'SOCCER_REPLACEMENT':
       return record.replacementRecord.isFoulOut
         ? `${record.playerName} 파울아웃`

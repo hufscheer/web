@@ -24,13 +24,22 @@ export const roundOptions = [
   { value: '2', label: '결승', round: 2 },
 ] as const;
 
-export const getRoundOptions = (sportType: SportType) => {
+export const getRoundOptions = (sportType: SportType, includeThirdPlaceMatch = false) => {
   const config = getSportConfig(sportType);
-  return roundOptions.map((item) => ({
+  const options = roundOptions.map((item) => ({
     value: item.value,
     label: config.roundLabels[item.round] ?? item.label,
     round: item.round,
   }));
+
+  if (!includeThirdPlaceMatch) return options;
+
+  const finalIndex = options.findIndex((item) => item.round === 2);
+  const thirdPlaceMatchOption = { value: 'thirdPlaceMatch', label: '3,4위전', round: 2 };
+
+  return finalIndex === -1
+    ? [...options, thirdPlaceMatchOption]
+    : [...options.slice(0, finalIndex), thirdPlaceMatchOption, ...options.slice(finalIndex)];
 };
 
 export const getRoundLabel = (round: number, sportType: SportType) => {

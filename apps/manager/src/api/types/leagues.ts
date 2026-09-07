@@ -29,13 +29,19 @@ export type LeagueDetailType = {
   sizeOfLeagueTeams: number;
   leagueTeamCount: number;
   maxRound: number;
+  thirdPlaceMatchEnabled: boolean;
   startAt: string;
   endAt: string;
   teamIds: number[];
   sportType: SportType;
+  bracketEnabled: boolean;
 };
 
-export type LeagueTeamsPayload = { leagueId: number };
+export type LeagueTeamsPayload = {
+  leagueId: number;
+  round?: number;
+  thirdPlaceMatch?: boolean;
+};
 
 export type LeagueTeamType = {
   teamId: number;

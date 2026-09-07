@@ -23,6 +23,7 @@ type GameData = {
   gameQuarter: GameQuarterType;
   gameName: string;
   round: number;
+  thirdPlaceMatch: boolean;
   videoId: string;
   gameTeams: GameTeamType[];
   isPkTaken: boolean;
@@ -49,6 +50,7 @@ export type GameListPayload = {
   size?: number;
   league_team_id?: string;
   round?: number;
+  third_place_match?: boolean;
 };
 
 export type GameListType = {
@@ -106,6 +108,7 @@ export type GameTeamPlayerType = {
   jerseyNumber: number;
   isCaptain: boolean;
   isReplaced: boolean;
+  position?: string | null;
   replacedPlayer: Pick<GameTeamPlayerType, 'id' | 'jerseyNumber' | 'playerName'> | null;
   state: 'STARTER' | 'CANDIDATE';
 };

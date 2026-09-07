@@ -12,9 +12,16 @@ interface TabTriggerProps {
   value: string;
   children: ReactNode;
   queryKey?: string;
+  query?: Record<string, string>;
 }
 
-export const TabTrigger = ({ value, children, className, queryKey = 'tab' }: TabTriggerProps) => {
+export const TabTrigger = ({
+  value,
+  children,
+  className,
+  queryKey = 'tab',
+  query,
+}: TabTriggerProps) => {
   const pathname = usePathname();
 
   return (
@@ -28,7 +35,11 @@ export const TabTrigger = ({ value, children, className, queryKey = 'tab' }: Tab
       value={value}
       asChild
     >
-      <Link className="text-center" href={{ pathname, query: { [queryKey]: value } }} replace>
+      <Link
+        className="text-center"
+        href={{ pathname, query: { [queryKey]: value, ...query } }}
+        replace
+      >
         {children}
       </Link>
     </Tabs.Trigger>
