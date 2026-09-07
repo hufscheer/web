@@ -65,7 +65,15 @@ type RootProps = Pick<
 
 type InputProps = Pick<
   TextFieldPrimitives.Input.Props,
-  'placeholder' | 'disabled' | 'readOnly' | 'className' | 'style' | 'value' | 'defaultValue'
+  | 'placeholder'
+  | 'disabled'
+  | 'readOnly'
+  | 'className'
+  | 'style'
+  | 'value'
+  | 'defaultValue'
+  | 'autoFocus'
+  | 'autoComplete'
 >;
 
 type Slots = SlotsProps<typeof slots>;

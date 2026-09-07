@@ -14,6 +14,7 @@ export const getGameFormDefaults = (leagueId: number): Partial<GameFormType> => 
   state: 'SCHEDULED',
   startTime: '',
   videoId: '',
+  thirdPlaceMatch: false,
   team1: { teamId: 0, leagueTeamId: 0, lineupPlayers: [] },
   team2: { teamId: 0, leagueTeamId: 0, lineupPlayers: [] },
 });
