@@ -28,12 +28,14 @@ const STEPS = [
 
 type BasicStepProps = {
   leagueId: number;
+  gameId: number;
   onNext: () => void;
 };
 
-const GameEditBasicStep = ({ leagueId, onNext }: BasicStepProps) => {
+const GameEditBasicStep = ({ leagueId, gameId, onNext }: BasicStepProps) => {
   const { register, watch, setValue, control } = useFormContext<GameUpdateFormType>();
   const { data: league } = useSuspenseLeague({ leagueId });
+  const { data: game } = useSuspenseGame({ gameId });
   const isThirdPlaceMatchEnabled = league.thirdPlaceMatchEnabled === true;
 
   const [name, round, startTime] = watch(['name', 'round', 'startTime']);
@@ -82,6 +84,27 @@ const GameEditBasicStep = ({ leagueId, onNext }: BasicStepProps) => {
             placeholder="시작 일시"
             required
           />
+
+          {/*
+            참가 팀은 읽기 전용이다. 경기 수정 API 는 name·round·startTime·videoId·
+            thirdPlaceMatch 만 받고 팀은 안 받는다. 고를 수 있게 두면 저장이 안 되는 값을
+            고르게 하는 셈이라, 생성 화면과 자리는 맞추되 못 바꾸는 걸 드러낸다.
+            팀을 바꿔야 하면 경기를 지우고 다시 만들어야 한다.
+          */}
+          <div className="flex gap-3">
+            {[game.gameTeams?.[0], game.gameTeams?.[1]].map((team, i) => (
+              <Input
+                key={team?.gameTeamId ?? i}
+                className="flex-1"
+                size="lg"
+                type="text"
+                placeholder={`참가 팀 ${i + 1}`}
+                value={team?.gameTeamName ?? '-'}
+                readOnly
+                disabled
+              />
+            ))}
+          </div>
         </div>
       </div>
 
@@ -196,7 +219,7 @@ const FormSectionInner = ({ leagueId, gameId }: Props) => {
         <div className="mt-6 flex-1 overflow-hidden">
           {step === 0 && (
             <Suspense fallback={<Spinner className="self-center" />} clientOnly>
-              <GameEditBasicStep leagueId={leagueId} onNext={() => setStep(1)} />
+              <GameEditBasicStep leagueId={leagueId} gameId={gameId} onNext={() => setStep(1)} />
             </Suspense>
           )}
 
