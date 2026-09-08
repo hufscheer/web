@@ -6,7 +6,7 @@ import { twMerge } from 'tailwind-merge';
 
 import type { SportType } from '~/api';
 
-import { getPositionGroups } from './positions';
+import { getPositionGroups } from '../../../_components/lineup-ui/positions';
 
 type Props = {
   sportType: SportType;
