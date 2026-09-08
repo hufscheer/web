@@ -8,17 +8,24 @@ import { twMerge } from 'tailwind-merge';
 
 import type { SportType } from '~/api';
 
-import type { LineupState, PlayerSelectionState } from './use-lineup-selection';
-import type { TeamPlayer } from './use-lineups';
+import type { LineupEntry, LineupState, RosterPlayer } from './types';
 
 import { PositionSheet } from './position-sheet';
 
+/** 선택 상태에서 이 팝오버가 보는 건 상태와 포지션뿐이다 */
+type Selected = LineupEntry & { state: LineupState; position?: string | null };
+
 type Props = {
-  players: TeamPlayer[];
-  selection: PlayerSelectionState[];
+  players: RosterPlayer[];
+  selection: Selected[];
   sportType: SportType;
   onToggleState: (playerId: number, state: LineupState) => void;
-  onSetPosition: (playerId: number, position: string | null) => void;
+  /**
+   * 포지션 선택. 경기 **수정** 화면은 저장 경로가 없어 포지션을 끈다
+   * (`showPosition={false}`). 저장 안 되는 값을 고르게 두지 않으려는 것이다.
+   */
+  onSetPosition?: (playerId: number, position: string | null) => void;
+  showPosition?: boolean;
 };
 
 export const PlayerSearchPopover = ({
@@ -27,6 +34,7 @@ export const PlayerSearchPopover = ({
   sportType,
   onToggleState,
   onSetPosition,
+  showPosition = true,
 }: Props) => {
   const searchInputId = useId();
   const [open, setOpen] = useState(false);
@@ -87,8 +95,11 @@ export const PlayerSearchPopover = ({
                           player={player}
                           state={state}
                           sportType={sportType}
+                          showPosition={showPosition}
                           onToggleState={(target) => onToggleState(player.teamPlayerId, target)}
-                          onSetPosition={(position) => onSetPosition(player.teamPlayerId, position)}
+                          onSetPosition={(position) =>
+                            onSetPosition?.(player.teamPlayerId, position)
+                          }
                         />
                       );
                     })}
@@ -104,9 +115,10 @@ export const PlayerSearchPopover = ({
 };
 
 type SearchResultRowProps = {
-  player: TeamPlayer;
-  state: PlayerSelectionState | undefined;
+  player: RosterPlayer;
+  state: Selected | undefined;
   sportType: SportType;
+  showPosition: boolean;
   onToggleState: (target: LineupState) => void;
   onSetPosition: (position: string | null) => void;
 };
@@ -115,6 +127,7 @@ const SearchResultRow = ({
   player,
   state,
   sportType,
+  showPosition,
   onToggleState,
   onSetPosition,
 }: SearchResultRowProps) => {
@@ -137,12 +150,14 @@ const SearchResultRow = ({
           active={state?.state === 'CANDIDATE'}
           onClick={() => onToggleState('CANDIDATE')}
         />
-        <PositionSheet
-          disabled={!canSelectPosition}
-          sportType={sportType}
-          value={state?.position ?? null}
-          onSelect={onSetPosition}
-        />
+        {showPosition && (
+          <PositionSheet
+            disabled={!canSelectPosition}
+            sportType={sportType}
+            value={state?.position ?? null}
+            onSelect={onSetPosition}
+          />
+        )}
         {/* <PositionSelect
           disabled={!canSelectPosition}
           sportType={sportType}
@@ -173,7 +188,7 @@ const StateChip = ({ label, active, onClick }: StateChipProps) => (
   </button>
 );
 
-const filterPlayers = (players: TeamPlayer[], query: string) => {
+const filterPlayers = (players: RosterPlayer[], query: string) => {
   const q = query.trim().toLowerCase();
   if (!q) return players;
 

@@ -1,9 +1,9 @@
 'use client';
 
-import { Button, Input, Spinner, toast } from '@hcc/ui';
+import { Button, Spinner, toast } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 import { useMemo, useState } from 'react';
-import { twMerge } from 'tailwind-merge';
+
 
 import {
   useCreateGameTeamsLineup,
@@ -21,6 +21,13 @@ import {
   type LeagueTeamsPlayerType,
 } from '~/api';
 import { getStarterLimit } from '~/constants/leagues';
+
+import {
+  CandidatesSection,
+  PlayerSearchPopover,
+  StartersSection,
+  TeamTabs,
+} from '../lineup-ui';
 
 type PlayerSelectionState = {
   teamPlayerId: number;
@@ -71,8 +78,20 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
   const team1Name = lineup1?.teamName ?? gameTeam1?.gameTeamName ?? '';
   const team2Name = lineup2?.teamName ?? gameTeam2?.gameTeamName ?? '';
 
-  const leagueTeam1 = leagueTeams.find((lt) => lt.teamName === team1Name);
-  const leagueTeam2 = leagueTeams.find((lt) => lt.teamName === team2Name);
+  /**
+   * 경기팀 → 리그팀 잇기. gameTeamId 는 경기마다 새로 생기는 값이라 리그 참가팀 목록과
+   * 직접 이어지지 않는다. 서버가 gameTeams[].teamId 를 주기 시작해서 그걸로 찾는다.
+   *
+   * <p>이름 비교는 뒷문으로만 남긴다. 예전에는 이름이 유일한 연결고리였는데, 동명 팀이나
+   * 공백 차이("독일어과 Rote  Karte" 처럼 공백 2개)면 못 찾고 그대로 빈 라인업이 됐다.
+   * teamId 가 아직 안 내려오는 서버를 만나도 예전만큼은 동작하게 두는 것이다.
+   */
+  const findLeagueTeam = (gameTeam: typeof gameTeam1, fallbackName: string) =>
+    leagueTeams.find((lt) => gameTeam?.teamId != null && lt.teamId === gameTeam.teamId) ??
+    leagueTeams.find((lt) => lt.teamName === fallbackName);
+
+  const leagueTeam1 = findLeagueTeam(gameTeam1, team1Name);
+  const leagueTeam2 = findLeagueTeam(gameTeam2, team2Name);
 
   const { data: team1Players } = useSuspenseLeagueTeamsPlayers({
     leagueTeamId: leagueTeam1?.leagueTeamId ?? 0,
@@ -107,7 +126,6 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
   );
 
   const [activeTab, setActiveTab] = useState<1 | 2>(1);
-  const [searchQuery, setSearchQuery] = useState('');
   const [saving, setSaving] = useState(false);
 
   const { mutateAsync: createLineup } = useCreateGameTeamsLineup();
@@ -116,11 +134,6 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
   const { mutateAsync: patchCandidate } = useUpdateGamesCandidate();
   const { mutateAsync: patchCaptainRegister } = useUpdateGamesCaptainRegister();
   const { mutateAsync: patchCaptainRevoke } = useUpdateGamesCaptainRevoke();
-
-  const getPlayerState = (teamNumber: 1 | 2, teamPlayerId: number) => {
-    const selection = teamNumber === 1 ? team1Selection : team2Selection;
-    return selection.find((p) => p.teamPlayerId === teamPlayerId);
-  };
 
   const handlePlayerSelection = (
     teamNumber: 1 | 2,
@@ -245,165 +258,83 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
 
   const activeTeamPlayers = activeTab === 1 ? team1Players : team2Players;
   const activeSelection = activeTab === 1 ? team1Selection : team2Selection;
+  const activeTeamName = activeTab === 1 ? team1Name : team2Name;
 
-  const filteredAll = useMemo(
-    () =>
-      activeTeamPlayers.filter(
-        (p) =>
-          p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          p.jerseyNumber?.toString().includes(searchQuery),
+  const starterLimit = getStarterLimit(league.sportType);
+  const activeView = {
+    starters: activeSelection.filter((p) => p.state === 'STARTER'),
+    candidates: activeSelection.filter((p) => p.state === 'CANDIDATE'),
+  };
+  const canPromote = activeView.starters.length < starterLimit;
+
+  /** 후보를 남은 선발 자리만큼 올린다. 생성 화면의 "모두 선발로 올리기"와 같은 동작이다 */
+  const promoteAllCandidates = () => {
+    const openSlots = starterLimit - activeView.starters.length;
+    if (openSlots <= 0) {
+      toast.error('선발 인원이 다 찼어요');
+      return;
+    }
+    const promoting = new Set(
+      activeView.candidates.slice(0, openSlots).map((c) => c.teamPlayerId),
+    );
+    const setSelection = activeTab === 1 ? setTeam1Selection : setTeam2Selection;
+    setSelection((prev) =>
+      prev.map((p) =>
+        promoting.has(p.teamPlayerId) ? { ...p, state: 'STARTER' as const } : p,
       ),
-    [activeTeamPlayers, searchQuery],
-  );
-
-  const team1Starters = team1Selection.filter((p) => p.state === 'STARTER');
-  const team2Starters = team2Selection.filter((p) => p.state === 'STARTER');
-  const team1Captain = team1Selection.find((p) => p.isCaptain);
-  const team2Captain = team2Selection.find((p) => p.isCaptain);
-
-  const starters = filteredAll.filter(
-    (p) => activeSelection.find((s) => s.teamPlayerId === p.teamPlayerId)?.state === 'STARTER',
-  );
-  const candidates = filteredAll.filter(
-    (p) => activeSelection.find((s) => s.teamPlayerId === p.teamPlayerId)?.state === 'CANDIDATE',
-  );
-  const unregistered = filteredAll.filter(
-    (p) => !activeSelection.find((s) => s.teamPlayerId === p.teamPlayerId),
-  );
-
-  const renderPlayerRow = (player: LeagueTeamsPlayerType, teamNumber: 1 | 2) => {
-    const playerState = getPlayerState(teamNumber, player.teamPlayerId);
-    return (
-      <div
-        key={player.teamPlayerId}
-        className="flex items-center justify-between rounded-lg border p-3"
-      >
-        <div className="flex items-center gap-3">
-          <span className="font-medium">#{player.jerseyNumber}</span>
-          <span>{player.name}</span>
-        </div>
-        <div className="flex gap-2">
-          <Button
-            type="button"
-            size="md"
-            className="px-3"
-            color={playerState?.state === 'STARTER' ? 'primary' : 'black'}
-            variant={playerState?.state === 'STARTER' ? 'solid' : 'ghost'}
-            onClick={() => handlePlayerSelection(teamNumber, player.teamPlayerId, 'STARTER')}
-          >
-            선발
-          </Button>
-          <Button
-            type="button"
-            size="md"
-            className="px-3"
-            color={playerState?.state === 'CANDIDATE' ? 'primary' : 'black'}
-            variant={playerState?.state === 'CANDIDATE' ? 'solid' : 'ghost'}
-            onClick={() => handlePlayerSelection(teamNumber, player.teamPlayerId, 'CANDIDATE')}
-          >
-            후보
-          </Button>
-          {playerState?.state === 'STARTER' && (
-            <Button
-              type="button"
-              size="md"
-              className="px-3"
-              color={playerState.isCaptain ? 'primary' : 'black'}
-              variant={playerState.isCaptain ? 'solid' : 'ghost'}
-              onClick={() => handleCaptainSelection(teamNumber, player.teamPlayerId)}
-            >
-              주장
-            </Button>
-          )}
-        </div>
-      </div>
     );
   };
 
   return (
-    <div className={twMerge('flex h-full flex-col')}>
-      <div className="mb-4 rounded-xl bg-neutral-100 p-1">
-        <div className="flex">
-          {([1, 2] as const).map((tab) => {
-            const name = tab === 1 ? team1Name : team2Name;
-            const starters_ = tab === 1 ? team1Starters : team2Starters;
-            const captain_ = tab === 1 ? team1Captain : team2Captain;
-            return (
-              <button
-                key={tab}
-                type="button"
-                className={twMerge(
-                  'flex flex-1 flex-col items-center gap-0.5 rounded-lg px-4 py-2 text-sm font-medium transition-all',
-                  activeTab === tab ? 'bg-white text-black shadow-sm' : 'text-gray-500',
-                )}
-                onClick={() => {
-                  setActiveTab(tab);
-                  setSearchQuery('');
-                }}
-              >
-                <span>{name}</span>
-                <span className="text-xs text-gray-400">
-                  선발 {starters_.length}명 · 주장 {captain_ ? '✓' : '✗'}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
+    <div className="flex h-full flex-col">
+      <TeamTabs
+        activeTab={activeTab}
+        teamNames={{ 1: team1Name || '팀 1', 2: team2Name || '팀 2' }}
+        onSelect={setActiveTab}
+      />
 
-      <div className="mb-4">
-        <Input
-          type="text"
-          placeholder="선수 이름이나 등번호로 검색..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          size="md"
+      <div className="mt-4 flex-1 overflow-y-auto">
+        {/*
+          포지션은 끈다. 경기 수정에는 포지션 저장 경로가 없다 —
+          서버에 PATCH .../lineup-players/{id}/position 은 있지만 프론트에 mutation 이 없다.
+          저장 안 되는 값을 고르게 두지 않으려고 여기서만 감춘다.
+        */}
+        <PlayerSearchPopover
+          key={activeTab}
+          players={activeTeamPlayers}
+          selection={activeSelection}
+          sportType={league.sportType}
+          showPosition={false}
+          onToggleState={(playerId, state) => handlePlayerSelection(activeTab, playerId, state)}
+        />
+
+        <StartersSection
+          teamName={activeTeamName}
+          view={activeView}
+          players={activeTeamPlayers}
+          starterLimit={starterLimit}
+          onToggleCaptain={(playerId) => handleCaptainSelection(activeTab, playerId)}
+          onDemote={(playerId) => handlePlayerSelection(activeTab, playerId, 'CANDIDATE')}
+        />
+
+        <CandidatesSection
+          teamName={activeTeamName}
+          view={activeView}
+          players={activeTeamPlayers}
+          canPromote={canPromote}
+          onPromoteAll={promoteAllCandidates}
+          onPromote={(playerId) => handlePlayerSelection(activeTab, playerId, 'STARTER')}
         />
       </div>
 
-      <div className="flex-1 space-y-4 overflow-y-auto pb-4">
-        {starters.length > 0 && (
-          <section>
-            <p className="mb-2 text-sm font-medium text-gray-700">
-              선발 선수 ({starters.length}명)
-            </p>
-            <div className="space-y-2">{starters.map((p) => renderPlayerRow(p, activeTab))}</div>
-          </section>
-        )}
-
-        {candidates.length > 0 && (
-          <section>
-            <p className="mb-2 text-sm font-medium text-gray-700">
-              후보 선수 ({candidates.length}명)
-            </p>
-            <div className="space-y-2">{candidates.map((p) => renderPlayerRow(p, activeTab))}</div>
-          </section>
-        )}
-
-        {unregistered.length > 0 && (
-          <section>
-            <p className="mb-2 text-sm font-medium text-gray-700">
-              미등록 선수 ({unregistered.length}명)
-            </p>
-            <div className="space-y-2">
-              {unregistered.map((p) => renderPlayerRow(p, activeTab))}
-            </div>
-          </section>
-        )}
-
-        {filteredAll.length === 0 && (
-          <p className="py-8 text-center text-sm text-gray-400">선수가 없습니다.</p>
-        )}
-      </div>
-
-      <div className={twMerge('flex-shrink-0 border-gray-200 border-t bg-white pt-4')}>
+      <div className="flex-shrink-0 border-t border-gray-200 bg-white pt-4">
         <div className="flex gap-3">
           <Button
             type="button"
             className="flex-1"
             size="lg"
             color="primary"
-            variant="ghost"
+            variant="subtle"
             onClick={onPrevious}
             disabled={saving}
           >
