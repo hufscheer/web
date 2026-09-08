@@ -92,18 +92,24 @@ const GameEditBasicStep = ({ leagueId, gameId, onNext }: BasicStepProps) => {
             팀을 바꿔야 하면 경기를 지우고 다시 만들어야 한다.
           */}
           <div className="flex gap-3">
-            {[game.gameTeams?.[0], game.gameTeams?.[1]].map((team, i) => (
-              <Input
-                key={team?.gameTeamId ?? i}
-                className="flex-1"
-                size="lg"
-                type="text"
-                placeholder={`참가 팀 ${i + 1}`}
-                value={team?.gameTeamName ?? '-'}
-                readOnly
-                disabled
-              />
-            ))}
+            <Input
+              className="flex-1"
+              size="lg"
+              type="text"
+              placeholder="참가 팀 1"
+              value={game.gameTeams?.[0]?.gameTeamName ?? '-'}
+              readOnly
+              disabled
+            />
+            <Input
+              className="flex-1"
+              size="lg"
+              type="text"
+              placeholder="참가 팀 2"
+              value={game.gameTeams?.[1]?.gameTeamName ?? '-'}
+              readOnly
+              disabled
+            />
           </div>
         </div>
       </div>

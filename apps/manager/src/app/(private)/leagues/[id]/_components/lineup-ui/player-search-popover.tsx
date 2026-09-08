@@ -8,7 +8,7 @@ import { twMerge } from 'tailwind-merge';
 
 import type { SportType } from '~/api';
 
-import type { LineupEntry, LineupState, RosterPlayer } from './index';
+import type { LineupEntry, LineupState, RosterPlayer } from './types';
 
 import { PositionSheet } from './position-sheet';
 
@@ -188,7 +188,7 @@ const StateChip = ({ label, active, onClick }: StateChipProps) => (
   </button>
 );
 
-const filterPlayers = (players: TeamPlayer[], query: string) => {
+const filterPlayers = (players: RosterPlayer[], query: string) => {
   const q = query.trim().toLowerCase();
   if (!q) return players;
 

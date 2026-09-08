@@ -4,7 +4,7 @@ import { ArrowCircleDownIcon, ArrowCircleUpIcon } from '@hcc/icons';
 import { Typography } from '@hcc/ui';
 import { twMerge } from 'tailwind-merge';
 
-import type { LeagueTeamsPlayerType } from '~/api';
+import type { RosterPlayer, TeamLineupView, TeamNum } from './types';
 
 /**
  * 라인업 화면의 표시 조각. 경기 **생성**과 **수정**이 같이 쓴다.
@@ -18,21 +18,9 @@ import type { LeagueTeamsPlayerType } from '~/api';
  * 그래서 이 조각들은 값과 콜백만 받는다.
  */
 
-export type TeamNum = 1 | 2;
-export type LineupState = 'STARTER' | 'CANDIDATE';
-
-/** 행 하나를 그리는 데 필요한 최소한. 생성·수정의 선택 상태 타입이 둘 다 이걸 만족한다 */
-export type LineupEntry = {
-  teamPlayerId: number;
-  isCaptain: boolean;
-};
-
-export type TeamLineupView = {
-  starters: LineupEntry[];
-  candidates: LineupEntry[];
-};
-
-export type RosterPlayer = LeagueTeamsPlayerType;
+export * from './types';
+export { PlayerSearchPopover } from './player-search-popover';
+export { PositionSheet } from './position-sheet';
 
 type TeamTabsProps = {
   activeTab: TeamNum;
