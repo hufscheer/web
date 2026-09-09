@@ -2,8 +2,7 @@
 
 import { Button, Spinner, toast } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
-import { useMemo, useState } from 'react';
-
+import { useEffect, useMemo, useState } from 'react';
 
 import {
   useCreateGameTeamsLineup,
@@ -11,6 +10,7 @@ import {
   useUpdateGamesCandidate,
   useUpdateGamesCaptainRegister,
   useUpdateGamesCaptainRevoke,
+  useUpdateGamesPosition,
   useUpdateGamesStarter,
   useSuspenseGame,
   useSuspenseGameLineup,
@@ -22,18 +22,14 @@ import {
 } from '~/api';
 import { getStarterLimit } from '~/constants/leagues';
 
-import {
-  CandidatesSection,
-  PlayerSearchPopover,
-  StartersSection,
-  TeamTabs,
-} from '../lineup-ui';
+import { CandidatesSection, PlayerSearchPopover, StartersSection, TeamTabs } from '../lineup-ui';
 
 type PlayerSelectionState = {
   teamPlayerId: number;
   lineupPlayerId?: number;
   state: 'STARTER' | 'CANDIDATE';
   isCaptain: boolean;
+  position: string | null;
 };
 
 type Props = {
@@ -58,6 +54,7 @@ const initializeSelection = (
         lineupPlayerId: lp.lineupPlayerId,
         state: lp.state,
         isCaptain: lp.isCaptain,
+        position: lp.position ?? null,
       },
     ];
   });
@@ -72,20 +69,16 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
   const gameTeam1 = game.gameTeams?.[0];
   const gameTeam2 = game.gameTeams?.[1];
 
-  const lineup1 = lineup.find((l) => l.gameTeamId === gameTeam1?.gameTeamId);
-  const lineup2 = lineup.find((l) => l.gameTeamId === gameTeam2?.gameTeamId);
+  const findLineup = (gameTeam: typeof gameTeam1) =>
+    lineup.find((l) => l.gameTeamId === gameTeam?.gameTeamId) ??
+    lineup.find((l) => l.teamName === gameTeam?.gameTeamName);
+
+  const lineup1 = findLineup(gameTeam1);
+  const lineup2 = findLineup(gameTeam2);
 
   const team1Name = lineup1?.teamName ?? gameTeam1?.gameTeamName ?? '';
   const team2Name = lineup2?.teamName ?? gameTeam2?.gameTeamName ?? '';
 
-  /**
-   * 경기팀 → 리그팀 잇기. gameTeamId 는 경기마다 새로 생기는 값이라 리그 참가팀 목록과
-   * 직접 이어지지 않는다. 서버가 gameTeams[].teamId 를 주기 시작해서 그걸로 찾는다.
-   *
-   * <p>이름 비교는 뒷문으로만 남긴다. 예전에는 이름이 유일한 연결고리였는데, 동명 팀이나
-   * 공백 차이("독일어과 Rote  Karte" 처럼 공백 2개)면 못 찾고 그대로 빈 라인업이 됐다.
-   * teamId 가 아직 안 내려오는 서버를 만나도 예전만큼은 동작하게 두는 것이다.
-   */
   const findLeagueTeam = (gameTeam: typeof gameTeam1, fallbackName: string) =>
     leagueTeams.find((lt) => gameTeam?.teamId != null && lt.teamId === gameTeam.teamId) ??
     leagueTeams.find((lt) => lt.teamName === fallbackName);
@@ -112,18 +105,20 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
     return map;
   }, [team2Players]);
 
-  const [originalTeam1Selection] = useState<PlayerSelectionState[]>(() =>
-    initializeSelection(lineup1, team1PlayerByPlayerId),
-  );
-  const [originalTeam2Selection] = useState<PlayerSelectionState[]>(() =>
-    initializeSelection(lineup2, team2PlayerByPlayerId),
-  );
-  const [team1Selection, setTeam1Selection] = useState<PlayerSelectionState[]>(() =>
-    initializeSelection(lineup1, team1PlayerByPlayerId),
-  );
-  const [team2Selection, setTeam2Selection] = useState<PlayerSelectionState[]>(() =>
-    initializeSelection(lineup2, team2PlayerByPlayerId),
-  );
+  const [originalTeam1Selection, setOriginalTeam1Selection] = useState<PlayerSelectionState[]>([]);
+  const [originalTeam2Selection, setOriginalTeam2Selection] = useState<PlayerSelectionState[]>([]);
+  const [team1Selection, setTeam1Selection] = useState<PlayerSelectionState[]>([]);
+  const [team2Selection, setTeam2Selection] = useState<PlayerSelectionState[]>([]);
+
+  useEffect(() => {
+    const nextTeam1Selection = initializeSelection(lineup1, team1PlayerByPlayerId);
+    const nextTeam2Selection = initializeSelection(lineup2, team2PlayerByPlayerId);
+
+    setOriginalTeam1Selection(nextTeam1Selection);
+    setOriginalTeam2Selection(nextTeam2Selection);
+    setTeam1Selection(nextTeam1Selection);
+    setTeam2Selection(nextTeam2Selection);
+  }, [lineup1, lineup2, team1PlayerByPlayerId, team2PlayerByPlayerId]);
 
   const [activeTab, setActiveTab] = useState<1 | 2>(1);
   const [saving, setSaving] = useState(false);
@@ -134,6 +129,7 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
   const { mutateAsync: patchCandidate } = useUpdateGamesCandidate();
   const { mutateAsync: patchCaptainRegister } = useUpdateGamesCaptainRegister();
   const { mutateAsync: patchCaptainRevoke } = useUpdateGamesCaptainRevoke();
+  const { mutateAsync: patchPosition } = useUpdateGamesPosition();
 
   const handlePlayerSelection = (
     teamNumber: 1 | 2,
@@ -166,7 +162,7 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
             : p,
         );
       }
-      return [...prev, { teamPlayerId, state: newState, isCaptain: false }];
+      return [...prev, { teamPlayerId, state: newState, isCaptain: false, position: null }];
     });
   };
 
@@ -226,6 +222,20 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
           isCaptain: next.isCaptain,
         });
       }
+
+      if (
+        orig.lineupPlayerId !== undefined &&
+        next !== undefined &&
+        orig.state === next.state &&
+        orig.isCaptain === next.isCaptain &&
+        orig.position !== next?.position
+      ) {
+        await patchPosition({
+          gameId,
+          lineupPlayerId: orig.lineupPlayerId,
+          position: next?.position ?? null,
+        });
+      }
     }
 
     for (const next of newSelection) {
@@ -274,14 +284,10 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
       toast.error('선발 인원이 다 찼어요');
       return;
     }
-    const promoting = new Set(
-      activeView.candidates.slice(0, openSlots).map((c) => c.teamPlayerId),
-    );
+    const promoting = new Set(activeView.candidates.slice(0, openSlots).map((c) => c.teamPlayerId));
     const setSelection = activeTab === 1 ? setTeam1Selection : setTeam2Selection;
     setSelection((prev) =>
-      prev.map((p) =>
-        promoting.has(p.teamPlayerId) ? { ...p, state: 'STARTER' as const } : p,
-      ),
+      prev.map((p) => (promoting.has(p.teamPlayerId) ? { ...p, state: 'STARTER' as const } : p)),
     );
   };
 
@@ -294,18 +300,21 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
       />
 
       <div className="mt-4 flex-1 overflow-y-auto">
-        {/*
-          포지션은 끈다. 경기 수정에는 포지션 저장 경로가 없다 —
-          서버에 PATCH .../lineup-players/{id}/position 은 있지만 프론트에 mutation 이 없다.
-          저장 안 되는 값을 고르게 두지 않으려고 여기서만 감춘다.
-        */}
         <PlayerSearchPopover
           key={activeTab}
           players={activeTeamPlayers}
           selection={activeSelection}
           sportType={league.sportType}
-          showPosition={false}
+          showPosition
           onToggleState={(playerId, state) => handlePlayerSelection(activeTab, playerId, state)}
+          onSetPosition={(playerId, position) => {
+            const setSelection = activeTab === 1 ? setTeam1Selection : setTeam2Selection;
+            setSelection((prev) =>
+              prev.map((player) =>
+                player.teamPlayerId === playerId ? { ...player, position } : player,
+              ),
+            );
+          }}
         />
 
         <StartersSection
