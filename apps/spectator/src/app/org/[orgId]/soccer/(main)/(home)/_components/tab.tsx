@@ -29,7 +29,8 @@ export const RecentTab = () => {
   });
 
   const displayedLeagues = recentGames.filter(
-    (league) => league.sportType === sport && league.leagueProgress === 'IN_PROGRESS',
+    (league) =>
+      league.sportType === sport && ['BEFORE_START', 'IN_PROGRESS'].includes(league.leagueProgress),
   );
 
   if (displayedLeagues.length === 0) return <EmptyLeague sport={sport} />;
