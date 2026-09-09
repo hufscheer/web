@@ -4,13 +4,13 @@ import { Button, Spinner, toast } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 import { useMemo, useState } from 'react';
 
-
 import {
   useCreateGameTeamsLineup,
   useDeleteGameTeamsLineup,
   useUpdateGamesCandidate,
   useUpdateGamesCaptainRegister,
   useUpdateGamesCaptainRevoke,
+  useUpdateGamesPosition,
   useUpdateGamesStarter,
   useSuspenseGame,
   useSuspenseGameLineup,
@@ -22,18 +22,14 @@ import {
 } from '~/api';
 import { getStarterLimit } from '~/constants/leagues';
 
-import {
-  CandidatesSection,
-  PlayerSearchPopover,
-  StartersSection,
-  TeamTabs,
-} from '../lineup-ui';
+import { CandidatesSection, PlayerSearchPopover, StartersSection, TeamTabs } from '../lineup-ui';
 
 type PlayerSelectionState = {
   teamPlayerId: number;
   lineupPlayerId?: number;
   state: 'STARTER' | 'CANDIDATE';
   isCaptain: boolean;
+  position: string | null;
 };
 
 type Props = {
@@ -58,6 +54,7 @@ const initializeSelection = (
         lineupPlayerId: lp.lineupPlayerId,
         state: lp.state,
         isCaptain: lp.isCaptain,
+        position: lp.position ?? null,
       },
     ];
   });
@@ -134,6 +131,7 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
   const { mutateAsync: patchCandidate } = useUpdateGamesCandidate();
   const { mutateAsync: patchCaptainRegister } = useUpdateGamesCaptainRegister();
   const { mutateAsync: patchCaptainRevoke } = useUpdateGamesCaptainRevoke();
+  const { mutateAsync: patchPosition } = useUpdateGamesPosition();
 
   const handlePlayerSelection = (
     teamNumber: 1 | 2,
@@ -166,7 +164,7 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
             : p,
         );
       }
-      return [...prev, { teamPlayerId, state: newState, isCaptain: false }];
+      return [...prev, { teamPlayerId, state: newState, isCaptain: false, position: null }];
     });
   };
 
@@ -226,6 +224,20 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
           isCaptain: next.isCaptain,
         });
       }
+
+      if (
+        orig.lineupPlayerId !== undefined &&
+        next !== undefined &&
+        orig.state === next.state &&
+        orig.isCaptain === next.isCaptain &&
+        orig.position !== next?.position
+      ) {
+        await patchPosition({
+          gameId,
+          lineupPlayerId: orig.lineupPlayerId,
+          position: next?.position ?? null,
+        });
+      }
     }
 
     for (const next of newSelection) {
@@ -274,14 +286,10 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
       toast.error('선발 인원이 다 찼어요');
       return;
     }
-    const promoting = new Set(
-      activeView.candidates.slice(0, openSlots).map((c) => c.teamPlayerId),
-    );
+    const promoting = new Set(activeView.candidates.slice(0, openSlots).map((c) => c.teamPlayerId));
     const setSelection = activeTab === 1 ? setTeam1Selection : setTeam2Selection;
     setSelection((prev) =>
-      prev.map((p) =>
-        promoting.has(p.teamPlayerId) ? { ...p, state: 'STARTER' as const } : p,
-      ),
+      prev.map((p) => (promoting.has(p.teamPlayerId) ? { ...p, state: 'STARTER' as const } : p)),
     );
   };
 
@@ -304,8 +312,16 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
           players={activeTeamPlayers}
           selection={activeSelection}
           sportType={league.sportType}
-          showPosition={false}
+          showPosition
           onToggleState={(playerId, state) => handlePlayerSelection(activeTab, playerId, state)}
+          onSetPosition={(playerId, position) => {
+            const setSelection = activeTab === 1 ? setTeam1Selection : setTeam2Selection;
+            setSelection((prev) =>
+              prev.map((player) =>
+                player.teamPlayerId === playerId ? { ...player, position } : player,
+              ),
+            );
+          }}
         />
 
         <StartersSection

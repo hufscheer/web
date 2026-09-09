@@ -89,6 +89,7 @@ export type GameTeamPlayerType = {
   isReplaced: boolean;
   replacedPlayer: ReplacedPlayerType | null;
   state: 'STARTER' | 'CANDIDATE';
+  position?: string | null;
 };
 
 export type GameLineupType = {
