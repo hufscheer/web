@@ -65,8 +65,8 @@ interface GameCardHeaderProps extends ComponentProps<'div'> {
 }
 
 const GameCardHeader = ({ showLeagueName, className, state, ...props }: GameCardHeaderProps) => {
-  const { leagueName, round, thirdPlaceMatch, startTime, gameState } = useGameCardContext();
-  const { label, variant } = getGameStateInfo(state ?? gameState);
+  const { leagueName, round, thirdPlaceMatch, startTime, state: apiState } = useGameCardContext();
+  const { label, variant } = getGameStateInfo(state ?? apiState);
 
   return (
     <div className={twMerge('row-between', className)} {...props}>
