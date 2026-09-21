@@ -5,7 +5,6 @@ import { useMemo, useState } from 'react';
 
 import { Header } from '~/components/layout';
 import { StepProgress } from '~/components/ui';
-import { toLeagueEndAt, toLeagueStartAt } from '~/utils/league-date';
 
 import LeagueInfo, { type LeagueInfoForm } from './LeagueInfo';
 import LeagueRegister from './LeagueRegister';
@@ -40,8 +39,8 @@ const Page = () => {
     () => ({
       name: form.name,
       maxRound: form.maxRound ?? 0,
-      startAt: form.startAt ? toLeagueStartAt(form.startAt) : '',
-      endAt: form.endAt ? toLeagueEndAt(form.endAt) : '',
+      startAt: form.startAt?.toISOString() ?? '',
+      endAt: form.endAt?.toISOString() ?? '',
       thirdPlaceMatchEnabled: form.thirdPlaceMatchEnabled,
       sportType: form.sportType,
       bracketEnabled: form.bracketEnabled,

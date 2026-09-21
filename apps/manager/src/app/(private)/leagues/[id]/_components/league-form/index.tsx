@@ -6,7 +6,6 @@ import type { LeagueFormType } from '~/api';
 
 import { SwitchCase } from '~/components/feature';
 import { StepProgress } from '~/components/ui';
-import { toLeagueEndAt, toLeagueStartAt } from '~/utils/league-date';
 
 import LeagueInfo, { type LeagueInfoForm } from '../../../create/LeagueInfo';
 import LeagueRegister from '../../../create/LeagueRegister';
@@ -23,6 +22,9 @@ type Props = {
   onSubmit: (data: LeagueFormType) => Promise<void> | void;
 } & Omit<ComponentProps<'form'>, 'onSubmit'>;
 const STEPS = ['기본 정보', '참가 팀 등록'];
+
+const toUTCDateString = (d: Date) =>
+  new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())).toISOString();
 
 export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
   const [step, setStep] = useState<0 | 1>(0);
@@ -49,8 +51,8 @@ export const LeagueForm = ({ initialData, initialTeams, onSubmit }: Props) => {
     const payload: LeagueFormType = {
       name: formData.name,
       maxRound: formData.maxRound,
-      startAt: toLeagueStartAt(formData.startAt),
-      endAt: toLeagueEndAt(formData.endAt),
+      startAt: toUTCDateString(formData.startAt),
+      endAt: toUTCDateString(formData.endAt),
       thirdPlaceMatchEnabled: formData.thirdPlaceMatchEnabled,
       teamIds,
       sportType: formData.sportType ?? 'SOCCER',
