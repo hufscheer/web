@@ -36,7 +36,7 @@ export const TeamInfo = ({ id }: { id: number }) => {
           )}
           {games.map((game) => {
             const { gameId, state } = game;
-            const gameWithId = { ...game, id, gameState: state };
+            const gameWithId = { ...game, id };
             const pathname = routes.game({
               orgId: organizationId,
               id: gameId,
