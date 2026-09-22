@@ -55,7 +55,6 @@ export type GameListPayload = {
 
 export type GameListType = {
   id: number;
-  gameState: GameStateType;
 } & GameData;
 
 export type GameListResponse = {
