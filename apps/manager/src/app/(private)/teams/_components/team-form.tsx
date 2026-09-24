@@ -1,3 +1,4 @@
+import type { TeamFormType } from '@hcc/manager-api';
 import type { ComponentProps } from 'react';
 
 import { Spinner } from '@hcc/ui';
@@ -5,8 +6,6 @@ import { Suspense } from '@suspensive/react';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
-
-import type { TeamFormType } from '~/api';
 
 import { SwitchCase } from '~/components/feature';
 import { handleFormError } from '~/utils/form-util';

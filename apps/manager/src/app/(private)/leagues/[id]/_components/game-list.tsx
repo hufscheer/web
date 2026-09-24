@@ -1,8 +1,9 @@
 'use client';
 
-import { colors, Typography } from '@hcc/ui';
+import type { GameStateType } from '@hcc/manager-api';
 
-import { type GameStateType, useSuspenseGames, useSuspenseLeague } from '~/api';
+import { useSuspenseGames, useSuspenseLeague } from '@hcc/manager-api';
+import { colors, Typography } from '@hcc/ui';
 
 import { GameCard } from '../../../_components/game-card';
 

@@ -1,5 +1,6 @@
+import { useSuspenseLeague, useSuspenseLeagueTeams } from '@hcc/manager-api';
 import { useMemo } from 'react';
-import { useSuspenseLeague, useSuspenseLeagueTeams } from '~/api';
+
 import { getRoundOptions } from '~/constants/leagues';
 
 export const useBasicInfoData = (leagueId: number) => {

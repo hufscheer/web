@@ -1,12 +1,12 @@
 'use client';
 
+import type { SportType } from '@hcc/manager-api';
+
 import { SearchIcon } from '@hcc/icons';
 import { TextField } from '@hcc/ui';
 import { PopoverPrimitives } from '@hcc/ui/primitives';
 import { useId, useMemo, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-
-import type { SportType } from '~/api';
 
 import type { LineupEntry, LineupState, RosterPlayer } from './types';
 

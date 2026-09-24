@@ -1,12 +1,11 @@
 'use client';
 
+import type { TeamFormType, SportType } from '@hcc/manager-api';
+
+import { useCreateTeams } from '@hcc/manager-api';
 import { toast } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
 
-import type { TeamFormType } from '~/api';
-import type { SportType } from '~/api/types';
-
-import { useCreateTeams } from '~/api';
 import { useImageUpload } from '~/hooks';
 import { parseHTTPError } from '~/utils/form-util';
 

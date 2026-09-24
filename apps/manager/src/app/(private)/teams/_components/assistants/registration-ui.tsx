@@ -1,10 +1,10 @@
 'use client';
 
+import type { ParseFailedLine, PlayerData } from '@hcc/manager-api';
+
 import { Button, colors, Typography } from '@hcc/ui';
 import { useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-
-import type { ParseFailedLine, PlayerData } from '~/api/types/nl';
 
 /* -------------------------------------------------------------------------------------------------
  * Shared helpers

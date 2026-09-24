@@ -1,9 +1,9 @@
 'use client';
 
+import type { GameFormType } from '@hcc/manager-api';
+
 import { Button, Input, Typography } from '@hcc/ui';
 import { useFormContext } from 'react-hook-form';
-
-import type { GameFormType } from '~/api';
 
 type Props = {
   onPrevious: () => void;

@@ -1,8 +1,8 @@
+import type { TimelineRecordTypeBySport } from '@hcc/manager-api';
+
 import { BasketballIcon, FoulIcon, TradeHorizontalIcon } from '@hcc/icons';
 import { colors, Typography } from '@hcc/ui';
 import { twMerge } from 'tailwind-merge';
-
-import type { TimelineRecordTypeBySport } from '~/api';
 
 import { TimelineRecordDeleteButton } from '../../../_components/timeline/timeline-delete';
 

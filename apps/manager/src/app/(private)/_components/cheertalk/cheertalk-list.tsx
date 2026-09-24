@@ -1,9 +1,11 @@
 'use client';
 
+import type { CheerTalkType } from '@hcc/manager-api';
+
+import { useUpdateCheerTalkBlock, useUpdateCheerTalkUnblock } from '@hcc/manager-api';
 import { Button, Spinner, toast } from '@hcc/ui';
 import { useEffect, useRef, useState } from 'react';
 
-import { type CheerTalkType, useUpdateCheerTalkBlock, useUpdateCheerTalkUnblock } from '~/api';
 import { AlertDialog } from '~/components/ui';
 
 import CheerTalkCard from './cheertalk-card';

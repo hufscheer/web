@@ -1,6 +1,6 @@
-import { useFormContext } from 'react-hook-form';
+import type { GameFormType } from '@hcc/manager-api';
 
-import type { GameFormType } from '~/api';
+import { useFormContext } from 'react-hook-form';
 
 import type { TeamNum } from '../../constants';
 import type { PlayerSelectionState } from './use-lineup-selection';

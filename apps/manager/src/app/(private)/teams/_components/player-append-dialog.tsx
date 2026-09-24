@@ -1,10 +1,10 @@
+import type { PlayerType } from '@hcc/manager-api';
+
 import { CheckSmallIcon } from '@hcc/icons';
+import { useSuspenseInfinitePlayers } from '@hcc/manager-api';
 import { colors, Modal, Typography } from '@hcc/ui';
 import { Fragment, type ReactNode, Suspense, useCallback, useState } from 'react';
 
-import type { PlayerType } from '~/api';
-
-import { useSuspenseInfinitePlayers } from '~/api';
 import { Skeleton } from '~/components/ui';
 import { useDebounce, useIntersectionObserver } from '~/hooks';
 

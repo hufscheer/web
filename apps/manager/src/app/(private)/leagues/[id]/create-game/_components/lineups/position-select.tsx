@@ -1,10 +1,10 @@
 'use client';
 
+import type { SportType } from '@hcc/manager-api';
+
 import { KeyboardArrowDownIcon } from '@hcc/icons';
 import { SelectPrimitives } from '@hcc/ui/primitives';
 import { twMerge } from 'tailwind-merge';
-
-import type { SportType } from '~/api';
 
 import { getPositionGroups } from '../../../_components/lineup-ui/positions';
 

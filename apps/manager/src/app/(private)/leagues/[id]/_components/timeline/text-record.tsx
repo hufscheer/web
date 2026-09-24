@@ -1,9 +1,8 @@
+import type { TimelineRecord } from '@hcc/manager-api';
 import type { ComponentProps } from 'react';
 
 import { colors, Typography } from '@hcc/ui';
 import { twMerge } from 'tailwind-merge';
-
-import type { TimelineRecord } from '~/api';
 
 import { TimelineRecordDeleteButton } from './timeline-delete';
 

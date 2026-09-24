@@ -1,9 +1,8 @@
 'use client';
 
+import { useSuspenseGame, useSuspenseGameTimeline } from '@hcc/manager-api';
 import { colors, Typography } from '@hcc/ui';
 import { Fragment } from 'react';
-
-import { useSuspenseGame, useSuspenseGameTimeline } from '~/api';
 
 import { getProgressSemantics } from '../../../_components/timeline/_utils';
 import { TextRecord } from '../../../_components/timeline/text-record';

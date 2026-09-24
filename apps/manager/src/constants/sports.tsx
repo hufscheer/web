@@ -1,8 +1,7 @@
+import type { SportType } from '@hcc/manager-api';
 import type { ComponentType } from 'react';
 
 import { BasketballIcon, SportsAndOutdoorsIcon } from '@hcc/icons';
-
-import type { SportType } from '~/api/types';
 
 type IconProps = { size?: number; className?: string };
 

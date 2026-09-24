@@ -1,12 +1,12 @@
 'use client';
 
+import type { SportType } from '@hcc/manager-api';
+
 import { AddIcon } from '@hcc/icons';
 import { Button, Spinner, Typography } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 import Link from 'next/link';
 import { notFound, useParams, useSearchParams } from 'next/navigation';
-
-import type { SportType } from '~/api/types';
 
 import { Header } from '~/components/layout';
 import { routes } from '~/constants/routes';

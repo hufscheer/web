@@ -1,10 +1,10 @@
 'use client';
 
+import { useLogin } from '@hcc/manager-api';
 import { Button, Input, toast } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
 import { type FormEvent, useId } from 'react';
 
-import { useLogin } from '~/api';
 import { routes } from '~/constants/routes';
 
 export const LoginForm = () => {

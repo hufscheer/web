@@ -1,7 +1,7 @@
+import type { ProgressType, TimelineRecordTypeBySport } from '@hcc/manager-api';
+
 import { SportsAndOutdoorsIcon, TradeHorizontalIcon } from '@hcc/icons';
 import { twMerge } from 'tailwind-merge';
-
-import type { ProgressType, TimelineRecordTypeBySport } from '~/api';
 
 export const getRecordIcon = (record: TimelineRecordTypeBySport<'SOCCER'>) => {
   const card = record.warningCardRecord?.warningCardType;

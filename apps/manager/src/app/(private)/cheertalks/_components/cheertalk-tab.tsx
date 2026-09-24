@@ -1,7 +1,10 @@
 'use client';
 
-import { useSuspenseInfiniteCheerTalkReport } from '~/api/queries/useCheerTalkReport';
-import { useSuspenseInfiniteCheerTalks } from '~/api/queries/useCheerTalks';
+import {
+  useSuspenseInfiniteCheerTalkReport,
+  useSuspenseInfiniteCheerTalks,
+} from '@hcc/manager-api';
+
 import { CheerTalkList } from '~/app/(private)/_components/cheertalk/cheertalk-list';
 import { CheerTalkTabs as CheerTalkTabsBase } from '~/app/(private)/_components/cheertalk/cheertalk-tabs';
 

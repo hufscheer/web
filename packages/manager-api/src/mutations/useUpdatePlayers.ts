@@ -1,0 +1,25 @@
+import { useMutation, useQueryClient } from '@hcc/api-base';
+
+import type { PlayerFormType } from './useCreatePlayers';
+
+import { fetcher } from '../fetcher';
+import { queryKeys } from '../queryKey';
+
+type Request = {
+  id: number;
+} & PlayerFormType;
+
+export const patchPlayers = ({ id, ...request }: Request) => {
+  return fetcher.patch<void>(`players/${id}`, { json: request });
+};
+
+export const useUpdatePlayers = () => {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: patchPlayers,
+    onSuccess: async () => {
+      await qc.invalidateQueries({ queryKey: queryKeys.players._def });
+    },
+  });
+};

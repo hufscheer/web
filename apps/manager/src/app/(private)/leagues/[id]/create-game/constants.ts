@@ -1,4 +1,4 @@
-import type { GameFormType } from '~/api';
+import type { GameFormType } from '@hcc/manager-api';
 
 export const STEPS = ['경기 정보', '라인업', '경기 영상'] as const;
 

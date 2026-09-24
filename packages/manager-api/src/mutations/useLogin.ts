@@ -1,0 +1,14 @@
+import { useMutation } from '@hcc/api-base';
+
+import { fetcher } from '../fetcher';
+
+type Request = {
+  email: string;
+  password: string;
+};
+
+export const postLogin = (request: Request) => {
+  return fetcher.post<void>('manager/login', { json: request });
+};
+
+export const useLogin = () => useMutation({ mutationFn: postLogin });

@@ -1,10 +1,10 @@
 'use client';
 
 import { ChevronForwardIcon } from '@hcc/icons';
+import { useSuspenseLeaguesHome } from '@hcc/manager-api';
 import { Badge, Typography } from '@hcc/ui';
 import Link from 'next/link';
 
-import { useSuspenseLeaguesHome } from '~/api';
 import { routes } from '~/constants/routes';
 import { SportIcon } from '~/constants/sports';
 

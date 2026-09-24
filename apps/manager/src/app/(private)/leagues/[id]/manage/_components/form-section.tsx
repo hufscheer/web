@@ -1,16 +1,16 @@
 'use client';
 
-import { toast } from '@hcc/ui';
-import { useRouter } from 'next/navigation';
+import type { LeagueFormType } from '@hcc/manager-api';
 
 import {
   useSuspenseLeague,
   useLeagueTeams,
   useUpdateLeagues,
-  type LeagueFormType,
   useUpdateLeagueTeams,
   useDeleteLeagueTeams,
-} from '~/api';
+} from '@hcc/manager-api';
+import { toast } from '@hcc/ui';
+import { useRouter } from 'next/navigation';
 
 import { LeagueForm } from '../../_components/league-form';
 

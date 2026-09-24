@@ -1,4 +1,4 @@
-import type { GameFormTeamType, GameFormType } from '~/api';
+import type { GameFormTeamType, GameFormType } from '@hcc/manager-api';
 
 type BasicFields = Pick<GameFormType, 'name' | 'round' | 'startTime' | 'team1' | 'team2'>;
 

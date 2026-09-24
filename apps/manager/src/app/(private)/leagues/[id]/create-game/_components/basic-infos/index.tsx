@@ -1,9 +1,9 @@
 'use client';
 
+import type { GameFormType } from '@hcc/manager-api';
+
 import { Badge, Button, Input, Select, Typography } from '@hcc/ui';
 import { Controller, useFormContext } from 'react-hook-form';
-
-import { type GameFormType } from '~/api';
 
 import type { TeamNum } from '../../constants';
 

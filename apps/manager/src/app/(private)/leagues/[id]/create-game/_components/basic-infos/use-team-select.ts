@@ -1,7 +1,7 @@
+import type { GameFormType, useSuspenseLeagueTeams } from '@hcc/manager-api';
+
 import { useCallback } from 'react';
 import { useFormContext } from 'react-hook-form';
-
-import type { GameFormType, useSuspenseLeagueTeams } from '~/api';
 
 type Team = ReturnType<typeof useSuspenseLeagueTeams>['data'][number];
 

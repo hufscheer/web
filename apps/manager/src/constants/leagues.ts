@@ -1,4 +1,4 @@
-import type { SportType } from '~/api/types';
+import type { SportType } from '@hcc/manager-api';
 
 import { getSportConfig } from './sports';
 

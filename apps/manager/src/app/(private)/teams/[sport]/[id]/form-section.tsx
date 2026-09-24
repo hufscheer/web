@@ -1,11 +1,11 @@
 'use client';
 
+import type { TeamFormType } from '@hcc/manager-api';
+
+import { useSuspenseTeam, useUpdateTeams } from '@hcc/manager-api';
 import { toast } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
 
-import type { TeamFormType } from '~/api/mutations/useCreateTeams';
-
-import { useSuspenseTeam, useUpdateTeams } from '~/api';
 import { useImageUpload } from '~/hooks';
 import { parseHTTPError } from '~/utils/form-util';
 
