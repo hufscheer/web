@@ -322,6 +322,20 @@ export const RecordPanel = ({
     );
   };
 
+  // 득점·교체·경고가 같은 시각 값을 쓴다. 입력칸이 득점 탭에만 있으면 다른 기록은 그 값을 말없이 가져간다
+  const minuteField = (
+    <Field htmlFor="min" text="기록 시간(분)">
+      <input
+        id="min"
+        type="number"
+        min={0}
+        className={selectClass}
+        value={minuteInput}
+        onChange={(e) => setMinuteInput(e.target.value)}
+      />
+    </Field>
+  );
+
   return (
     <section className="flex min-h-0 flex-col overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-greyscale-50)] bg-[var(--color-canvas)]">
       <header className="flex h-11 shrink-0 items-center justify-between border-b border-[var(--color-greyscale-50)] px-4">
@@ -449,16 +463,7 @@ export const RecordPanel = ({
               </Field>
             )}
 
-            <Field htmlFor="min" text="기록 시간(분)">
-              <input
-                id="min"
-                type="number"
-                min={0}
-                className={selectClass}
-                value={minuteInput}
-                onChange={(e) => setMinuteInput(e.target.value)}
-              />
-            </Field>
+            {minuteField}
 
             <Button size="md" disabled={saving} onClick={submitScore}>
               득점 기록
@@ -513,6 +518,8 @@ export const RecordPanel = ({
               <p className="text-t7 text-[var(--color-neutral-400)]">후보가 없어요.</p>
             )}
 
+            {minuteField}
+
             <Button size="md" disabled={saving || bench.length === 0} onClick={submitSub}>
               교체 기록
             </Button>
@@ -559,6 +566,8 @@ export const RecordPanel = ({
                 ))}
               </select>
             </Field>
+
+            {minuteField}
 
             <Button size="md" color="danger" disabled={saving} onClick={submitSanction}>
               {isBasketball ? '파울 기록' : `${cardType} 기록`}
