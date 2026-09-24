@@ -5,9 +5,11 @@
   "scripts": {
     "build": "turbo build",
     "build:manager": "turbo build --filter manager",
+    "build:manager-desktop": "turbo build --filter manager-desktop",
     "build:spectator": "turbo build --filter spectator",
     "dev": "turbo dev --parallel",
     "dev:manager": "turbo dev --filter manager",
+    "dev:manager-desktop": "turbo dev --filter manager-desktop",
     "dev:spectator": "turbo dev --filter spectator",
     "format": "turbo format",
     "lint": "turbo lint",

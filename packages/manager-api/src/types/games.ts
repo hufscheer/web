@@ -69,7 +69,24 @@ export type GamesListPageResponse = {
   hasNext: boolean;
 };
 
+export type GameDetailTeamType = GameTeamType & {
+  teamColor: string | null;
+};
+
+export type GameDetailType = Omit<GameType, 'id' | 'gameTeams'> & {
+  gameId: number;
+  leagueId: number;
+  leagueName: string;
+  gameTeams: GameDetailTeamType[];
+};
+
 export type GameDetailPayload = { gameId: number };
+
+export type QuarterScoreType = {
+  quarter: string;
+  displayName: string;
+  scores: { gameTeamId: number; score: number }[];
+};
 
 export type GameLineupPayload = { gameId: number };
 

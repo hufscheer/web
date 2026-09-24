@@ -134,7 +134,14 @@ type CommonTimelineRecordFields = {
   teamImageUrl: string;
   deletable?: boolean;
   undeletableReason?: string;
+  undeletableReasonCode?: UndeletableReasonCode | null;
 };
+
+export type UndeletableReasonCode =
+  | 'MIDDLE_DELETE_ONLY_WHILE_PLAYING'
+  | 'PROGRESS_TIMELINE_NOT_LAST'
+  | 'INCONSISTENT_PROGRESS_STATE'
+  | 'REPLACEMENT_PLAYER_HAS_LATER_RECORDS';
 
 export const RecordType = {
   SCORE: 'SCORE',
@@ -153,6 +160,7 @@ export type PkRecordType = {
 };
 export type OwnGoalRecordType = {
   ownGoalRecordId: number;
+  score?: number;
 };
 export type WarningCardRecordType = {
   warningCardType: CardType;

@@ -58,7 +58,7 @@ export type RegisterNLResponse = {
 
 export type RegisterNLPayload = {
   team: ParsedTeam;
-  players: ParsedPlayer[];
+  players: NLPlayerInput[];
 };
 
 export type ParsedTeam = {
@@ -82,5 +82,53 @@ export type CheckDuplicateNLResponse = {
     newPlayers: number;
     existingPlayers: number;
     alreadyInTeam: number;
+  };
+};
+
+export type NLPlayerStatus = 'NEW' | 'EXISTS' | 'ALREADY_IN_TEAM';
+
+export type NLPlayerInput = {
+  name: string;
+  studentNumber: string;
+  jerseyNumber: number | null;
+};
+
+export type NLSummary = {
+  total: number;
+  newPlayers: number;
+  existingPlayers: number;
+  alreadyInTeam: number;
+};
+
+export type ProcessNLPayload = {
+  leagueId: number;
+  teamId: number;
+  message: string;
+  history: NLMessage[];
+};
+
+export type ProcessNLResponse = {
+  displayMessage: string;
+  preview: {
+    teamId: number;
+    teamName: string;
+    players: (NLPlayerInput & { status: NLPlayerStatus; existingPlayerId: number | null })[];
+    summary: NLSummary;
+    parseFailedLines: ParseFailedLine[];
+  } | null;
+};
+
+export type ExecuteNLPayload = {
+  leagueId: number;
+  teamId: number;
+  players: NLPlayerInput[];
+};
+
+export type ExecuteNLResponse = {
+  displayMessage: string;
+  result: {
+    created: number;
+    assigned: number;
+    skipped: number;
   };
 };
