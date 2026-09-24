@@ -6,6 +6,7 @@ This repository is a Turborepo-based monorepo where operator and spectator apps 
 
 - apps/spectator: App for spectators. Provides real-time viewing information such as scores and game progress.
 - apps/manager: Mobile dashboard for operators. Updates game progress and scores in real time.
+- apps/manager-desktop: Desktop (PC) dashboard for operators. Shares the API layer with apps/manager.
 - packages/api-base: Shared API utilities. Manages base URL, headers, fetcher, and query client settings.
 - packages/manager-api: Manager API calls, query keys, react-query hooks, and response types shared by both manager apps.
 - packages/icons: Shared icon package.
@@ -32,6 +33,11 @@ This repository is a Turborepo-based monorepo where operator and spectator apps 
 
 - Focus on game state transitions, score input/edits, and operator workflows.
 - Avoid over-mixing spectator-only read-optimization features.
+
+### apps/manager-desktop
+
+- Same operator workflows as apps/manager, laid out for wide screens and keyboard use.
+- Call the server only through packages/manager-api hooks; keep screen-only shaping in the app.
 
 ### packages/manager-api
 
@@ -75,6 +81,8 @@ Run from repository root:
 - Manager build: `pnpm build:manager`
 - Spectator dev server: `pnpm dev:spectator`
 - Manager dev server: `pnpm dev:manager`
+- Manager desktop build: `pnpm build:manager-desktop`
+- Manager desktop dev server: `pnpm dev:manager-desktop`
 
 ## Recommended Pre-Commit Checks
 
