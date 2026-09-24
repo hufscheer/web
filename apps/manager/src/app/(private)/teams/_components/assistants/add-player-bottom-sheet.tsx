@@ -18,6 +18,7 @@ import { twMerge } from 'tailwind-merge';
 
 import hccLogo from '~/app/icon.png';
 import { useImageUpload } from '~/hooks';
+import { parseHTTPError } from '~/utils/form-util';
 
 import { ChatMessage } from './chat-message';
 import { TypingIndicator } from './loading/typing-indicator';
@@ -292,10 +293,12 @@ export const AddPlayerBottomSheet = ({
     setIsClosing(true);
 
     let imageUrl: string;
-    if (logoImageUrl instanceof File) {
-      imageUrl = await uploadImage(logoImageUrl);
-    } else {
-      imageUrl = logoImageUrl;
+    try {
+      imageUrl = logoImageUrl instanceof File ? await uploadImage(logoImageUrl) : logoImageUrl;
+    } catch (error) {
+      toast.error(await parseHTTPError(error, '로고 이미지를 올리지 못했어요'));
+      setIsClosing(false);
+      return;
     }
 
     const payload = {

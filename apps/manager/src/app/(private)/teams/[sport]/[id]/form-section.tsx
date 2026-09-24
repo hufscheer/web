@@ -21,19 +21,19 @@ export const FormSection = ({ id }: Props) => {
 
   const { mutateAsync } = useUpdateTeams();
   const handleSubmit = async (data: TeamFormType) => {
-    let imageUrl: string;
-    if (data.logoImageUrl instanceof File) {
-      imageUrl = await uploadImage(data.logoImageUrl);
-    } else {
-      imageUrl = data.logoImageUrl;
-    }
-
     const teamPlayers = data.teamPlayers?.map(({ playerId, jerseyNumber }) => ({
       playerId,
       jerseyNumber,
     }));
 
     try {
+      let imageUrl: string;
+      if (data.logoImageUrl instanceof File) {
+        imageUrl = await uploadImage(data.logoImageUrl);
+      } else {
+        imageUrl = data.logoImageUrl;
+      }
+
       await mutateAsync({ id, ...data, logoImageUrl: imageUrl, teamPlayers });
       toast.success('팀이 수정되었어요');
       router.back();
