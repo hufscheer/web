@@ -1,7 +1,7 @@
+import type { CheerTalkType } from '@hcc/manager-api';
+
 import { formatTime } from '@hcc/toolkit';
 import { colors, Typography } from '@hcc/ui';
-
-import type { CheerTalkType } from '~/api';
 
 type Props = {
   cheerTalk: CheerTalkType;

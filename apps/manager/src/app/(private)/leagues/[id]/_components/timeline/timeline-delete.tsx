@@ -1,12 +1,12 @@
 'use client';
 
+import type { TimelineRecord } from '@hcc/manager-api';
+
 import { DeleteForeverIcon } from '@hcc/icons';
+import { useDeleteTimeline } from '@hcc/manager-api';
 import { Button, Typography, toast } from '@hcc/ui';
 import Image from 'next/image';
 
-import type { TimelineRecord } from '~/api';
-
-import { useDeleteTimeline } from '~/api/mutations/useDeleteTimeline';
 import { AlertDialog } from '~/components/ui';
 
 import { useTimelineDeleteMode } from './timeline-delete-context';

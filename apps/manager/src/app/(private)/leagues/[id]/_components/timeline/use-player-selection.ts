@@ -1,8 +1,8 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import type { GameLineupPlayingType } from '@hcc/manager-api';
 
-import type { GameLineupPlayingType } from '~/api/types';
+import { useMemo, useState } from 'react';
 
 export type SelectOption = { label: string; value: string };
 

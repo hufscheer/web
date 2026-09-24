@@ -1,10 +1,10 @@
 'use client';
 
+import type { SportType } from '@hcc/manager-api';
+
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
-
-import type { SportType } from '~/api/types';
 
 import { routes } from '~/constants/routes';
 import { getSportConfig, SportIcon } from '~/constants/sports';

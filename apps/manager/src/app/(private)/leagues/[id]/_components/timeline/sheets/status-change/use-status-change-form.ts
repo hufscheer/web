@@ -1,13 +1,14 @@
 'use client';
 
+import type { ProgressAvailableAction, ProgressStateType } from '@hcc/manager-api';
+
+import {
+  useCreateTimelinesProgress,
+  useSuspenseGameTimelineProgressAvailable,
+  useSuspenseLeague,
+} from '@hcc/manager-api';
 import { toast } from '@hcc/ui';
 import { useState } from 'react';
-
-import type { ProgressAvailableAction, ProgressStateType } from '~/api/types';
-
-import { useCreateTimelinesProgress } from '~/api/mutations/useCreateTimelineStatus';
-import { useSuspenseGameTimelineProgressAvailable } from '~/api/queries/useGameTimelineProgressAvailable';
-import { useSuspenseLeague } from '~/api/queries/useLeague';
 
 type Params = {
   leagueId: number;

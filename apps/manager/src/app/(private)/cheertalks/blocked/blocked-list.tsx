@@ -1,6 +1,7 @@
 'use client';
 
-import { useSuspenseInfiniteCheerTalkBlock } from '~/api/queries/useCheerTalkBlock';
+import { useSuspenseInfiniteCheerTalkBlock } from '@hcc/manager-api';
+
 import { CheerTalkList } from '~/app/(private)/_components/cheertalk/cheertalk-list';
 
 export const BlockedList = () => {

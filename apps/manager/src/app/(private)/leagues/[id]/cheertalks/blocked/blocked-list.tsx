@@ -1,6 +1,7 @@
 'use client';
 
-import { useSuspenseInfiniteLeagueCheerTalkBlock } from '~/api/queries/useLeagueCheerTalkBlock';
+import { useSuspenseInfiniteLeagueCheerTalkBlock } from '@hcc/manager-api';
+
 import { CheerTalkList } from '~/app/(private)/_components/cheertalk/cheertalk-list';
 
 type Props = { leagueId: number };

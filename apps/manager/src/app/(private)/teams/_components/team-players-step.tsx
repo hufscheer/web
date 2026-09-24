@@ -1,9 +1,10 @@
+import type { TeamFormType } from '@hcc/manager-api';
+
 import { CancelIcon, CloseIcon } from '@hcc/icons';
 import { Button, colors, Input, Modal, Typography, toast } from '@hcc/ui';
 import { Fragment, useState } from 'react';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 
-import type { TeamFormType } from '~/api';
 import type { SelectedPlayer } from '~/app/(private)/teams/_components/player-append-dialog';
 
 import { PlayerAppendDialog } from '~/app/(private)/teams/_components/player-append-dialog';

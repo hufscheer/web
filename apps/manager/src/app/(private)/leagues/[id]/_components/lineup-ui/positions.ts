@@ -1,4 +1,4 @@
-import type { SportType } from '~/api';
+import type { SportType } from '@hcc/manager-api';
 
 export type PositionGroup = {
   code: string;

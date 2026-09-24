@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 
+import { useDeletePlayers } from '@hcc/manager-api';
 import { toast } from '@hcc/ui';
 
-import { useDeletePlayers } from '~/api';
 import { AlertDialog } from '~/components/ui';
 
 type Props = {

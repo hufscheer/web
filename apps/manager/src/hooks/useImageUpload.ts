@@ -1,4 +1,4 @@
-import { useGeneratePresignedUrl, useUploadImage } from '~/api';
+import { useGeneratePresignedUrl, useUploadImage } from '@hcc/manager-api';
 
 export const useImageUpload = () => {
   const { mutateAsync: generatePresignedUrlMutation } = useGeneratePresignedUrl();

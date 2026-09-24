@@ -1,10 +1,9 @@
+import type { PlayerFormType, TeamType } from '@hcc/manager-api';
 import type { ComponentProps } from 'react';
 
 import { Button, Input, Typography, toast } from '@hcc/ui';
 import { type FieldErrors, useForm } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
-
-import type { PlayerFormType, TeamType } from '~/api';
 
 type Props = {
   onSubmit: (data: PlayerFormType) => Promise<void> | void;

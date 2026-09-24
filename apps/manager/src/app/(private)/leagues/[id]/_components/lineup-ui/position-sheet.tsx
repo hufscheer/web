@@ -1,11 +1,11 @@
 'use client';
 
+import type { SportType } from '@hcc/manager-api';
+
 import { KeyboardArrowDownIcon } from '@hcc/icons';
 import { BottomSheet } from '@hcc/ui';
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-
-import type { SportType } from '~/api';
 
 import { findGroupBySub, getPositionGroups } from './positions';
 

@@ -1,11 +1,10 @@
 'use client';
 
+import type { SportType } from '@hcc/manager-api';
 import type { ReactNode } from 'react';
 
 import { Button, Checkbox, Input } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
-
-import type { SportType } from '~/api';
 
 import { InputDate } from '~/components/ui/input-date';
 import { InputSelect } from '~/components/ui/input-select';

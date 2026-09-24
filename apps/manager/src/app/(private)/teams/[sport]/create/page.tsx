@@ -1,8 +1,8 @@
 'use client';
 
-import { notFound, useParams } from 'next/navigation';
+import type { SportType } from '@hcc/manager-api';
 
-import type { SportType } from '~/api/types';
+import { notFound, useParams } from 'next/navigation';
 
 import { Header } from '~/components/layout';
 

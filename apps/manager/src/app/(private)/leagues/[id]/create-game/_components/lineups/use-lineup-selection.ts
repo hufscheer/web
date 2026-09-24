@@ -1,8 +1,8 @@
+import type { GameFormType } from '@hcc/manager-api';
+
 import { toast } from '@hcc/ui';
 import { useCallback, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-
-import type { GameFormType } from '~/api';
 
 import type { TeamNum } from '../../constants';
 

@@ -1,11 +1,11 @@
 'use client';
 
 import { ChevronForwardIcon, DeleteForeverIcon } from '@hcc/icons';
+import { useSuspenseInfinitePlayers } from '@hcc/manager-api';
 import { Spinner, Typography } from '@hcc/ui';
 import Link from 'next/link';
 import { Fragment, useCallback, useState } from 'react';
 
-import { useSuspenseInfinitePlayers } from '~/api';
 import { routes } from '~/constants/routes';
 import { useDebounce, useIntersectionObserver } from '~/hooks';
 

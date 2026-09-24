@@ -1,11 +1,13 @@
 'use client';
 
+import type { GameFormType } from '@hcc/manager-api';
+
+import { useCreateGames } from '@hcc/manager-api';
 import { toast } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { type GameFormType, useCreateGames } from '~/api';
 import { handleFormError } from '~/utils/form-util';
 
 import { getGameFormDefaults, type Step } from './constants';

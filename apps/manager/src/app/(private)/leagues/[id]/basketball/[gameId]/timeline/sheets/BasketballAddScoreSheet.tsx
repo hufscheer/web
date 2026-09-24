@@ -1,15 +1,17 @@
 'use client';
 
+import type { ScoreType } from '@hcc/manager-api';
+
 import { AddCircleIcon, CancelIcon } from '@hcc/icons';
+import {
+  useCreateTimelineScore,
+  useSuspenseGameLineupPlaying,
+  useSuspenseLeague,
+  QUARTER_TYPE,
+} from '@hcc/manager-api';
 import { Button, toast } from '@hcc/ui';
 import { useState } from 'react';
 
-import type { ScoreType } from '~/api/types';
-
-import { useCreateTimelineScore } from '~/api/mutations/useCreateTimelineScore';
-import { useSuspenseGameLineupPlaying } from '~/api/queries/useGameLineupPlaying';
-import { useSuspenseLeague } from '~/api/queries/useLeague';
-import { QUARTER_TYPE } from '~/api/types';
 import { ScoreSelector, TeamSegmentedControl } from '~/components/ui';
 import { InputSelect } from '~/components/ui/input-select';
 

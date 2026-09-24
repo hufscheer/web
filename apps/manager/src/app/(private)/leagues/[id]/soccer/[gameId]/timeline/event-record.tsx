@@ -1,7 +1,7 @@
+import type { TimelineRecordTypeBySport } from '@hcc/manager-api';
+
 import { colors, Typography } from '@hcc/ui';
 import { twMerge } from 'tailwind-merge';
-
-import type { TimelineRecordTypeBySport } from '~/api';
 
 import {
   getRecordIcon,

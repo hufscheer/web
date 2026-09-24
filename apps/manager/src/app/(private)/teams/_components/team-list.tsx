@@ -1,14 +1,13 @@
 'use client';
 
+import type { SportType } from '@hcc/manager-api';
+
 import { ChevronForwardIcon, DeleteForeverIcon } from '@hcc/icons';
+import { useManagerTeams, useTeamUnits } from '@hcc/manager-api';
 import { Typography } from '@hcc/ui';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import type { SportType } from '~/api/types';
-
-import { useManagerTeams } from '~/api/queries/useManagerTeams';
-import { useTeamUnits } from '~/api/queries/useTeamUnits';
 import { routes } from '~/constants/routes';
 
 import { TeamDeleteDialog } from './team-delete-dialog';

@@ -1,9 +1,9 @@
 'use client';
 
+import { useDeleteLeagues } from '@hcc/manager-api';
 import { colors, Typography, toast } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
 
-import { useDeleteLeagues } from '~/api';
 import { AlertDialog } from '~/components/ui';
 
 type Props = {

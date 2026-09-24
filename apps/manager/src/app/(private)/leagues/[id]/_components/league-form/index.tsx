@@ -1,8 +1,8 @@
 'use client';
 
-import { type ComponentProps, useState } from 'react';
+import type { LeagueFormType } from '@hcc/manager-api';
 
-import type { LeagueFormType } from '~/api';
+import { type ComponentProps, useState } from 'react';
 
 import { SwitchCase } from '~/components/feature';
 import { StepProgress } from '~/components/ui';

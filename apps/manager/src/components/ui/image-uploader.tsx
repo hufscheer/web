@@ -19,7 +19,17 @@ type UploadProps = Omit<ComponentPropsWithoutRef<'button'>, 'children' | 'onChan
 };
 
 export const ImageUploader = forwardRef<HTMLButtonElement, UploadProps>(
-  ({ id, name, className, access = 'image/*', onChange, children }, ref) => {
+  (
+    {
+      id,
+      name,
+      className,
+      access = 'image/png,image/jpeg,image/gif,image/webp,image/avif',
+      onChange,
+      children,
+    },
+    ref,
+  ) => {
     const [file, setFile] = useState<File>();
     const [src, setSrc] = useState<string>('');
     const inputRef = useRef<HTMLInputElement | null>(null);

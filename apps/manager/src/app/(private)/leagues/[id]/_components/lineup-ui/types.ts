@@ -1,4 +1,4 @@
-import type { LeagueTeamsPlayerType } from '~/api';
+import type { LeagueTeamsPlayerType } from '@hcc/manager-api';
 
 /**
  * 라인업 화면 공용 타입. 컴포넌트(index.tsx)와 팝오버가 둘 다 참조하므로

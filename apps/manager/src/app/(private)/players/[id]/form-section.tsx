@@ -1,9 +1,11 @@
 'use client';
 
+import type { PlayerFormType } from '@hcc/manager-api';
+
+import { useSuspensePlayer, useUpdatePlayers } from '@hcc/manager-api';
 import { toast } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
 
-import { type PlayerFormType, useSuspensePlayer, useUpdatePlayers } from '~/api';
 import { parseHTTPError } from '~/utils/form-util';
 
 import { PlayerForm } from '../_components/player-form';

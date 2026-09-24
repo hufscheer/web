@@ -1,10 +1,10 @@
 'use client';
 
+import type { SportType } from '@hcc/manager-api';
+
 import { AddCircleIcon, ErrorIcon, SettingsIcon, SmsIcon, TradeIcon } from '@hcc/icons';
 import { Button } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
-
-import type { SportType } from '~/api/types';
 
 import { routes } from '~/constants/routes';
 

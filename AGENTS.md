@@ -7,6 +7,7 @@ This repository is a Turborepo-based monorepo where operator and spectator apps 
 - apps/spectator: App for spectators. Provides real-time viewing information such as scores and game progress.
 - apps/manager: Mobile dashboard for operators. Updates game progress and scores in real time.
 - packages/api-base: Shared API utilities. Manages base URL, headers, fetcher, and query client settings.
+- packages/manager-api: Manager API calls, query keys, react-query hooks, and response types shared by both manager apps.
 - packages/icons: Shared icon package.
 - packages/style: Shared style package.
 - packages/ui: Shared UI component package.
@@ -31,6 +32,11 @@ This repository is a Turborepo-based monorepo where operator and spectator apps 
 
 - Focus on game state transitions, score input/edits, and operator workflows.
 - Avoid over-mixing spectator-only read-optimization features.
+
+### packages/manager-api
+
+- Add an endpoint once here and use it from both manager apps.
+- Keep screen logic out; hooks own invalidation after writes.
 
 ### packages/api-base
 

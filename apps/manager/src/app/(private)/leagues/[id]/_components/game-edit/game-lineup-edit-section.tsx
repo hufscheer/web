@@ -1,8 +1,6 @@
 'use client';
 
-import { Button, Spinner, toast } from '@hcc/ui';
-import { Suspense } from '@suspensive/react';
-import { useEffect, useMemo, useState } from 'react';
+import type { GameLineupType, LeagueTeamsPlayerType } from '@hcc/manager-api';
 
 import {
   useCreateGameTeamsLineup,
@@ -17,9 +15,11 @@ import {
   useSuspenseLeague,
   useSuspenseLeagueTeams,
   useSuspenseLeagueTeamsPlayers,
-  type GameLineupType,
-  type LeagueTeamsPlayerType,
-} from '~/api';
+} from '@hcc/manager-api';
+import { Button, Spinner, toast } from '@hcc/ui';
+import { Suspense } from '@suspensive/react';
+import { useEffect, useMemo, useState } from 'react';
+
 import { getStarterLimit } from '~/constants/leagues';
 
 import { CandidatesSection, PlayerSearchPopover, StartersSection, TeamTabs } from '../lineup-ui';

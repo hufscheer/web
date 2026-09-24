@@ -1,10 +1,10 @@
 'use client';
 
+import { useSuspenseLeague } from '@hcc/manager-api';
 import { formatTime } from '@hcc/toolkit';
 import { colors, Typography } from '@hcc/ui';
 import Link from 'next/link';
 
-import { useSuspenseLeague } from '~/api';
 import { getRoundLabel } from '~/constants/leagues';
 import { routes } from '~/constants/routes';
 import { SportIcon } from '~/constants/sports';

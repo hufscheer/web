@@ -1,12 +1,12 @@
+import type { TeamFormType } from '@hcc/manager-api';
+
 import { CheckCircleIcon, DeleteForeverIcon, FilterHdrIcon, AddIcon } from '@hcc/icons';
+import { useTeamUnits } from '@hcc/manager-api';
 import { Button, Input, LEGACY_Select, Typography } from '@hcc/ui';
 import { useRef } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
-import type { TeamFormType } from '~/api';
-
-import { useTeamUnits } from '~/api/queries/useTeamUnits';
 import { ImageUploader } from '~/components/ui';
 import { colorPalette } from '~/constants/teams';
 

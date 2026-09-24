@@ -1,3 +1,10 @@
+import type {
+  GameQuarterType,
+  GameTeamType,
+  GameType,
+  GameStateType,
+  SportType,
+} from '@hcc/manager-api';
 import type { PropsWithChildren } from 'react';
 
 import { ChevronForwardIcon } from '@hcc/icons';
@@ -6,9 +13,6 @@ import { Badge, Button, Typography } from '@hcc/ui';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
-
-import type { GameQuarterType, GameTeamType, GameType } from '~/api';
-import type { GameStateType, SportType } from '~/api/types';
 
 import { stateOptions } from '~/constants/leagues';
 import { routes } from '~/constants/routes';

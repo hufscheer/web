@@ -1,0 +1,21 @@
+import { useSuspenseInfiniteQuery } from '@hcc/api-base';
+
+import type { CheerTalkListResponse, GameCheerTalkPayload } from '../types';
+
+import { fetcher } from '../fetcher';
+import { queryKeys } from '../queryKey';
+
+export const useSuspenseInfiniteGamesCheerTalks = (payload: GameCheerTalkPayload) =>
+  useSuspenseInfiniteQuery({
+    queryKey: queryKeys.games.cheerTalksInfinite(payload).queryKey,
+    queryFn: async ({ pageParam }: { pageParam: number }) =>
+      fetcher.get<CheerTalkListResponse>(`games/${payload.gameId}/cheer-talks`, {
+        searchParams: { cursor: pageParam > 0 ? pageParam : '', size: payload.size },
+      }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage: CheerTalkListResponse) =>
+      lastPage.hasNext ? lastPage.nextCursor : null,
+    select: (data) => [
+      ...new Map(data.pages.flatMap((p) => p.content).map((t) => [t.cheerTalkId, t])).values(),
+    ],
+  });

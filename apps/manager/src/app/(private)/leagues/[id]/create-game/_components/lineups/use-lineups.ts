@@ -1,11 +1,12 @@
-import { useFormContext } from 'react-hook-form';
+import type { GameFormType } from '@hcc/manager-api';
 
 import {
-  type GameFormType,
   useSuspenseLeague,
   useSuspenseLeagueTeams,
   useSuspenseLeagueTeamsPlayers,
-} from '~/api';
+} from '@hcc/manager-api';
+import { useFormContext } from 'react-hook-form';
+
 import { getStarterLimit } from '~/constants/leagues';
 
 import type { TeamNum } from '../../constants';

@@ -1,11 +1,12 @@
 'use client';
 
+import type { SportType } from '@hcc/manager-api';
+
 import { KoFuzzy } from '@hcc/ko-fuzzy';
+import { useManagerTeams, useTeamUnits } from '@hcc/manager-api';
 import { Button } from '@hcc/ui';
 import clsx from 'clsx';
 import { useDeferredValue, useMemo, useState } from 'react';
-
-import { useManagerTeams, useTeamUnits, type SportType } from '~/api';
 
 type RegisteredTeam = {
   affiliationName: string;

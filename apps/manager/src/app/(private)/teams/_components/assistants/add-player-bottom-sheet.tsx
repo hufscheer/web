@@ -1,20 +1,24 @@
 'use client';
 
+import type {
+  SportType,
+  ParseFailedLine,
+  ParseNLPreview,
+  ParsedPlayer,
+  PlayerData,
+} from '@hcc/manager-api';
+
 import { SendFillIcon } from '@hcc/icons';
+import { useCheckDuplicateNL, useParseNL, useRegisterNL } from '@hcc/manager-api';
 import { BottomSheet, Button, Modal, toast } from '@hcc/ui';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import type { SportType } from '~/api/types/leagues';
-import type { ParseFailedLine, ParseNLPreview, ParsedPlayer, PlayerData } from '~/api/types/nl';
-
-import { useCheckDuplicateNL } from '~/api/mutations/useCheckDuplicateNL';
-import { useParseNL } from '~/api/mutations/useParseNL';
-import { useRegisterNL } from '~/api/mutations/useRegisterNL';
 import hccLogo from '~/app/icon.png';
 import { useImageUpload } from '~/hooks';
+import { parseHTTPError } from '~/utils/form-util';
 
 import { ChatMessage } from './chat-message';
 import { TypingIndicator } from './loading/typing-indicator';
@@ -289,10 +293,12 @@ export const AddPlayerBottomSheet = ({
     setIsClosing(true);
 
     let imageUrl: string;
-    if (logoImageUrl instanceof File) {
-      imageUrl = await uploadImage(logoImageUrl);
-    } else {
-      imageUrl = logoImageUrl;
+    try {
+      imageUrl = logoImageUrl instanceof File ? await uploadImage(logoImageUrl) : logoImageUrl;
+    } catch (error) {
+      toast.error(await parseHTTPError(error, '로고 이미지를 올리지 못했어요'));
+      setIsClosing(false);
+      return;
     }
 
     const payload = {
