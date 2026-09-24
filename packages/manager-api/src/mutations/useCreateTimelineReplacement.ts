@@ -20,6 +20,10 @@ export const useCreateTimelinesReplace = ({ gameId }: { gameId: number }) => {
       await Promise.all([
         qc.refetchQueries({ queryKey: queryKeys.games.timeline({ gameId }).queryKey, type: 'all' }),
         qc.refetchQueries({ queryKey: queryKeys.games.lineup({ gameId }).queryKey, type: 'all' }),
+        qc.refetchQueries({
+          queryKey: queryKeys.games.lineupPlaying({ gameId }).queryKey,
+          type: 'all',
+        }),
       ]);
     },
   });
