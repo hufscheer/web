@@ -37,7 +37,6 @@ export const Timeline = ({ gameId }: Props) => {
     <div className={isDeleteMode ? 'bg-white px-5 py-5' : 'bg-white py-5'}>
       {game.state === 'FINISHED' && (
         <Fragment>
-          <TextRecord>경기가 종료되었습니다.</TextRecord>
           <TextRecord className="pt-0">
             경기 결과 - {game.gameTeams[0].score}:{game.gameTeams[1].score}
             {game.isPkTaken && ` (${game.gameTeams[0].pkScore}:${game.gameTeams[1].pkScore})`}
@@ -58,9 +57,9 @@ export const Timeline = ({ gameId }: Props) => {
                     showDividerLine
                     deleteRecord={{ gameId, record }}
                   >
-                    {timeline.gameQuarter.label}이(가)&nbsp;
-                    {getProgressSemantics(record.progressRecord.gameProgressType)}
-                    되었습니다.
+                    {record.progressRecord.gameProgressType === 'GAME_END'
+                      ? '경기가 종료되었습니다.'
+                      : `${timeline.gameQuarter.label}이(가) ${getProgressSemantics(record.progressRecord.gameProgressType)}되었습니다.`}
                   </TextRecord>
                 );
               }
