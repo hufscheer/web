@@ -91,6 +91,7 @@ export const CheerTalkList = ({
             gameTeams={game.gameTeams}
             gameState={game.state}
             onInputFocus={notice.show}
+            onSent={notifier.followNextMessage}
           />
         </div>
       </div>
