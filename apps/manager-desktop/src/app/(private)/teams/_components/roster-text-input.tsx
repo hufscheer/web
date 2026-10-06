@@ -68,7 +68,7 @@ export const RosterTextInput = ({
 
     try {
       // 사진은 줄인 뒤의 크기로 따진다. 큰 원본도 줄이면 한도 안에 들어온다
-      const file = await prepareImageForUpload(original);
+      const file = await prepareImageForUpload(original, MAX_BYTES);
       if (file.size > MAX_BYTES) {
         setError(TOO_LARGE_MESSAGE);
         return;

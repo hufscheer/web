@@ -17,7 +17,7 @@ const renameWithExtension = (name: string, extension: string) =>
  * EXIF(휴대폰 촬영 위치 등)가 빠져 외부 AI 로 나가지 않는다.
  * 이미지가 아니거나 브라우저가 못 읽는 형식(예: Chrome 의 HEIC)이면 원본을 그대로 돌려준다.
  */
-export const prepareImageForUpload = async (file: File): Promise<File> => {
+export const prepareImageForUpload = async (file: File, maxBytes: number): Promise<File> => {
   if (!isImage(file)) return file;
 
   try {
@@ -32,20 +32,26 @@ export const prepareImageForUpload = async (file: File): Promise<File> => {
     const context = canvas.getContext('2d');
     if (!context) return file;
 
-    const isPng = file.type === PNG_TYPE;
-    if (!isPng) {
-      // JPEG 는 투명을 못 담아 검게 나오므로 흰 바탕을 깐다
-      context.fillStyle = '#fff';
-      context.fillRect(0, 0, canvas.width, canvas.height);
-    }
     context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
     bitmap.close();
 
-    const type = isPng ? PNG_TYPE : JPEG_TYPE;
-    const blob = await toBlob(canvas, type, isPng ? undefined : JPEG_QUALITY);
-    if (!blob) return file;
+    // 스크린샷은 PNG 가 글자를 더 또렷하게 담는다. 줄여도 한도를 넘는 PNG(사진을 PNG 로 저장한 경우)만 JPEG 로 바꾼다
+    if (file.type === PNG_TYPE) {
+      const png = await toBlob(canvas, PNG_TYPE);
+      if (png && png.size <= maxBytes) {
+        return new File([png], renameWithExtension(file.name, 'png'), { type: PNG_TYPE });
+      }
+    }
 
-    return new File([blob], renameWithExtension(file.name, isPng ? 'png' : 'jpg'), { type });
+    // JPEG 는 투명을 못 담아 검게 나오므로 그림 뒤에 흰 바탕을 깐다
+    context.globalCompositeOperation = 'destination-over';
+    context.fillStyle = '#fff';
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    const jpeg = await toBlob(canvas, JPEG_TYPE, JPEG_QUALITY);
+    if (!jpeg) return file;
+
+    return new File([jpeg], renameWithExtension(file.name, 'jpg'), { type: JPEG_TYPE });
   } catch {
     return file;
   }
