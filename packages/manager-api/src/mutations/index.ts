@@ -38,4 +38,5 @@ export * from './useParseNL';
 export * from './useUpdateBracket';
 export * from './useDeleteTeamLogo';
 export * from './useProcessNL';
+export * from './useExtractNL';
 export * from './useExecuteNL';

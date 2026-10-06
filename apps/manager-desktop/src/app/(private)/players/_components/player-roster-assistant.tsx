@@ -6,6 +6,7 @@ import { useQueryClient } from '@hcc/api-base';
 import { postPlayers, queryKeys, useCheckDuplicateNL, useParseNL } from '@hcc/manager-api';
 import { useEffect, useState } from 'react';
 
+import { RosterTextInput } from '~/app/(private)/teams/_components/roster-text-input';
 import { HCCBigLogo } from '~/components/icons';
 import { Button } from '~/components/ui/button';
 import { Toasts, useToasts } from '~/components/ui/toast';
@@ -141,10 +142,11 @@ export const PlayerRosterAssistant = ({ onClose }: Props) => {
             <label htmlFor="roster" className="text-t6 font-semibold">
               명단 붙여넣기
             </label>
-            <textarea
+            <RosterTextInput
               id="roster"
               value={text}
-              onChange={(e) => setText(e.target.value)}
+              onValueChange={setText}
+              disabled={parsing || saving}
               rows={7}
               placeholder={'김태우 202012345\n이하늘 202154321\n…'}
               className="text-t6 w-full rounded-[var(--radius-control)] border border-[var(--color-greyscale-50)] bg-[var(--color-canvas)] p-3 leading-relaxed"

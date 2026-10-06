@@ -21,6 +21,8 @@ import { ErrorText } from '~/components/ui/field';
 import { routes } from '~/constants/routes';
 import { parseHTTPError } from '~/utils/http-error';
 
+import { RosterTextInput } from './roster-text-input';
+
 const SAMPLE = `10 김태우 202012345
 7 이승희 202154321
 1 박성원 202398765`;
@@ -209,9 +211,10 @@ export const RosterAssistant = ({
 
           {step === 'input' ? (
             <>
-              <textarea
+              <RosterTextInput
                 value={text}
-                onChange={(e) => setText(e.target.value)}
+                onValueChange={setText}
+                disabled={pending}
                 placeholder={SAMPLE}
                 rows={12}
                 className="text-t6 w-full resize-none rounded-[var(--radius-control)] border border-[var(--color-neutral-300)] p-3.5 leading-relaxed placeholder:text-[var(--color-neutral-300)]"

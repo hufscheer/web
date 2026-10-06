@@ -132,3 +132,16 @@ export type ExecuteNLResponse = {
     skipped: number;
   };
 };
+
+export type ExtractNLPayload = {
+  file: File;
+};
+
+export type ExtractNLSourceType = 'IMAGE' | 'SPREADSHEET' | 'CSV' | 'PDF';
+
+export type ExtractNLResponse = {
+  // 한 줄에 한 행, 칸은 탭으로 구분한다
+  text: string;
+  sourceType: ExtractNLSourceType;
+  truncated: boolean;
+};
