@@ -26,6 +26,8 @@ export * from './FoulIcon';
 export * from './GroupIcon';
 export * from './HomeIcon';
 export * from './KeyboardArrowDownIcon';
+export * from './NotificationsFillIcon';
+export * from './NotificationsIcon';
 export * from './PersonIcon';
 export * from './RewardedAdsIcon';
 export * from './SendFillIcon';
