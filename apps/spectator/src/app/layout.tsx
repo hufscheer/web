@@ -9,6 +9,7 @@ import { AnalyticsProvider } from '~/app/analytics';
 import { Layout } from '~/components/layout';
 
 import { Provider } from './provider';
+import { ServiceWorkerRegister } from './service-worker';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.hufscheer.com'),
@@ -19,6 +20,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     title: { default: '훕치치', template: '%s | 훕치치' },
+  },
+  appleWebApp: {
+    capable: true,
+    title: '훕치치',
+    statusBarStyle: 'default',
   },
   robots: {
     index: true,
@@ -50,6 +56,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
         </Provider>
 
         <AnalyticsProvider />
+        <ServiceWorkerRegister />
         <Toaster />
       </body>
     </html>
