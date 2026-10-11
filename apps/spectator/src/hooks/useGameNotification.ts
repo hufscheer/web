@@ -81,7 +81,7 @@ export const useGameNotification = (gameId: number) => {
     const result = await Notification.requestPermission();
     if (result !== 'granted') {
       toast.error('알림 권한이 꺼져 있어요. 기기 설정에서 알림을 허용해 주세요');
-      return;
+      return false;
     }
 
     const token = await getFcmToken();
@@ -96,6 +96,7 @@ export const useGameNotification = (gameId: number) => {
 
     await saveGameIds(key, current, [...new Set([...current.gameIds, gameId])]);
     toast.success('경기 시작·득점·종료 알림을 보내드릴게요');
+    return true;
   };
 
   const unsubscribe = async (key: string) => {
@@ -106,15 +107,17 @@ export const useGameNotification = (gameId: number) => {
       current.gameIds.filter((id) => id !== gameId),
     );
     toast.success('경기 알림을 껐어요');
+    return false;
   };
 
+  /** 바뀐 뒤의 알림 상태를 돌려준다. 실패하면 기존 상태를 그대로 돌려준다. */
   const toggle = async () => {
-    if (support !== 'supported' || isPending) return;
+    if (support !== 'supported' || isPending) return isFollowing;
 
     setIsPending(true);
     try {
-      if (isFollowing && deviceKey) await unsubscribe(deviceKey);
-      else await subscribe();
+      if (isFollowing && deviceKey) return await unsubscribe(deviceKey);
+      return await subscribe();
     } catch (error) {
       if (error instanceof HTTPError) {
         // 400(팔로우 개수 초과 등)·429(등록 요청 과다)는 서버 메시지를 그대로 보여준다.
@@ -124,6 +127,7 @@ export const useGameNotification = (gameId: number) => {
       } else {
         toast.error(FAILURE_MESSAGE);
       }
+      return isFollowing;
     } finally {
       setIsPending(false);
     }

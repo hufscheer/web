@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 import { useGame } from '~/api';
 import { useGameNotification } from '~/hooks/useGameNotification';
+import { cn } from '~/utils/cn';
 
 type Props = {
   gameId: number;
@@ -15,12 +16,14 @@ export const GameNotificationButton = ({ gameId }: Props) => {
   const { data: game } = useGame({ gameId });
   const { support, isFollowing, isPending, toggle } = useGameNotification(gameId);
   const [guideOpen, setGuideOpen] = useState(false);
+  // 알림을 켤 때마다 값이 바뀌어 아이콘이 다시 그려지면서 흔들림 애니메이션이 재생된다.
+  const [ringCount, setRingCount] = useState(0);
 
   // 끝난 경기는 더 받을 알림이 없다.
   if (!game || game.state === 'FINISHED') return null;
   if (support === null || support === 'unsupported') return null;
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (support === 'ios-install-required') {
       setGuideOpen(true);
       return;
@@ -29,7 +32,8 @@ export const GameNotificationButton = ({ gameId }: Props) => {
       toast.error('앱 안의 브라우저에서는 알림을 받을 수 없어요. Safari·Chrome에서 열어 주세요');
       return;
     }
-    void toggle();
+    const following = await toggle();
+    if (following && !isFollowing) setRingCount((count) => count + 1);
   };
 
   const Icon = isFollowing ? NotificationsFillIcon : NotificationsIcon;
@@ -45,8 +49,12 @@ export const GameNotificationButton = ({ gameId }: Props) => {
         onClick={handleClick}
       >
         <Icon
+          key={ringCount}
           size={24}
-          className={isFollowing ? 'text-[var(--color-primary-600)]' : 'text-neutral-900'}
+          className={cn(
+            isFollowing ? 'text-[var(--color-primary-600)]' : 'text-neutral-900',
+            isFollowing && ringCount > 0 && 'origin-[50%_15%] motion-safe:animate-bell-ring',
+          )}
         />
       </button>
 
