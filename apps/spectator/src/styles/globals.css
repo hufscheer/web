@@ -22,6 +22,7 @@
 
   --spacing-navbar-height: 4rem;
   --animate-shimmer: shimmer 1.5s ease-in-out infinite;
+  --animate-bell-ring: bell-ring 0.7s ease-in-out;
 
   @keyframes arrow {
     0%,
@@ -39,6 +40,25 @@
     }
     100% {
       background-position: 6.25rem 0;
+    }
+  }
+
+  @keyframes bell-ring {
+    0%,
+    100% {
+      transform: rotate(0);
+    }
+    20% {
+      transform: rotate(-16deg);
+    }
+    40% {
+      transform: rotate(12deg);
+    }
+    60% {
+      transform: rotate(-8deg);
+    }
+    80% {
+      transform: rotate(4deg);
     }
   }
 }
