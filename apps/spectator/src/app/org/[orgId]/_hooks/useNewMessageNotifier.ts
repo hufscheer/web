@@ -11,6 +11,7 @@ type Params = {
 export const useNewMessageNotifier = ({ socketTalkList, isNearBottom, scrollToBottom }: Params) => {
   const [preview, setPreview] = useState<GameCheerTalkWithTeamInfo | null>(null);
   const lastSeenIdRef = useRef<number | null>(null);
+  const followNextRef = useRef(false);
 
   useEffect(() => {
     if (socketTalkList.length === 0) return;
@@ -18,7 +19,8 @@ export const useNewMessageNotifier = ({ socketTalkList, isNearBottom, scrollToBo
     if (lastSeenIdRef.current === last.cheerTalkId) return;
     lastSeenIdRef.current = last.cheerTalkId;
 
-    if (isNearBottom()) {
+    if (followNextRef.current || isNearBottom()) {
+      followNextRef.current = false;
       scrollToBottom();
       setPreview(null);
     } else {
@@ -35,5 +37,11 @@ export const useNewMessageNotifier = ({ socketTalkList, isNearBottom, scrollToBo
     if (preview && isNearBottom()) setPreview(null);
   }, [preview, isNearBottom]);
 
-  return { preview, dismiss, clearIfNearBottom };
+  // 내가 보낸 메시지는 소켓으로 돌아오므로, 그때 스크롤 위치와 관계없이 하단으로 따라간다.
+  const followNextMessage = useCallback(() => {
+    followNextRef.current = true;
+    scrollToBottom();
+  }, [scrollToBottom]);
+
+  return { preview, dismiss, clearIfNearBottom, followNextMessage };
 };
