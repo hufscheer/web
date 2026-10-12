@@ -10,30 +10,30 @@ import { Fragment } from 'react';
 import type { GameListType, LeagueCheerCountType } from '~/api';
 import type { SportType } from '~/api/types';
 
-import { useSuspenseLeagueCheerCount } from '~/api/queries/useLeagueCheerCount';
+import { useLeagueCheerCount } from '~/api/queries/useLeagueCheerCount';
 import { useSuspenseLeagueRecentGames } from '~/api/queries/useLeagueRecentGames';
+import { EmptyLeague } from '~/app/org/[orgId]/_components/empty-league';
 import { GameCard } from '~/components/ui';
 import { routes } from '~/constants/routes';
 import { useOrganizationId } from '~/hooks/useOrganizationId';
 import { useTracker } from '~/hooks/useTracker';
 
-import { EmptyLeague } from '../../../../_components/empty-league';
 import { SPORT_TYPE } from '../../../_constants';
 
 export const RecentTab = () => {
-  const sport: SportType = SPORT_TYPE;
   const { organizationId } = useOrganizationId();
   const { data: recentGames } = useSuspenseLeagueRecentGames({
-    sportType: sport,
+    sportType: SPORT_TYPE,
     organizationId,
   });
 
   const displayedLeagues = recentGames.filter(
     (league) =>
-      league.sportType === sport && ['BEFORE_START', 'IN_PROGRESS'].includes(league.leagueProgress),
+      league.sportType === SPORT_TYPE &&
+      ['BEFORE_START', 'IN_PROGRESS'].includes(league.leagueProgress),
   );
 
-  if (displayedLeagues.length === 0) return <EmptyLeague sport={sport} />;
+  if (displayedLeagues.length === 0) return <EmptyLeague sport={SPORT_TYPE} />;
 
   return (
     <div className="column w-full gap-3">
@@ -43,7 +43,8 @@ export const RecentTab = () => {
           leagueId={league.leagueId}
           leagueName={league.leagueName}
           games={league.games}
-          sport={sport}
+          organizationId={organizationId}
+          sport={SPORT_TYPE}
         />
       ))}
     </div>
@@ -54,10 +55,17 @@ interface LeagueGameListProps {
   leagueId: number;
   leagueName: string;
   games: GameListType[];
+  organizationId: number;
   sport: SportType;
 }
 
-const LeagueGameList = ({ leagueId, leagueName, games, sport }: LeagueGameListProps) => {
+const LeagueGameList = ({
+  leagueId,
+  leagueName,
+  games,
+  organizationId,
+  sport,
+}: LeagueGameListProps) => {
   const hasPlayingGames = !games.every(({ state }) => state === 'FINISHED');
   const buttonLabel = hasPlayingGames ? '응원하러 가기' : '지난 경기 보러가기';
 
@@ -74,18 +82,14 @@ const LeagueGameList = ({ leagueId, leagueName, games, sport }: LeagueGameListPr
     return new Date(b.startTime).getTime() - new Date(a.startTime).getTime();
   });
 
-  const { data: cheerCount } = useSuspenseLeagueCheerCount(
-    { leagueId },
-    { refetchInterval: hasPlayingGames ? 10000 : false },
-  );
-
   return (
     <div className="column w-full gap-3">
       <GameList
-        cheerCount={cheerCount.cheerTalkCount}
+        hasPlayingGames={hasPlayingGames}
         leagueId={leagueId}
         leagueName={leagueName}
         games={sortedGames}
+        organizationId={organizationId}
         buttonLabel={buttonLabel}
         sport={sport}
       />
@@ -97,7 +101,8 @@ interface GameListProps {
   leagueId: number;
   leagueName: string;
   games: GameListType[];
-  cheerCount: LeagueCheerCountType['cheerTalkCount'];
+  hasPlayingGames: boolean;
+  organizationId: number;
   buttonLabel: string;
   sport: SportType;
 }
@@ -106,13 +111,14 @@ const GameList = ({
   leagueId,
   leagueName,
   games,
-  cheerCount,
+  hasPlayingGames,
   buttonLabel,
   sport,
 }: GameListProps) => {
   const sendEvent = useTracker({ category: 'Link_Game' });
   const router = useRouter();
   const { organizationId } = useOrganizationId();
+
   return (
     <>
       <GameCard.Divider />
@@ -125,10 +131,7 @@ const GameList = ({
             ⚽
           </div> */}
           <Typography weight="medium">{leagueName}</Typography>
-          <Badge variant="primary" size="sm">
-            <NumberFlow format={{ notation: 'compact' }} value={cheerCount} />
-            개의 응원톡 💬
-          </Badge>
+          <CheerCountBadge hasPlayingGames={hasPlayingGames} leagueId={leagueId} />
         </div>
 
         <ChevronForwardIcon size={24} />
@@ -178,5 +181,26 @@ const GameList = ({
         );
       })}
     </>
+  );
+};
+
+interface CheerCountBadgeProps {
+  hasPlayingGames: boolean;
+  leagueId: number;
+}
+
+const CheerCountBadge = ({ hasPlayingGames, leagueId }: CheerCountBadgeProps) => {
+  const { data } = useLeagueCheerCount<LeagueCheerCountType>(
+    { leagueId },
+    { refetchInterval: hasPlayingGames ? 10000 : false },
+  );
+
+  if (!data) return null;
+
+  return (
+    <Badge variant="primary" size="sm">
+      <NumberFlow format={{ notation: 'compact' }} value={data.cheerTalkCount} />
+      개의 응원톡 💬
+    </Badge>
   );
 };
