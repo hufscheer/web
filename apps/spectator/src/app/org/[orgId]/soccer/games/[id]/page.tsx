@@ -8,6 +8,7 @@ import type { GameType } from '~/api';
 
 import { fetchGame } from '~/api';
 import { GameLiveSync } from '~/app/org/[orgId]/_components/game-live-sync';
+import { GameNotificationButton } from '~/components/game-notification-button';
 import { Header } from '~/components/layout';
 import { TabTrigger } from '~/components/ui';
 import { routes } from '~/constants/routes';
@@ -50,6 +51,7 @@ const Page = async ({ searchParams, params }: Props) => {
       <Header.Root
         left={<Header.Arrow />}
         center={<Header.LinkLogo sport={SPORT_TYPE} orgId={orgId} />}
+        right={<GameNotificationButton gameId={id} />}
       />
 
       <Suspense clientOnly fallback={<BannerSkeleton />}>

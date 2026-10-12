@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>오프라인 | 훕치치</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      body {
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 24px;
+        background: #ffffff;
+        color: #141b21;
+        font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+        text-align: center;
+      }
+      img {
+        width: 72px;
+        height: 72px;
+      }
+      h1 {
+        font-size: 18px;
+        font-weight: 700;
+      }
+      p {
+        font-size: 14px;
+        color: #5f6a75;
+        line-height: 1.5;
+      }
+      button {
+        margin-top: 12px;
+        padding: 12px 24px;
+        border: 0;
+        border-radius: 12px;
+        background: #4d9fff;
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="/icons/icon-192.png" alt="" />
+    <h1>인터넷에 연결되어 있지 않아요</h1>
+    <p>네트워크 연결을 확인한 뒤<br />다시 시도해 주세요.</p>
+    <button type="button" onclick="location.reload()">다시 시도</button>
+  </body>
+</html>

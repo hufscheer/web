@@ -35,6 +35,8 @@ import type {
   LeagueTopScorersPayload,
   LeagueTopScorersType,
   LeagueType,
+  PushFollowsPayload,
+  PushFollowsType,
   TeamDetailPayload,
   TeamDetailType,
   TeamGamesPayload,
@@ -203,9 +205,17 @@ const organizationQueryKeys = createQueryKeys('organizations', {
   },
 });
 
+const pushQueryKeys = createQueryKeys('push', {
+  follows: (payload: PushFollowsPayload) => ({
+    queryKey: [payload],
+    queryFn: () => fetcher.get<PushFollowsType>(`push/devices/${payload.deviceKey}/follows`),
+  }),
+});
+
 export const queryKeys = mergeQueryKeys(
   gameQueryKeys,
   teamQueryKeys,
   leagueQueryKeys,
   organizationQueryKeys,
+  pushQueryKeys,
 );
