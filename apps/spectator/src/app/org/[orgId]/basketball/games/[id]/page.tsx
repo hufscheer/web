@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation';
 import type { GameType } from '~/api';
 
 import { fetchGame } from '~/api';
+import { GameLiveSync } from '~/app/org/[orgId]/_components/game-live-sync';
 import { GameNotificationButton } from '~/components/game-notification-button';
 import { Header } from '~/components/layout';
 import { TabTrigger } from '~/components/ui';
@@ -45,6 +46,8 @@ const Page = async ({ searchParams, params }: Props) => {
 
   return (
     <div className="flex h-dvh flex-col bg-white">
+      <GameLiveSync gameId={id} />
+
       <Header.Root
         left={<Header.Arrow />}
         center={<Header.LinkLogo sport={SPORT_TYPE} orgId={orgId} />}
