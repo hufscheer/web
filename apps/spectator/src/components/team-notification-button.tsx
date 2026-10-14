@@ -4,23 +4,21 @@ import { NotificationsFillIcon, NotificationsIcon } from '@hcc/icons';
 import { Modal, toast } from '@hcc/ui';
 import { useState } from 'react';
 
-import { useGame } from '~/api';
-import { useGameNotification } from '~/hooks/useGameNotification';
+import { useTeamNotification } from '~/hooks/useTeamNotification';
 import { cn } from '~/utils/cn';
 
 type Props = {
-  gameId: number;
+  teamId: number;
+  size?: number;
+  className?: string;
 };
 
-export const GameNotificationButton = ({ gameId }: Props) => {
-  const { data: game } = useGame({ gameId });
-  const { support, isFollowing, isPending, toggle } = useGameNotification(gameId);
+export const TeamNotificationButton = ({ teamId, size = 24, className }: Props) => {
+  const { support, isFollowing, isPending, toggle } = useTeamNotification(teamId);
   const [guideOpen, setGuideOpen] = useState(false);
   // 알림을 켤 때마다 값이 바뀌어 아이콘이 다시 그려지면서 흔들림 애니메이션이 재생된다.
   const [ringCount, setRingCount] = useState(0);
 
-  // 끝난 경기는 더 받을 알림이 없다.
-  if (!game || game.state === 'FINISHED') return null;
   if (support === null || support === 'unsupported') return null;
 
   const handleClick = async () => {
@@ -42,15 +40,18 @@ export const GameNotificationButton = ({ gameId }: Props) => {
     <>
       <button
         type="button"
-        aria-label={isFollowing ? '경기 알림 끄기' : '경기 알림 받기'}
+        aria-label={isFollowing ? '팀 알림 끄기' : '팀 알림 받기'}
         aria-pressed={isFollowing}
         disabled={isPending}
-        className="center h-full cursor-pointer disabled:cursor-wait disabled:opacity-50"
+        className={cn(
+          'center h-full cursor-pointer disabled:cursor-wait disabled:opacity-50',
+          className,
+        )}
         onClick={handleClick}
       >
         <Icon
           key={ringCount}
-          size={24}
+          size={size}
           className={cn(
             isFollowing ? 'text-[var(--color-primary-600)]' : 'text-neutral-900',
             isFollowing && ringCount > 0 && 'origin-[50%_15%] motion-safe:animate-bell-ring',

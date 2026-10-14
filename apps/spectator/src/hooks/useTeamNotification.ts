@@ -16,7 +16,7 @@ import {
   pushDeviceStore,
 } from '~/utils/push';
 
-const EMPTY_FOLLOWS: PushFollowsType = { teamIds: [], gameIds: [] };
+const EMPTY_FOLLOWS: PushFollowsType = { teamIds: [], gameIds: [], organizationIds: [] };
 const FAILURE_MESSAGE = '알림 설정에 실패했어요. 잠시 후 다시 시도해 주세요';
 
 const noopSubscribe = () => () => {};
@@ -27,10 +27,7 @@ const usePushSupport = () => useSyncExternalStore(noopSubscribe, getPushSupport,
 const getPermission = () => ('Notification' in window ? Notification.permission : 'default');
 const usePermission = () => useSyncExternalStore(noopSubscribe, getPermission, () => 'default');
 
-// FCM 토큰은 바뀔 수 있어 세션마다 한 번 서버와 맞춘다.
-let tokenSynced = false;
-
-export const useGameNotification = (gameId: number) => {
+export const useTeamNotification = (teamId: number) => {
   const qc = useQueryClient();
   const support = usePushSupport();
   const permission = usePermission();
@@ -44,22 +41,12 @@ export const useGameNotification = (gameId: number) => {
   // 기기 설정에서 알림 권한을 끄면 서버 구독이 남아 있어도 꺼진 것으로 보여준다.
   const deviceKey = permission === 'granted' ? (device?.deviceKey ?? null) : null;
   const { data: follows, error } = usePushFollows(deviceKey);
-  const isFollowing = follows?.gameIds.includes(gameId) ?? false;
+  const isFollowing = follows?.teamIds.includes(teamId) ?? false;
 
   // 토큰이 무효해져 서버가 기기를 지운 경우
   useEffect(() => {
     if (isPushDeviceNotFound(error)) pushDeviceStore.clear();
   }, [error]);
-
-  useEffect(() => {
-    if (tokenSynced || support !== 'supported' || !deviceKey) return;
-    tokenSynced = true;
-    getFcmToken()
-      .then(ensurePushDevice)
-      .catch(() => {
-        tokenSynced = false;
-      });
-  }, [support, deviceKey]);
 
   const fetchFollows = async (key: string) => {
     try {
@@ -70,8 +57,8 @@ export const useGameNotification = (gameId: number) => {
     }
   };
 
-  const saveGameIds = async (key: string, current: PushFollowsType, gameIds: number[]) => {
-    const next = { teamIds: current.teamIds, gameIds };
+  const saveTeamIds = async (key: string, current: PushFollowsType, teamIds: number[]) => {
+    const next = { ...current, teamIds };
     await replacePushFollows({ deviceKey: key, ...next });
     qc.setQueryData(queryKeys.push.follows({ deviceKey: key }).queryKey, next);
   };
@@ -94,19 +81,19 @@ export const useGameNotification = (gameId: number) => {
       current = EMPTY_FOLLOWS;
     }
 
-    await saveGameIds(key, current, [...new Set([...current.gameIds, gameId])]);
-    toast.success('경기 시작·득점·종료 알림을 보내드릴게요');
+    await saveTeamIds(key, current, [...new Set([...current.teamIds, teamId])]);
+    toast.success('이 팀의 경기 시작·득점·종료 알림을 보내드릴게요');
     return true;
   };
 
   const unsubscribe = async (key: string) => {
     const current = (await fetchFollows(key)) ?? EMPTY_FOLLOWS;
-    await saveGameIds(
+    await saveTeamIds(
       key,
       current,
-      current.gameIds.filter((id) => id !== gameId),
+      current.teamIds.filter((id) => id !== teamId),
     );
-    toast.success('경기 알림을 껐어요');
+    toast.success('팀 알림을 껐어요');
     return false;
   };
 

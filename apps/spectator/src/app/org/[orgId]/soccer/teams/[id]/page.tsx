@@ -7,6 +7,7 @@ import type { TeamDetailType } from '~/api';
 
 import { fetchTeam } from '~/api';
 import { Header } from '~/components/layout';
+import { TeamNotificationButton } from '~/components/team-notification-button';
 import { routes } from '~/constants/routes';
 
 import { SPORT_TYPE } from '../../_constants';
@@ -30,6 +31,7 @@ const Page = async ({ params }: Props) => {
       <Header.Root
         left={<Header.Arrow />}
         center={<Header.LinkLogo sport={SPORT_TYPE} orgId={orgId} />}
+        right={<TeamNotificationButton teamId={id} />}
       />
       <div className="flex flex-1 flex-col">
         <Suspense clientOnly>
