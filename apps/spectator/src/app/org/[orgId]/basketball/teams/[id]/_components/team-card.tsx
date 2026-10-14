@@ -6,6 +6,8 @@ import { twMerge } from 'tailwind-merge';
 
 import type { TeamDetailType } from '~/api';
 
+import { TeamNotificationButton } from '~/components/team-notification-button';
+
 /* -------------------------------------------------------------------------------------------------
  * TeamCard
  * -----------------------------------------------------------------------------------------------*/
@@ -46,6 +48,7 @@ const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
           {team.name}
         </Typography>
       </div>
+      <TeamNotificationButton teamId={team.teamId} size={22} className="size-8 shrink-0" />
     </div>
   );
 };
