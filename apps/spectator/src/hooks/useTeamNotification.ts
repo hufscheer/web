@@ -27,9 +27,6 @@ const usePushSupport = () => useSyncExternalStore(noopSubscribe, getPushSupport,
 const getPermission = () => ('Notification' in window ? Notification.permission : 'default');
 const usePermission = () => useSyncExternalStore(noopSubscribe, getPermission, () => 'default');
 
-// FCM 토큰은 바뀔 수 있어 세션마다 한 번 서버와 맞춘다.
-let tokenSynced = false;
-
 export const useTeamNotification = (teamId: number) => {
   const qc = useQueryClient();
   const support = usePushSupport();
@@ -50,16 +47,6 @@ export const useTeamNotification = (teamId: number) => {
   useEffect(() => {
     if (isPushDeviceNotFound(error)) pushDeviceStore.clear();
   }, [error]);
-
-  useEffect(() => {
-    if (tokenSynced || support !== 'supported' || !deviceKey) return;
-    tokenSynced = true;
-    getFcmToken()
-      .then(ensurePushDevice)
-      .catch(() => {
-        tokenSynced = false;
-      });
-  }, [support, deviceKey]);
 
   const fetchFollows = async (key: string) => {
     try {

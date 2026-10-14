@@ -10,6 +10,7 @@ import { twMerge } from 'tailwind-merge';
 
 import type { TeamDetailType } from '~/api';
 
+import { TeamNotificationButton } from '~/components/team-notification-button';
 import { routes } from '~/constants/routes';
 import { useOrganizationId } from '~/hooks/useOrganizationId';
 
@@ -38,13 +39,12 @@ interface TeamCardHeaderProps extends ComponentProps<'a'> {
 
 const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
   const { organizationId } = useOrganizationId();
+  const href = routes.team({ orgId: organizationId, id: team.teamId, sport: team.sportType });
+
+  // 버튼은 링크 안에 중첩할 수 없어 링크와 나란히 둔다.
   return (
-    <Link
-      href={routes.team({ orgId: organizationId, id: team.teamId, sport: team.sportType })}
-      className={twMerge('row-between gap-2', className)}
-      {...props}
-    >
-      <div className="center-y min-w-0 flex-1 gap-2">
+    <div className={twMerge('row-between gap-2', className)}>
+      <Link href={href} className="center-y min-w-0 flex-1 gap-2" {...props}>
         <div className="center relative h-8 w-8 flex-shrink-0 overflow-hidden rounded-full bg-neutral-200">
           <Image
             className="aspect-square rounded-full object-contain"
@@ -57,12 +57,15 @@ const TeamCardHeader = ({ team, className, ...props }: TeamCardHeaderProps) => {
         <Typography className="break-words whitespace-normal" weight="medium">
           {team.name}
         </Typography>
-      </div>
+      </Link>
 
-      <div className="center">
-        <ChevronForwardIcon size={24} />
+      <div className="center-y gap-1">
+        <TeamNotificationButton teamId={team.teamId} size={22} className="size-8" />
+        <Link href={href} tabIndex={-1} aria-hidden className="center">
+          <ChevronForwardIcon size={24} />
+        </Link>
       </div>
-    </Link>
+    </div>
   );
 };
 

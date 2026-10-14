@@ -9,9 +9,11 @@ import { cn } from '~/utils/cn';
 
 type Props = {
   teamId: number;
+  size?: number;
+  className?: string;
 };
 
-export const TeamNotificationButton = ({ teamId }: Props) => {
+export const TeamNotificationButton = ({ teamId, size = 24, className }: Props) => {
   const { support, isFollowing, isPending, toggle } = useTeamNotification(teamId);
   const [guideOpen, setGuideOpen] = useState(false);
   // 알림을 켤 때마다 값이 바뀌어 아이콘이 다시 그려지면서 흔들림 애니메이션이 재생된다.
@@ -41,12 +43,15 @@ export const TeamNotificationButton = ({ teamId }: Props) => {
         aria-label={isFollowing ? '팀 알림 끄기' : '팀 알림 받기'}
         aria-pressed={isFollowing}
         disabled={isPending}
-        className="center h-full cursor-pointer disabled:cursor-wait disabled:opacity-50"
+        className={cn(
+          'center h-full cursor-pointer disabled:cursor-wait disabled:opacity-50',
+          className,
+        )}
         onClick={handleClick}
       >
         <Icon
           key={ringCount}
-          size={24}
+          size={size}
           className={cn(
             isFollowing ? 'text-[var(--color-primary-600)]' : 'text-neutral-900',
             isFollowing && ringCount > 0 && 'origin-[50%_15%] motion-safe:animate-bell-ring',
