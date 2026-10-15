@@ -5,11 +5,12 @@ import type { LeagueTeamType } from '@hcc/manager-api';
 import { useQueryClient } from '@hcc/api-base';
 import { queryKeys, useCreateGames } from '@hcc/manager-api';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import type { League, TeamPlayerRow } from '~/types';
 
 import { Button } from '~/components/ui/button';
+import { DateTimeInput } from '~/components/ui/date-time-input';
 import { ErrorText, Field, FormCard, SelectInput, TextInput } from '~/components/ui/field';
 import { Toasts, useToasts } from '~/components/ui/toast';
 import { routes } from '~/constants/routes';
@@ -53,26 +54,38 @@ export const CreateGameForm = ({
   ]);
   const [lineups, setLineups] = useState<[LineupEntry[], LineupEntry[]]>([[], []]);
   const [loadingSide, setLoadingSide] = useState<Side | null>(null);
+  const [failedSides, setFailedSides] = useState<[boolean, boolean]>([false, false]);
+  // 지금 고른 팀. 늦게 온 응답이 현재 선택과 다르면 버리기 위한 값이다 (updater 안에서 상태를 건드리지 않으려고 ref 로 둔다)
+  const pickedRef = useRef<[number | '', number | '']>([
+    prefill?.teamIds[0] ?? '',
+    prefill?.teamIds[1] ?? '',
+  ]);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
   const canBeThirdPlace = league.thirdPlaceMatchEnabled && round === 2;
   const starterLimit = STARTER_LIMIT[league.sportType];
 
-  const fetchRoster = async (teamId: number): Promise<TeamPlayerRow[]> => {
+  const fetchRoster = async (
+    teamId: number,
+  ): Promise<{ rows: TeamPlayerRow[]; failed: boolean }> => {
     try {
-      return toTeamPlayerRows(
-        await queryClient.fetchQuery(queryKeys.teams.teamplayers({ id: teamId })),
-      );
+      return {
+        rows: toTeamPlayerRows(
+          await queryClient.fetchQuery(queryKeys.teams.teamplayers({ id: teamId })),
+        ),
+        failed: false,
+      };
     } catch {
-      return [];
+      return { rows: [], failed: true };
     }
   };
 
   const loadRoster = async (side: Side, teamId: number) => {
     try {
       setLoadingSide(side);
-      const rows = await fetchRoster(teamId);
+      setFailedSides((prev) => (side === 0 ? [false, prev[1]] : [prev[0], false]));
+      const { rows, failed } = await fetchRoster(teamId);
       // 등번호 순으로 앞쪽을 선발로 채워 둔다. 매니저는 바꿀 것만 누른다
       const entries: LineupEntry[] = rows
         .map((row) => ({
@@ -90,22 +103,28 @@ export const CreateGameForm = ({
         }));
 
       // 팀을 빠르게 바꾸면 먼저 보낸 응답이 나중에 올 수 있다. 지금 고른 팀의 것만 반영한다
-      setTeamIds((current) => {
-        if (current[side] === teamId) {
-          setLineups((prev) => (side === 0 ? [entries, prev[1]] : [prev[0], entries]));
-        }
-        return current;
-      });
+      if (pickedRef.current[side] === teamId) {
+        setLineups((prev) => (side === 0 ? [entries, prev[1]] : [prev[0], entries]));
+        setFailedSides((prev) => (side === 0 ? [failed, prev[1]] : [prev[0], failed]));
+      }
     } finally {
-      setLoadingSide((current) => (current === side ? null : current));
+      // 늦게 도착한 이전 팀의 응답이 새 팀의 로딩 표시를 끄지 않게 한다
+      if (pickedRef.current[side] === teamId) {
+        setLoadingSide((current) => (current === side ? null : current));
+      }
     }
   };
 
   const pickTeam = (side: Side, value: string) => {
     const teamId = value ? Number(value) : '';
+    pickedRef.current =
+      side === 0 ? [teamId, pickedRef.current[1]] : [pickedRef.current[0], teamId];
+    setFailedSides((prev) => (side === 0 ? [false, prev[1]] : [prev[0], false]));
     setTeamIds((prev) => (side === 0 ? [teamId, prev[1]] : [prev[0], teamId]));
     setLineups((prev) => (side === 0 ? [[], prev[1]] : [prev[0], []]));
     if (teamId) void loadRoster(side, teamId);
+    // 선택을 비우면 진행 중이던 응답은 버려지므로 로딩 표시도 여기서 끈다
+    else setLoadingSide((current) => (current === side ? null : current));
   };
 
   // 대진표에서 받은 두 팀은 명단까지 채운다. 주소에서 온 값이라 화면이 사는 동안 바뀌지 않는다
@@ -166,7 +185,7 @@ export const CreateGameForm = ({
     <form onSubmit={submit} className="flex max-w-[1260px] flex-col gap-5">
       <div className="flex flex-wrap items-start gap-6">
         <FormCard title="경기 정보" className="w-[520px] shrink-0">
-          <Field label="경기명" hint="비워 두면 대진으로 표시돼요.">
+          <Field label="경기명">
             <TextInput
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -204,17 +223,11 @@ export const CreateGameForm = ({
             </div>
           </Field>
 
-          <Field label="시작 시각">
-            <TextInput
-              type="datetime-local"
-              value={startTime}
-              onChange={(e) => setStartTime(e.target.value)}
-              className="tnum"
-              required
-            />
+          <Field label="시작 일시">
+            <DateTimeInput value={startTime} onChange={setStartTime} required />
           </Field>
 
-          <Field label="경기 영상" hint="유튜브 영상 ID만. 나중에 넣어도 돼요.">
+          <Field label="경기 영상" hint="유튜브 영상 ID만 넣어 주세요.">
             <TextInput
               value={videoId}
               onChange={(e) => setVideoId(e.target.value)}
@@ -223,7 +236,7 @@ export const CreateGameForm = ({
           </Field>
 
           {([0, 1] as Side[]).map((side) => (
-            <Field key={side} label={side === 0 ? '홈 팀' : '원정 팀'}>
+            <Field key={side} label={side === 0 ? '팀 선택 1' : '팀 선택 2'}>
               <SelectInput
                 value={teamIds[side]}
                 onChange={(e) => pickTeam(side, e.target.value)}
@@ -252,6 +265,9 @@ export const CreateGameForm = ({
               teamName={teamName(side)}
               teamColor={TEAM_COLORS[side]}
               lineup={lineups[side]}
+              picked={teamIds[side] !== ''}
+              loading={loadingSide === side}
+              failed={failedSides[side]}
               starterLimit={starterLimit}
               onChange={(updated) =>
                 setLineups((prev) => (side === 0 ? [updated, prev[1]] : [prev[0], updated]))

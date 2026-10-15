@@ -48,7 +48,7 @@ export const LeagueBracket = ({ leagueId }: { leagueId: number }) => {
       <PageHeader
         title={bracket ? '대진표 수정' : '대진표 등록'}
         breadcrumb={['대회 관리', { label: league.name, href: routes.league(league.leagueId) }]}
-        description="첫 라운드의 자리에 팀을 놓으면 위 라운드는 경기 결과를 따라 채워져요."
+        description="첫 라운드에 팀을 배치하면 경기 결과에 따라 상위 라운드의 대진이 자동으로 채워져요."
       />
 
       <div className="p-6">

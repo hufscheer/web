@@ -124,13 +124,13 @@ export default function LeaguesClient({ leagues }: { leagues: ManagerLeague[] })
       <TableShell>
         <thead>
           <tr>
-            <Th>대회명</Th>
+            <Th>상태</Th>
             <Th>종목</Th>
+            <Th>대회명</Th>
             <Th>기간</Th>
             <Th align="right">참가 팀</Th>
             <Th align="right">라운드</Th>
             <Th>3·4위전</Th>
-            <Th>상태</Th>
             <Th />
           </tr>
         </thead>
@@ -155,10 +155,19 @@ export default function LeaguesClient({ leagues }: { leagues: ManagerLeague[] })
                 className={rowClass}
                 onClick={() => router.push(routes.league(league.leagueId))}
               >
-                <td className={`${tdClass} font-semibold`}>{league.name}</td>
+                <td className={tdClass}>
+                  {isLeagueRunning(league) ? (
+                    <LiveBadge soft />
+                  ) : (
+                    <Badge soft variant={isLeagueBefore(league) ? 'primary' : 'default'}>
+                      {league.leagueProgress}
+                    </Badge>
+                  )}
+                </td>
                 <td className={tdClass}>
                   <SportTag sportType={league.sportType} soft />
                 </td>
+                <td className={`${tdClass} font-semibold`}>{league.name}</td>
                 <td className={`${tdClass} tnum text-t7 text-[var(--color-neutral-500)]`}>
                   {period(league.startAt, league.endAt)}
                 </td>
@@ -171,15 +180,6 @@ export default function LeaguesClient({ leagues }: { leagues: ManagerLeague[] })
                 <td className={`${tdClass} text-t7 text-[var(--color-neutral-500)]`}>
                   {league.thirdPlaceMatchEnabled ? '있음' : '없음'}
                 </td>
-                <td className={tdClass}>
-                  {isLeagueRunning(league) ? (
-                    <LiveBadge soft />
-                  ) : (
-                    <Badge soft variant={isLeagueBefore(league) ? 'primary' : 'default'}>
-                      {league.leagueProgress}
-                    </Badge>
-                  )}
-                </td>
                 <td className={`${tdClass} w-px`}>
                   <span className="flex items-center justify-end">
                     <RowMenu
@@ -190,7 +190,7 @@ export default function LeaguesClient({ leagues }: { leagues: ManagerLeague[] })
                           onSelect: () => router.push(routes.league(league.leagueId)),
                         },
                         {
-                          label: '대회 수정',
+                          label: '대회 정보 수정',
                           onSelect: () => router.push(routes.leagueManage(league.leagueId)),
                         },
                         {

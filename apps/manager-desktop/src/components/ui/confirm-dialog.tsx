@@ -9,6 +9,8 @@ type Props = {
   title: string;
   description?: string;
   confirmLabel?: string;
+  /** 삭제처럼 되돌릴 수 없는 동작은 빨강, 그 밖의 확인은 파랑 */
+  confirmColor?: 'danger' | 'primary';
   pending?: boolean;
   onConfirm: () => void;
   onClose: () => void;
@@ -19,6 +21,7 @@ export const ConfirmDialog = ({
   title,
   description,
   confirmLabel = '삭제',
+  confirmColor = 'danger',
   pending,
   onConfirm,
   onClose,
@@ -83,7 +86,13 @@ export const ConfirmDialog = ({
           <Button size="md" color="black" variant="outline" onClick={onClose}>
             취소
           </Button>
-          <Button ref={confirmRef} size="md" color="danger" disabled={pending} onClick={onConfirm}>
+          <Button
+            ref={confirmRef}
+            size="md"
+            color={confirmColor}
+            disabled={pending}
+            onClick={onConfirm}
+          >
             {pending ? '처리 중…' : confirmLabel}
           </Button>
         </div>

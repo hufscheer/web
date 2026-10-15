@@ -67,7 +67,7 @@ export const LeagueManageForm = ({
 
   const invalid = !name.trim() || !startAt || !endAt || startAt > endAt;
   // 3·4위전은 준결승에서 진 두 팀이 겨루므로 4강 이상인 대회에만 열어 준다
-  const thirdPlaceAllowed = maxRound >= 4 && maxRound !== 100;
+  const thirdPlaceAllowed = maxRound >= 4;
 
   const toggleTeam = (teamId: number) =>
     setSelected((prev) =>
@@ -131,7 +131,7 @@ export const LeagueManageForm = ({
             {startAt > endAt && <ErrorText>종료일이 시작일보다 빨라요.</ErrorText>}
           </Field>
 
-          <Field label="최대 라운드" hint="대회가 어느 라운드까지 진행되는지 정해요.">
+          <Field label="최대 라운드">
             <SelectInput value={maxRound} onChange={(e) => setMaxRound(Number(e.target.value))}>
               {ROUND_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>

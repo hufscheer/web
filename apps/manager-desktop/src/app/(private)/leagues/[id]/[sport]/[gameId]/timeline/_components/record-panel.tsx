@@ -14,7 +14,14 @@ import { useMemo, useState, useTransition } from 'react';
 
 import type { Game, Lineup, LineupPlayer, TimelineRecord } from '~/types';
 
-import { AddCircleIcon, ErrorIcon, FoulIcon, SettingsIcon, TradeIcon } from '~/components/icons';
+import {
+  AddCircleIcon,
+  ErrorIcon,
+  FoulIcon,
+  SettingsIcon,
+  SportsAndOutdoorsIcon,
+  TradeIcon,
+} from '~/components/icons';
 import { Button } from '~/components/ui/button';
 import { cn } from '~/utils/cn';
 import { parseHTTPError } from '~/utils/http-error';
@@ -141,13 +148,15 @@ export const RecordPanel = ({
   const find = (id: string) =>
     [...team.starterPlayers, ...team.candidatePlayers].find((p) => String(p.lineupPlayerId) === id);
 
+  // 탭 색은 기록 목록이 쓰는 --color-rec-* 변수와 따로 둔다.
+  // 득점·상태 변경은 파랑, 교체·승부차기는 회색, 경고·파울은 빨강.
   const tabs: { key: Tab; label: string; accent: string; Icon: typeof AddCircleIcon }[] = [
-    { key: 'score', label: '득점', accent: 'var(--color-rec-score)', Icon: AddCircleIcon },
-    { key: 'sub', label: '교체', accent: 'var(--color-rec-swap)', Icon: TradeIcon },
+    { key: 'score', label: '득점', accent: 'var(--color-primary-600)', Icon: AddCircleIcon },
+    { key: 'sub', label: '교체', accent: 'var(--color-neutral-600)', Icon: TradeIcon },
     {
       key: 'sanction',
       label: isBasketball ? '파울' : '경고',
-      accent: isBasketball ? 'var(--color-rec-foul)' : 'var(--color-rec-warning)',
+      accent: 'var(--color-danger-600)',
       Icon: isBasketball ? FoulIcon : ErrorIcon,
     },
     ...(isBasketball
@@ -156,17 +165,25 @@ export const RecordPanel = ({
           {
             key: 'pk' as Tab,
             label: '승부차기',
-            accent: 'var(--color-rec-score)',
-            Icon: AddCircleIcon,
+            accent: 'var(--color-neutral-600)',
+            // 전용 아이콘이 없어 가장 가까운 스포츠 아이콘을 쓴다
+            Icon: SportsAndOutdoorsIcon,
           },
         ]),
-    { key: 'progress', label: '진행', accent: 'var(--color-neutral-700)', Icon: SettingsIcon },
+    { key: 'progress', label: '상태 변경', accent: 'var(--color-primary-600)', Icon: SettingsIcon },
   ];
+
+  // 어시스트는 득점 선수와 다른 사람이어야 한다. 농구는 1점(자유투)에는 어시스트가 없다
+  const assistAllowed = !isBasketball || scoreValue >= 2;
+  const effectiveScorerId = scorerId || String(playing[0]?.lineupPlayerId ?? '');
+  const assistCandidates = playing.filter((p) => String(p.lineupPlayerId) !== effectiveScorerId);
 
   const submitScore = () => {
     const scorer = find(scorerId) ?? playing[0];
     if (!scorer) return onError('출전 중인 선수가 없어요');
-    const assist = find(assistId);
+    const assist = assistAllowed
+      ? assistCandidates.find((p) => String(p.lineupPlayerId) === assistId)
+      : undefined;
     const minute = Number(minuteInput) || 0;
 
     save(
@@ -188,7 +205,7 @@ export const RecordPanel = ({
             ? `${scorer.playerName} ${scoreValue}점`
             : `${scorer.playerName} 득점`,
           subtitle: isBasketball
-            ? team.teamName
+            ? `${team.teamName}${assist ? ` · 어시스트 ${assist.playerName}` : ''}`
             : `어시스트 ${assist ? assist.playerName : '없음'}`,
           snapshot: null,
           scoreValue,
@@ -350,7 +367,7 @@ export const RecordPanel = ({
             isBasketball ? 'grid-cols-4' : 'grid-cols-5',
           )}
         >
-          {tabs.map(({ key, label: text, accent }) => {
+          {tabs.map(({ key, label: text, accent, Icon }) => {
             const locked = notStarted && key !== 'progress';
             return (
               <button
@@ -362,7 +379,7 @@ export const RecordPanel = ({
                 aria-pressed={tab === key}
                 style={tab === key ? { backgroundColor: accent } : undefined}
                 className={cn(
-                  'flex h-9 items-center justify-center px-1 text-[12px] font-semibold whitespace-nowrap transition-colors',
+                  'flex h-9 items-center justify-center gap-1 px-1 text-[12px] font-semibold whitespace-nowrap transition-colors',
                   tab === key && 'text-white',
                   tab !== key &&
                     !locked &&
@@ -370,6 +387,7 @@ export const RecordPanel = ({
                   locked && 'cursor-not-allowed text-[var(--color-neutral-300)]',
                 )}
               >
+                <Icon size={13} />
                 {text}
               </button>
             );
@@ -414,7 +432,10 @@ export const RecordPanel = ({
                     <button
                       key={v}
                       type="button"
-                      onClick={() => setScoreValue(v)}
+                      onClick={() => {
+                        setScoreValue(v);
+                        if (isBasketball && v < 2) setAssistId('');
+                      }}
                       aria-pressed={scoreValue === v}
                       className={cn(
                         'text-t7 h-9 flex-1 rounded-[var(--radius-control)] border font-medium transition-colors',
@@ -435,7 +456,10 @@ export const RecordPanel = ({
                 id="scorer"
                 className={selectClass}
                 value={scorerId}
-                onChange={(e) => setScorerId(e.target.value)}
+                onChange={(e) => {
+                  setScorerId(e.target.value);
+                  if (assistId === e.target.value) setAssistId('');
+                }}
               >
                 {playing.map((p) => (
                   <option key={p.lineupPlayerId} value={p.lineupPlayerId}>
@@ -445,7 +469,7 @@ export const RecordPanel = ({
               </select>
             </Field>
 
-            {!isBasketball && (
+            {assistAllowed && (
               <Field htmlFor="assist" text="어시스트">
                 <select
                   id="assist"
@@ -454,7 +478,7 @@ export const RecordPanel = ({
                   onChange={(e) => setAssistId(e.target.value)}
                 >
                   <option value="">없음</option>
-                  {playing.map((p) => (
+                  {assistCandidates.map((p) => (
                     <option key={p.lineupPlayerId} value={p.lineupPlayerId}>
                       {label(p)}
                     </option>
@@ -473,7 +497,7 @@ export const RecordPanel = ({
 
         {tab === 'sub' && (
           <>
-            <Field htmlFor="out" text="나가는 선수">
+            <Field htmlFor="out" text="교체 아웃 선수">
               <select
                 id="out"
                 className={selectClass}
@@ -488,7 +512,7 @@ export const RecordPanel = ({
               </select>
             </Field>
 
-            <Field htmlFor="in" text="들어오는 선수">
+            <Field htmlFor="in" text="교체 투입 선수">
               <select
                 id="in"
                 className={selectClass}

@@ -136,7 +136,7 @@ export const RosterTextInput = ({
           {reading ? '파일을 읽는 중…' : '파일 첨부'}
         </Button>
         <span className="text-t7 text-[var(--color-neutral-400)]">
-          사진·엑셀·CSV·PDF, 10MB 까지. 끌어다 놓아도 돼요.
+          사진·엑셀·CSV·PDF (10MB 까지)
         </span>
         <input ref={fileRef} type="file" accept={ACCEPT} hidden onChange={handleFileChange} />
       </div>

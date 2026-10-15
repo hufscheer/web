@@ -11,6 +11,7 @@ import type { Game } from '~/types';
 import { DeleteOutlineIcon } from '~/components/icons';
 import { Button } from '~/components/ui/button';
 import { ConfirmDialog } from '~/components/ui/confirm-dialog';
+import { DateTimeInput } from '~/components/ui/date-time-input';
 import { ErrorText, Field, FormCard, SelectInput, TextInput } from '~/components/ui/field';
 import { Toasts, useToasts } from '~/components/ui/toast';
 import { routes } from '~/constants/routes';
@@ -33,7 +34,7 @@ export const GameEditForm = ({ game, quarter, maxRound, thirdPlaceAvailable }: P
   const [name, setName] = useState(game.gameName);
   const [round, setRound] = useState(game.round);
   const [thirdPlace, setThirdPlace] = useState(game.thirdPlaceMatch);
-  // datetime-local 은 초를 뺀 형태만 받는다
+  // DateTimeInput 은 초를 뺀 'YYYY-MM-DDTHH:mm' 형태를 쓴다
   const [startTime, setStartTime] = useState(game.startTime.slice(0, 16));
   const [videoId, setVideoId] = useState(game.videoId);
   const [error, setError] = useState<string | null>(null);
@@ -87,7 +88,7 @@ export const GameEditForm = ({ game, quarter, maxRound, thirdPlaceAvailable }: P
     <form onSubmit={submit} className="flex max-w-[1180px] flex-col gap-5">
       <div className="flex flex-wrap items-start gap-6">
         <FormCard title="경기 정보" className="w-[560px] shrink-0">
-          <Field label="경기명" hint="비워 두면 대진으로 표시돼요.">
+          <Field label="경기명">
             <TextInput
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -119,14 +120,8 @@ export const GameEditForm = ({ game, quarter, maxRound, thirdPlaceAvailable }: P
             </div>
           </Field>
 
-          <Field label="시작 시각">
-            <TextInput
-              type="datetime-local"
-              value={startTime}
-              onChange={(e) => setStartTime(e.target.value)}
-              className="tnum"
-              required
-            />
+          <Field label="시작 일시">
+            <DateTimeInput value={startTime} onChange={setStartTime} required />
           </Field>
 
           <Field label="경기 영상" hint="유튜브 영상 ID만 넣어 주세요.">
@@ -144,7 +139,7 @@ export const GameEditForm = ({ game, quarter, maxRound, thirdPlaceAvailable }: P
               {game.gameTeams[0].gameTeamName} vs {game.gameTeams[1].gameTeamName}
             </span>
           </Field>
-          <Field label="점수" hint="점수는 경기 진행 화면에서 기록으로 바뀌어요.">
+          <Field label="점수">
             <span className="tnum text-t4 font-bold">
               {game.gameTeams[0].score} : {game.gameTeams[1].score}
             </span>

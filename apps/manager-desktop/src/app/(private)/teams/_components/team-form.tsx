@@ -116,10 +116,7 @@ export const TeamForm = ({ sportType, units, teamId, initial }: Props) => {
     <form onSubmit={submit} className="flex max-w-[1260px] flex-col gap-5">
       <div className="flex flex-wrap items-start gap-6">
         <FormCard title="팀 정보" className="w-[480px] shrink-0">
-          <Field
-            label="로고"
-            hint="정사각형 이미지가 가장 잘 보여요. 5MB 까지. 팀 생성에는 로고가 필요해요."
-          >
+          <Field label="로고" hint="정사각형 이미지가 가장 잘 보여요. 5MB 까지.">
             <div className="flex items-center gap-3">
               <span
                 className="size-16 shrink-0 overflow-hidden rounded-[var(--radius-control)] border border-[var(--color-greyscale-50)] bg-[var(--color-greyscale-25)] bg-cover bg-center"
@@ -184,7 +181,7 @@ export const TeamForm = ({ sportType, units, teamId, initial }: Props) => {
             </SelectInput>
           </Field>
 
-          <Field label="팀 색상" hint="경기 화면에서 팀을 구분하는 색이에요.">
+          <Field label="팀 색상">
             <div className="grid grid-cols-8 gap-2">
               {COLOR_PALETTE.map((color) => (
                 <button

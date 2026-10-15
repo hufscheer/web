@@ -111,10 +111,7 @@ export const PlayerForm = ({ playerId, initialName, initialStudentNumber, teamNa
           />
         </Field>
 
-        <Field
-          label="학번"
-          hint="학교 안에서 선수를 구분하는 값이에요. 자리수는 학교 규칙을 따라요."
-        >
+        <Field label="학번">
           <TextInput
             value={studentNumber}
             onChange={(e) => setStudentNumber(e.target.value.replace(/\D/g, '').slice(0, 12))}
@@ -126,7 +123,7 @@ export const PlayerForm = ({ playerId, initialName, initialStudentNumber, teamNa
         </Field>
 
         {isEdit && (
-          <Field label="소속 팀" hint="소속 팀은 팀 관리에서 바꿀 수 있어요.">
+          <Field label="소속 팀" hint="소속 팀은 팀 관리에서 수정할 수 있어요.">
             <TextInput
               value={teamNames?.length ? teamNames.join(', ') : '소속 팀이 없어요.'}
               readOnly

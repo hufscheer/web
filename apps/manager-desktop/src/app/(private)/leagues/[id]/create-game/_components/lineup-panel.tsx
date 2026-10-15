@@ -16,11 +16,25 @@ type Props = {
   teamName: string;
   teamColor: string;
   lineup: LineupEntry[];
+  /** 팀을 골랐는가 */
+  picked: boolean;
+  loading: boolean;
+  /** 명단 요청이 실패했는가 */
+  failed: boolean;
   starterLimit: number;
   onChange: (updated: LineupEntry[]) => void;
 };
 
-export const LineupPanel = ({ teamName, teamColor, lineup, starterLimit, onChange }: Props) => {
+export const LineupPanel = ({
+  teamName,
+  teamColor,
+  lineup,
+  picked,
+  loading,
+  failed,
+  starterLimit,
+  onChange,
+}: Props) => {
   const starters = lineup.filter((p) => p.state === 'STARTER');
   const candidates = lineup.filter((p) => p.state === 'CANDIDATE');
 
@@ -125,7 +139,13 @@ export const LineupPanel = ({ teamName, teamColor, lineup, starterLimit, onChang
       <div className="min-h-0 flex-1 overflow-y-auto px-2 py-2">
         {lineup.length === 0 ? (
           <p className="text-t6 py-10 text-center text-[var(--color-neutral-400)]">
-            팀을 먼저 선택해 주세요.
+            {!picked
+              ? '팀을 먼저 선택해 주세요.'
+              : loading
+                ? '명단 불러오는 중…'
+                : failed
+                  ? '명단을 불러오지 못했어요. 팀을 다시 선택해 주세요.'
+                  : '이 팀에 등록된 선수가 없어요. 팀 관리에서 선수를 추가해 주세요.'}
           </p>
         ) : (
           <>

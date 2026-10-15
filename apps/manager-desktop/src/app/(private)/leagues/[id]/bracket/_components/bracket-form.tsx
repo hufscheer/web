@@ -104,7 +104,8 @@ export const BracketForm = ({
   if (leagueTeams.length < 2) {
     return (
       <p className="text-t6 rounded-[var(--radius-card)] border border-[var(--color-greyscale-50)] bg-[var(--color-canvas)] px-6 py-12 text-center text-[var(--color-neutral-400)]">
-        참가 팀이 두 팀 이상이어야 대진표를 만들 수 있어요. 대회 수정에서 팀을 먼저 추가해 주세요.
+        참가 팀이 두 팀 이상이어야 대진표를 만들 수 있어요. 대회 정보 수정에서 팀을 먼저 추가해
+        주세요.
       </p>
     );
   }
@@ -179,10 +180,11 @@ export const BracketForm = ({
         ))}
       </div>
 
-      <p className="text-t7 leading-relaxed text-[var(--color-neutral-400)]">
-        빈 자리는 상대 없이 다음 라운드로 올라가는 부전승이 돼요.
-        {league.thirdPlaceMatchEnabled && size >= 4 && ' 3·4위전 자리는 저장할 때 함께 생겨요.'}
-      </p>
+      {league.thirdPlaceMatchEnabled && size >= 4 && (
+        <p className="text-t7 leading-relaxed text-[var(--color-neutral-400)]">
+          3·4위전 자리는 저장할 때 함께 생겨요.
+        </p>
+      )}
 
       <ErrorText>{error}</ErrorText>
 

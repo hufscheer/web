@@ -205,8 +205,8 @@ export const RosterAssistant = ({
 
         <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-6 py-5">
           <p className="text-t6 text-[var(--color-neutral-600)]">
-            {targetName} 명단을 붙여 넣으면 이름·학번·등번호로 끊어 드려요. 확인 후 한 번에
-            등록해요.
+            {targetName} 명단을 붙여 넣으면 이름·학번·등번호를 자동으로 구분해요. 확인 후 한 번에
+            등록할 수 있어요.
           </p>
 
           {step === 'input' ? (

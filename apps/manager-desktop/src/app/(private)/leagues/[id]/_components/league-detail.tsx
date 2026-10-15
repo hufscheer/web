@@ -79,7 +79,7 @@ export const LeagueDetail = ({ leagueId }: { leagueId: number }) => {
             <Link href={routes.leagueManage(league.leagueId)}>
               <Button size="md" color="black" variant="outline">
                 <SettingsIcon size={15} />
-                대회 수정
+                대회 정보 수정
               </Button>
             </Link>
             <Link href={routes.gameCreate(league.leagueId)}>
@@ -156,7 +156,8 @@ export const LeagueDetail = ({ leagueId }: { leagueId: number }) => {
               </div>
             ) : (
               <p className="text-t6 rounded-[var(--radius-card)] border border-[var(--color-greyscale-50)] px-6 py-10 text-center text-[var(--color-neutral-400)]">
-                아직 대진표가 없어요. 첫 라운드에 팀을 배치하면 경기를 만들 때 대진이 따라 붙어요.
+                아직 대진표가 생성되지 않았어요. 첫 라운드에 팀을 배치하면 경기 생성 시 대진표가
+                자동으로 구성돼요.
               </p>
             )}
           </section>
