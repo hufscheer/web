@@ -1,0 +1,10 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["7TYL7A6LG8.com.hufscheer.app", "7TYL7A6LG8.com.hufscheer.app.dev"],
+        "components": [{ "/": "/org/*", "comment": "학교·종목 홈, 경기·대회·팀 상세" }]
+      }
+    ]
+  }
+}
