@@ -58,7 +58,7 @@ export type RegisterNLResponse = {
 
 export type RegisterNLPayload = {
   team: ParsedTeam;
-  players: ParsedPlayer[];
+  players: NLPlayerInput[];
 };
 
 export type ParsedTeam = {
@@ -83,4 +83,65 @@ export type CheckDuplicateNLResponse = {
     existingPlayers: number;
     alreadyInTeam: number;
   };
+};
+
+export type NLPlayerStatus = 'NEW' | 'EXISTS' | 'ALREADY_IN_TEAM';
+
+export type NLPlayerInput = {
+  name: string;
+  studentNumber: string;
+  jerseyNumber: number | null;
+};
+
+export type NLSummary = {
+  total: number;
+  newPlayers: number;
+  existingPlayers: number;
+  alreadyInTeam: number;
+};
+
+export type ProcessNLPayload = {
+  leagueId: number;
+  teamId: number;
+  message: string;
+  history: NLMessage[];
+};
+
+export type ProcessNLResponse = {
+  displayMessage: string;
+  preview: {
+    teamId: number;
+    teamName: string;
+    players: (NLPlayerInput & { status: NLPlayerStatus; existingPlayerId: number | null })[];
+    summary: NLSummary;
+    parseFailedLines: ParseFailedLine[];
+  } | null;
+};
+
+export type ExecuteNLPayload = {
+  leagueId: number;
+  teamId: number;
+  players: NLPlayerInput[];
+};
+
+export type ExecuteNLResponse = {
+  displayMessage: string;
+  result: {
+    created: number;
+    assigned: number;
+    skipped: number;
+  };
+};
+
+export type ExtractNLPayload = {
+  file: File;
+};
+
+export type ExtractNLSourceType = 'IMAGE' | 'SPREADSHEET' | 'CSV' | 'PDF';
+
+export type ExtractNLResponse = {
+  // 한 줄에 한 행, 칸은 탭으로 구분한다
+  text: string;
+  sourceType: ExtractNLSourceType;
+  truncated: boolean;
 };

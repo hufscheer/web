@@ -1,13 +1,15 @@
 import { useMutation, useQueryClient } from '@hcc/api-base';
 
-import type { TeamFormType } from '~/api';
-
 import { fetcher } from '~/api/fetcher';
 import { queryKeys } from '~/api/queryKey';
 
+import type { TeamFormType } from './useCreateTeams';
+
 type Request = {
   id: number;
-} & TeamFormType;
+} & Omit<TeamFormType, 'logoImageUrl'> & {
+    logoImageUrl: TeamFormType['logoImageUrl'] | null;
+  };
 
 export const patchTeams = ({ id, ...request }: Request) => {
   return fetcher.patch<void>(`teams/${id}`, { json: request });
