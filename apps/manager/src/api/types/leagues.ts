@@ -1,4 +1,5 @@
-import type { GameType, TeamPlayerType } from '~/api';
+import type { GameStateType, GameType } from './games';
+import type { TeamPlayerType } from './teams';
 
 export const LEAGUE_STATE = {
   IN_PROGRESS: '진행 중',
@@ -35,6 +36,73 @@ export type LeagueDetailType = {
   teamIds: number[];
   sportType: SportType;
   bracketEnabled: boolean;
+  inProgressRound?: number;
+};
+
+export type LeagueListItemType = {
+  leagueId: number;
+  name: string;
+  maxRound: number;
+  inProgressRound: number;
+  leagueProgress: LeagueStateType;
+  sportType: SportType;
+};
+
+export type LeagueStatisticsTeamType = {
+  teamId: number;
+  leagueTeamId: number;
+  teamName: string;
+  logoImageUrl: string | null;
+  sizeOfTeamPlayers: number;
+  cheerCount?: number;
+  cheerTalksCount?: number;
+};
+
+export type LeagueStatisticsType = {
+  firstWinnerTeam: LeagueStatisticsTeamType | null;
+  secondWinnerTeam: LeagueStatisticsTeamType | null;
+  mostCheeredTeam: LeagueStatisticsTeamType | null;
+  mostCheerTalksTeam: LeagueStatisticsTeamType | null;
+};
+
+export type LeagueTopScorerType = {
+  playerId: number;
+  playerName: string;
+  admissionYear: string;
+  ranking: number;
+  goalCount: number;
+};
+
+export type LeagueCheerCountType = {
+  cheerTalkCount: number;
+};
+
+export type BracketTeamType = {
+  teamId: number;
+  name: string;
+  logoImageUrl: string | null;
+};
+
+export type BracketMatchType = {
+  id: number;
+  matchNumber: number;
+  team1: BracketTeamType | null;
+  team2: BracketTeamType | null;
+  gameId: number | null;
+  gameState: GameStateType | null;
+  gameStartTime: string | null;
+  winnerTeamId: number | null;
+};
+
+export type BracketType = {
+  size: number;
+  rounds: { round: number; matches: BracketMatchType[] }[];
+  thirdPlaceMatch: BracketMatchType | null;
+};
+
+export type BracketEntryType = {
+  position: number;
+  teamId: number;
 };
 
 export type LeagueTeamsPayload = {

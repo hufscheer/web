@@ -27,6 +27,10 @@ export const useDeleteTimeline = ({ gameId }: { gameId: number }) => {
           type: 'all',
         }),
         qc.refetchQueries({ queryKey: queryKeys.games.lineup({ gameId }).queryKey, type: 'all' }),
+        qc.refetchQueries({
+          queryKey: queryKeys.games.lineupPlaying({ gameId }).queryKey,
+          type: 'all',
+        }),
         qc.refetchQueries({ queryKey: queryKeys.games.detail({ gameId }).queryKey, type: 'all' }),
       ]);
     },

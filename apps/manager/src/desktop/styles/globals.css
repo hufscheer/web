@@ -1,0 +1,195 @@
+@import 'tailwindcss';
+@import '@hcc/style/theme.css';
+
+@theme {
+  /* 경기 콘솔이 3열이라 1280px 노트북에서는 가운데 열이 뭉개진다. 1440px 에서 한 번 더 나눈다 */
+  --breakpoint-xl: 1440px;
+
+  --color-rec-score: #0a7f46;
+  --color-rec-score-soft: #e4f3ea;
+  --color-rec-owngoal: #ad4f0d;
+  --color-rec-owngoal-soft: #fbeade;
+  --color-rec-warning: #8f6300;
+  --color-rec-warning-soft: #faf0d8;
+  --color-rec-foul: #bd2d38;
+  --color-rec-foul-soft: #fbe6e8;
+  --color-rec-swap: #4a5765;
+  --color-rec-swap-soft: #eceff3;
+
+  --color-sport-soccer: #1f6f5c;
+  --color-sport-soccer-soft: #e3f0ec;
+  --color-sport-basketball: #b05416;
+  --color-sport-basketball-soft: #fbeade;
+
+  --text-t1: 26px;
+  --text-t1--line-height: 34px;
+  --text-t2: 22px;
+  --text-t2--line-height: 31px;
+  --text-t3: 19px;
+  --text-t3--line-height: 28px;
+  --text-t4: 18px;
+  --text-t4--line-height: 27px;
+  --text-t5: 16px;
+  --text-t5--line-height: 25px;
+  --text-t6: 15px;
+  --text-t6--line-height: 23px;
+  --text-t7: 14px;
+  --text-t7--line-height: 21px;
+  --text-t8: 13px;
+  --text-t8--line-height: 18px;
+
+  --text-score: 36px;
+  --text-score--line-height: 40px;
+
+  --spacing-sidebar: 252px;
+  --spacing-topbar: 60px;
+  --spacing-shell: 1600px;
+
+  --radius-card: 8px;
+  --radius-control: 6px;
+  --radius-chip: 4px;
+}
+
+@layer base {
+  :root {
+    --color-canvas: #ffffff;
+    --color-sidebar: #f7f7f9;
+    --color-greyscale-25: #f6f7f8;
+    --color-greyscale-50: #e4e5e9;
+    --color-hairline: #f0f0f3;
+
+    --color-neutral-50: #f8f8f9;
+    --color-neutral-100: #f1f1f3;
+    --color-neutral-200: #e4e5e9;
+    --color-neutral-300: #c2c4cb;
+    --color-neutral-400: #8f939c;
+    --color-neutral-500: #6f737c;
+    --color-neutral-600: #565961;
+    --color-neutral-700: #3d4046;
+    --color-neutral-800: #26282d;
+    --color-neutral-900: #17181c;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    min-height: 100%;
+    background-color: var(--color-canvas);
+    color: var(--color-neutral-800);
+    font-family:
+      'Pretendard Variable',
+      Pretendard,
+      -apple-system,
+      BlinkMacSystemFont,
+      system-ui,
+      Roboto,
+      'Helvetica Neue',
+      'Segoe UI',
+      'Apple SD Gothic Neo',
+      'Noto Sans KR',
+      'Malgun Gothic',
+      sans-serif;
+    font-size: 15px;
+    line-height: 23px;
+    letter-spacing: 0.01em;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.002em;
+  }
+
+  input[type='checkbox'],
+  input[type='radio'] {
+    accent-color: var(--color-neutral-900);
+  }
+
+  /* Tailwind v4 preflight 는 button 커서를 default 로 되돌린다 */
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  label:has(input[type='checkbox']:not(:disabled)),
+  summary {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [aria-disabled='true'] {
+    cursor: not-allowed;
+  }
+
+  select:not(:disabled) {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--color-primary-600);
+    outline-offset: 1px;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary-600) 16%, transparent);
+  }
+
+  table {
+    border-collapse: collapse;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border: 3px solid transparent;
+    border-radius: 8px;
+    background-clip: content-box;
+    background-color: var(--color-neutral-200);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-neutral-300);
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@layer utilities {
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .card {
+    background: var(--color-canvas);
+    border: 1px solid var(--color-greyscale-50);
+    border-radius: var(--radius-card);
+  }
+
+  .eyebrow {
+    font-size: var(--text-t8);
+    line-height: var(--text-t8--line-height);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--color-neutral-400);
+  }
+
+  .kbd {
+    display: inline-flex;
+    min-width: 17px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    border: 1px solid var(--color-greyscale-50);
+    border-radius: var(--radius-chip);
+    background: var(--color-greyscale-25);
+    color: var(--color-neutral-400);
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 600;
+  }
+}
