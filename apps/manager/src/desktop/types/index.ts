@@ -110,6 +110,8 @@ export type TimelineRecord = {
   gameTeamId: number;
   title: string;
   subtitle: string;
+  /** 기록 대상 선수 이름. 파울 누적을 세는 데 쓴다 */
+  playerName?: string | null;
   snapshot: [number, number] | null;
   scoreValue?: number;
   deletable: boolean;

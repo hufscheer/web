@@ -2,6 +2,7 @@
 
 import { useQueryClient, useSuspenseQueries } from '@hcc/api-base';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import type { GameStateType } from '~/api';
 import type { Game } from '~/desktop/types';
@@ -45,6 +46,7 @@ const usePrefetchStatistics = (leagueId: number) => {
 
 export const LeagueDetail = ({ leagueId }: { leagueId: number }) => {
   usePrefetchStatistics(leagueId);
+  const router = useRouter();
 
   const [{ data: leagueData }, playing, scheduled, finished, { data: bracket }] =
     useSuspenseQueries({
@@ -130,7 +132,7 @@ export const LeagueDetail = ({ leagueId }: { leagueId: number }) => {
           </div>
         </section>
 
-        <LeagueStatisticsPanel leagueId={leagueId} />
+        <LeagueStatisticsPanel leagueId={leagueId} sportType={league.sportType} />
 
         {/* 예선(100)은 토너먼트 트리가 없다 */}
         {league.maxRound !== 100 && (
@@ -179,10 +181,21 @@ export const LeagueDetail = ({ leagueId }: { leagueId: number }) => {
               leagueGames.map((game) => {
                 const [home, away] = game.gameTeams;
                 const played = game.state !== 'SCHEDULED';
+                const openConsole = () => router.push(routes.gameTimelineOf(game));
                 return (
                   <div
                     key={game.gameId}
-                    className="grid grid-cols-[76px_minmax(0,380px)_1fr_auto] items-center gap-4 border-b border-[var(--color-hairline)] px-5 py-3.5 last:border-b-0 hover:bg-[var(--color-greyscale-25)]"
+                    role="link"
+                    tabIndex={0}
+                    onClick={(e) => {
+                      // 오른쪽 버튼(기록하기·라인업 등록)은 각자 목적지가 있다
+                      if (e.target instanceof Element && e.target.closest('a, button')) return;
+                      openConsole();
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.target === e.currentTarget && e.key === 'Enter') openConsole();
+                    }}
+                    className="grid cursor-pointer grid-cols-[76px_minmax(0,380px)_1fr_auto] items-center gap-4 border-b border-[var(--color-hairline)] px-5 py-3.5 last:border-b-0 hover:bg-[var(--color-greyscale-25)]"
                   >
                     <GameStateBadge state={game.state} />
 

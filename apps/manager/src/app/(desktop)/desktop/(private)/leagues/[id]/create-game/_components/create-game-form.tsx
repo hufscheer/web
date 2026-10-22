@@ -289,7 +289,16 @@ export const CreateGameForm = ({
 
       <ErrorText>{error}</ErrorText>
 
-      <div className="flex justify-end gap-2">
+      <div className="flex items-center justify-end gap-2">
+        {invalid && !pending && (
+          <p className="text-t7 mr-auto text-[var(--color-neutral-400)]">
+            {!startTime && !bothPicked
+              ? '시작 일시와 두 팀을 골라 주세요'
+              : !startTime
+                ? '시작 일시를 골라 주세요'
+                : '두 팀을 골라 주세요'}
+          </p>
+        )}
         <Button size="md" color="black" variant="outline" onClick={() => router.back()}>
           취소
         </Button>

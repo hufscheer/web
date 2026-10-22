@@ -38,6 +38,7 @@ export const TeamEdit = ({ teamId, sportType }: { teamId: number; sportType: Spo
             teamColor: team.teamColor ?? '',
             logoImageUrl: team.logoImageUrl ?? '',
             teamPlayers: (team.teamPlayers ?? []).map((player) => ({
+              teamPlayerId: player.teamPlayerId,
               playerId: player.playerId,
               name: player.name ?? '',
               studentNumber: player.studentNumber ?? '',

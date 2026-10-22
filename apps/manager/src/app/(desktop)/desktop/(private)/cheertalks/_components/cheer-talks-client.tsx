@@ -20,7 +20,7 @@ import {
 } from '~/api';
 import { ErrorState } from '~/desktop/components/error-state';
 import { CheckSmallIcon, DeleteOutlineIcon, ErrorIcon } from '~/desktop/components/icons';
-import { PageHeader } from '~/desktop/components/layout/page-header';
+import { PageHeader, type Crumb } from '~/desktop/components/layout/page-header';
 import { Button } from '~/desktop/components/ui/button';
 import {
   Chip,
@@ -34,7 +34,7 @@ import { cn } from '~/desktop/utils/cn';
 import { monthDay, timeOf } from '~/desktop/utils/date';
 import { parseHTTPError } from '~/desktop/utils/http-error';
 
-type Filter = 'unblocked' | 'reported' | 'blocked';
+export type Filter = 'unblocked' | 'reported' | 'blocked';
 
 const FILTERS: { key: Filter; label: string }[] = [
   { key: 'unblocked', label: '전체' },
@@ -46,7 +46,9 @@ const PAGE_SIZE = 50;
 
 /** 응원톡 대부분은 프리셋 버튼이라 자유 입력만 따로 볼 수 있게 한다 */
 const PRESETS = ['가즈아🔥', '나이스👍', '까비😭️'];
-const isPreset = (content: string) => PRESETS.includes(content.trim());
+const isPreset = (content: string | null) => content !== null && PRESETS.includes(content.trim());
+/** 내용이 가려진(null) 응원톡은 자유 입력으로 세지 않는다 */
+const isFreeText = (content: string | null) => content !== null && !isPreset(content);
 
 const formatTime = (iso: string) => `${monthDay(iso)} ${timeOf(iso)}`;
 
@@ -106,14 +108,15 @@ const SOURCES = {
 type Props = {
   /** 대회를 고르게 할 때만 넘긴다. 대회·경기로 고정된 화면에서는 비운다 */
   leagues?: Pick<League, 'leagueId' | 'name' | 'leagueProgress'>[];
-  scope?: { leagueId: number; gameId?: number; title: string; breadcrumb?: string[] };
+  scope?: { leagueId: number; gameId?: number; title: string; breadcrumb?: Crumb[] };
+  initialFilter?: Filter;
 };
 
-export default function CheerTalksClient({ leagues = [], scope }: Props) {
+export default function CheerTalksClient({ leagues = [], scope, initialFilter }: Props) {
   const [selectedLeagueId, setSelectedLeagueId] = useState<number | null>(
     scope?.leagueId ?? leagues[0]?.leagueId ?? null,
   );
-  const [filter, setFilter] = useState<Filter>('unblocked');
+  const [filter, setFilter] = useState<Filter>(initialFilter ?? 'unblocked');
   const [onlyFreeText, setOnlyFreeText] = useState(false);
   const [keyword, setKeyword] = useState('');
   const { toasts, push, pushError } = useToasts();
@@ -150,10 +153,10 @@ export default function CheerTalksClient({ leagues = [], scope }: Props) {
     const needle = keyword.trim().toLowerCase();
     const visible = talks.filter(
       (t) =>
-        (!onlyFreeText || !isPreset(t.content)) &&
-        (needle === '' || t.content.toLowerCase().includes(needle)),
+        (!onlyFreeText || isFreeText(t.content)) &&
+        (needle === '' || (t.content ?? '').toLowerCase().includes(needle)),
     );
-    const freeTextCount = talks.filter((t) => !isPreset(t.content)).length;
+    const freeTextCount = talks.filter((t) => isFreeText(t.content)).length;
 
     return (
       <div className="flex flex-col gap-4 p-6">
@@ -236,9 +239,13 @@ export default function CheerTalksClient({ leagues = [], scope }: Props) {
                     'text-t6 min-w-0 flex-1 truncate',
                     talk.isBlocked && 'text-[var(--color-neutral-400)] line-through',
                   )}
-                  title={talk.content}
+                  title={talk.content ?? undefined}
                 >
-                  {talk.content}
+                  {talk.content ?? (
+                    <span className="text-[var(--color-neutral-400)] italic">
+                      차단된 응원톡이에요
+                    </span>
+                  )}
                 </p>
 
                 {!gameId && (

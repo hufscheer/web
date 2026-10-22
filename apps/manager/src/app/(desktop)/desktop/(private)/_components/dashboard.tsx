@@ -297,11 +297,7 @@ export const Dashboard = () => {
                 note="시작 시각이 지났는데 아직 예정 상태예요."
               >
                 {stale.map((game) => (
-                  <Link
-                    key={game.gameId}
-                    href={routes.game(game.leagueId, game.gameId, game.sportType)}
-                    className={rowClass}
-                  >
+                  <Link key={game.gameId} href={routes.gameTimelineOf(game)} className={rowClass}>
                     <span className="tnum text-t7 w-10 shrink-0 text-[var(--color-neutral-400)]">
                       {monthDay(game.startTime)}
                     </span>
@@ -321,17 +317,23 @@ export const Dashboard = () => {
             <Panel
               title="신고된 응원톡"
               count={reported.length}
-              href={routes.cheertalks}
+              href={`${routes.cheertalks}?filter=reported`}
               empty="신고된 응원톡이 없어요."
             >
               {reported.slice(0, 8).map((talk) => (
                 <Link
                   key={talk.cheerTalkId}
-                  href={routes.leagueCheertalks(talk.leagueId)}
+                  href={`${routes.leagueCheertalks(talk.leagueId)}?filter=reported`}
                   className={rowClass}
                 >
                   <span className="flex min-w-0 flex-1 flex-col">
-                    <span className="text-t6 truncate">{talk.content}</span>
+                    {talk.content === null ? (
+                      <span className="text-t6 truncate text-[var(--color-neutral-400)] italic">
+                        차단된 응원톡이에요
+                      </span>
+                    ) : (
+                      <span className="text-t6 truncate">{talk.content}</span>
+                    )}
                     <span className="text-t8 truncate text-[var(--color-neutral-400)]">
                       {talk.gameName}
                     </span>

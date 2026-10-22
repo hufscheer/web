@@ -7,6 +7,7 @@ export * from './useDeleteLeagueTeams';
 export * from './useDeleteLeagues';
 export * from './useDeletePlayers';
 export * from './useDeleteTeams';
+export * from './useDeleteTeamPlayer';
 export * from './useGeneratePresignedUrl';
 export * from './useImageUpload';
 export * from './useLogin';

@@ -6,7 +6,7 @@ import { useRef, useState } from 'react';
 import type { TeamUnitType } from '~/api';
 import type { SportType } from '~/desktop/types';
 
-import { useCreateTeams, useDeleteTeamLogo, useUpdateTeams } from '~/api';
+import { useCreateTeams, useDeleteTeamLogo, useDeleteTeamPlayer, useUpdateTeams } from '~/api';
 import { CheckSmallIcon, CloseIcon, HCCBigLogo } from '~/desktop/components/icons';
 import { Button } from '~/desktop/components/ui/button';
 import { ErrorText, Field, FormCard, SelectInput, TextInput } from '~/desktop/components/ui/field';
@@ -21,7 +21,8 @@ import { RosterAssistant } from './roster-assistant';
 /** 모바일 매니저와 같은 팔레트 */
 const COLOR_PALETTE = ['#FF9A9E', '#FFA788', '#FFD479', '#8CBAFF', '#7EECD8', '#99A8CC', '#B8C0CC'];
 
-export type RosterEntry = PickedPlayer & { jerseyNumber: number };
+/** 수정 화면에서 불러온 선수만 teamPlayerId 가 있다. 명단에서 빠진 선수를 서버에서 지울 때 쓴다 */
+export type RosterEntry = PickedPlayer & { jerseyNumber: number; teamPlayerId?: number | null };
 
 type Props = {
   sportType: SportType;
@@ -55,9 +56,17 @@ export const TeamForm = ({ sportType, units, teamId, initial }: Props) => {
   const { mutateAsync: createTeam } = useCreateTeams();
   const { mutateAsync: updateTeam } = useUpdateTeams();
   const { mutateAsync: deleteTeamLogo } = useDeleteTeamLogo();
+  const { mutateAsync: deleteTeamPlayer } = useDeleteTeamPlayer();
+  // 일부만 지워진 채 다시 저장해도 이미 지운 선수를 또 지우려 하지 않게 기억한다
+  const removedTeamPlayerIds = useRef(new Set<number>());
 
   const isEdit = teamId !== undefined;
   const invalid = !name.trim() || !unit.trim() || !teamColor || (!isEdit && !logoImageUrl);
+  const missing = [
+    !name.trim() && '팀 이름',
+    !unit.trim() && '소속',
+    !isEdit && !logoImageUrl && '로고',
+  ].filter(Boolean);
   const isCustomColor = Boolean(teamColor) && !COLOR_PALETTE.includes(teamColor);
 
   const upload = async (file: File) => {
@@ -100,8 +109,35 @@ export const TeamForm = ({ sportType, units, teamId, initial }: Props) => {
       // 수정에서 로고를 안 바꿨으면 null 을 보낸다. 서버는 null 을 "그대로 둠"으로 읽는다
       const changedLogo =
         logoImageUrl && logoImageUrl !== initial?.logoImageUrl ? logoImageUrl : null;
-      if (isEdit) await updateTeam({ id: teamId, ...input, sportType, logoImageUrl: changedLogo });
-      else await createTeam({ ...input, logoImageUrl, sportType });
+      if (isEdit) {
+        await updateTeam({ id: teamId, ...input, sportType, logoImageUrl: changedLogo });
+
+        // PATCH 는 명단을 upsert 만 한다. 빠진 선수는 따로 지워야 서버에서 사라진다
+        const rosterIds = new Set(roster.map((p) => p.playerId));
+        const removed = (initial?.teamPlayers ?? []).filter(
+          (p) =>
+            p.teamPlayerId != null &&
+            !rosterIds.has(p.playerId) &&
+            !removedTeamPlayerIds.current.has(p.teamPlayerId),
+        );
+        const results = await Promise.allSettled(
+          removed.map((p) => deleteTeamPlayer({ teamPlayerId: p.teamPlayerId as number })),
+        );
+        const failures: { name: string; reason: unknown }[] = [];
+        results.forEach((result, i) => {
+          if (result.status === 'fulfilled')
+            removedTeamPlayerIds.current.add(removed[i].teamPlayerId as number);
+          else failures.push({ name: removed[i].name, reason: result.reason });
+        });
+        if (failures.length > 0) {
+          const detail = await parseHTTPError(failures[0].reason, '');
+          setError(
+            `${failures.map((f) => f.name).join(', ')} 선수는 빼지 못했어요.${detail ? ` ${detail}` : ''}`,
+          );
+          setPending(false);
+          return;
+        }
+      } else await createTeam({ ...input, logoImageUrl, sportType });
 
       push(isEdit ? '팀이 수정되었어요' : '팀이 생성되었어요');
       router.push(routes.teams(sportType));
@@ -315,7 +351,13 @@ export const TeamForm = ({ sportType, units, teamId, initial }: Props) => {
 
       <ErrorText>{error}</ErrorText>
 
-      <div className="flex justify-end gap-2">
+      <div className="flex items-center justify-end gap-2">
+        {invalid && !pending && missing.length > 0 && (
+          <p className="text-t7 mr-auto text-[var(--color-neutral-400)]">
+            {missing.join(', ')}
+            {missing.at(-1) === '로고' ? '를' : '을'} 입력해 주세요
+          </p>
+        )}
         <Button
           type="button"
           size="md"

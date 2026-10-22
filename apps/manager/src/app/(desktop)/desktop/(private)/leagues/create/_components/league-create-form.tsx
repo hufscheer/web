@@ -245,7 +245,14 @@ export const LeagueCreateForm = () => {
 
       <ErrorText>{error}</ErrorText>
 
-      <div className="flex justify-end gap-2">
+      <div className="flex items-center justify-end gap-2">
+        {invalid && !pending && (
+          <p className="text-t7 mr-auto text-[var(--color-neutral-400)]">
+            {!name.trim() || !startAt || !endAt
+              ? '대회 이름과 기간을 입력해 주세요'
+              : '종료일이 시작일보다 빨라요'}
+          </p>
+        )}
         <Button size="md" color="black" variant="outline" onClick={() => router.back()}>
           취소
         </Button>

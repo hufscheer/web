@@ -33,7 +33,6 @@ type Props = {
   quarterLabel: string;
   onAddRecord: (record: NewRecord) => void;
   onSubstitute: (teamIndex: 0 | 1, outId: number, inId: number) => void;
-  onFoul: (teamIndex: 0 | 1, lineupPlayerId: number) => void;
   /** 지금 기록할 수 있는 진행 동작. 쿼터 목록을 화면에 박아 두면 상태 머신을 건너뛴 전환이 눌려 400 이 난다 */
   progressActions: ProgressAvailableAction[];
   onToast: (message: string) => void;
@@ -78,7 +77,6 @@ export const RecordPanel = ({
   quarterLabel,
   onAddRecord,
   onSubstitute,
-  onFoul,
   progressActions,
   onToast,
   onError,
@@ -144,8 +142,9 @@ export const RecordPanel = ({
     [team],
   );
 
-  const find = (id: string) =>
-    [...team.starterPlayers, ...team.candidatePlayers].find((p) => String(p.lineupPlayerId) === id);
+  /** 선택 상태가 화면의 목록에 없으면(저장 뒤 명단이 바뀐 경우) select 가 보여 주는 첫 선수로 본다 */
+  const pick = (list: LineupPlayer[], id: string) =>
+    list.find((p) => String(p.lineupPlayerId) === id) ?? list[0];
 
   // 탭 색은 기록 목록이 쓰는 --color-rec-* 변수와 따로 둔다.
   // 득점·상태 변경은 파랑, 교체·승부차기는 회색, 경고·파울은 빨강.
@@ -174,11 +173,11 @@ export const RecordPanel = ({
 
   // 어시스트는 득점 선수와 다른 사람이어야 한다. 농구는 1점(자유투)에는 어시스트가 없다
   const assistAllowed = !isBasketball || scoreValue >= 2;
-  const effectiveScorerId = scorerId || String(playing[0]?.lineupPlayerId ?? '');
+  const effectiveScorerId = String(pick(playing, scorerId)?.lineupPlayerId ?? '');
   const assistCandidates = playing.filter((p) => String(p.lineupPlayerId) !== effectiveScorerId);
 
   const submitScore = () => {
-    const scorer = find(scorerId) ?? playing[0];
+    const scorer = pick(playing, scorerId);
     if (!scorer) return onError('출전 중인 선수가 없어요');
     const assist = assistAllowed
       ? assistCandidates.find((p) => String(p.lineupPlayerId) === assistId)
@@ -217,8 +216,8 @@ export const RecordPanel = ({
   };
 
   const submitSub = () => {
-    const out = find(outId) ?? playing[0];
-    const incoming = find(inId) ?? bench[0];
+    const out = pick(playing, outId);
+    const incoming = pick(bench, inId);
     if (!out || !incoming) return onError('교체할 선수를 선택해 주세요');
     const minute = Number(minuteInput) || 0;
 
@@ -252,7 +251,7 @@ export const RecordPanel = ({
 
   /** 실패한 시도도 남겨야 몇 번째 키커까지 찼는지 알 수 있다. 서버는 성공만 pkScore 에 더한다 */
   const submitPk = () => {
-    const kicker = find(kickerId) ?? playing[0];
+    const kicker = pick(playing, kickerId);
     if (!kicker) return onError('출전 중인 선수가 없어요');
 
     save(
@@ -281,7 +280,7 @@ export const RecordPanel = ({
   };
 
   const submitSanction = () => {
-    const target = find(sanctionId) ?? playing[0];
+    const target = pick(playing, sanctionId);
     if (!target) return onError('선수를 선택해 주세요');
     const minute = Number(minuteInput) || 0;
 
@@ -295,9 +294,9 @@ export const RecordPanel = ({
             offenderLineupPlayerId: target.lineupPlayerId,
           }),
         () => {
-          onFoul(teamIndex, target.lineupPlayerId);
           onAddRecord({
             type: 'FOUL',
+            playerName: target.playerName,
             recordedAt: minute,
             gameTeamId: team.gameTeamId,
             title: `${target.playerName} 파울`,
@@ -401,7 +400,7 @@ export const RecordPanel = ({
 
         {tab !== 'progress' && (
           <Field htmlFor="team" text="팀">
-            <div className="flex gap-1.5">
+            <div id="team" className="flex gap-1.5">
               {lineups.map((l, i) => (
                 <button
                   key={l.gameTeamId}
@@ -426,7 +425,7 @@ export const RecordPanel = ({
           <>
             {isBasketball && (
               <Field htmlFor="pts" text="득점">
-                <div className="flex gap-1.5">
+                <div id="pts" className="flex gap-1.5">
                   {[1, 2, 3].map((v) => (
                     <button
                       key={v}
@@ -454,7 +453,7 @@ export const RecordPanel = ({
               <select
                 id="scorer"
                 className={selectClass}
-                value={scorerId}
+                value={effectiveScorerId}
                 onChange={(e) => {
                   setScorerId(e.target.value);
                   if (assistId === e.target.value) setAssistId('');
@@ -473,7 +472,11 @@ export const RecordPanel = ({
                 <select
                   id="assist"
                   className={selectClass}
-                  value={assistId}
+                  value={
+                    assistCandidates.some((p) => String(p.lineupPlayerId) === assistId)
+                      ? assistId
+                      : ''
+                  }
                   onChange={(e) => setAssistId(e.target.value)}
                 >
                   <option value="">없음</option>
@@ -500,7 +503,7 @@ export const RecordPanel = ({
               <select
                 id="out"
                 className={selectClass}
-                value={outId}
+                value={String(pick(playing, outId)?.lineupPlayerId ?? '')}
                 onChange={(e) => setOutId(e.target.value)}
               >
                 {playing.map((p) => (
@@ -515,7 +518,7 @@ export const RecordPanel = ({
               <select
                 id="in"
                 className={selectClass}
-                value={inId}
+                value={String(pick(bench, inId)?.lineupPlayerId ?? '')}
                 onChange={(e) => setInId(e.target.value)}
               >
                 {bench.map((p) => (
@@ -553,7 +556,7 @@ export const RecordPanel = ({
           <>
             {!isBasketball && (
               <Field htmlFor="card" text="카드">
-                <div className="flex gap-1.5">
+                <div id="card" className="flex gap-1.5">
                   {(['경고', '퇴장'] as const).map((c) => (
                     <button
                       key={c}
@@ -578,7 +581,7 @@ export const RecordPanel = ({
               <select
                 id="target"
                 className={selectClass}
-                value={sanctionId}
+                value={String(pick(playing, sanctionId)?.lineupPlayerId ?? '')}
                 onChange={(e) => setSanctionId(e.target.value)}
               >
                 {playing.map((p) => (
@@ -604,7 +607,7 @@ export const RecordPanel = ({
               <select
                 id="kicker"
                 className={selectClass}
-                value={kickerId}
+                value={String(pick(playing, kickerId)?.lineupPlayerId ?? '')}
                 onChange={(e) => setKickerId(e.target.value)}
               >
                 {playing.map((p) => (
@@ -616,7 +619,7 @@ export const RecordPanel = ({
             </Field>
 
             <Field htmlFor="pk-result" text="결과">
-              <div className="flex gap-1.5">
+              <div id="pk-result" className="flex gap-1.5">
                 {[
                   { ok: true, text: '성공' },
                   { ok: false, text: '실패' },

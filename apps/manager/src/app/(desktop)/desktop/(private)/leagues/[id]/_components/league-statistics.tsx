@@ -3,6 +3,7 @@
 import { useQueries } from '@hcc/api-base';
 
 import type { LeagueStatisticsTeamType } from '~/api';
+import type { Game } from '~/desktop/types';
 
 import { queryKeys } from '~/api';
 
@@ -43,7 +44,15 @@ const TeamCell = ({
  * 대회의 곁다리 정보라 하나가 실패해도 나머지는 그리고, 모두 비면 구획째 감춘다.
  * 통계는 결승이 끝나야 채워진다.
  */
-export const LeagueStatisticsPanel = ({ leagueId }: { leagueId: number }) => {
+export const LeagueStatisticsPanel = ({
+  leagueId,
+  sportType,
+}: {
+  leagueId: number;
+  sportType: Game['sportType'];
+}) => {
+  // 서버 goalCount 는 SUM(score) 라 농구는 득점(점)이고, 자책골 제외 설명도 맞지 않는다
+  const isBasketball = sportType === 'BASKETBALL';
   const [statisticsQuery, topScorersQuery, cheerCountQuery] = useQueries({
     queries: [
       queryKeys.leagues.statistics({ leagueId }),
@@ -105,7 +114,9 @@ export const LeagueStatisticsPanel = ({ leagueId }: { leagueId: number }) => {
       <div className="flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-greyscale-50)]">
         <header className="flex h-11 shrink-0 items-center justify-between border-b border-[var(--color-greyscale-50)] px-4">
           <h2 className="text-t6 font-semibold text-[var(--color-neutral-900)]">득점 순위</h2>
-          <span className="text-t8 text-[var(--color-neutral-400)]">자책골 제외</span>
+          {!isBasketball && (
+            <span className="text-t8 text-[var(--color-neutral-400)]">자책골 제외</span>
+          )}
         </header>
         {topScorers.length === 0 ? (
           <p className="text-t7 flex flex-1 items-center justify-center px-3 py-6 text-center text-[var(--color-neutral-400)]">
@@ -126,7 +137,10 @@ export const LeagueStatisticsPanel = ({ leagueId }: { leagueId: number }) => {
               <span className="text-t8 shrink-0 text-[var(--color-neutral-400)]">
                 {scorer.admissionYear}학번
               </span>
-              <span className="tnum text-t6 shrink-0 font-semibold">{scorer.goalCount}골</span>
+              <span className="tnum text-t6 shrink-0 font-semibold">
+                {scorer.goalCount}
+                {isBasketball ? '점' : '골'}
+              </span>
             </div>
           ))
         )}

@@ -155,6 +155,9 @@ export const PlayerForm = ({ playerId, initialName, initialStudentNumber, teamNa
       )}
 
       <div className="flex items-center justify-end gap-2">
+        {invalid && !pending && (
+          <p className="text-t7 mr-auto text-[var(--color-neutral-400)]">{invalid}</p>
+        )}
         <Button
           type="button"
           size="md"

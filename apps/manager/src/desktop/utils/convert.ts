@@ -110,7 +110,11 @@ export const toManagerLeague = (league: LeagueDetailType): ManagerLeague => ({
   leagueTeamCount: league.sizeOfLeagueTeams,
 });
 
-const toLineupPlayer = (player: GameTeamPlayerType): LineupPlayer => ({
+/**
+ * 서버는 지금 뛰고 있는 선수(is_playing)를 starterPlayers 에, 나머지를 candidatePlayers 에
+ * 담아 준다. 교체 여부(isReplaced)로 다시 추정하면 나갔다가 다시 들어온 선수가 후보로 보였다.
+ */
+const toLineupPlayer = (player: GameTeamPlayerType, isPlaying: boolean): LineupPlayer => ({
   lineupPlayerId: player.lineupPlayerId,
   playerId: player.playerId,
   playerName: player.playerName,
@@ -118,7 +122,7 @@ const toLineupPlayer = (player: GameTeamPlayerType): LineupPlayer => ({
   position: (player.position ?? null) as Position | null,
   isCaptain: player.isCaptain,
   state: player.state,
-  isPlaying: player.state === 'STARTER' ? !player.isReplaced : player.isReplaced,
+  isPlaying,
   isReplaced: player.isReplaced,
   replacedPlayerName: player.replacedPlayer?.playerName ?? null,
 });
@@ -127,8 +131,8 @@ export const toLineups = (lineups: GameLineupType[] | undefined): [Lineup, Lineu
   const toLineup = (lineup: GameLineupType | undefined, index: number): Lineup => ({
     gameTeamId: lineup?.gameTeamId ?? -(index + 1),
     teamName: lineup?.teamName ?? '팀 없음',
-    starterPlayers: (lineup?.starterPlayers ?? []).map(toLineupPlayer),
-    candidatePlayers: (lineup?.candidatePlayers ?? []).map(toLineupPlayer),
+    starterPlayers: (lineup?.starterPlayers ?? []).map((p) => toLineupPlayer(p, true)),
+    candidatePlayers: (lineup?.candidatePlayers ?? []).map((p) => toLineupPlayer(p, false)),
   });
   return [toLineup(lineups?.[0], 0), toLineup(lineups?.[1], 1)];
 };
@@ -181,6 +185,7 @@ export const toTimeline = (timeline: TimelineResponseType | undefined): Timeline
         gameTeamId: record.gameTeamId,
         title: recordTitle(record, group.gameQuarter.label),
         subtitle: record.teamName ?? '',
+        playerName: record.playerName ?? null,
         snapshot: snapshot
           ? ([snapshot[0]?.score ?? 0, snapshot[1]?.score ?? 0] as [number, number])
           : null,

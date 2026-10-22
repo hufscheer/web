@@ -121,10 +121,36 @@ export type RowAction = { label: string; href?: string; onSelect?: () => void; d
 /** 행 전체에 onClick 이 걸려 있어 메뉴 안의 클릭은 전부 stopPropagation 한다 */
 export const RowMenu = ({ actions, label }: { actions: RowAction[]; label: string }) => {
   const [open, setOpen] = useState(false);
+  // 메뉴는 fixed 로 띄운다. TableShell 의 overflow-x-auto 가 세로로도 잘라서다
+  const [pos, setPos] = useState<{ top?: number; bottom?: number; right: number }>({ right: 0 });
   const box = useRef<HTMLDivElement>(null);
+  const trigger = useRef<HTMLButtonElement>(null);
+
+  const toggle = () => {
+    if (open) {
+      setOpen(false);
+      return;
+    }
+    const rect = trigger.current?.getBoundingClientRect();
+    if (rect) {
+      const menuHeight = actions.length * 36 + 8;
+      const right = window.innerWidth - rect.right;
+      const hasRoomBelow = rect.bottom + 4 + menuHeight <= window.innerHeight;
+      setPos(
+        hasRoomBelow
+          ? { top: rect.bottom + 4, right }
+          : { bottom: window.innerHeight - rect.top + 4, right },
+      );
+    }
+    setOpen(true);
+  };
 
   useEffect(() => {
     if (!open) return;
+
+    const onClose = () => setOpen(false);
+    window.addEventListener('scroll', onClose, true);
+    window.addEventListener('resize', onClose);
 
     const onAway = (e: MouseEvent) => {
       if (!box.current?.contains(e.target as Node)) setOpen(false);
@@ -138,6 +164,8 @@ export const RowMenu = ({ actions, label }: { actions: RowAction[]; label: strin
     return () => {
       document.removeEventListener('mousedown', onAway);
       document.removeEventListener('keydown', onKey);
+      window.removeEventListener('scroll', onClose, true);
+      window.removeEventListener('resize', onClose);
     };
   }, [open]);
 
@@ -149,10 +177,11 @@ export const RowMenu = ({ actions, label }: { actions: RowAction[]; label: strin
       onClick={(e) => e.stopPropagation()}
     >
       <button
+        ref={trigger}
         type="button"
         aria-label={label}
         aria-expanded={open}
-        onClick={() => setOpen((v) => !v)}
+        onClick={toggle}
         className={cn(
           'inline-flex size-7 items-center justify-center rounded-[var(--radius-chip)] text-[var(--color-neutral-400)] transition-colors',
           'opacity-0 group-hover:opacity-100 focus-visible:opacity-100',
@@ -166,7 +195,8 @@ export const RowMenu = ({ actions, label }: { actions: RowAction[]; label: strin
       {open && (
         <div
           role="menu"
-          className="absolute top-8 right-0 z-20 min-w-40 overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-greyscale-50)] bg-[var(--color-canvas)] py-1 shadow-[0_8px_24px_rgba(23,24,28,0.12)]"
+          style={pos}
+          className="fixed z-20 min-w-40 overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-greyscale-50)] bg-[var(--color-canvas)] py-1 shadow-[0_8px_24px_rgba(23,24,28,0.12)]"
         >
           {actions.map((action) => (
             <button
