@@ -13,6 +13,7 @@ import { routes } from '~/desktop/constants/routes';
 import { toGame } from '~/desktop/utils/convert';
 
 import { GameEditForm } from './game-edit-form';
+import { LineupEditor } from './lineup-editor';
 
 type Props = {
   leagueId: number;
@@ -21,8 +22,12 @@ type Props = {
 };
 
 export const GameEdit = ({ leagueId, gameId, sportType }: Props) => {
-  const [{ data: detail }, { data: league }] = useSuspenseQueries({
-    queries: [queryKeys.games.detail({ gameId }), queryKeys.leagues.detail({ leagueId })],
+  const [{ data: detail }, { data: league }, { data: lineups }] = useSuspenseQueries({
+    queries: [
+      queryKeys.games.detail({ gameId }),
+      queryKeys.leagues.detail({ leagueId }),
+      queryKeys.games.lineup({ gameId }),
+    ],
   });
 
   // 주소의 대회와 경기의 대회가 다르면 다른 대회의 라운드 설정으로 수정하게 된다
@@ -50,6 +55,7 @@ export const GameEdit = ({ leagueId, gameId, sportType }: Props) => {
           maxRound={league.maxRound}
           thirdPlaceAvailable={league.thirdPlaceMatchEnabled}
         />
+        <LineupEditor game={game} lineups={lineups} />
       </div>
     </div>
   );

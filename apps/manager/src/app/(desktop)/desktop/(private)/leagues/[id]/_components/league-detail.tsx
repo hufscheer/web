@@ -234,7 +234,9 @@ export const LeagueDetail = ({ leagueId }: { leagueId: number }) => {
                         </Link>
                       )}
                       {game.state === 'SCHEDULED' && (
-                        <Link href={routes.game(league.leagueId, game.gameId, game.sportType)}>
+                        <Link
+                          href={routes.gameLineup(league.leagueId, game.gameId, game.sportType)}
+                        >
                           <Button size="sm" color="black" variant="outline">
                             라인업 등록
                           </Button>

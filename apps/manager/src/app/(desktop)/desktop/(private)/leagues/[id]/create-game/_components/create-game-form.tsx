@@ -35,7 +35,7 @@ export const CreateGameForm = ({
 }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { toasts, push } = useToasts();
+  const { toasts, push, pushError } = useToasts();
   const { mutateAsync: createGame } = useCreateGames();
 
   const rounds = roundsUpTo(league.maxRound);
@@ -136,7 +136,10 @@ export const CreateGameForm = ({
     leagueTeams.find((t) => t.teamId === teamIds[side])?.teamName ?? '팀 미선택';
 
   const bothPicked = teamIds[0] !== '' && teamIds[1] !== '' && teamIds[0] !== teamIds[1];
-  const invalid = !startTime || !bothPicked;
+  const overCap = lineups.some(
+    (side) => side.filter((p) => p.state === 'STARTER').length > starterLimit,
+  );
+  const invalid = !startTime || !bothPicked || overCap;
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -150,12 +153,19 @@ export const CreateGameForm = ({
         return {
           teamId,
           leagueTeamId: leagueTeams.find((team) => team.teamId === teamId)?.leagueTeamId ?? 0,
-          lineupPlayers: lineups[index].map((p) => ({
-            teamPlayerId: p.teamPlayerId,
-            state: p.state,
-            isCaptain: p.isCaptain,
-            position: null,
-          })),
+          // 생성 화면의 선수는 전부 명단에서 온 것이라 teamPlayerId 가 항상 있다
+          lineupPlayers: lineups[index].flatMap((p) =>
+            p.teamPlayerId === null
+              ? []
+              : [
+                  {
+                    teamPlayerId: p.teamPlayerId,
+                    state: p.state,
+                    isCaptain: p.isCaptain,
+                    position: null,
+                  },
+                ],
+          ),
         };
       };
 
@@ -268,6 +278,7 @@ export const CreateGameForm = ({
               loading={loadingSide === side}
               failed={failedSides[side]}
               starterLimit={starterLimit}
+              onLimit={() => pushError('선발 인원이 모두 찼어요')}
               onChange={(updated) =>
                 setLineups((prev) => (side === 0 ? [updated, prev[1]] : [prev[0], updated]))
               }

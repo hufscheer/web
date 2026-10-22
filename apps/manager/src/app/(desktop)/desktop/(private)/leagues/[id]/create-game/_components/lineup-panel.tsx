@@ -1,10 +1,15 @@
 'use client';
 
-import { CaptainIcon } from '~/desktop/components/icons';
+import { AddIcon, CaptainIcon, CloseIcon } from '~/desktop/components/icons';
 import { cn } from '~/desktop/utils/cn';
 
 export type LineupEntry = {
-  teamPlayerId: number;
+  /** 팀 명단에서 빠진 선수가 이미 라인업에 있을 수 있어, 수정 화면에서는 모를 수 있다 */
+  teamPlayerId: number | null;
+  /** 이미 서버에 등록된 라인업 선수. 수정 화면에서만 있다 */
+  lineupPlayerId?: number;
+  /** 수정 화면에서 라인업 밖(미등록)으로 뺀 선수 */
+  excluded?: boolean;
   playerId: number;
   playerName: string;
   jerseyNumber: number;
@@ -23,6 +28,10 @@ type Props = {
   failed: boolean;
   starterLimit: number;
   onChange: (updated: LineupEntry[]) => void;
+  /** 선발이 가득 찬 채 또 선발로 올리려 할 때 */
+  onLimit?: () => void;
+  /** 수정 화면: 라인업에서 빼고 다시 넣는 미등록 그룹을 보여 준다 */
+  allowExclude?: boolean;
 };
 
 export const LineupPanel = ({
@@ -34,43 +43,105 @@ export const LineupPanel = ({
   failed,
   starterLimit,
   onChange,
+  onLimit,
+  allowExclude = false,
 }: Props) => {
-  const starters = lineup.filter((p) => p.state === 'STARTER');
-  const candidates = lineup.filter((p) => p.state === 'CANDIDATE');
+  const registered = lineup.filter((p) => !p.excluded);
+  const reserve = lineup.filter((p) => p.excluded);
+  const starters = registered.filter((p) => p.state === 'STARTER');
+  const candidates = registered.filter((p) => p.state === 'CANDIDATE');
 
-  const toggleState = (teamPlayerId: number) =>
+  // 서버는 후보로 내리면 주장을 풀어 버린다. 수정 화면에서는 같은 규칙을 화면에도 건다
+  const demote = (p: LineupEntry): LineupEntry => ({
+    ...p,
+    state: 'CANDIDATE',
+    isCaptain: allowExclude ? false : p.isCaptain,
+  });
+
+  const toggleState = (playerId: number) => {
+    const target = lineup.find((p) => p.playerId === playerId);
+    if (!target) return;
+    if (target.state === 'CANDIDATE' && starters.length >= starterLimit) {
+      onLimit?.();
+      return;
+    }
     onChange(
       lineup.map((p) =>
-        p.teamPlayerId === teamPlayerId
-          ? { ...p, state: p.state === 'STARTER' ? 'CANDIDATE' : 'STARTER' }
+        p.playerId === playerId
+          ? p.state === 'STARTER'
+            ? demote(p)
+            : { ...p, state: 'STARTER' }
+          : p,
+      ),
+    );
+  };
+
+  const exclude = (playerId: number) =>
+    onChange(lineup.map((p) => (p.playerId === playerId ? { ...demote(p), excluded: true } : p)));
+
+  const include = (playerId: number) =>
+    onChange(
+      lineup.map((p) =>
+        p.playerId === playerId
+          ? { ...p, excluded: false, state: 'CANDIDATE', isCaptain: false }
           : p,
       ),
     );
 
-  const fillStarters = () =>
+  /** 라인업이 비어 있는 경기면 생성 화면처럼 명단 전원을 넣고 채운다 */
+  const fillStarters = () => {
+    const pool = registered.length > 0 ? registered : lineup;
     onChange(
-      lineup.map((p, index) => ({
-        ...p,
-        state: index < starterLimit ? ('STARTER' as const) : ('CANDIDATE' as const),
-      })),
+      lineup.map((p) => {
+        const index = pool.indexOf(p);
+        if (index === -1) return p;
+        const entry = { ...p, excluded: false };
+        return index < starterLimit ? { ...entry, state: 'STARTER' as const } : demote(entry);
+      }),
     );
+  };
 
-  const clearStarters = () => onChange(lineup.map((p) => ({ ...p, state: 'CANDIDATE' as const })));
+  const clearStarters = () => onChange(lineup.map((p) => (p.excluded ? p : demote(p))));
 
   /** 주장은 팀당 한 명이라 새로 지정하면 나머지는 풀린다 */
-  const toggleCaptain = (teamPlayerId: number, isCaptain: boolean) => {
+  const toggleCaptain = (playerId: number, isCaptain: boolean) => {
     const next = !isCaptain;
     onChange(
       lineup.map((p) => ({
         ...p,
-        isCaptain: p.teamPlayerId === teamPlayerId ? next : next ? false : p.isCaptain,
+        isCaptain: p.playerId === playerId ? next : next ? false : p.isCaptain,
       })),
     );
   };
 
+  const ReserveRow = (entry: LineupEntry) => (
+    <div
+      key={entry.playerId}
+      className="flex items-center gap-2 rounded-[var(--radius-control)] px-2 py-1.5 hover:bg-[var(--color-neutral-50)]"
+    >
+      <span className="tnum text-t7 w-7 shrink-0 text-right text-[var(--color-neutral-400)]">
+        {entry.jerseyNumber}
+      </span>
+      <span className="text-t6 min-w-0 flex-1 truncate font-medium text-[var(--color-neutral-500)]">
+        {entry.playerName}
+      </span>
+      {/* 명단에서 빠진 선수는 한 번 빼면 다시 넣을 수 없다 */}
+      {entry.teamPlayerId !== null && (
+        <button
+          type="button"
+          title="후보로 등록"
+          onClick={() => include(entry.playerId)}
+          className="flex size-6 shrink-0 items-center justify-center rounded-md bg-[var(--color-neutral-100)] text-[var(--color-neutral-600)] transition-colors hover:bg-[var(--color-neutral-200)]"
+        >
+          <AddIcon size={14} />
+        </button>
+      )}
+    </div>
+  );
+
   const Row = (entry: LineupEntry) => (
     <div
-      key={entry.teamPlayerId}
+      key={entry.playerId}
       className="flex items-center gap-2 rounded-[var(--radius-control)] px-2 py-1.5 hover:bg-[var(--color-neutral-50)]"
     >
       <span className="tnum text-t7 w-7 shrink-0 text-right text-[var(--color-neutral-400)]">
@@ -79,7 +150,7 @@ export const LineupPanel = ({
       <span className="text-t6 min-w-0 flex-1 truncate font-medium">{entry.playerName}</span>
       <button
         type="button"
-        onClick={() => toggleState(entry.teamPlayerId)}
+        onClick={() => toggleState(entry.playerId)}
         className={cn(
           'text-t7 h-6 shrink-0 rounded-md px-2 font-semibold transition-colors',
           entry.state === 'STARTER'
@@ -93,9 +164,10 @@ export const LineupPanel = ({
         type="button"
         title={entry.isCaptain ? '주장 해제' : '주장 지정'}
         aria-pressed={entry.isCaptain}
-        onClick={() => toggleCaptain(entry.teamPlayerId, entry.isCaptain)}
+        disabled={allowExclude && entry.state !== 'STARTER'}
+        onClick={() => toggleCaptain(entry.playerId, entry.isCaptain)}
         className={cn(
-          'flex size-6 shrink-0 items-center justify-center rounded-md transition-colors',
+          'flex size-6 shrink-0 items-center justify-center rounded-md transition-colors disabled:opacity-40',
           entry.isCaptain
             ? 'bg-[var(--color-neutral-900)] text-white'
             : 'bg-[var(--color-neutral-100)] text-[var(--color-neutral-400)] hover:bg-[var(--color-neutral-200)]',
@@ -103,6 +175,16 @@ export const LineupPanel = ({
       >
         <CaptainIcon size={12} />
       </button>
+      {allowExclude && (
+        <button
+          type="button"
+          title="라인업에서 빼기"
+          onClick={() => exclude(entry.playerId)}
+          className="flex size-6 shrink-0 items-center justify-center rounded-md text-[var(--color-neutral-400)] transition-colors hover:bg-[var(--color-neutral-100)] hover:text-[var(--color-neutral-700)]"
+        >
+          <CloseIcon size={14} />
+        </button>
+      )}
     </div>
   );
 
@@ -161,6 +243,14 @@ export const LineupPanel = ({
                   후보
                 </p>
                 {candidates.map(Row)}
+              </>
+            )}
+            {allowExclude && reserve.length > 0 && (
+              <>
+                <p className="text-t7 mt-2 px-2 py-1 font-bold text-[var(--color-neutral-400)]">
+                  미등록
+                </p>
+                {reserve.map(ReserveRow)}
               </>
             )}
           </>

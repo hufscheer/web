@@ -34,6 +34,9 @@ export const routes = {
   },
   game: (leagueId: number, gameId: number, sportType: SportType) =>
     `${BASE}/leagues/${leagueId}/${sportPath(sportType)}/${gameId}`,
+  /** 경기 수정 화면의 라인업 구역 */
+  gameLineup: (leagueId: number, gameId: number, sportType: SportType) =>
+    `${BASE}/leagues/${leagueId}/${sportPath(sportType)}/${gameId}#lineup`,
   gameTimeline: (leagueId: number, gameId: number, sportType: SportType) =>
     `${BASE}/leagues/${leagueId}/${sportPath(sportType)}/${gameId}/timeline`,
   gameTimelineOf: (game: Game) =>
