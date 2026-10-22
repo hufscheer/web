@@ -17,7 +17,7 @@ import { prepareImageForUpload } from '~/desktop/utils/prepare-image-for-upload'
 const MAX_BYTES = 10 * 1024 * 1024;
 const ACCEPT = 'image/*,.heic,.heif,.xlsx,.csv,.pdf';
 
-const TOO_LARGE_MESSAGE = '파일은 10MB 까지 올릴 수 있습니다.';
+const TOO_LARGE_MESSAGE = '파일은 10MB 까지 올릴 수 있어요.';
 const RATE_LIMITED_MESSAGE = '파일을 너무 자주 올렸어요. 잠시 뒤에 다시 시도해 주세요.';
 const FAILED_MESSAGE = '파일에서 명단을 읽지 못했어요.';
 
@@ -27,7 +27,7 @@ const AI_READ_TYPES: ExtractNLResponse['sourceType'][] = ['IMAGE', 'PDF'];
 const toNotice = ({ sourceType, truncated }: ExtractNLResponse) =>
   [
     AI_READ_TYPES.includes(sourceType)
-      ? '파일을 AI 가 읽었어요. 틀린 글자가 있을 수 있으니 꼭 확인해 주세요.'
+      ? 'AI 가 읽은 내용이에요. 틀린 글자가 있는지 확인해 주세요.'
       : '파일에서 읽어 왔어요. 내용을 확인해 주세요.',
     truncated && '파일이 길어서 앞부분만 읽었어요.',
   ]

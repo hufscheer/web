@@ -143,11 +143,7 @@ export const LeagueManageForm = ({
 
           <Field
             label="3·4위전"
-            hint={
-              thirdPlaceAllowed
-                ? '준결승에서 진 두 팀이 겨루는 경기예요. 대진표 트리 밖에 따로 표시돼요.'
-                : '준결승이 있는 대회에서만 열 수 있어요.'
-            }
+            hint={thirdPlaceAllowed ? undefined : '준결승이 있는 대회에서만 열 수 있어요.'}
           >
             <label className="flex w-fit cursor-pointer items-center gap-2.5">
               <input
@@ -175,7 +171,7 @@ export const LeagueManageForm = ({
         >
           {candidateTeams.length === 0 ? (
             <p className="text-t6 px-6 py-12 text-center text-[var(--color-neutral-400)]">
-              같은 종목의 팀이 없어요. 팀 관리에서 먼저 만들어 주세요.
+              같은 종목의 팀이 없어요.
             </p>
           ) : (
             <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-px bg-[var(--color-hairline)]">

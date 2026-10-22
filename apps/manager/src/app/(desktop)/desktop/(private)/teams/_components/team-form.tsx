@@ -115,7 +115,7 @@ export const TeamForm = ({ sportType, units, teamId, initial }: Props) => {
     <form onSubmit={submit} className="flex max-w-[1260px] flex-col gap-5">
       <div className="flex flex-wrap items-start gap-6">
         <FormCard title="팀 정보" className="w-[480px] shrink-0">
-          <Field label="로고" hint="정사각형 이미지가 가장 잘 보여요. 5MB 까지.">
+          <Field label="로고" hint="정사각형 권장, 5MB 까지">
             <div className="flex items-center gap-3">
               <span
                 className="size-16 shrink-0 overflow-hidden rounded-[var(--radius-control)] border border-[var(--color-greyscale-50)] bg-[var(--color-greyscale-25)] bg-cover bg-center"

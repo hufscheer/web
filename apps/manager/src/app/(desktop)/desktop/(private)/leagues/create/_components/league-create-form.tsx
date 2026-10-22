@@ -163,11 +163,7 @@ export const LeagueCreateForm = () => {
 
           <Field
             label="3·4위전"
-            hint={
-              thirdPlaceAllowed
-                ? '준결승에서 진 두 팀이 겨루는 경기예요.'
-                : '준결승이 있는 대회에서만 열 수 있어요.'
-            }
+            hint={thirdPlaceAllowed ? undefined : '준결승이 있는 대회에서만 열 수 있어요.'}
           >
             <label className="flex w-fit cursor-pointer items-center gap-2.5">
               <input
@@ -189,14 +185,14 @@ export const LeagueCreateForm = () => {
                 type="search"
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
-                placeholder="팀 이름을 검색해주세요"
+                placeholder="팀 검색"
                 aria-label="팀 검색"
               />
             </div>
           )}
           {candidates.length === 0 ? (
             <p className="text-t6 px-6 py-12 text-center text-[var(--color-neutral-400)]">
-              {SPORT_LABEL[sportType]} 팀이 없어요. 팀 관리에서 먼저 만들어 주세요.
+              {SPORT_LABEL[sportType]} 팀이 없어요.
             </p>
           ) : visibleTeams.length === 0 ? (
             <p className="text-t6 px-6 py-12 text-center text-[var(--color-neutral-400)]">

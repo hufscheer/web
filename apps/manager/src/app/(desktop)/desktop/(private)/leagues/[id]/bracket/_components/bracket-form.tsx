@@ -103,8 +103,7 @@ export const BracketForm = ({
   if (leagueTeams.length < 2) {
     return (
       <p className="text-t6 rounded-[var(--radius-card)] border border-[var(--color-greyscale-50)] bg-[var(--color-canvas)] px-6 py-12 text-center text-[var(--color-neutral-400)]">
-        참가 팀이 두 팀 이상이어야 대진표를 만들 수 있어요. 대회 정보 수정에서 팀을 먼저 추가해
-        주세요.
+        참가 팀이 두 팀 이상이어야 대진표를 만들 수 있어요.
       </p>
     );
   }

@@ -244,7 +244,7 @@ export const CommandPalette = () => {
             setQuery(e.target.value);
             setCursor(0);
           }}
-          placeholder="어디로 갈까요?"
+          placeholder="이동할 화면 검색"
           className="text-t5 h-11 w-full border-b border-[var(--color-greyscale-50)] px-4 outline-none placeholder:text-[var(--color-neutral-300)]"
         />
 

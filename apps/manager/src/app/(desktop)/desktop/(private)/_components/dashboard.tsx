@@ -294,7 +294,7 @@ export const Dashboard = () => {
               <Panel
                 title="지난 예정 경기"
                 count={stale.length}
-                note="시작 시각이 지났는데 아직 예정 상태예요. 종료 처리하거나 일정을 고쳐 주세요."
+                note="시작 시각이 지났는데 아직 예정 상태예요."
               >
                 {stale.map((game) => (
                   <Link

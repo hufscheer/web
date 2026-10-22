@@ -21,9 +21,6 @@ export const NotFoundState = () => (
   <Frame>
     <ErrorIcon size={28} className="text-[var(--color-neutral-400)]" />
     <h1 className="text-t4 font-bold">찾을 수 없는 페이지예요</h1>
-    <p className="text-t6 text-[var(--color-neutral-500)]">
-      주소가 바뀌었거나, 이미 삭제된 대회·경기일 수 있어요.
-    </p>
     <div className="mt-2 flex gap-2">
       <Link href={routes.leagues}>
         <Button size="sm" color="black" variant="outline">

@@ -57,8 +57,7 @@ export const LeagueBracket = ({ leagueId }: { leagueId: number }) => {
           <div className="flex max-w-[560px] flex-col items-start gap-4 rounded-[var(--radius-card)] border border-[var(--color-greyscale-50)] bg-[var(--color-canvas)] px-6 py-8">
             <p className="text-t5 font-bold">이미 경기가 연결된 대진표예요</p>
             <p className="text-t6 leading-relaxed text-[var(--color-neutral-500)]">
-              대진표에 붙은 경기가 있으면 자리를 바꿀 수 없어요. 대진을 다시 짜려면 해당 경기를 먼저
-              삭제해 주세요.
+              자리를 바꾸려면 연결된 경기를 먼저 삭제해 주세요.
             </p>
             <Link href={routes.league(league.leagueId)}>
               <Button size="md" color="black" variant="outline">

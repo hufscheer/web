@@ -35,9 +35,7 @@ export const CreateGame = ({ leagueId, prefill }: { leagueId: number; prefill?: 
           { label: league.name, href: routes.league(league.leagueId) },
           '경기 생성',
         ]}
-        description={
-          canCreate ? `참가 팀 ${leagueTeams.length}팀 중에서 대진을 골라요.` : undefined
-        }
+        description={canCreate ? `참가 팀 ${leagueTeams.length}팀` : undefined}
       />
       <div className="p-6">
         {!canCreate ? (

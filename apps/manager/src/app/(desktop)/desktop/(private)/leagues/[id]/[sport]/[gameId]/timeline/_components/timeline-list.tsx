@@ -86,7 +86,7 @@ export const TimelineList = ({ game, records, onDelete }: Props) => {
       <div className="flex-1 overflow-y-auto pb-3">
         {records.length === 0 && (
           <p className="text-t6 px-5 py-12 text-center text-[var(--color-neutral-400)]">
-            아직 기록이 없어요. 왼쪽에서 기록을 추가해 주세요.
+            아직 기록이 없어요.
           </p>
         )}
 

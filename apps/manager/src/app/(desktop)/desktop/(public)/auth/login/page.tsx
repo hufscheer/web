@@ -12,9 +12,6 @@ export default function LoginPage() {
             <span className="text-t5 leading-none font-medium">매니저</span>
           </span>
           <h1 className="text-t2 font-bold">대회 운영자 로그인</h1>
-          <p className="text-t6 text-[var(--color-neutral-500)]">
-            등록된 운영자 계정으로 로그인해 주세요.
-          </p>
         </div>
 
         <LoginForm />

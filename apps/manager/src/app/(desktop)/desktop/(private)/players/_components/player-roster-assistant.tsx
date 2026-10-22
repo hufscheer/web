@@ -152,7 +152,7 @@ export const PlayerRosterAssistant = ({ onClose }: Props) => {
               className="text-t6 w-full rounded-[var(--radius-control)] border border-[var(--color-greyscale-50)] bg-[var(--color-canvas)] p-3 leading-relaxed"
             />
             <p className="text-t7 text-[var(--color-neutral-400)]">
-              한 줄에 한 명씩. 이름과 학번 순서는 상관없어요.
+              한 줄에 한 명, 이름과 학번 순서 무관
             </p>
           </div>
 
@@ -174,8 +174,8 @@ export const PlayerRosterAssistant = ({ onClose }: Props) => {
           {checked && checked.length > 0 && (
             <div className="rounded-[var(--radius-card)] border border-[var(--color-greyscale-50)]">
               <p className="text-t7 border-b border-[var(--color-greyscale-50)] px-4 py-2.5 font-semibold text-[var(--color-neutral-500)]">
-                {checked.length}명 중 <b className="tnum">{targets.length}</b>명 등록 예정 · 이미
-                있는 선수는 빼 뒀어요
+                {checked.length}명 중 <b className="tnum">{targets.length}</b>명 등록 예정 (이미
+                등록된 선수 제외)
               </p>
               {checked.map((p) => {
                 const on = !excluded.includes(p.studentNumber);

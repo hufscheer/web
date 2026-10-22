@@ -169,7 +169,7 @@ export const LiveConsole = ({
           recordId: Math.min(-1, ...prev.map((r) => r.recordId)) - 1,
           recordedQuarter: quarterLabel,
           deletable: false,
-          undeletableReason: '저장 중이에요. 잠시 뒤에 지울 수 있어요.',
+          undeletableReason: '저장 중이에요.',
           undeletableReasonCode: null,
         },
         ...prev,

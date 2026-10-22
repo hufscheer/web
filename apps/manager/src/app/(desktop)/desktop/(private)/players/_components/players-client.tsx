@@ -115,7 +115,7 @@ export default function PlayersClient() {
 
         {!errorMessage && truncated && (
           <p className="text-t7 rounded-[var(--radius-control)] border border-[var(--color-primary-200)] bg-[var(--color-primary-50)] px-3 py-1.5 text-[var(--color-primary-700)]">
-            선수가 더 있어요. 이름이나 학번으로 검색해서 좁혀 주세요.
+            선수가 더 있어요. 검색으로 좁혀 주세요.
           </p>
         )}
 
