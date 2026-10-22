@@ -3,13 +3,13 @@
 import { useQueryClient } from '@hcc/api-base';
 import { useState } from 'react';
 
-import type { Game, Lineup, LineupPlayer, SportType } from '~/desktop/types';
+import type { Game, Lineup, LineupPlayer, SportType } from '~/app/(desktop)/_types';
 
 import { queryKeys, useUpdateGamesPosition } from '~/api';
-import { CaptainIcon } from '~/desktop/components/icons';
-import { POSITION_GROUPS } from '~/desktop/constants/sports';
-import { cn } from '~/desktop/utils/cn';
-import { parseHTTPError } from '~/desktop/utils/http-error';
+import { CaptainIcon } from '~/app/(desktop)/_components/icons';
+import { POSITION_GROUPS } from '~/app/(desktop)/_constants/sports';
+import { cn } from '~/utils/cn';
+import { parseHTTPError } from '~/utils/http-error';
 
 type Props = {
   game: Game;

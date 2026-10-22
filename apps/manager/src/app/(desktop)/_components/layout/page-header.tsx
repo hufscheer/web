@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 import Link from 'next/link';
 
-import { routes } from '~/desktop/constants/routes';
+import { routes } from '~/app/(desktop)/_constants/routes';
 
 export type Crumb = string | { label: string; href: string };
 

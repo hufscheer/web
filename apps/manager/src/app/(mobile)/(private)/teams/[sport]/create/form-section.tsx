@@ -8,7 +8,7 @@ import type { SportType } from '~/api/types';
 
 import { useCreateTeams } from '~/api';
 import { useImageUpload } from '~/hooks';
-import { parseHTTPError } from '~/utils/form-util';
+import { parseHTTPError } from '~/utils/http-error';
 
 import { TeamForm } from '../../_components/team-form';
 

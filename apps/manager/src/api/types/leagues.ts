@@ -4,7 +4,8 @@ import type { TeamPlayerType } from './teams';
 export const LEAGUE_STATE = {
   IN_PROGRESS: '진행 중',
   FINISHED: '종료',
-  SCHEDULED: '예정',
+  // 서버 LeagueProgress.BEFORE_START 의 라벨
+  SCHEDULED: '시작 전',
 } as const;
 
 export type LeagueStateType = (typeof LEAGUE_STATE)[keyof typeof LEAGUE_STATE];

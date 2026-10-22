@@ -1,4 +1,4 @@
-import { NotFoundState } from '~/desktop/components/error-state';
+import { NotFoundState } from '~/app/(desktop)/_components/error-state';
 
 const NotFound = () => <NotFoundState />;
 

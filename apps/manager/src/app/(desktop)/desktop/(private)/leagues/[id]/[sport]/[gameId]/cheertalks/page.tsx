@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation';
 
+import { QueryBoundary } from '~/app/(desktop)/_components/query-boundary';
+import { SPORT_BY_PATH } from '~/app/(desktop)/_constants/routes';
+import { parseCheerTalkFilter } from '~/app/(desktop)/_utils/cheer-talk-filter';
 import { GameCheerTalks } from '~/app/(desktop)/desktop/(private)/cheertalks/_components/cheer-talks-pages';
-import { QueryBoundary } from '~/desktop/components/query-boundary';
-import { SPORT_BY_PATH } from '~/desktop/constants/routes';
-import { parseCheerTalkFilter } from '~/desktop/utils/cheer-talk-filter';
 
 type Props = {
   params: Promise<{ id: string; sport: string; gameId: string }>;

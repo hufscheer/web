@@ -4,16 +4,17 @@ import { useQuery } from '@hcc/api-base';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 
-import type { SportType, Team } from '~/desktop/types';
+import type { SportType, Team } from '~/app/(desktop)/_types';
 
 import { queryKeys, useSuspenseManagerAllTeams } from '~/api';
-import { AddIcon, SettingsIcon } from '~/desktop/components/icons';
-import { PageHeader } from '~/desktop/components/layout/page-header';
-import { Button } from '~/desktop/components/ui/button';
-import { SearchInput } from '~/desktop/components/ui/table';
-import { routes } from '~/desktop/constants/routes';
-import { SPORT_COLOR, SPORT_COLOR_SOFT, SportIcon } from '~/desktop/constants/sports';
-import { toTeam, toTeamPlayerRows } from '~/desktop/utils/convert';
+import { AddIcon, SettingsIcon } from '~/app/(desktop)/_components/icons';
+import { PageHeader } from '~/app/(desktop)/_components/layout/page-header';
+import { SportIcon } from '~/app/(desktop)/_components/sport-tag';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { SearchInput } from '~/app/(desktop)/_components/ui/table';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { SPORT_COLOR, SPORT_COLOR_SOFT } from '~/app/(desktop)/_constants/sports';
+import { toTeam, toTeamPlayerRows } from '~/app/(desktop)/_utils/convert';
 
 const SPORT_TABS: { value: SportType; label: string }[] = [
   { value: 'SOCCER', label: '축구' },

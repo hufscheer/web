@@ -1,4 +1,4 @@
-import { QueryBoundary } from '~/desktop/components/query-boundary';
+import { QueryBoundary } from '~/app/(desktop)/_components/query-boundary';
 
 import PlayersClient from './_components/players-client';
 

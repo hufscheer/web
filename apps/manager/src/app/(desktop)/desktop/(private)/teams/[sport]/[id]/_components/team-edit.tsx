@@ -2,12 +2,12 @@
 
 import { useSuspenseQueries } from '@hcc/api-base';
 
-import type { SportType } from '~/desktop/types';
+import type { SportType } from '~/app/(desktop)/_types';
 
 import { queryKeys } from '~/api';
-import { PageHeader } from '~/desktop/components/layout/page-header';
-import { routes } from '~/desktop/constants/routes';
-import { SPORT_LABEL } from '~/desktop/constants/sports';
+import { PageHeader } from '~/app/(desktop)/_components/layout/page-header';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { getSportConfig } from '~/constants/sports';
 
 import { TeamForm } from '../../../_components/team-form';
 import { TeamDeleteButton } from './team-delete-button';
@@ -21,7 +21,10 @@ export const TeamEdit = ({ teamId, sportType }: { teamId: number; sportType: Spo
     <div className="flex flex-col">
       <PageHeader
         title={team.name}
-        breadcrumb={['팀 관리', { label: SPORT_LABEL[sportType], href: routes.teams(sportType) }]}
+        breadcrumb={[
+          '팀 관리',
+          { label: getSportConfig(sportType).label, href: routes.teams(sportType) },
+        ]}
         description={`${team.winCount}승 ${team.drawCount}무 ${team.loseCount}패`}
         actions={
           <TeamDeleteButton teamId={team.teamId} teamName={team.name} sportType={team.sportType} />

@@ -1,6 +1,6 @@
 import type { ComponentProps, ReactNode } from 'react';
 
-import { cn } from '~/desktop/utils/cn';
+import { cn } from '~/utils/cn';
 
 export const controlClass =
   'h-8 w-full rounded-[var(--radius-control)] border border-[var(--color-greyscale-50)] bg-[var(--color-canvas)] px-2.5 text-t6 shadow-[0_1px_1px_rgba(23,24,28,0.03)] transition-colors placeholder:text-[var(--color-neutral-300)] hover:border-[var(--color-neutral-300)] disabled:bg-[var(--color-greyscale-25)] disabled:text-[var(--color-neutral-400)] disabled:hover:border-[var(--color-greyscale-50)]';

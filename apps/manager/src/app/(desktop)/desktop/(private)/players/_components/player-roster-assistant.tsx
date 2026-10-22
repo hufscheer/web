@@ -6,12 +6,12 @@ import { useEffect, useState } from 'react';
 import type { CheckDuplicateNLResponse } from '~/api';
 
 import { postPlayers, queryKeys, useCheckDuplicateNL, useParseNL } from '~/api';
+import { HCCBigLogo } from '~/app/(desktop)/_components/icons';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { Toasts, useToasts } from '~/app/(desktop)/_components/ui/toast';
 import { RosterTextInput } from '~/app/(desktop)/desktop/(private)/teams/_components/roster-text-input';
-import { HCCBigLogo } from '~/desktop/components/icons';
-import { Button } from '~/desktop/components/ui/button';
-import { Toasts, useToasts } from '~/desktop/components/ui/toast';
-import { cn } from '~/desktop/utils/cn';
-import { parseHTTPError } from '~/desktop/utils/http-error';
+import { cn } from '~/utils/cn';
+import { parseHTTPError } from '~/utils/http-error';
 
 type Props = { onClose: () => void };
 

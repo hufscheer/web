@@ -1,5 +1,5 @@
-import { QueryBoundary } from '~/desktop/components/query-boundary';
-import { parseCheerTalkFilter } from '~/desktop/utils/cheer-talk-filter';
+import { QueryBoundary } from '~/app/(desktop)/_components/query-boundary';
+import { parseCheerTalkFilter } from '~/app/(desktop)/_utils/cheer-talk-filter';
 
 import { AllCheerTalks } from './_components/cheer-talks-pages';
 

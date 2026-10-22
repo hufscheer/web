@@ -5,17 +5,17 @@ import { HTTPError } from 'ky';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 
-import type { Player, SportType } from '~/desktop/types';
+import type { Player, SportType } from '~/app/(desktop)/_types';
 
 import { queryKeys } from '~/api';
-import { AddIcon, ChevronForwardIcon } from '~/desktop/components/icons';
-import { PageHeader } from '~/desktop/components/layout/page-header';
-import { Button } from '~/desktop/components/ui/button';
-import { Chip, FilterBar, FilterGroup, SearchInput } from '~/desktop/components/ui/table';
-import { routes } from '~/desktop/constants/routes';
-import { SportIcon } from '~/desktop/constants/sports';
-import { useDebounce } from '~/desktop/hooks/useDebounce';
-import { toPlayer } from '~/desktop/utils/convert';
+import { AddIcon, ChevronForwardIcon } from '~/app/(desktop)/_components/icons';
+import { PageHeader } from '~/app/(desktop)/_components/layout/page-header';
+import { SportIcon } from '~/app/(desktop)/_components/sport-tag';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { Chip, FilterBar, FilterGroup, SearchInput } from '~/app/(desktop)/_components/ui/table';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { toPlayer } from '~/app/(desktop)/_utils/convert';
+import { useDebounce } from '~/hooks';
 
 const FILTERS: { value: 'ALL' | SportType | 'NONE'; label: string }[] = [
   { value: 'ALL', label: '전체' },
@@ -34,7 +34,7 @@ const searchErrorOf = (error: unknown) =>
 
 export default function PlayersClient() {
   const [query, setQuery] = useState('');
-  const keyword = useDebounce(query).trim();
+  const keyword = useDebounce(query, 250).trim();
   const [sport, setSport] = useState<'ALL' | SportType | 'NONE'>('ALL');
 
   const { data: firstPage } = useSuspenseQuery(queryKeys.players.search({ size: 100 }));

@@ -3,7 +3,7 @@
 import { useMemo, useState, useTransition } from 'react';
 
 import type { ProgressAvailableAction } from '~/api';
-import type { Game, Lineup, LineupPlayer, TimelineRecord } from '~/desktop/types';
+import type { Game, Lineup, LineupPlayer, TimelineRecord } from '~/app/(desktop)/_types';
 
 import {
   useCreateTimelineFoul,
@@ -20,10 +20,10 @@ import {
   SettingsIcon,
   SportsAndOutdoorsIcon,
   TradeIcon,
-} from '~/desktop/components/icons';
-import { Button } from '~/desktop/components/ui/button';
-import { cn } from '~/desktop/utils/cn';
-import { parseHTTPError } from '~/desktop/utils/http-error';
+} from '~/app/(desktop)/_components/icons';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { cn } from '~/utils/cn';
+import { parseHTTPError } from '~/utils/http-error';
 
 type NewRecord = Omit<TimelineRecord, 'recordId' | 'recordedQuarter'>;
 

@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react';
 
 import { cva, type VariantProps } from 'class-variance-authority';
 
-import { cn } from '~/desktop/utils/cn';
+import { cn } from '~/utils/cn';
 
 const button = cva(
   [

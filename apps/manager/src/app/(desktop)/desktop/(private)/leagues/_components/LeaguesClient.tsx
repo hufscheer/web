@@ -4,11 +4,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 
-import type { ManagerLeague, SportType } from '~/desktop/types';
+import type { ManagerLeague, SportType } from '~/app/(desktop)/_types';
 
-import { AddIcon } from '~/desktop/components/icons';
-import { Badge, LiveBadge } from '~/desktop/components/ui/badge';
-import { Button } from '~/desktop/components/ui/button';
+import { AddIcon } from '~/app/(desktop)/_components/icons';
+import { SportIcon, SportTag } from '~/app/(desktop)/_components/sport-tag';
+import { Badge, LiveBadge } from '~/app/(desktop)/_components/ui/badge';
+import { Button } from '~/app/(desktop)/_components/ui/button';
 import {
   Chip,
   EmptyRow,
@@ -22,16 +23,10 @@ import {
   TableShell,
   tdClass,
   Th,
-} from '~/desktop/components/ui/table';
-import { routes } from '~/desktop/constants/routes';
-import {
-  isLeagueBefore,
-  isLeagueRunning,
-  roundLabel,
-  SportIcon,
-  SportTag,
-} from '~/desktop/constants/sports';
-import { period } from '~/desktop/utils/date';
+} from '~/app/(desktop)/_components/ui/table';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { isLeagueBefore, isLeagueRunning, roundLabel } from '~/app/(desktop)/_constants/sports';
+import { period } from '~/app/(desktop)/_utils/date';
 
 type SportFilter = 'ALL' | SportType;
 type StatusFilter = 'ALL' | '진행 중' | '시작 전' | '종료';

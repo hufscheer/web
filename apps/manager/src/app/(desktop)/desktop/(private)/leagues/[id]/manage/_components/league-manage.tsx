@@ -3,9 +3,9 @@
 import { useSuspenseQueries } from '@hcc/api-base';
 
 import { queryKeys } from '~/api';
-import { PageHeader } from '~/desktop/components/layout/page-header';
-import { routes } from '~/desktop/constants/routes';
-import { toLeague, toTeam } from '~/desktop/utils/convert';
+import { PageHeader } from '~/app/(desktop)/_components/layout/page-header';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { toLeague, toTeam } from '~/app/(desktop)/_utils/convert';
 
 import { LeagueDeleteButton } from './league-delete-button';
 import { LeagueManageForm } from './league-manage-form';

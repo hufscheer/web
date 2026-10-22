@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 
-import { QueryBoundary } from '~/desktop/components/query-boundary';
-import { SPORT_BY_PATH } from '~/desktop/constants/routes';
+import { QueryBoundary } from '~/app/(desktop)/_components/query-boundary';
+import { SPORT_BY_PATH } from '~/app/(desktop)/_constants/routes';
 
 import { TeamCreate } from './_components/team-create';
 

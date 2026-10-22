@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState, type ComponentProps, type ReactNode } from 'react';
 
-import { MoreHorizIcon, SearchIcon } from '~/desktop/components/icons';
-import { cn } from '~/desktop/utils/cn';
+import { MoreHorizIcon, SearchIcon } from '~/app/(desktop)/_components/icons';
+import { cn } from '~/utils/cn';
 
 export const Chip = ({
   active,

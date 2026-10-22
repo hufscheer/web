@@ -4,9 +4,9 @@ import { HTTPError } from 'ky';
 import { useState } from 'react';
 
 import { useLogin } from '~/api';
-import { ErrorIcon, VisibilityIcon, VisibilityOffIcon } from '~/desktop/components/icons';
-import { Button } from '~/desktop/components/ui/button';
-import { routes } from '~/desktop/constants/routes';
+import { ErrorIcon, VisibilityIcon, VisibilityOffIcon } from '~/app/(desktop)/_components/icons';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { routes } from '~/app/(desktop)/_constants/routes';
 
 const inputClass =
   'h-9 w-full rounded-[var(--radius-control)] border border-[var(--color-greyscale-50)] bg-[var(--color-canvas)] px-3 text-t6 placeholder:text-[var(--color-neutral-300)]';

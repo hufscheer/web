@@ -1,7 +1,7 @@
 'use client';
 
-import { AddIcon, CaptainIcon, CloseIcon } from '~/desktop/components/icons';
-import { cn } from '~/desktop/utils/cn';
+import { AddIcon, CaptainIcon, CloseIcon } from '~/app/(desktop)/_components/icons';
+import { cn } from '~/utils/cn';
 
 export type LineupEntry = {
   /** 팀 명단에서 빠진 선수가 이미 라인업에 있을 수 있어, 수정 화면에서는 모를 수 있다 */

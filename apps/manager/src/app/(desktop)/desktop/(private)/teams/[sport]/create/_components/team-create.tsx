@@ -2,12 +2,12 @@
 
 import { useSuspenseQuery } from '@hcc/api-base';
 
-import type { SportType } from '~/desktop/types';
+import type { SportType } from '~/app/(desktop)/_types';
 
 import { queryKeys } from '~/api';
-import { PageHeader } from '~/desktop/components/layout/page-header';
-import { routes } from '~/desktop/constants/routes';
-import { SPORT_LABEL } from '~/desktop/constants/sports';
+import { PageHeader } from '~/app/(desktop)/_components/layout/page-header';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { getSportConfig } from '~/constants/sports';
 
 import { TeamForm } from '../../../_components/team-form';
 
@@ -20,7 +20,7 @@ export const TeamCreate = ({ sportType }: { sportType: SportType }) => {
         title="팀 생성"
         breadcrumb={[
           '팀 관리',
-          { label: SPORT_LABEL[sportType], href: routes.teams(sportType) },
+          { label: getSportConfig(sportType).label, href: routes.teams(sportType) },
           '팀 생성',
         ]}
         description="선수 관리에 등록된 선수만 검색돼요."

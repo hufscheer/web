@@ -1,4 +1,4 @@
-import { cn } from '~/desktop/utils/cn';
+import { cn } from '~/utils/cn';
 
 export const Bar = ({ className }: { className?: string }) => (
   <div

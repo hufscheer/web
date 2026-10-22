@@ -7,7 +7,7 @@ import type { TeamFormType } from '~/api/mutations/useCreateTeams';
 
 import { useSuspenseTeam, useUpdateTeams } from '~/api';
 import { useImageUpload } from '~/hooks';
-import { parseHTTPError } from '~/utils/form-util';
+import { parseHTTPError } from '~/utils/http-error';
 
 import { TeamForm } from '../../_components/team-form';
 

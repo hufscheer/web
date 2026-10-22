@@ -1,5 +1,5 @@
 import type { QuarterScoreType } from '~/api';
-import type { Game } from '~/desktop/types';
+import type { Game } from '~/app/(desktop)/_types';
 
 const scoreOf = (quarter: QuarterScoreType, gameTeamId: number) =>
   quarter.scores.find((s) => s.gameTeamId === gameTeamId)?.score ?? 0;

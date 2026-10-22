@@ -1,4 +1,4 @@
-import { Bar } from '~/desktop/components/skeleton';
+import { Bar } from '~/app/(desktop)/_components/skeleton';
 
 const COLUMNS = [
   {

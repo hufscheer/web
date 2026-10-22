@@ -1,6 +1,6 @@
 'use client';
 
-import { ErrorState } from '~/desktop/components/error-state';
+import { ErrorState } from '~/app/(desktop)/_components/error-state';
 
 const ErrorPage = ({ error }: { error: Error & { digest?: string } }) => (
   <ErrorState error={error} />

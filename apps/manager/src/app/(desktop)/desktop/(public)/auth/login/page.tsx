@@ -1,4 +1,4 @@
-import { HCCBigLogo } from '~/desktop/components/icons';
+import { HCCBigLogo } from '~/app/(desktop)/_components/icons';
 
 import { LoginForm } from './_components/login-form';
 

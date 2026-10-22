@@ -1,4 +1,4 @@
-import { PageSkeleton } from '~/desktop/components/skeleton';
+import { PageSkeleton } from '~/app/(desktop)/_components/skeleton';
 
 const Loading = () => <PageSkeleton />;
 

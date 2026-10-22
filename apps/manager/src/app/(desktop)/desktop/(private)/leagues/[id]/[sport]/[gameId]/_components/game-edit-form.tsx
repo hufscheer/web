@@ -4,18 +4,24 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import type { GameUpdateFormType } from '~/api';
-import type { Game } from '~/desktop/types';
+import type { Game } from '~/app/(desktop)/_types';
 
 import { useDeleteGames, useUpdateGames } from '~/api';
-import { DeleteOutlineIcon } from '~/desktop/components/icons';
-import { Button } from '~/desktop/components/ui/button';
-import { ConfirmDialog } from '~/desktop/components/ui/confirm-dialog';
-import { DateTimeInput } from '~/desktop/components/ui/date-time-input';
-import { ErrorText, Field, FormCard, SelectInput, TextInput } from '~/desktop/components/ui/field';
-import { Toasts, useToasts } from '~/desktop/components/ui/toast';
-import { routes } from '~/desktop/constants/routes';
-import { roundLabel, roundsUpTo } from '~/desktop/constants/sports';
-import { parseHTTPError } from '~/desktop/utils/http-error';
+import { DeleteOutlineIcon } from '~/app/(desktop)/_components/icons';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { ConfirmDialog } from '~/app/(desktop)/_components/ui/confirm-dialog';
+import { DateTimeInput } from '~/app/(desktop)/_components/ui/date-time-input';
+import {
+  ErrorText,
+  Field,
+  FormCard,
+  SelectInput,
+  TextInput,
+} from '~/app/(desktop)/_components/ui/field';
+import { Toasts, useToasts } from '~/app/(desktop)/_components/ui/toast';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { roundLabel, roundsUpTo } from '~/app/(desktop)/_constants/sports';
+import { parseHTTPError } from '~/utils/http-error';
 
 type Props = {
   game: Game;

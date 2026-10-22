@@ -15,11 +15,11 @@ import {
   RewardedAdsIcon,
   SmsIcon,
   SportsAndOutdoorsIcon,
-} from '~/desktop/components/icons';
-import { openCommandPalette } from '~/desktop/components/layout/command-palette';
-import { BASE, routes } from '~/desktop/constants/routes';
-import { useMyLiveGames } from '~/desktop/hooks/useMyGames';
-import { cn } from '~/desktop/utils/cn';
+} from '~/app/(desktop)/_components/icons';
+import { openCommandPalette } from '~/app/(desktop)/_components/layout/command-palette';
+import { BASE, routes } from '~/app/(desktop)/_constants/routes';
+import { useMyLiveGames } from '~/app/(desktop)/_hooks/useMyGames';
+import { cn } from '~/utils/cn';
 
 const API_ENV = process.env.NEXT_PUBLIC_API_ENV ?? 'dev';
 

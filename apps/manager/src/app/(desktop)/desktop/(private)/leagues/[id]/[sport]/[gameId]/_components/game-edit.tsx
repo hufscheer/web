@@ -6,11 +6,11 @@ import Link from 'next/link';
 import type { SportType } from '~/api';
 
 import { queryKeys } from '~/api';
-import { NotFoundState } from '~/desktop/components/error-state';
-import { PageHeader } from '~/desktop/components/layout/page-header';
-import { Button } from '~/desktop/components/ui/button';
-import { routes } from '~/desktop/constants/routes';
-import { toGame } from '~/desktop/utils/convert';
+import { NotFoundState } from '~/app/(desktop)/_components/error-state';
+import { PageHeader } from '~/app/(desktop)/_components/layout/page-header';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { toGame } from '~/app/(desktop)/_utils/convert';
 
 import { GameEditForm } from './game-edit-form';
 import { LineupEditor } from './lineup-editor';

@@ -1,4 +1,4 @@
-import type { Game, SportType } from '~/desktop/types';
+import type { Game, SportType } from '~/app/(desktop)/_types';
 
 /** 데스크탑 화면은 모바일과 같은 앱 안에서 이 접두사 아래에 둔다 */
 export const BASE = '/desktop';

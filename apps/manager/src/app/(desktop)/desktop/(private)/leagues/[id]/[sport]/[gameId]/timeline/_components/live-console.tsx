@@ -4,12 +4,12 @@ import { useQueryClient } from '@hcc/api-base';
 import { useCallback, useMemo, useState } from 'react';
 
 import type { ProgressAvailableAction, QuarterScoreType } from '~/api';
-import type { Game, Lineup, LineupPlayer, TimelineRecord } from '~/desktop/types';
+import type { Game, Lineup, LineupPlayer, TimelineRecord } from '~/app/(desktop)/_types';
 
 import { queryKeys, useDeleteTimeline } from '~/api';
-import { ConfirmDialog } from '~/desktop/components/ui/confirm-dialog';
-import { Toasts, useToasts } from '~/desktop/components/ui/toast';
-import { parseHTTPError } from '~/desktop/utils/http-error';
+import { ConfirmDialog } from '~/app/(desktop)/_components/ui/confirm-dialog';
+import { Toasts, useToasts } from '~/app/(desktop)/_components/ui/toast';
+import { parseHTTPError } from '~/utils/http-error';
 
 import { LineupPanel } from './lineup-panel';
 import { RecordPanel } from './record-panel';

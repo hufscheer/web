@@ -8,11 +8,11 @@ import { useRef, useState } from 'react';
 import type { ExtractNLResponse } from '~/api';
 
 import { useExtractNL } from '~/api';
-import { Button } from '~/desktop/components/ui/button';
-import { ErrorText } from '~/desktop/components/ui/field';
-import { cn } from '~/desktop/utils/cn';
-import { parseHTTPError } from '~/desktop/utils/http-error';
-import { prepareImageForUpload } from '~/desktop/utils/prepare-image-for-upload';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { ErrorText } from '~/app/(desktop)/_components/ui/field';
+import { prepareImageForUpload } from '~/app/(desktop)/_utils/prepare-image-for-upload';
+import { cn } from '~/utils/cn';
+import { parseHTTPError } from '~/utils/http-error';
 
 const MAX_BYTES = 10 * 1024 * 1024;
 const ACCEPT = 'image/*,.heic,.heif,.xlsx,.csv,.pdf';

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { cn } from '~/desktop/utils/cn';
+import { cn } from '~/utils/cn';
 
 import { controlClass } from './field';
 

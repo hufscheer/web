@@ -4,16 +4,22 @@ import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 
 import type { TeamUnitType } from '~/api';
-import type { SportType } from '~/desktop/types';
+import type { SportType } from '~/app/(desktop)/_types';
 
 import { useCreateTeams, useDeleteTeamLogo, useDeleteTeamPlayer, useUpdateTeams } from '~/api';
-import { CheckSmallIcon, CloseIcon, HCCBigLogo } from '~/desktop/components/icons';
-import { Button } from '~/desktop/components/ui/button';
-import { ErrorText, Field, FormCard, SelectInput, TextInput } from '~/desktop/components/ui/field';
-import { Toasts, useToasts } from '~/desktop/components/ui/toast';
-import { routes } from '~/desktop/constants/routes';
-import { ACCEPTED_IMAGE_TYPES, useImageUpload } from '~/desktop/hooks/useImageUpload';
-import { parseHTTPError } from '~/desktop/utils/http-error';
+import { CheckSmallIcon, CloseIcon, HCCBigLogo } from '~/app/(desktop)/_components/icons';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import {
+  ErrorText,
+  Field,
+  FormCard,
+  SelectInput,
+  TextInput,
+} from '~/app/(desktop)/_components/ui/field';
+import { Toasts, useToasts } from '~/app/(desktop)/_components/ui/toast';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { ACCEPTED_IMAGE_TYPES, useImageUpload } from '~/hooks';
+import { parseHTTPError } from '~/utils/http-error';
 
 import { PlayerPicker, type PickedPlayer } from './player-picker';
 import { RosterAssistant } from './roster-assistant';

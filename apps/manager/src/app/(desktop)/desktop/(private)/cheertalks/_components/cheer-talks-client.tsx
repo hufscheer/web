@@ -6,7 +6,7 @@ import { ErrorBoundary, Suspense } from '@suspensive/react';
 import { useState } from 'react';
 
 import type { CheerTalkType } from '~/api';
-import type { League } from '~/desktop/types';
+import type { League } from '~/app/(desktop)/_types';
 
 import {
   useSuspenseInfiniteGamesCheerTalkBlock,
@@ -18,21 +18,21 @@ import {
   useUpdateCheerTalkBlock,
   useUpdateCheerTalkUnblock,
 } from '~/api';
-import { ErrorState } from '~/desktop/components/error-state';
-import { CheckSmallIcon, DeleteOutlineIcon, ErrorIcon } from '~/desktop/components/icons';
-import { PageHeader, type Crumb } from '~/desktop/components/layout/page-header';
-import { Button } from '~/desktop/components/ui/button';
+import { ErrorState } from '~/app/(desktop)/_components/error-state';
+import { CheckSmallIcon, DeleteOutlineIcon, ErrorIcon } from '~/app/(desktop)/_components/icons';
+import { PageHeader, type Crumb } from '~/app/(desktop)/_components/layout/page-header';
+import { Button } from '~/app/(desktop)/_components/ui/button';
 import {
   Chip,
   FilterBar,
   FilterDivider,
   FilterGroup,
   SearchInput,
-} from '~/desktop/components/ui/table';
-import { Toasts, useToasts } from '~/desktop/components/ui/toast';
-import { cn } from '~/desktop/utils/cn';
-import { monthDay, timeOf } from '~/desktop/utils/date';
-import { parseHTTPError } from '~/desktop/utils/http-error';
+} from '~/app/(desktop)/_components/ui/table';
+import { Toasts, useToasts } from '~/app/(desktop)/_components/ui/toast';
+import { monthDay, timeOf } from '~/app/(desktop)/_utils/date';
+import { cn } from '~/utils/cn';
+import { parseHTTPError } from '~/utils/http-error';
 
 export type Filter = 'unblocked' | 'reported' | 'blocked';
 

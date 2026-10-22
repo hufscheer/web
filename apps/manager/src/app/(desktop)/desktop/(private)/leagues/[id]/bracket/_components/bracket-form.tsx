@@ -4,15 +4,15 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import type { BracketEntryType, LeagueTeamType } from '~/api';
-import type { League } from '~/desktop/types';
+import type { League } from '~/app/(desktop)/_types';
 
 import { useUpdateBracket } from '~/api';
-import { Button } from '~/desktop/components/ui/button';
-import { ErrorText, SelectInput } from '~/desktop/components/ui/field';
-import { routes } from '~/desktop/constants/routes';
-import { roundLabel, roundsUpTo } from '~/desktop/constants/sports';
-import { cn } from '~/desktop/utils/cn';
-import { parseHTTPError } from '~/desktop/utils/http-error';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { ErrorText, SelectInput } from '~/app/(desktop)/_components/ui/field';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { roundLabel, roundsUpTo } from '~/app/(desktop)/_constants/sports';
+import { cn } from '~/utils/cn';
+import { parseHTTPError } from '~/utils/http-error';
 
 /** 1라운드 m 번째 경기는 자리 2m-1·2m 을 가져간다. 서버 `Bracket#generate` 와 같은 규칙이다 */
 const positionsOf = (matchNumber: number) => [matchNumber * 2 - 1, matchNumber * 2] as const;

@@ -3,12 +3,12 @@
 import { useState } from 'react';
 
 import type { LeagueTeamType } from '~/api';
-import type { SportType } from '~/desktop/types';
+import type { SportType } from '~/app/(desktop)/_types';
 
+import { HCCBigLogo } from '~/app/(desktop)/_components/icons';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { Toasts, useToasts } from '~/app/(desktop)/_components/ui/toast';
 import { RosterAssistant } from '~/app/(desktop)/desktop/(private)/teams/_components/roster-assistant';
-import { HCCBigLogo } from '~/desktop/components/icons';
-import { Button } from '~/desktop/components/ui/button';
-import { Toasts, useToasts } from '~/desktop/components/ui/toast';
 
 /** 서버의 /nl/process·/nl/execute 는 그 팀이 이 대회 소속인지 확인한다. 그래서 참가 팀에서만 연다 */
 export const RosterLauncher = ({

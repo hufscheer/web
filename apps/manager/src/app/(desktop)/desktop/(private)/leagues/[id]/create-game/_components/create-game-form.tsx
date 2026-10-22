@@ -5,18 +5,25 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 import type { LeagueTeamType } from '~/api';
-import type { League, TeamPlayerRow } from '~/desktop/types';
+import type { League, TeamPlayerRow } from '~/app/(desktop)/_types';
 
 import { queryKeys, useCreateGames } from '~/api';
-import { Button } from '~/desktop/components/ui/button';
-import { DateTimeInput } from '~/desktop/components/ui/date-time-input';
-import { ErrorText, Field, FormCard, SelectInput, TextInput } from '~/desktop/components/ui/field';
-import { Toasts, useToasts } from '~/desktop/components/ui/toast';
-import { routes } from '~/desktop/constants/routes';
-import { roundLabel, roundsUpTo, STARTER_LIMIT } from '~/desktop/constants/sports';
-import { toTeamPlayerRows } from '~/desktop/utils/convert';
-import { parseHTTPError } from '~/desktop/utils/http-error';
-import { TEAM_COLORS } from '~/desktop/utils/team-color';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { DateTimeInput } from '~/app/(desktop)/_components/ui/date-time-input';
+import {
+  ErrorText,
+  Field,
+  FormCard,
+  SelectInput,
+  TextInput,
+} from '~/app/(desktop)/_components/ui/field';
+import { Toasts, useToasts } from '~/app/(desktop)/_components/ui/toast';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { roundLabel, roundsUpTo } from '~/app/(desktop)/_constants/sports';
+import { toTeamPlayerRows } from '~/app/(desktop)/_utils/convert';
+import { TEAM_COLORS } from '~/app/(desktop)/_utils/team-color';
+import { getStarterLimit } from '~/constants/leagues';
+import { parseHTTPError } from '~/utils/http-error';
 
 import { LineupPanel, type LineupEntry } from './lineup-panel';
 
@@ -63,7 +70,7 @@ export const CreateGameForm = ({
   const [pending, setPending] = useState(false);
 
   const canBeThirdPlace = league.thirdPlaceMatchEnabled && round === 2;
-  const starterLimit = STARTER_LIMIT[league.sportType];
+  const starterLimit = getStarterLimit(league.sportType);
 
   const fetchRoster = async (
     teamId: number,

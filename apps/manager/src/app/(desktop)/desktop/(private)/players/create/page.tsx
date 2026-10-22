@@ -1,4 +1,4 @@
-import { PageHeader } from '~/desktop/components/layout/page-header';
+import { PageHeader } from '~/app/(desktop)/_components/layout/page-header';
 
 import { PlayerForm } from '../_components/player-form';
 

@@ -5,17 +5,23 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import type { GameStateType } from '~/api';
-import type { Game } from '~/desktop/types';
+import type { Game } from '~/app/(desktop)/_types';
 
 import { queryKeys } from '~/api';
-import { AddIcon, ChevronForwardIcon, SettingsIcon, SmsIcon } from '~/desktop/components/icons';
-import { PageHeader } from '~/desktop/components/layout/page-header';
-import { Badge, LiveBadge } from '~/desktop/components/ui/badge';
-import { Button } from '~/desktop/components/ui/button';
-import { routes } from '~/desktop/constants/routes';
-import { isLeagueDone, roundLabel, SportTag } from '~/desktop/constants/sports';
-import { toGames, toLeague } from '~/desktop/utils/convert';
-import { monthDay, period, timeOf } from '~/desktop/utils/date';
+import {
+  AddIcon,
+  ChevronForwardIcon,
+  SettingsIcon,
+  SmsIcon,
+} from '~/app/(desktop)/_components/icons';
+import { PageHeader } from '~/app/(desktop)/_components/layout/page-header';
+import { SportTag } from '~/app/(desktop)/_components/sport-tag';
+import { Badge, LiveBadge } from '~/app/(desktop)/_components/ui/badge';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { isLeagueDone, roundLabel } from '~/app/(desktop)/_constants/sports';
+import { toGames, toLeague } from '~/app/(desktop)/_utils/convert';
+import { monthDay, period, timeOf } from '~/app/(desktop)/_utils/date';
 
 import { BracketView } from './bracket-view';
 import { LeagueStatisticsPanel } from './league-statistics';

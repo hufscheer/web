@@ -4,7 +4,7 @@ import { toast } from '@hcc/ui';
 import { useRouter } from 'next/navigation';
 
 import { type PlayerFormType, useCreatePlayers } from '~/api';
-import { parseHTTPError } from '~/utils/form-util';
+import { parseHTTPError } from '~/utils/http-error';
 
 import { PlayerForm } from '../_components/player-form';
 

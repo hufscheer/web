@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 
-import { QueryBoundary } from '~/desktop/components/query-boundary';
+import { QueryBoundary } from '~/app/(desktop)/_components/query-boundary';
 
 import { LeagueBracket } from './_components/league-bracket';
 

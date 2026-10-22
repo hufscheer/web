@@ -1,6 +1,6 @@
-import { PageHeader } from '~/desktop/components/layout/page-header';
-import { QueryBoundary } from '~/desktop/components/query-boundary';
-import { Bar } from '~/desktop/components/skeleton';
+import { PageHeader } from '~/app/(desktop)/_components/layout/page-header';
+import { QueryBoundary } from '~/app/(desktop)/_components/query-boundary';
+import { Bar } from '~/app/(desktop)/_components/skeleton';
 
 import { LeagueCreateForm } from './_components/league-create-form';
 

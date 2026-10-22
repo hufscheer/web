@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import { Fragment } from 'react';
 
-import type { Bracket, BracketMatch, BracketTeam, Game, SportType } from '~/desktop/types';
+import type { Bracket, BracketMatch, BracketTeam, Game, SportType } from '~/app/(desktop)/_types';
 
-import { AddIcon, TrophyIcon } from '~/desktop/components/icons';
-import { routes } from '~/desktop/constants/routes';
-import { roundLabel } from '~/desktop/constants/sports';
-import { cn } from '~/desktop/utils/cn';
-import { monthDay, timeOf } from '~/desktop/utils/date';
+import { AddIcon, TrophyIcon } from '~/app/(desktop)/_components/icons';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { roundLabel } from '~/app/(desktop)/_constants/sports';
+import { monthDay, timeOf } from '~/app/(desktop)/_utils/date';
+import { cn } from '~/utils/cn';
 
 const formatDate = (iso: string | null) => (iso ? `${monthDay(iso)} ${timeOf(iso)}` : '');
 

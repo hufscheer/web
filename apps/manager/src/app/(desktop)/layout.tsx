@@ -1,4 +1,4 @@
-import '~/desktop/styles/globals.css';
+import '~/app/(desktop)/globals.css';
 import type { Metadata } from 'next';
 import type { PropsWithChildren } from 'react';
 

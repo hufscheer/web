@@ -3,13 +3,13 @@
 import { useSuspenseQueries } from '@hcc/api-base';
 import Link from 'next/link';
 
-import type { Bracket } from '~/desktop/types';
+import type { Bracket } from '~/app/(desktop)/_types';
 
 import { queryKeys } from '~/api';
-import { PageHeader } from '~/desktop/components/layout/page-header';
-import { Button } from '~/desktop/components/ui/button';
-import { routes } from '~/desktop/constants/routes';
-import { toLeague } from '~/desktop/utils/convert';
+import { PageHeader } from '~/app/(desktop)/_components/layout/page-header';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { toLeague } from '~/app/(desktop)/_utils/convert';
 
 import { BracketForm } from './bracket-form';
 

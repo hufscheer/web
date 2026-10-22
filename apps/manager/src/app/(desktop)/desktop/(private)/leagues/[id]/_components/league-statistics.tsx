@@ -3,7 +3,7 @@
 import { useQueries } from '@hcc/api-base';
 
 import type { LeagueStatisticsTeamType } from '~/api';
-import type { Game } from '~/desktop/types';
+import type { Game } from '~/app/(desktop)/_types';
 
 import { queryKeys } from '~/api';
 

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import { useLeaguesLeague, useSuspenseLeaguesLeague } from '~/api';
-import { toManagerLeague } from '~/desktop/utils/convert';
+import { toManagerLeague } from '~/app/(desktop)/_utils/convert';
 
 export const useMyLeagues = () => {
   const { data } = useLeaguesLeague();

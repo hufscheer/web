@@ -3,9 +3,9 @@
 import { HTTPError } from 'ky';
 import Link from 'next/link';
 
-import { ErrorIcon } from '~/desktop/components/icons';
-import { Button } from '~/desktop/components/ui/button';
-import { routes } from '~/desktop/constants/routes';
+import { ErrorIcon } from '~/app/(desktop)/_components/icons';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { routes } from '~/app/(desktop)/_constants/routes';
 
 const statusOf = (error: unknown) => (error instanceof HTTPError ? error.response.status : null);
 

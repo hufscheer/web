@@ -4,15 +4,15 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import type { NLPlayerInput, NLPlayerStatus, ParseFailedLine } from '~/api';
-import type { SportType } from '~/desktop/types';
+import type { SportType } from '~/app/(desktop)/_types';
 
 import { useCheckDuplicateNL, useExecuteNL, useParseNL, useProcessNL, useRegisterNL } from '~/api';
-import { CloseIcon, HCCBigLogo } from '~/desktop/components/icons';
-import { Badge } from '~/desktop/components/ui/badge';
-import { Button } from '~/desktop/components/ui/button';
-import { ErrorText } from '~/desktop/components/ui/field';
-import { routes } from '~/desktop/constants/routes';
-import { parseHTTPError } from '~/desktop/utils/http-error';
+import { CloseIcon, HCCBigLogo } from '~/app/(desktop)/_components/icons';
+import { Badge } from '~/app/(desktop)/_components/ui/badge';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { ErrorText } from '~/app/(desktop)/_components/ui/field';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { parseHTTPError } from '~/utils/http-error';
 
 import { RosterTextInput } from './roster-text-input';
 

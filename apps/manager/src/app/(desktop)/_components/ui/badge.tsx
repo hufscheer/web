@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react';
 
-import { cn } from '~/desktop/utils/cn';
+import { cn } from '~/utils/cn';
 
 type Variant = 'default' | 'primary' | 'danger' | 'success' | 'warning';
 

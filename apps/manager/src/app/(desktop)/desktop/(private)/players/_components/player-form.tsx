@@ -4,11 +4,11 @@ import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 
 import { useCreatePlayers, useUpdatePlayers } from '~/api';
-import { Button } from '~/desktop/components/ui/button';
-import { ErrorText, Field, FormCard, TextInput } from '~/desktop/components/ui/field';
-import { Toasts, useToasts } from '~/desktop/components/ui/toast';
-import { routes } from '~/desktop/constants/routes';
-import { parseHTTPError } from '~/desktop/utils/http-error';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { ErrorText, Field, FormCard, TextInput } from '~/app/(desktop)/_components/ui/field';
+import { Toasts, useToasts } from '~/app/(desktop)/_components/ui/toast';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { parseHTTPError } from '~/utils/http-error';
 
 import { PlayerRosterAssistant } from './player-roster-assistant';
 

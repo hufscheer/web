@@ -2,10 +2,10 @@ import { useQuery } from '@hcc/api-base';
 import { useMemo } from 'react';
 
 import type { GamesListPageResponse } from '~/api';
-import type { Game, ManagerLeague } from '~/desktop/types';
+import type { Game, ManagerLeague } from '~/app/(desktop)/_types';
 
 import { queryKeys } from '~/api';
-import { toGames } from '~/desktop/utils/convert';
+import { toGames } from '~/app/(desktop)/_utils/convert';
 
 import { useMyLeagues } from './useMyLeagues';
 

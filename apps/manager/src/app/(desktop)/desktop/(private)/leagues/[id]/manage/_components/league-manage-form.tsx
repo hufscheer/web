@@ -3,15 +3,21 @@
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 
-import type { League, Team } from '~/desktop/types';
+import type { League, Team } from '~/app/(desktop)/_types';
 
 import { useDeleteLeagueTeams, useUpdateLeagues, useUpdateLeagueTeams } from '~/api';
-import { CheckSmallIcon } from '~/desktop/components/icons';
-import { Button } from '~/desktop/components/ui/button';
-import { ErrorText, Field, FormCard, SelectInput, TextInput } from '~/desktop/components/ui/field';
-import { Toasts, useToasts } from '~/desktop/components/ui/toast';
-import { routes } from '~/desktop/constants/routes';
-import { parseHTTPError } from '~/desktop/utils/http-error';
+import { CheckSmallIcon } from '~/app/(desktop)/_components/icons';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import {
+  ErrorText,
+  Field,
+  FormCard,
+  SelectInput,
+  TextInput,
+} from '~/app/(desktop)/_components/ui/field';
+import { Toasts, useToasts } from '~/app/(desktop)/_components/ui/toast';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { parseHTTPError } from '~/utils/http-error';
 
 const ROUND_OPTIONS = [
   { value: 100, label: '예선' },

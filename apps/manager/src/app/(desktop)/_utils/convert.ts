@@ -23,7 +23,7 @@ import type {
   Team,
   TeamPlayerRow,
   TimelineRecord,
-} from '~/desktop/types';
+} from '~/app/(desktop)/_types';
 
 import { teamColorOf } from './team-color';
 

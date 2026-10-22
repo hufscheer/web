@@ -1,8 +1,8 @@
 'use client';
 
 import { useSuspensePlayer } from '~/api';
-import { PageHeader } from '~/desktop/components/layout/page-header';
-import { SPORT_LABEL } from '~/desktop/constants/sports';
+import { PageHeader } from '~/app/(desktop)/_components/layout/page-header';
+import { getSportConfig } from '~/constants/sports';
 
 import { PlayerForm } from '../../_components/player-form';
 import { PlayerDeleteButton } from './player-delete-button';
@@ -47,7 +47,7 @@ export const PlayerDetail = ({ playerId }: { playerId: number }) => {
                   teams.map((team) => (
                     <span key={team.id} className="text-t6 flex items-center gap-2">
                       <span className="text-t7 text-[var(--color-neutral-400)]">
-                        {SPORT_LABEL[team.sportType]}
+                        {getSportConfig(team.sportType).label}
                       </span>
                       {team.name}
                     </span>

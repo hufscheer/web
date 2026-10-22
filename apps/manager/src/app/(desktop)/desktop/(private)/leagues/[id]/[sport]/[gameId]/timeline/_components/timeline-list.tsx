@@ -2,10 +2,15 @@
 
 import { Fragment } from 'react';
 
-import type { Game, TimelineRecord, TimelineType } from '~/desktop/types';
+import type { Game, TimelineRecord, TimelineType } from '~/app/(desktop)/_types';
 
-import { DeleteOutlineIcon, ErrorIcon, FoulIcon, TradeIcon } from '~/desktop/components/icons';
-import { cn } from '~/desktop/utils/cn';
+import {
+  DeleteOutlineIcon,
+  ErrorIcon,
+  FoulIcon,
+  TradeIcon,
+} from '~/app/(desktop)/_components/icons';
+import { cn } from '~/utils/cn';
 
 type Props = {
   game: Game;

@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react';
 
-import { CommandPalette } from '~/desktop/components/layout/command-palette';
-import { Sidebar } from '~/desktop/components/layout/sidebar';
+import { CommandPalette } from '~/app/(desktop)/_components/layout/command-palette';
+import { Sidebar } from '~/app/(desktop)/_components/layout/sidebar';
 
 const PrivateLayout = ({ children }: PropsWithChildren) => {
   return (

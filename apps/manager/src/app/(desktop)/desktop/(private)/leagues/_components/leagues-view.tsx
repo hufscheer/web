@@ -2,12 +2,12 @@
 
 import Link from 'next/link';
 
-import { AddIcon } from '~/desktop/components/icons';
-import { PageHeader } from '~/desktop/components/layout/page-header';
-import { Button } from '~/desktop/components/ui/button';
-import { routes } from '~/desktop/constants/routes';
-import { isLeagueRunning } from '~/desktop/constants/sports';
-import { useSuspenseMyLeagues } from '~/desktop/hooks/useMyLeagues';
+import { AddIcon } from '~/app/(desktop)/_components/icons';
+import { PageHeader } from '~/app/(desktop)/_components/layout/page-header';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { isLeagueRunning } from '~/app/(desktop)/_constants/sports';
+import { useSuspenseMyLeagues } from '~/app/(desktop)/_hooks/useMyLeagues';
 
 import LeaguesClient from './LeaguesClient';
 

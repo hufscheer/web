@@ -4,11 +4,11 @@ import { useSuspenseQueries } from '@hcc/api-base';
 import Link from 'next/link';
 
 import { queryKeys } from '~/api';
-import { SettingsIcon } from '~/desktop/components/icons';
-import { PageHeader } from '~/desktop/components/layout/page-header';
-import { Button } from '~/desktop/components/ui/button';
-import { routes } from '~/desktop/constants/routes';
-import { toLeague } from '~/desktop/utils/convert';
+import { SettingsIcon } from '~/app/(desktop)/_components/icons';
+import { PageHeader } from '~/app/(desktop)/_components/layout/page-header';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { toLeague } from '~/app/(desktop)/_utils/convert';
 
 import { CreateGameForm, type GamePrefill } from './create-game-form';
 

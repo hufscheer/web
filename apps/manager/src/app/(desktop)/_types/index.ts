@@ -1,8 +1,8 @@
-import type { SportType, UndeletableReasonCode } from '~/api';
+import type { GameStateType, SportType, UndeletableReasonCode } from '~/api';
 
 export type { SportType, UndeletableReasonCode };
 
-export type GameState = 'SCHEDULED' | 'PLAYING' | 'FINISHED';
+export type GameState = GameStateType;
 export type LineupPlayerState = 'STARTER' | 'CANDIDATE';
 
 export type Position =

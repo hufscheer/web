@@ -2,13 +2,13 @@
 
 import { useSuspenseQueries } from '@hcc/api-base';
 
-import type { SportType } from '~/desktop/types';
+import type { SportType } from '~/app/(desktop)/_types';
 
 import { queryKeys, useSuspenseLeague } from '~/api';
-import { routes } from '~/desktop/constants/routes';
-import { isLeagueRunning, matchup } from '~/desktop/constants/sports';
-import { useSuspenseMyLeagues } from '~/desktop/hooks/useMyLeagues';
-import { toGame } from '~/desktop/utils/convert';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { isLeagueRunning, matchup } from '~/app/(desktop)/_constants/sports';
+import { useSuspenseMyLeagues } from '~/app/(desktop)/_hooks/useMyLeagues';
+import { toGame } from '~/app/(desktop)/_utils/convert';
 
 import CheerTalksClient, { type Filter } from './cheer-talks-client';
 

@@ -1,13 +1,14 @@
 import Link from 'next/link';
 
 import type { QuarterScoreType } from '~/api';
-import type { Game } from '~/desktop/types';
+import type { Game } from '~/app/(desktop)/_types';
 
-import { SmsIcon } from '~/desktop/components/icons';
-import { Badge, LiveBadge } from '~/desktop/components/ui/badge';
-import { Button } from '~/desktop/components/ui/button';
-import { routes } from '~/desktop/constants/routes';
-import { roundLabelOf, SportIcon } from '~/desktop/constants/sports';
+import { SmsIcon } from '~/app/(desktop)/_components/icons';
+import { SportIcon } from '~/app/(desktop)/_components/sport-tag';
+import { Badge, LiveBadge } from '~/app/(desktop)/_components/ui/badge';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { roundLabelOf } from '~/app/(desktop)/_constants/sports';
 
 import { QuarterScores } from './quarter-scores';
 

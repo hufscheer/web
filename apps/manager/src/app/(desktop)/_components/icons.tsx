@@ -8,7 +8,7 @@ import {
   TradeIcon as BaseTradeIcon,
 } from '@hcc/icons';
 
-import { cn } from '~/desktop/utils/cn';
+import { cn } from '~/utils/cn';
 
 export * from '@hcc/icons';
 

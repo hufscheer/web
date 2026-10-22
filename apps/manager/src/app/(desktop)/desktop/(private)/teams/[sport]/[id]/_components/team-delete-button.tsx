@@ -3,15 +3,15 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import type { SportType } from '~/desktop/types';
+import type { SportType } from '~/app/(desktop)/_types';
 
 import { useDeleteTeams } from '~/api';
-import { DeleteOutlineIcon } from '~/desktop/components/icons';
-import { Button } from '~/desktop/components/ui/button';
-import { ConfirmDialog } from '~/desktop/components/ui/confirm-dialog';
-import { Toasts, useToasts } from '~/desktop/components/ui/toast';
-import { routes } from '~/desktop/constants/routes';
-import { parseHTTPError } from '~/desktop/utils/http-error';
+import { DeleteOutlineIcon } from '~/app/(desktop)/_components/icons';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { ConfirmDialog } from '~/app/(desktop)/_components/ui/confirm-dialog';
+import { Toasts, useToasts } from '~/app/(desktop)/_components/ui/toast';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { parseHTTPError } from '~/utils/http-error';
 
 export const TeamDeleteButton = ({
   teamId,

@@ -9,10 +9,10 @@ import type {
   QuarterScoreType,
   SportType,
 } from '~/api';
-import type { Lineup, LineupPlayer, Position } from '~/desktop/types';
+import type { Lineup, LineupPlayer, Position } from '~/app/(desktop)/_types';
 
 import { queryKeys } from '~/api';
-import { toGame, toLineups, toTimeline } from '~/desktop/utils/convert';
+import { toGame, toLineups, toTimeline } from '~/app/(desktop)/_utils/convert';
 
 import { LiveConsole } from './live-console';
 

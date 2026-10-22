@@ -4,18 +4,19 @@ import { useQueries, useSuspenseQueries } from '@hcc/api-base';
 import Link from 'next/link';
 
 import type { GameLineupType } from '~/api';
-import type { Game } from '~/desktop/types';
+import type { Game } from '~/app/(desktop)/_types';
 
 import { queryKeys } from '~/api';
-import { ChevronForwardIcon } from '~/desktop/components/icons';
-import { PageHeader } from '~/desktop/components/layout/page-header';
-import { Badge, LiveBadge } from '~/desktop/components/ui/badge';
-import { routes } from '~/desktop/constants/routes';
-import { isLeagueRunning, matchup, roundLabelOf, SportIcon } from '~/desktop/constants/sports';
-import { toMyGames } from '~/desktop/hooks/useMyGames';
-import { cn } from '~/desktop/utils/cn';
-import { toManagerLeague } from '~/desktop/utils/convert';
-import { dateDot, monthDay, timeOf, todayInKst } from '~/desktop/utils/date';
+import { ChevronForwardIcon } from '~/app/(desktop)/_components/icons';
+import { PageHeader } from '~/app/(desktop)/_components/layout/page-header';
+import { SportIcon } from '~/app/(desktop)/_components/sport-tag';
+import { Badge, LiveBadge } from '~/app/(desktop)/_components/ui/badge';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { isLeagueRunning, matchup, roundLabelOf } from '~/app/(desktop)/_constants/sports';
+import { toMyGames } from '~/app/(desktop)/_hooks/useMyGames';
+import { toManagerLeague } from '~/app/(desktop)/_utils/convert';
+import { dateDot, monthDay, timeOf, todayInKst } from '~/app/(desktop)/_utils/date';
+import { cn } from '~/utils/cn';
 
 const GAME_PAGE_SIZE = 100;
 const REPORTED_SIZE = 20;

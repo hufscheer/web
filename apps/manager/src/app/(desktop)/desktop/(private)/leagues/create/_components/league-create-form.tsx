@@ -3,19 +3,26 @@
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 
-import type { SportType } from '~/desktop/types';
+import type { SportType } from '~/app/(desktop)/_types';
 
 import { useCreateLeagues, useSuspenseManagerAllTeams } from '~/api';
-import { CheckSmallIcon } from '~/desktop/components/icons';
-import { Button } from '~/desktop/components/ui/button';
-import { ConfirmDialog } from '~/desktop/components/ui/confirm-dialog';
-import { ErrorText, Field, FormCard, SelectInput, TextInput } from '~/desktop/components/ui/field';
-import { Toasts, useToasts } from '~/desktop/components/ui/toast';
-import { routes } from '~/desktop/constants/routes';
-import { roundLabel, SPORT_LABEL } from '~/desktop/constants/sports';
-import { cn } from '~/desktop/utils/cn';
-import { toTeam } from '~/desktop/utils/convert';
-import { parseHTTPError } from '~/desktop/utils/http-error';
+import { CheckSmallIcon } from '~/app/(desktop)/_components/icons';
+import { Button } from '~/app/(desktop)/_components/ui/button';
+import { ConfirmDialog } from '~/app/(desktop)/_components/ui/confirm-dialog';
+import {
+  ErrorText,
+  Field,
+  FormCard,
+  SelectInput,
+  TextInput,
+} from '~/app/(desktop)/_components/ui/field';
+import { Toasts, useToasts } from '~/app/(desktop)/_components/ui/toast';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { roundLabel } from '~/app/(desktop)/_constants/sports';
+import { toTeam } from '~/app/(desktop)/_utils/convert';
+import { getSportConfig } from '~/constants/sports';
+import { cn } from '~/utils/cn';
+import { parseHTTPError } from '~/utils/http-error';
 
 const ROUND_OPTIONS = [100, 16, 8, 4, 2];
 const SPORTS: SportType[] = ['SOCCER', 'BASKETBALL'];
@@ -192,7 +199,7 @@ export const LeagueCreateForm = () => {
           )}
           {candidates.length === 0 ? (
             <p className="text-t6 px-6 py-12 text-center text-[var(--color-neutral-400)]">
-              {SPORT_LABEL[sportType]} 팀이 없어요.
+              {getSportConfig(sportType).label} 팀이 없어요.
             </p>
           ) : visibleTeams.length === 0 ? (
             <p className="text-t6 px-6 py-12 text-center text-[var(--color-neutral-400)]">

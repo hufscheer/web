@@ -4,8 +4,8 @@ import { useQuery } from '@hcc/api-base';
 import { useState } from 'react';
 
 import { queryKeys } from '~/api';
-import { TextInput } from '~/desktop/components/ui/field';
-import { useDebounce } from '~/desktop/hooks/useDebounce';
+import { TextInput } from '~/app/(desktop)/_components/ui/field';
+import { useDebounce } from '~/hooks';
 
 export type PickedPlayer = { playerId: number; name: string; studentNumber: string };
 
@@ -19,7 +19,7 @@ const searchOf = (keyword: string) =>
 
 export const PlayerPicker = ({ excludeIds, onPick }: Props) => {
   const [query, setQuery] = useState('');
-  const keyword = useDebounce(query).trim();
+  const keyword = useDebounce(query, 250).trim();
   const { data, isFetching } = useQuery({
     ...queryKeys.players.search(searchOf(keyword)),
     enabled: keyword !== '',

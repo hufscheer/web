@@ -10,12 +10,12 @@ import {
   RewardedAdsIcon,
   SmsIcon,
   TimerOutlineIcon,
-} from '~/desktop/components/icons';
-import { routes } from '~/desktop/constants/routes';
-import { matchup } from '~/desktop/constants/sports';
-import { useMyLiveGames } from '~/desktop/hooks/useMyGames';
-import { useMyLeagues } from '~/desktop/hooks/useMyLeagues';
-import { cn } from '~/desktop/utils/cn';
+} from '~/app/(desktop)/_components/icons';
+import { routes } from '~/app/(desktop)/_constants/routes';
+import { matchup } from '~/app/(desktop)/_constants/sports';
+import { useMyLiveGames } from '~/app/(desktop)/_hooks/useMyGames';
+import { useMyLeagues } from '~/app/(desktop)/_hooks/useMyLeagues';
+import { cn } from '~/utils/cn';
 
 type Item = {
   id: string;
