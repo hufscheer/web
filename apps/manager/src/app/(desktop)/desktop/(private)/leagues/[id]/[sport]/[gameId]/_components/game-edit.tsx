@@ -22,13 +22,15 @@ type Props = {
 };
 
 export const GameEdit = ({ leagueId, gameId, sportType }: Props) => {
-  const [{ data: detail }, { data: league }, { data: lineups }] = useSuspenseQueries({
-    queries: [
-      queryKeys.games.detail({ gameId }),
-      queryKeys.leagues.detail({ leagueId }),
-      queryKeys.games.lineup({ gameId }),
-    ],
-  });
+  const [{ data: detail }, { data: league }, { data: lineups }, { data: playing }] =
+    useSuspenseQueries({
+      queries: [
+        queryKeys.games.detail({ gameId }),
+        queryKeys.leagues.detail({ leagueId }),
+        queryKeys.games.lineup({ gameId }),
+        queryKeys.games.lineupPlaying({ gameId }),
+      ],
+    });
 
   // 주소의 대회와 경기의 대회가 다르면 다른 대회의 라운드 설정으로 수정하게 된다
   if (detail.leagueId !== leagueId) return <NotFoundState />;
@@ -55,7 +57,7 @@ export const GameEdit = ({ leagueId, gameId, sportType }: Props) => {
           maxRound={league.maxRound}
           thirdPlaceAvailable={league.thirdPlaceMatchEnabled}
         />
-        <LineupEditor game={game} lineups={lineups} />
+        <LineupEditor game={game} lineups={lineups} playing={playing} />
       </div>
     </div>
   );
