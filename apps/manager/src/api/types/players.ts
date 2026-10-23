@@ -1,11 +1,19 @@
-import type { TeamType } from '~/api';
+import type { TeamType } from './teams';
 
 export type PlayerType = {
   playerId: number;
+  teamPlayerId?: number | null;
   name: string;
   studentNumber: string;
+  jerseyNumber?: number | null;
   totalGoalCount: number;
   teams: TeamType[];
+};
+
+export type PlayerSearchPayload = {
+  name?: string;
+  studentNumber?: string;
+  size: number;
 };
 
 export type PlayerDetailPayload = {

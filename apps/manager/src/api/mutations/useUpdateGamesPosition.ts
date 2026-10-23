@@ -21,7 +21,10 @@ export const useUpdateGamesPosition = () => {
   return useMutation({
     mutationFn: patchLineupPlayerPosition,
     onSuccess: async () => {
-      await qc.invalidateQueries({ queryKey: queryKeys.games.lineup._def });
+      await Promise.all([
+        qc.invalidateQueries({ queryKey: queryKeys.games.lineup._def }),
+        qc.invalidateQueries({ queryKey: queryKeys.games.lineupPlaying._def }),
+      ]);
     },
   });
 };
