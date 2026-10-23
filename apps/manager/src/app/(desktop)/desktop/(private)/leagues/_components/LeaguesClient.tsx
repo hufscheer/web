@@ -23,6 +23,7 @@ import {
   TableShell,
   tdClass,
   Th,
+  wrapTdClass,
 } from '~/app/(desktop)/_components/ui/table';
 import { routes } from '~/app/(desktop)/_constants/routes';
 import { isLeagueBefore, isLeagueRunning, roundLabel } from '~/app/(desktop)/_constants/sports';
@@ -162,7 +163,7 @@ export default function LeaguesClient({ leagues }: { leagues: ManagerLeague[] })
                 <td className={tdClass}>
                   <SportTag sportType={league.sportType} soft />
                 </td>
-                <td className={`${tdClass} font-semibold`}>{league.name}</td>
+                <td className={`${tdClass} ${wrapTdClass} font-semibold`}>{league.name}</td>
                 <td className={`${tdClass} tnum text-t7 text-[var(--color-neutral-500)]`}>
                   {period(league.startAt, league.endAt)}
                 </td>

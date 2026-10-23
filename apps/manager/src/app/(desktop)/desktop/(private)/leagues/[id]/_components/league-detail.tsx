@@ -178,7 +178,8 @@ export const LeagueDetail = ({ leagueId }: { leagueId: number }) => {
             </span>
           </h2>
 
-          <div className="overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-greyscale-50)]">
+          {/* 창이 좁으면 팀 이름 칸이 사라지기 전에 목록을 가로로 스크롤한다 */}
+          <div className="overflow-x-auto rounded-[var(--radius-card)] border border-[var(--color-greyscale-50)]">
             {leagueGames.length === 0 ? (
               <p className="text-t6 px-5 py-12 text-center text-[var(--color-neutral-400)]">
                 등록된 경기가 없어요.
@@ -201,7 +202,7 @@ export const LeagueDetail = ({ leagueId }: { leagueId: number }) => {
                     onKeyDown={(e) => {
                       if (e.target === e.currentTarget && e.key === 'Enter') openConsole();
                     }}
-                    className="grid cursor-pointer grid-cols-[76px_minmax(0,380px)_1fr_auto] items-center gap-4 border-b border-[var(--color-hairline)] px-5 py-3.5 last:border-b-0 hover:bg-[var(--color-greyscale-25)]"
+                    className="grid min-w-[600px] cursor-pointer grid-cols-[76px_minmax(0,380px)_1fr_auto] items-center gap-4 border-b border-[var(--color-hairline)] px-5 py-3.5 last:border-b-0 hover:bg-[var(--color-greyscale-25)]"
                   >
                     <GameStateBadge state={game.state} />
 
@@ -239,7 +240,7 @@ export const LeagueDetail = ({ leagueId }: { leagueId: number }) => {
                       </span>
                     </span>
 
-                    <span className="tnum text-t6 text-[var(--color-neutral-500)]">
+                    <span className="tnum text-t6 whitespace-nowrap text-[var(--color-neutral-500)]">
                       {`${monthDay(game.startTime)} ${timeOf(game.startTime)}`}
                     </span>
 

@@ -92,9 +92,16 @@ export const rowClass =
 /** 머리(Th)와 같은 값이라야 글자 세로줄이 맞는다 */
 export const tdClass = 'px-3.5';
 
+/** 긴 이름 칸. 낱말 단위로만 줄을 바꾸고, 너무 좁아지기 전에 표가 스크롤된다 */
+export const wrapTdClass = 'min-w-40 break-keep whitespace-normal';
+
+/**
+ * 창이 좁아지면 칸을 줄여 글자를 한 자씩 꺾는 대신 표를 가로로 스크롤한다.
+ * 줄바꿈이 필요한 칸만 wrapTdClass 로 푼다
+ */
 export const TableShell = ({ children }: { children: ReactNode }) => (
   <div className="overflow-x-auto">
-    <table className="text-t6 w-full">{children}</table>
+    <table className="text-t6 w-full whitespace-nowrap">{children}</table>
   </div>
 );
 
