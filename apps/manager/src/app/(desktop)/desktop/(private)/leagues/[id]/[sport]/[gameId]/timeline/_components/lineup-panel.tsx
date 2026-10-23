@@ -7,7 +7,7 @@ import type { Game, Lineup, LineupPlayer, SportType } from '~/app/(desktop)/_typ
 
 import { queryKeys, useUpdateGamesPosition } from '~/api';
 import { CaptainIcon } from '~/app/(desktop)/_components/icons';
-import { POSITION_GROUPS } from '~/app/(desktop)/_constants/sports';
+import { PositionSelect as SharedPositionSelect } from '~/app/(desktop)/_components/position-select';
 import { cn } from '~/utils/cn';
 import { parseHTTPError } from '~/utils/http-error';
 
@@ -54,31 +54,13 @@ const PositionSelect = ({
   };
 
   return (
-    <select
-      aria-label={`${player.playerName} 포지션`}
-      value={player.position ?? ''}
+    <SharedPositionSelect
+      sportType={sportType}
+      value={player.position ?? null}
+      label={`${player.playerName} 포지션`}
       disabled={saving}
-      onChange={(e) => void change(e.target.value)}
-      className={cn(
-        'text-t7 h-7 rounded-[var(--radius-control)] border px-1.5 font-bold tracking-wide transition-colors',
-        player.position
-          ? 'border-transparent bg-[var(--color-neutral-100)] text-[var(--color-neutral-600)]'
-          : 'border-[var(--color-greyscale-50)] bg-[var(--color-canvas)] text-[var(--color-neutral-300)]',
-        saving && 'opacity-50',
-      )}
-    >
-      <option value="">미입력</option>
-      {POSITION_GROUPS[sportType].map(({ group, broad, items }) => (
-        <optgroup key={group} label={group}>
-          {broad && <option value={broad}>{broad} · 대분류</option>}
-          {items.map((code) => (
-            <option key={code} value={code}>
-              {code}
-            </option>
-          ))}
-        </optgroup>
-      ))}
-    </select>
+      onChange={(value) => void change(value ?? '')}
+    />
   );
 };
 

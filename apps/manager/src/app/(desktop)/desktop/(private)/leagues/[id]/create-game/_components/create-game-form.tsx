@@ -101,6 +101,7 @@ export const CreateGameForm = ({
           jerseyNumber: row.jerseyNumber ?? 0,
           state: 'CANDIDATE' as const,
           isCaptain: false,
+          position: null,
         }))
         .sort((a, b) => a.jerseyNumber - b.jerseyNumber)
         .map((entry, index) => ({
@@ -169,7 +170,7 @@ export const CreateGameForm = ({
                     teamPlayerId: p.teamPlayerId,
                     state: p.state,
                     isCaptain: p.isCaptain,
-                    position: null,
+                    position: p.position,
                   },
                 ],
           ),
@@ -278,6 +279,7 @@ export const CreateGameForm = ({
           {([0, 1] as Side[]).map((side) => (
             <LineupPanel
               key={side}
+              sportType={league.sportType}
               teamName={teamName(side)}
               teamColor={TEAM_COLORS[side]}
               lineup={lineups[side]}

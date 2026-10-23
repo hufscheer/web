@@ -3,7 +3,7 @@
 import { useQueryClient } from '@hcc/api-base';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import type { GameLineupType } from '~/api';
+import type { GameLineupPlayingType, GameLineupType } from '~/api';
 import type { Game, Lineup, TeamPlayerRow } from '~/app/(desktop)/_types';
 
 import {
@@ -13,6 +13,7 @@ import {
   useUpdateGamesCandidate,
   useUpdateGamesCaptainRegister,
   useUpdateGamesCaptainRevoke,
+  useUpdateGamesPosition,
   useUpdateGamesStarter,
 } from '~/api';
 import { Button } from '~/app/(desktop)/_components/ui/button';
@@ -31,9 +32,18 @@ type Rosters = [TeamPlayerRow[] | null, TeamPlayerRow[] | null];
 
 const byJersey = (a: LineupEntry, b: LineupEntry) => a.jerseyNumber - b.jerseyNumber;
 
-/** 서버의 라인업을 화면 항목으로 바꾼다 */
-const fromServer = (lineup: Lineup | undefined): LineupEntry[] =>
-  [...(lineup?.starterPlayers ?? []), ...(lineup?.candidatePlayers ?? [])]
+/**
+ * 서버의 라인업을 화면 항목으로 바꾼다. 전체 라인업 조회는 관객 기준으로 포지션을 가려서
+ * (선발 전원이 입력하기 전, 후보), 가림 없는 출전 선수 조회의 포지션을 먼저 쓴다.
+ */
+const fromServer = (
+  lineup: Lineup | undefined,
+  playing: GameLineupPlayingType | undefined,
+): LineupEntry[] => {
+  const positionOf = new Map(
+    (playing?.gameTeamPlayers ?? []).map((p) => [p.lineupPlayerId, p.position ?? null]),
+  );
+  return [...(lineup?.starterPlayers ?? []), ...(lineup?.candidatePlayers ?? [])]
     .map((p) => ({
       teamPlayerId: null,
       lineupPlayerId: p.lineupPlayerId,
@@ -43,8 +53,12 @@ const fromServer = (lineup: Lineup | undefined): LineupEntry[] =>
       jerseyNumber: p.jerseyNumber,
       state: p.state,
       isCaptain: p.isCaptain,
+      position: positionOf.has(p.lineupPlayerId)
+        ? (positionOf.get(p.lineupPlayerId) ?? null)
+        : (p.position ?? null),
     }))
     .sort(byJersey);
+};
 
 /** 팀 명단을 합친다. 명단에만 있는 선수는 미등록으로 붙고, 이미 등록된 선수는 teamPlayerId 만 채운다 */
 const withRoster = (entries: LineupEntry[], rows: TeamPlayerRow[]): LineupEntry[] => {
@@ -64,15 +78,25 @@ const withRoster = (entries: LineupEntry[], rows: TeamPlayerRow[]): LineupEntry[
       jerseyNumber: r.jerseyNumber ?? 0,
       state: 'CANDIDATE',
       isCaptain: false,
+      position: null,
     }));
   return [...merged, ...rest].sort(byJersey);
 };
 
-const build = (data: GameLineupType[] | undefined, game: Game, rosters: Rosters) => {
+const build = (
+  data: GameLineupType[] | undefined,
+  playing: GameLineupPlayingType[] | undefined,
+  game: Game,
+  rosters: Rosters,
+) => {
   const lineups = toLineups(data);
   return ([0, 1] as Side[]).map((side) => {
     const lineup = lineups.find((l) => l.gameTeamId === game.gameTeams[side].gameTeamId);
-    const base = fromServer(lineup);
+    const gameTeamId = game.gameTeams[side].gameTeamId;
+    const base = fromServer(
+      lineup,
+      playing?.find((t) => t.gameTeamId === gameTeamId),
+    );
     const rows = rosters[side];
     return rows ? withRoster(base, rows) : base;
   }) as [LineupEntry[], LineupEntry[]];
@@ -84,12 +108,18 @@ type Api = {
     teamPlayerId: number;
     state: 'STARTER' | 'CANDIDATE';
     isCaptain: boolean;
+    position: string | null;
   }) => Promise<number>;
   removeLineup: (v: { gameTeamId: number; lineupPlayerId: number }) => Promise<unknown>;
   toStarter: (v: { gameId: number; lineupPlayerId: number }) => Promise<unknown>;
   toCandidate: (v: { gameId: number; lineupPlayerId: number }) => Promise<unknown>;
   registerCaptain: (v: { gameId: number; lineupPlayerId: number }) => Promise<unknown>;
   revokeCaptain: (v: { gameId: number; lineupPlayerId: number }) => Promise<unknown>;
+  updatePosition: (v: {
+    gameId: number;
+    lineupPlayerId: number;
+    position: string | null;
+  }) => Promise<unknown>;
 };
 
 /** 한 팀의 계획을 순서대로 실행한다. 첫 실패에서 멈춘다 */
@@ -114,6 +144,7 @@ const runPlan = async (
       teamPlayerId: a.teamPlayerId,
       state: a.state,
       isCaptain: false,
+      position: a.position,
     });
     ids.set(a.playerId, id);
   }
@@ -125,14 +156,18 @@ const runPlan = async (
     if (typeof id !== 'number') throw new Error('주장으로 지정할 선수를 찾지 못했어요.');
     await api.registerCaptain({ gameId, lineupPlayerId: id });
   }
+
+  for (const p of plan.positions)
+    await api.updatePosition({ gameId, lineupPlayerId: p.lineupPlayerId, position: p.position });
 };
 
 type Props = {
   game: Game;
   lineups: GameLineupType[];
+  playing: GameLineupPlayingType[];
 };
 
-export const LineupEditor = ({ game, lineups }: Props) => {
+export const LineupEditor = ({ game, lineups, playing }: Props) => {
   const queryClient = useQueryClient();
   const { toasts, push, pushError } = useToasts();
   const { mutateAsync: addLineup } = useCreateGameTeamsLineup();
@@ -141,26 +176,30 @@ export const LineupEditor = ({ game, lineups }: Props) => {
   const { mutateAsync: toCandidate } = useUpdateGamesCandidate();
   const { mutateAsync: registerCaptain } = useUpdateGamesCaptainRegister();
   const { mutateAsync: revokeCaptain } = useUpdateGamesCaptainRevoke();
+  const { mutateAsync: updatePosition } = useUpdateGamesPosition();
 
   const starterLimit = getStarterLimit(game.sportType);
 
   const [rosters, setRosters] = useState<Rosters>([null, null]);
   const [failed, setFailed] = useState<[boolean, boolean]>([false, false]);
-  const [edited, setEdited] = useState(() => build(lineups, game, [null, null]));
-  const [seen, setSeen] = useState(lineups);
+  const [edited, setEdited] = useState(() => build(lineups, playing, game, [null, null]));
+  const [seen, setSeen] = useState({ lineups, playing });
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   // 저장 중에는 각 요청이 라인업 쿼리를 새로 불러와 데이터가 계속 바뀐다. 끝난 뒤에 한 번만 다시 시작한다
   const pendingRef = useRef(false);
 
   // 서버 데이터가 새로 오면 편집 중이던 내용을 버리고 그 상태로 다시 시작한다
-  if (seen !== lineups && !pendingRef.current) {
-    setSeen(lineups);
-    setEdited(build(lineups, game, rosters));
+  if ((seen.lineups !== lineups || seen.playing !== playing) && !pendingRef.current) {
+    setSeen({ lineups, playing });
+    setEdited(build(lineups, playing, game, rosters));
   }
 
   // 서버에 있는 상태. 비교 기준이라 명단이 없어도 된다
-  const original = useMemo(() => build(lineups, game, [null, null]), [lineups, game]);
+  const original = useMemo(
+    () => build(lineups, playing, game, [null, null]),
+    [lineups, playing, game],
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -214,6 +253,7 @@ export const LineupEditor = ({ game, lineups }: Props) => {
       toCandidate,
       registerCaptain,
       revokeCaptain,
+      updatePosition,
     };
     try {
       for (const side of [0, 1] as Side[]) {
@@ -238,12 +278,18 @@ export const LineupEditor = ({ game, lineups }: Props) => {
     } finally {
       // 성공이든 실패든 서버 상태를 다시 읽어 편집 화면을 그 상태로 다시 시작한다
       try {
-        const fresh = await queryClient.fetchQuery({
-          ...queryKeys.games.lineup({ gameId: game.gameId }),
-          staleTime: 0,
-        });
-        setSeen(fresh);
-        setEdited(build(fresh, game, rosters));
+        const [freshLineups, freshPlaying] = await Promise.all([
+          queryClient.fetchQuery({
+            ...queryKeys.games.lineup({ gameId: game.gameId }),
+            staleTime: 0,
+          }),
+          queryClient.fetchQuery({
+            ...queryKeys.games.lineupPlaying({ gameId: game.gameId }),
+            staleTime: 0,
+          }),
+        ]);
+        setSeen({ lineups: freshLineups, playing: freshPlaying });
+        setEdited(build(freshLineups, freshPlaying, game, rosters));
       } catch {
         setError('라인업을 다시 불러오지 못했어요. 화면을 새로고침해 주세요.');
       }
@@ -266,6 +312,7 @@ export const LineupEditor = ({ game, lineups }: Props) => {
         {([0, 1] as Side[]).map((side) => (
           <LineupPanel
             key={game.gameTeams[side].gameTeamId}
+            sportType={game.sportType}
             teamName={game.gameTeams[side].gameTeamName}
             teamColor={game.gameTeams[side].teamColor || TEAM_COLORS[side]}
             lineup={edited[side]}

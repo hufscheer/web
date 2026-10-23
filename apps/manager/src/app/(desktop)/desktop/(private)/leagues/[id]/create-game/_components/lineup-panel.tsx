@@ -1,6 +1,9 @@
 'use client';
 
+import type { SportType } from '~/app/(desktop)/_types';
+
 import { AddIcon, CaptainIcon, CloseIcon } from '~/app/(desktop)/_components/icons';
+import { PositionSelect } from '~/app/(desktop)/_components/position-select';
 import { cn } from '~/utils/cn';
 
 export type LineupEntry = {
@@ -15,9 +18,12 @@ export type LineupEntry = {
   jerseyNumber: number;
   state: 'STARTER' | 'CANDIDATE';
   isCaptain: boolean;
+  /** 선발만 화면에 보인다. 후보로 내려도 값은 남는다 */
+  position: string | null;
 };
 
 type Props = {
+  sportType: SportType;
   teamName: string;
   teamColor: string;
   lineup: LineupEntry[];
@@ -35,6 +41,7 @@ type Props = {
 };
 
 export const LineupPanel = ({
+  sportType,
   teamName,
   teamColor,
   lineup,
@@ -52,6 +59,7 @@ export const LineupPanel = ({
   const candidates = registered.filter((p) => p.state === 'CANDIDATE');
 
   // 서버는 후보로 내리면 주장을 풀어 버린다. 수정 화면에서는 같은 규칙을 화면에도 건다
+  // 서버도 후보로 내릴 때 포지션을 지우지 않는다. 후보는 화면에 안 보일 뿐이다
   const demote = (p: LineupEntry): LineupEntry => ({
     ...p,
     state: 'CANDIDATE',
@@ -83,7 +91,7 @@ export const LineupPanel = ({
     onChange(
       lineup.map((p) =>
         p.playerId === playerId
-          ? { ...p, excluded: false, state: 'CANDIDATE', isCaptain: false }
+          ? { ...p, excluded: false, state: 'CANDIDATE', isCaptain: false, position: null }
           : p,
       ),
     );
@@ -148,6 +156,16 @@ export const LineupPanel = ({
         {entry.jerseyNumber}
       </span>
       <span className="text-t6 min-w-0 flex-1 truncate font-medium">{entry.playerName}</span>
+      {entry.state === 'STARTER' && (
+        <PositionSelect
+          sportType={sportType}
+          value={entry.position}
+          label={`${entry.playerName} 포지션`}
+          onChange={(position) =>
+            onChange(lineup.map((p) => (p.playerId === entry.playerId ? { ...p, position } : p)))
+          }
+        />
+      )}
       <button
         type="button"
         onClick={() => toggleState(entry.playerId)}

@@ -9,12 +9,19 @@ export type TeamPlan = {
   /** 3. 선발로 올린다 */
   promotes: { lineupPlayerId: number }[];
   /** 4. 새로 넣는다. 주장은 5단계에서 따로 지정한다 */
-  adds: { playerId: number; teamPlayerId: number; state: 'STARTER' | 'CANDIDATE' }[];
+  adds: {
+    playerId: number;
+    teamPlayerId: number;
+    state: 'STARTER' | 'CANDIDATE';
+    position: string | null;
+  }[];
   /** 5. 주장. 새로 넣은 선수의 id 는 4단계 뒤에야 알 수 있어 playerId 로 가리킨다 */
   captain:
     | { action: 'register'; playerId: number }
     | { action: 'revoke'; lineupPlayerId: number }
     | null;
+  /** 6. 이미 있던 선발의 포지션 변경 */
+  positions: { lineupPlayerId: number; position: string | null }[];
 };
 
 export const isEmptyPlan = (plan: TeamPlan) =>
@@ -22,7 +29,8 @@ export const isEmptyPlan = (plan: TeamPlan) =>
   plan.demotes.length === 0 &&
   plan.promotes.length === 0 &&
   plan.adds.length === 0 &&
-  plan.captain === null;
+  plan.captain === null &&
+  plan.positions.length === 0;
 
 /**
  * 서버에 있는 라인업(original)과 화면에서 고친 라인업(edited)의 차이를 계산한다.
@@ -32,7 +40,14 @@ export const planTeam = (original: LineupEntry[], edited: LineupEntry[]): TeamPl
   const before = new Map(original.filter((p) => !p.excluded).map((p) => [p.playerId, p]));
   const after = new Map(edited.filter((p) => !p.excluded).map((p) => [p.playerId, p]));
 
-  const plan: TeamPlan = { removes: [], demotes: [], promotes: [], adds: [], captain: null };
+  const plan: TeamPlan = {
+    removes: [],
+    demotes: [],
+    promotes: [],
+    adds: [],
+    captain: null,
+    positions: [],
+  };
 
   for (const [playerId, was] of before) {
     const now = after.get(playerId);
@@ -47,13 +62,22 @@ export const planTeam = (original: LineupEntry[], edited: LineupEntry[]): TeamPl
     } else if (was.state === 'CANDIDATE' && now.state === 'STARTER') {
       plan.promotes.push({ lineupPlayerId: was.lineupPlayerId });
     }
+    // 후보는 포지션을 보이지도 고치지도 않는다
+    if (now.state === 'STARTER' && now.position !== was.position) {
+      plan.positions.push({ lineupPlayerId: was.lineupPlayerId, position: now.position });
+    }
   }
 
   for (const [playerId, now] of after) {
     if (before.has(playerId)) continue;
     // 명단에서 빠진 선수는 teamPlayerId 를 몰라 다시 넣을 수 없다. 화면에서도 막혀 있다
     if (now.teamPlayerId === null) continue;
-    plan.adds.push({ playerId, teamPlayerId: now.teamPlayerId, state: now.state });
+    plan.adds.push({
+      playerId,
+      teamPlayerId: now.teamPlayerId,
+      state: now.state,
+      position: now.position,
+    });
   }
 
   // 2단계에서 후보로 내린 주장은 서버가 이미 풀었으므로 "남아 있는 주장"이 아니다

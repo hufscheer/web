@@ -126,4 +126,5 @@ export type GameTeamLineupCreateRequest = {
   state: 'STARTER' | 'CANDIDATE';
   isCaptain: boolean;
   gameTeamId: number;
+  position?: string | null;
 };
