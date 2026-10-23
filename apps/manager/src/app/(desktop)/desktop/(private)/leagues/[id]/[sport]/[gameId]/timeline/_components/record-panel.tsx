@@ -148,8 +148,12 @@ export const RecordPanel = ({
 
   // 탭 색은 기록 목록이 쓰는 --color-rec-* 변수와 따로 둔다.
   // 득점·상태 변경은 파랑, 교체·승부차기는 회색, 경고·파울은 빨강.
-  const tabs: { key: Tab; label: string; accent: string; Icon: typeof AddCircleIcon }[] = [
+  // 모바일처럼 가장 자주 쓰는 득점과 상태 변경을 첫 줄에 크게 둔다
+  const primaryTabs: { key: Tab; label: string; accent: string; Icon: typeof AddCircleIcon }[] = [
     { key: 'score', label: '득점', accent: 'var(--color-primary-600)', Icon: AddCircleIcon },
+    { key: 'progress', label: '상태 변경', accent: 'var(--color-primary-600)', Icon: SettingsIcon },
+  ];
+  const secondaryTabs: typeof primaryTabs = [
     { key: 'sub', label: '교체', accent: 'var(--color-neutral-600)', Icon: TradeIcon },
     {
       key: 'sanction',
@@ -168,7 +172,6 @@ export const RecordPanel = ({
             Icon: SportsAndOutdoorsIcon,
           },
         ]),
-    { key: 'progress', label: '상태 변경', accent: 'var(--color-primary-600)', Icon: SettingsIcon },
   ];
 
   // 어시스트는 득점 선수와 다른 사람이어야 한다. 농구는 1점(자유투)에는 어시스트가 없다
@@ -359,37 +362,50 @@ export const RecordPanel = ({
       </header>
 
       <div className="flex flex-col gap-4 overflow-y-auto p-5">
-        <div
-          className={cn(
-            'grid divide-x divide-[var(--color-greyscale-50)] overflow-hidden rounded-[var(--radius-control)] border border-[var(--color-greyscale-50)]',
-            isBasketball ? 'grid-cols-4' : 'grid-cols-5',
-          )}
-        >
-          {tabs.map(({ key, label: text, accent, Icon }) => {
-            const locked = notStarted && key !== 'progress';
-            return (
-              <button
-                key={key}
-                type="button"
-                onClick={() => setTab(key)}
-                disabled={locked}
-                title={locked ? '경기를 시작한 뒤에 기록할 수 있어요' : undefined}
-                aria-pressed={tab === key}
-                style={tab === key ? { backgroundColor: accent } : undefined}
-                className={cn(
-                  'flex h-9 items-center justify-center gap-1 px-1 text-[12px] font-semibold whitespace-nowrap transition-colors',
-                  tab === key && 'text-white',
-                  tab !== key &&
-                    !locked &&
-                    'text-[var(--color-neutral-600)] hover:bg-[var(--color-greyscale-25)] hover:text-[var(--color-neutral-900)]',
-                  locked && 'cursor-not-allowed text-[var(--color-neutral-300)]',
-                )}
-              >
-                <Icon size={13} />
-                {text}
-              </button>
-            );
-          })}
+        {/* 창이 낮으면 스크롤 영역이 overflow-hidden 탭 줄의 높이부터 줄여 탭이 사라진다 */}
+        <div className="flex shrink-0 flex-col gap-1.5">
+          {(
+            [
+              { name: 'primary', row: primaryTabs },
+              { name: 'secondary', row: secondaryTabs },
+            ] as const
+          ).map(({ name, row }) => (
+            <div
+              key={name}
+              className={cn(
+                'grid divide-x divide-[var(--color-greyscale-50)] overflow-hidden rounded-[var(--radius-control)] border border-[var(--color-greyscale-50)]',
+                row.length === 3 ? 'grid-cols-3' : 'grid-cols-2',
+              )}
+            >
+              {row.map(({ key, label: text, accent, Icon }) => {
+                const locked = notStarted && key !== 'progress';
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setTab(key)}
+                    disabled={locked}
+                    title={locked ? '경기를 시작한 뒤에 기록할 수 있어요' : undefined}
+                    aria-pressed={tab === key}
+                    style={tab === key ? { backgroundColor: accent } : undefined}
+                    className={cn(
+                      'flex items-center justify-center gap-1.5 px-2 font-semibold whitespace-nowrap transition-colors',
+                      name === 'primary' ? 'text-t7 h-11' : 'text-t8 h-9',
+                      tab === key && 'text-white',
+                      tab !== key &&
+                        !locked &&
+                        'text-[var(--color-neutral-600)] hover:bg-[var(--color-greyscale-25)] hover:text-[var(--color-neutral-900)]',
+                      locked && 'cursor-not-allowed text-[var(--color-neutral-300)]',
+                    )}
+                  >
+                    {/* 칸이 좁으면 flex 가 svg 폭부터 줄여 아이콘이 점처럼 찌그러진다 */}
+                    <Icon size={16} className="shrink-0" />
+                    {text}
+                  </button>
+                );
+              })}
+            </div>
+          ))}
         </div>
 
         {notStarted && (
