@@ -150,14 +150,16 @@ export const LineupPanel = ({
   const Row = (entry: LineupEntry) => (
     <div
       key={entry.playerId}
-      className="flex items-center gap-2 rounded-[var(--radius-control)] px-2 py-1.5 hover:bg-[var(--color-neutral-50)]"
+      className="flex items-center gap-1.5 rounded-[var(--radius-control)] px-2 py-1.5 hover:bg-[var(--color-neutral-50)]"
     >
       <span className="tnum text-t7 w-7 shrink-0 text-right text-[var(--color-neutral-400)]">
         {entry.jerseyNumber}
       </span>
-      <span className="text-t6 min-w-0 flex-1 truncate font-medium">{entry.playerName}</span>
+      {/* 이름은 세 글자와 말줄임이 들어갈 폭을 지키고, 모자란 폭은 포지션 select 가 줄어 메운다 */}
+      <span className="text-t6 min-w-[3.5em] flex-1 truncate font-medium">{entry.playerName}</span>
       {entry.state === 'STARTER' && (
         <PositionSelect
+          className="min-w-[76px] truncate"
           sportType={sportType}
           value={entry.position}
           label={`${entry.playerName} 포지션`}
