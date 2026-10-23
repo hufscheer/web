@@ -61,7 +61,7 @@ export const Scoreboard = ({ game, homeScore, awayScore, quarterLabel, quarterSc
       <header className="flex h-(--spacing-topbar) items-center gap-1.5 border-b border-[var(--color-greyscale-50)] px-4">
         <Link
           href={routes.leagues}
-          className="text-t6 text-[var(--color-neutral-400)] hover:text-[var(--color-neutral-700)]"
+          className="text-t6 shrink-0 whitespace-nowrap text-[var(--color-neutral-400)] hover:text-[var(--color-neutral-700)]"
         >
           대회 관리
         </Link>
