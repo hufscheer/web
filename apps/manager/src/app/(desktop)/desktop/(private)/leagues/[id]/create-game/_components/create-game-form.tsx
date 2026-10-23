@@ -275,7 +275,9 @@ export const CreateGameForm = ({
           ))}
         </FormCard>
 
-        <div className="flex min-w-0 flex-1 gap-4">
+        {/* 선발 행(등번호, 이름 세 글자, 포지션, 선발, 주장)은 두 팀 합쳐 580px 쯤 든다.
+            폼 옆 폭이 그보다 넉넉하지 않으면 폼 아래로 내려가 넓게 편다 */}
+        <div className="flex min-w-[600px] flex-1 gap-4">
           {([0, 1] as Side[]).map((side) => (
             <LineupPanel
               key={side}
