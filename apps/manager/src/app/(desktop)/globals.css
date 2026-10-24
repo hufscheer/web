@@ -2,9 +2,6 @@
 @import '@hcc/style/theme.css';
 
 @theme {
-  /* 경기 콘솔이 3열이라 1280px 노트북에서는 가운데 열이 뭉개진다. 1440px 에서 한 번 더 나눈다 */
-  --breakpoint-xl: 1440px;
-
   --color-rec-score: #0a7f46;
   --color-rec-score-soft: #e4f3ea;
   --color-rec-owngoal: #ad4f0d;
@@ -15,6 +12,8 @@
   --color-rec-foul-soft: #fbe6e8;
   --color-rec-swap: #4a5765;
   --color-rec-swap-soft: #eceff3;
+  /* 공용 테마에 노랑이 없다. 경고 카드 색 */
+  --color-rec-yellow-card: #f5b800;
 
   --color-sport-soccer: #1f6f5c;
   --color-sport-soccer-soft: #e3f0ec;

@@ -23,6 +23,7 @@ import type {
   Team,
   TeamPlayerRow,
   TimelineRecord,
+  TimelineType,
 } from '~/app/(desktop)/_types';
 
 import { teamColorOf } from './team-color';
@@ -146,49 +147,94 @@ const PROGRESS_LABEL: Record<string, string> = {
   GAME_END: '경기 종료',
 };
 
-const recordTitle = (record: AnyRecord, quarterLabel: string): string => {
-  const who = record.playerName ?? '';
-  if (record.type === 'SCORE') {
-    const score = record.scoreRecord?.score ?? 1;
-    return score > 1 ? `${who} ${score}점` : `${who} 득점`;
+type CopyInput = {
+  type: TimelineType;
+  sportType?: SportType;
+  /** 기록 대상 선수. 교체는 나간 선수 */
+  player?: string | null;
+  assist?: string | null;
+  score?: number | null;
+  cardType?: 'YELLOW' | 'RED' | null;
+  pkSuccess?: boolean | null;
+  /** 교체로 들어온 선수 */
+  incoming?: string | null;
+  foulOut?: boolean | null;
+  /** GAME_PROGRESS 문구 */
+  progressTitle?: string;
+};
+
+/** 서버 기록과 저장 중 임시 기록이 같은 문구를 쓰도록 한곳에서 만든다. title 은 굵은 줄, subtitle 은 종류 줄 */
+export const recordCopy = (input: CopyInput): { title: string; subtitle: string } => {
+  const who = input.player ?? '';
+  switch (input.type) {
+    case 'SCORE': {
+      const assist = input.assist ? `${input.assist} 도움` : '';
+      if (input.sportType === 'BASKETBALL') {
+        const base = input.score === 1 ? '자유투' : `${input.score ?? 2}점슛`;
+        return { title: who, subtitle: input.score === 1 || !assist ? base : `${base} ${assist}` };
+      }
+      return { title: who, subtitle: assist || '득점' };
+    }
+    case 'OWN_GOAL':
+      return { title: who, subtitle: '자책골' };
+    case 'WARNING_CARD':
+      return { title: who, subtitle: input.cardType === 'RED' ? '퇴장' : '경고' };
+    case 'FOUL':
+      return { title: who, subtitle: '파울' };
+    case 'PK':
+      return { title: who, subtitle: input.pkSuccess ? '승부차기 성공' : '승부차기 실축' };
+    case 'SOCCER_REPLACEMENT':
+    case 'BASKETBALL_REPLACEMENT':
+      return {
+        title: `${input.incoming ?? ''} IN`,
+        subtitle: `${who} ${input.foulOut ? '파울아웃' : 'OUT'}`,
+      };
+    case 'GAME_PROGRESS':
+      return { title: input.progressTitle ?? '경기 진행', subtitle: '' };
   }
-  if (record.type === 'OWN_GOAL') return `${who} 자책골`;
-  if (record.type === 'PK')
-    return `${who} 승부차기 ${record.pkRecord?.isSuccess ? '성공' : '실패'}`;
-  if (record.type === 'FOUL') return `${who} 파울`;
-  if (record.type === 'WARNING_CARD') return `${who} 경고`;
-  if (record.type === 'GAME_PROGRESS') {
-    // 서버는 어느 쿼터인지를 묶음(gameQuarter)으로만 준다
-    const kind = record.progressRecord?.gameProgressType;
-    if (kind === 'QUARTER_START') return `${quarterLabel} 시작`;
-    if (kind === 'QUARTER_END') return `${quarterLabel} 종료`;
-    return (kind && PROGRESS_LABEL[kind]) || kind || '경기 진행';
-  }
-  // 서버는 들어온 선수 이름만 준다. 나간 선수 이름 필드는 응답에 없다
-  const replaced = record.replacementRecord?.replacedPlayerName;
-  if (record.replacementRecord) return replaced ? `${replaced} 교체 투입` : '선수 교체';
-  return who || '기록';
+};
+
+const progressTitle = (record: AnyRecord, quarterLabel: string): string => {
+  // 서버는 어느 쿼터인지를 묶음(gameQuarter)으로만 준다
+  const kind = record.progressRecord?.gameProgressType;
+  if (kind === 'QUARTER_START') return `${quarterLabel} 시작`;
+  if (kind === 'QUARTER_END') return `${quarterLabel} 종료`;
+  return (kind && PROGRESS_LABEL[kind]) || kind || '경기 진행';
 };
 
 const ownGoalScore = (record: AnyRecord) =>
   record.type === 'OWN_GOAL' ? record.ownGoalRecord.score : undefined;
 
-export const toTimeline = (timeline: TimelineResponseType | undefined): TimelineRecord[] =>
+export const toTimeline = (
+  timeline: TimelineResponseType | undefined,
+  sportType?: SportType,
+): TimelineRecord[] =>
   (timeline?.timelines ?? []).flatMap((group) =>
     (group.records ?? []).map((record) => {
-      const snapshot = record.scoreRecord?.snapshot;
+      const card = record.warningCardRecord?.warningCardType;
+      const cardType = card === 'YELLOW' || card === 'RED' ? card : null;
+      const pkSuccess = record.pkRecord?.isSuccess ?? null;
       return {
         recordId: record.recordId,
         type: record.type,
         recordedQuarter: group.gameQuarter.label,
         recordedAt: record.recordedAt,
         gameTeamId: record.gameTeamId,
-        title: recordTitle(record, group.gameQuarter.label),
-        subtitle: record.teamName ?? '',
+        ...recordCopy({
+          type: record.type,
+          sportType,
+          player: record.playerName,
+          assist: record.scoreRecord?.assistPlayerName,
+          score: record.scoreRecord?.score,
+          cardType,
+          pkSuccess,
+          incoming: record.replacementRecord?.replacedPlayerName,
+          foulOut: record.replacementRecord?.isFoulOut,
+          progressTitle: progressTitle(record, group.gameQuarter.label),
+        }),
+        cardType,
+        pkSuccess,
         playerName: record.playerName ?? null,
-        snapshot: snapshot
-          ? ([snapshot[0]?.score ?? 0, snapshot[1]?.score ?? 0] as [number, number])
-          : null,
         scoreValue: record.scoreRecord?.score ?? ownGoalScore(record) ?? 1,
         deletable: record.deletable ?? false,
         undeletableReason: record.undeletableReason ?? null,

@@ -2,12 +2,13 @@
 
 import { Fragment } from 'react';
 
-import type { Game, TimelineRecord, TimelineType } from '~/app/(desktop)/_types';
+import type { Game, TimelineRecord } from '~/app/(desktop)/_types';
 
 import {
+  BasketballIcon,
   DeleteOutlineIcon,
-  ErrorIcon,
   FoulIcon,
+  SportsAndOutdoorsIcon,
   TradeIcon,
 } from '~/app/(desktop)/_components/icons';
 import { cn } from '~/utils/cn';
@@ -18,68 +19,96 @@ type Props = {
   onDelete: (record: TimelineRecord) => void;
 };
 
-type Style = {
-  Icon: typeof TradeIcon | null;
-  fg: string;
-  bg: string;
-  strong: boolean;
+const RecordIcon = ({ record, basketball }: { record: TimelineRecord; basketball: boolean }) => {
+  switch (record.type) {
+    case 'SCORE':
+      return basketball ? (
+        <BasketballIcon size={18} className="shrink-0 text-[var(--color-neutral-900)]" />
+      ) : (
+        <SportsAndOutdoorsIcon size={18} className="shrink-0 text-[var(--color-neutral-900)]" />
+      );
+    case 'OWN_GOAL':
+      return (
+        <SportsAndOutdoorsIcon size={18} className="shrink-0 text-[var(--color-danger-600)]" />
+      );
+    case 'PK':
+      return (
+        <SportsAndOutdoorsIcon
+          size={18}
+          className={cn(
+            'shrink-0',
+            record.pkSuccess ? 'text-[var(--color-rec-score)]' : 'text-[var(--color-neutral-400)]',
+          )}
+        />
+      );
+    case 'SOCCER_REPLACEMENT':
+    case 'BASKETBALL_REPLACEMENT':
+      return <TradeIcon size={18} className="shrink-0 text-[var(--color-rec-swap)]" />;
+    case 'WARNING_CARD':
+      return (
+        <span
+          aria-hidden
+          className={cn(
+            'h-5 w-3.5 shrink-0 rounded-sm',
+            record.cardType === 'RED'
+              ? 'bg-[var(--color-danger-600)]'
+              : 'bg-[var(--color-rec-yellow-card)]',
+          )}
+        />
+      );
+    case 'FOUL':
+      return <FoulIcon size={18} className="shrink-0 text-[var(--color-rec-foul)]" />;
+    default:
+      return null;
+  }
 };
 
-const STYLE: Record<TimelineType, Style> = {
-  SCORE: {
-    Icon: null,
-    fg: 'text-[var(--color-rec-score)]',
-    bg: 'bg-[var(--color-rec-score-soft)]',
-    strong: true,
-  },
-  PK: {
-    Icon: null,
-    fg: 'text-[var(--color-rec-score)]',
-    bg: 'bg-[var(--color-rec-score-soft)]',
-    strong: true,
-  },
-  OWN_GOAL: {
-    Icon: null,
-    fg: 'text-[var(--color-rec-owngoal)]',
-    bg: 'bg-[var(--color-rec-owngoal-soft)]',
-    strong: true,
-  },
-  SOCCER_REPLACEMENT: {
-    Icon: TradeIcon,
-    fg: 'text-[var(--color-rec-swap)]',
-    bg: 'bg-[var(--color-rec-swap-soft)]',
-    strong: false,
-  },
-  BASKETBALL_REPLACEMENT: {
-    Icon: TradeIcon,
-    fg: 'text-[var(--color-rec-swap)]',
-    bg: 'bg-[var(--color-rec-swap-soft)]',
-    strong: false,
-  },
-  WARNING_CARD: {
-    Icon: ErrorIcon,
-    fg: 'text-[var(--color-rec-warning)]',
-    bg: 'bg-[var(--color-rec-warning-soft)]',
-    strong: false,
-  },
-  FOUL: {
-    Icon: FoulIcon,
-    fg: 'text-[var(--color-rec-foul)]',
-    bg: 'bg-[var(--color-rec-foul-soft)]',
-    strong: false,
-  },
-  GAME_PROGRESS: {
-    Icon: null,
-    fg: 'text-[var(--color-neutral-400)]',
-    bg: '',
-    strong: false,
-  },
-};
+const DeleteButton = ({
+  record,
+  onDelete,
+  side,
+  small,
+}: {
+  record: TimelineRecord;
+  onDelete: (record: TimelineRecord) => void;
+  side: 'left' | 'right' | 'center';
+  small?: boolean;
+}) => (
+  <span className="relative inline-flex shrink-0">
+    <button
+      type="button"
+      onClick={() => onDelete(record)}
+      aria-label={record.deletable ? '기록 삭제' : '삭제할 수 없는 기록'}
+      className={cn(
+        'peer grid place-items-center rounded-[var(--radius-control)] border transition',
+        small ? 'size-6' : 'size-8',
+        record.deletable
+          ? 'border-[var(--color-greyscale-50)] bg-[var(--color-canvas)] text-[var(--color-neutral-500)] hover:border-[var(--color-danger-200)] hover:bg-[var(--color-danger-50)] hover:text-[var(--color-danger-600)]'
+          : 'cursor-not-allowed border-transparent bg-[var(--color-greyscale-25)] text-[var(--color-neutral-300)]',
+      )}
+    >
+      <DeleteOutlineIcon size={small ? 14 : 17} />
+    </button>
 
-const isScoring = (type: TimelineType) => type === 'SCORE' || type === 'OWN_GOAL' || type === 'PK';
+    {!record.deletable && record.undeletableReason && (
+      <span
+        role="tooltip"
+        className={cn(
+          'text-t7 pointer-events-none absolute bottom-[calc(100%+6px)] z-10 w-58 rounded-[var(--radius-control)] bg-[var(--color-greyscale-500)] px-2.5 py-2 leading-snug text-white opacity-0 transition-opacity peer-hover:opacity-100 peer-focus-visible:opacity-100',
+          side === 'left' && 'left-0',
+          side === 'right' && 'right-0',
+          side === 'center' && 'left-1/2 -translate-x-1/2',
+        )}
+      >
+        {record.undeletableReason}
+      </span>
+    )}
+  </span>
+);
 
 export const TimelineList = ({ game, records, onDelete }: Props) => {
   const [home, away] = game.gameTeams;
+  const basketball = game.sportType === 'BASKETBALL';
 
   return (
     <section className="flex min-h-0 flex-col overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-greyscale-50)] bg-[var(--color-canvas)]">
@@ -96,11 +125,10 @@ export const TimelineList = ({ game, records, onDelete }: Props) => {
         )}
 
         {records.map((record, index) => {
-          const style = STYLE[record.type];
-          const isProgress = record.type === 'GAME_PROGRESS';
-          const scoring = isScoring(record.type);
-          const teamColor = record.gameTeamId === home.gameTeamId ? home.teamColor : away.teamColor;
           const prevQuarter = index > 0 ? records[index - 1].recordedQuarter : null;
+          // 어느 팀도 아니면 왼쪽에 둔다
+          const isAway = record.gameTeamId === away.gameTeamId;
+          const teamColor = isAway ? away.teamColor : home.teamColor;
 
           return (
             <Fragment key={record.recordId}>
@@ -113,97 +141,48 @@ export const TimelineList = ({ game, records, onDelete }: Props) => {
                 </div>
               )}
 
-              <div
-                className={cn(
-                  'group grid grid-cols-[44px_minmax(0,1fr)_auto] items-center gap-3.5 px-5 py-2.5',
-                  'border-b border-[var(--color-hairline)] last:border-b-0',
-                  'hover:bg-[var(--color-greyscale-25)]',
-                )}
-              >
-                <span
-                  className={cn(
-                    'tnum text-t7 text-right',
-                    scoring
-                      ? 'font-bold text-[var(--color-neutral-700)]'
-                      : 'text-[var(--color-neutral-400)]',
-                  )}
-                >
-                  {record.type === 'PK' ? 'P.S' : `${record.recordedAt}'`}
-                </span>
-
-                <div className="flex min-w-0 items-center gap-2.5">
-                  {!isProgress && (
+              {record.type === 'GAME_PROGRESS' ? (
+                <div className="flex items-center gap-3 px-5 py-2">
+                  <span className="h-px flex-1 bg-[var(--color-greyscale-50)]" />
+                  <span className="text-t7 text-[var(--color-neutral-400)]">{record.title}</span>
+                  <DeleteButton record={record} onDelete={onDelete} side="center" small />
+                  <span className="h-px flex-1 bg-[var(--color-greyscale-50)]" />
+                </div>
+              ) : (
+                // 반으로 딱 나누면 1024px 창(카드 약 290px)에서 이름이 한 글자로 잘린다. 한 줄에 기록이 하나라 넘쳐도 겹치지 않는다
+                <div className={cn('flex px-5 py-2', isAway ? 'justify-end' : 'justify-start')}>
+                  <div
+                    className={cn(
+                      // 내용 폭만 차지해야 삭제 버튼이 기록 옆에 붙는다
+                      'flex max-w-[85%] min-w-0 items-center gap-2.5 rounded-[var(--radius-control)] px-1 py-1 hover:bg-[var(--color-greyscale-25)]',
+                      isAway && 'flex-row-reverse text-right',
+                    )}
+                  >
                     <span
                       aria-hidden
-                      className="h-4.5 w-1 shrink-0 rounded-full"
+                      className="h-10 w-1 shrink-0 rounded-full"
                       style={{ backgroundColor: teamColor }}
                     />
-                  )}
-
-                  {style.Icon && (
-                    <span className={cn('grid size-5 shrink-0 place-items-center', style.fg)}>
-                      <style.Icon size={15} />
+                    <span className="tnum text-t7 grid size-11 shrink-0 place-items-center rounded-full border border-[var(--color-greyscale-50)] font-medium text-[var(--color-neutral-700)]">
+                      {record.type === 'PK' ? 'P.S' : `${record.recordedAt}'`}
                     </span>
-                  )}
-
-                  <span className="min-w-0 truncate">
-                    <span
-                      className={cn(
-                        'truncate',
-                        style.strong && 'text-t6 font-bold',
-                        !style.strong && !isProgress && 'text-t6 text-[var(--color-neutral-700)]',
-                        isProgress && 'text-t7 text-[var(--color-neutral-400)]',
+                    <RecordIcon record={record} basketball={basketball} />
+                    <div className="mx-1 flex min-w-0 flex-col gap-0.5">
+                      <span className="text-t6 truncate font-bold">{record.title}</span>
+                      {record.subtitle && (
+                        <span className="text-t7 truncate text-[var(--color-neutral-400)]">
+                          {record.subtitle}
+                        </span>
                       )}
-                    >
-                      {record.title}
-                    </span>
-                    {record.subtitle && !isProgress && (
-                      <span className="text-t7 ml-2 text-[var(--color-neutral-400)]">
-                        {record.subtitle}
-                      </span>
-                    )}
-                  </span>
+                    </div>
+                    <DeleteButton
+                      record={record}
+                      onDelete={onDelete}
+                      side={isAway ? 'right' : 'left'}
+                    />
+                  </div>
                 </div>
-
-                <div className="flex items-center gap-2">
-                  {record.snapshot && (
-                    <span
-                      className={cn(
-                        'tnum text-t7 rounded-md px-2 py-0.5 font-bold',
-                        style.bg,
-                        style.fg,
-                      )}
-                    >
-                      {record.snapshot[0]} : {record.snapshot[1]}
-                    </span>
-                  )}
-
-                  <span className="relative inline-flex">
-                    <button
-                      type="button"
-                      onClick={() => onDelete(record)}
-                      aria-label={record.deletable ? '기록 삭제' : '삭제할 수 없는 기록'}
-                      className={cn(
-                        'peer grid size-8 place-items-center rounded-[var(--radius-control)] border transition',
-                        record.deletable
-                          ? 'border-[var(--color-greyscale-50)] bg-[var(--color-canvas)] text-[var(--color-neutral-500)] hover:border-[var(--color-danger-200)] hover:bg-[var(--color-danger-50)] hover:text-[var(--color-danger-600)]'
-                          : 'cursor-not-allowed border-transparent bg-[var(--color-greyscale-25)] text-[var(--color-neutral-300)]',
-                      )}
-                    >
-                      <DeleteOutlineIcon size={17} />
-                    </button>
-
-                    {!record.deletable && record.undeletableReason && (
-                      <span
-                        role="tooltip"
-                        className="text-t7 pointer-events-none absolute right-0 bottom-[calc(100%+6px)] z-10 w-58 rounded-[var(--radius-control)] bg-[var(--color-greyscale-500)] px-2.5 py-2 leading-snug text-white opacity-0 transition-opacity peer-hover:opacity-100 peer-focus-visible:opacity-100"
-                      >
-                        {record.undeletableReason}
-                      </span>
-                    )}
-                  </span>
-                </div>
-              </div>
+              )}
             </Fragment>
           );
         })}

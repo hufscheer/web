@@ -11,7 +11,6 @@ import { ConfirmDialog } from '~/app/(desktop)/_components/ui/confirm-dialog';
 import { Toasts, useToasts } from '~/app/(desktop)/_components/ui/toast';
 import { parseHTTPError } from '~/utils/http-error';
 
-import { LineupPanel } from './lineup-panel';
 import { RecordPanel } from './record-panel';
 import { Scoreboard } from './scoreboard';
 import { TimelineList } from './timeline-list';
@@ -26,43 +25,6 @@ type Props = {
 
 const isScoreRecord = (record: TimelineRecord) =>
   record.type === 'SCORE' || record.type === 'OWN_GOAL';
-
-const creditedTeamId = (record: TimelineRecord, homeTeamId: number, awayTeamId: number) => {
-  if (record.type !== 'OWN_GOAL') return record.gameTeamId;
-  return record.gameTeamId === homeTeamId ? awayTeamId : homeTeamId;
-};
-
-/**
- * 기록은 최신순이라 배열 끝(가장 오래된 기록)부터 점수를 쌓는다.
- * 승부차기는 본 점수가 아니다(서버도 pkScore 를 따로 둔다).
- */
-function recalcSnapshots(
-  records: TimelineRecord[],
-  homeTeamId: number,
-  awayTeamId: number,
-): TimelineRecord[] {
-  let home = 0;
-  let away = 0;
-  const result = [...records];
-
-  for (let i = records.length - 1; i >= 0; i--) {
-    const record = records[i];
-
-    if (!isScoreRecord(record)) {
-      result[i] = record.snapshot === null ? record : { ...record, snapshot: null };
-      continue;
-    }
-
-    const teamId = creditedTeamId(record, homeTeamId, awayTeamId);
-    const value = record.scoreValue ?? 1;
-    if (teamId === homeTeamId) home += value;
-    else if (teamId === awayTeamId) away += value;
-
-    result[i] = { ...record, snapshot: [home, away] as [number, number] };
-  }
-
-  return result;
-}
 
 /** 가장 최근 기록은 항상 지울 수 있다. 저장 중인 임시 기록(음수 id)은 진짜 id 를 몰라 제외한다 */
 function applyDeletability(records: TimelineRecord[]): TimelineRecord[] {
@@ -108,15 +70,8 @@ export const LiveConsole = ({
   const quarterLabel = game.gameQuarter.label;
 
   const records = useMemo(
-    () =>
-      applyDeletability(
-        recalcSnapshots(
-          [...optimisticRecords, ...serverRecords],
-          homeTeam.gameTeamId,
-          awayTeam.gameTeamId,
-        ),
-      ),
-    [optimisticRecords, serverRecords, homeTeam.gameTeamId, awayTeam.gameTeamId],
+    () => applyDeletability([...optimisticRecords, ...serverRecords]),
+    [optimisticRecords, serverRecords],
   );
   const baseLineups = optimisticLineups ?? serverLineups;
 
@@ -145,15 +100,15 @@ export const LiveConsole = ({
     return [withFouls(baseLineups[0]), withFouls(baseLineups[1])] as [Lineup, Lineup];
   }, [baseLineups, records, game.sportType]);
 
+  // 서버가 자책골 기록의 gameTeamId 를 득점이 올라가는 팀(상대 팀)으로 내려 준다. 그대로 더한다
   const score = useMemo(() => {
     let home = 0;
     let away = 0;
     for (const record of records) {
       if (!isScoreRecord(record)) continue;
-      const teamId = creditedTeamId(record, homeTeam.gameTeamId, awayTeam.gameTeamId);
       const value = record.scoreValue ?? 1;
-      if (teamId === homeTeam.gameTeamId) home += value;
-      else if (teamId === awayTeam.gameTeamId) away += value;
+      if (record.gameTeamId === homeTeam.gameTeamId) home += value;
+      else if (record.gameTeamId === awayTeam.gameTeamId) away += value;
     }
     return { home, away };
   }, [records, homeTeam.gameTeamId, awayTeam.gameTeamId]);
@@ -259,7 +214,7 @@ export const LiveConsole = ({
         quarterScores={quarterScores}
       />
 
-      <div className="xl:grid-cols-[340px_minmax(0,1fr)_360px] grid min-h-0 flex-1 grid-cols-[340px_minmax(0,1fr)] gap-5 p-5">
+      <div className="grid min-h-0 flex-1 grid-cols-[340px_minmax(0,1fr)] gap-5 p-5">
         <RecordPanel
           game={game}
           lineups={lineups}
@@ -273,14 +228,6 @@ export const LiveConsole = ({
         />
 
         <TimelineList game={game} records={records} onDelete={requestDelete} />
-
-        <LineupPanel
-          game={game}
-          lineups={lineups}
-          onToast={push}
-          onError={pushError}
-          className="xl:col-span-1 xl:max-h-none col-span-2 max-h-[420px]"
-        />
       </div>
 
       <ConfirmDialog
@@ -288,7 +235,7 @@ export const LiveConsole = ({
         title="이 기록을 지울까요?"
         description={
           pendingDelete
-            ? `${pendingDelete.recordedQuarter} ${pendingDelete.recordedAt}' ${pendingDelete.title}\n되돌릴 수 없어요. 중간 기록이면 뒤 기록의 점수도 다시 계산돼요.`
+            ? `${pendingDelete.recordedQuarter} ${pendingDelete.recordedAt}' ${`${pendingDelete.title} ${pendingDelete.subtitle}`.trim()}\n되돌릴 수 없어요. 중간 기록이면 뒤 기록의 점수도 다시 계산돼요.`
             : undefined
         }
         pending={deleting}

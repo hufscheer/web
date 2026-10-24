@@ -22,6 +22,7 @@ import {
   TradeIcon,
 } from '~/app/(desktop)/_components/icons';
 import { Button } from '~/app/(desktop)/_components/ui/button';
+import { recordCopy } from '~/app/(desktop)/_utils/convert';
 import { cn } from '~/utils/cn';
 import { parseHTTPError } from '~/utils/http-error';
 
@@ -124,6 +125,7 @@ export const RecordPanel = ({
   const [scoreValue, setScoreValue] = useState(isBasketball ? 2 : 1);
   const [scorerId, setScorerId] = useState('');
   const [assistId, setAssistId] = useState('');
+  const [isOwnGoal, setIsOwnGoal] = useState(false);
   const [outId, setOutId] = useState('');
   const [inId, setInId] = useState('');
   const [isFoulOut, setIsFoulOut] = useState(false);
@@ -176,16 +178,21 @@ export const RecordPanel = ({
 
   // 어시스트는 득점 선수와 다른 사람이어야 한다. 농구는 1점(자유투)에는 어시스트가 없다
   const assistAllowed = !isBasketball || scoreValue >= 2;
+  const ownGoal = !isBasketball && isOwnGoal;
   const effectiveScorerId = String(pick(playing, scorerId)?.lineupPlayerId ?? '');
   const assistCandidates = playing.filter((p) => String(p.lineupPlayerId) !== effectiveScorerId);
 
   const submitScore = () => {
     const scorer = pick(playing, scorerId);
     if (!scorer) return onError('출전 중인 선수가 없어요');
-    const assist = assistAllowed
-      ? assistCandidates.find((p) => String(p.lineupPlayerId) === assistId)
-      : undefined;
+    // 자책골은 도움이 없다
+    const assist =
+      assistAllowed && !ownGoal
+        ? assistCandidates.find((p) => String(p.lineupPlayerId) === assistId)
+        : undefined;
     const minute = Number(minuteInput) || 0;
+    // 서버는 자책골을 상대 팀 득점으로 내려 준다. 임시 기록도 같은 팀에 올린다
+    const creditedTeamId = ownGoal ? lineups[teamIndex === 0 ? 1 : 0].gameTeamId : team.gameTeamId;
 
     save(
       () =>
@@ -195,26 +202,27 @@ export const RecordPanel = ({
           gameTeamId: team.gameTeamId,
           scoreLineupPlayerId: scorer.lineupPlayerId,
           assistLineupPlayerId: assist?.lineupPlayerId ?? null,
-          ...(isBasketball ? { score: scoreValue } : { isOwnGoal: false }),
+          ...(isBasketball ? { score: scoreValue } : { isOwnGoal: ownGoal }),
         }),
       () =>
         onAddRecord({
-          type: 'SCORE',
+          type: ownGoal ? 'OWN_GOAL' : 'SCORE',
+          playerName: scorer.playerName,
           recordedAt: minute,
-          gameTeamId: team.gameTeamId,
-          title: isBasketball
-            ? `${scorer.playerName} ${scoreValue}점`
-            : `${scorer.playerName} 득점`,
-          subtitle: isBasketball
-            ? `${team.teamName}${assist ? ` · 어시스트 ${assist.playerName}` : ''}`
-            : `어시스트 ${assist ? assist.playerName : '없음'}`,
-          snapshot: null,
-          scoreValue,
+          gameTeamId: creditedTeamId,
+          ...recordCopy({
+            type: ownGoal ? 'OWN_GOAL' : 'SCORE',
+            sportType: game.sportType,
+            player: scorer.playerName,
+            assist: assist?.playerName,
+            score: scoreValue,
+          }),
+          scoreValue: ownGoal ? 1 : scoreValue,
           deletable: true,
           undeletableReason: null,
           undeletableReasonCode: null,
         }),
-      '득점을 기록했어요',
+      ownGoal ? '자책골을 기록했어요' : '득점을 기록했어요',
     );
   };
 
@@ -240,9 +248,12 @@ export const RecordPanel = ({
           type: isBasketball ? 'BASKETBALL_REPLACEMENT' : 'SOCCER_REPLACEMENT',
           recordedAt: minute,
           gameTeamId: team.gameTeamId,
-          title: `${incoming.playerName} 교체 투입`,
-          subtitle: isBasketball && isFoulOut ? '5반칙 퇴장' : team.teamName,
-          snapshot: null,
+          ...recordCopy({
+            type: isBasketball ? 'BASKETBALL_REPLACEMENT' : 'SOCCER_REPLACEMENT',
+            player: out.playerName,
+            incoming: incoming.playerName,
+            foulOut: isBasketball && isFoulOut,
+          }),
           deletable: true,
           undeletableReason: null,
           undeletableReasonCode: null,
@@ -271,9 +282,8 @@ export const RecordPanel = ({
           type: 'PK',
           recordedAt: 0,
           gameTeamId: team.gameTeamId,
-          title: `${kicker.playerName} 승부차기 ${pkSuccess ? '성공' : '실패'}`,
-          subtitle: team.teamName,
-          snapshot: null,
+          pkSuccess,
+          ...recordCopy({ type: 'PK', player: kicker.playerName, pkSuccess }),
           deletable: true,
           undeletableReason: null,
           undeletableReasonCode: null,
@@ -302,9 +312,7 @@ export const RecordPanel = ({
             playerName: target.playerName,
             recordedAt: minute,
             gameTeamId: team.gameTeamId,
-            title: `${target.playerName} 파울`,
-            subtitle: `누적 ${(target.foulCount ?? 0) + 1}`,
-            snapshot: null,
+            ...recordCopy({ type: 'FOUL', player: target.playerName }),
             deletable: true,
             undeletableReason: null,
             undeletableReasonCode: null,
@@ -329,9 +337,12 @@ export const RecordPanel = ({
           type: 'WARNING_CARD',
           recordedAt: minute,
           gameTeamId: team.gameTeamId,
-          title: `${target.playerName} ${cardType}`,
-          subtitle: team.teamName,
-          snapshot: null,
+          cardType: cardType === '경고' ? 'YELLOW' : 'RED',
+          ...recordCopy({
+            type: 'WARNING_CARD',
+            player: target.playerName,
+            cardType: cardType === '경고' ? 'YELLOW' : 'RED',
+          }),
           deletable: true,
           undeletableReason: null,
           undeletableReasonCode: null,
@@ -465,7 +476,28 @@ export const RecordPanel = ({
               </Field>
             )}
 
-            <Field htmlFor="scorer" text="득점 선수">
+            {!isBasketball && (
+              <div className="flex flex-col gap-1.5">
+                <label className="text-t7 flex items-center gap-2 text-[var(--color-neutral-600)]">
+                  <input
+                    type="checkbox"
+                    checked={isOwnGoal}
+                    onChange={(e) => {
+                      setIsOwnGoal(e.target.checked);
+                      if (e.target.checked) setAssistId('');
+                    }}
+                  />
+                  자책골
+                </label>
+                {ownGoal && (
+                  <p className="text-t7 text-[var(--color-neutral-400)]">
+                    점수는 상대 팀에 올라가요.
+                  </p>
+                )}
+              </div>
+            )}
+
+            <Field htmlFor="scorer" text={ownGoal ? '자책골 선수' : '득점 선수'}>
               <select
                 id="scorer"
                 className={selectClass}
@@ -483,7 +515,7 @@ export const RecordPanel = ({
               </select>
             </Field>
 
-            {assistAllowed && (
+            {assistAllowed && !ownGoal && (
               <Field htmlFor="assist" text="어시스트">
                 <select
                   id="assist"
@@ -508,7 +540,7 @@ export const RecordPanel = ({
             {minuteField}
 
             <Button size="md" disabled={saving} onClick={submitScore}>
-              득점 기록
+              {ownGoal ? '자책골 기록' : '득점 기록'}
             </Button>
           </>
         )}
@@ -695,9 +727,10 @@ export const RecordPanel = ({
                             type: 'GAME_PROGRESS',
                             recordedAt: 0,
                             gameTeamId: 0,
-                            title: action.displayName,
-                            subtitle: '',
-                            snapshot: null,
+                            ...recordCopy({
+                              type: 'GAME_PROGRESS',
+                              progressTitle: action.displayName,
+                            }),
                             deletable: true,
                             undeletableReason: null,
                             undeletableReasonCode: null,
