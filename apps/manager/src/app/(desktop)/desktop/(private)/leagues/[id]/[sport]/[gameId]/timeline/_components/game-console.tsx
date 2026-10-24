@@ -84,7 +84,10 @@ export const GameConsole = ({ gameId, sportType }: { gameId: number; sportType: 
     () => withPlayingPositions(toLineups(lineup.data), playing.data),
     [lineup.data, playing.data],
   );
-  const serverRecords = useMemo(() => toTimeline(timeline.data), [timeline.data]);
+  const serverRecords = useMemo(
+    () => toTimeline(timeline.data, sportType),
+    [timeline.data, sportType],
+  );
 
   return (
     <LiveConsole

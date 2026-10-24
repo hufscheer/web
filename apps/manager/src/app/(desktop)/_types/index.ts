@@ -108,11 +108,15 @@ export type TimelineRecord = {
   recordedQuarter: string;
   recordedAt: number;
   gameTeamId: number;
+  /** 굵은 줄: 선수 이름(경기 진행은 진행 문구) */
   title: string;
+  /** 기록 종류 줄 */
   subtitle: string;
   /** 기록 대상 선수 이름. 파울 누적을 세는 데 쓴다 */
   playerName?: string | null;
-  snapshot: [number, number] | null;
+  /** 아이콘용 */
+  cardType?: 'YELLOW' | 'RED' | null;
+  pkSuccess?: boolean | null;
   scoreValue?: number;
   deletable: boolean;
   undeletableReason: string | null;
