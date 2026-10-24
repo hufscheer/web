@@ -180,6 +180,11 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
     );
   };
 
+  /**
+   * 바뀐 내용을 서버에 순서대로 보낸다. 서버는 선발이 늘어나는 요청마다 정원을 보므로
+   * 빼기와 후보로 내리기를 먼저 보내고, 선발로 올리기와 새로 넣기는 그 뒤에 보낸다.
+   * 조회 응답은 선발과 후보를 지금 뛰는지(isPlaying)로 나누므로 응답 순서에 기대지 않는다.
+   */
   const applyTeamChanges = async (
     gameTeamId: number,
     originalSelection: PlayerSelectionState[],
@@ -187,57 +192,38 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
   ) => {
     const originalMap = new Map(originalSelection.map((p) => [p.teamPlayerId, p]));
     const newMap = new Map(newSelection.map((p) => [p.teamPlayerId, p]));
-
-    for (const orig of originalSelection) {
+    const kept = originalSelection.flatMap((orig) => {
       const next = newMap.get(orig.teamPlayerId);
+      return next && orig.lineupPlayerId !== undefined
+        ? [{ orig, next, lineupPlayerId: orig.lineupPlayerId }]
+        : [];
+    });
+    const isDemoted = ({ orig, next }: (typeof kept)[number]) =>
+      orig.state === 'STARTER' && next.state === 'CANDIDATE';
 
-      if (!next) {
-        if (orig.lineupPlayerId !== undefined) {
-          await deleteLineupPlayer({ gameTeamId, lineupPlayerId: orig.lineupPlayerId });
-        }
-      } else if (orig.state !== next.state && orig.isCaptain === next.isCaptain) {
-        if (orig.lineupPlayerId !== undefined) {
-          if (next.state === 'STARTER') {
-            await patchStarter({ gameId, lineupPlayerId: orig.lineupPlayerId });
-          } else {
-            await patchCandidate({ gameId, lineupPlayerId: orig.lineupPlayerId });
-          }
-        }
-      } else if (orig.state === next.state && orig.isCaptain !== next.isCaptain) {
-        if (orig.lineupPlayerId !== undefined) {
-          if (next.isCaptain) {
-            await patchCaptainRegister({ gameId, lineupPlayerId: orig.lineupPlayerId });
-          } else {
-            await patchCaptainRevoke({ gameId, lineupPlayerId: orig.lineupPlayerId });
-          }
-        }
-      } else if (orig.state !== next.state && orig.isCaptain !== next.isCaptain) {
-        if (orig.lineupPlayerId !== undefined) {
-          await deleteLineupPlayer({ gameTeamId, lineupPlayerId: orig.lineupPlayerId });
-        }
-        await createLineup({
-          gameTeamId,
-          teamPlayerId: next.teamPlayerId,
-          state: next.state,
-          isCaptain: next.isCaptain,
-        });
-      }
-
-      if (
-        orig.lineupPlayerId !== undefined &&
-        next !== undefined &&
-        orig.state === next.state &&
-        orig.isCaptain === next.isCaptain &&
-        orig.position !== next?.position
-      ) {
-        await patchPosition({
-          gameId,
-          lineupPlayerId: orig.lineupPlayerId,
-          position: next?.position ?? null,
-        });
+    // 1. 라인업에서 뺀다
+    for (const orig of originalSelection) {
+      if (orig.lineupPlayerId !== undefined && !newMap.has(orig.teamPlayerId)) {
+        await deleteLineupPlayer({ gameTeamId, lineupPlayerId: orig.lineupPlayerId });
       }
     }
-
+    // 2. 후보로 내린다. 주장이었으면 서버가 주장도 푼다
+    for (const k of kept.filter(isDemoted)) {
+      await patchCandidate({ gameId, lineupPlayerId: k.lineupPlayerId });
+    }
+    // 3. 선발로 올린다
+    for (const k of kept) {
+      if (k.orig.state === 'CANDIDATE' && k.next.state === 'STARTER') {
+        await patchStarter({ gameId, lineupPlayerId: k.lineupPlayerId });
+      }
+    }
+    // 4. 남아 있는 주장을 푼다. 새 주장을 넣거나 지정하기 전에 해야 서버가 "주장이 이미 있다"로 막지 않는다
+    for (const k of kept) {
+      if (k.orig.isCaptain && !k.next.isCaptain && !isDemoted(k)) {
+        await patchCaptainRevoke({ gameId, lineupPlayerId: k.lineupPlayerId });
+      }
+    }
+    // 5. 새로 넣는다
     for (const next of newSelection) {
       if (!originalMap.has(next.teamPlayerId)) {
         await createLineup({
@@ -245,6 +231,22 @@ const LineupEditContent = ({ gameId, leagueId, onNext, onPrevious }: Props) => {
           teamPlayerId: next.teamPlayerId,
           state: next.state,
           isCaptain: next.isCaptain,
+        });
+      }
+    }
+    // 6. 이미 있던 선수를 주장으로 지정한다
+    for (const k of kept) {
+      if (!k.orig.isCaptain && k.next.isCaptain) {
+        await patchCaptainRegister({ gameId, lineupPlayerId: k.lineupPlayerId });
+      }
+    }
+    // 7. 이미 있던 선수의 포지션을 바꾼다
+    for (const k of kept) {
+      if (k.orig.position !== k.next.position) {
+        await patchPosition({
+          gameId,
+          lineupPlayerId: k.lineupPlayerId,
+          position: k.next.position,
         });
       }
     }
