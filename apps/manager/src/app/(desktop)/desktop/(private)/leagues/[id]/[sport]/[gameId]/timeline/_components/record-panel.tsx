@@ -489,11 +489,6 @@ export const RecordPanel = ({
                   />
                   자책골
                 </label>
-                {ownGoal && (
-                  <p className="text-t7 text-[var(--color-neutral-400)]">
-                    점수는 상대 팀에 올라가요.
-                  </p>
-                )}
               </div>
             )}
 
