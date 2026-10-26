@@ -6,18 +6,18 @@ import { type GameStateType, type GameTeamType, useCreateCheerTalk } from '~/api
 
 interface CheerTalkFormProps {
   gameTeams: GameTeamType[];
-  scrollToBottom: () => void;
   gameState: GameStateType;
   onInputFocus: () => void;
+  onSent: () => void;
 }
 
 const RECOMMENDED_MESSAGES = ['가즈아🔥', '나이스👍', '까비😭️'];
 
 export const CheerTalkForm = ({
   gameTeams,
-  scrollToBottom,
   gameState,
   onInputFocus,
+  onSent,
 }: CheerTalkFormProps) => {
   const { mutate } = useCreateCheerTalk();
   const [message, setMessage] = useState('');
@@ -29,10 +29,17 @@ export const CheerTalkForm = ({
   const sendMessage = useCallback(
     (content: string) => {
       if (!content.trim() || isFinished) return;
-      mutate({ gameTeamId: teamId, content }, { onSuccess: () => scrollToBottom() });
-      setMessage('');
+      mutate(
+        { gameTeamId: teamId, content },
+        {
+          onSuccess: () => {
+            setMessage('');
+            onSent();
+          },
+        },
+      );
     },
-    [isFinished, mutate, teamId, scrollToBottom],
+    [isFinished, mutate, teamId, onSent],
   );
 
   const handleSubmit = useCallback(

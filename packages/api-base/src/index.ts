@@ -5,9 +5,11 @@ export {
   QueryCache,
   type UseSuspenseQueryResult,
   useMutation,
+  useQueries,
   useQuery,
   useQueryClient,
   useSuspenseInfiniteQuery,
+  useSuspenseQueries,
   useSuspenseQuery,
 } from '@tanstack/react-query';
 

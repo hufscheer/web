@@ -13,6 +13,7 @@ export * from './useLeagueStatistics';
 export * from './useLeagues';
 export * from './useLeagueTeams';
 export * from './useLeagueTopScorers';
+export * from './usePushFollows';
 export * from './useTeam';
 export * from './useTeamGames';
 export * from './useTeamUnitAvailability';

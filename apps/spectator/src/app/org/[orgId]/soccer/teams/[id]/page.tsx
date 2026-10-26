@@ -10,7 +10,7 @@ import { Header } from '~/components/layout';
 import { routes } from '~/constants/routes';
 
 import { SPORT_TYPE } from '../../_constants';
-import { TeamInfo } from './_components/team-info';
+import { TeamInfo, TeamInfoSkeleton } from './_components/team-info';
 
 interface Props {
   params: Promise<{ orgId: string; id: string }>;
@@ -32,7 +32,7 @@ const Page = async ({ params }: Props) => {
         center={<Header.LinkLogo sport={SPORT_TYPE} orgId={orgId} />}
       />
       <div className="flex flex-1 flex-col">
-        <Suspense clientOnly>
+        <Suspense clientOnly fallback={<TeamInfoSkeleton />}>
           <TeamInfo id={id} />
         </Suspense>
       </div>

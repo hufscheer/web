@@ -1,0 +1,249 @@
+'use client';
+
+import { useQueryClient } from '@hcc/api-base';
+import { useCallback, useMemo, useState } from 'react';
+
+import type { ProgressAvailableAction, QuarterScoreType } from '~/api';
+import type { Game, Lineup, LineupPlayer, TimelineRecord } from '~/app/(desktop)/_types';
+
+import { queryKeys, useDeleteTimeline } from '~/api';
+import { ConfirmDialog } from '~/app/(desktop)/_components/ui/confirm-dialog';
+import { Toasts, useToasts } from '~/app/(desktop)/_components/ui/toast';
+import { parseHTTPError } from '~/utils/http-error';
+
+import { RecordPanel } from './record-panel';
+import { Scoreboard } from './scoreboard';
+import { TimelineList } from './timeline-list';
+
+type Props = {
+  game: Game;
+  serverLineups: [Lineup, Lineup];
+  serverRecords: TimelineRecord[];
+  progressActions: ProgressAvailableAction[];
+  quarterScores: QuarterScoreType[];
+};
+
+const isScoreRecord = (record: TimelineRecord) =>
+  record.type === 'SCORE' || record.type === 'OWN_GOAL';
+
+/** 가장 최근 기록은 항상 지울 수 있다. 저장 중인 임시 기록(음수 id)은 진짜 id 를 몰라 제외한다 */
+function applyDeletability(records: TimelineRecord[]): TimelineRecord[] {
+  return records.map((record, index) =>
+    index === 0 && record.recordId > 0
+      ? { ...record, deletable: true, undeletableReason: null, undeletableReasonCode: null }
+      : record,
+  );
+}
+
+const updatePlayers = (
+  lineups: [Lineup, Lineup],
+  teamIndex: 0 | 1,
+  update: (player: LineupPlayer) => LineupPlayer,
+): [Lineup, Lineup] => {
+  const next = [...lineups] as [Lineup, Lineup];
+  const target = next[teamIndex];
+  next[teamIndex] = {
+    ...target,
+    starterPlayers: target.starterPlayers.map(update),
+    candidatePlayers: target.candidatePlayers.map(update),
+  };
+  return next;
+};
+
+export const LiveConsole = ({
+  game,
+  serverLineups,
+  serverRecords,
+  progressActions,
+  quarterScores,
+}: Props) => {
+  const qc = useQueryClient();
+  const [homeTeam, awayTeam] = game.gameTeams;
+  const { toasts, push, pushError } = useToasts();
+  const { mutateAsync: removeTimeline } = useDeleteTimeline({ gameId: game.gameId });
+
+  // 저장 중에만 화면에 먼저 덧씌운다. 저장이 끝나면 걷어내고 서버 값을 그린다
+  const [optimisticRecords, setOptimisticRecords] = useState<TimelineRecord[]>([]);
+  const [optimisticLineups, setOptimisticLineups] = useState<[Lineup, Lineup] | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<TimelineRecord | null>(null);
+  const [deleting, setDeleting] = useState(false);
+  const quarterLabel = game.gameQuarter.label;
+
+  const records = useMemo(
+    () => applyDeletability([...optimisticRecords, ...serverRecords]),
+    [optimisticRecords, serverRecords],
+  );
+  const baseLineups = optimisticLineups ?? serverLineups;
+
+  // 서버 라인업 응답에는 파울 수가 없어 저장할 때마다 0 으로 돌아간다. 기록에서 센다.
+  // 선수 id 가 기록에 없어 이름으로 세므로, 한 팀에 같은 이름이 있으면 합쳐진다(서버에 선수 id 추가를 따로 제안한다)
+  const lineups = useMemo(() => {
+    if (game.sportType !== 'BASKETBALL') return baseLineups;
+
+    const counts = new Map<string, number>();
+    for (const record of records) {
+      if (record.type !== 'FOUL' || !record.playerName) continue;
+      const key = `${record.gameTeamId}:${record.playerName}`;
+      counts.set(key, (counts.get(key) ?? 0) + 1);
+    }
+    const withFouls = (lineup: Lineup): Lineup => {
+      const apply = (player: LineupPlayer): LineupPlayer => ({
+        ...player,
+        foulCount: counts.get(`${lineup.gameTeamId}:${player.playerName}`) ?? 0,
+      });
+      return {
+        ...lineup,
+        starterPlayers: lineup.starterPlayers.map(apply),
+        candidatePlayers: lineup.candidatePlayers.map(apply),
+      };
+    };
+    return [withFouls(baseLineups[0]), withFouls(baseLineups[1])] as [Lineup, Lineup];
+  }, [baseLineups, records, game.sportType]);
+
+  // 서버가 자책골 기록의 gameTeamId 를 득점이 올라가는 팀(상대 팀)으로 내려 준다. 그대로 더한다
+  const score = useMemo(() => {
+    let home = 0;
+    let away = 0;
+    for (const record of records) {
+      if (!isScoreRecord(record)) continue;
+      const value = record.scoreValue ?? 1;
+      if (record.gameTeamId === homeTeam.gameTeamId) home += value;
+      else if (record.gameTeamId === awayTeam.gameTeamId) away += value;
+    }
+    return { home, away };
+  }, [records, homeTeam.gameTeamId, awayTeam.gameTeamId]);
+
+  /** 기록 훅들이 쿼터별 점수는 다시 받지 않는다. 실패했을 때는 콘솔 전체를 서버 값으로 되돌린다 */
+  const refetchConsole = useCallback(
+    (scope: 'scores' | 'all') => {
+      const payload = { gameId: game.gameId };
+      const keys =
+        scope === 'scores'
+          ? [queryKeys.games.quarterScores(payload).queryKey]
+          : [
+              queryKeys.games.detail(payload).queryKey,
+              queryKeys.games.lineup(payload).queryKey,
+              queryKeys.games.timeline(payload).queryKey,
+              queryKeys.games.quarterScores(payload).queryKey,
+              queryKeys.games.progressAvailable(payload).queryKey,
+            ];
+      return Promise.all(keys.map((queryKey) => qc.invalidateQueries({ queryKey })));
+    },
+    [qc, game.gameId],
+  );
+
+  const settle = useCallback(
+    (saved: boolean) => {
+      setOptimisticRecords([]);
+      setOptimisticLineups(null);
+      void refetchConsole(saved ? 'scores' : 'all');
+    },
+    [refetchConsole],
+  );
+
+  const addRecord = useCallback(
+    (record: Omit<TimelineRecord, 'recordId' | 'recordedQuarter'>) => {
+      setOptimisticRecords((prev) => [
+        {
+          ...record,
+          recordId: Math.min(-1, ...prev.map((r) => r.recordId)) - 1,
+          recordedQuarter: quarterLabel,
+          deletable: false,
+          undeletableReason: '저장 중이에요.',
+          undeletableReasonCode: null,
+        },
+        ...prev,
+      ]);
+    },
+    [quarterLabel],
+  );
+
+  const requestDelete = useCallback(
+    (record: TimelineRecord) => {
+      if (!record.deletable) {
+        push(record.undeletableReason ?? '삭제할 수 없는 기록이에요.');
+        return;
+      }
+      setPendingDelete(record);
+    },
+    [push],
+  );
+
+  const deleteRecord = useCallback(
+    async (record: TimelineRecord) => {
+      setDeleting(true);
+      try {
+        await removeTimeline({ gameId: game.gameId, timelineId: record.recordId });
+        push('기록을 삭제했어요');
+        void refetchConsole('scores');
+      } catch (error) {
+        pushError(await parseHTTPError(error, '기록을 삭제하지 못했어요'));
+        void refetchConsole('all');
+      } finally {
+        setDeleting(false);
+        setPendingDelete(null);
+      }
+    },
+    [removeTimeline, game.gameId, push, pushError, refetchConsole],
+  );
+
+  const substitute = useCallback(
+    (teamIndex: 0 | 1, outId: number, inId: number) => {
+      setOptimisticLineups((prev) =>
+        updatePlayers(prev ?? serverLineups, teamIndex, (player) => {
+          if (player.lineupPlayerId === outId) {
+            return { ...player, isPlaying: false, isReplaced: true };
+          }
+          if (player.lineupPlayerId === inId) {
+            return { ...player, isPlaying: true, isReplaced: true };
+          }
+          return player;
+        }),
+      );
+    },
+    [serverLineups],
+  );
+
+  return (
+    <>
+      <Scoreboard
+        game={game}
+        homeScore={score.home}
+        awayScore={score.away}
+        quarterLabel={quarterLabel}
+        quarterScores={quarterScores}
+      />
+
+      <div className="grid min-h-0 flex-1 grid-cols-[340px_minmax(0,1fr)] gap-5 p-5">
+        <RecordPanel
+          game={game}
+          lineups={lineups}
+          quarterLabel={quarterLabel}
+          onAddRecord={addRecord}
+          onSubstitute={substitute}
+          progressActions={progressActions}
+          onToast={push}
+          onError={pushError}
+          onSaved={settle}
+        />
+
+        <TimelineList game={game} records={records} onDelete={requestDelete} />
+      </div>
+
+      <ConfirmDialog
+        open={pendingDelete !== null}
+        title="이 기록을 지울까요?"
+        description={
+          pendingDelete
+            ? `${pendingDelete.recordedQuarter} ${pendingDelete.recordedAt}' ${`${pendingDelete.title} ${pendingDelete.subtitle}`.trim()}\n되돌릴 수 없어요. 중간 기록이면 뒤 기록의 점수도 다시 계산돼요.`
+            : undefined
+        }
+        pending={deleting}
+        onConfirm={() => pendingDelete && void deleteRecord(pendingDelete)}
+        onClose={() => !deleting && setPendingDelete(null)}
+      />
+
+      <Toasts items={toasts} />
+    </>
+  );
+};

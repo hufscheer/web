@@ -6,7 +6,8 @@ import { queryKeys } from '~/api/queryKey';
 import type { GameTeamLineupCreateRequest } from '../types/games';
 
 export const postGameTeamsLineup = ({ gameTeamId, ...request }: GameTeamLineupCreateRequest) => {
-  return fetcher.post<void>(`game-teams/${gameTeamId}/lineup-players`, { json: request });
+  // 서버가 새 lineupPlayerId 를 JSON 숫자로 돌려준다
+  return fetcher.post<number>(`game-teams/${gameTeamId}/lineup-players`, { json: request });
 };
 
 export const useCreateGameTeamsLineup = () => {

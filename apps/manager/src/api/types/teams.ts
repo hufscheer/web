@@ -2,6 +2,7 @@ import type { SportType } from './leagues';
 
 export type TeamPlayerType = {
   playerId: number;
+  teamPlayerId?: number | null;
   name?: string;
   studentNumber?: string;
   jerseyNumber: number;
@@ -33,6 +34,13 @@ export type GameTeamType = {
 
 export type TeamDetailPayload = {
   id: number;
+};
+
+export type TeamDetailType = TeamType & {
+  teamId: number;
+  winCount: number;
+  drawCount: number;
+  loseCount: number;
 };
 
 export type TeamUnitType = {

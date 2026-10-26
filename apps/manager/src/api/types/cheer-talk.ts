@@ -2,7 +2,8 @@ export type CheerTalkType = {
   cheerTalkId: number;
   gameId: number;
   leagueId: number;
-  content: string;
+  /** 차단된 응원톡은 서버가 내용을 비워 보낸다 */
+  content: string | null;
   gameTeamId: number;
   createdAt: string;
   isBlocked: boolean;

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@hcc/api-base';
 
-import type { ReplacementType } from '~/api';
+import type { ReplacementType } from '~/api/types';
 
 import { fetcher } from '~/api/fetcher';
 import { queryKeys } from '~/api/queryKey';
@@ -20,6 +20,10 @@ export const useCreateTimelinesReplace = ({ gameId }: { gameId: number }) => {
       await Promise.all([
         qc.refetchQueries({ queryKey: queryKeys.games.timeline({ gameId }).queryKey, type: 'all' }),
         qc.refetchQueries({ queryKey: queryKeys.games.lineup({ gameId }).queryKey, type: 'all' }),
+        qc.refetchQueries({
+          queryKey: queryKeys.games.lineupPlaying({ gameId }).queryKey,
+          type: 'all',
+        }),
       ]);
     },
   });
