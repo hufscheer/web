@@ -158,7 +158,7 @@ export const LeagueCreateForm = () => {
             )}
           </Field>
 
-          <Field label="최대 라운드">
+          <Field label="라운드">
             <SelectInput value={maxRound} onChange={(e) => setMaxRound(Number(e.target.value))}>
               {ROUND_OPTIONS.map((option) => (
                 <option key={option} value={option}>

@@ -137,7 +137,7 @@ export const LeagueManageForm = ({
             {startAt > endAt && <ErrorText>종료일이 시작일보다 빨라요.</ErrorText>}
           </Field>
 
-          <Field label="최대 라운드">
+          <Field label="라운드">
             <SelectInput value={maxRound} onChange={(e) => setMaxRound(Number(e.target.value))}>
               {ROUND_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
