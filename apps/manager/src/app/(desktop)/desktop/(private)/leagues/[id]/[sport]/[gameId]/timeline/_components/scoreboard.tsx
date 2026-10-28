@@ -20,15 +20,7 @@ type Props = {
   quarterScores: QuarterScoreType[];
 };
 
-const Side = ({
-  team,
-  label,
-  reversed,
-}: {
-  team: Game['gameTeams'][number];
-  label: string;
-  reversed?: boolean;
-}) => (
+const Side = ({ team, reversed }: { team: Game['gameTeams'][number]; reversed?: boolean }) => (
   <div className={`flex items-center gap-2.5 ${reversed ? 'flex-row-reverse' : ''}`}>
     {team.logoImageUrl ? (
       <img
@@ -46,7 +38,6 @@ const Side = ({
     )}
     <div className={`min-w-0 ${reversed ? 'text-right' : ''}`}>
       <div className="text-t5 truncate font-semibold">{team.gameTeamName}</div>
-      <div className="text-t8 text-[var(--color-neutral-400)]">{label}</div>
     </div>
   </div>
 );
@@ -96,7 +87,7 @@ export const Scoreboard = ({ game, homeScore, awayScore, quarterLabel, quarterSc
       </header>
 
       <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-6 px-4 py-3">
-        <Side team={home} label="홈" />
+        <Side team={home} />
 
         <div className="flex flex-col items-center gap-2">
           <div className="flex items-center gap-4">
@@ -135,7 +126,7 @@ export const Scoreboard = ({ game, homeScore, awayScore, quarterLabel, quarterSc
           <QuarterScores game={game} quarterScores={quarterScores} />
         </div>
 
-        <Side team={away} label="원정" reversed />
+        <Side team={away} reversed />
       </div>
     </div>
   );
