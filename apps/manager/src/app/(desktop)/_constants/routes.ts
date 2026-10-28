@@ -18,7 +18,8 @@ export const routes = {
   leagueCreate: `${BASE}/leagues/create`,
   league: (id: number) => `${BASE}/leagues/${id}`,
   leagueManage: (id: number) => `${BASE}/leagues/${id}/manage`,
-  leagueBracket: (id: number) => `${BASE}/leagues/${id}/bracket`,
+  // 대진표 등록 기능은 아직 열지 않는다.
+  // leagueBracket: (id: number) => `${BASE}/leagues/${id}/bracket`,
   /** 대진표 빈 칸에서 넘어올 때 라운드와 두 팀을 미리 채운다 */
   gameCreate: (
     leagueId: number,
