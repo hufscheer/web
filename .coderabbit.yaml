@@ -1,0 +1,67 @@
+# CodeRabbit 설정 레퍼런스: https://docs.coderabbit.ai/reference/configuration
+language: ko-KR
+tone_instructions: '한국어로 간결하게 리뷰해 주세요. 근거가 확실한 문제를 먼저 짚고, 취향 차이는 짧게 제안만 해 주세요.'
+early_access: false
+
+reviews:
+  # chill: 균형 / assertive: 지적이 더 많아짐 / quiet: 중요한 것만
+  profile: chill
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: true
+
+  auto_review:
+    enabled: true
+    drafts: false
+    # 기본 브랜치(wip-v2) 외에 리뷰할 대상 브랜치. 일상 작업 PR은 dev 로 올라간다.
+    base_branches:
+      - '^dev$'
+    # dev -> 운영 반영용 릴리스 PR 은 이미 리뷰된 변경의 묶음이라 건너뛴다.
+    ignore_title_keywords:
+      - 'WIP'
+      - '운영서버 반영'
+      - 'dev 내용 반영'
+
+  path_filters:
+    - '!pnpm-lock.yaml'
+    - '!**/dist/**'
+    - '!**/.next/**'
+    - '!**/*.png'
+    - '!**/*.woff2'
+
+  path_instructions:
+    - path: '**/*.{ts,tsx}'
+      instructions: |
+        - `any` 남용과 불안전한 타입 단언을 지적해 주세요.
+        - 새 기능은 빈 상태, 로딩, 에러 상태를 다루는지 확인해 주세요.
+        - 실시간 점수·쿼터 데이터는 값이 없을 수 있으니 방어적으로 처리하는지 확인해 주세요.
+        - 남아 있는 `console.log` 를 지적해 주세요.
+        - API 호출은 `packages/api-base` 와 각 앱의 `src/api` 규칙을 따라야 합니다.
+        - 두 앱이 함께 쓸 로직은 `packages/*` 로 올릴 수 있는지 검토해 주세요.
+    - path: 'apps/spectator/**'
+      instructions: |
+        관객용 앱입니다. 점수·진행 상황 같은 읽기 중심 정보와 실시간 갱신에 집중합니다.
+        운영자·관리 성격의 기능이 들어오면 지적해 주세요.
+        모바일 레이아웃에 영향이 있는 UI 변경인지 확인해 주세요.
+    - path: 'apps/manager/**'
+      instructions: |
+        운영자용 대시보드입니다. 경기 상태 전환, 점수 입력·수정, 운영 흐름에 집중합니다.
+        관객용 읽기 최적화 기능이 섞이면 지적해 주세요.
+        모바일 경로와 `/desktop` 경로가 같은 `src/api` 를 공유하므로, 한쪽 변경이 다른 쪽에 미치는 영향을 확인해 주세요.
+    - path: 'packages/api-base/**'
+      instructions: |
+        공용 네트워크 정책(인증 헤더, 에러 처리, 공통 fetcher, 쿼리 클라이언트)만 둡니다.
+        특정 앱 화면에 의존하는 로직이 들어오면 지적해 주세요.
+        변경이 spectator 와 manager 양쪽에 미치는 영향을 확인해 주세요.
+    - path: 'packages/icons/**'
+      instructions: |
+        아이콘 소스와 래퍼 컴포넌트만 둡니다. 특정 앱에서만 쓰는 임시 아이콘 정의는 지적해 주세요.
+    - path: 'packages/style/**'
+      instructions: |
+        공용 CSS 변수, 유틸리티 스타일, 테마를 정의합니다. 하드코딩된 값보다 토큰을 쓰는지 확인해 주세요.
+    - path: 'packages/ui/**'
+      instructions: |
+        재사용 가능한 UI 기본 요소와 조합 컴포넌트를 둡니다.
+        앱 전용 문구나 도메인에 의존하는 props 가 들어오면 지적해 주세요.
+        변경이 spectator 와 manager 양쪽에 미치는 영향을 확인해 주세요.
