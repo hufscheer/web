@@ -189,10 +189,11 @@ export default function LeaguesClient({ leagues }: { leagues: ManagerLeague[] })
                           label: '대회 정보 수정',
                           onSelect: () => router.push(routes.leagueManage(league.leagueId)),
                         },
-                        {
-                          label: '대진표',
-                          onSelect: () => router.push(routes.leagueBracket(league.leagueId)),
-                        },
+                        // 대진표 등록 기능은 아직 열지 않는다.
+                        // {
+                        //   label: '대진표',
+                        //   onSelect: () => router.push(routes.leagueBracket(league.leagueId)),
+                        // },
                         {
                           label: '경기 생성',
                           onSelect: () => router.push(routes.gameCreate(league.leagueId)),

@@ -7,7 +7,6 @@ import { redirect } from 'next/navigation';
 import type { LeagueDetailType, LeagueTeamType } from '~/api';
 
 import { fetchLeague, fetchLeagueTeams } from '~/api';
-import { BracketSheet } from '~/components/brackets/bracket-sheet';
 import { Header } from '~/components/layout';
 import { routes } from '~/constants/routes';
 
@@ -50,9 +49,6 @@ const Page = async ({ searchParams, params }: Props) => {
       <Header.Root
         left={<Header.Arrow />}
         center={<Header.LinkLogo sport={SPORT_TYPE} orgId={orgId} />}
-        right={
-          league.bracketEnabled === true ? <BracketSheet leagueName={league.name} /> : undefined
-        }
       />
       {league && round && (
         <RoundFilter league={league} round={round} thirdPlaceMatch={thirdPlaceMatch} />

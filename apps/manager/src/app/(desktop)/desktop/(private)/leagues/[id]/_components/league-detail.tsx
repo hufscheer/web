@@ -23,7 +23,8 @@ import { isLeagueDone, roundLabel } from '~/app/(desktop)/_constants/sports';
 import { toGames, toLeague } from '~/app/(desktop)/_utils/convert';
 import { monthDay, period, timeOf } from '~/app/(desktop)/_utils/date';
 
-import { BracketView } from './bracket-view';
+// 대진표 등록 기능은 아직 열지 않는다. 열 때 아래 주석 처리한 대진표 코드를 복원한다.
+// import { BracketView } from './bracket-view';
 import { LeagueStatisticsPanel } from './league-statistics';
 
 // `/leagues/{id}/games` 는 삭제된 팀을 가리키는 경기가 있으면 500 이라 상태별 목록으로 받는다
@@ -54,16 +55,15 @@ export const LeagueDetail = ({ leagueId }: { leagueId: number }) => {
   usePrefetchStatistics(leagueId);
   const router = useRouter();
 
-  const [{ data: leagueData }, playing, scheduled, finished, { data: bracket }] =
-    useSuspenseQueries({
-      queries: [
-        queryKeys.leagues.detail({ leagueId }),
-        gamesOf(leagueId, 'PLAYING'),
-        gamesOf(leagueId, 'SCHEDULED'),
-        gamesOf(leagueId, 'FINISHED'),
-        queryKeys.leagues.bracket({ leagueId }),
-      ],
-    });
+  const [{ data: leagueData }, playing, scheduled, finished] = useSuspenseQueries({
+    queries: [
+      queryKeys.leagues.detail({ leagueId }),
+      gamesOf(leagueId, 'PLAYING'),
+      gamesOf(leagueId, 'SCHEDULED'),
+      gamesOf(leagueId, 'FINISHED'),
+      // queryKeys.leagues.bracket({ leagueId }),
+    ],
+  });
 
   const league = toLeague(leagueData, leagueId);
   const leagueGames = [playing, scheduled, finished]
@@ -140,7 +140,8 @@ export const LeagueDetail = ({ leagueId }: { leagueId: number }) => {
 
         <LeagueStatisticsPanel leagueId={leagueId} sportType={league.sportType} />
 
-        {/* 예선(100)은 토너먼트 트리가 없다 */}
+        {/* 대진표 등록 기능은 아직 열지 않는다.
+        // 예선(100)은 토너먼트 트리가 없다
         {league.maxRound !== 100 && (
           <section className="flex flex-col gap-3">
             <div className="flex items-center justify-between gap-3">
@@ -169,6 +170,7 @@ export const LeagueDetail = ({ leagueId }: { leagueId: number }) => {
             )}
           </section>
         )}
+        */}
 
         <section className="flex flex-col gap-3">
           <h2 className="text-t5 font-bold text-[var(--color-neutral-900)]">
