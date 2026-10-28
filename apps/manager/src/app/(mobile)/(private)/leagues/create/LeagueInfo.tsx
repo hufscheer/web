@@ -2,7 +2,7 @@
 
 import type { ReactNode } from 'react';
 
-import { Button, Checkbox, Input } from '@hcc/ui';
+import { Button, Input } from '@hcc/ui';
 import { Suspense } from '@suspensive/react';
 
 import type { SportType } from '~/api';
@@ -122,12 +122,6 @@ const LeagueInfoFields = ({ form, onChange }: FieldsProps) => {
         label="3,4위전 진행"
         checked={form.thirdPlaceMatchEnabled}
         onCheckedChange={(thirdPlaceMatchEnabled) => onChange({ thirdPlaceMatchEnabled })}
-      />
-
-      <Checkbox
-        label="대진표 생성"
-        checked={form.bracketEnabled}
-        onCheckedChange={(checked) => onChange({ bracketEnabled: checked })}
       />
     </>
   );
