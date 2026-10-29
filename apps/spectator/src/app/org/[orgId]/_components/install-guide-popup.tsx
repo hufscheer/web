@@ -18,14 +18,15 @@ export const InstallGuidePopup = () => {
       <Modal.Content
         onInteractOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
-        className="max-h-[calc(100dvh-64px)] w-[min(340px,calc(100vw-48px))] overflow-hidden rounded-2xl bg-white shadow-xl"
+        // 화면 높이가 낮으면 (높이 - 여백 64px - 하단 바 56px)에 맞춰 너비를 줄여, 이미지 비율과 클릭 영역 위치를 유지한다.
+        className="w-[min(340px,calc(100vw_-_48px),calc((100dvh_-_120px)_*_680_/_1114))] overflow-hidden rounded-2xl bg-white shadow-xl"
       >
         <Modal.Title className="sr-only">훕치치 홈 화면에 추가하기</Modal.Title>
         <Modal.Description className="sr-only">
           홈 화면에 추가하면 경기 시작·종료·득점 알림을 받을 수 있어요.
         </Modal.Description>
 
-        <div className="relative aspect-[680/1114] min-h-0 shrink">
+        <div className="relative aspect-[680/1114]">
           <Image
             src="/images/install-guide-popup.webp"
             alt="훕치치 홈 화면에 추가하고, 우리 팀 경기 알림 받자! 홈 화면에서 한 번에 접속! 경기 시작·종료·득점 알림까지!"
@@ -44,7 +45,7 @@ export const InstallGuidePopup = () => {
           />
         </div>
 
-        <div className="flex shrink-0 items-center justify-between px-5 py-4">
+        <div className="flex h-14 shrink-0 items-center justify-between px-5">
           <Checkbox
             label="오늘 하루 보지않기"
             checked={hideToday}
