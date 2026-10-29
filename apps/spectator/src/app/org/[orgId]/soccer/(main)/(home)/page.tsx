@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 
 import { fetchLeagueRecentGames } from '~/api';
 import { ErrorMessage } from '~/app/org/[orgId]/_components/error-message';
+import { InstallGuidePopup } from '~/app/org/[orgId]/_components/install-guide-popup';
 
 import { SPORT_TYPE } from '../../_constants';
 import { RecentTabSkeleton } from './_components/recent-tab-skeleton';
@@ -39,6 +40,7 @@ export default async function Page({ params }: Props) {
           </Suspense>
         </HydrationBoundary>
       </ErrorBoundary>
+      <InstallGuidePopup />
     </div>
   );
 }
