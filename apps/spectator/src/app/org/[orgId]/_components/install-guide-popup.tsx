@@ -18,7 +18,7 @@ export const InstallGuidePopup = () => {
       <Modal.Content
         onInteractOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
-        className="max-h-[calc(100dvh-64px)] w-[min(400px,calc(100vw-32px))] overflow-hidden rounded-2xl bg-white shadow-xl"
+        className="max-h-[calc(100dvh-64px)] w-[min(340px,calc(100vw-48px))] overflow-hidden rounded-2xl bg-white shadow-xl"
       >
         <Modal.Title className="sr-only">훕치치 홈 화면에 추가하기</Modal.Title>
         <Modal.Description className="sr-only">
@@ -31,7 +31,7 @@ export const InstallGuidePopup = () => {
             alt="훕치치 홈 화면에 추가하고, 우리 팀 경기 알림 받자! 홈 화면에서 한 번에 접속! 경기 시작·종료·득점 알림까지!"
             fill
             priority
-            sizes="400px"
+            sizes="340px"
             className="object-cover object-top"
           />
           {/* 이미지에 포함된 '설치 안내 가이드 보러가기' 버튼 위치에 맞춘 클릭 영역 */}
