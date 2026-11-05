@@ -41,8 +41,9 @@ export const roundLabel = (round: number, thirdPlaceMatch = false) => {
 
 export const roundLabelOf = (game: Game) => roundLabel(game.round, game.thirdPlaceMatch);
 
-export const roundsUpTo = (maxRound: number) => {
-  if (maxRound >= 100) return [100];
+/** 예선(100)으로 시작하는 대회도 본선(16강부터 결승)을 치른다. 서버와 모바일도 같은 기준이다 */
+export const roundsUpTo = (maxRound: number): number[] => {
+  if (maxRound >= 100) return [100, ...roundsUpTo(16)];
   const rounds: number[] = [];
   for (let r = maxRound; r >= 2; r = Math.floor(r / 2)) rounds.push(r);
   return rounds;
