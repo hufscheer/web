@@ -51,8 +51,11 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
   if (!_id || Number.isNaN(id) || id <= 0) return {};
 
-  const team: TeamDetailType = await fetchTeam({ id });
-  const title = team ? team.name : '';
+  // 캐시(ISR)되는 페이지는 메타데이터 오류가 곧 페이지 오류(500)가 된다. 전처럼 제목 없이 그리고 본문은 클라이언트가 가져온다
+  const team: TeamDetailType | null = await fetchTeam({ id }).catch(() => null);
+  if (!team) return {};
+
+  const title = team.name;
 
   return {
     title,
