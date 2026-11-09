@@ -43,6 +43,9 @@ const Page = async ({ params }: Props) => {
 
 export default Page;
 
+// 빌드 때는 미리 그리지 않고 처음 요청 때 그려 캐시한다(주기는 상위 layout 의 revalidate)
+export const generateStaticParams = async () => [];
+
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
   const { id: _id } = await params;
   const id = Number(_id);
