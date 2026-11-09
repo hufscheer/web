@@ -52,7 +52,7 @@ export default function proxy(request: NextRequest) {
   if (orgSegment) {
     const parsed = Number(orgSegment[1]);
     if (isPositiveInteger(parsed)) {
-      // URL 정답 → 쿠키에 미러링, 통과
+      // 보통은 matcher 에서 빠져 여기까지 오지 않는다. 쿠키 미러링은 OrgGuard 가 클라이언트에서 한다
       return setOrgCookie(NextResponse.next(), parsed);
     }
     // 세그먼트가 유효하지 않음 → 쿠키/환영 페이지로 복원
@@ -74,5 +74,7 @@ export default function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next|api|welcome|.*\\..*).*)'],
+  // `/org/<양의 정수>/...` 는 고칠 것이 없어 proxy 를 돌리지 않는다. 페이지 요청마다 함수가 실행돼 Vercel CPU 를 쓰기 때문이다.
+  // 그 경로의 쿠키 미러링은 OrgGuard 가 클라이언트에서 하고, 잘못된 세그먼트(`/org/abc`, `/org/0`)만 여기서 고친다
+  matcher: ['/((?!_next|api|welcome|org/[1-9][0-9]*(?:/|$)|.*\\..*).*)'],
 };
