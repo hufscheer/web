@@ -15,6 +15,9 @@ import { GameList } from '../_components/game-list';
 import { RoundFilter } from '../_components/round-filter';
 import { TeamFilter } from '../_components/team-filter';
 
+// 라운드와 팀 필터를 서버에서 searchParams 로 읽으므로 캐시하지 않고 요청마다 그린다(상위 layout 의 ISR 에서 뺀다)
+export const dynamic = 'force-dynamic';
+
 type Props = {
   searchParams: Promise<{ round: string; teams: string; third_place_match: string }>;
   params: Promise<{ orgId: string; id: string }>;

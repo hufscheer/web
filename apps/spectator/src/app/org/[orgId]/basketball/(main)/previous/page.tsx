@@ -8,6 +8,9 @@ import { YearFilter } from './_components/year-filter';
 
 export const metadata: Metadata = { title: '대회' };
 
+// 연도를 서버에서 searchParams 로 읽으므로 캐시하지 않고 요청마다 그린다(상위 layout 의 ISR 에서 뺀다)
+export const dynamic = 'force-dynamic';
+
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
