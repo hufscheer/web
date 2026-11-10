@@ -1,23 +1,31 @@
 import type { Metadata } from 'next';
 
-import { ErrorBoundary, Suspense } from '@suspensive/react';
+import { dehydrate, getQueryClient, HydrationBoundary } from '@hcc/api-base';
+import { Suspense } from '@suspensive/react';
 import { redirect } from 'next/navigation';
 
-import type { LeagueDetailType } from '~/api';
+import type { LeagueDetailType, LeagueTeamType } from '~/api';
 
-import { fetchLeague } from '~/api';
-import { ErrorMessage } from '~/app/org/[orgId]/_components/error-message';
+import { fetchLeague, fetchLeagueTeams } from '~/api';
 import { Header } from '~/components/layout';
 import { routes } from '~/constants/routes';
 
 import { SPORT_TYPE } from '../../_constants';
-import { LeagueDetail } from '../_components/league-detail';
+import { GameList } from '../_components/game-list';
+import { RoundFilter } from '../_components/round-filter';
+import { TeamFilter } from '../_components/team-filter';
+
+// 라운드와 팀 필터를 서버에서 searchParams 로 읽으므로 캐시하지 않고 요청마다 그린다(상위 layout 의 ISR 에서 뺀다)
+export const dynamic = 'force-dynamic';
 
 type Props = {
+  searchParams: Promise<{ round: string; teams: string; third_place_match: string }>;
   params: Promise<{ orgId: string; id: string }>;
 };
 
-const Page = async ({ params }: Props) => {
+const Page = async ({ searchParams, params }: Props) => {
+  const qc = getQueryClient();
+
   const { orgId: _orgId, id: _id } = await params;
   const orgId = Number(_orgId);
   const id = Number(_id);
@@ -26,25 +34,44 @@ const Page = async ({ params }: Props) => {
     redirect(routes.home({ orgId, sport: SPORT_TYPE }));
   }
 
+  const league: LeagueDetailType = await fetchLeague({ leagueId: id });
+
+  const { round: _round, teams: _teams, third_place_match: _thirdPlaceMatch } = await searchParams;
+  // const round = Number(_round) || league.inProgressRound;
+  const round = Number(_round) || league.maxRound;
+  const thirdPlaceMatch = _thirdPlaceMatch === 'true';
+  const teams: LeagueTeamType[] = await fetchLeagueTeams({
+    leagueId: id,
+    round,
+    thirdPlaceMatch,
+  });
+  const selectedTeams = _teams ? _teams.split(',').map(Number).filter(Boolean) : [];
+
   return (
-    <>
+    <HydrationBoundary state={dehydrate(qc)}>
       <Header.Root
         left={<Header.Arrow />}
         center={<Header.LinkLogo sport={SPORT_TYPE} orgId={orgId} />}
       />
-      <ErrorBoundary fallback={<ErrorMessage />}>
-        <Suspense clientOnly>
-          <LeagueDetail leagueId={id} />
-        </Suspense>
-      </ErrorBoundary>
-    </>
+      {league && round && (
+        <RoundFilter league={league} round={round} thirdPlaceMatch={thirdPlaceMatch} />
+      )}
+      {teams && <TeamFilter teams={teams} selectedTeams={selectedTeams} />}
+      <Suspense clientOnly>
+        <GameList
+          leagueId={id}
+          round={round}
+          thirdPlaceMatch={thirdPlaceMatch}
+          selectedTeams={selectedTeams}
+          sportType={SPORT_TYPE}
+          bracketEnabled={league.bracketEnabled}
+        />
+      </Suspense>
+    </HydrationBoundary>
   );
 };
 
 export default Page;
-
-// 빌드 때는 미리 그리지 않고 처음 요청 때 그려 캐시한다(주기는 상위 layout 의 revalidate)
-export const generateStaticParams = async () => [];
 
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
   const { orgId: _orgId, id: _id } = await params;
@@ -53,11 +80,8 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
   if (!_id || Number.isNaN(id) || id <= 0) return {};
 
-  // 캐시(ISR)되는 페이지는 메타데이터 오류가 곧 페이지 오류(500)가 된다. 제목 없이 그리고 본문은 클라이언트가 가져온다
-  const league: LeagueDetailType | null = await fetchLeague({ leagueId: id }).catch(() => null);
-  if (!league) return {};
-
-  const title = league.name;
+  const league: LeagueDetailType = await fetchLeague({ leagueId: id });
+  const title = league ? league.name : '';
   const url = routes.league({ orgId, id, sport: SPORT_TYPE });
 
   return {
