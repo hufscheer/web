@@ -12,7 +12,7 @@ export const useSuspenseGameTeamInfo = (gameId: number) => {
 
     return {
       direction: (['HOME', 'AWAY'] as const)[order] as 'HOME' | 'AWAY',
-      logoImageUrl: data.gameTeams[order]?.logoImageUrl || '',
+      logoImageUrl: data.gameTeams[order]?.logoImageUrl ?? null,
     };
   };
 

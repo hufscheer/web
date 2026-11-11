@@ -20,5 +20,5 @@ export type TeamDirection = 'HOME' | 'AWAY';
 
 export type GameCheerTalkWithTeamInfo = CheerTalkType & {
   direction: TeamDirection;
-  logoImageUrl: string;
+  logoImageUrl: string | null;
 };

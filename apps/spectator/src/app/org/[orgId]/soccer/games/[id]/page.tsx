@@ -2,13 +2,11 @@ import type { Metadata } from 'next';
 
 import * as Tabs from '@radix-ui/react-tabs';
 import { Suspense } from '@suspensive/react';
-import { redirect } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
-import type { GameType } from '~/api';
-
-import { fetchGame } from '~/api';
 import { GameLiveSync } from '~/app/org/[orgId]/_components/game-live-sync';
 import { GameTabsRoot } from '~/app/org/[orgId]/_components/game-tabs-root';
+import { loadGame } from '~/app/org/[orgId]/_components/load-game';
 import { Header } from '~/components/layout';
 import { TabTrigger } from '~/components/ui';
 import { routes } from '~/constants/routes';
@@ -33,6 +31,9 @@ const Page = async ({ params }: Props) => {
   if (Number.isNaN(id) || id <= 0) {
     redirect(routes.home({ orgId, sport: SPORT_TYPE }));
   }
+
+  // 삭제됐거나 없는 경기(404)만 not-found 로 보낸다. 그 밖의 오류는 본문을 클라이언트가 가져온다
+  if ((await loadGame(id)) === 'not-found') notFound();
 
   return (
     <div className="flex h-dvh flex-col bg-white">
@@ -111,9 +112,8 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
   if (!_id || Number.isNaN(id) || id <= 0) return {};
 
-  // 캐시(ISR)되는 페이지는 메타데이터 오류가 곧 페이지 오류(500)가 된다. 전처럼 제목 없이 그리고 본문은 클라이언트가 가져온다
-  const game: GameType | null = await fetchGame({ gameId: id }).catch(() => null);
-  if (!game) return {};
+  const game = await loadGame(id);
+  if (!game || game === 'not-found') return {};
 
   const teamNames = game.gameTeams.map((t) => t.gameTeamName);
   const title =
