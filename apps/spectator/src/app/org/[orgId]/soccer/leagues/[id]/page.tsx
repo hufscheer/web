@@ -64,7 +64,6 @@ const Page = async ({ searchParams, params }: Props) => {
           thirdPlaceMatch={thirdPlaceMatch}
           selectedTeams={selectedTeams}
           sportType={SPORT_TYPE}
-          bracketEnabled={league.bracketEnabled}
         />
       </Suspense>
     </HydrationBoundary>
