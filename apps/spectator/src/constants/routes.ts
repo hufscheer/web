@@ -15,6 +15,8 @@ const orgSport = ({ orgId, sport }: SportRouteParams) =>
 export const routes = {
   root: '/',
   welcome: '/welcome',
+  privacy: '/privacy',
+  support: '/support',
   org: ({ orgId }: OrgScope) => orgSegment(orgId),
   home: (params: SportRouteParams) => orgSport(params),
   calendar: (params: SportRouteParams) => `${orgSport(params)}/calendar`,
