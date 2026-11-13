@@ -1,5 +1,6 @@
 import { useQueryClient } from '@hcc/api-base';
 import { toast } from '@hcc/ui';
+import { sendGAEvent } from '@next/third-parties/google';
 import { HTTPError } from 'ky';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 
@@ -66,6 +67,7 @@ export const useTeamNotification = (teamId: number) => {
   const subscribe = async () => {
     // iOS 는 사용자 동작 직후에만 권한을 요청할 수 있어 다른 비동기 작업보다 먼저 호출한다.
     const result = await Notification.requestPermission();
+    sendGAEvent('event', 'notification_permission_result', { result });
     if (result !== 'granted') {
       toast.error('알림 권한이 꺼져 있어요. 기기 설정에서 알림을 허용해 주세요');
       return false;
@@ -82,6 +84,7 @@ export const useTeamNotification = (teamId: number) => {
     }
 
     await saveTeamIds(key, current, [...new Set([...current.teamIds, teamId])]);
+    sendGAEvent('event', 'team_notification_on', { team_id: teamId });
     toast.success('이 팀의 경기 시작·득점·종료 알림을 보내드릴게요');
     return true;
   };
@@ -93,6 +96,7 @@ export const useTeamNotification = (teamId: number) => {
       current,
       current.teamIds.filter((id) => id !== teamId),
     );
+    sendGAEvent('event', 'team_notification_off', { team_id: teamId });
     toast.success('팀 알림을 껐어요');
     return false;
   };
