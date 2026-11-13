@@ -24,11 +24,17 @@ export const ScoreBoard = ({
 }: ScoreBoardProps) => {
   return (
     <div className="flex items-center justify-between pt-4 pb-2">
-      <TeamArea src={homeTeam.logoImageUrl} teamName={homeTeam.gameTeamName} />
+      <TeamArea
+        src={homeTeam.logoImageUrl ?? '/images/fallback-image.webp'}
+        teamName={homeTeam.gameTeamName}
+      />
       <Score score={homeTeam.score} gameState={gameState} />
       <StatusArea quarter={quarter} gameState={gameState} startTime={startTime} />
       <Score score={awayTeam.score} gameState={gameState} />
-      <TeamArea src={awayTeam.logoImageUrl} teamName={awayTeam.gameTeamName} />
+      <TeamArea
+        src={awayTeam.logoImageUrl ?? '/images/fallback-image.webp'}
+        teamName={awayTeam.gameTeamName}
+      />
     </div>
   );
 };

@@ -5,7 +5,7 @@ import type { SportType } from './leagues';
 export type TeamType = {
   id: number;
   name: string;
-  logoImageUrl: string;
+  logoImageUrl: string | null;
   unit: string;
   teamColor: string;
   sportType: SportType;
@@ -40,7 +40,7 @@ export type TeamListPayload = {
 export type GameTeamType = {
   gameTeamId: number;
   gameTeamName: string;
-  logoImageUrl: string;
+  logoImageUrl: string | null;
   score: number;
   pkScore: number;
   teamColor: string;
@@ -77,7 +77,7 @@ export type TrophyType = {
 export type TeamDetailType = {
   teamId: number;
   name: string;
-  logoImageUrl: string;
+  logoImageUrl: string | null;
   unit: string;
   teamColor: string;
   sportType: SportType;

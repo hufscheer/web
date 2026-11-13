@@ -9,7 +9,7 @@ import { cn } from '~/utils/cn';
 type Props = {
   cheerTalkId: number;
   direction: TeamDirection;
-  logoImageUrl: string;
+  logoImageUrl: string | null;
   content: string;
   createdAt: string;
   isBlocked: boolean;

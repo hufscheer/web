@@ -63,7 +63,7 @@ export type StatisticTeamType = {
   teamId: number;
   leagueTeamId: number;
   teamName: string;
-  logoImageUrl: string;
+  logoImageUrl: string | null;
   sizeOfTeamPlayers: number;
 };
 
@@ -100,7 +100,7 @@ export type LeagueTeamType = {
   teamId: number;
   leagueTeamId: number;
   teamName: string;
-  logoImageUrl: string;
+  logoImageUrl: string | null;
   sizeOfTeamPlayers: number;
   cheerCount: number;
   cheerTalkCount: number;

@@ -73,7 +73,7 @@ const Score = ({ record }: { record: ScoreRecord }) => {
         </div>
         <Image
           className="overflow-hidden rounded-full object-contain"
-          src={teamImageUrl}
+          src={teamImageUrl ?? '/images/fallback-image.webp'}
           alt={`${teamName} 로고`}
           width={18}
           height={18}
@@ -106,7 +106,7 @@ const OwnGoal = ({ record }: { record: OwnGoalRecord }) => {
         </div>
         <Image
           className="overflow-hidden rounded-full object-contain"
-          src={teamImageUrl}
+          src={teamImageUrl ?? '/images/fallback-image.webp'}
           alt={`${teamName} 로고`}
           width={18}
           height={18}
@@ -142,7 +142,7 @@ const Replacement = ({ record }: { record: AnyReplacementRecord }) => {
         </div>
         <Image
           className="overflow-hidden rounded-full object-contain"
-          src={teamImageUrl}
+          src={teamImageUrl ?? '/images/fallback-image.webp'}
           alt={`${teamName} 로고`}
           width={18}
           height={18}

@@ -11,7 +11,7 @@ export type ProgressType = (typeof PROGRESS_TYPE)[keyof typeof PROGRESS_TYPE];
 
 type ScoreSnapshotType = {
   teamName: string;
-  teamImageUrl: string;
+  teamImageUrl: string | null;
   score: number;
 };
 
@@ -38,7 +38,7 @@ type CommonTimelineRecordFields = {
   playerName: string;
   gameTeamId: number;
   teamName: string;
-  teamImageUrl: string;
+  teamImageUrl: string | null;
 };
 
 export const RecordType = {
@@ -156,7 +156,7 @@ export type TimelinePayload = {
 export type WinnerType = {
   gameTeamId: number;
   teamName: string;
-  teamImageUrl: string;
+  teamImageUrl: string | null;
 };
 
 export type TimelineType = {
