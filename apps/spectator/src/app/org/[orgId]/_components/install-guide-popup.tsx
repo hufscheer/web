@@ -14,6 +14,8 @@ export const InstallGuidePopup = () => {
   const { open, close } = useInstallGuidePopup();
   const [hideToday, setHideToday] = useState(false);
 
+  if (!open) return null;
+
   return (
     <Modal open={open}>
       {/* 바깥 영역 클릭·ESC로는 닫히지 않고, 닫기 버튼으로만 닫힌다. */}
