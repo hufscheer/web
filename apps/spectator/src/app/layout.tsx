@@ -43,6 +43,8 @@ const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html dir="ltr" lang="ko">
       <head>
+        <link rel="preconnect" href="https://images.hufscheer.com" />
+
         <link
           rel="stylesheet"
           crossOrigin="anonymous"
