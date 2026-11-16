@@ -1,18 +1,33 @@
 'use client';
 
 import { Checkbox, Modal } from '@hcc/ui';
+import { sendGAEvent } from '@next/third-parties/google';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import installGuidePopupImage from '~/assets/install-guide-popup.webp';
 
 import { useInstallGuidePopup } from '../_hooks/useInstallGuidePopup';
 
-const INSTALL_GUIDE_URL = 'https://lavish-beef-3dd.notion.site/407f63379d9280e2a818d952d74b114c';
+const INSTALL_GUIDE_URL =
+  'https://lavish-beef-3dd.notion.site/407f63379d9280e2a818d952d74b114c';
 
 export const InstallGuidePopup = () => {
   const { open, close } = useInstallGuidePopup();
   const [hideToday, setHideToday] = useState(false);
+
+  useEffect(() => {
+    if (open) sendGAEvent('event', 'install_popup_view', {});
+  }, [open]);
+
+  const handleGuideClick = () => {
+    sendGAEvent('event', 'install_popup_guide_click', {});
+  };
+
+  const handleClose = () => {
+    sendGAEvent('event', 'install_popup_close', { hide_today: hideToday });
+    close(hideToday);
+  };
 
   if (!open) return null;
 
@@ -45,6 +60,7 @@ export const InstallGuidePopup = () => {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="설치 안내 가이드 보러가기"
+            onClick={handleGuideClick}
             className="absolute top-[52.6%] left-[24.5%] h-[6.3%] w-[52.3%] rounded-full"
           />
         </div>
@@ -57,7 +73,7 @@ export const InstallGuidePopup = () => {
           />
           <button
             type="button"
-            onClick={() => close(hideToday)}
+            onClick={handleClose}
             className="text-sm text-neutral-800"
           >
             닫기

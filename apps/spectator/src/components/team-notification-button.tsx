@@ -2,6 +2,7 @@
 
 import { NotificationsFillIcon, NotificationsIcon } from '@hcc/icons';
 import { Modal, toast } from '@hcc/ui';
+import { sendGAEvent } from '@next/third-parties/google';
 import { useState } from 'react';
 
 import { useTeamNotification } from '~/hooks/useTeamNotification';
@@ -22,6 +23,12 @@ export const TeamNotificationButton = ({ teamId, size = 24, className }: Props) 
   if (support === null || support === 'unsupported') return null;
 
   const handleClick = async () => {
+    sendGAEvent('event', 'team_notification_button_click', {
+      current_state: isFollowing ? 'on' : 'off',
+      support,
+      team_id: teamId,
+    });
+
     if (support === 'ios-install-required') {
       setGuideOpen(true);
       return;
