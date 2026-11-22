@@ -1,12 +1,13 @@
 'use client';
 
-import { CaretRightIcon, CloseIcon } from '@hcc/icons';
+import { CloseIcon } from '@hcc/icons';
 import { BottomSheet, Button } from '@hcc/ui';
 import { ErrorBoundary, Suspense } from '@suspensive/react';
 import Image from 'next/image';
 import { startTransition, useMemo, useState } from 'react';
 
 import { useSuspenseOrganizations } from '~/api/queries/useOrganizations';
+import { LeagueStatusBadge } from '~/components/league-status-badge';
 import { RadioCard } from '~/components/radio-card';
 import { Skeleton } from '~/components/skeleton';
 import { useOrganizationId } from '~/hooks/useOrganizationId';
@@ -110,10 +111,7 @@ const OrganizationList = ({ currentId, selectedOrg, handleSelectedOrg }: Organiz
               </span>
             </div>
 
-            <div className="flex items-center rounded-full bg-neutral-200 px-3 py-1 text-xs leading-[1.5] font-semibold tracking-[0%] text-neutral-400 in-data-checked:bg-[var(--color-primary-600)] in-data-checked:text-white">
-              {isLeagueOngoing ? '대회 진행 중' : '대회 진행 예정'}
-              <CaretRightIcon />
-            </div>
+            <LeagueStatusBadge isLeagueOngoing={isLeagueOngoing} />
           </div>
         </RadioCard.Root>
       ))}
