@@ -112,8 +112,10 @@ export type TimelineRecord = {
   title: string;
   /** 기록 종류 줄 */
   subtitle: string;
-  /** 기록 대상 선수 이름. 파울 누적을 세는 데 쓴다 */
+  /** 기록 대상 선수 이름 */
   playerName?: string | null;
+  /** 기록 대상 선수의 라인업 id. 파울 누적을 세는 데 쓴다 */
+  lineupPlayerId?: number | null;
   /** 아이콘용 */
   cardType?: 'YELLOW' | 'RED' | null;
   pkSuccess?: boolean | null;

@@ -129,6 +129,8 @@ type CommonTimelineRecordFields = {
   recordId: number;
   recordedAt: number;
   playerName: string;
+  /** 기록 대상 선수의 라인업 id. 같은 팀 동명이인을 가를 때 쓴다 */
+  lineupPlayerId?: number | null;
   gameTeamId: number;
   teamName: string;
   teamImageUrl: string;
