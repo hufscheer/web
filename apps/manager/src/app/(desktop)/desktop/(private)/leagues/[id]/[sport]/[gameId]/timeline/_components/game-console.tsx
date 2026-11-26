@@ -12,14 +12,16 @@ import type {
 import type { Lineup, LineupPlayer, Position } from '~/app/(desktop)/_types';
 
 import { queryKeys } from '~/api';
+import { useConsoleSync } from '~/app/(desktop)/_hooks/useConsoleSync';
 import { toGame, toLineups, toTimeline } from '~/app/(desktop)/_utils/convert';
 
 import { LiveConsole } from './live-console';
 
-// 여러 매니저가 다른 기기에서 같은 경기를 기록한다. 들어올 때 서버 값을 다시 받고,
-// 화면이 보이는 동안에는 5초마다 다시 받아 다른 기기의 기록도 새로고침 없이 보이게 한다.
-// 탭이 가려지면 react-query 가 멈춘다(refetchIntervalInBackground 기본값 false)
-const POLL_INTERVAL_MS = 5000;
+// 여러 매니저가 다른 기기에서 같은 경기를 기록한다. 들어올 때 서버 값을 다시 받고, 다른 기기의 기록은
+// 서버 WebSocket 알림을 받아 다시 받는다(useConsoleSync). 알림을 놓치는 경우(연결 끊김)와 알림이 없는
+// 라인업 직접 수정에 대비해 화면이 보이는 동안 30초마다도 다시 받는다. 탭이 가려지면 react-query 가
+// 멈춘다(refetchIntervalInBackground 기본값 false)
+const POLL_INTERVAL_MS = 30_000;
 const fresh = { staleTime: 0, refetchInterval: POLL_INTERVAL_MS };
 
 const orFallback = async <T,>(load: () => T | Promise<T>, fallback: T) => {
@@ -57,6 +59,8 @@ const withPlayingPositions = (lineups: [Lineup, Lineup], playing: GameLineupPlay
 export const GameConsole = ({ gameId, sportType }: { gameId: number; sportType: SportType }) => {
   const quarterScoresQuery = queryKeys.games.quarterScores({ gameId });
   const progressQuery = queryKeys.games.progressAvailable({ gameId });
+
+  useConsoleSync(gameId);
 
   const [detail, lineup, playing, timeline, quarterScores, progress] = useSuspenseQueries({
     queries: [
