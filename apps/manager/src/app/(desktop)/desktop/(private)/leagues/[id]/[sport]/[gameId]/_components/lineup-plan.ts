@@ -102,3 +102,62 @@ export const planTeam = (original: LineupEntry[], edited: LineupEntry[]): TeamPl
 
   return plan;
 };
+
+export type LineupApi = {
+  addLineup: (v: {
+    gameTeamId: number;
+    teamPlayerId: number;
+    state: 'STARTER' | 'CANDIDATE';
+    isCaptain: boolean;
+    position: string | null;
+  }) => Promise<number>;
+  removeLineup: (v: { gameTeamId: number; lineupPlayerId: number }) => Promise<unknown>;
+  toStarter: (v: { gameId: number; lineupPlayerId: number }) => Promise<unknown>;
+  toCandidate: (v: { gameId: number; lineupPlayerId: number }) => Promise<unknown>;
+  registerCaptain: (v: { gameId: number; lineupPlayerId: number }) => Promise<unknown>;
+  revokeCaptain: (v: { gameId: number; lineupPlayerId: number }) => Promise<unknown>;
+  updatePosition: (v: {
+    gameId: number;
+    lineupPlayerId: number;
+    position: string | null;
+  }) => Promise<unknown>;
+};
+
+/** 한 팀의 계획을 순서대로 실행한다. 첫 실패에서 멈춘다 */
+export const runPlan = async (
+  api: LineupApi,
+  gameId: number,
+  gameTeamId: number,
+  original: LineupEntry[],
+  plan: TeamPlan,
+) => {
+  const ids = new Map<number, number>();
+  for (const p of original)
+    if (p.lineupPlayerId !== undefined) ids.set(p.playerId, p.lineupPlayerId);
+
+  for (const r of plan.removes)
+    await api.removeLineup({ gameTeamId, lineupPlayerId: r.lineupPlayerId });
+  for (const d of plan.demotes) await api.toCandidate({ gameId, lineupPlayerId: d.lineupPlayerId });
+  for (const p of plan.promotes) await api.toStarter({ gameId, lineupPlayerId: p.lineupPlayerId });
+  for (const a of plan.adds) {
+    const id = await api.addLineup({
+      gameTeamId,
+      teamPlayerId: a.teamPlayerId,
+      state: a.state,
+      isCaptain: false,
+      position: a.position,
+    });
+    ids.set(a.playerId, id);
+  }
+
+  if (plan.captain?.action === 'revoke') {
+    await api.revokeCaptain({ gameId, lineupPlayerId: plan.captain.lineupPlayerId });
+  } else if (plan.captain?.action === 'register') {
+    const id = ids.get(plan.captain.playerId);
+    if (typeof id !== 'number') throw new Error('주장으로 지정할 선수를 찾지 못했어요.');
+    await api.registerCaptain({ gameId, lineupPlayerId: id });
+  }
+
+  for (const p of plan.positions)
+    await api.updatePosition({ gameId, lineupPlayerId: p.lineupPlayerId, position: p.position });
+};
