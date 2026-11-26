@@ -1,0 +1,142 @@
+name: Manager Test
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - wip-v2
+      - main
+    paths:
+      - 'apps/manager/**'
+      - 'packages/**'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/manager-test.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  unit:
+    name: 단위 테스트
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter manager test
+
+  e2e:
+    name: 데스크탑 E2E 스모크
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      # 시드(apps/manager/e2e/seed.sql)가 이 커밋의 Flyway 스키마에 맞춰져 있다. 서버 스키마가 바뀌면 함께 올린다
+      SERVER_SHA: ed7bfb01b2f72b737fa756eb98e99b6bd5d41b02
+      API_BASE_URL: http://localhost:8080
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: hcc
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 서버 체크아웃
+        uses: actions/checkout@v4
+        with:
+          repository: hufscheer/spectator-server
+          ref: ${{ env.SERVER_SHA }}
+          path: server
+          # be-config 는 비공개 서브모듈이다. local 프로필은 필요 없다
+          submodules: false
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+          cache-dependency-path: server/build.gradle
+
+      - name: 서버 빌드
+        working-directory: server
+        run: |
+          mkdir -p build/generated-snippets
+          ./gradlew bootJar -x test -x asciidoctor --no-daemon -q
+
+      - name: 서버 실행
+        run: |
+          nohup java -jar server/build/libs/server-0.0.1-SNAPSHOT.jar \
+            --spring.profiles.active=local \
+            --spring.datasource.url='jdbc:mysql://127.0.0.1:3306/hcc?serverTimezone=Asia/Seoul&characterEncoding=UTF-8' \
+            --spring.datasource.username=root \
+            --spring.datasource.password=root \
+            --spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver \
+            --spring.jpa.properties.hibernate.show_sql=false \
+            > server.log 2>&1 &
+          for i in $(seq 1 90); do
+            curl -sf http://localhost:8080/organizations > /dev/null && exit 0
+            sleep 2
+          done
+          tail -100 server.log
+          exit 1
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      - name: 매니저 빌드
+        run: pnpm turbo build --filter manager
+
+      - name: 매니저 실행
+        working-directory: apps/manager
+        run: |
+          nohup pnpm exec next start --port 3000 > next.log 2>&1 &
+          for i in $(seq 1 30); do
+            curl -s -o /dev/null http://localhost:3000/desktop/auth/login && exit 0
+            sleep 1
+          done
+          cat next.log
+          exit 1
+
+      - name: Playwright 브라우저 설치
+        working-directory: apps/manager
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: E2E
+        working-directory: apps/manager
+        env:
+          E2E_SEED_CMD: mysql -h127.0.0.1 -P3306 -uroot -proot --default-character-set=utf8mb4 hcc < e2e/seed.sql
+        run: pnpm test:e2e
+
+      - name: 실패 기록 올리기
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-report
+          path: |
+            apps/manager/playwright-report
+            apps/manager/test-results
+            apps/manager/next.log
+            server.log
+          retention-days: 7
