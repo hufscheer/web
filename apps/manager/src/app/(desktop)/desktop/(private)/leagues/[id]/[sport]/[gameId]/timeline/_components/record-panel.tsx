@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState, useTransition } from 'react';
+import { useEffect, useMemo, useState, useTransition } from 'react';
 
 import type { ProgressAvailableAction } from '~/api';
 import type { Game, Lineup, LineupPlayer, TimelineRecord } from '~/app/(desktop)/_types';
@@ -154,6 +154,19 @@ export const RecordPanel = ({
    */
   const isGone = (list: LineupPlayer[], id: string) =>
     id !== '' && !list.some((p) => String(p.lineupPlayerId) === id);
+
+  // 고르지 않고 둔 기본값(첫 선수)도 고른 것으로 고정한다. 그래야 다른 기기의 교체로 첫 선수가 바뀌었을 때
+  // isGone 이 잡는다. 고정하지 않으면 다음 첫 선수에게 말없이 기록이 들어간다
+  useEffect(() => {
+    const first = (list: LineupPlayer[]) => String(list[0].lineupPlayerId);
+    if (playing.length > 0) {
+      if (scorerId === '') setScorerId(first(playing));
+      if (outId === '') setOutId(first(playing));
+      if (sanctionId === '') setSanctionId(first(playing));
+      if (kickerId === '') setKickerId(first(playing));
+    }
+    if (bench.length > 0 && inId === '') setInId(first(bench));
+  }, [playing, bench, scorerId, outId, sanctionId, kickerId, inId]);
   const GONE_MESSAGE =
     '고른 선수가 지금 출전 명단에 없어요. 다른 기기에서 교체됐을 수 있어요. 다시 골라 주세요';
 
