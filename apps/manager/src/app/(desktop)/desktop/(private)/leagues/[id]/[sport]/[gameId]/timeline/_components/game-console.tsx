@@ -16,8 +16,11 @@ import { toGame, toLineups, toTimeline } from '~/app/(desktop)/_utils/convert';
 
 import { LiveConsole } from './live-console';
 
-// 여러 매니저가 같은 경기를 기록한다. 들어올 때마다 서버 값을 다시 받는다
-const fresh = { staleTime: 0 };
+// 여러 매니저가 다른 기기에서 같은 경기를 기록한다. 들어올 때 서버 값을 다시 받고,
+// 화면이 보이는 동안에는 5초마다 다시 받아 다른 기기의 기록도 새로고침 없이 보이게 한다.
+// 탭이 가려지면 react-query 가 멈춘다(refetchIntervalInBackground 기본값 false)
+const POLL_INTERVAL_MS = 5000;
+const fresh = { staleTime: 0, refetchInterval: POLL_INTERVAL_MS };
 
 const orFallback = async <T,>(load: () => T | Promise<T>, fallback: T) => {
   try {
