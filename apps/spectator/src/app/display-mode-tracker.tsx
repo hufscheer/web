@@ -21,9 +21,7 @@ const detectDisplayMode = (): DisplayMode => {
   );
 
   const isInstalled =
-    matchesInstalled ||
-    nav.standalone === true ||
-    document.referrer.startsWith('android-app://');
+    matchesInstalled || nav.standalone === true || document.referrer.startsWith('android-app://');
 
   return isInstalled ? 'standalone' : 'browser';
 };

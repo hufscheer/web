@@ -66,11 +66,7 @@ export const InstallGuidePopup = () => {
             checked={hideToday}
             onCheckedChange={(checked) => setHideToday(checked)}
           />
-          <button
-            type="button"
-            onClick={handleClose}
-            className="text-sm text-neutral-800"
-          >
+          <button type="button" onClick={handleClose} className="text-sm text-neutral-800">
             닫기
           </button>
         </div>
