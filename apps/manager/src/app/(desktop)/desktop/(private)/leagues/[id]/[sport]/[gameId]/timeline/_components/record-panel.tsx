@@ -310,6 +310,7 @@ export const RecordPanel = ({
           onAddRecord({
             type: 'FOUL',
             playerName: target.playerName,
+            lineupPlayerId: target.lineupPlayerId,
             recordedAt: minute,
             gameTeamId: team.gameTeamId,
             ...recordCopy({ type: 'FOUL', player: target.playerName }),

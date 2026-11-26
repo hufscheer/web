@@ -235,6 +235,7 @@ export const toTimeline = (
         cardType,
         pkSuccess,
         playerName: record.playerName ?? null,
+        lineupPlayerId: record.lineupPlayerId ?? null,
         scoreValue: record.scoreRecord?.score ?? ownGoalScore(record) ?? 1,
         deletable: record.deletable ?? false,
         undeletableReason: record.undeletableReason ?? null,
