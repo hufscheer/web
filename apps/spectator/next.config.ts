@@ -5,8 +5,8 @@ const apiBaseUrl = process.env.API_BASE_URL ?? '';
 const nextConfig: NextConfig = {
   output: 'standalone',
   images: {
-    unoptimized: true,
-    formats: ['image/avif', 'image/webp'],
+    loader: 'custom',
+    loaderFile: './src/utils/image-loader.ts',
     remotePatterns: [
       {
         protocol: 'https',
