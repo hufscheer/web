@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState, useTransition } from 'react';
+import { useEffect, useMemo, useState, useTransition } from 'react';
 
 import type { ProgressAvailableAction } from '~/api';
 import type { Game, Lineup, LineupPlayer, TimelineRecord } from '~/app/(desktop)/_types';
@@ -144,9 +144,31 @@ export const RecordPanel = ({
     [team],
   );
 
-  /** 선택 상태가 화면의 목록에 없으면(저장 뒤 명단이 바뀐 경우) select 가 보여 주는 첫 선수로 본다 */
+  /** 아직 고르지 않았으면 select 가 보여 주는 첫 선수로 본다 */
   const pick = (list: LineupPlayer[], id: string) =>
     list.find((p) => String(p.lineupPlayerId) === id) ?? list[0];
+
+  /**
+   * 고른 선수가 목록에서 사라졌는지 본다. 화면이 5초마다 서버 값을 다시 받아서, 다른 기기가 그 선수를
+   * 교체하면 select 가 말없이 첫 선수로 바뀐다. 그대로 저장하면 다른 선수에게 기록이 들어가므로 막는다
+   */
+  const isGone = (list: LineupPlayer[], id: string) =>
+    id !== '' && !list.some((p) => String(p.lineupPlayerId) === id);
+
+  // 고르지 않고 둔 기본값(첫 선수)도 고른 것으로 고정한다. 그래야 다른 기기의 교체로 첫 선수가 바뀌었을 때
+  // isGone 이 잡는다. 고정하지 않으면 다음 첫 선수에게 말없이 기록이 들어간다
+  useEffect(() => {
+    const first = (list: LineupPlayer[]) => String(list[0].lineupPlayerId);
+    if (playing.length > 0) {
+      if (scorerId === '') setScorerId(first(playing));
+      if (outId === '') setOutId(first(playing));
+      if (sanctionId === '') setSanctionId(first(playing));
+      if (kickerId === '') setKickerId(first(playing));
+    }
+    if (bench.length > 0 && inId === '') setInId(first(bench));
+  }, [playing, bench, scorerId, outId, sanctionId, kickerId, inId]);
+  const GONE_MESSAGE =
+    '고른 선수가 지금 출전 명단에 없어요. 다른 기기에서 교체됐을 수 있어요. 다시 골라 주세요';
 
   // 탭 색은 기록 목록이 쓰는 --color-rec-* 변수와 따로 둔다.
   // 득점·상태 변경은 파랑, 교체·승부차기는 회색, 경고·파울은 빨강.
@@ -183,6 +205,12 @@ export const RecordPanel = ({
   const assistCandidates = playing.filter((p) => String(p.lineupPlayerId) !== effectiveScorerId);
 
   const submitScore = () => {
+    const goneAssist = assistAllowed && !ownGoal && isGone(assistCandidates, assistId);
+    if (isGone(playing, scorerId) || goneAssist) {
+      setScorerId('');
+      setAssistId('');
+      return onError(GONE_MESSAGE);
+    }
     const scorer = pick(playing, scorerId);
     if (!scorer) return onError('출전 중인 선수가 없어요');
     // 자책골은 도움이 없다
@@ -227,9 +255,17 @@ export const RecordPanel = ({
   };
 
   const submitSub = () => {
+    if (isGone(playing, outId) || isGone(bench, inId)) {
+      setOutId('');
+      setInId('');
+      return onError(GONE_MESSAGE);
+    }
     const out = pick(playing, outId);
     const incoming = pick(bench, inId);
     if (!out || !incoming) return onError('교체할 선수를 선택해 주세요');
+    // 나간 선수와 들어간 선수는 목록이 서로 바뀐다. 다음 교체는 새로 고른다
+    setOutId('');
+    setInId('');
     const minute = Number(minuteInput) || 0;
 
     save(
@@ -265,6 +301,10 @@ export const RecordPanel = ({
 
   /** 실패한 시도도 남겨야 몇 번째 키커까지 찼는지 알 수 있다. 서버는 성공만 pkScore 에 더한다 */
   const submitPk = () => {
+    if (isGone(playing, kickerId)) {
+      setKickerId('');
+      return onError(GONE_MESSAGE);
+    }
     const kicker = pick(playing, kickerId);
     if (!kicker) return onError('출전 중인 선수가 없어요');
 
@@ -293,6 +333,10 @@ export const RecordPanel = ({
   };
 
   const submitSanction = () => {
+    if (isGone(playing, sanctionId)) {
+      setSanctionId('');
+      return onError(GONE_MESSAGE);
+    }
     const target = pick(playing, sanctionId);
     if (!target) return onError('선수를 선택해 주세요');
     const minute = Number(minuteInput) || 0;
@@ -310,6 +354,7 @@ export const RecordPanel = ({
           onAddRecord({
             type: 'FOUL',
             playerName: target.playerName,
+            lineupPlayerId: target.lineupPlayerId,
             recordedAt: minute,
             gameTeamId: team.gameTeamId,
             ...recordCopy({ type: 'FOUL', player: target.playerName }),
@@ -432,7 +477,18 @@ export const RecordPanel = ({
                 <button
                   key={l.gameTeamId}
                   type="button"
-                  onClick={() => setTeamIndex(i as 0 | 1)}
+                  onClick={() => {
+                    // 고른 선수는 팀마다 다르다. 팀을 바꾸면 새로 고른다
+                    if (i !== teamIndex) {
+                      setScorerId('');
+                      setAssistId('');
+                      setOutId('');
+                      setInId('');
+                      setSanctionId('');
+                      setKickerId('');
+                    }
+                    setTeamIndex(i as 0 | 1);
+                  }}
                   aria-pressed={teamIndex === i}
                   className={cn(
                     'text-t7 h-9 flex-1 rounded-[var(--radius-control)] border font-medium transition-colors',

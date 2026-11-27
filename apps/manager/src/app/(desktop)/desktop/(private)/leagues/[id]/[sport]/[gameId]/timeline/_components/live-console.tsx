@@ -9,6 +9,7 @@ import type { Game, Lineup, LineupPlayer, TimelineRecord } from '~/app/(desktop)
 import { queryKeys, useDeleteTimeline } from '~/api';
 import { ConfirmDialog } from '~/app/(desktop)/_components/ui/confirm-dialog';
 import { Toasts, useToasts } from '~/app/(desktop)/_components/ui/toast';
+import { withFoulCounts } from '~/app/(desktop)/_utils/foul-count';
 import { parseHTTPError } from '~/utils/http-error';
 
 import { RecordPanel } from './record-panel';
@@ -75,29 +76,10 @@ export const LiveConsole = ({
   );
   const baseLineups = optimisticLineups ?? serverLineups;
 
-  // 서버 라인업 응답에는 파울 수가 없어 저장할 때마다 0 으로 돌아간다. 기록에서 센다.
-  // 선수 id 가 기록에 없어 이름으로 세므로, 한 팀에 같은 이름이 있으면 합쳐진다(서버에 선수 id 추가를 따로 제안한다)
+  // 서버 라인업 응답에는 파울 수가 없어 저장할 때마다 0 으로 돌아간다. 기록에서 센다
   const lineups = useMemo(() => {
     if (game.sportType !== 'BASKETBALL') return baseLineups;
-
-    const counts = new Map<string, number>();
-    for (const record of records) {
-      if (record.type !== 'FOUL' || !record.playerName) continue;
-      const key = `${record.gameTeamId}:${record.playerName}`;
-      counts.set(key, (counts.get(key) ?? 0) + 1);
-    }
-    const withFouls = (lineup: Lineup): Lineup => {
-      const apply = (player: LineupPlayer): LineupPlayer => ({
-        ...player,
-        foulCount: counts.get(`${lineup.gameTeamId}:${player.playerName}`) ?? 0,
-      });
-      return {
-        ...lineup,
-        starterPlayers: lineup.starterPlayers.map(apply),
-        candidatePlayers: lineup.candidatePlayers.map(apply),
-      };
-    };
-    return [withFouls(baseLineups[0]), withFouls(baseLineups[1])] as [Lineup, Lineup];
+    return withFoulCounts(baseLineups, records);
   }, [baseLineups, records, game.sportType]);
 
   // 서버가 자책골 기록의 gameTeamId 를 득점이 올라가는 팀(상대 팀)으로 내려 준다. 그대로 더한다
